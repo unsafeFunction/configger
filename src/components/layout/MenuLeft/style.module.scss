@@ -51,6 +51,17 @@
   // menu container
   &__container {
     padding-bottom: rem(20);
+    & > ul {
+      & > li {
+        &:last-child {
+          position: absolute;
+          bottom: 21px;
+          width: 100%;
+        }
+
+      }
+
+    }
   }
 
   &__backdrop {
@@ -252,7 +263,6 @@
     list-style: none;
     padding-left: 0;
     margin: 0;
-
     .air__menuLeft__list {
       .air__menuLeft__link {
         padding-left: rem(49);
@@ -282,11 +292,6 @@
 
   &__item {
     display: block;
-    &:nth-last-child(1) {
-      position: absolute;
-      bottom: 21px;
-      width: 100%;
-    }
     &__active {
       > .air__menuLeft__link {
         background: $primary;

@@ -30,9 +30,9 @@
 }
 
 .breadcrumb {
-  position: relative;
+  display: flex;
+  flex-direction: row;
   margin-right: rem(30);
-
   &::after {
     content: '-';
     position: absolute;
@@ -51,7 +51,8 @@
 
 .breadcrumbLink {
   display: block;
-
+  text-transform: capitalize;
+  margin-right: 10px;
   &__current {
     color: $black;
     font-weight: 700;
