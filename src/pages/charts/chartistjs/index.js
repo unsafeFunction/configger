@@ -130,7 +130,11 @@ const smilListener = {
 
 const lineData = {
   labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-  series: [[12, 9, 7, 8, 5], [2, 1, 3.5, 7, 3], [1, 3, 4, 5, 6]],
+  series: [
+    [12, 9, 7, 8, 5],
+    [2, 1, 3.5, 7, 3],
+    [1, 3, 4, 5, 6],
+  ],
 }
 
 const lineOptions = {
@@ -198,7 +202,10 @@ const scatterResponsiveOptions = [
 
 const horizontalData = {
   labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-  series: [[5, 4, 3, 7, 5, 10, 3], [3, 2, 9, 5, 4, 6, 4]],
+  series: [
+    [5, 4, 3, 7, 5, 10, 3],
+    [3, 2, 9, 5, 4, 6, 4],
+  ],
 }
 
 const horizontalOptions = {
@@ -253,7 +260,11 @@ const biPolarBarOptions = {
 
 const stackedBarData = {
   labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-  series: [[8e5, 12e5, 14e5, 13e5], [2e5, 4e5, 5e5, 3e5], [1e5, 2e5, 4e5, 6e5]],
+  series: [
+    [8e5, 12e5, 14e5, 13e5],
+    [2e5, 4e5, 5e5, 3e5],
+    [1e5, 2e5, 4e5, 6e5],
+  ],
 }
 
 const stackedBarOptions = {
@@ -268,7 +279,10 @@ const stackedBarOptions = {
 
 const overlappingBarData = {
   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  series: [[5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8], [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4]],
+  series: [
+    [5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8],
+    [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4],
+  ],
 }
 
 const overlappingBarOptions = {

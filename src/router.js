@@ -40,9 +40,9 @@ const routes = [
   },
   {
     path: '/campaigns',
-    Component: loadable(()=>import('pages/campaigns')),
-    exact: true
-  }
+    Component: loadable(() => import('pages/campaigns')),
+    exact: true,
+  },
 ]
 
 const mapStateToProps = ({ settings }) => ({ settings })

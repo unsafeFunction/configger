@@ -1,11 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const CampaignsFilter = () => {
-    return (
-      <div>
-            Campaigns
-      </div>
-    )
+  return <div>Campaigns</div>
 }
 
 export default CampaignsFilter

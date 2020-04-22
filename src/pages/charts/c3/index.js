@@ -511,7 +511,10 @@ class ChartsC3 extends React.Component {
     }
     const pie = {
       data: {
-        columns: [['Primary', 30], ['Success', 120]],
+        columns: [
+          ['Primary', 30],
+          ['Success', 120],
+        ],
         type: 'pie',
       },
       color: {
@@ -520,7 +523,10 @@ class ChartsC3 extends React.Component {
     }
     const donut = {
       data: {
-        columns: [['Danger', 30], ['Success', 120]],
+        columns: [
+          ['Danger', 30],
+          ['Success', 120],
+        ],
         type: 'donut',
       },
       color: {
@@ -532,7 +538,10 @@ class ChartsC3 extends React.Component {
     }
     const step = {
       data: {
-        columns: [['Primary', 300, 350, 300, 0, 0, 100], ['Success', 130, 100, 140, 200, 150, 50]],
+        columns: [
+          ['Primary', 300, 350, 300, 0, 0, 100],
+          ['Success', 130, 100, 140, 200, 150, 50],
+        ],
         types: {
           Primary: 'step',
           Success: 'area-step',
@@ -544,7 +553,10 @@ class ChartsC3 extends React.Component {
     }
     const area = {
       data: {
-        columns: [['Primary', 300, 350, 300, 0, 0, 0], ['Success', 130, 100, 140, 200, 150, 50]],
+        columns: [
+          ['Primary', 300, 350, 300, 0, 0, 0],
+          ['Success', 130, 100, 140, 200, 150, 50],
+        ],
         types: {
           Primary: 'area',
           Success: 'area-spline',
