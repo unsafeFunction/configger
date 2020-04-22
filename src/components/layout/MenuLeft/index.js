@@ -205,6 +205,7 @@ class MenuLeft extends React.Component {
     const { activeSubmenu, activeItem } = this.state
 
     const menuItem = item => {
+      console.log(item)
       const { key, title, icon, url } = item
       if (item.category) {
         return (
@@ -222,6 +223,16 @@ class MenuLeft extends React.Component {
         >
           {item.url && (
             <Link to={url} className={style.air__menuLeft__link}>
+              {
+                item.dotColor && (
+                  <div
+                    style={{
+                    borderColor: item.dotColor
+                  }}
+                    className={style.air_menuLeft_dot}
+                  />
+                )
+               }
               {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
               <span>{title}</span>
             </Link>
@@ -253,7 +264,9 @@ class MenuLeft extends React.Component {
             onMouseLeave={() => this.handleFlyoutOut(item.key)}
             onBlur={() => this.handleFlyoutOut(item.key)}
           >
+
             <i className={`${item.icon} ${style.air__menuLeft__icon}`} />
+
             <span>{item.title}</span>
             {item.count && (
               <span className="badge text-white bg-blue-light float-right mt-1 px-2">
@@ -264,6 +277,7 @@ class MenuLeft extends React.Component {
           <ul className={style.air__menuLeft__list}>
             {item.children.map(sub => {
               if (sub.children) {
+                console.log(sub)
                 return submenuItem(sub)
               }
               return menuItem(sub)

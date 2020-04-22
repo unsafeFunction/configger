@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import classNames from 'classnames';
 import { Table, Tag, Button, Modal } from 'antd'
 import { CampaignModal } from 'components/widgets/campaigns';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -8,6 +9,10 @@ import actions from 'redux/campaigns/actions'
 import styles from './styles.module.scss'
 
 const columns = [
+  {
+    title: 'Id',
+    dataIndex: 'id',
+  },
   {
     title: 'Campaign Name',
     dataIndex: 'name',
@@ -38,6 +43,7 @@ const data = []
 // eslint-disable-next-line no-plusplus
 for (let i = 0; i < 46; i++) {
   data.push({
+    id: i,
     key: `$SMS 20SF | FEMALE | ${i} - ${i+1}`,
     name: `Campaign SMS offer 2${i}`,
     status: <Tag color="volcano">status</Tag>,
@@ -67,29 +73,21 @@ const Campaigns = () => {
 
   return (
     <>
-      <div className="air__utils__heading">
-        <h5>Campaign</h5>
+      <div className={classNames("air__utils__heading", styles.page__header)}>
+        <h4>Campaign</h4>
+        <Button
+          onClick={onModalToggle}
+          icon={<PlusCircleOutlined />}
+          type="primary"
+        >
+            Create Campaign
+        </Button>
       </div>
       <Table
         columns={columns}
         dataSource={data}
         scroll={{ x: 1200 }}
         bordered
-        showHeader
-        title={() => {
-        return (
-          <div className={styles.tableHeader}>
-            <span>Campaigns</span>
-            <Button
-              onClick={onModalToggle}
-              icon={<PlusCircleOutlined />}
-              type="primary"
-            >
-                Create Campaign
-            </Button>
-          </div>
-        )
-      }}
         align="center"
       />
       <Modal

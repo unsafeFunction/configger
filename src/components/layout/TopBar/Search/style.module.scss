@@ -2,8 +2,6 @@
 
 .searchContainer {
   position: relative;
-  width: 100%;
-  margin-right: 10px;
 }
 
 .searchIcon {
@@ -16,12 +14,12 @@
 }
 
 .searchInput {
-  width: 100%;
+  border: 1px solid $gray-2;
+  border-radius: 5px;
+  background-color: $white;
   padding-left: rem(45);
   padding-right: rem(20);
   padding-top: rem(6);
   padding-bottom: rem(5);
-  border: 1px solid $gray-2;
-  border-radius: 5px;
-  background-color: $white;
+  width: rem(260);
 }

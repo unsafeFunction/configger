@@ -265,7 +265,9 @@
     margin: 0;
     .air__menuLeft__list {
       .air__menuLeft__link {
-        padding-left: rem(49);
+        display: flex;
+        align-items: center;
+        // padding-left: rem(49);
       }
     }
   }
@@ -1035,4 +1037,13 @@
       }
     }
   }
+}
+
+.air_menuLeft_dot {
+  border: 2px solid;
+  border-radius: 10px;
+  width: 10px;
+  height: 10px;
+  margin-left: 30px;
+  margin-right: 10px ;
 }

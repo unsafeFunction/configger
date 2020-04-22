@@ -1,7 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-
 import { Menu, Dropdown, Avatar, Badge } from 'antd'
 import styles from './style.module.scss'
 
@@ -54,10 +52,10 @@ class ProfileMenu extends React.Component {
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item>
-          <Link to="/profile">
+          <a href="javascript: void(0);">
             <i className={`${styles.menuIcon} fe fe-user`} />
             Edit Profile
-          </Link>
+          </a>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item>
