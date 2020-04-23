@@ -1,6 +1,6 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { ConnectedRouter } from 'connected-react-router'
+import { Route, Redirect, BrowserRouter } from 'react-router-dom'
+// import { ConnectedRouter } from 'connected-react-router'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import Switch from 'react-router-transition-switch'
 import Loadable from 'react-loadable'
@@ -43,6 +43,10 @@ const routes = [
     Component: loadable(() => import('pages/campaigns')),
     exact: true,
   },
+  {
+    path: '/campaigns/:id',
+    Component: loadable(()=>import('pages/CampaignProfile')),
+  }
 ]
 
 const mapStateToProps = ({ settings }) => ({ settings })
@@ -51,11 +55,11 @@ const mapStateToProps = ({ settings }) => ({ settings })
 class Router extends React.Component {
   render() {
     const {
-      history,
+      // history,
       settings: { routerAnimation },
     } = this.props
     return (
-      <ConnectedRouter history={history}>
+      <BrowserRouter>
         <Layout>
           <Switch
             render={props => {
@@ -77,7 +81,7 @@ class Router extends React.Component {
             }}
           >
             <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
-            {routes.map(({ path, Component, exact }) => (
+            {routes.map(({ path, Component, exact=false }) => (
               <Route path={path} key={path} exact={exact}>
                 <Component />
               </Route>
@@ -85,7 +89,7 @@ class Router extends React.Component {
             <Route component={NotFoundPage} />
           </Switch>
         </Layout>
-      </ConnectedRouter>
+      </BrowserRouter>
     )
   }
 }

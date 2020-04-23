@@ -262,7 +262,6 @@ class MenuLeft extends React.Component {
             onBlur={() => this.handleFlyoutOut(item.key)}
           >
             <i className={`${item.icon} ${style.air__menuLeft__icon}`} />
-
             <span>{item.title}</span>
             {item.count && (
               <span className="badge text-white bg-blue-light float-right mt-1 px-2">
@@ -341,13 +340,13 @@ class MenuLeft extends React.Component {
               <span />
             </a>
             <a href="javascript: void(0);" className={style.air__menuLeft__logo}>
-              <img src="resources/images/air-logo.png" alt="Air UI" />
+              <img src="/resources/images/air-logo.png" alt="Air UI" />
               <div className={style.air__menuLeft__logo__name}>Notify SPA</div>
               <div className={style.air__menuLeft__logo__descr}>Admin Template</div>
             </a>
             <Link to="/profile" className={style.air__menuLeft__link}>
               <div className={style.air__menuLeft__user__avatar}>
-                <img src="resources/images/avatars/avatar.png" alt="David Beckham" />
+                <img src="/resources/images/avatars/avatar.png" alt="David Beckham" />
               </div>
               <div className={style.air__menuLeft__user__name}>David Beckham</div>
               <div className={style.air__menuLeft__user__role}>hi@yellow.systems</div>
