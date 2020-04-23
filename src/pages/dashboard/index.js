@@ -11,9 +11,6 @@ import Chart6 from 'components/widgets/Charts/6'
 import Chart10 from 'components/widgets/Charts/10'
 import List11 from 'components/widgets/Lists/11'
 import List18 from 'components/widgets/Lists/18'
-import Table4 from 'components/widgets/Tables/4'
-import Table5 from 'components/widgets/Tables/5'
-import Table7 from 'components/widgets/Tables/7'
 
 class DashboardStatistics extends React.Component {
   render() {
@@ -79,27 +76,6 @@ class DashboardStatistics extends React.Component {
             </div>
             <div className="card">
               <Chart6 />
-            </div>
-          </div>
-          <div className="col-xl-12">
-            <div className="card">
-              <div className="card-body">
-                <Table7 />
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-12 col-xl-6">
-            <div className="card">
-              <div className="card-body">
-                <Table5 />
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-12 col-xl-6">
-            <div className="card">
-              <div className="card-body">
-                <Table4 />
-              </div>
             </div>
           </div>
         </div>

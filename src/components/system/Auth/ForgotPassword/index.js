@@ -7,12 +7,6 @@ import style from '../style.module.scss'
 class ForgotPassword extends React.Component {
   onSubmit = event => {
     event.preventDefault()
-    const { form } = this.props
-    form.validateFields((error, values) => {
-      if (!error) {
-        console.log(values)
-      }
-    })
   }
 
   render() {
