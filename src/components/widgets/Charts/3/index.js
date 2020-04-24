@@ -52,16 +52,16 @@ class Chart3 extends React.Component {
           <div className="mr-5 mb-2">
             <div className="text-nowrap text-uppercase text-gray-4">
               <div className="air__utils__donut air__utils__donut--success" />
-              Gross revenue
+              Clicks
             </div>
-            <div className="font-weight-bold font-size-18 text-dark">+$125,367.36</div>
+            <div className="font-weight-bold font-size-18 text-dark">3570</div>
           </div>
           <div className="mr-5 mb-2">
             <div className="text-nowrap text-uppercase text-gray-4">
               <div className="air__utils__donut air__utils__donut--primary" />
-              Gross Earnings
+              Deliveries
             </div>
-            <div className="font-weight-bold font-size-18 text-dark">+$125,367.36</div>
+            <div className="font-weight-bold font-size-18 text-dark">9900</div>
           </div>
         </div>
       </div>

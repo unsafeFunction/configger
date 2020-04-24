@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs, Row, Col, Table} from 'antd'
+import { Tabs, Row, Col, Table } from 'antd'
 import Chart3 from 'components/widgets/Charts/3'
 import General2 from 'components/widgets/General/2'
 import General2v1 from 'components/widgets/General/2v1'
@@ -68,7 +68,7 @@ const CampaignProfile = () => {
         </a>
       </div>
       <Tabs defaultActiveKey={1}>
-        <TabPane className={styles.campaignStatistics} tab="Tab Name1" key={1}>
+        <TabPane className={styles.campaignStatistics} tab="Summary" key={1}>
           <Row>
             <Col span="16">
               <div className="card-body">
@@ -99,7 +99,7 @@ const CampaignProfile = () => {
             </Col>
           </Row>
         </TabPane>
-        <TabPane tab="Tab Name1" key={2}>
+        <TabPane tab="Recipients" key={2}>
           <Table columns={columns} dataSource={data} scroll={{ x: 1200 }} bordered align="center" />
         </TabPane>
       </Tabs>

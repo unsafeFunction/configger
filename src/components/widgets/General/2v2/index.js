@@ -5,10 +5,10 @@ class General2v2 extends React.Component {
     return (
       <div className="d-flex flex-wrap align-items-center">
         <div className="mr-auto">
-          <p className="text-uppercase text-dark font-weight-bold mb-1">Refunds</p>
-          <p className="text-gray-5 mb-0">Averache Weekly Reunds</p>
+          <p className="text-uppercase text-dark font-weight-bold mb-1">Failed</p>
+          <p className="text-gray-5 mb-0">Not delivered messages</p>
         </div>
-        <p className="text-danger font-weight-bold font-size-24 mb-0">-$8,474</p>
+        <p className="text-danger font-weight-bold font-size-24 mb-0">300</p>
       </div>
     )
   }

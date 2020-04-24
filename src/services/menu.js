@@ -34,9 +34,9 @@ export default async function getMenuData() {
       ],
     },
     {
-      title: 'Conversions',
-      key: 'conversension',
-      url: '/conversions',
+      title: 'Conversations',
+      key: 'conversation',
+      url: '/conversation',
       icon: 'fe fe-user',
     },
     {

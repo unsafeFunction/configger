@@ -46,6 +46,11 @@ const routes = [
   {
     path: '/campaigns/:id',
     Component: loadable(()=>import('pages/CampaignProfile')),
+  },
+  {
+    path: '/settings',
+    Component: loadable(()=>import('pages/Settings')),
+    exact: true
   }
 ]
 

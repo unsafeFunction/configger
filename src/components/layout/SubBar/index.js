@@ -1,5 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Switch from 'react-router-transition-switch'
+import { Link, Route } from 'react-router-dom'
+import { CampaignBreadcrumbsButtons } from 'components/widgets/campaigns';
 
 import styles from './style.module.scss'
 
@@ -11,12 +13,36 @@ const SubBar = ({location}) => {
       <ul className={`${styles.breadcrumbs} mr-4`}>
         <li className={styles.breadcrumb}>
           {
-             pathArray.map(path=>{
-                return  <Link to={`/${path}`} className={styles.breadcrumbLink}>{path}</Link>
+             pathArray.map((path, index)=>{
+               if(index + 1 === pathArray.length && pathArray.length > 1) {
+               return (
+                 <span className={styles.breadcrumb__last}>
+                   <Switch>
+                     <Route exact path='/campaigns/:id'>
+                       {`SMS-${index} | Title lorem ipsum dolor sit amet, consectetur adipiscing elit nam.`}
+                     </Route>
+                     <Route exact path='*'>
+                       {path}
+                     </Route>
+                   </Switch>
+                 </span>
+               )
+               }
+                return  (
+                  <>
+                    <Link to={`/${path}`} className={styles.breadcrumbLink}>{path}</Link>
+                    <span className={styles.breadcrumbLink__dash}>-</span>
+                  </>
+                )
              })
            }
         </li>
       </ul>
+      <Switch>
+        <Route exact path='/campaigns/:id'>
+          <CampaignBreadcrumbsButtons />
+        </Route>
+      </Switch>
     </div>
   )
 }

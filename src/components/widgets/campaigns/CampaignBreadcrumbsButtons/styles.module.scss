@@ -1,0 +1,19 @@
+@import '../../../../assets/styles/mixins';
+
+.campaign_buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    .buttons__progress {
+        width: 10%;
+        margin-right: 12px;
+    }
+    .buttons__schedule {
+        display: flex;
+        flex-direction: row-reverse;
+        span {
+            margin-right: 5px;
+        }
+    }
+}

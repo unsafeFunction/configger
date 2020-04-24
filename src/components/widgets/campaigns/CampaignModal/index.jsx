@@ -1,57 +1,95 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { Tabs, Input, Row, Col, Select } from 'antd'
+import { Input, Row, Col, Select, Typography, Switch } from 'antd'
 
 import styles from './styles.module.scss'
 
-const { TabPane } = Tabs
 const { TextArea } = Input
 
 const CampaignModal = ({ onChange, onSelectChange }) => {
+  const [isTrackingEnabled, setTracking] = useState(false);
+  const onSetTracking = useCallback(()=>{
+    setTracking(!isTrackingEnabled);
+  }, [isTrackingEnabled])
   return (
-    <Tabs defaultActiveKey={1}>
-      <TabPane tab="Tab Name1" key={1}>
-        <Row>
-          <Col className={styles.input_wrap} span={24}>
-            <span>Title</span>
-            <Input placeholder="Campaign Name" required name="title" onChange={onChange} />
-          </Col>
-          <Col className={styles.input_wrap} span={24}>
-            <span>Key</span>
-            <Input placeholder="Key" required name="key" onChange={onChange} />
-          </Col>
-        </Row>
-        <Row className={styles.link_wrap}>
-          <Col className={classNames(styles.input_wrap, styles.input__deeplink)} span={11}>
-            <span>Deeplink custom domain</span>
-            <Select
-              name="deeplink"
-              onSelect={onSelectChange}
-              placeholder="Deeplink"
-              style={{ width: '100%' }}
-            >
-              <Select.Option value="https://website-1.com">https://website-1.com</Select.Option>
-              <Select.Option value="https://website-2.com">https://website-2.com</Select.Option>
-            </Select>
-          </Col>
-          <Col className={styles.input_wrap} span={11}>
-            <span>Destination URL</span>
-            <Input addonBefore="https://" name="destination" onChange={onChange} />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.input_wrap}>
-            <span>SMS body</span>
-            <TextArea placeholder="Sms Body" rows={5} name="body" onChange={onChange} />
-          </Col>
-        </Row>
-      </TabPane>
-      <TabPane tab="Tab Name1" key={2}>
-        Content 1
-      </TabPane>
-    </Tabs>
+    <>
+      <Row>
+        <Col className={styles.tabDescription} span={6}>
+          <Typography.Text>SMS Campaign</Typography.Text>
+          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+         Maecenas non elit et magna laoreet lacinia.
+         Praesent aliquet quis ante quis venenatis. Nunc eros mi, sollicitudin tristique nulla ut, malesuada pharetra leo.
+         in faucibus quam urna eget mi. Morbi et aliquam mauris, nec lacinia turpis.
+          </p>
+        </Col>
+        <Col className={styles.campaignInputs} span={18}>
+          <Row>
+            <Col className={styles.input_wrap} span={24}>
+              <span>Title</span>
+              <Input placeholder="Campaign Name" required name="title" onChange={onChange} />
+            </Col>
+            <Col className={styles.input_wrap} span={24}>
+              <span>Key</span>
+              <Input placeholder="e.g SMS 20SF | FEMALE | 35-40 " required name="key" onChange={onChange} />
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col className={classNames(styles.input_wrap, styles.input__deeplink)} span={10}>
+              <span>From number</span>
+              <Select placeholder="e.g 1 415 993 8030">
+                <Select.Option value="https://website-1.com">+1 415 993 8030</Select.Option>
+                <Select.Option value="https://website-2.com">+1 415 993 8030</Select.Option>
+              </Select>
+            </Col>
+            <Col className={styles.domainEnable} span={7}>
+              <Switch />
+              <Typography.Text>Conversations</Typography.Text>
+            </Col>
+            <Col className={styles.domainEnable} span={7}>
+              <Switch onChange={onSetTracking} />
+              <Typography.Text>Tracking</Typography.Text>
+            </Col>
+          </Row>
+          <Row />
+          {
+            isTrackingEnabled && (
+              <Row className={styles.link_wrap}>
+                <Col className={classNames(styles.input_wrap, styles.input__deeplink)} span={11}>
+                  <span>Deeplink custom domain</span>
+                  <Select
+                    name="deeplink"
+                    onSelect={onSelectChange}
+                    placeholder="Deeplink"
+                    style={{ width: '100%' }}
+                  >
+                    <Select.Option value="https://website-1.com">https://website-1.com</Select.Option>
+                    <Select.Option value="https://website-2.com">https://website-2.com</Select.Option>
+                  </Select>
+                </Col>
+                <Col className={styles.input_wrap} span={11}>
+                  <span>Destination URL</span>
+                  <Input addonBefore="https://" name="destination" onChange={onChange} />
+                </Col>
+              </Row>
+            )
+          }
+          <Row>
+            <Col span={24} className={styles.input_wrap}>
+              <span>SMS default body</span>
+              <TextArea
+                placeholder="e.g. Hi #{username}. Get 20% off on next reading #{link}"
+                rows={5}
+                name="body"
+                onChange={onChange}
+              />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+
+    </>
   )
 }
 

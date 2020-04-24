@@ -341,8 +341,8 @@ class MenuLeft extends React.Component {
             </a>
             <a href="javascript: void(0);" className={style.air__menuLeft__logo}>
               <img src="/resources/images/air-logo.png" alt="Air UI" />
-              <div className={style.air__menuLeft__logo__name}>Notify SPA</div>
-              <div className={style.air__menuLeft__logo__descr}>Admin Template</div>
+              <div className={style.air__menuLeft__logo__name}>SMS</div>
+              <div className={style.air__menuLeft__logo__descr}>Dialog House</div>
             </a>
             <Link to="/profile" className={style.air__menuLeft__link}>
               <div className={style.air__menuLeft__user__avatar}>

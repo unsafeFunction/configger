@@ -46,7 +46,7 @@ for (let i = 0; i < 46; i++) {
   data.push({
     id: i,
     key: `$SMS 20SF | FEMALE | ${i} - ${i + 1}`,
-    name: <Link to={`campaigns/${i}`}>{`Campaign SMS offer 2${i}`}</Link>,
+    name: <Link to={`/campaigns/${i}`}>{`Campaign SMS offer 2${i}`}</Link>,
     status: i % 2 !== 0 ? <Tag color="#87d068">Sent</Tag> : <Tag color="#2db7f5">In progress</Tag>,
     delivered: `${i} %`,
     clicks: `${i} %`,
@@ -100,7 +100,15 @@ const Campaigns = () => {
         </Button>
       </div>
       <Table columns={columns} dataSource={data} scroll={{ x: 1200 }} bordered align="center" />
-      <Modal title="Create Campaign" visible={isModalOpen} onCancel={onModalToggle} width={820}>
+      <Modal
+        bodyStyle={{
+        padding: "0"
+      }}
+        title="Create Campaign"
+        visible={isModalOpen}
+        onCancel={onModalToggle}
+        width={820}
+      >
         <CampaignModal onSelectChange={onSelectChange} onChange={onChange} />
       </Modal>
     </>
