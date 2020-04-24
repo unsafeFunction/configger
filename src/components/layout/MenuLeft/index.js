@@ -346,9 +346,9 @@ class MenuLeft extends React.Component {
             </a>
             <Link to="/profile" className={style.air__menuLeft__link}>
               <div className={style.air__menuLeft__user__avatar}>
-                <img src="/resources/images/avatars/avatar.png" alt="David Beckham" />
+                <img src="/resources/images/avatars/avatar.png" alt="Yellow systems" />
               </div>
-              <div className={style.air__menuLeft__user__name}>David Beckham</div>
+              <div className={style.air__menuLeft__user__name}>Yellow Systems</div>
               <div className={style.air__menuLeft__user__role}>hi@yellow.systems</div>
             </Link>
             <Scrollbars

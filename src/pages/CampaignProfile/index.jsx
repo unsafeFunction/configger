@@ -52,19 +52,18 @@ const CampaignProfile = () => {
       <div className="d-flex flex-xs-wrap pb-4">
         <div className="mr-auto pr-3">
           <div className="text-dark font-size-24 font-weight-bold mb-2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae diam ut ex aliquam imperdiet eu at justo.
-          Lorem ipsum dolor sit amet, consectetur massa nunc.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae diam ut ex aliquam
+            imperdiet eu at justo. Lorem ipsum dolor sit amet, consectetur massa nunc.
           </div>
           <div className="mb-3">
-            <span className="mr-3 text-uppercase badge badge-success">Open</span>
+            <span className="mr-3 text-uppercase badge badge-success">In progress</span>
             <a className="font-weight-bold" href="javascript: void(0);">
-                zxs2162
+              SMS 20SF | FEMALE | 0 - 1
             </a>
-              wrote this issue 12 days ago · 0 comments
           </div>
         </div>
         <a className="btn btn-success align-self-start text-nowrap" href="javascript: void(0);">
-            Edit
+          Edit
         </a>
       </div>
       <Tabs defaultActiveKey={1}>
@@ -76,7 +75,7 @@ const CampaignProfile = () => {
               </div>
             </Col>
             <Col span="7">
-              <div className="card text-white bg-success">
+              <div className="card">
                 <div className="card-body">
                   <General2v3 />
                 </div>
