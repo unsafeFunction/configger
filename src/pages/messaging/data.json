@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Client 1",
+    "avatar": "resources/images/avatars/3.jpg",
+    "unread": 1,
+    "position": "Phone number",
+    "dialog": [
+      {
+        "owner": "you",
+        "time": "5 min ago",
+        "content": "Hi! Anyone here? I want to know how I can buy Air UI?"
+      },
+      {
+        "owner": "hellen",
+        "time": "5 min ago",
+        "content": "Please call us + 100 295 000"
+      }
+    ]
+  },
+  {
+    "name": "Client 2",
+    "avatar": "resources/images/avatars/1.jpg",
+    "unread": 2,
+    "position": "Phone number",
+    "dialog": []
+  }
+]

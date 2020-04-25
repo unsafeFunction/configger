@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="117px" height="27px" viewBox="0 0 117 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>logo</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-2.000000, -3.000000)">
+            <g id="logo" transform="translate(2.000000, 2.000000)">
+                <text id="Dialog-House" font-family="BarlowCondensed-Bold, Barlow Condensed" font-size="17" font-style="condensed" font-weight="bold" fill="#000000">
+                    <tspan x="0.475" y="17">Dialog House</tspan>
+                </text>
+                <path d="M89.6333333,1 C87.3538,1 85.5,2.90231628 85.5,5.24150787 L85.5,18.4587281 C85.5,20.7979196 87.3538,22.7002359 89.6333333,22.7002359 L89.6333333,26.939623 C89.6333333,27.3510493 89.8648,27.724302 90.2285333,27.9003246 C90.367,27.9660679 90.5178667,28 90.6666667,28 C90.9043333,28 91.1399333,27.9172906 91.328,27.7539925 L97.2407333,22.7002359 L112.366667,22.7002359 C114.6462,22.7002359 116.5,20.7979196 116.5,18.4587281 L116.5,5.24150787 C116.5,2.90231628 114.6462,1 112.366667,1 L89.6333333,1 Z" id="Path" fill="#F6AB04"></path>
+                <text id="SMS" font-family="BarlowCondensed-Bold, Barlow Condensed" font-size="12" font-style="condensed" font-weight="bold" fill="#FFFFFF">
+                    <tspan x="92.884" y="16">SMS</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

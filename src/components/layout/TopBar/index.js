@@ -1,6 +1,5 @@
 import React from 'react'
 import Search from './Search'
-import IssuesHistory from './IssuesHistory'
 import Status from './Status'
 import LanguageSwitcher from './LanguageSwitcher'
 import Actions from './Actions'
@@ -14,10 +13,7 @@ class TopBar extends React.Component {
         <div className="mr-md-4 mr-auto">
           <Search />
         </div>
-        <div className="mr-auto d-none d-md-block">
-          <IssuesHistory />
-        </div>
-        <div className="mb-0 mr-4 d-xl-block d-none">
+        <div className="ml-auto mr-3 d-none d-md-block">
           <Status />
         </div>
         <div className="mr-4 d-none d-sm-block">

@@ -21,7 +21,7 @@ const SubBar = ({location}) => {
                      <Route exact path='/campaigns/:id'>
                        {`SMS-${index} | Title lorem ipsum dolor sit amet, consectetur adipiscing elit nam.`}
                      </Route>
-                     <Route exact path='*'>
+                     <Route path='*'>
                        {path}
                      </Route>
                    </Switch>
@@ -31,7 +31,11 @@ const SubBar = ({location}) => {
                 return  (
                   <>
                     <Link to={`/${path}`} className={styles.breadcrumbLink}>{path}</Link>
-                    <span className={styles.breadcrumbLink__dash}>-</span>
+                    {
+                       (index + 1 !== pathArray.length && pathArray.length > 1) && (
+                         <span className={styles.breadcrumbLink__dash}>-</span>
+                       )
+                    }
                   </>
                 )
              })

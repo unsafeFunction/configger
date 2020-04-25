@@ -51,6 +51,11 @@ const routes = [
     path: '/settings',
     Component: loadable(()=>import('pages/Settings')),
     exact: true
+  },
+  {
+    path: '/conversations',
+    Component: loadable(()=>import('pages/messaging')),
+    exact: true
   }
 ]
 

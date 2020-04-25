@@ -1,15 +1,10 @@
-import React from 'react'
-import { Tabs, Row, Col, Table } from 'antd'
+import React, { useCallback, useState } from 'react'
+import { Tabs, Row, Col, Table, Card } from 'antd'
 import Chart3 from 'components/widgets/Charts/3'
 import General2 from 'components/widgets/General/2'
 import General2v1 from 'components/widgets/General/2v1'
 import General2v2 from 'components/widgets/General/2v2'
 import General2v3 from 'components/widgets/General/2v3'
-// import { Link } from 'react-router-dom'
-// import classNames from 'classnames'
-// import { Table } from 'antd'
-// import CampaignChart from 'components/widgets/campaigns/CampaignChart';
-// import actions from 'redux/campaigns/actions'
 
 import styles from './styles.module.scss'
 
@@ -44,9 +39,23 @@ const columns = [
     dataIndex: 'edited',
   },
 ]
+const tabListNoTitle = [
+  {
+    key: 'averageStatistics',
+    tab: 'Average',
+  },
+];
 
 const data = []
 const CampaignProfile = () => {
+  const [activeTab, setActiveTab] = useState('averageStatistics')
+
+  const onTabChange = useCallback(
+    (tabKey) => {
+      setActiveTab(tabKey)
+    },
+    [],
+  )
   return (
     <>
       <div className="d-flex flex-xs-wrap pb-4">
@@ -70,9 +79,14 @@ const CampaignProfile = () => {
         <TabPane className={styles.campaignStatistics} tab="Summary" key={1}>
           <Row>
             <Col span="16">
-              <div className="card-body">
+              <Card
+                tabList={tabListNoTitle}
+                activeTabKey={activeTab}
+                onTabChange={key => { onTabChange(key) }}
+                className="mr-3"
+              >
                 <Chart3 />
-              </div>
+              </Card>
             </Col>
             <Col span="7">
               <div className="card">

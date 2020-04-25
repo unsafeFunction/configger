@@ -36,7 +36,7 @@ export default async function getMenuData() {
     {
       title: 'Conversations',
       key: 'conversation',
-      url: '/conversation',
+      url: '/conversations',
       icon: 'fe fe-user',
     },
     {

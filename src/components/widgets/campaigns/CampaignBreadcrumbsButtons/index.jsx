@@ -1,9 +1,17 @@
-import React from 'react';
-import { Row, Col, Button, Space, Progress } from 'antd';
+import React, { useCallback, useState} from 'react';
+import { Row, Col, Button, Space, Progress, DatePicker } from 'antd';
 import styles from './styles.module.scss';
 
 
 const CampaignBreadcrumbsButtons = () => {
+  const [selectedDate, setDate] = useState(null);
+
+  const onDateChange = useCallback(
+    (date) => {
+      setDate(date)
+    },
+    [],
+  )
     return (
       <Row className={styles.campaign_buttons}>
         <div className={styles.buttons__progress}>
@@ -11,15 +19,27 @@ const CampaignBreadcrumbsButtons = () => {
         </div>
         <Space>
           <Col>
-            <Button
+            {/* <Button
               className={styles.buttons__schedule}
               icon={
-                <div>
-                at 12:00 AM
-                </div>}
+                // <div>
+                // at 12:00 AM
+                // </div>}
+                <DatePicker />
+              }
             >
               Scheduled
-            </Button>
+            </Button> */}
+            {
+              selectedDate && (
+              <span className={styles.scheduledText}>Schedule at</span>
+              )
+            }
+            <DatePicker
+              placeholder="Scheduled at"
+              showTime
+              onChange={onDateChange}
+            />
           </Col>
           <Col>
             <Button type="primary">Send</Button>

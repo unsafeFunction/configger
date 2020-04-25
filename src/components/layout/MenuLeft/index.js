@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { Layout } from 'antd'
 import { Scrollbars } from 'react-custom-scrollbars'
+// import { ReactComponent as Logo } from './images/logo.svg';
 import style from './style.module.scss'
 
 const { Sider } = Layout
@@ -341,6 +342,7 @@ class MenuLeft extends React.Component {
             </a>
             <a href="javascript: void(0);" className={style.air__menuLeft__logo}>
               <img src="/resources/images/air-logo.png" alt="Air UI" />
+              {/* <Logo /> */}
               <div className={style.air__menuLeft__logo__name}>SMS</div>
               <div className={style.air__menuLeft__logo__descr}>Dialog House</div>
             </a>
