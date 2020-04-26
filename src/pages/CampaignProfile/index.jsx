@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react'
+import { Link } from 'react-router-dom';
 import { Tabs, Row, Col, Table, Card , Tag, Button} from 'antd'
 import Chart3 from 'components/widgets/Charts/3'
 import General2 from 'components/widgets/General/2'
 import General2v1 from 'components/widgets/General/2v1'
 import General2v2 from 'components/widgets/General/2v2'
 import General2v3 from 'components/widgets/General/2v3'
-import { EditOutlined, DeleteOutlined, ImportOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, ImportOutlined,MessageOutlined } from '@ant-design/icons';
 
 import styles from './styles.module.scss'
 
@@ -78,8 +79,8 @@ for (let i = 0; i < 46; i++) {
     timezone: "Time zone in Minsk (GMT+3)",
     deliverAt: '2:00 AM',
     smsBody: ' Lorem ipsum dolor sit amet',
-    status: i % 2 !== 0 ? <Tag color="#87d068">Draft</Tag> : <Tag color="#2db7f5">Pending</Tag>,
-    conversations: 2,
+    status: i % 2 !== 0 ? <Tag color="#6c757d">Draft</Tag> : <Tag color="#2db7f5">Pending</Tag>,
+    conversations: <Link to="/conversations"><span className="mr-1">2</span><MessageOutlined /></Link>,
     actions:
   <span className="d-flex">
     <Button type="primary" ghost className="mr-2" icon={<EditOutlined />}>
@@ -106,16 +107,28 @@ const CampaignProfile = () => {
       <div className="d-flex flex-xs-wrap pb-4">
         <div className="mr-auto pr-3">
           <div className="text-dark font-size-24 font-weight-bold mb-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae diam ut ex aliquam
+            SMS body lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae diam ut ex aliquam
             imperdiet eu at justo. Lorem ipsum dolor sit amet, consectetur massa nunc.
           </div>
           <div className="mb-3">
             <span className="mr-3 text-uppercase badge badge-success">In progress</span>
-            <a className="font-weight-bold" href="javascript: void(0);">
-              SMS 20SF | FEMALE | 0 - 1
+            <a className="font-weight-bold mr-2" href="javascript: void(0);">
+              SMS 20SF | FEMALE | 35 - 40 |
+            </a>
+            <a className="font-weight-bold mr-2">
+              Form number
+            </a>
+            <a className="font-weight-bold mr-2">
+              [On]
+              Conversations
+            </a>
+            <a className="font-weight-bold mr-2">
+              [On]
+              Click tracking
             </a>
           </div>
         </div>
+
         <Button icon={<EditOutlined />}>
           Edit
         </Button>

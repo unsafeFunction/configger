@@ -11,25 +11,25 @@ export default async function getMenuData() {
           title: 'All',
           key: 'campaignsAll',
           url: '/campaigns?type=ALL',
-          dotColor: '#9acd32'
+          dotColor: '#ff0000'
         },
         {
           title: 'Draft',
           key: 'campaignsDraft',
           url: '/campaigns?type=DRAFT',
-          dotColor: '#FF0000'
+          dotColor: '#8A9A5B'
         },
         {
           title: 'Ongoing',
           key: 'campaignsOngoing',
           url: '/campaigns?type=ONGOING',
-          dotColor: '#8A9A5B'
+          dotColor: '#0018F9'
         },
         {
           title: 'Completed',
           key: 'campaignsCompleted',
           url: '/campaigns?type=COMPLETED',
-          dotColor: '#0018F9'
+          dotColor: '#9acd32'
         }
       ],
     },

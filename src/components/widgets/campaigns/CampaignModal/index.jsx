@@ -77,7 +77,7 @@ const CampaignModal = ({ onChange, onSelectChange }) => {
           }
           <Row>
             <Col span={24} className={styles.input_wrap}>
-              <span>SMS default body</span>
+              <span>{`SMS default body | Variables #{username} #{link}`}</span>
               <TextArea
                 placeholder="e.g. Hi #{username}. Get 20% off on next reading #{link}"
                 rows={5}
