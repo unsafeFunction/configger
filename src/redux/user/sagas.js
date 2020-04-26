@@ -17,7 +17,7 @@ export function* LOGIN({ payload }) {
     type: 'user/LOAD_CURRENT_ACCOUNT',
   })
   if (success) {
-    yield history.push('/')
+    yield history.push('/dashboard')
     notification.success({
       message: 'Logged In',
       description: 'You have successfully logged in to Air UI React Admin Template!',

@@ -1,27 +1,26 @@
 [
   {
     "name": "Client 1",
-    "avatar": "resources/images/avatars/3.jpg",
+    "avatar": "resources/images/avatars/avatar.png",
     "unread": 1,
-    "position": "Phone number",
+    "position": "+1 415 993 8030",
     "dialog": [
       {
         "owner": "you",
         "time": "5 min ago",
-        "content": "Hi! Anyone here? I want to know how I can buy Air UI?"
+        "content": " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
       },
       {
         "owner": "hellen",
         "time": "5 min ago",
-        "content": "Please call us + 100 295 000"
+        "content": " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
       }
     ]
   },
   {
     "name": "Client 2",
-    "avatar": "resources/images/avatars/1.jpg",
-    "unread": 2,
-    "position": "Phone number",
+    "avatar": "resources/images/avatars/avatar.png",
+    "position": "+1 415 993 8030",
     "dialog": []
   }
 ]

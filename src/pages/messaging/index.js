@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { Input, Icon, Tooltip } from 'antd'
+import { Input, Icon, Button } from 'antd'
 import { Scrollbars } from 'react-custom-scrollbars'
 import dialogs from './data.json'
 import style from './style.module.scss'
@@ -89,21 +89,9 @@ class AppsMessaging extends React.Component {
                   </h5>
                 </div>
                 <div>
-                  <Tooltip placement="top" title="Unlock Account">
-                    <a href="javascript: void(0);" className="btn btn-sm btn-light mr-2">
-                      <i className="fe fe-unlock" />
-                    </a>
-                  </Tooltip>
-                  <Tooltip placement="top" title="Mark as important">
-                    <a href="javascript: void(0);" className="btn btn-sm btn-light mr-2">
-                      <i className="fe fe-star" />
-                    </a>
-                  </Tooltip>
-                  <Tooltip placement="top" title="Delete user">
-                    <a href="javascript: void(0);" className="btn btn-sm btn-light">
-                      <i className="fe fe-trash" />
-                    </a>
-                  </Tooltip>
+                  <Button type="primary" ghost>
+                   Closer conversation
+                  </Button>
                 </div>
               </div>
               <div className="card-body">

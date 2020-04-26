@@ -233,6 +233,11 @@ class MenuLeft extends React.Component {
               )}
               {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
               <span>{title}</span>
+              {item.count && (
+              <span className="badge text-white bg-blue-light float-right mt-1 px-2">
+                {item.count}
+              </span>
+            )}
             </Link>
           )}
           {!item.url && (

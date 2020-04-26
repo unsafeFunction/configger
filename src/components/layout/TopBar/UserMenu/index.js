@@ -40,8 +40,8 @@ class ProfileMenu extends React.Component {
             {user.role}
           </div>
         </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item>
+        {/* <Menu.Divider /> */}
+        {/* <Menu.Item>
           <div>
             <strong>Email: </strong>
             {user.email}
@@ -49,7 +49,7 @@ class ProfileMenu extends React.Component {
             <strong>Phone: </strong>
             {user.phone || '— '}
           </div>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Divider />
         <Menu.Item>
           <a href="javascript: void(0);">

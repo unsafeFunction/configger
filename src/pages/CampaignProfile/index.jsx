@@ -1,43 +1,64 @@
 import React, { useCallback, useState } from 'react'
-import { Tabs, Row, Col, Table, Card } from 'antd'
+import { Tabs, Row, Col, Table, Card , Tag, Button} from 'antd'
 import Chart3 from 'components/widgets/Charts/3'
 import General2 from 'components/widgets/General/2'
 import General2v1 from 'components/widgets/General/2v1'
 import General2v2 from 'components/widgets/General/2v2'
 import General2v3 from 'components/widgets/General/2v3'
+import { EditOutlined, DeleteOutlined, ImportOutlined } from '@ant-design/icons';
 
 import styles from './styles.module.scss'
 
 const { TabPane } = Tabs
 const columns = [
   {
-    title: 'Id',
-    dataIndex: 'id',
+    title: 'SID',
+    dataIndex: 'sid',
   },
   {
-    title: 'Campaign Name',
-    dataIndex: 'name',
+    title: 'From Number',
+    dataIndex: 'fromNumber',
   },
   {
-    title: 'Key',
-    dataIndex: 'key',
+    title: 'Username',
+    dataIndex: 'username',
+  },
+  {
+    title: 'To number',
+    dataIndex: 'toNumber',
+  },
+  {
+    title: 'Timezone',
+    dataIndex: 'timezone',
+  },
+  {
+    title: 'Deliver at',
+    dataIndex: 'deliverAt',
+  },
+  {
+    title: 'Custom SMS Body',
+    dataIndex: 'smsBody',
   },
   {
     title: 'Status',
-    dataIndex: 'status',
+    dataIndex: 'status'
   },
   {
-    title: 'Delivered',
-    dataIndex: 'delivered',
+    title: 'Conversations',
+    dataIndex: 'conversations'
   },
   {
-    title: 'Clicks',
-    dataIndex: 'clicks',
+    title: 'Updated at',
+    dataIndex: 'updatedAt',
   },
   {
-    title: 'Edited',
-    dataIndex: 'edited',
+    title: 'Opened At',
+    dataIndex: 'openedAt'
   },
+  {
+    title: 'actions',
+    dataIndex: 'actions'
+  }
 ]
 const tabListNoTitle = [
   {
@@ -47,6 +68,30 @@ const tabListNoTitle = [
 ];
 
 const data = []
+// eslint-disable-next-line no-plusplus
+for (let i = 0; i < 46; i++) {
+  data.push({
+    sid: i,
+    fromNumber: "+1 415 993 8030",
+    username: "Yellow systems",
+    toNumber: "+1 415 993 8030",
+    timezone: "Time zone in Minsk (GMT+3)",
+    deliverAt: '2:00 AM',
+    smsBody: ' Lorem ipsum dolor sit amet',
+    status: i % 2 !== 0 ? <Tag color="#87d068">Draft</Tag> : <Tag color="#2db7f5">Pending</Tag>,
+    conversations: 2,
+    actions:
+  <span className="d-flex">
+    <Button type="primary" ghost className="mr-2" icon={<EditOutlined />}>
+        Edit
+    </Button>
+    <Button type="danger" ghost icon={<DeleteOutlined />}>
+        Delete
+    </Button>
+  </span>
+  })
+}
+
 const CampaignProfile = () => {
   const [activeTab, setActiveTab] = useState('averageStatistics')
 
@@ -71,9 +116,9 @@ const CampaignProfile = () => {
             </a>
           </div>
         </div>
-        <a className="btn btn-success align-self-start text-nowrap" href="javascript: void(0);">
+        <Button icon={<EditOutlined />}>
           Edit
-        </a>
+        </Button>
       </div>
       <Tabs defaultActiveKey={1}>
         <TabPane className={styles.campaignStatistics} tab="Summary" key={1}>
@@ -113,7 +158,20 @@ const CampaignProfile = () => {
           </Row>
         </TabPane>
         <TabPane tab="Recipients" key={2}>
-          <Table columns={columns} dataSource={data} scroll={{ x: 1200 }} bordered align="center" />
+          <Table
+            columns={columns}
+            dataSource={data}
+            scroll={{ x: 1200 }}
+            bordered
+            title={()=>(
+              <span className="d-flex">
+                <Button icon={<ImportOutlined />} className="ml-auto mr-2">Import</Button>
+                <Button>Add recipient</Button>
+              </span>
+            )
+            }
+            align="center"
+          />
         </TabPane>
       </Tabs>
     </>

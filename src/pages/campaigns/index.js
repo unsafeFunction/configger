@@ -51,7 +51,7 @@ for (let i = 0; i < 46; i++) {
     id: i,
     key: `SMS 20SF | FEMALE | ${i} - ${i + 1}`,
     name: <Link to={`/campaigns/${i}`}>{`Campaign SMS offer 2${i}`}</Link>,
-    status: i % 2 !== 0 ? <Tag color="#87d068">Sent</Tag> : <Tag color="#2db7f5">In progress</Tag>,
+    status: i % 2 !== 0 && <Tag color="#87d068">Sent</Tag> || i % 3 === 0 && <Tag color="#2db7f5">In progress</Tag> || <Tag color="#6c757d">Draft</Tag>,
     delivered: `${i} %`,
     clicks: `${i} %`,
     edited: `${i} minutes ago`,
