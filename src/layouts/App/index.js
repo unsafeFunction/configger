@@ -7,6 +7,7 @@ import TopBar from 'components/layout/TopBar'
 import MenuLeft from 'components/layout/MenuLeft'
 import SubBar from 'components/layout/SubBar'
 import MenuTop from 'components/layout/MenuTop'
+import Modal from 'components/widgets/Modals';
 
 const AppLayout = (props) => {
   const settings = useSelector(state => state.settings);
@@ -52,6 +53,7 @@ const AppLayout = (props) => {
         <Layout.Content style={{ height: '100%', position: 'relative' }}>
           <div className="air__utils__content">{children}</div>
         </Layout.Content>
+        <Modal />
       </Layout>
     </Layout>
   )

@@ -73,6 +73,7 @@ const data = []
 for (let i = 0; i < 46; i++) {
   data.push({
     sid: i,
+    key: i,
     fromNumber: "+1 415 993 8030",
     username: "Yellow systems",
     toNumber: "+1 415 993 8030",
