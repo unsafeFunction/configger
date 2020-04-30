@@ -117,7 +117,7 @@ const CampaignProfile = () => {
               SMS 20SF | FEMALE | 35 - 40 |
             </a>
             <a className="font-weight-bold mr-2">
-              Form number
+              From number
             </a>
             <a className="font-weight-bold mr-2">
               [On]

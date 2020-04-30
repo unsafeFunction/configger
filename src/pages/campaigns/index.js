@@ -24,7 +24,7 @@ const Campaigns = () => {
       title: 'Campaign Name',
       dataIndex: 'name',
       render: (name, campaign)=>{
-        return <Link to={`/campaigns/${campaign.id}`}>{`${name}-${campaign.id}`}</Link>
+        return <Link to={`/campaigns/${campaign.id}`}>{`Campaign SMS offer-${campaign.id}`}</Link>
       }
     },
     {
@@ -34,8 +34,8 @@ const Campaigns = () => {
     {
       title: 'Status',
       dataIndex: 'status',
-      render: (status) => {
-       return <Tag color="#6c757d">{status}</Tag>
+      render: () => {
+       return <Tag color="#6c757d">Draft</Tag>
       }
     },
     {
@@ -56,6 +56,7 @@ const Campaigns = () => {
       render: (action, campaign)=>{
           return (
             <Button
+              type="danger"
               onClick={()=>dispatchCampaignData({
                 type: modalActions.SHOW_MODAL,
                 modalType: 'WARNING_MODAL',
@@ -130,7 +131,7 @@ const Campaigns = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Campaign</h4>
+        <h4>Campaigns</h4>
         <Button onClick={onModalToggle} icon={<PlusCircleOutlined />} type="primary">
           Create Campaign
         </Button>

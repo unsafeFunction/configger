@@ -20,7 +20,7 @@ export function* LOGIN({ payload }) {
     yield history.push('/dashboard')
     notification.success({
       message: 'Logged In',
-      description: 'You have successfully logged in to Air UI React Admin Template!',
+      description: 'You have successfully logged in!',
     })
   }
 }

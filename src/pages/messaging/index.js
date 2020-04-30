@@ -90,7 +90,7 @@ class AppsMessaging extends React.Component {
                 </div>
                 <div>
                   <Button type="primary" ghost>
-                   Closer conversation
+                    Close conversation
                   </Button>
                 </div>
               </div>
