@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import NProgress from 'nprogress'
 import { Helmet } from 'react-helmet'
 import Loader from 'components/layout/Loader'
+import cookieStorage from 'utils/cookie'
 import PublicLayout from './Public'
 import AuthLayout from './Auth'
 import AppLayout from './App'
@@ -14,6 +15,7 @@ const Layouts = {
   app: AppLayout,
 }
 
+const cookie = cookieStorage()
 @withRouter
 @connect(({ user }) => ({ user }))
 class Layout extends React.PureComponent {
@@ -57,7 +59,7 @@ class Layout extends React.PureComponent {
     }
 
     const Container = Layouts[getLayout()]
-    const isUserAuthorized = user.authorized
+    const isUserAuthorized = cookie.getItem('accessToken')
     const isUserLoading = user.loading
     const isAuthLayout = getLayout() === 'auth'
 

@@ -4,7 +4,7 @@ import user from './user/reducers'
 import menu from './menu/reducers'
 import settings from './settings/reducers'
 import campaigns from './campaigns/reducers'
-import modal from './modal/reducers';
+import modal from './modal/reducers'
 
 export default history =>
   combineReducers({
@@ -13,5 +13,5 @@ export default history =>
     menu,
     settings,
     campaigns,
-    modal
+    modal,
   })

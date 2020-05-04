@@ -4,18 +4,20 @@ const {
   override,
   fixBabelImports,
   addLessLoader,
-  useEslintRc,
+  // useEslintRc,
   addDecoratorsLegacy,
 } = require('customize-cra')
 
 module.exports = override(
   addDecoratorsLegacy(),
-  useEslintRc(),
+  // useEslintRc(),
   fixBabelImports('import', {
-    libraryName: 'antd', libraryDirectory: 'es', style: true
+    libraryName: 'antd',
+    libraryDirectory: 'es',
+    style: true,
   }),
   addLessLoader({
     javascriptEnabled: true,
-    modifyVars: antdTheme
-  })
+    modifyVars: antdTheme,
+  }),
 )

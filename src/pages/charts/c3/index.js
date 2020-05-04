@@ -683,7 +683,8 @@ class ChartsC3 extends React.Component {
                   <strong>Sub Chart</strong>
                 </h4>
                 <p className="text-muted">
-                  Element: read{' '}
+                  Element: read
+{' '}
                   <a href="http://c3js.org/" target="_blank" rel="noopener noreferrer">
                     official documentation
                     <small>

@@ -45,18 +45,18 @@ const routes = [
   },
   {
     path: '/campaigns/:id',
-    Component: loadable(()=>import('pages/CampaignProfile')),
+    Component: loadable(() => import('pages/CampaignProfile')),
   },
   {
     path: '/settings',
-    Component: loadable(()=>import('pages/Settings')),
-    exact: true
+    Component: loadable(() => import('pages/Settings')),
+    exact: true,
   },
   {
     path: '/conversations',
-    Component: loadable(()=>import('pages/messaging')),
-    exact: true
-  }
+    Component: loadable(() => import('pages/messaging')),
+    exact: true,
+  },
 ]
 
 const mapStateToProps = ({ settings }) => ({ settings })
@@ -91,7 +91,7 @@ class Router extends React.Component {
             }}
           >
             <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
-            {routes.map(({ path, Component, exact=false }) => (
+            {routes.map(({ path, Component, exact = false }) => (
               <Route path={path} key={path} exact={exact}>
                 <Component />
               </Route>

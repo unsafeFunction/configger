@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { createBrowserHistory } from 'history'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension'
 import { logger } from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import { routerMiddleware } from 'connected-react-router'
@@ -12,7 +12,6 @@ import reducers from './redux/reducers'
 import sagas from './redux/sagas'
 import Router from './router'
 import * as serviceWorker from './serviceWorker'
-
 // app styles
 import './global.scss'
 

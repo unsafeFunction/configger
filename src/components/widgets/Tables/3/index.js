@@ -92,11 +92,11 @@ class Table3 extends React.Component {
           <TabPane
             tab={
               <Dropdown overlay={dropdownMenu} placement="bottomRight">
-                <a className="nav-link dropdown-toggle" href="javascript: void(0);" role="button">
+  <a className="nav-link dropdown-toggle" href="javascript: void(0);" role="button">
                   Dropdown
                 </a>
-              </Dropdown>
-            }
+</Dropdown>
+            )}
             key="2"
           />
           <TabPane tab="Actions" key="3" />

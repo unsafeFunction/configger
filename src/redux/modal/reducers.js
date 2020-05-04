@@ -1,4 +1,4 @@
-import actions from './actions';
+import actions from './actions'
 
 const initialState = {
   modalType: null,
@@ -7,27 +7,26 @@ const initialState = {
   error: '',
   isDisabled: false,
   isLoadFile: true,
-};
+}
 export default function modal(state = initialState, action) {
   switch (action.type) {
     case actions.SHOW_MODAL: {
-      console.log('here')
       return Object.assign({}, state, {
         modalType: action.modalType,
         modalProps: action.modalProps,
         isOpen: true,
-      });
+      })
     }
     case actions.HIDE_MODAL: {
-      return initialState;
+      return initialState
     }
     case actions.SET_ERROR: {
       return Object.assign({}, state, {
         error: action.payload,
         isDisabled: !!action.payload,
-      });
+      })
     }
     default:
-      return state;
+      return state
   }
 }

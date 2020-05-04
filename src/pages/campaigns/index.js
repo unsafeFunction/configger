@@ -2,75 +2,124 @@ import React, { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
-import { Table, Button, Tag } from 'antd';
-import { CampaignModal } from 'components/widgets/campaigns';
-import { PlusCircleOutlined } from '@ant-design/icons';
-import actions from 'redux/campaigns/actions';
-import modalActions from 'redux/modal/actions';
+import { Table, Button, Tag } from 'antd'
+import { CampaignModal } from 'components/widgets/campaigns'
+import { PlusCircleOutlined } from '@ant-design/icons'
+import actions from 'redux/campaigns/actions'
+import modalActions from 'redux/modal/actions'
 
 import styles from './styles.module.scss'
 
 const Campaigns = () => {
   const dispatchCampaignData = useDispatch()
 
-  const allCampaigns = useSelector(state=>state.campaigns.all)
+  const allCampaigns = useSelector(state => state.campaigns.all)
+  const singleCampaign = useSelector(state => state.campaigns.singleCampaign)
+
+  const getStatus = status => {
+    switch (status) {
+      case 'COMPLETED':
+        return <Tag color="#32CD32">{status}</Tag>
+      case 'SCHEDULED':
+        return <Tag color="#1b55e3">{status}</Tag>
+      default:
+        return null
+    }
+  }
+
+  const removeCampaign = useCallback(
+    id => {
+      dispatchCampaignData({
+        type: actions.REMOVE_CAMPAIGN_REQUEST,
+        payload: {
+          id,
+        },
+      })
+    },
+    [dispatchCampaignData],
+  )
+
+  const createCampaign = useCallback(() => {
+    dispatchCampaignData({
+      type: actions.CREATE_CAMPAIGN_REQUEST,
+      payload: {},
+    })
+  }, [dispatchCampaignData, singleCampaign])
 
   const columns = [
     {
       title: 'Id',
       dataIndex: 'id',
+      render: value => {
+        return value || '-'
+      },
     },
     {
       title: 'Campaign Name',
-      dataIndex: 'name',
-      render: (name, campaign)=>{
-        return <Link to={`/campaigns/${campaign.id}`}>{`Campaign SMS offer-${campaign.id}`}</Link>
-      }
+      dataIndex: 'title',
+      render: (name, campaign) => {
+        return <Link to={`/campaigns/${campaign.id}`}>{`${name || '-'}`}</Link>
+      },
     },
     {
       title: 'Key',
       dataIndex: 'key',
+      render: value => {
+        return value || '-'
+      },
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      render: () => {
-       return <Tag color="#6c757d">Draft</Tag>
-      }
+      render: status => {
+        return getStatus(status)
+      },
     },
     {
       title: 'Delivered',
       dataIndex: 'delivered',
+      render: value => {
+        return value || '-'
+      },
     },
     {
       title: 'Clicks',
       dataIndex: 'clicks',
+      render: value => {
+        return value || '-'
+      },
     },
     {
       title: 'Edited',
       dataIndex: 'edited',
+      render: value => {
+        return value || '-'
+      },
     },
     {
       title: 'Actions',
-      dataIndex: 'actions',
-      render: (action, campaign)=>{
-          return (
-            <Button
-              type="danger"
-              onClick={()=>dispatchCampaignData({
+      dataIndex: 'action',
+      render: (action, campaign) => {
+        return (
+          <Button
+            type="danger"
+            onClick={() =>
+              dispatchCampaignData({
                 type: modalActions.SHOW_MODAL,
                 modalType: 'WARNING_MODAL',
                 modalProps: {
                   message: () => <h4>{`You try to delete ${campaign.name}. Are you sure?`}</h4>,
-                  title: "Remove campaign"
-                }}
-              )}
-            >
-              {action}
-            </Button>
-          )
-      }
-    }
+                  title: 'Remove campaign',
+                  onOk: () => removeCampaign(campaign.id),
+                },
+              })
+            }
+          >
+            Delete
+          </Button>
+        )
+      },
+    },
   ]
 
   const onChange = useCallback(
@@ -87,15 +136,15 @@ const Campaigns = () => {
     },
     [dispatchCampaignData],
   )
-    const useFetching = () => {
-      useEffect(()=>{
-        dispatchCampaignData({
-          type: actions.LOAD_CAMPAIGN_SUCCESS
-        })
-      }, [])
-    }
+  const useFetching = () => {
+    useEffect(() => {
+      dispatchCampaignData({
+        type: actions.LOAD_CAMPAIGN_REQUEST,
+      })
+    }, [])
+  }
 
-    useFetching();
+  useFetching()
 
   const onSelectChange = useCallback(
     value => {
@@ -113,20 +162,21 @@ const Campaigns = () => {
   const onModalToggle = useCallback(() => {
     dispatchCampaignData({
       type: modalActions.SHOW_MODAL,
-      modalType: "CONFIRM_MODAL",
+      modalType: 'CONFIRM_MODAL',
       modalProps: {
         title: 'Create campaign',
         confirmAction: () => {},
         onCancel: onModalToggle,
-        message: () =>  <CampaignModal onSelectChange={onSelectChange} onChange={onChange} />,
+        onOk: createCampaign,
+        message: () => <CampaignModal onSelectChange={onSelectChange} onChange={onChange} />,
         type: 'danger',
         width: 820,
-        bodyStyle:{
-          padding: "0"
-        }
-      }
+        bodyStyle: {
+          padding: '0',
+        },
+      },
     })
-  }, [dispatchCampaignData, onChange, onSelectChange])
+  }, [createCampaign, dispatchCampaignData, onChange, onSelectChange])
 
   return (
     <>
@@ -141,19 +191,9 @@ const Campaigns = () => {
         columns={columns}
         scroll={{ x: 1200 }}
         bordered
+        loading={!allCampaigns.isLoading}
         align="center"
       />
-      {/* <Modal
-        bodyStyle={{
-        padding: "0"
-      }}
-        title="Create Campaign"
-        visible={isModalOpen}
-        onCancel={onModalToggle}
-        width={820}
-        confirmLoading={!allCampaigns.isLoading}
-      >
-      </Modal> */}
     </>
   )
 }

@@ -85,7 +85,10 @@ class AppsMessaging extends React.Component {
               <div className="card-header card-header-flex align-items-center">
                 <div className="d-flex flex-column justify-content-center mr-auto">
                   <h5 className="mb-0 mr-2 font-size-18">
-                    {name} <span className="font-size-14 text-gray-6">({position})</span>
+                    {name} <span className="font-size-14 text-gray-6">
+({position}
+)
+</span>
                   </h5>
                 </div>
                 <div>
@@ -120,7 +123,8 @@ class AppsMessaging extends React.Component {
                         >
                           <div className={style.messageContent}>
                             <div className="text-gray-4 font-size-12 text-uppercase">
-                              {message.owner}, {message.time}
+                              {message.owner},
+{message.time}
                             </div>
                             <div>{message.content}</div>
                           </div>
@@ -139,7 +143,10 @@ class AppsMessaging extends React.Component {
                     </div>
                   </Scrollbars>
                 </div>
-                <div className="pt-2 pb-2">{name} is typing...</div>
+                <div className="pt-2 pb-2">{name}
+{' '}
+is typing...
+</div>
                 <div className="input-group mb-3">
                   <input type="text" className="form-control" placeholder="Send message..." />
                   <div className="input-group-append">

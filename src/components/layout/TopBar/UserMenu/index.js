@@ -30,7 +30,10 @@ class ProfileMenu extends React.Component {
     const menu = (
       <Menu selectable={false}>
         <Menu.Item>
-          <strong>Hello, {user.name || 'Anonymous'}</strong>
+          <strong>
+            Hello,
+            {user.name || 'Anonymous'}
+          </strong>
           <div>
             <strong className="mr-1">Billing Plan: </strong>
             Professional
