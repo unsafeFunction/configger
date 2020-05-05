@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Form, Input, Button } from 'antd'
 import style from '../style.module.scss'
 
 const Login = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const onSubmit = useCallback(
     values => {
@@ -12,6 +14,7 @@ const Login = () => {
         type: 'user/LOGIN_REQUEST',
         payload: {
           ...values,
+          redirect: () => history.push('/dashboard'),
         },
       })
     },
