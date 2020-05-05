@@ -78,6 +78,7 @@ const initialSingleCampaign = {
   deepLinkDomain: 'https://oa-sms-offers-dev.herokuapp.com/o',
   trackingEnabled: false,
   conversationEnabled: false,
+  startDateTime: '',
   error: null,
 };
 
@@ -87,6 +88,21 @@ export default combineReducers({
     types: [],
   })((state = initialSingleCampaign, action = {}) => {
     switch (action.type) {
+      case actions.START_CAMPAIGN_REQUEST:
+        return {
+          ...state,
+          isLoading: false,
+        };
+      case actions.START_CAMPAIGN_SUCCESS:
+        return {
+          ...state,
+          isLoading: true,
+        };
+      case actions.START_CAMPAIGN_FAILURE:
+        return {
+          ...state,
+          isLoading: true,
+        };
       case actions.ON_CAMPAIGN_DATA_CHANGE:
         return Object.assign({}, state, {
           [action.payload.name]: action.payload.value,

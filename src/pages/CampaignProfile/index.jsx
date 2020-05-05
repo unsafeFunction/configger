@@ -13,7 +13,10 @@ import {
   ImportOutlined,
   MessageOutlined,
 } from '@ant-design/icons';
+import { RecipientModal } from 'components/widgets/recipients';
+import modalActions from 'redux/modal/actions';
 import actions from 'redux/recipients/actions';
+import campaignAction from 'redux/campaigns/actions';
 import { get } from 'lodash';
 import styles from './styles.module.scss';
 
@@ -111,6 +114,16 @@ const CampaignProfile = () => {
 
   const useFetching = () => {
     useEffect(() => {
+      if (!singleCampaign.id) {
+        dispatch({
+          type: campaignAction.ON_CAMPAIGN_DATA_CHANGE,
+          payload: {
+            name: 'id',
+            value: history.location.pathname.split('/')[2],
+          },
+        });
+      }
+
       dispatch({
         type: actions.LOAD_RECIPIENTS_REQUEST,
         payload: {
@@ -123,6 +136,83 @@ const CampaignProfile = () => {
 
   useFetching();
 
+  const createRecipient = useCallback(() => {
+    dispatch({
+      type: actions.CREATE_RECIPIENT_REQUEST,
+      payload: {
+        campaignId:
+          singleCampaign.id || history.location.pathname.split('/')[2],
+      },
+    });
+  }, [dispatch, singleCampaign]);
+
+  const onChange = useCallback(
+    event => {
+      const { value, name } = event.target;
+
+      dispatch({
+        type: actions.ON_RECIPIENT_DATA_CHANGE,
+        payload: {
+          name,
+          value,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const onSelectChange = useCallback(
+    (value, { name }) => {
+      dispatch({
+        type: actions.ON_RECIPIENT_DATA_CHANGE,
+        payload: {
+          name,
+          value,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const onPickerChange = useCallback(
+    value => {
+      dispatch({
+        type: actions.ON_RECIPIENT_DATA_CHANGE,
+        payload: {
+          name: 'deliveryTime',
+          value,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const onModalToggle = useCallback(() => {
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'CONFIRM_MODAL',
+      modalProps: {
+        title: 'Create campaign',
+        confirmAction: () => {},
+        onCancel: () => {},
+        onOk: createRecipient,
+        message: () => (
+          <RecipientModal
+            onSelectChange={onSelectChange}
+            onChange={onChange}
+            singleCampaign={singleCampaign}
+            onPickerChange={onPickerChange}
+          />
+        ),
+        type: 'danger',
+        width: 820,
+        bodyStyle: {
+          padding: '0',
+        },
+      },
+    });
+  }, [createRecipient, dispatch, onChange, onSelectChange]);
+
   const onTabChange = useCallback(tabKey => {
     setActiveTab(tabKey);
   }, []);
@@ -131,6 +221,7 @@ const CampaignProfile = () => {
   if (!recipients.isLoading) {
     return <Spin />;
   }
+
   return (
     <>
       <div className="d-flex flex-xs-wrap pb-4">
@@ -211,7 +302,7 @@ const CampaignProfile = () => {
             title={() => (
               <span className="d-flex">
                 <Button icon={<ImportOutlined />} className="ml-auto mr-2" />
-                <Button>Add recipient</Button>
+                <Button onClick={onModalToggle}>Add recipient</Button>
               </span>
             )}
             align="center"

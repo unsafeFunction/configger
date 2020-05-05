@@ -2,9 +2,10 @@ import { all, takeEvery, put, call, select } from 'redux-saga/effects';
 import {
   loadRecipients,
   //   deleteCampaign,
-  //   createCampaign,
+  createRecipient,
 } from 'services/recipients';
 import { notification } from 'antd';
+import { getRecipient } from './selectors';
 import actions from './actions';
 
 export function* callLoadRecipients({ payload }) {
@@ -40,25 +41,29 @@ export function* callLoadRecipients({ payload }) {
 //   }
 // }
 
-// export function* callCreateRecipient() {
-//   try {
-//     // const data = yield select(getCampaign);
-//     const response = yield call(createCampaign, {});
-
-//     yield put({
-//       type: actions.CREATE_CAMPAIGN_SUCCESS,
-//       payload: response,
-//     });
-//     yield call(notification.success, 'Successfully create campaign');
-//   } catch (error) {
-//     notification.error(error);
-//   }
-// }
+export function* callCreateRecipient({ payload }) {
+  try {
+    const data = yield select(getRecipient);
+    console.log(data);
+    const response = yield call(createRecipient, {
+      ...data,
+      campaignId: payload.campaignId,
+    });
+    console.log(response);
+    yield put({
+      type: actions.CREATE_CAMPAIGN_SUCCESS,
+      payload: response,
+    });
+    yield call(notification.success, 'Successfully create campaign');
+  } catch (error) {
+    notification.error(error);
+  }
+}
 
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.LOAD_RECIPIENTS_REQUEST, callLoadRecipients),
     // takeEvery(actions.REMOVE_RECIPIENT_REQUEST, callRemoveRecipient),
-    // takeEvery(actions.CREATE_RECIPIENT_REQUEST, callCreateRecipient),
+    takeEvery(actions.CREATE_RECIPIENT_REQUEST, callCreateRecipient),
   ]);
 }

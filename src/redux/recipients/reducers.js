@@ -71,6 +71,7 @@ export default combineReducers({
         return Object.assign({}, state, {
           [action.payload.name]: action.payload.value,
         });
+
       default: {
         return state;
       }

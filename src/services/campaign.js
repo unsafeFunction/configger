@@ -1,4 +1,5 @@
 import axiosClient from 'utils/axiosClient';
+import moment from 'moment';
 
 export const loadCampaigns = async query => {
   try {
@@ -28,6 +29,19 @@ export const createCampaign = async payload => {
       ...payload,
       originalLink: `https://${payload.originalLink}`,
     });
+
+    return campaign;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const startCampaign = async payload => {
+  try {
+    const campaign = await axiosClient.put(
+      `/campaigns/${payload.id}/start?startDateTime=${payload.startDateTime ||
+        moment.utc(moment()).add(30, 's')}`,
+    );
 
     return campaign;
   } catch (error) {
