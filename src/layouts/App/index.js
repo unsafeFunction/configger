@@ -1,16 +1,16 @@
-import React from 'react'
-import { Layout } from 'antd'
-import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
-import classNames from 'classnames'
-import TopBar from 'components/layout/TopBar'
-import MenuLeft from 'components/layout/MenuLeft'
-import SubBar from 'components/layout/SubBar'
-import MenuTop from 'components/layout/MenuTop'
-import Modal from 'components/widgets/Modals'
+import React from 'react';
+import { Layout } from 'antd';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import classNames from 'classnames';
+import TopBar from 'components/layout/TopBar';
+import MenuLeft from 'components/layout/MenuLeft';
+import SubBar from 'components/layout/SubBar';
+import MenuTop from 'components/layout/MenuTop';
+import Modal from 'components/widgets/Modals';
 
 const AppLayout = props => {
-  const settings = useSelector(state => state.settings)
+  const settings = useSelector(state => state.settings);
 
   const {
     menuLayoutType,
@@ -22,10 +22,10 @@ const AppLayout = props => {
     isBorderless,
     isTopbarFixed,
     isGrayTopbar,
-  } = settings
-  const { children } = props
+  } = settings;
+  const { children } = props;
 
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <Layout
@@ -56,7 +56,7 @@ const AppLayout = props => {
         <Modal />
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
-export default AppLayout
+export default AppLayout;

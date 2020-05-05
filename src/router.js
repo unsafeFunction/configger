@@ -1,21 +1,20 @@
-import React from 'react'
-import { Route, Redirect, BrowserRouter } from 'react-router-dom'
-// import { ConnectedRouter } from 'connected-react-router'
-import { CSSTransition, SwitchTransition } from 'react-transition-group'
-import Switch from 'react-router-transition-switch'
-import Loadable from 'react-loadable'
-import { connect } from 'react-redux'
+import React from 'react';
+import { Route, Redirect, BrowserRouter } from 'react-router-dom';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import Switch from 'react-router-transition-switch';
+import Loadable from 'react-loadable';
+import { connect } from 'react-redux';
 
-import Layout from 'layouts'
-import Loader from 'components/layout/Loader'
-import NotFoundPage from 'pages/system/404'
+import Layout from 'layouts';
+import Loader from 'components/layout/Loader';
+import NotFoundPage from 'pages/system/404';
 
 const loadable = loader =>
   Loadable({
     loader,
     delay: false,
     loading: () => <Loader />,
-  })
+  });
 
 const routes = [
   {
@@ -57,17 +56,16 @@ const routes = [
     Component: loadable(() => import('pages/messaging')),
     exact: true,
   },
-]
+];
 
-const mapStateToProps = ({ settings }) => ({ settings })
+const mapStateToProps = ({ settings }) => ({ settings });
 
 @connect(mapStateToProps)
 class Router extends React.Component {
   render() {
     const {
-      // history,
       settings: { routerAnimation },
-    } = this.props
+    } = this.props;
     return (
       <BrowserRouter>
         <Layout>
@@ -76,7 +74,7 @@ class Router extends React.Component {
               const {
                 children,
                 location: { pathname },
-              } = props
+              } = props;
               return (
                 <SwitchTransition>
                   <CSSTransition
@@ -87,10 +85,17 @@ class Router extends React.Component {
                     {children}
                   </CSSTransition>
                 </SwitchTransition>
-              )
+              );
             }}
           >
-            <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
+            <Route
+              exact
+              path="/"
+              render={() => {
+                console.log('here');
+                return <Redirect to="/dashboard" />;
+              }}
+            />
             {routes.map(({ path, Component, exact = false }) => (
               <Route path={path} key={path} exact={exact}>
                 <Component />
@@ -100,8 +105,8 @@ class Router extends React.Component {
           </Switch>
         </Layout>
       </BrowserRouter>
-    )
+    );
   }
 }
 
-export default Router
+export default Router;
