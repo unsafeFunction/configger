@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Table, Button, Tag } from 'antd';
 import { CampaignModal } from 'components/widgets/campaigns';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import actions from 'redux/campaigns/actions';
 import modalActions from 'redux/modal/actions';
 
@@ -39,6 +39,19 @@ const Campaigns = () => {
     [dispatchCampaignData],
   );
 
+  const setCampaignId = useCallback(
+    value => {
+      dispatchCampaignData({
+        type: actions.ON_CAMPAIGN_DATA_CHANGE,
+        payload: {
+          name: 'id',
+          value,
+        },
+      });
+    },
+    [dispatchCampaignData],
+  );
+
   const createCampaign = useCallback(() => {
     dispatchCampaignData({
       type: actions.CREATE_CAMPAIGN_REQUEST,
@@ -58,7 +71,16 @@ const Campaigns = () => {
       title: 'Campaign Name',
       dataIndex: 'title',
       render: (name, campaign) => {
-        return <Link to={`/campaigns/${campaign.id}`}>{`${name || '-'}`}</Link>;
+        return (
+          <Link
+            onClick={() => {
+              setCampaignId(campaign.id);
+            }}
+            to={`/campaigns/${campaign.id}`}
+          >
+            {`${name || '-'}`}
+          </Link>
+        );
       },
     },
     {
@@ -103,6 +125,7 @@ const Campaigns = () => {
         return (
           <Button
             type="danger"
+            icon={<DeleteOutlined />}
             onClick={() =>
               dispatchCampaignData({
                 type: modalActions.SHOW_MODAL,
@@ -116,9 +139,7 @@ const Campaigns = () => {
                 },
               })
             }
-          >
-            Delete
-          </Button>
+          />
         );
       },
     },

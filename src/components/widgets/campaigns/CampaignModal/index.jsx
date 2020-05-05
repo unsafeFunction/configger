@@ -18,11 +18,9 @@ const CampaignModal = ({ onChange, onSelectChange, onSwitchChange }) => {
         <Col className={styles.tabDescription} span={6}>
           <Typography.Text>SMS Campaign</Typography.Text>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-            non elit et magna laoreet lacinia. Praesent aliquet quis ante quis
-            venenatis. Nunc eros mi, sollicitudin tristique nulla ut, malesuada
-            pharetra leo. in faucibus quam urna eget mi. Morbi et aliquam
-            mauris, nec lacinia turpis.
+            Send bulk messages to your contacts. You can include custom
+            (branded) tracking URL to your webpage and receive customer’s
+            replies if needed.
           </p>
         </Col>
         <Col className={styles.campaignInputs} span={18}>
@@ -90,8 +88,8 @@ const CampaignModal = ({ onChange, onSelectChange, onSwitchChange }) => {
                     onSelectChange(value, { name: 'deepLinkDomain' })
                   }
                 >
-                  <Select.Option value="https://oa-sms-offers-dev.herokuapp.com/o">
-                    https://oa-sms-offers-dev.herokuapp.com/o
+                  <Select.Option value="https://sms-offer.com/o">
+                    https://sms-offer.com/o
                   </Select.Option>
                 </Select>
               </Col>

@@ -1,10 +1,11 @@
-import { combineReducers } from 'redux'
-import { connectRouter } from 'connected-react-router'
-import user from './user/reducers'
-import menu from './menu/reducers'
-import settings from './settings/reducers'
-import campaigns from './campaigns/reducers'
-import modal from './modal/reducers'
+import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
+import user from './user/reducers';
+import menu from './menu/reducers';
+import settings from './settings/reducers';
+import campaigns from './campaigns/reducers';
+import recipients from './recipients/reducers';
+import modal from './modal/reducers';
 
 export default history =>
   combineReducers({
@@ -14,4 +15,5 @@ export default history =>
     settings,
     campaigns,
     modal,
-  })
+    recipients,
+  });

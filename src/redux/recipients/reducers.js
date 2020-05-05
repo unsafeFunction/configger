@@ -1,69 +1,65 @@
-import { combineReducers } from 'redux'
-import single from 'redux/factories/single'
-import actions from './actions'
-
-const data = []
-// eslint-disable-next-line no-plusplus
-for (let i = 0; i < 5; i++) {
-  data.push({
-    id: i,
-    key: `SMS 20SF | FEMALE | ${i} - ${i + 1}`,
-    name: 'name',
-    status: 'status',
-    delivered: `${i} %`,
-    clicks: `${i} %`,
-    edited: `${i} minutes ago`,
-    actions: 'Delete',
-  })
-}
+import { combineReducers } from 'redux';
+import single from 'redux/factories/single';
+import actions from './actions';
 
 const initialState = {
-  items: data,
+  items: [],
   error: null,
   isLoading: false,
-}
+};
 
 const recipientsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.LOAD_CAMPAIGN_REQUEST:
+    case actions.LOAD_RECIPIENTS_REQUEST:
       return {
         ...state,
         isLoading: false,
-      }
-    case actions.LOAD_CAMPAIGN_SUCCESS:
+      };
+    case actions.LOAD_RECIPIENTS_SUCCESS:
+      return {
+        ...state,
+        items: action.payload.data.map(recipient => {
+          return {
+            ...recipient,
+            actions: null,
+          };
+        }),
+        isLoading: true,
+      };
+    case actions.LOAD_RECIPIENTS_FAILURE:
       return {
         ...state,
         isLoading: true,
-      }
-    case actions.CREATE_CAMPAIGN_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case actions.CREATE_CAMPAIGN_SUCCESS:
+      };
+    case actions.CREATE_RECIPIENT_SUCCESS:
       return Object.assign({}, state, {
         items: [...state.items, action.payload],
         isLoading: false,
-      })
-    case actions.CREATE_CAMPAIGN_FAILURE: {
+      });
+    case actions.CREATE_RECIPIENT_FAILURE: {
       return {
         isLoading: false,
         error: action.payload,
-      }
+      };
     }
     default:
-      return state
+      return state;
   }
-}
+};
 
 const initialSingleCampaign = {
-  title: '',
-  key: '',
-  body: '',
-  destination: '',
-  deeplink: '',
+  username: '',
+  deliveryTime: '',
+  toNumber: '',
+  smsBody: '',
+  clickedAt: '',
+  shortId: '',
+  deliveredAt: '',
+  customer: {},
+  campaign: {},
+  deliveryStatus: '',
   error: null,
-}
+};
 
 export default combineReducers({
   all: recipientsReducer,
@@ -71,11 +67,13 @@ export default combineReducers({
     types: [],
   })((state = initialSingleCampaign, action = {}) => {
     switch (action.type) {
-      case actions.ON_CAMPAIGN_DATA_CHANGE:
-        return Object.assign({}, state, { [action.payload.name]: action.payload.value })
+      case actions.ON_RECIPIENT_DATA_CHANGE:
+        return Object.assign({}, state, {
+          [action.payload.name]: action.payload.value,
+        });
       default: {
-        return state
+        return state;
       }
     }
   }),
-})
+});

@@ -24,7 +24,10 @@ export const deleteCampaign = async id => {
 
 export const createCampaign = async payload => {
   try {
-    const campaign = await axiosClient.post(`/campaigns`, payload);
+    const campaign = await axiosClient.post(`/campaigns`, {
+      ...payload,
+      originalLink: `https://${payload.originalLink}`,
+    });
 
     return campaign;
   } catch (error) {
