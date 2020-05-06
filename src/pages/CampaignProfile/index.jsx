@@ -33,6 +33,8 @@ const getStatus = status => {
       return <Tag color="#6c757d">{status}</Tag>;
     case 'FAILED':
       return <Tag color="#dc3545">{status}</Tag>;
+    case 'DELIVERED':
+      return <Tag color="#28a745">{status}</Tag>;
     default:
       return <Tag color="#fd7e14">{status}</Tag>;
   }
@@ -277,7 +279,7 @@ const CampaignProfile = () => {
       dataIndex: 'deliveryTime',
     },
     {
-      title: 'Updated at',
+      title: 'Edited',
       dataIndex: 'updatedAt',
     },
     {

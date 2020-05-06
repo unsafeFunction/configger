@@ -24,6 +24,8 @@ const Campaigns = () => {
         return <Tag color="#1B55e3">{status}</Tag>;
       case 'DRAFT':
         return <Tag color="#6c757d">{status}</Tag>;
+      case 'DELIVERED':
+        return <Tag color="#28a745">{status}</Tag>;
       case 'FAILED':
         return <Tag color="#dc3545">{status}</Tag>;
       default:
@@ -111,10 +113,10 @@ const Campaigns = () => {
       },
     },
     {
-      title: 'Delivered',
+      title: 'Delivered %',
       dataIndex: 'delivered',
       render: value => {
-        return value || '-';
+        return `${value}%` || '-';
       },
     },
     {
@@ -126,7 +128,7 @@ const Campaigns = () => {
     },
     {
       title: 'Edited',
-      dataIndex: 'edited',
+      dataIndex: 'updatedAt',
       render: value => {
         return value || '-';
       },

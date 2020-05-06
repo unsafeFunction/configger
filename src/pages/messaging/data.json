@@ -1,26 +1,23 @@
 [
   {
-    "name": "Client 1",
+    "name": "Inez Green",
     "avatar": "resources/images/avatars/avatar.png",
-    "unread": 1,
-    "position": "+1 415 993 8030",
+    "position": "+17739669999",
     "dialog": [
       {
         "owner": "you",
         "time": "5 min ago",
-        "content": " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
-      },
-      {
-        "owner": "hellen",
-        "time": "5 min ago",
-        "content": " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        "content": "Hi Inez Green! Check out our promo offer https://sms-offer.com/s/glds When does the offer expire?"
       }
     ]
   },
   {
-    "name": "Client 2",
+    "name": "Jessica Jones",
     "avatar": "resources/images/avatars/avatar.png",
-    "position": "+1 415 993 8030",
-    "dialog": []
+    "position": "+17739662111",
+    "dialog": [{
+      "content": "Hi Jessica Jones! Check out our promo offer https://sms-offer.com/s/asdf Is this for new users only?",
+      "owner": "you"
+      }]
   }
 ]

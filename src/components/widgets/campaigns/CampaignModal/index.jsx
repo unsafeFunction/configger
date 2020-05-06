@@ -79,10 +79,10 @@ const CampaignModal = ({ onChange, onSelectChange, onSwitchChange }) => {
                 )}
                 span={11}
               >
-                <span>Deeplink custom domain</span>
+                <span>Tracking domain</span>
                 <Select
                   name="deepLinkDomain"
-                  placeholder="Deeplink domain"
+                  placeholder="Tracking domain"
                   style={{ width: '100%' }}
                   onChange={value =>
                     onSelectChange(value, { name: 'deepLinkDomain' })

@@ -58,7 +58,7 @@ const CampaignBreadcrumbsButtons = () => {
               onClick={startCampaign}
               type="primary"
             >
-              {campaign.status !== 'DRAFT' ? 'Sended' : 'Send'}
+              {campaign.status !== 'DRAFT' ? 'Sent' : 'Send'}
             </Button>
           )}
         </Col>

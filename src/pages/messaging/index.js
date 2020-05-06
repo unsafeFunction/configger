@@ -1,25 +1,25 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import { Input, Icon, Button } from 'antd'
-import { Scrollbars } from 'react-custom-scrollbars'
-import dialogs from './data.json'
-import style from './style.module.scss'
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { Input, Icon, Button } from 'antd';
+import { Scrollbars } from 'react-custom-scrollbars';
+import dialogs from './data.json';
+import style from './style.module.scss';
 
 class AppsMessaging extends React.Component {
   state = {
     activeIndex: 0,
-  }
+  };
 
   changeDialog = (e, index) => {
-    e.preventDefault()
+    e.preventDefault();
     this.setState({
       activeIndex: index,
-    })
-  }
+    });
+  };
 
   render() {
-    const { activeIndex } = this.state
-    const { name, position, dialog, avatar } = dialogs[activeIndex]
+    const { activeIndex } = this.state;
+    const { name, position, dialog, avatar } = dialogs[activeIndex];
     return (
       <div>
         <Helmet title="Apps: Messaging" />
@@ -30,7 +30,9 @@ class AppsMessaging extends React.Component {
           <div className="col-12 col-md-4">
             <div className="mb-4">
               <Input
-                prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                prefix={
+                  <Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />
+                }
                 placeholder="Search users..."
               />
             </div>
@@ -85,10 +87,11 @@ class AppsMessaging extends React.Component {
               <div className="card-header card-header-flex align-items-center">
                 <div className="d-flex flex-column justify-content-center mr-auto">
                   <h5 className="mb-0 mr-2 font-size-18">
-                    {name} <span className="font-size-14 text-gray-6">
-({position}
-)
-</span>
+                    {name}{' '}
+                    <span className="font-size-14 text-gray-6">
+                      (
+{position})
+                    </span>
                   </h5>
                 </div>
                 <div>
@@ -123,12 +126,14 @@ class AppsMessaging extends React.Component {
                         >
                           <div className={style.messageContent}>
                             <div className="text-gray-4 font-size-12 text-uppercase">
-                              {message.owner},
-{message.time}
+                              {message.owner}
+,{message.time}
                             </div>
                             <div>{message.content}</div>
                           </div>
-                          <div className={`${style.messageAvatar} air__utils__avatar`}>
+                          <div
+                            className={`${style.messageAvatar} air__utils__avatar`}
+                          >
                             <img
                               src={`${
                                 message.owner !== 'you'
@@ -143,12 +148,13 @@ class AppsMessaging extends React.Component {
                     </div>
                   </Scrollbars>
                 </div>
-                <div className="pt-2 pb-2">{name}
-{' '}
-is typing...
-</div>
+                <div className="pt-2 pb-2" />
                 <div className="input-group mb-3">
-                  <input type="text" className="form-control" placeholder="Send message..." />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Send message..."
+                  />
                   <div className="input-group-append">
                     <button className="btn btn-primary" type="button">
                       <i className="fe fe-send align-middle" />
@@ -160,8 +166,8 @@ is typing...
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default AppsMessaging
+export default AppsMessaging;
