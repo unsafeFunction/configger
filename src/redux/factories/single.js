@@ -14,6 +14,7 @@ export default function single({ types }) {
           };
         case successType:
           return {
+            ...state,
             ...action.payload.data,
             isLoading: true,
           };
