@@ -121,7 +121,7 @@ const Campaigns = () => {
     },
     {
       title: 'Clicks',
-      dataIndex: 'clicks',
+      dataIndex: 'clicked',
       render: value => {
         return value || '-';
       },

@@ -283,7 +283,7 @@ const CampaignProfile = () => {
       dataIndex: 'updatedAt',
     },
     {
-      title: 'Opened at',
+      title: 'Clicked At',
       dataIndex: 'clickedAt',
     },
     {
