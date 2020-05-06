@@ -19,17 +19,16 @@ const RecipientModal = ({ onChange, onSelectChange, onPickerChange }) => {
         <Col className={styles.tabDescription} span={6}>
           <Typography.Text>Recipient</Typography.Text>
           <p>
-            Send bulk messages to your contacts. You can include custom
-            (branded) tracking URL to your webpage and receive customer’s
-            replies if needed.
+            Add recipient’s phone number and define custom SMS text and delivery
+            time if needed
           </p>
         </Col>
         <Col className={styles.campaignInputs} span={18}>
           <Row>
             <Col className={styles.input_wrap} span={24}>
-              <span>Username</span>
+              <span>Recipient name(optional)</span>
               <Input
-                placeholder="Username"
+                placeholder="Recipient name"
                 required
                 name="username"
                 value={recipient.username}
@@ -43,20 +42,18 @@ const RecipientModal = ({ onChange, onSelectChange, onPickerChange }) => {
               span={10}
             >
               <span>To number</span>
-              <Select
-                onChange={value => onSelectChange(value, { name: 'toNumber' })}
+              <Input
+                onChange={onChange}
                 name="toNumber"
                 placeholder="e.g 1 415 993 8030"
                 value={recipient.toNumber}
-              >
-                <Select.Option value="+17739662558">+17739662558</Select.Option>
-              </Select>
+              />
             </Col>
             <Col
               className={classNames(styles.input_wrap, styles.input__deeplink)}
               span={14}
             >
-              <span>Delivery Time</span>
+              <span>Delivery time(optional)</span>
               <DatePicker
                 name="deliveryTime"
                 format="YYYY-MM-DD HH:mm:ss"
@@ -69,7 +66,7 @@ const RecipientModal = ({ onChange, onSelectChange, onPickerChange }) => {
           <Row />
           <Row>
             <Col span={24} className={styles.input_wrap}>
-              <span>{`SMS default body | Variables #{username} #{link}`}</span>
+              <span>{`SMS custom body | Variables #{username} #{link} (optional)`}</span>
               <TextArea
                 placeholder="e.g. Hi #{username}. Get 20% off on next reading #{link}"
                 rows={5}

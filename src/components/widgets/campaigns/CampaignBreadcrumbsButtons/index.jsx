@@ -31,9 +31,9 @@ const CampaignBreadcrumbsButtons = () => {
 
   return (
     <Row className={styles.campaign_buttons}>
-      <div className={styles.buttons__progress}>
+      {/* <div className={styles.buttons__progress}>
         <Progress percent={30} size="small" />
-      </div>
+      </div> */}
       <Space>
         <Col>
           {!campaign.isLoading ? (

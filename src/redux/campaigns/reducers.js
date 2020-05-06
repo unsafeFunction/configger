@@ -59,7 +59,7 @@ const campaignsReducer = (state = initialState, action) => {
       };
     case actions.CREATE_CAMPAIGN_FAILURE: {
       return {
-        isLoading: false,
+        isLoading: true,
         error: action.payload,
       };
     }
@@ -94,6 +94,11 @@ export default combineReducers({
     ],
   })((state = initialSingleCampaign, action = {}) => {
     switch (action.type) {
+      // case 'modal/HIDE_MODAL': {
+      //   return {
+      //     ...initialState,
+      //   };
+      // }
       case actions.START_CAMPAIGN_REQUEST:
         return {
           ...state,

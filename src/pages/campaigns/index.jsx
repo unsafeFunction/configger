@@ -22,8 +22,12 @@ const Campaigns = () => {
         return <Tag color="#32CD32">{status}</Tag>;
       case 'SCHEDULED':
         return <Tag color="#1B55e3">{status}</Tag>;
+      case 'DRAFT':
+        return <Tag color="#6c757d">{status}</Tag>;
+      case 'FAILED':
+        return <Tag color="#dc3545">{status}</Tag>;
       default:
-        return null;
+        return <Tag color="#fd7e14">{status}</Tag>;
     }
   };
 

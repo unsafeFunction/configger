@@ -100,6 +100,11 @@ export default combineReducers({
     ],
   })((state = initialSingleCampaign, action = {}) => {
     switch (action.type) {
+      case 'modal/HIDE_MODAL': {
+        return {
+          ...initialState,
+        };
+      }
       case actions.ON_RECIPIENT_DATA_CHANGE:
         return Object.assign({}, state, {
           [action.payload.name]: action.payload.value,

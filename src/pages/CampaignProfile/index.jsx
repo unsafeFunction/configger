@@ -18,6 +18,7 @@ import modalActions from 'redux/modal/actions';
 import actions from 'redux/recipients/actions';
 import campaignAction from 'redux/campaigns/actions';
 import { get } from 'lodash';
+import { moment } from 'moment';
 import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
@@ -30,9 +31,10 @@ const getStatus = status => {
       return <Tag color="#1B55e3">{status}</Tag>;
     case 'DRAFT':
       return <Tag color="#6c757d">{status}</Tag>;
-
+    case 'FAILED':
+      return <Tag color="#dc3545">{status}</Tag>;
     default:
-      return null;
+      return <Tag color="#fd7e14">{status}</Tag>;
   }
 };
 
@@ -144,7 +146,7 @@ const CampaignProfile = () => {
       type: modalActions.SHOW_MODAL,
       modalType: 'CONFIRM_MODAL',
       modalProps: {
-        title: 'Create recipient',
+        title: 'Add recipient',
         confirmAction: () => {},
         onCancel: () => {},
         onOk: createRecipient,
@@ -183,7 +185,7 @@ const CampaignProfile = () => {
         type: modalActions.SHOW_MODAL,
         modalType: 'CONFIRM_MODAL',
         modalProps: {
-          title: 'Create recipient',
+          title: 'Add recipient',
           confirmAction: () => {},
           onCancel: () => {},
           onOk: updateRecipient,
@@ -227,14 +229,14 @@ const CampaignProfile = () => {
       dataIndex: 'shortId',
     },
     {
-      title: 'From Number',
+      title: 'From number',
       dataIndex: 'fromNumber',
       render: (value, recipient) => {
         return recipient.campaign.fromNumber;
       },
     },
     {
-      title: 'Username',
+      title: 'Name',
       dataIndex: 'username',
     },
     {
@@ -249,11 +251,7 @@ const CampaignProfile = () => {
       },
     },
     {
-      title: 'Deliver at',
-      dataIndex: 'deliveryTime',
-    },
-    {
-      title: 'Custom SMS Body',
+      title: 'SMS body',
       dataIndex: 'smsBody',
     },
     {
@@ -269,22 +267,25 @@ const CampaignProfile = () => {
       render: () => {
         return (
           <Link to="/conversations">
-            <span className="mr-1">2</span>
             <MessageOutlined />
           </Link>
         );
       },
     },
     {
+      title: 'Deliver at',
+      dataIndex: 'deliveryTime',
+    },
+    {
       title: 'Updated at',
       dataIndex: 'updatedAt',
     },
     {
-      title: 'Opened At',
+      title: 'Opened at',
       dataIndex: 'clickedAt',
     },
     {
-      title: 'actions',
+      title: 'Actions',
       dataIndex: 'actions',
       render: (value, recipient) => {
         return (
@@ -318,7 +319,7 @@ const CampaignProfile = () => {
               <a className="font-weight-bold mr-2" href="javascript: void(0);">
                 {`${singleCampaign.id.split('-')[0]} | FEMALE | 35 - 40 |`}
               </a>
-              <a className="font-weight-bold mr-2">From number</a>
+              <a className="font-weight-bold mr-2">{`From number: ${singleCampaign?.fromNumber}`}</a>
               <a className="font-weight-bold mr-2">
                 {`[${
                   get(singleCampaign, 'conversationEnabled', false)

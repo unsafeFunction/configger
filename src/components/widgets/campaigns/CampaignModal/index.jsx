@@ -88,8 +88,8 @@ const CampaignModal = ({ onChange, onSelectChange, onSwitchChange }) => {
                     onSelectChange(value, { name: 'deepLinkDomain' })
                   }
                 >
-                  <Select.Option value="https://sms-offer.com/o">
-                    https://sms-offer.com/o
+                  <Select.Option value="https://sms-offer.com/s">
+                    https://sms-offer.com/s
                   </Select.Option>
                 </Select>
               </Col>
