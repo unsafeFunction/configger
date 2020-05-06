@@ -1,7 +1,8 @@
 import { all, takeEvery, put, call, select } from 'redux-saga/effects';
 import {
   loadRecipients,
-  //   deleteCampaign,
+  updateRecipient,
+  getSingleRecipient,
   createRecipient,
 } from 'services/recipients';
 import { notification } from 'antd';
@@ -24,37 +25,62 @@ export function* callLoadRecipients({ payload }) {
   }
 }
 
-// export function* callRemoveRecipient({ payload }) {
-//   try {
-//     const response = yield call(deleteCampaign, payload.id);
+export function* callGetRecipient({ payload }) {
+  try {
+    const response = yield call(getSingleRecipient, payload.id);
 
-//     yield put({
-//       type: actions.REMOVE_CAMPAIGN_SUCCESS,
-//       payload: {
-//         ...response,
-//         id: payload.id,
-//       },
-//     });
-//     yield call(notification.success, 'Success');
-//   } catch (error) {
-//     notification.error({});
-//   }
-// }
+    yield put({
+      type: actions.GET_RECIPIENT_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
 
 export function* callCreateRecipient({ payload }) {
   try {
     const data = yield select(getRecipient);
-    console.log(data);
+
     const response = yield call(createRecipient, {
       ...data,
       campaignId: payload.campaignId,
     });
-    console.log(response);
+
     yield put({
-      type: actions.CREATE_CAMPAIGN_SUCCESS,
-      payload: response,
+      type: actions.CREATE_RECIPIENT_SUCCESS,
+      payload: {
+        data: response.data,
+      },
     });
-    yield call(notification.success, 'Successfully create campaign');
+    notification.success({
+      message: 'Successfully create campaign',
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
+export function* callUpdateRecipient() {
+  try {
+    const data = yield select(getRecipient);
+
+    const response = yield call(updateRecipient, {
+      ...data,
+      id: data.id,
+    });
+
+    yield put({
+      type: actions.PUT_RECIPIENT_SUCCESS,
+      payload: {
+        ...response.data,
+      },
+    });
+    notification.success({
+      message: 'Successfully update campaign',
+    });
   } catch (error) {
     notification.error(error);
   }
@@ -63,7 +89,8 @@ export function* callCreateRecipient({ payload }) {
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.LOAD_RECIPIENTS_REQUEST, callLoadRecipients),
-    // takeEvery(actions.REMOVE_RECIPIENT_REQUEST, callRemoveRecipient),
+    takeEvery(actions.PUT_RECIPIENT_REQUEST, callUpdateRecipient),
     takeEvery(actions.CREATE_RECIPIENT_REQUEST, callCreateRecipient),
+    takeEvery(actions.GET_RECIPIENT_REQUEST, callGetRecipient),
   ]);
 }

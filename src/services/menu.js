@@ -37,7 +37,6 @@ export default async function getMenuData() {
       title: 'Conversations',
       key: 'conversation',
       url: '/conversations',
-      count: 2,
       icon: 'fe fe-user',
     },
     {
@@ -46,5 +45,5 @@ export default async function getMenuData() {
       icon: 'fe fe-settings',
       url: '/settings',
     },
-  ]
+  ];
 }

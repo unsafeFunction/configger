@@ -4,6 +4,8 @@ import {
   deleteCampaign,
   createCampaign,
   startCampaign,
+  getSingleCampaign,
+  getStatistics,
 } from 'services/campaign';
 import { notification } from 'antd';
 import { getCampaign } from './selectors';
@@ -18,6 +20,21 @@ export function* callLoadCampaigns({ payload }) {
       payload: {
         data: response.data,
         total: response.headers['x-total-count'],
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
+export function* callLoadStatistics({ payload }) {
+  try {
+    const response = yield call(getStatistics, payload.campaignId);
+
+    yield put({
+      type: actions.GET_CAMPAIGN_STATISTICS_SUCCESS,
+      payload: {
+        ...response.data,
       },
     });
   } catch (error) {
@@ -51,7 +68,10 @@ export function* callCreateCampaign() {
       type: actions.CREATE_CAMPAIGN_SUCCESS,
       payload: response,
     });
-    yield call(notification.success, 'Successfully create campaign');
+    notification.success({
+      message: 'Create campaign',
+      description: 'You have successfully created campaign!',
+    });
   } catch (error) {
     notification.error(error);
   }
@@ -60,7 +80,7 @@ export function* callCreateCampaign() {
 export function* callStartCampaign() {
   try {
     const { id, startDateTime } = yield select(getCampaign);
-    console.log(id);
+
     const response = yield call(startCampaign, {
       id,
       startDateTime,
@@ -69,7 +89,25 @@ export function* callStartCampaign() {
       type: actions.START_CAMPAIGN_SUCCESS,
       payload: response,
     });
-    yield call(notification.success, 'Successfully create campaign');
+    notification.success({
+      message: 'Start campaign',
+      description: 'You have successfully started campaign!',
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
+export function* callGetCampaign({ payload }) {
+  try {
+    const response = yield call(getSingleCampaign, payload.id);
+
+    yield put({
+      type: actions.GET_CAMPAIGN_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
   } catch (error) {
     notification.error(error);
   }
@@ -81,5 +119,7 @@ export default function* rootSaga() {
     takeEvery(actions.REMOVE_CAMPAIGN_REQUEST, callRemoveCampaign),
     takeEvery(actions.CREATE_CAMPAIGN_REQUEST, callCreateCampaign),
     takeEvery(actions.START_CAMPAIGN_REQUEST, callStartCampaign),
+    takeEvery(actions.GET_CAMPAIGN_REQUEST, callGetCampaign),
+    takeEvery(actions.GET_CAMPAIGN_STATISTICS_REQUEST, callLoadStatistics),
   ]);
 }

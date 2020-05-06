@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 class General2v3 extends React.Component {
   render() {
@@ -8,10 +8,10 @@ class General2v3 extends React.Component {
           <p className="text-uppercase font-weight-bold mb-1">Conversation</p>
           <p className="mb-0">Active conversation</p>
         </div>
-        <p className="font-weight-bold font-size-24 mb-0">10</p>
+        <p className="font-weight-bold font-size-24 mb-0">0</p>
       </div>
-    )
+    );
   }
 }
 
-export default General2v3
+export default General2v3;

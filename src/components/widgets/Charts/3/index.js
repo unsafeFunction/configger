@@ -1,6 +1,6 @@
-import React from 'react'
-import ChartistGraph from 'react-chartist'
-import data from './data.json'
+import React from 'react';
+import ChartistGraph from 'react-chartist';
+import data from './data.json';
 
 const options = {
   fullWidth: true,
@@ -20,7 +20,7 @@ const options = {
     showGrid: false,
   },
   seriesBarDistance: 15,
-}
+};
 
 const listener = {
   draw: item => {
@@ -32,41 +32,60 @@ const listener = {
         y2: 0,
         stroke: '#e4e9f0',
         'stroke-width': '10',
-      })
+      });
     }
   },
-}
+};
 
-class Chart3 extends React.Component {
-  render() {
-    return (
-      <div>
-        <ChartistGraph
-          className="height-200"
-          data={data}
-          options={options}
-          type="Bar"
-          listener={listener}
-        />
-        <div className="d-flex flex-wrap">
-          <div className="mr-5 mb-2">
-            <div className="text-nowrap text-uppercase text-gray-4">
-              <div className="air__utils__donut air__utils__donut--success" />
-              Clicks
-            </div>
-            <div className="font-weight-bold font-size-18 text-dark">3570</div>
+const Chart3 = ({ statistics }) => {
+  return (
+    <>
+      <ChartistGraph
+        className="height-200"
+        data={data}
+        options={options}
+        type="Bar"
+        listener={listener}
+      />
+      <div className="d-flex flex-wrap">
+        <div className="mr-5 mb-2">
+          <div className="text-nowrap text-uppercase text-gray-4">
+            <div className="air__utils__donut air__utils__donut--success" />
+            Clicks
           </div>
-          <div className="mr-5 mb-2">
-            <div className="text-nowrap text-uppercase text-gray-4">
-              <div className="air__utils__donut air__utils__donut--primary" />
-              Deliveries
-            </div>
-            <div className="font-weight-bold font-size-18 text-dark">9900</div>
+          <div className="font-weight-bold font-size-18 text-dark">
+            {statistics?.clicked ?? '0'}
+          </div>
+        </div>
+        <div className="mr-5 mb-2">
+          <div className="text-nowrap text-uppercase text-gray-4">
+            <div className="air__utils__donut air__utils__donut--primary" />
+            Deliveries
+          </div>
+          <div className="font-weight-bold font-size-18 text-dark">
+            {statistics?.delivered ?? '0'}
+          </div>
+        </div>
+        <div className="mr-5 mb-2">
+          <div className="text-nowrap text-uppercase text-gray-4">
+            <div className="air__utils__donut air__utils__donut--teal" />
+            Failed
+          </div>
+          <div className="font-weight-bold font-size-18 text-dark">
+            {statistics?.failed ?? '0'}
+          </div>
+        </div>
+        <div className="mr-5 mb-2">
+          <div className="text-nowrap text-uppercase text-gray-4">
+            <div className="air__utils__donut air__utils__donut--secondary" />
+            Pending
+          </div>
+          <div className="font-weight-bold font-size-18 text-dark">
+            {statistics?.pending ?? '-'}
           </div>
         </div>
       </div>
-    )
-  }
-}
-
-export default Chart3
+    </>
+  );
+};
+export default Chart3;

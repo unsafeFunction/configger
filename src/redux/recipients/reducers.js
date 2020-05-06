@@ -13,7 +13,7 @@ const recipientsReducer = (state = initialState, action) => {
     case actions.LOAD_RECIPIENTS_REQUEST:
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       };
     case actions.LOAD_RECIPIENTS_SUCCESS:
       return {
@@ -24,16 +24,45 @@ const recipientsReducer = (state = initialState, action) => {
             actions: null,
           };
         }),
-        isLoading: true,
+        isLoading: false,
       };
     case actions.LOAD_RECIPIENTS_FAILURE:
       return {
         ...state,
         isLoading: true,
       };
+    case actions.PUT_RECIPIENT_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case actions.PUT_RECIPIENT_SUCCESS: {
+      return {
+        ...state,
+        // items: state.items.find((recipient, index, array) => {
+        //   if (recipient.id === action.payload.id) {
+        //     state.items[index] = action.payload;
+        //     console.log(array);
+        //     return array;
+        //   }
+        // }),
+        items: state.items.map(recipient => {
+          if (recipient.id === action.payload.id) {
+            return action.payload;
+          }
+          return recipient;
+        }),
+        isLoading: false,
+      };
+    }
+    case actions.PUT_RECIPIENT_FAILURE:
+      return {
+        ...state,
+        isLoading: true,
+      };
     case actions.CREATE_RECIPIENT_SUCCESS:
       return Object.assign({}, state, {
-        items: [...state.items, action.payload],
+        items: [...state.items, action.payload.data],
         isLoading: false,
       });
     case actions.CREATE_RECIPIENT_FAILURE: {
@@ -64,7 +93,11 @@ const initialSingleCampaign = {
 export default combineReducers({
   all: recipientsReducer,
   singleRecipient: single({
-    types: [],
+    types: [
+      actions.GET_RECIPIENT_REQUEST,
+      actions.GET_RECIPIENT_SUCCESS,
+      actions.GET_RECIPIENT_FAILURE,
+    ],
   })((state = initialSingleCampaign, action = {}) => {
     switch (action.type) {
       case actions.ON_RECIPIENT_DATA_CHANGE:

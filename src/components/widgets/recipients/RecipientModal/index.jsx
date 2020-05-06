@@ -11,6 +11,8 @@ import styles from './styles.module.scss';
 const { TextArea } = Input;
 
 const RecipientModal = ({ onChange, onSelectChange, onPickerChange }) => {
+  const recipient = useSelector(state => state.recipients.singleRecipient);
+
   return (
     <>
       <Row>
@@ -30,6 +32,7 @@ const RecipientModal = ({ onChange, onSelectChange, onPickerChange }) => {
                 placeholder="Username"
                 required
                 name="username"
+                value={recipient.username}
                 onChange={onChange}
               />
             </Col>
@@ -39,15 +42,14 @@ const RecipientModal = ({ onChange, onSelectChange, onPickerChange }) => {
               className={classNames(styles.input_wrap, styles.input__deeplink)}
               span={10}
             >
-              <span>From number</span>
+              <span>To number</span>
               <Select
-                onChange={value =>
-                  onSelectChange(value, { name: 'fromNumber' })
-                }
-                name="fromNumber"
+                onChange={value => onSelectChange(value, { name: 'toNumber' })}
+                name="toNumber"
                 placeholder="e.g 1 415 993 8030"
+                value={recipient.toNumber}
               >
-                <Select.Option value="17739662558">17739662558</Select.Option>
+                <Select.Option value="+17739662558">+17739662558</Select.Option>
               </Select>
             </Col>
             <Col
@@ -59,6 +61,7 @@ const RecipientModal = ({ onChange, onSelectChange, onPickerChange }) => {
                 name="deliveryTime"
                 format="YYYY-MM-DD HH:mm:ss"
                 onChange={onPickerChange}
+                value={recipient.deliveryTime && moment(recipient.deliveryTime)}
                 showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
               />
             </Col>
@@ -70,6 +73,7 @@ const RecipientModal = ({ onChange, onSelectChange, onPickerChange }) => {
               <TextArea
                 placeholder="e.g. Hi #{username}. Get 20% off on next reading #{link}"
                 rows={5}
+                value={recipient.smsBody}
                 name="smsBody"
                 onChange={onChange}
               />
@@ -84,7 +88,7 @@ const RecipientModal = ({ onChange, onSelectChange, onPickerChange }) => {
 RecipientModal.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSelectChange: PropTypes.func.isRequired,
-  onSwitchChange: PropTypes.func.isRequired,
+  onPickerChange: PropTypes.func.isRequired,
 };
 
 export default RecipientModal;

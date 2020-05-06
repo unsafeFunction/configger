@@ -63,8 +63,17 @@ const Campaigns = () => {
     {
       title: 'Id',
       dataIndex: 'id',
-      render: value => {
-        return value || '-';
+      render: (value, campaign) => {
+        return (
+          <Link
+            onClick={() => {
+              setCampaignId(campaign.id);
+            }}
+            to={`/campaigns/${campaign.id}`}
+          >
+            {`${value.split('-')[0] || '-'}`}
+          </Link>
+        );
       },
     },
     {
@@ -125,6 +134,7 @@ const Campaigns = () => {
         return (
           <Button
             type="danger"
+            ghost
             icon={<DeleteOutlined />}
             onClick={() =>
               dispatchCampaignData({

@@ -80,12 +80,18 @@ const initialSingleCampaign = {
   conversationEnabled: false,
   startDateTime: '',
   error: null,
+  isLoading: false,
+  statistics: {},
 };
 
 export default combineReducers({
   all: campaignsReducer,
   singleCampaign: single({
-    types: [],
+    types: [
+      actions.GET_CAMPAIGN_REQUEST,
+      actions.GET_CAMPAIGN_SUCCESS,
+      actions.GET_CAMPAIGN_FAILURE,
+    ],
   })((state = initialSingleCampaign, action = {}) => {
     switch (action.type) {
       case actions.START_CAMPAIGN_REQUEST:
@@ -97,8 +103,25 @@ export default combineReducers({
         return {
           ...state,
           isLoading: true,
+          status: action.payload.data.status,
         };
       case actions.START_CAMPAIGN_FAILURE:
+        return {
+          ...state,
+          isLoading: true,
+        };
+      case actions.GET_CAMPAIGN_STATISTICS_REQUEST:
+        return {
+          ...state,
+          isLoading: false,
+        };
+      case actions.GET_CAMPAIGN_STATISTICS_SUCCESS:
+        return {
+          ...state,
+          isLoading: true,
+          statistics: action.payload,
+        };
+      case actions.GET_CAMPAIGN_STATISTICS_FAILURE:
         return {
           ...state,
           isLoading: true,

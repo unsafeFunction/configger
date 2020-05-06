@@ -1,11 +1,12 @@
-import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Row, Col, Button, Space, Progress, DatePicker } from 'antd';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Row, Col, Button, Space, Progress, DatePicker, Skeleton } from 'antd';
 import actions from 'redux/campaigns/actions';
+import moment from 'moment';
 import styles from './styles.module.scss';
 
 const CampaignBreadcrumbsButtons = () => {
-  const [selectedDate, setDate] = useState(null);
+  const campaign = useSelector(state => state.campaigns.singleCampaign);
   const dispatch = useDispatch();
 
   const onDateChange = useCallback(
@@ -35,19 +36,31 @@ const CampaignBreadcrumbsButtons = () => {
       </div>
       <Space>
         <Col>
-          {selectedDate && (
-            <span className={styles.scheduledText}>Schedule at</span>
+          {!campaign.isLoading ? (
+            <Skeleton.Input active />
+          ) : (
+            <DatePicker
+              disabled={campaign.status === 'SCHEDULED'}
+              value={campaign.startDateTime && moment(campaign.startDateTime)}
+              placeholder="Scheduled at"
+              format="YYYY-MM-DD HH:mm:ss"
+              showTime
+              onChange={onDateChange}
+            />
           )}
-          <DatePicker
-            placeholder="Scheduled at"
-            showTime
-            onChange={onDateChange}
-          />
         </Col>
         <Col>
-          <Button onClick={startCampaign} type="primary">
-            Send
-          </Button>
+          {!campaign.isLoading ? (
+            <Skeleton.Button active />
+          ) : (
+            <Button
+              disabled={campaign.status !== 'DRAFT'}
+              onClick={startCampaign}
+              type="primary"
+            >
+              {campaign.status !== 'DRAFT' ? 'Sended' : 'Send'}
+            </Button>
+          )}
         </Col>
       </Space>
     </Row>
