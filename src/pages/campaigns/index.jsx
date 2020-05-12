@@ -116,7 +116,7 @@ const Campaigns = () => {
       title: 'Delivered %',
       dataIndex: 'delivered',
       render: value => {
-        return `${value}%` || '-';
+        return `${value || '0'} %`;
       },
     },
     {

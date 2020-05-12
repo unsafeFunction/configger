@@ -22,3 +22,15 @@ export const loadConversationMessages = async query => {
     return error;
   }
 };
+
+export const sendMessage = async body => {
+  console.log(body);
+  try {
+    const messages = await axiosClient.post(`/conversation-messages`, {
+      ...body,
+    });
+    return messages;
+  } catch (error) {
+    return error;
+  }
+};

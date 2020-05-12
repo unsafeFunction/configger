@@ -1,13 +1,15 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Picker from 'emoji-picker-react';
 import { Helmet } from 'react-helmet';
-import { Input, Icon, Button, Skeleton } from 'antd';
+import { Input, Button, Skeleton } from 'antd';
 import Loader from 'components/layout/Loader';
 import { Scrollbars } from 'react-custom-scrollbars';
 import actions from 'redux/messages/actions';
 import { SmileOutlined } from '@ant-design/icons';
-import dialogs from './data.json';
+import classNames from 'classnames';
+import useOnClickOutside from 'hooks/useClickOutside';
+
 import style from './style.module.scss';
 
 const AppsMessaging = () => {
@@ -17,9 +19,11 @@ const AppsMessaging = () => {
     state => state.messages.singleConversation,
   );
   const [isEmojiOpen, openEmojiPicker] = useState(false);
-  const conversationMessages = conversations.items.find(
-    conversation => conversation.id === singleConversation.id,
-  );
+  const ref = useRef();
+
+  console.log(singleConversation);
+  useOnClickOutside(ref, () => openEmojiPicker());
+
   useEffect(() => {
     dispatch({
       type: actions.LOAD_MESSAGES_REQUEST,
@@ -43,6 +47,32 @@ const AppsMessaging = () => {
           name: 'id',
           value: id,
         },
+      });
+    },
+    [dispatch],
+  );
+
+  const onMessageChange = useCallback(
+    event => {
+      const { name, value } = event.target;
+
+      dispatch({
+        type: actions.SET_MESSAGE_DATA,
+        payload: {
+          name,
+          value,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const sendMessage = useCallback(
+    event => {
+      const { name, value } = event.target;
+
+      dispatch({
+        type: actions.SEND_MESSAGE_REQUEST,
       });
     },
     [dispatch],
@@ -141,15 +171,15 @@ const AppsMessaging = () => {
                       singleConversation.messages.map(message => (
                         <div
                           key={message.id}
-                          className={`${style.message} ${
-                            message.authorType !== 'SYSTEM' ? style.answer : ''
-                          }`}
+                          className={classNames(style.message, {
+                            [style.answer]: message.authorType !== 'AGENT',
+                          })}
                         >
                           <div className={style.messageContent}>
                             <div className="text-gray-4 font-size-12 text-uppercase">
                               {message.authorType === 'CUSTOMER'
                                 ? message.authorName
-                                : 'System'}
+                                : 'Agent'}
                             </div>
                             <div>{message.body}</div>
                           </div>
@@ -174,13 +204,19 @@ const AppsMessaging = () => {
                 </div>
               )}
               <div className="input-group mb-3">
-                <Input.TextArea
+                <Input
+                  onChange={onMessageChange}
                   type="text"
+                  name="body"
                   className="form-control"
                   placeholder="Send message..."
                 />
                 <div className="input-group-append">
-                  <button className="btn btn-primary" type="button">
+                  <button
+                    onClick={sendMessage}
+                    className="btn btn-primary"
+                    type="button"
+                  >
                     <i className="fe fe-send align-middle" />
                   </button>
                 </div>

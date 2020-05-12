@@ -65,6 +65,7 @@ const initialSingleCampaign = {
   isLoading: false,
   messages: [],
   customer: {},
+  body: '',
 };
 
 export default combineReducers({
@@ -92,10 +93,36 @@ export default combineReducers({
         return {
           ...state,
           ...action.payload.conversation,
-          messages: action.payload.data,
+          messages: action.payload.data
+            .map(message => {
+              return {
+                ...message,
+                authorType:
+                  message.authorType === 'SYSTEM'
+                    ? 'AGENT'
+                    : message.authorType,
+              };
+            })
+            .reverse(),
           isLoading: false,
         };
       case actions.LOAD_CONVERSATION_MESSAGES_FAILURE:
+        return {
+          ...state,
+          isLoading: true,
+        };
+      case actions.SEND_MESSAGE_REQUEST:
+        return {
+          ...state,
+          // isLoading: true,
+        };
+      case actions.SEND_MESSAGE_SUCCESS:
+        return {
+          ...state,
+          messages: [...state.messages, action.payload.data],
+          isLoading: false,
+        };
+      case actions.SEND_MESSAGE_FAILURE:
         return {
           ...state,
           isLoading: true,

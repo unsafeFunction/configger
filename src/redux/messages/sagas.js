@@ -1,7 +1,11 @@
 import { all, takeEvery, put, call, select } from 'redux-saga/effects';
-import { loadMessages, loadConversationMessages } from 'services/messages';
+import {
+  loadMessages,
+  loadConversationMessages,
+  sendMessage,
+} from 'services/messages';
 import { notification } from 'antd';
-import { getMessages } from './selectors';
+import { getMessages, getSingleConversation } from './selectors';
 import actions from './actions';
 
 export function* callLoadMessages({ payload }) {
@@ -53,9 +57,34 @@ export function* callLoadConversationMessages({ payload }) {
   }
 }
 
+export function* callSendMessage() {
+  try {
+    const { id, body, twilioNumber, customer } = yield select(
+      getSingleConversation,
+    );
+    console.log(id, body, twilioNumber, customer);
+    const response = yield call(sendMessage, {
+      conversationId: id,
+      body,
+      fromNumber: twilioNumber,
+      toNumber: customer.toNumber,
+    });
+
+    yield put({
+      type: actions.SEND_MESSAGE_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.LOAD_MESSAGES_REQUEST, callLoadMessages),
+    takeEvery(actions.SEND_MESSAGE_REQUEST, callSendMessage),
     takeEvery(
       actions.LOAD_CONVERSATION_MESSAGES_REQUEST,
       callLoadConversationMessages,
