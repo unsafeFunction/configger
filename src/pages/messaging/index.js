@@ -1,8 +1,9 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
+import Picker from 'emoji-picker-react';
 import { Helmet } from 'react-helmet';
-import { Input, Icon, Button } from 'antd';
+import { Input, Icon, Button, Skeleton } from 'antd';
+import Loader from 'components/layout/Loader';
 import { Scrollbars } from 'react-custom-scrollbars';
 import actions from 'redux/messages/actions';
 import { SmileOutlined } from '@ant-design/icons';
@@ -12,9 +13,15 @@ import style from './style.module.scss';
 const AppsMessaging = () => {
   const dispatch = useDispatch();
   const conversations = useSelector(state => state.messages.all);
+  const singleConversation = useSelector(
+    state => state.messages.singleConversation,
+  );
   const { name, position, dialog, avatar } = dialogs[1];
   const [isEmojiOpen, openEmojiPicker] = useState(false);
-
+  const conversationMessages = conversations.items.find(
+    conversation => conversation.id === singleConversation.id,
+  );
+  console.log(conversationMessages);
   useEffect(() => {
     dispatch({
       type: actions.LOAD_MESSAGES_REQUEST,
@@ -32,6 +39,13 @@ const AppsMessaging = () => {
           id,
         },
       });
+      dispatch({
+        type: actions.SET_MESSAGE_DATA,
+        payload: {
+          name: 'id',
+          value: id,
+        },
+      });
     },
     [dispatch],
   );
@@ -43,19 +57,8 @@ const AppsMessaging = () => {
   return (
     <div>
       <Helmet title="Apps: Messaging" />
-      <div className="air__utils__heading">
-        <h5>Conversations</h5>
-      </div>
       <div className="row">
         <div className="col-12 col-md-4">
-          <div className="mb-4">
-            <Input
-              prefix={
-                <Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />
-              }
-              placeholder="Search users..."
-            />
-          </div>
           <div className={style.dialogs}>
             <Scrollbars
               autoHide
@@ -73,6 +76,7 @@ const AppsMessaging = () => {
             >
               {conversations.items.map((item, index) => (
                 <div
+                  role="presentation"
                   onClick={() => onConversationChange(item.id)}
                   key={item.id}
                   className={`${style.item} ${
@@ -86,19 +90,13 @@ const AppsMessaging = () => {
                     />
                   </div>
                   <div className={`${style.info} flex-grow-1`}>
-                    <div className="text-uppercase font-size-12 text-truncate text-gray-6">
-                      {/* {item.position} */}
-                    </div>
                     <div className="text-dark font-size-18 font-weight-bold text-truncate">
                       {item.customer.username}
                     </div>
                   </div>
                   <div
-                    // hidden={!item.unread}
                     className={`${style.unread} flex-shrink-0 align-self-start`}
-                  >
-                    {/* <div className="badge badge-success">{item.unread}</div> */}
-                  </div>
+                  />
                 </div>
               ))}
             </Scrollbars>
@@ -108,12 +106,13 @@ const AppsMessaging = () => {
           <div className="card">
             <div className="card-header card-header-flex align-items-center">
               <div className="d-flex flex-column justify-content-center mr-auto">
-                <h5 className="mb-0 mr-2 font-size-18">
-                  {name}
-                  <span className="font-size-14 text-gray-6">
-                    ({position}){' '}
-                  </span>
-                </h5>
+                {singleConversation.isLoading ? (
+                  <Skeleton.Input active />
+                ) : (
+                  <h5 className="mb-0 mr-2 font-size-18">
+                    {singleConversation.customer.username}
+                  </h5>
+                )}
               </div>
               <div>
                 <Button type="primary" ghost>
@@ -122,7 +121,7 @@ const AppsMessaging = () => {
               </div>
             </div>
             <div className="card-body">
-              <div className="height-700">
+              <div className="height-400">
                 <Scrollbars
                   autoHide
                   renderThumbVertical={({ ...props }) => (
@@ -138,39 +137,48 @@ const AppsMessaging = () => {
                   )}
                 >
                   <div className="d-flex flex-column justify-content-end height-100p">
-                    {dialog.map(message => (
-                      <div
-                        key={Math.random()}
-                        className={`${style.message} ${
-                          message.owner !== 'you' ? style.answer : ''
-                        }`}
-                      >
-                        <div className={style.messageContent}>
-                          <div className="text-gray-4 font-size-12 text-uppercase">
-                            {message.owner},{message.time}
-                          </div>
-                          <div>{message.content}</div>
-                        </div>
+                    {singleConversation.isLoading ? (
+                      <Loader />
+                    ) : (
+                      singleConversation.messages.map(message => (
                         <div
-                          className={`${style.messageAvatar} air__utils__avatar`}
+                          key={message.id}
+                          className={`${style.message} ${
+                            message.authorType !== 'CUSTOMER'
+                              ? style.answer
+                              : ''
+                          }`}
                         >
-                          <img
-                            src={`${
-                              message.owner !== 'you'
-                                ? avatar
-                                : 'resources/images/avatars/avatar-2.png'
-                            }`}
-                            alt={name}
-                          />
+                          <div className={style.messageContent}>
+                            <div className="text-gray-4 font-size-12 text-uppercase">
+                              {message.authorType === 'CUSTOMER'
+                                ? message.authorName
+                                : 'System'}
+                            </div>
+                            <div>{message.body}</div>
+                          </div>
+                          <div
+                            className={`${style.messageAvatar} air__utils__avatar`}
+                          >
+                            <img
+                              src="resources/images/avatars/avatar-2.png"
+                              alt={message.authorName}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))
+                    )}
                   </div>
                 </Scrollbars>
               </div>
               <div className="pt-2 pb-2" />
+              {isEmojiOpen && (
+                <div className={style.pickerWrap}>
+                  <Picker preload />
+                </div>
+              )}
               <div className="input-group mb-3">
-                <input
+                <Input.TextArea
                   type="text"
                   className="form-control"
                   placeholder="Send message..."
@@ -182,9 +190,6 @@ const AppsMessaging = () => {
                 </div>
               </div>
               <SmileOutlined onClick={onOpenEmojiPicker} />
-              {isEmojiOpen && (
-                <Picker preload skinTone={SKIN_TONE_MEDIUM_DARK} />
-              )}
             </div>
           </div>
         </div>

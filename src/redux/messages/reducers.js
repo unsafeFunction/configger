@@ -18,7 +18,12 @@ const conversations = (state = initialState, action) => {
     case actions.LOAD_MESSAGES_SUCCESS:
       return {
         ...state,
-        items: action.payload.data,
+        items: action.payload.data.map(conversation => {
+          return {
+            ...conversation,
+            messages: [],
+          };
+        }),
         isLoading: false,
       };
     case actions.LOAD_MESSAGES_FAILURE:
@@ -34,19 +39,14 @@ const conversations = (state = initialState, action) => {
     case actions.LOAD_CONVERSATION_MESSAGES_SUCCESS:
       return {
         ...state,
-        items: state.items.map(conversation => {
-          console.log(action.payload);
-
-          //   const conversationMessages = action.payload.data.find(messages => {
-          //     return messages.conversationId === conversation.id;
-          //   });
-          //   if (conversationMessages) {
-          //     return {
-          //       ...conversation,
-          //       messages: conversationMessages,
-          //     };
-          //   }
-          //   return conversation;
+        items: state.items.map((conversation, index, array) => {
+          if (conversation.id === action.payload.conversationId) {
+            return {
+              ...conversation,
+              messages: action.payload.data,
+            };
+          }
+          return conversation;
         }),
         isLoading: false,
       };
@@ -62,6 +62,9 @@ const conversations = (state = initialState, action) => {
 
 const initialSingleCampaign = {
   error: null,
+  isLoading: false,
+  messages: [],
+  customer: {},
 };
 
 export default combineReducers({
@@ -74,6 +77,29 @@ export default combineReducers({
     ],
   })((state = initialSingleCampaign, action = {}) => {
     switch (action.type) {
+      case actions.SET_MESSAGE_DATA: {
+        return {
+          ...state,
+          [action.payload.name]: action.payload.value,
+        };
+      }
+      case actions.LOAD_CONVERSATION_MESSAGES_REQUEST:
+        return {
+          ...state,
+          isLoading: true,
+        };
+      case actions.LOAD_CONVERSATION_MESSAGES_SUCCESS:
+        return {
+          ...state,
+          ...action.payload.conversation,
+          messages: action.payload.data,
+          isLoading: false,
+        };
+      case actions.LOAD_CONVERSATION_MESSAGES_FAILURE:
+        return {
+          ...state,
+          isLoading: true,
+        };
       default: {
         return state;
       }
