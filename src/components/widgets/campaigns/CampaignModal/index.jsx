@@ -1,16 +1,49 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import 'emoji-mart/css/emoji-mart.css';
+import { Picker } from 'emoji-mart';
+import { SMSCalculator } from '@fasttrack-solutions/sms-calculator';
+import { SmileOutlined } from '@ant-design/icons';
 import { Input, Row, Col, Select, Typography, Switch } from 'antd';
-
+import actions from 'redux/campaigns/actions';
+import useOnClickOutside from 'hooks/useClickOutside';
 import styles from './styles.module.scss';
 
 const { TextArea } = Input;
 
 const CampaignModal = ({ onChange, onSelectChange, onSwitchChange }) => {
   const singleCampaign = useSelector(state => state.campaigns.singleCampaign);
+  const [smsDescription, setSmsDescription] = useState({});
+  const [isEmojiOpen, openEmojiPicker] = useState(false);
+  const ref = useRef();
+
+  useOnClickOutside(ref, () => openEmojiPicker());
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setSmsDescription(state => ({
+      ...state,
+      ...SMSCalculator.getCount(singleCampaign.smsBody || ''),
+    }));
+  }, [singleCampaign.smsBody]);
+
+  const onOpenEmojiPicker = useCallback(() => {
+    openEmojiPicker(!isEmojiOpen);
+  }, [isEmojiOpen]);
+
+  const onSmileSelect = useCallback(
+    emoji => {
+      dispatch({
+        type: actions.ADD_SMILE_TO_SMS_BODY,
+        payload: emoji.native,
+      });
+    },
+    [dispatch],
+  );
 
   return (
     <>
@@ -111,7 +144,18 @@ const CampaignModal = ({ onChange, onSelectChange, onSwitchChange }) => {
                 rows={5}
                 name="smsBody"
                 onChange={onChange}
+                value={singleCampaign.smsBody}
               />
+              <div className={styles.campaignDescription}>
+                <SmileOutlined size={16} onClick={onOpenEmojiPicker} />
+                {isEmojiOpen && (
+                  <div ref={ref} className={styles.pickerWrap}>
+                    <Picker onSelect={onSmileSelect} title="Select emoji" />
+                  </div>
+                )}
+                {smsDescription &&
+                  `${smsDescription.numberOfSMS}/${smsDescription.remaining} remaining`}
+              </div>
             </Col>
           </Row>
         </Col>

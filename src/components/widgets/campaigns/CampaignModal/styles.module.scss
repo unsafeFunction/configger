@@ -38,3 +38,15 @@
 .campaignInputs {
   padding: 12px;
 }
+
+.campaignDescription {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+.pickerWrap {
+  position: absolute;
+  bottom: 26px;
+  left: -200px;
+}

@@ -74,8 +74,8 @@ const initialSingleCampaign = {
   smsBody: '',
   destination: '',
   fromNumber: '+17739662558',
-  originalLink: 'https://oa-sms-offers-dev.herokuapp.com',
-  deepLinkDomain: 'https://oa-sms-offers-dev.herokuapp.com/o',
+  originalLink: '',
+  deepLinkDomain: ' https://sms-offer.com/s',
   trackingEnabled: false,
   conversationEnabled: false,
   startDateTime: '',
@@ -94,11 +94,11 @@ export default combineReducers({
     ],
   })((state = initialSingleCampaign, action = {}) => {
     switch (action.type) {
-      // case 'modal/HIDE_MODAL': {
-      //   return {
-      //     ...initialState,
-      //   };
-      // }
+      case 'modal/HIDE_MODAL': {
+        return {
+          ...initialState,
+        };
+      }
       case actions.START_CAMPAIGN_REQUEST:
         return {
           ...state,
@@ -134,6 +134,10 @@ export default combineReducers({
       case actions.ON_CAMPAIGN_DATA_CHANGE:
         return Object.assign({}, state, {
           [action.payload.name]: action.payload.value,
+        });
+      case actions.ADD_SMILE_TO_SMS_BODY:
+        return Object.assign({}, state, {
+          smsBody: `${state.smsBody}${action.payload}`,
         });
       default: {
         return state;

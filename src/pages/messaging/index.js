@@ -16,12 +16,10 @@ const AppsMessaging = () => {
   const singleConversation = useSelector(
     state => state.messages.singleConversation,
   );
-  const { name, position, dialog, avatar } = dialogs[1];
   const [isEmojiOpen, openEmojiPicker] = useState(false);
   const conversationMessages = conversations.items.find(
     conversation => conversation.id === singleConversation.id,
   );
-  console.log(conversationMessages);
   useEffect(() => {
     dispatch({
       type: actions.LOAD_MESSAGES_REQUEST,
@@ -144,9 +142,7 @@ const AppsMessaging = () => {
                         <div
                           key={message.id}
                           className={`${style.message} ${
-                            message.authorType !== 'CUSTOMER'
-                              ? style.answer
-                              : ''
+                            message.authorType !== 'SYSTEM' ? style.answer : ''
                           }`}
                         >
                           <div className={style.messageContent}>
