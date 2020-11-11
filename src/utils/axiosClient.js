@@ -1,47 +1,47 @@
-import axios from 'axios'
-import cookieStorage from 'utils/cookie'
-import { refresh } from 'services/user'
+import axios from 'axios';
+import cookieStorage from 'utils/cookie';
+import { refresh } from 'services/user';
 
-const cookie = cookieStorage()
+const cookie = cookieStorage();
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
     Authorization: cookie.getItem('accessToken'),
   },
-})
+});
 
 API.interceptors.request.use(
   config => {
-    const storedToken = cookie.getItem('accessToken')
+    const storedToken = cookie.getItem('accessToken');
     if (!config.headers.authorization) {
-      config.headers.Authorization = storedToken
+      config.headers.Authorization = storedToken;
     }
-    return config
+    return config;
   },
   error => {
-    return Promise.reject(error)
+    return Promise.reject(error);
   },
-)
+);
 
 API.interceptors.response.use(
   response => {
-    return response
+    return response;
   },
   async error => {
-    const originalRequest = error.config
+    const originalRequest = error.config;
 
     if (error.response.status === 401 || error.response.status === 403) {
-      const response = await refresh(cookie.getItem('refreshToken'))
-      originalRequest.headers.Authorization = response.data.accessToken
+      const response = await refresh(cookie.getItem('refreshToken'));
+      originalRequest.headers.Authorization = response.data.key;
       const retryOriginalRequest = new Promise(resolve => {
-        resolve(axios(originalRequest))
-      })
+        resolve(axios(originalRequest));
+      });
 
-      return retryOriginalRequest
+      return retryOriginalRequest;
     }
-    return Promise.reject(error)
+    return Promise.reject(error);
   },
-)
+);
 
-export default API
+export default API;

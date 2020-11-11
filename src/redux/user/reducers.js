@@ -1,4 +1,4 @@
-import actions from './actions'
+import actions from './actions';
 
 const initialState = {
   id: '',
@@ -7,19 +7,28 @@ const initialState = {
   email: '',
   avatar: '',
   authorized: false,
-  isLoading: false,
+  isLoggingIn: false,
+  isRestoring: false,
   error: null,
-}
+};
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case actions.LOGIN_REQUEST:
-      return { ...state, isLoading: true }
+      return { ...state, isLoggingIn: true };
     case actions.LOGIN_SUCCESS:
-      return { ...state, isLoading: false, authorized: false }
+      return { ...state, isLoggingIn: false, authorized: true };
     case actions.LOGIN_FAILURE:
-      return { ...state, isLoading: false, error: action.payload.data }
+      return { ...state, isLoggingIn: false, error: action.payload.data };
+    case actions.RESTORE_REQUEST:
+      return { ...state, isRestoring: true };
+    case actions.RESTORE_SUCCESS:
+      return { ...state, isRestoring: false };
+    case actions.RESTORE_FAILURE:
+      return { ...state, isRestoring: false, error: action.payload.data };
+    case actions.LOGOUT:
+      return { ...state, authorized: false };
     default:
-      return state
+      return state;
   }
 }
