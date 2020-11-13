@@ -13,13 +13,12 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-color: $gray-1;
 }
 
 .container {
   max-width: rem(540);
   width: 100%;
-  box-shadow: 0 4px 38px 0 rgba(22, 21, 55, 0.06), 0 0 21px 0 rgba(22, 21, 55, 0.03);
+  align-items: center;
   border-radius: 5px;
 }
 
@@ -34,4 +33,46 @@
   li {
     margin: rem(5) rem(14);
   }
+}
+
+.logo {
+  width: 40%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.linkButton {
+  padding: 0%;
+  margin: 0%;
+  color: $info;
+}
+
+.paragraph {
+  text-indent: 50px;
+  text-align: justify;
+}
+
+.aligned {
+  text-align: justify;
+  ol {
+    li {
+      margin-bottom: 14px;
+    }
+    ul {
+      list-style-type: square;
+      li {
+        margin-bottom: 0px;
+      }
+    }
+  }
+}
+
+.footer {
+  background-color: white !important;
+  border-top: 1px solid rgb(236, 236, 236);
+}
+
+.button {
+  margin: 1em;
 }
