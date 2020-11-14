@@ -1,15 +1,15 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
-import _ from 'lodash'
-import classNames from 'classnames'
-import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import { Layout } from 'antd'
-import { Scrollbars } from 'react-custom-scrollbars'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+import _ from 'lodash';
+import classNames from 'classnames';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { Layout } from 'antd';
+import { Scrollbars } from 'react-custom-scrollbars';
 // import { ReactComponent as Logo } from './images/logo.svg';
-import style from './style.module.scss'
+import style from './style.module.scss';
 
-const { Sider } = Layout
+const { Sider } = Layout;
 const mapStateToProps = ({ menu, settings }) => ({
   menuData: menu.menuData,
   settings,
@@ -18,7 +18,7 @@ const mapStateToProps = ({ menu, settings }) => ({
       settings.menuType === 'compact' ||
       settings.isMenuCollapsed) &&
     !settings.isMobileView,
-})
+});
 
 @withRouter
 @connect(mapStateToProps)
@@ -27,112 +27,112 @@ class MenuLeft extends React.Component {
     activeSubmenu: '',
     activeItem: '',
     renderedFlyoutItems: {},
-  }
+  };
 
-  flyoutTimers = {}
+  flyoutTimers = {};
 
-  currentLocation = ''
+  currentLocation = '';
 
   componentDidMount() {
-    this.setActiveItems(this.props)
+    this.setActiveItems(this.props);
   }
 
   componentWillReceiveProps(newProps) {
-    const { pathname } = newProps.location
+    const { pathname } = newProps.location;
     if (this.currentLocation !== pathname) {
-      this.setActiveItems(newProps)
-      this.currentLocation = pathname
+      this.setActiveItems(newProps);
+      this.currentLocation = pathname;
     }
   }
 
   toggleSettings = () => {
-    const { dispatch, settings } = this.props
-    const { isSidebarOpen } = settings
+    const { dispatch, settings } = this.props;
+    const { isSidebarOpen } = settings;
     dispatch({
       type: 'settings/CHANGE_SETTING',
       payload: {
         setting: 'isSidebarOpen',
         value: !isSidebarOpen,
       },
-    })
-  }
+    });
+  };
 
   toggleMenu = () => {
-    const { dispatch, settings } = this.props
-    const { isMenuCollapsed } = settings
+    const { dispatch, settings } = this.props;
+    const { isMenuCollapsed } = settings;
     dispatch({
       type: 'settings/CHANGE_SETTING',
       payload: {
         setting: 'isMenuCollapsed',
         value: !isMenuCollapsed,
       },
-    })
-  }
+    });
+  };
 
   toggleMobileMenu = () => {
-    const { dispatch, settings } = this.props
-    const { isMobileMenuOpen } = settings
+    const { dispatch, settings } = this.props;
+    const { isMobileMenuOpen } = settings;
     dispatch({
       type: 'settings/CHANGE_SETTING',
       payload: {
         setting: 'isMobileMenuOpen',
         value: !isMobileMenuOpen,
       },
-    })
-  }
+    });
+  };
 
   handleSubmenuClick = key => {
-    const { activeSubmenu } = this.state
-    const { flyoutActive } = this.props
+    const { activeSubmenu } = this.state;
+    const { flyoutActive } = this.props;
     if (flyoutActive) {
-      return
+      return;
     }
     this.setState({
       activeSubmenu: activeSubmenu === key ? '' : key,
-    })
-  }
+    });
+  };
 
   handleFlyoutOver = (event, key, items) => {
-    const { flyoutActive } = this.props
+    const { flyoutActive } = this.props;
     if (flyoutActive) {
-      clearInterval(this.flyoutTimers[key])
-      const item = event.currentTarget
-      const itemDimensions = item.getBoundingClientRect()
-      const element = this.renderFlyoutMenu(items, key, itemDimensions)
+      clearInterval(this.flyoutTimers[key]);
+      const item = event.currentTarget;
+      const itemDimensions = item.getBoundingClientRect();
+      const element = this.renderFlyoutMenu(items, key, itemDimensions);
       this.setState(state => ({
         renderedFlyoutItems: {
           ...state.renderedFlyoutItems,
           [key]: element,
         },
-      }))
+      }));
     }
-  }
+  };
 
   handleFlyoutOut = key => {
-    const { flyoutActive } = this.props
+    const { flyoutActive } = this.props;
     if (flyoutActive) {
       this.flyoutTimers[key] = setTimeout(() => {
         this.setState(state => {
-          delete state.renderedFlyoutItems[key]
+          delete state.renderedFlyoutItems[key];
           return {
             renderedFlyoutItems: {
               ...state.renderedFlyoutItems,
             },
-          }
-        })
-      }, 100)
+          };
+        });
+      }, 100);
     }
-  }
+  };
 
   handleFlyoutContainerOver = key => {
-    clearInterval(this.flyoutTimers[key])
-  }
+    clearInterval(this.flyoutTimers[key]);
+  };
 
   renderFlyoutMenu = (items, key, itemDimensions) => {
-    const { settings } = this.props
-    const { activeItem } = this.state
-    const left = `${itemDimensions.left + itemDimensions.width - 10}px`
-    const top = `${itemDimensions.top}px`
+    const { settings } = this.props;
+    const { activeItem } = this.state;
+    const left = `${itemDimensions.left + itemDimensions.width - 10}px`;
+    const top = `${itemDimensions.top}px`;
 
     return (
       <div
@@ -159,60 +159,67 @@ class MenuLeft extends React.Component {
                 key={item.key}
               >
                 <Link to={item.url} className={style.air__menuLeft__link}>
-                  {item.icon && <i className={`${item.icon} ${style.air__menuLeft__icon}`} />}
+                  {item.icon && (
+                    <i
+                      className={`${item.icon} ${style.air__menuLeft__icon}`}
+                    />
+                  )}
                   <span>{item.title}</span>
                 </Link>
               </li>
-            )
+            );
           })}
         </ul>
       </div>
-    )
-  }
+    );
+  };
 
   setActiveItems = props => {
-    const { menuData = [] } = props
+    const { menuData = [] } = props;
     if (!menuData.length) {
-      return
+      return;
     }
     const flattenItems = (items, key) =>
       items.reduce((flattenedItems, item) => {
-        flattenedItems.push(item)
+        flattenedItems.push(item);
         if (Array.isArray(item[key])) {
-          return flattenedItems.concat(flattenItems(item[key], key))
+          return flattenedItems.concat(flattenItems(item[key], key));
         }
-        return flattenedItems
-      }, [])
-    const activeItem = _.find(flattenItems(menuData, 'children'), ['url', props.location.pathname])
+        return flattenedItems;
+      }, []);
+    const activeItem = _.find(flattenItems(menuData, 'children'), [
+      'url',
+      props.location.pathname,
+    ]);
     const activeSubmenu = menuData.reduce((key, parent) => {
       if (Array.isArray(parent.children)) {
         parent.children.map(child => {
           if (child.key === activeItem.key) {
-            key = parent
+            key = parent;
           }
-          return ''
-        })
+          return '';
+        });
       }
-      return key
-    })
+      return key;
+    });
     this.setState({
       activeItem: _.get(activeItem, 'key', null),
       activeSubmenu: activeSubmenu.key,
-    })
-  }
+    });
+  };
 
   generateMenuItems = () => {
-    const { menuData = [] } = this.props
-    const { activeSubmenu, activeItem } = this.state
+    const { menuData = [] } = this.props;
+    const { activeSubmenu, activeItem } = this.state;
 
     const menuItem = item => {
-      const { key, title, icon, url } = item
+      const { key, title, icon, url } = item;
       if (item.category) {
         return (
           <li className={style.air__menuLeft__category} key={Math.random()}>
             <span>{title}</span>
           </li>
-        )
+        );
       }
       return (
         <li
@@ -241,29 +248,41 @@ class MenuLeft extends React.Component {
             </Link>
           )}
           {!item.url && (
-            <a href="javascript: void(0);" className={style.air__menuLeft__link}>
+            <a
+              href="javascript: void(0);"
+              className={style.air__menuLeft__link}
+            >
               {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
               <span>{title}</span>
             </a>
           )}
         </li>
-      )
-    }
+      );
+    };
 
     const submenuItem = item => {
       return (
         <li
-          className={classNames(style.air__menuLeft__item, style.air__menuLeft__submenu, {
-            [style.air__menuLeft__submenu__active]: activeSubmenu === item.key,
-          })}
+          className={classNames(
+            style.air__menuLeft__item,
+            style.air__menuLeft__submenu,
+            {
+              [style.air__menuLeft__submenu__active]:
+                activeSubmenu === item.key,
+            },
+          )}
           key={item.key}
         >
           <a
             href="javascript: void(0);"
             className={style.air__menuLeft__link}
             onClick={() => this.handleSubmenuClick(item.key)}
-            onMouseEnter={event => this.handleFlyoutOver(event, item.key, item.children)}
-            onFocus={event => this.handleFlyoutOver(event, item.key, item.children)}
+            onMouseEnter={event =>
+              this.handleFlyoutOver(event, item.key, item.children)
+            }
+            onFocus={event =>
+              this.handleFlyoutOver(event, item.key, item.children)
+            }
             onMouseLeave={() => this.handleFlyoutOut(item.key)}
             onBlur={() => this.handleFlyoutOut(item.key)}
           >
@@ -278,36 +297,40 @@ class MenuLeft extends React.Component {
           <ul className={style.air__menuLeft__list}>
             {item.children.map(sub => {
               if (sub.children) {
-                return submenuItem(sub)
+                return submenuItem(sub);
               }
-              return menuItem(sub)
+              return menuItem(sub);
             })}
           </ul>
         </li>
-      )
-    }
+      );
+    };
 
     return menuData.map(item => {
       if (item.children) {
-        return submenuItem(item)
+        return submenuItem(item);
       }
-      return menuItem(item)
-    })
-  }
+      return menuItem(item);
+    });
+  };
 
   render() {
-    const { settings } = this.props
-    const { renderedFlyoutItems } = this.state
-    const items = this.generateMenuItems()
+    const { settings } = this.props;
+    const { renderedFlyoutItems } = this.state;
+    const items = this.generateMenuItems();
     return (
       <Sider width="auto">
         <TransitionGroup>
           {Object.keys(renderedFlyoutItems).map(item => {
             return (
-              <CSSTransition key={item} timeout={0} classNames="air__menuFlyout__animation">
+              <CSSTransition
+                key={item}
+                timeout={0}
+                classNames="air__menuFlyout__animation"
+              >
                 {renderedFlyoutItems[item]}
               </CSSTransition>
-            )
+            );
           })}
         </TransitionGroup>
         <div
@@ -322,11 +345,14 @@ class MenuLeft extends React.Component {
             [style.air__menuLeft__white]: settings.menuColor === 'white',
             [style.air__menuLeft__gray]: settings.menuColor === 'gray',
             [style.air__menuFlyout__black]:
-              settings.flyoutMenuColor === 'dark' && settings.menuType !== 'default',
+              settings.flyoutMenuColor === 'dark' &&
+              settings.menuType !== 'default',
             [style.air__menuFlyout__white]:
-              settings.flyoutMenuColor === 'white' && settings.menuType !== 'default',
+              settings.flyoutMenuColor === 'white' &&
+              settings.menuType !== 'default',
             [style.air__menuFlyout__gray]:
-              settings.flyoutMenuColor === 'gray' && settings.menuType !== 'default',
+              settings.flyoutMenuColor === 'gray' &&
+              settings.menuType !== 'default',
           })}
         >
           <div className={style.air__menuLeft__outer}>
@@ -345,18 +371,33 @@ class MenuLeft extends React.Component {
               <span />
               <span />
             </a>
-            <a href="javascript: void(0);" className={style.air__menuLeft__logo}>
-              <img src="/resources/images/air-logo.png" alt="Air UI" />
-              {/* <Logo /> */}
-              <div className={style.air__menuLeft__logo__name}>SMS</div>
-              <div className={style.air__menuLeft__logo__descr}>Dialog House</div>
+            <a
+              href="javascript: void(0);"
+              className={style.air__menuLeft__logo}
+            >
+              <img
+                src="/resources/images/logo.png"
+                alt="Mirimus"
+                className={style.logo}
+              />
+              <div className={style.air__menuLeft__logo__name}>Mirimus</div>
+              <div className={style.air__menuLeft__logo__descr}>
+                Admin panel
+              </div>
             </a>
             <Link to="/profile" className={style.air__menuLeft__link}>
               <div className={style.air__menuLeft__user__avatar}>
-                <img src="/resources/images/avatars/avatar.png" alt="Yellow systems" />
+                <img
+                  src="/resources/images/avatars/avatar.png"
+                  alt="Yellow systems"
+                />
               </div>
-              <div className={style.air__menuLeft__user__name}>Yellow Systems</div>
-              <div className={style.air__menuLeft__user__role}>hi@yellow.systems</div>
+              <div className={style.air__menuLeft__user__name}>
+                Yellow Systems
+              </div>
+              <div className={style.air__menuLeft__user__role}>
+                hi@yellow.systems
+              </div>
             </Link>
             <Scrollbars
               autoHide
@@ -372,14 +413,19 @@ class MenuLeft extends React.Component {
                 />
               )}
             >
-              <div id="menu-left-container" className={style.air__menuLeft__container}>
+              <div
+                id="menu-left-container"
+                className={style.air__menuLeft__container}
+              >
                 <ul className={style.air__menuLeft__list}>
                   <li className={style.air__menuLeft__category}>
                     <span>Menu</span>
                   </li>
                   <li className={style.air__menuLeft__item}>
                     <Link to="/dashboard" className={style.air__menuLeft__link}>
-                      <i className={`fe fe-compass ${style.air__menuLeft__icon}`} />
+                      <i
+                        className={`fe fe-compass ${style.air__menuLeft__icon}`}
+                      />
                       <span>Dashboard</span>
                     </Link>
                   </li>
@@ -395,8 +441,8 @@ class MenuLeft extends React.Component {
           onClick={this.toggleMobileMenu}
         />
       </Sider>
-    )
+    );
   }
 }
 
-export default MenuLeft
+export default MenuLeft;

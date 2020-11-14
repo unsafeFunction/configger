@@ -1,6 +1,6 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
-import { login, restore } from 'services/user';
+import { login, restore, fetchUsers } from 'services/user';
 import cookieStorage from 'utils/cookie';
 import actions from './actions';
 
@@ -91,10 +91,27 @@ export function* callLogout({ payload }) {
   }
 }
 
+export function* callLoadUsers({ payload }) {
+  try {
+    const response = yield call(fetchUsers, payload);
+
+    yield put({
+      type: actions.FETCH_USERS_SUCCESS,
+      payload: {
+        data: response.data,
+        // total: response.headers['x-total-count'],
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.LOGIN_REQUEST, callLogin),
     takeEvery(actions.RESTORE_REQUEST, callRestore),
     takeEvery(actions.LOGOUT, callLogout),
+    takeEvery(actions.FETCH_USERS_REQUEST, callLoadUsers),
   ]);
 }

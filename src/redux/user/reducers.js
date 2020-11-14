@@ -9,6 +9,7 @@ const initialState = {
   authorized: false,
   isLoggingIn: false,
   isRestoring: false,
+  isLoading: false,
   error: null,
 };
 
@@ -28,6 +29,28 @@ export default function userReducer(state = initialState, action) {
       return { ...state, isRestoring: false, error: action.payload.data };
     case actions.LOGOUT:
       return { ...state, authorized: false };
+
+    case actions.FETCH_USERS_REQUEST: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case actions.FETCH_USERS_SUCCESS: {
+      console.log(action.payload);
+      return {
+        items: action.payload.data.map(user => {
+          return {
+            ...user,
+            action: null,
+          };
+        }),
+        // total: action.payload.total,
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_USERS_FAILURE:
+      return { ...state, isLoading: true, error: action.payload.data };
     default:
       return state;
   }

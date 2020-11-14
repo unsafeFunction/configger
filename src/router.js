@@ -48,13 +48,9 @@ const routes = [
     exact: true,
   },
   {
-    path: '/campaigns',
-    Component: loadable(() => import('pages/campaigns')),
+    path: '/customers',
+    Component: loadable(() => import('pages/Customers')),
     exact: true,
-  },
-  {
-    path: '/campaigns/:id',
-    Component: loadable(() => import('pages/CampaignProfile')),
   },
   {
     path: '/settings',

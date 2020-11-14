@@ -22,14 +22,24 @@ export const restore = async email => {
 
 export const refresh = async refreshToken => {
   try {
-    const response = await axiosClient.post('/auth/refresh-token', {
-      refreshToken,
+    // const response = await axiosClient.post('/auth/refresh-token', {
+    //   refreshToken,
+    // });
+    return null;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const fetchUsers = async query => {
+  try {
+    const users = await axiosClient.get('/users/', {
+      params: {
+        ...query,
+      },
     });
 
-    cookie.setItem('accessToken', response.data.key);
-    cookie.setItem('refreshToken', response.data.refreshToken);
-
-    return response;
+    return users;
   } catch (error) {
     return error;
   }

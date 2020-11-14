@@ -254,7 +254,7 @@ const Campaigns = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Campaigns</h4>
+        <h4>Customers</h4>
         <Button
           onClick={onModalToggle}
           icon={<PlusCircleOutlined />}

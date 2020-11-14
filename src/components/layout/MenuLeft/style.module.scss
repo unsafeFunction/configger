@@ -249,7 +249,11 @@
   &__banner {
     margin: rem(40) rem(20) rem(20);
     background: $primary;
-    background: linear-gradient(45deg, $primary 0%, lighten($primary, 10%) 100%);
+    background: linear-gradient(
+      45deg,
+      $primary 0%,
+      lighten($primary, 10%) 100%
+    );
     border-radius: 6px;
     padding: rem(20);
     color: $white;
@@ -1043,5 +1047,13 @@
   width: 10px;
   height: 10px;
   margin-left: 30px;
+  margin-right: 10px;
+}
+
+.logo {
+  width: 100%;
+  max-width: 49px;
+
+  margin-top: 0 !important;
   margin-right: 10px;
 }
