@@ -20,6 +20,14 @@ export const restore = async email => {
   return restore;
 };
 
+export const accept = async () => {
+  const accept = await axiosClient.patch('/me/', {
+    terms_accepted: true,
+  });
+
+  return accept;
+};
+
 export const refresh = async refreshToken => {
   try {
     // const response = await axiosClient.post('/auth/refresh-token', {

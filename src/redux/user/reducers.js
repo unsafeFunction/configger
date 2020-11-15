@@ -9,6 +9,7 @@ const initialState = {
   authorized: false,
   isLoggingIn: false,
   isRestoring: false,
+  isAccepting: false,
   isLoading: false,
   error: null,
 };
@@ -29,7 +30,12 @@ export default function userReducer(state = initialState, action) {
       return { ...state, isRestoring: false, error: action.payload.data };
     case actions.LOGOUT:
       return { ...state, authorized: false };
-
+    case actions.ACCEPT_REQUEST:
+      return { ...state, isAccepting: true };
+    case actions.ACCEPT_SUCCESS:
+      return { ...state, isAccepting: false };
+    case actions.ACCEPT_FAILURE:
+      return { ...state, isAccepting: false, error: action.payload.data };
     case actions.FETCH_USERS_REQUEST: {
       return {
         ...state,
