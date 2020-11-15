@@ -60,6 +60,7 @@ class Layout extends React.PureComponent {
 
     const Container = Layouts[getLayout()];
     const isUserAuthorized = cookie.getItem('accessToken');
+    const isTermsAccepted = cookie.getItem('termsAccepted');
     const isUserLoading = user.loading;
     const isAuthLayout = getLayout() === 'auth';
 
@@ -71,6 +72,10 @@ class Layout extends React.PureComponent {
       // redirect to login page if current is not login page and user not authorized
       if (!isAuthLayout && !isUserAuthorized) {
         return <Redirect to="/system/login" />;
+      }
+      // redirect to terms&conditions page if user has not accepted them yet
+      if (!isAuthLayout && !isTermsAccepted) {
+        return <Redirect to="/system/terms-and-conditions" />;
       }
       // in other case render previously set layout
       return <Container>{children}</Container>;

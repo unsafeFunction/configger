@@ -10,7 +10,7 @@ const TermsAndConditions = () => {
   const history = useHistory();
   const [isAgreed, agree] = useState(false);
 
-  const onSubmit = useCallback(
+  const onClick = useCallback(
     values => {
       dispatch({
         type: actions.ACCEPT_REQUEST,
@@ -640,6 +640,7 @@ const TermsAndConditions = () => {
           htmlType="submit"
           disabled={!isAgreed}
           loading={isAccepting}
+          onClick={onClick}
         >
           Continue
         </Button>
