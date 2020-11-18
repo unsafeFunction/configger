@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -10,7 +10,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import style from './style.module.scss';
 
 const { Sider } = Layout;
-const mapStateToProps = ({ menu, settings }) => ({
+const mapStateToProps = ({ menu, settings, user }) => ({
   menuData: menu.menuData,
   settings,
   flyoutActive:
@@ -18,6 +18,7 @@ const mapStateToProps = ({ menu, settings }) => ({
       settings.menuType === 'compact' ||
       settings.isMenuCollapsed) &&
     !settings.isMobileView,
+  profile: user.profile,
 });
 
 @withRouter
@@ -314,6 +315,16 @@ class MenuLeft extends React.Component {
     });
   };
 
+  getInitials(firstName, lastName) {
+    if (firstName && lastName) {
+      return `${firstName.charAt(0).toUpperCase()}${lastName
+        .charAt(0)
+        .toUpperCase()}`;
+    }
+
+    return '';
+  }
+
   render() {
     const { settings } = this.props;
     const { renderedFlyoutItems } = this.state;
@@ -385,18 +396,25 @@ class MenuLeft extends React.Component {
                 Admin panel
               </div>
             </a>
-            <Link to="/profile" className={style.air__menuLeft__link}>
-              <div className={style.air__menuLeft__user__avatar}>
-                <img
-                  src="/resources/images/avatars/avatar.png"
-                  alt="Yellow systems"
-                />
+            <Link
+              to="/profile"
+              className={`${style.air__menuLeft__link} ${style.profileLink}`}
+            >
+              <div
+                className={`${style.air__menuLeft__user__avatar} ${style.userAvatar}`}
+              >
+                {this.getInitials(
+                  this.props.profile.first_name,
+                  this.props.profile.last_name,
+                )}
               </div>
-              <div className={style.air__menuLeft__user__name}>
-                Yellow Systems
-              </div>
-              <div className={style.air__menuLeft__user__role}>
-                hi@yellow.systems
+              <div>
+                <div className={style.air__menuLeft__user__name}>
+                  {this.props.profile.first_name} {this.props.profile.last_name}
+                </div>
+                <div className={style.air__menuLeft__user__role}>
+                  {this.props.profile.email}
+                </div>
               </div>
             </Link>
             <Scrollbars

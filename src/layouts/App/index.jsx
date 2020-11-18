@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout } from 'antd';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import TopBar from 'components/layout/TopBar';
@@ -8,8 +8,10 @@ import MenuLeft from 'components/layout/MenuLeft';
 import SubBar from 'components/layout/SubBar';
 import MenuTop from 'components/layout/MenuTop';
 import Modal from 'components/widgets/Modals';
+import actions from 'redux/user/actions';
 
 const AppLayout = props => {
+  const dispatch = useDispatch();
   const settings = useSelector(state => state.settings);
 
   const {
@@ -26,6 +28,10 @@ const AppLayout = props => {
   const { children } = props;
 
   const location = useLocation();
+
+  useEffect(() => {
+    dispatch({ type: actions.PROFILE_REQUEST });
+  }, [dispatch]);
 
   return (
     <Layout

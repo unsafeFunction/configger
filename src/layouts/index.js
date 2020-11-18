@@ -58,11 +58,12 @@ class Layout extends React.PureComponent {
       return 'app';
     };
 
-    const Container = Layouts[getLayout()];
+    const layoutType = getLayout();
+    const Container = Layouts[layoutType];
     const isUserAuthorized = cookie.getItem('accessToken');
     const isTermsAccepted = cookie.getItem('termsAccepted');
     const isUserLoading = user.loading;
-    const isAuthLayout = getLayout() === 'auth';
+    const isAuthLayout = layoutType === 'auth';
 
     const BootstrappedLayout = () => {
       // show loader when user in check authorization process, not authorized yet and not on login pages
