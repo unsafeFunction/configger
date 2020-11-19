@@ -1,6 +1,14 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
-import { login, restore, fetchUsers, accept } from 'services/user';
+import {
+  login,
+  restore,
+  fetchUsers,
+  accept,
+  getProfile,
+  updateProfile,
+  changePassword,
+} from 'services/user';
 import cookieStorage from 'utils/cookie';
 import actions from './actions';
 
@@ -41,7 +49,6 @@ export function* callLogin({ payload }) {
     notification.error({
       message: 'Something went wrong',
       description: errorData,
-      placement: 'bottomRight',
     });
   }
 }
@@ -73,7 +80,6 @@ export function* callRestore({ payload }) {
     notification.error({
       message: 'Something went wrong',
       description: errorData,
-      placement: 'bottomRight',
     });
   }
 }
@@ -105,7 +111,6 @@ export function* callAccept({ payload }) {
     notification.error({
       message: 'Something went wrong',
       description: errorData,
-      placement: 'bottomRight',
     });
   }
 }
@@ -122,6 +127,104 @@ export function* callLogout({ payload }) {
       message: 'Logout failure',
     });
     return error;
+  }
+}
+
+export function* callLoadProfile() {
+  try {
+    const response = yield call(getProfile);
+    yield put({
+      type: actions.PROFILE_SUCCESS,
+      payload: {
+        profile: response.data,
+      },
+    });
+  } catch (error) {
+    const errorData = error.response.data;
+
+    yield put({
+      type: actions.PROFILE_FAILURE,
+      payload: {
+        data: errorData,
+      },
+    });
+
+    notification.error({
+      message: 'Profile loading failed',
+      description: errorData,
+    });
+  }
+}
+
+export function* callUpdateProfile({ payload }) {
+  const { first_name, last_name } = payload;
+  try {
+    yield call(updateProfile, first_name, last_name);
+
+    yield put({
+      type: actions.UPDATE_PROFILE_SUCCESS,
+      payload: {
+        data: {
+          first_name,
+          last_name,
+        },
+      },
+    });
+
+    notification.success({
+      message: 'Success!',
+      description: 'Your profile info has been updated.',
+    });
+  } catch (error) {
+    const errorData = error.response.data;
+
+    yield put({
+      type: actions.UPDATE_PROFILE_FAILURE,
+      payload: {
+        data: errorData,
+      },
+    });
+
+    notification.error({
+      message: 'Something went wrong',
+      description: errorData,
+    });
+  }
+}
+
+export function* callChangePassword({ payload }) {
+  const { currentPassword, newPassword, passwordConfirmation } = payload;
+  try {
+    yield call(
+      changePassword,
+      currentPassword,
+      newPassword,
+      passwordConfirmation,
+    );
+
+    yield put({
+      type: actions.CHANGE_PASSWORD_SUCCESS,
+    });
+
+    notification.success({
+      message: 'Success!',
+      description: 'Your password has been changed.',
+    });
+  } catch (error) {
+    console.log(error);
+    const errorData = error.response.data;
+
+    yield put({
+      type: actions.CHANGE_PASSWORD_FAILURE,
+      payload: {
+        data: errorData,
+      },
+    });
+
+    notification.error({
+      message: 'Something went wrong',
+      description: errorData,
+    });
   }
 }
 
@@ -146,7 +249,10 @@ export default function* rootSaga() {
     takeEvery(actions.LOGIN_REQUEST, callLogin),
     takeEvery(actions.RESTORE_REQUEST, callRestore),
     takeEvery(actions.ACCEPT_REQUEST, callAccept),
+    takeEvery(actions.PROFILE_REQUEST, callLoadProfile),
     takeEvery(actions.LOGOUT, callLogout),
     takeEvery(actions.FETCH_USERS_REQUEST, callLoadUsers),
+    takeEvery(actions.UPDATE_PROFILE_REQUEST, callUpdateProfile),
+    takeEvery(actions.CHANGE_PASSWORD_REQUEST, callChangePassword),
   ]);
 }

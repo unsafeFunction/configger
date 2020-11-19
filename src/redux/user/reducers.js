@@ -1,16 +1,13 @@
 import actions from './actions';
 
 const initialState = {
-  id: '',
-  name: '',
-  role: '',
-  email: '',
-  avatar: '',
+  profile: {},
   authorized: false,
   isLoggingIn: false,
   isRestoring: false,
   isAccepting: false,
-  isLoading: false,
+  isProfileUpdating: false,
+  isPasswordChanging: false,
   error: null,
 };
 
@@ -36,6 +33,33 @@ export default function userReducer(state = initialState, action) {
       return { ...state, isAccepting: false };
     case actions.ACCEPT_FAILURE:
       return { ...state, isAccepting: false, error: action.payload.data };
+    case actions.PROFILE_SUCCESS:
+      return { ...state, profile: action.payload.profile };
+    case actions.PROFILE_FAILURE:
+      return { ...state, error: action.payload.data };
+    case actions.UPDATE_PROFILE_REQUEST:
+      return { ...state, isProfileUpdating: true };
+    case actions.UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isProfileUpdating: false,
+        profile: {
+          ...state.profile,
+          ...action.payload.data,
+        },
+      };
+    case actions.UPDATE_PROFILE_FAILURE:
+      return { ...state, isProfileUpdating: false, error: action.payload.data };
+    case actions.CHANGE_PASSWORD_REQUEST:
+      return { ...state, isPasswordChanging: true };
+    case actions.CHANGE_PASSWORD_SUCCESS:
+      return { ...state, isPasswordChanging: false };
+    case actions.CHANGE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isPasswordChanging: false,
+        error: action.payload.data,
+      };
     case actions.FETCH_USERS_REQUEST: {
       return {
         ...state,
