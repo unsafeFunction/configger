@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Menu, Dropdown, Avatar } from 'antd';
 import styles from './style.module.scss';
+import { useSelector } from 'react-redux';
 
 const ProfileMenu = ({ dispatch, history }) => {
   const onLogout = useCallback(() => {
@@ -13,19 +14,28 @@ const ProfileMenu = ({ dispatch, history }) => {
     });
   }, [dispatch, history]);
 
+  const getInitials = (firstName, lastName) => {
+    if (firstName && lastName) {
+      return `${firstName.charAt(0).toUpperCase()}${lastName
+        .charAt(0)
+        .toUpperCase()}`;
+    }
+
+    return '';
+  };
+
+  const { first_name, last_name, role } = useSelector(
+    state => state.user.profile,
+  );
+
   const menu = (
     <Menu selectable={false}>
       <Menu.Item>
-        <strong>Hello, Anonymous</strong>
+        <strong className={styles.menu}>Hello, {first_name}</strong>
         <div>
-          <strong className="mr-1">Billing Plan: </strong>
-          Professional
-        </div>
-        <div>
-          <strong>Role: Administrator </strong>
+          <strong>Role: {role}</strong>
         </div>
       </Menu.Item>
-
       <Menu.Divider />
       <Menu.Item>
         <div role="presentation" onClick={onLogout}>
@@ -38,12 +48,9 @@ const ProfileMenu = ({ dispatch, history }) => {
   return (
     <Dropdown overlay={menu} trigger={['click']}>
       <div className={styles.dropdown}>
-        <Avatar
-          className={styles.avatar}
-          shape="square"
-          size="large"
-          icon="user"
-        />
+        <div className={styles.userAvatar}>
+          {getInitials(first_name, last_name)}
+        </div>
       </div>
     </Dropdown>
   );
