@@ -60,7 +60,7 @@ const ProfileInfo = () => {
             <Input size="large" placeholder="Last name" />
           </Form.Item>
         </div>
-        <Form.Item className="mb-1">
+        <Form.Item className="my-3">
           <Button
             type="primary"
             size="large"

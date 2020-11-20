@@ -63,12 +63,23 @@ const Password = () => {
                 required: true,
                 message: 'Please input your new password again!',
               },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('newPassword') === value) {
+                    return Promise.resolve();
+                  }
+
+                  return Promise.reject(
+                    'The password that you entered does not match with the new one!',
+                  );
+                },
+              }),
             ]}
           >
             <Input.Password size="large" placeholder="Password confirmation" />
           </Form.Item>
         </div>
-        <Form.Item className="mb-1">
+        <Form.Item className="my-3">
           <Button
             type="primary"
             size="large"
