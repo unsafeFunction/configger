@@ -63,24 +63,24 @@ export default function userReducer(state = initialState, action) {
     case actions.LOAD_USERS_REQUEST: {
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       };
     }
     case actions.LOAD_USERS_SUCCESS: {
-      console.log(action.payload);
       return {
-        items: action.payload.data.map(user => {
+        ...state,
+        items: action.payload.data.results.map(user => {
           return {
             ...user,
             action: null,
           };
         }),
         // total: action.payload.total,
-        isLoading: true,
+        isLoading: false,
       };
     }
     case actions.LOAD_USERS_FAILURE:
-      return { ...state, isLoading: true, error: action.payload.data };
+      return { ...state, isLoading: false, error: action.payload.data };
     default:
       return state;
   }
