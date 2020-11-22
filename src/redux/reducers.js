@@ -7,6 +7,7 @@ import campaigns from './campaigns/reducers';
 import recipients from './recipients/reducers';
 import messages from './messages/reducers';
 import modal from './modal/reducers';
+import companies from './companies/reducers';
 
 export default history =>
   combineReducers({
@@ -18,4 +19,5 @@ export default history =>
     modal,
     recipients,
     messages,
+    companies,
   });
