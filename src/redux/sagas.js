@@ -5,6 +5,7 @@ import settings from './settings/sagas';
 import campaigns from './campaigns/sagas';
 import recipients from './recipients/sagas';
 import messages from './messages/sagas';
+import timeline from './timeline/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     campaigns(),
     recipients(),
     messages(),
+    timeline(),
   ]);
 }

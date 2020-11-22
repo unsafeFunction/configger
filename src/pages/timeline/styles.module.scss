@@ -1,0 +1,10 @@
+@import 'assets/styles/mixins.scss';
+
+.statisticIcon {
+  margin-right: 10px;
+}
+
+.downloadButton {
+  background-color: $info;
+  border: $info;
+}

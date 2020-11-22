@@ -1,0 +1,7 @@
+const actions = {
+  LOAD_TIMELINE_REQUEST: 'campaign/LOAD_TIMELINE_REQUEST',
+  LOAD_TIMELINE_SUCCESS: 'campaign/LOAD_TIMELINE_SUCCESS',
+  LOAD_TIMELINE_FAILURE: 'campaign/LOAD_TIMELINE_FAILURE',
+};
+
+export default actions;
