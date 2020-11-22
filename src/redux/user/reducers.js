@@ -60,13 +60,13 @@ export default function userReducer(state = initialState, action) {
         isPasswordChanging: false,
         error: action.payload.data,
       };
-    case actions.FETCH_USERS_REQUEST: {
+    case actions.LOAD_USERS_REQUEST: {
       return {
         ...state,
         isLoading: false,
       };
     }
-    case actions.FETCH_USERS_SUCCESS: {
+    case actions.LOAD_USERS_SUCCESS: {
       console.log(action.payload);
       return {
         items: action.payload.data.map(user => {
@@ -79,7 +79,7 @@ export default function userReducer(state = initialState, action) {
         isLoading: true,
       };
     }
-    case actions.FETCH_USERS_FAILURE:
+    case actions.LOAD_USERS_FAILURE:
       return { ...state, isLoading: true, error: action.payload.data };
     default:
       return state;

@@ -68,7 +68,7 @@ export const refresh = async refreshToken => {
   }
 };
 
-export const fetchUsers = async query => {
+export const loadUsers = async query => {
   try {
     const users = await axiosClient.get('/users/', {
       params: {

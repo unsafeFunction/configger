@@ -203,10 +203,10 @@ const Campaigns = () => {
     [dispatchCampaignData],
   );
 
-  const useFetching = () => {
+  const useLoading = () => {
     useEffect(() => {
       dispatchCampaignData({
-        type: actions.FETCH_USERS_REQUEST,
+        type: actions.LOAD_USERS_REQUEST,
         payload: {
           page: 1,
         },
@@ -223,7 +223,7 @@ const Campaigns = () => {
     });
   };
 
-  useFetching();
+  useLoading();
 
   const onModalToggle = useCallback(() => {
     dispatchCampaignData({
