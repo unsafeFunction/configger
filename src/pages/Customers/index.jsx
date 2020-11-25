@@ -1,7 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Button, Tag, Spin, Space, notification, List, Modal, Switch } from 'antd';
-import { LoadingOutlined, CheckCircleOutlined, CloseCircleOutlined, SendOutlined } from '@ant-design/icons';
+import { Table, Button, Tag, Spin, Space, notification, Switch } from 'antd';
+import {
+  LoadingOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  SendOutlined,
+} from '@ant-design/icons';
 import actions from 'redux/user/actions';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
@@ -12,14 +17,16 @@ const Campaigns = () => {
 
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const { isLoading, reinvitingUser, items, total } = useSelector(state => state.user);
+  const { isLoading, reinvitingUser, items, total } = useSelector(
+    state => state.user,
+  );
 
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
-  const dateFormat = {day: '2-digit', month: '2-digit', year: 'numeric'};
-  const timeFormat = {hour: '2-digit', minute: '2-digit'};
+  const dateFormat = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  const timeFormat = { hour: '2-digit', minute: '2-digit' };
 
-  const Loading = (nextPage) => {
+  const Loading = nextPage => {
     if (total && nextPage > 5) {
       notification.warning({
         description: 'You loaded all information about users.',
@@ -57,71 +64,79 @@ const Campaigns = () => {
 
   const convertDateTime = rawDate => {
     const date = new Date(rawDate);
-    return `${date.toLocaleDateString('en-CA', dateFormat)} ${date.toLocaleString('en-US', timeFormat)}`;
-  }
+    return `${date.toLocaleDateString(
+      'en-CA',
+      dateFormat,
+    )} ${date.toLocaleString('en-US', timeFormat)}`;
+  };
 
   const columns = [
     {
       title: 'Full name',
       key: 'fullname',
       render: (_, record) => (
-        <span>{record.first_name} {record.last_name}</span>
-      )
+        <span>
+          {record.first_name} {record.last_name}
+        </span>
+      ),
     },
     {
       title: 'Email',
       dataIndex: 'email',
-      key: 'email',
       width: 'auto',
     },
     {
       title: 'Company name',
       dataIndex: 'company',
       key: 'company',
-      width: '40%',
     },
     {
       title: 'Confiramtion statuses',
       key: 'verified',
       render: (_, record) => (
         <div className={classNames(styles.columnElements, styles.tagColumn)}>
-          {record.verified ? 
-          <Tag icon={<CheckCircleOutlined />} color='processing'>
-            Email confirmed
-          </Tag> : 
-          <Tag icon={<CloseCircleOutlined />} color='error'>
-            Email not confirmed
-          </Tag>}
-          {record.terms_accepted ? 
-          <Tag icon={<CheckCircleOutlined />} color='processing'>
-            Terms accepted
-          </Tag> : 
-          <Tag icon={<CloseCircleOutlined />} color='volcano'>
-            Terms not accepted
-          </Tag>}
+          {record.verified ? (
+            <Tag icon={<CheckCircleOutlined />} color="processing">
+              Email confirmed
+            </Tag>
+          ) : (
+            <Tag icon={<CloseCircleOutlined />} color="error">
+              Email not confirmed
+            </Tag>
+          )}
+          {record.terms_accepted ? (
+            <Tag icon={<CheckCircleOutlined />} color="processing">
+              Terms accepted
+            </Tag>
+          ) : (
+            <Tag icon={<CloseCircleOutlined />} color="volcano">
+              Terms not accepted
+            </Tag>
+          )}
         </div>
-      )
+      ),
     },
     {
       title: 'Last login',
-      dataIndex: 'last_login',                       
+      dataIndex: 'last_login',
       key: 'last_login',
-      render: text => (
-        <span>{convertDateTime(text)}</span>
-      )
+      render: text => <span>{convertDateTime(text)}</span>,
     },
     {
       title: 'Actions',
       key: 'action',
       fixed: 'right',
       width: '130px',
-      render: (text, record) => (
-        <Space size="middle" className={classNames(styles.columnElements, styles.actionColumn)}>
+      render: (_, record) => (
+        <Space
+          size="middle"
+          className={classNames(styles.columnElements, styles.actionColumn)}
+        >
           <Button
             type="primary"
             size="small"
             className={classNames(styles.action, styles.activeAction)}
-            icon={ <SendOutlined /> }
+            icon={<SendOutlined />}
             disabled={record.id === reinvitingUser}
             onClick={() => reinviteUser(record.id)}
           >
@@ -131,7 +146,9 @@ const Campaigns = () => {
             checkedChildren="Active"
             unCheckedChildren="Inactive"
             checked={record.is_active}
-            className={classNames(styles.switch, styles.action, {[styles.activeAction]: record.is_active})}
+            className={classNames(styles.switch, styles.action, {
+              [styles.activeAction]: record.is_active,
+            })}
             onClick={() => toggleUser(record.id, record.is_active)}
           />
         </Space>
@@ -151,13 +168,10 @@ const Campaigns = () => {
           dataSource={items}
           pagination={false}
           columns={columns}
-          // className={styles.table}
           loading={{
             spinning: isLoading,
             indicator: <Spin indicator={spinIcon} className={styles.loader} />,
           }}
-          scroll={{ x: 1500, y: 1500 }}
-          // scroll={{y: '83vh'}}
           bordered
         />
       </InfiniteScroll>
