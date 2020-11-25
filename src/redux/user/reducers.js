@@ -8,9 +8,9 @@ const initialState = {
   isLoggingIn: false,
   isRestoring: false,
   isAccepting: false,
-  isReinviting: false,
   isProfileUpdating: false,
   isPasswordChanging: false,
+  reinvitingUser: null,
   error: null,
 };
 
@@ -77,7 +77,6 @@ export default function userReducer(state = initialState, action) {
             return {
               ...user,
               key: user.id,
-              fullname: `${user.first_name} ${user.last_name}`,
               action: null,
             };
           }),
@@ -98,11 +97,11 @@ export default function userReducer(state = initialState, action) {
         }),
       };
     case actions.REINVITE_REQUEST:
-      return { ...state, isReinviting: true };
+      return { ...state, reinvitingUser: action.payload.id };
     case actions.REINVITE_SUCCESS:
-      return { ...state, isReinviting: false };
+      return { ...state, reinvitingUser: null };
     case actions.REINVITE_FAILURE:
-      return { ...state, isReinviting: false, error: action.payload.data };
+      return { ...state, reinvitingUser: null, error: action.payload.data };
     default:
       return state;
   }
