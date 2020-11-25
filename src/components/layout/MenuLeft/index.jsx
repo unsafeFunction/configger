@@ -440,11 +440,11 @@ class MenuLeft extends React.Component {
                     <span>Menu</span>
                   </li>
                   <li className={style.air__menuLeft__item}>
-                    <Link to="/dashboard" className={style.air__menuLeft__link}>
+                    <Link to="/timeline" className={style.air__menuLeft__link}>
                       <i
                         className={`fe fe-compass ${style.air__menuLeft__icon}`}
                       />
-                      <span>Dashboard</span>
+                      <span>Timeline</span>
                     </Link>
                   </li>
                   {items}
