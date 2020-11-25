@@ -8,3 +8,20 @@
   background-color: $info;
   border: $info;
 }
+
+.reportCart {
+  height: 100%;
+
+  .report {
+    font-size: 16px;
+
+    cursor: pointer;
+    color: $info;
+  }
+}
+
+.poolPartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
