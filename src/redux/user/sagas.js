@@ -8,9 +8,12 @@ import {
   getProfile,
   updateProfile,
   changePassword,
+  toggleUser,
+  reinviteUser,
 } from 'services/user';
 import cookieStorage from 'utils/cookie';
 import actions from './actions';
+import { take } from 'lodash';
 
 const cookie = cookieStorage();
 
@@ -230,16 +233,53 @@ export function* callChangePassword({ payload }) {
 
 export function* callLoadUsers({ payload }) {
   try {
-    const response = yield call(loadUsers, payload);
+    const response = yield call(loadUsers, payload.page);
 
     yield put({
       type: actions.LOAD_USERS_SUCCESS,
       payload: {
         data: response.data,
-        // total: response.headers['x-total-count'],
       },
     });
   } catch (error) {
+    notification.error(error);
+  }
+}
+
+export function* callToggleUser({ payload }) {
+  const { id, status } = payload;
+  try {
+    const response = yield call(toggleUser, id, status);
+    yield put({
+      type: actions.SET_STATUS_SUCCESS,
+      payload: {
+        data: response.data.user,
+      },
+    });
+    notification.success({
+      message: 'Success!',
+      description: response.data.details,
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
+export function* callReinviteUser({ payload }) {
+  try {
+    const response = yield call(reinviteUser, payload.id);
+
+    yield put({
+      type: actions.REINVITE_SUCCESS,
+    });
+    notification.success({
+      message: 'Success!',
+      description: response.data.details,
+    });
+  } catch (error) {
+    yield put({
+      type: actions.REINVITE_FAILURE,
+    });
     notification.error(error);
   }
 }
@@ -254,5 +294,7 @@ export default function* rootSaga() {
     takeEvery(actions.LOAD_USERS_REQUEST, callLoadUsers),
     takeEvery(actions.UPDATE_PROFILE_REQUEST, callUpdateProfile),
     takeEvery(actions.CHANGE_PASSWORD_REQUEST, callChangePassword),
+    takeEvery(actions.SET_STATUS_REQUEST, callToggleUser),
+    takeEvery(actions.REINVITE_REQUEST, callReinviteUser),
   ]);
 }

@@ -1,278 +1,158 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames';
-import { Table, Button, Tag } from 'antd';
-import { CampaignModal } from 'components/widgets/campaigns';
-import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Button, Tag, Spin, Space, notification, List, Modal, Switch } from 'antd';
+import { LoadingOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import actions from 'redux/user/actions';
-import modalActions from 'redux/modal/actions';
-
+import InfiniteScroll from 'react-infinite-scroller';
+import classNames from 'classnames'
 import styles from './styles.module.scss';
 
 const Campaigns = () => {
-  const dispatchCampaignData = useDispatch();
+  const dispatch = useDispatch();
 
-  const allCampaigns = useSelector(state => state.campaigns.all);
-  const singleCampaign = useSelector(state => state.campaigns.singleCampaign);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const { isLoading, isReinviting, items, total } = useSelector(state => state.user);
 
-  const getStatus = status => {
-    switch (status) {
-      case 'COMPLETED':
-        return <Tag color="#32CD32">{status}</Tag>;
-      case 'SCHEDULED':
-        return <Tag color="#1B55e3">{status}</Tag>;
-      case 'DRAFT':
-        return <Tag color="#6c757d">{status}</Tag>;
-      case 'DELIVERED':
-        return <Tag color="#28a745">{status}</Tag>;
-      case 'FAILED':
-        return <Tag color="#dc3545">{status}</Tag>;
-      default:
-        return <Tag color="#fd7e14">{status}</Tag>;
+  const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
+
+  const Loading = (nextPage) => {
+    if (total && nextPage > 5) {
+      notification.warning({
+        description: 'You loaded all information about users.',
+      });
+      setHasMore(false);
+      return;
     }
+    dispatch({
+      type: actions.LOAD_USERS_REQUEST,
+      payload: {
+        page: nextPage,
+      },
+    });
+    setPage(nextPage);
   };
 
-  const removeCampaign = useCallback(
-    id => {
-      dispatchCampaignData({
-        type: actions.REMOVE_CAMPAIGN_REQUEST,
-        payload: {
-          id,
-        },
-      });
-    },
-    [dispatchCampaignData],
-  );
+  const reinviteUser = useCallback(id => {
+    dispatch({
+      type: actions.REINVITE_REQUEST,
+      payload: {
+        id,
+      },
+    })
+  });
 
-  const setCampaignId = useCallback(
-    value => {
-      dispatchCampaignData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
-        payload: {
-          name: 'id',
-          value,
-        },
-      });
-    },
-    [dispatchCampaignData],
-  );
+  const toggleUser = useCallback((id, currentStatus) => {
+    dispatch({
+      type: actions.SET_STATUS_REQUEST,
+      payload: {
+        id,
+        status: !currentStatus,
+      },
+    })
+  });
 
-  const createCampaign = useCallback(() => {
-    dispatchCampaignData({
-      type: actions.CREATE_CAMPAIGN_REQUEST,
-      payload: {},
-    });
-  }, [dispatchCampaignData, singleCampaign]);
+  const convertDateTime = rawDate  => {
+    const date = new Date(rawDate);
+    return `${date.toLocaleDateString()} ${date.toLocaleString('en-US', {timeStyle: 'short'})}`;
+  }
 
   const columns = [
     {
-      title: 'Id',
-      dataIndex: 'id',
-      render: (value, campaign) => {
-        return (
-          <Link
-            onClick={() => {
-              setCampaignId(campaign.id);
-            }}
-            to={`/campaigns/${campaign.id}`}
-          >
-            {`${value.split('-')[0] || '-'}`}
-          </Link>
-        );
-      },
+      title: 'Full name',
+      dataIndex: 'fullname',
+      key: 'fullname',
     },
     {
-      title: 'Campaign Name',
-      dataIndex: 'title',
-      render: (name, campaign) => {
-        return (
-          <Link
-            onClick={() => {
-              setCampaignId(campaign.id);
-            }}
-            to={`/campaigns/${campaign.id}`}
-          >
-            {`${name || '-'}`}
-          </Link>
-        );
-      },
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: 'Key',
-      dataIndex: 'key',
-      render: value => {
-        return value || '-';
-      },
+      title: 'Company name',
+      dataIndex: 'company',
+      key: 'company',
+      width: '30%',
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      render: status => {
-        return getStatus(status) || '-';
-      },
+      title: 'Confiramtion statuses',
+      key: 'verified',
+      render: (verified, record) => (
+        <>
+          {record.verified ? 
+          <Tag icon={<CheckCircleOutlined />} color='processing'>
+            Email confirmed
+          </Tag> : 
+          <Tag icon={<CloseCircleOutlined />} color='error'>
+            Email not confirmed
+          </Tag>}
+          {record.terms_accepted ? 
+          <Tag icon={<CheckCircleOutlined />} color='processing'>
+            Terms accepted
+          </Tag> : 
+          <Tag icon={<CloseCircleOutlined />} color='volcano'>
+            Terms not accepted
+          </Tag>}
+        </>
+      )
     },
     {
-      title: 'Delivered %',
-      dataIndex: 'delivered',
-      render: value => {
-        return `${value || '0'} %`;
-      },
-    },
-    {
-      title: 'Clicks',
-      dataIndex: 'clicked',
-      render: value => {
-        return value || '-';
-      },
-    },
-    {
-      title: 'Edited',
-      dataIndex: 'updatedAt',
-      render: value => {
-        return value || '-';
-      },
+      title: 'Last login',
+      dataIndex: 'last_login',
+      key: 'last_login',
+      render: (text, record) => (
+        <p>{convertDateTime(text)}</p>
+      )
     },
     {
       title: 'Actions',
-      dataIndex: 'action',
-      render: (action, campaign) => {
-        return (
+      key: 'action',
+      fixed: 'right',
+      render: (text, record) => (
+        <Space size="middle">
           <Button
-            type="danger"
-            ghost
-            icon={<DeleteOutlined />}
-            onClick={() =>
-              dispatchCampaignData({
-                type: modalActions.SHOW_MODAL,
-                modalType: 'WARNING_MODAL',
-                modalProps: {
-                  message: () => (
-                    <h4>{`You try to delete ${campaign.name}. Are you sure?`}</h4>
-                  ),
-                  title: 'Remove campaign',
-                  onOk: () => removeCampaign(campaign.id),
-                },
-              })
-            }
+            type="primary"
+            size="small"
+            className={styles.action}
+            loading={isReinviting}
+            onClick={() => reinviteUser(record.id)}
+          >
+            Reinvite
+          </Button>
+          <Switch 
+            checkedChildren="Active"
+            unCheckedChildren="Inactive"
+            checked={record.is_active}
+            className={classNames({[styles.action]: record.is_active})}
+            onClick={() => toggleUser(record.id, record.is_active)}
           />
-        );
-      },
+        </Space>
+      ),
     },
-  ];
-
-  const onChange = useCallback(
-    event => {
-      const { value, name } = event.target;
-
-      dispatchCampaignData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatchCampaignData],
-  );
-
-  const onSelectChange = useCallback(
-    (value, { name }) => {
-      dispatchCampaignData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatchCampaignData],
-  );
-
-  const onSwitchChange = useCallback(
-    (value, event) => {
-      const { name } = event.target;
-      dispatchCampaignData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatchCampaignData],
-  );
-
-  const useLoading = () => {
-    useEffect(() => {
-      dispatchCampaignData({
-        type: actions.LOAD_USERS_REQUEST,
-        payload: {
-          page: 1,
-        },
-      });
-    }, []);
-  };
-
-  const onPageChange = page => {
-    dispatchCampaignData({
-      type: actions.LOAD_CAMPAIGN_REQUEST,
-      payload: {
-        page,
-      },
-    });
-  };
-
-  useLoading();
-
-  const onModalToggle = useCallback(() => {
-    dispatchCampaignData({
-      type: modalActions.SHOW_MODAL,
-      modalType: 'CONFIRM_MODAL',
-      modalProps: {
-        title: 'Create campaign',
-        confirmAction: () => {},
-        onCancel: onModalToggle,
-        onOk: createCampaign,
-        message: () => (
-          <CampaignModal
-            onSwitchChange={onSwitchChange}
-            onSelectChange={onSelectChange}
-            onChange={onChange}
-            singleCampaign={singleCampaign}
-          />
-        ),
-        type: 'danger',
-        width: 820,
-        bodyStyle: {
-          padding: '0',
-        },
-      },
-    });
-  }, [createCampaign, dispatchCampaignData, onChange, onSelectChange]);
+  ];  
 
   return (
-    <>
-      <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Customers</h4>
-        <Button
-          onClick={onModalToggle}
-          icon={<PlusCircleOutlined />}
-          type="primary"
-        >
-          Create Campaign
-        </Button>
-      </div>
-      <Table
-        dataSource={allCampaigns.items}
-        columns={columns}
-        scroll={{ x: 1200 }}
-        bordered
-        loading={!allCampaigns.isLoading}
-        align="center"
-        pagination={{ total: allCampaigns.total, onChange: onPageChange }}
-      />
-    </>
+    <div className={styles.table}>
+      <InfiniteScroll
+        pageStart={page}
+        loadMore={ () => Loading(page + 1) }
+        hasMore={!isLoading && hasMore}
+        useWindow={false}
+      >
+        <Table
+          dataSource={items}
+          pagination={false}
+          columns={columns}
+          // className={styles.table}
+          loading={{
+            spinning: isLoading,
+            indicator: <Spin indicator={spinIcon} className={styles.loader}/>
+          }}
+          // scroll={{y: '83vh'}}
+          bordered
+        />
+      </InfiniteScroll>
+    </div>
   );
 };
 

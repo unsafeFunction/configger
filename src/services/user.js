@@ -68,16 +68,28 @@ export const refresh = async refreshToken => {
   }
 };
 
-export const loadUsers = async query => {
-  try {
-    const users = await axiosClient.get('/users/', {
-      params: {
-        ...query,
-      },
-    });
+export const loadUsers = async page => {
+  const limit = 30;
+  const users = await axiosClient.get('/users/', {
+    params: {
+      limit,
+      offset: limit * (page - 1),
+    },
+  });
 
-    return users;
-  } catch (error) {
-    return error;
-  }
+  return users;
+};
+
+export const toggleUser = async (id, is_active) => {
+  const status = await axiosClient.patch(`/users/${id}/`, {
+    is_active
+  });
+
+  return status;
+};
+
+export const reinviteUser = async id => {
+  const invitation = await axiosClient.post(`/users/${id}/reinvite/`);
+
+  return invitation;
 };
