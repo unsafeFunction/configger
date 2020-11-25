@@ -274,7 +274,7 @@ export function* callReinviteUser({ payload }) {
     });
     notification.success({
       message: 'Success!',
-      description: response.data.details,
+      description: response.data.detail,
     });
   } catch (error) {
     yield put({
