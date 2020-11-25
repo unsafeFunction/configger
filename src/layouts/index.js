@@ -68,9 +68,9 @@ class Layout extends React.PureComponent {
     console.log(timeline.all.isLoading);
     const BootstrappedLayout = () => {
       // show loader when user in check authorization process, not authorized yet and not on login pages
-      if (isTimelineLoading && !isUserAuthorized && !isAuthLayout) {
-        return <Loader />;
-      }
+      // if (!isUserAuthorized && !isAuthLayout) {
+      //   return <Loader />;
+      // }
       // redirect to login page if current is not login page and user not authorized
       if (!isAuthLayout && !isUserAuthorized) {
         return <Redirect to="/system/login" />;
