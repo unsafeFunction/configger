@@ -7,6 +7,7 @@ import campaigns from './campaigns/reducers';
 import recipients from './recipients/reducers';
 import messages from './messages/reducers';
 import modal from './modal/reducers';
+import batches from './batches/reducers';
 import timeline from './timeline/reducers';
 
 export default history =>
@@ -19,5 +20,6 @@ export default history =>
     modal,
     recipients,
     messages,
+    batches,
     timeline,
   });

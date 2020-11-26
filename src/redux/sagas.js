@@ -5,6 +5,7 @@ import settings from './settings/sagas';
 import campaigns from './campaigns/sagas';
 import recipients from './recipients/sagas';
 import messages from './messages/sagas';
+import batches from './batches/sagas';
 import timeline from './timeline/sagas';
 
 export default function* rootSaga() {
@@ -15,6 +16,7 @@ export default function* rootSaga() {
     campaigns(),
     recipients(),
     messages(),
+    batches(),
     timeline(),
   ]);
 }
