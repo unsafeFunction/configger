@@ -53,6 +53,11 @@ const routes = [
     exact: true,
   },
   {
+    path: '/batches',
+    Component: loadable(() => import('pages/batches')),
+    exact: true,
+  },
+  {
     path: '/settings',
     Component: loadable(() => import('pages/Settings')),
     exact: true,
