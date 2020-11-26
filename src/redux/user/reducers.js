@@ -73,7 +73,7 @@ export default function userReducer(state = initialState, action) {
         ...state,
         items: [
           ...state.items,
-          ...action.payload.data.results.map(user => {
+          ...action.payload.data.map(user => {
             return {
               ...user,
               key: user.id,
@@ -102,6 +102,19 @@ export default function userReducer(state = initialState, action) {
       return { ...state, reinvitingUser: null };
     case actions.REINVITE_FAILURE:
       return { ...state, reinvitingUser: null, error: action.payload.data };
+    case actions.SEARCH_USER_SUCCESS:
+      return {
+        ...state,
+        items: [
+          ...action.payload.data.map(user => {
+            return {
+              ...user,
+              key: user.id,
+              action: null,
+            }
+          })
+        ]
+      }
     default:
       return state;
   }

@@ -1,22 +1,25 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Button, Tag, Spin, Space, notification, Switch } from 'antd';
+import { Table, Button, Tag, Spin, Space, notification, Switch, Input } from 'antd';
 import {
   LoadingOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
   SendOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import actions from 'redux/user/actions';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
 import styles from './styles.module.scss';
+import debounce from "lodash.debounce";
 
 const Campaigns = () => {
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [searchName, setSearchName] = useState('');
   const { isLoading, reinvitingUser, items, total } = useSelector(
     state => state.user,
   );
@@ -26,7 +29,7 @@ const Campaigns = () => {
   const dateFormat = { day: '2-digit', month: '2-digit', year: 'numeric' };
   const timeFormat = { hour: '2-digit', minute: '2-digit' };
 
-  const Loading = nextPage => {
+  const loadPage = nextPage => {
     if (total && nextPage > 5) {
       notification.warning({
         description: 'You loaded all information about users.',
@@ -62,6 +65,21 @@ const Campaigns = () => {
     });
   });
 
+  const searchUser = useCallback(debounce(name => {
+    if (!name) {
+      setPage(0);
+      setHasMore(true);
+      return;
+    }
+    setHasMore(false);
+    dispatch({
+      type: actions.SEARCH_USER_REQUEST,
+      payload: {
+        name,
+      },
+    });
+  }, 500), [searchName]);
+
   const convertDateTime = rawDate => {
     const date = new Date(rawDate);
     return `${date.toLocaleDateString(
@@ -69,6 +87,11 @@ const Campaigns = () => {
       dateFormat,
     )} ${date.toLocaleString('en-US', timeFormat)}`;
   };
+
+  useEffect(() => {
+    searchUser(searchName);
+    return searchUser.cancel;
+  }, [searchName, searchUser]);
 
   const columns = [
     {
@@ -92,7 +115,6 @@ const Campaigns = () => {
     },
     {
       title: 'Confiramtion statuses',
-      key: 'verified',
       render: (_, record) => (
         <div className={classNames(styles.columnElements, styles.tagColumn)}>
           {record.verified ? (
@@ -157,24 +179,44 @@ const Campaigns = () => {
   ];
 
   return (
-    <div className={styles.table}>
-      <InfiniteScroll
-        pageStart={page}
-        loadMore={() => Loading(page + 1)}
-        hasMore={!isLoading && hasMore}
-        useWindow={false}
-      >
-        <Table
-          dataSource={items}
-          pagination={false}
-          columns={columns}
-          loading={{
-            spinning: isLoading,
-            indicator: <Spin indicator={spinIcon} className={styles.loader} />,
-          }}
-          bordered
+    <div>
+      <div className={styles.subheader}>
+        <Input
+          size='middle' 
+          prefix={ <SearchOutlined />} 
+          className={styles.search}
+          placeholder="Search..."
+          value={searchName}
+          onChange={event => setSearchName(event.target.value)}
         />
-      </InfiniteScroll>
+        <Button
+          type="primary"
+          size="large"
+          className="text-center btn btn-info"
+          htmlType="submit"
+        >
+          Invite Customer
+        </Button>
+      </div>
+      <div className={styles.table}>
+        <InfiniteScroll
+          pageStart={page}
+          loadMore={() => loadPage(page + 1)}
+          hasMore={!isLoading && hasMore}
+          useWindow={false}
+        >
+          <Table
+            dataSource={items}
+            pagination={false}
+            columns={columns}
+            loading={{
+              spinning: isLoading,
+              indicator: <Spin indicator={spinIcon} className={styles.loader} />,
+            }}
+            bordered
+          />
+        </InfiniteScroll>
+      </div>
     </div>
   );
 };

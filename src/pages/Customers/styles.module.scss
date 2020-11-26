@@ -1,7 +1,7 @@
 @import 'assets/styles/mixins.scss';
 
 .table {
-  max-height: 87vh;
+  max-height: 84vh;
   width: 100%;
   overflow: auto;
 }
@@ -50,4 +50,15 @@
 .actionColumn {
   align-items: flex-start;
   height: 3.7em;
+}
+
+.search {
+  width: 25%;
+  margin-bottom: 1em;
+}
+
+.subheader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

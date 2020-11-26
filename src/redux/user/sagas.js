@@ -10,10 +10,10 @@ import {
   changePassword,
   toggleUser,
   reinviteUser,
+  searchUser,
 } from 'services/user';
 import cookieStorage from 'utils/cookie';
 import actions from './actions';
-import { take } from 'lodash';
 
 const cookie = cookieStorage();
 
@@ -214,7 +214,6 @@ export function* callChangePassword({ payload }) {
       description: 'Your password has been changed.',
     });
   } catch (error) {
-    console.log(error);
     const errorData = error.response.data;
 
     yield put({
@@ -238,7 +237,7 @@ export function* callLoadUsers({ payload }) {
     yield put({
       type: actions.LOAD_USERS_SUCCESS,
       payload: {
-        data: response.data,
+        data: response.data.results,
       },
     });
   } catch (error) {
@@ -284,6 +283,21 @@ export function* callReinviteUser({ payload }) {
   }
 }
 
+export function* callSearchUser({ payload }) {
+  try {
+    const response = yield call(searchUser, payload.name);
+
+    yield put({
+      type: actions.SEARCH_USER_SUCCESS,
+      payload: {
+        data: response.data.results,
+      }
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.LOGIN_REQUEST, callLogin),
@@ -296,5 +310,6 @@ export default function* rootSaga() {
     takeEvery(actions.CHANGE_PASSWORD_REQUEST, callChangePassword),
     takeEvery(actions.SET_STATUS_REQUEST, callToggleUser),
     takeEvery(actions.REINVITE_REQUEST, callReinviteUser),
+    takeEvery(actions.SEARCH_USER_REQUEST, callSearchUser),
   ]);
 }
