@@ -8,6 +8,7 @@ import recipients from './recipients/reducers';
 import messages from './messages/reducers';
 import modal from './modal/reducers';
 import batches from './batches/reducers';
+import timeline from './timeline/reducers';
 
 export default history =>
   combineReducers({
@@ -20,4 +21,5 @@ export default history =>
     recipients,
     messages,
     batches,
+    timeline,
   });
