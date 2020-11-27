@@ -17,7 +17,7 @@ const Layouts = {
 
 const cookie = cookieStorage();
 @withRouter
-@connect(({ user }) => ({ user }))
+@connect(({ user, timeline }) => ({ user, timeline }))
 class Layout extends React.PureComponent {
   previousPath = '';
 
@@ -34,6 +34,7 @@ class Layout extends React.PureComponent {
       children,
       location: { pathname, search },
       user,
+      timeline,
     } = this.props;
 
     // NProgress Management
@@ -62,14 +63,14 @@ class Layout extends React.PureComponent {
     const Container = Layouts[layoutType];
     const isUserAuthorized = cookie.getItem('accessToken');
     const isTermsAccepted = cookie.getItem('termsAccepted');
-    const isUserLoading = user.loading;
+    const isTimelineLoading = !timeline.all.isLoading;
     const isAuthLayout = layoutType === 'auth';
-
+    console.log(timeline.all.isLoading);
     const BootstrappedLayout = () => {
       // show loader when user in check authorization process, not authorized yet and not on login pages
-      if (isUserLoading && !isUserAuthorized && !isAuthLayout) {
-        return <Loader />;
-      }
+      // if (!isUserAuthorized && !isAuthLayout) {
+      //   return <Loader />;
+      // }
       // redirect to login page if current is not login page and user not authorized
       if (!isAuthLayout && !isUserAuthorized) {
         return <Redirect to="/system/login" />;

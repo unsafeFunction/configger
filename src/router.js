@@ -18,8 +18,8 @@ const loadable = loader =>
 
 const routes = [
   {
-    path: '/dashboard',
-    Component: loadable(() => import('pages/dashboard')),
+    path: '/timeline',
+    Component: loadable(() => import('pages/timeline')),
     exact: true,
   },
   {
@@ -50,6 +50,11 @@ const routes = [
   {
     path: '/customers',
     Component: loadable(() => import('pages/Customers')),
+    exact: true,
+  },
+  {
+    path: '/batches',
+    Component: loadable(() => import('pages/batches')),
     exact: true,
   },
   {

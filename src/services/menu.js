@@ -46,6 +46,12 @@ export default async function getMenuData() {
       url: '/companies',
     },
     {
+      title: 'Batches',
+      key: 'batches',
+      url: '/batches',
+      icon: 'fe fe-box',
+    },
+    {
       title: 'Settings',
       key: 'settings',
       icon: 'fe fe-settings',

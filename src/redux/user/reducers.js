@@ -2,10 +2,13 @@ import actions from './actions';
 
 const initialState = {
   profile: {},
+  items: [],
+  total: 0,
   authorized: false,
   isLoggingIn: false,
   isRestoring: false,
   isAccepting: false,
+  isReinviting: false,
   isProfileUpdating: false,
   isPasswordChanging: false,
   error: null,
@@ -60,27 +63,46 @@ export default function userReducer(state = initialState, action) {
         isPasswordChanging: false,
         error: action.payload.data,
       };
-    case actions.FETCH_USERS_REQUEST: {
+    case actions.LOAD_USERS_REQUEST:
       return {
         ...state,
-        isLoading: false,
-      };
-    }
-    case actions.FETCH_USERS_SUCCESS: {
-      console.log(action.payload);
-      return {
-        items: action.payload.data.map(user => {
-          return {
-            ...user,
-            action: null,
-          };
-        }),
-        // total: action.payload.total,
         isLoading: true,
       };
-    }
-    case actions.FETCH_USERS_FAILURE:
-      return { ...state, isLoading: true, error: action.payload.data };
+    case actions.LOAD_USERS_SUCCESS:
+      return {
+        ...state,
+        items: [
+          ...state.items,
+          ...action.payload.data.results.map(user => {
+            return {
+              ...user,
+              key: user.id,
+              fullname: `${user.first_name} ${user.last_name}`,
+              action: null,
+            };
+          }),
+        ],
+        total: action.payload.data.count,
+        isLoading: false,
+      };
+    case actions.LOAD_USERS_FAILURE:
+      return { ...state, isLoading: false, error: action.payload.data };
+    case actions.SET_STATUS_SUCCESS:
+      return {
+        ...state,
+        items: state.items.map(user => {
+          if (user.id === action.payload.data.id) {
+            user.is_active = action.payload.data.is_active;
+          }
+          return user;
+        }),
+      };
+    case actions.REINVITE_REQUEST:
+      return { ...state, isReinviting: true };
+    case actions.REINVITE_SUCCESS:
+      return { ...state, isReinviting: false };
+    case actions.REINVITE_FAILURE:
+      return { ...state, isReinviting: false, error: action.payload.data };
     default:
       return state;
   }

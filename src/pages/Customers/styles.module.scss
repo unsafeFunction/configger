@@ -1,3 +1,5 @@
+@import 'assets/styles/mixins.scss';
+
 .page__header {
   width: 100%;
   display: flex;
@@ -9,4 +11,30 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 12px;
+}
+
+.tableWrapper {
+  max-height: 1000px;
+}
+
+.table {
+  max-height: 87vh;
+  width: 100%;
+  overflow: auto;
+}
+
+.loader {
+  position: fixed !important;
+  left: auto !important;
+  text-align: center;
+}
+
+.action {
+  background: $info;
+}
+
+.confirmLabel {
+  // background: $info;
+  display: flex;
+  flex-direction: row;
 }

@@ -206,7 +206,7 @@ const Campaigns = () => {
   const useFetching = () => {
     useEffect(() => {
       dispatchCampaignData({
-        type: actions.FETCH_USERS_REQUEST,
+        type: actions.LOAD_USERS_REQUEST,
         payload: {
           page: 1,
         },
