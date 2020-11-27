@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table, Button, Tag, Spin, Space, notification, Switch, Input } from 'antd';
 import {
@@ -23,17 +23,16 @@ const Campaigns = () => {
   const { isLoading, reinvitingUser, items, total } = useSelector(
     state => state.user,
   );
-
+  const tableRef = useRef(null);
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
   const dateFormat = { day: '2-digit', month: '2-digit', year: 'numeric' };
   const timeFormat = { hour: '2-digit', minute: '2-digit' };
 
-  const loadPage = nextPage => {
-    if (total && nextPage > 5) {
-      notification.warning({
-        description: 'You loaded all information about users.',
-      });
+  const loadPage = useCallback((nextPage, userName, isSearching) => {
+    const initialLoad = !!page;
+
+    if (hasMore && initialLoad && !isSearching && items.length >= total) {
       setHasMore(false);
       return;
     }
@@ -41,10 +40,19 @@ const Campaigns = () => {
       type: actions.LOAD_USERS_REQUEST,
       payload: {
         page: nextPage,
+        search: userName,
       },
     });
     setPage(nextPage);
-  };
+  });
+
+  const searchUser = useCallback(debounce((name, page) => {
+    if (page) {
+      loadPage(1, name, true);
+      setHasMore(true);
+      tableRef.current.scroll({ top: 0 });
+    }
+  }, 500), [searchName]);
 
   const reinviteUser = useCallback(id => {
     dispatch({
@@ -65,21 +73,6 @@ const Campaigns = () => {
     });
   });
 
-  const searchUser = useCallback(debounce(name => {
-    if (!name) {
-      setPage(0);
-      setHasMore(true);
-      return;
-    }
-    setHasMore(false);
-    dispatch({
-      type: actions.SEARCH_USER_REQUEST,
-      payload: {
-        name,
-      },
-    });
-  }, 500), [searchName]);
-
   const convertDateTime = rawDate => {
     const date = new Date(rawDate);
     return `${date.toLocaleDateString(
@@ -89,7 +82,7 @@ const Campaigns = () => {
   };
 
   useEffect(() => {
-    searchUser(searchName);
+    searchUser(searchName, page);
     return searchUser.cancel;
   }, [searchName, searchUser]);
 
@@ -115,6 +108,7 @@ const Campaigns = () => {
     },
     {
       title: 'Confiramtion statuses',
+      width: '175px',
       render: (_, record) => (
         <div className={classNames(styles.columnElements, styles.tagColumn)}>
           {record.verified ? (
@@ -142,6 +136,7 @@ const Campaigns = () => {
       title: 'Last login',
       dataIndex: 'last_login',
       key: 'last_login',
+      width: '150px',
       render: text => <span>{convertDateTime(text)}</span>,
     },
     {
@@ -192,16 +187,16 @@ const Campaigns = () => {
         <Button
           type="primary"
           size="large"
-          className="text-center btn btn-info"
+          className={classNames(styles.inviteButton, "text-center", "btn", "btn-info")}
           htmlType="submit"
         >
           Invite Customer
         </Button>
       </div>
-      <div className={styles.table}>
+      <div ref={tableRef} className={styles.table}>
         <InfiniteScroll
           pageStart={page}
-          loadMore={() => loadPage(page + 1)}
+          loadMore={() => loadPage(page + 1, searchName)}
           hasMore={!isLoading && hasMore}
           useWindow={false}
         >

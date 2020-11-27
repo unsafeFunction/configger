@@ -68,12 +68,13 @@ export const refresh = async refreshToken => {
   }
 };
 
-export const loadUsers = async page => {
+export const loadUsers = async (page, search) => {
   const limit = 30;
   const users = await axiosClient.get('/users/', {
     params: {
       limit,
       offset: limit * (page - 1),
+      search,
     },
   });
 

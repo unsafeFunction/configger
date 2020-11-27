@@ -69,18 +69,16 @@ export default function userReducer(state = initialState, action) {
         isLoading: true,
       };
     case actions.LOAD_USERS_SUCCESS:
+      const newItems = action.payload.data.results.map(user => {
+        return {
+          ...user,
+          key: user.id,
+        };
+      });
+      const items = action.payload.page > 1 ? [...state.items, ...newItems] : newItems;
       return {
         ...state,
-        items: [
-          ...state.items,
-          ...action.payload.data.map(user => {
-            return {
-              ...user,
-              key: user.id,
-              action: null,
-            };
-          }),
-        ],
+        items,
         total: action.payload.data.count,
         isLoading: false,
       };
@@ -102,19 +100,6 @@ export default function userReducer(state = initialState, action) {
       return { ...state, reinvitingUser: null };
     case actions.REINVITE_FAILURE:
       return { ...state, reinvitingUser: null, error: action.payload.data };
-    case actions.SEARCH_USER_SUCCESS:
-      return {
-        ...state,
-        items: [
-          ...action.payload.data.map(user => {
-            return {
-              ...user,
-              key: user.id,
-              action: null,
-            }
-          })
-        ]
-      }
     default:
       return state;
   }
