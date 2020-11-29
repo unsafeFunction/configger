@@ -7,7 +7,7 @@ const initialState = {
   items: [],
   error: null,
   isLoading: false,
-  limit: 25,
+  offset: 0,
   total: 0,
   page: 1,
 };
@@ -22,15 +22,18 @@ const companiesReducer = (state = initialState, action) => {
     }
     case actions.FETCH_COMPANIES_SUCCESS: {
       return {
-        items: action.payload.data.map(company => {
-          return {
-            ...company,
-            action: null,
-          };
-        }),
+        items: [
+          ...state.items,
+          ...action.payload.data.map(company => {
+            return {
+              ...company,
+              action: null,
+            };
+          }),
+        ],
         total: action.payload.total,
         isLoading: true,
-        limit: state.limit + constants.companies.itemsLoadingCount,
+        offset: state.offset + constants.companies.itemsLoadingCount,
       };
     }
     case actions.REMOVE_CAMPAIGN_REQUEST: {
