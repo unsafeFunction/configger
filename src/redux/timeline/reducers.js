@@ -89,7 +89,7 @@ export default combineReducers({
           ...state,
           isLoading: true,
         };
-      case actions.ON_CAMPAIGN_DATA_CHANGE:
+      case actions.ON_COMPANY_DATA_CHANGE:
         return Object.assign({}, state, {
           [action.payload.name]: action.payload.value,
         });

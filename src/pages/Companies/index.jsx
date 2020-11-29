@@ -4,7 +4,12 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Table, Button, Tag } from 'antd';
 import { CampaignModal } from 'components/widgets/campaigns';
-import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  PlusCircleOutlined,
+  DeleteOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/companies/actions';
 import modalActions from 'redux/modal/actions';
 
@@ -15,6 +20,7 @@ const Companies = () => {
 
   const allCompanies = useSelector(state => state.companies.all);
   const singleCampaign = useSelector(state => state.campaigns.singleCampaign);
+  const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
   const getStatus = status => {
     switch (status) {
@@ -45,10 +51,10 @@ const Companies = () => {
     [dispatchCompaniesData],
   );
 
-  const setCampaignId = useCallback(
+  const setCompanyId = useCallback(
     value => {
       dispatchCompaniesData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
+        type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name: 'id',
           value,
@@ -69,13 +75,13 @@ const Companies = () => {
     {
       title: 'Company Name',
       dataIndex: 'name',
-      render: (name, campaign) => {
+      render: (name, company) => {
         return (
           <Link
             onClick={() => {
-              setCampaignId(campaign.id);
+              setCompanyId(company.unique_id);
             }}
-            to={`/campaigns/${campaign.id}`}
+            to={`/companies/${company.unique_id}`}
           >
             {`${name || '-'}`}
           </Link>
@@ -136,7 +142,7 @@ const Companies = () => {
       const { value, name } = event.target;
 
       dispatchCompaniesData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
+        type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name,
           value,
@@ -149,7 +155,7 @@ const Companies = () => {
   const onSelectChange = useCallback(
     (value, { name }) => {
       dispatchCompaniesData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
+        type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name,
           value,
@@ -163,7 +169,7 @@ const Companies = () => {
     (value, event) => {
       const { name } = event.target;
       dispatchCompaniesData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
+        type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name,
           value,
@@ -178,7 +184,7 @@ const Companies = () => {
       dispatchCompaniesData({
         type: actions.FETCH_COMPANIES_REQUEST,
         payload: {
-          limit: 25,
+          limit: allCompanies.limit,
           offset: 0,
         },
       });
@@ -222,6 +228,15 @@ const Companies = () => {
     });
   }, [createCampaign, dispatchCompaniesData, onChange, onSelectChange]);
 
+  const loadMore = useCallback(() => {
+    dispatchCompaniesData({
+      type: actions.FETCH_COMPANIES_REQUEST,
+      payload: {
+        limit: allCompanies.limit,
+      },
+    });
+  }, [dispatchCompaniesData, allCompanies]);
+
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
@@ -234,15 +249,25 @@ const Companies = () => {
           Create Company
         </Button>
       </div>
-      <Table
-        dataSource={allCompanies.items}
-        columns={columns}
-        scroll={{ x: 1200 }}
-        bordered
-        loading={!allCompanies.isLoading}
-        align="center"
-        pagination={{ pageSize: 25, hideOnSinglePage: true }}
-      />
+      <InfiniteScroll
+        next={loadMore}
+        hasMore={allCompanies.items.length < allCompanies.total}
+        loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
+        dataLength={allCompanies.items.length}
+      >
+        <Table
+          dataSource={allCompanies.items}
+          columns={columns}
+          scroll={{ x: 1200 }}
+          bordered
+          loading={!allCompanies.isLoading}
+          align="center"
+          pagination={{
+            pageSize: allCompanies.items.length,
+            hideOnSinglePage: true,
+          }}
+        />
+      </InfiniteScroll>
     </>
   );
 };

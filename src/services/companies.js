@@ -1,12 +1,11 @@
 import axiosClient from 'utils/axiosClient';
 import moment from 'moment';
 
-export const fetchCompanies = async ({ limit, offset }) => {
+export const fetchCompanies = async ({ limit }) => {
   try {
     return await axiosClient.get('/companies/', {
       params: {
         limit,
-        offset,
       },
     });
   } catch (error) {

@@ -14,14 +14,13 @@ import actions from './actions';
 
 export function* callFetchCompanies({ payload }) {
   try {
-    console.log('here');
     const response = yield call(fetchCompanies, payload);
 
     yield put({
       type: actions.FETCH_COMPANIES_SUCCESS,
       payload: {
         data: response.data.results,
-        total: response.headers['x-total-count'],
+        total: response.data.count,
       },
     });
   } catch (error) {

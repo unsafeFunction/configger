@@ -48,7 +48,7 @@ const Campaigns = () => {
   const setCampaignId = useCallback(
     value => {
       dispatchCampaignData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
+        type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name: 'id',
           value,
@@ -166,7 +166,7 @@ const Campaigns = () => {
       const { value, name } = event.target;
 
       dispatchCampaignData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
+        type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name,
           value,
@@ -179,7 +179,7 @@ const Campaigns = () => {
   const onSelectChange = useCallback(
     (value, { name }) => {
       dispatchCampaignData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
+        type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name,
           value,
@@ -193,7 +193,7 @@ const Campaigns = () => {
     (value, event) => {
       const { name } = event.target;
       dispatchCampaignData({
-        type: actions.ON_CAMPAIGN_DATA_CHANGE,
+        type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name,
           value,
