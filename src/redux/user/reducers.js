@@ -88,11 +88,11 @@ export default function userReducer(state = initialState, action) {
     case actions.LOAD_USERS_FAILURE:
       return { ...state, isLoading: false, error: action.payload.data };
     case actions.SET_STATUS_SUCCESS:
-      return { 
+      return {
         ...state,
         items: state.items.map(user => {
           if (user.id === action.payload.data.id) {
-            user.is_active = action.payload.data.is_active
+            user.is_active = action.payload.data.is_active;
           }
           return user;
         }),

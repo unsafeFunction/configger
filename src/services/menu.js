@@ -40,6 +40,12 @@ export default async function getMenuData() {
       icon: 'fe fe-user',
     },
     {
+      title: 'Companies',
+      key: 'companies',
+      icon: 'fe fe-briefcase',
+      url: '/companies',
+    },
+    {
       title: 'Batches',
       key: 'batches',
       url: '/batches',

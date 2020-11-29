@@ -1,49 +1,94 @@
 import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
 import actions from './actions';
+import { constants } from '../../utils/constants';
 
 const initialState = {
   items: [],
   error: null,
   isLoading: false,
+  limit: 25,
   total: 0,
   page: 1,
 };
 
-const campaignsReducer = (state = initialState, action) => {
+const companiesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.LOAD_TIMELINE_REQUEST: {
+    case actions.FETCH_COMPANIES_REQUEST: {
       return {
         ...state,
         isLoading: false,
       };
     }
-    case actions.LOAD_TIMELINE_SUCCESS: {
-      const { data } = action.payload;
-
+    case actions.FETCH_COMPANIES_SUCCESS: {
       return {
-        items: data,
+        items: action.payload.data.map(company => {
+          return {
+            ...company,
+            action: null,
+          };
+        }),
+        total: action.payload.total,
+        isLoading: true,
+        limit: state.limit + constants.companies.itemsLoadingCount,
+      };
+    }
+    case actions.REMOVE_CAMPAIGN_REQUEST: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case actions.REMOVE_CAMPAIGN_SUCCESS: {
+      return {
+        items:
+          action.payload.status === 204 &&
+          state.items.filter(campaign => {
+            return campaign.id !== action.payload.id;
+          }),
         isLoading: true,
       };
     }
-    case actions.LOAD_TIMELINE_FAILURE:
+    case actions.CREATE_CAMPAIGN_REQUEST:
       return {
         ...state,
+        isLoading: false,
+      };
+    case actions.CREATE_CAMPAIGN_SUCCESS:
+      return {
+        ...state,
+        items: [...state.items, action.payload.data],
         isLoading: true,
       };
-
+    case actions.CREATE_CAMPAIGN_FAILURE: {
+      return {
+        isLoading: true,
+        error: action.payload,
+      };
+    }
     default:
       return state;
   }
 };
 
 const initialSingleCampaign = {
+  title: '',
+  key: '',
+  smsBody: '',
+  destination: '',
+  fromNumber: '+17739662558',
+  originalLink: '',
+  deepLinkDomain: ' https://sms-offer.com/s',
+  trackingEnabled: false,
+  conversationEnabled: false,
+  startDateTime: '',
   error: null,
   isLoading: false,
+  statistics: {},
 };
 
 export default combineReducers({
-  all: campaignsReducer,
+  all: companiesReducer,
   singleCampaign: single({
     types: [
       actions.GET_CAMPAIGN_REQUEST,

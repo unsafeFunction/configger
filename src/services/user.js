@@ -82,7 +82,7 @@ export const loadUsers = async page => {
 
 export const toggleUser = async (id, is_active) => {
   const status = await axiosClient.patch(`/users/${id}/`, {
-    is_active
+    is_active,
   });
 
   return status;

@@ -67,6 +67,11 @@ const routes = [
     Component: loadable(() => import('pages/messaging')),
     exact: true,
   },
+  {
+    path: '/companies',
+    Component: loadable(() => import('pages/Companies')),
+    exact: true,
+  },
 ];
 
 const mapStateToProps = ({ settings }) => ({ settings });

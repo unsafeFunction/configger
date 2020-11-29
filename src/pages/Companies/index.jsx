@@ -4,17 +4,23 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Table, Button, Tag } from 'antd';
 import { CampaignModal } from 'components/widgets/campaigns';
-import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
-import actions from 'redux/user/actions';
+import {
+  PlusCircleOutlined,
+  DeleteOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import actions from 'redux/companies/actions';
 import modalActions from 'redux/modal/actions';
 
 import styles from './styles.module.scss';
 
-const Campaigns = () => {
-  const dispatchCampaignData = useDispatch();
+const Companies = () => {
+  const dispatchCompaniesData = useDispatch();
 
-  const allCampaigns = useSelector(state => state.campaigns.all);
+  const allCompanies = useSelector(state => state.companies.all);
   const singleCampaign = useSelector(state => state.campaigns.singleCampaign);
+  const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
   const getStatus = status => {
     switch (status) {
@@ -35,19 +41,19 @@ const Campaigns = () => {
 
   const removeCampaign = useCallback(
     id => {
-      dispatchCampaignData({
+      dispatchCompaniesData({
         type: actions.REMOVE_CAMPAIGN_REQUEST,
         payload: {
           id,
         },
       });
     },
-    [dispatchCampaignData],
+    [dispatchCompaniesData],
   );
 
-  const setCampaignId = useCallback(
+  const setCompanyId = useCallback(
     value => {
-      dispatchCampaignData({
+      dispatchCompaniesData({
         type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name: 'id',
@@ -55,43 +61,27 @@ const Campaigns = () => {
         },
       });
     },
-    [dispatchCampaignData],
+    [dispatchCompaniesData],
   );
 
   const createCampaign = useCallback(() => {
-    dispatchCampaignData({
+    dispatchCompaniesData({
       type: actions.CREATE_CAMPAIGN_REQUEST,
       payload: {},
     });
-  }, [dispatchCampaignData, singleCampaign]);
+  }, [dispatchCompaniesData, singleCampaign]);
 
   const columns = [
     {
-      title: 'Id',
-      dataIndex: 'id',
-      render: (value, campaign) => {
+      title: 'Company Name',
+      dataIndex: 'name',
+      render: (name, company) => {
         return (
           <Link
             onClick={() => {
-              setCampaignId(campaign.id);
+              setCompanyId(company.unique_id);
             }}
-            to={`/campaigns/${campaign.id}`}
-          >
-            {`${value.split('-')[0] || '-'}`}
-          </Link>
-        );
-      },
-    },
-    {
-      title: 'Campaign Name',
-      dataIndex: 'title',
-      render: (name, campaign) => {
-        return (
-          <Link
-            onClick={() => {
-              setCampaignId(campaign.id);
-            }}
-            to={`/campaigns/${campaign.id}`}
+            to={`/companies/${company.unique_id}`}
           >
             {`${name || '-'}`}
           </Link>
@@ -99,36 +89,22 @@ const Campaigns = () => {
       },
     },
     {
-      title: 'Key',
-      dataIndex: 'key',
+      title: 'Short Name',
+      dataIndex: 'name_short',
       render: value => {
         return value || '-';
       },
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      render: status => {
-        return getStatus(status) || '-';
-      },
-    },
-    {
-      title: 'Delivered %',
-      dataIndex: 'delivered',
-      render: value => {
-        return `${value || '0'} %`;
-      },
-    },
-    {
-      title: 'Clicks',
-      dataIndex: 'clicked',
+      title: 'Code',
+      dataIndex: 'code',
       render: value => {
         return value || '-';
       },
     },
     {
-      title: 'Edited',
-      dataIndex: 'updatedAt',
+      title: 'Company Id',
+      dataIndex: 'company_id',
       render: value => {
         return value || '-';
       },
@@ -136,22 +112,22 @@ const Campaigns = () => {
     {
       title: 'Actions',
       dataIndex: 'action',
-      render: (action, campaign) => {
+      render: (action, company) => {
         return (
           <Button
             type="danger"
             ghost
             icon={<DeleteOutlined />}
             onClick={() =>
-              dispatchCampaignData({
+              dispatchCompaniesData({
                 type: modalActions.SHOW_MODAL,
                 modalType: 'WARNING_MODAL',
                 modalProps: {
                   message: () => (
-                    <h4>{`You try to delete ${campaign.name}. Are you sure?`}</h4>
+                    <h4>{`You try to delete ${company.name}. Are you sure?`}</h4>
                   ),
                   title: 'Remove campaign',
-                  onOk: () => removeCampaign(campaign.id),
+                  onOk: () => removeCampaign(company.id),
                 },
               })
             }
@@ -165,7 +141,7 @@ const Campaigns = () => {
     event => {
       const { value, name } = event.target;
 
-      dispatchCampaignData({
+      dispatchCompaniesData({
         type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name,
@@ -173,12 +149,12 @@ const Campaigns = () => {
         },
       });
     },
-    [dispatchCampaignData],
+    [dispatchCompaniesData],
   );
 
   const onSelectChange = useCallback(
     (value, { name }) => {
-      dispatchCampaignData({
+      dispatchCompaniesData({
         type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name,
@@ -186,13 +162,13 @@ const Campaigns = () => {
         },
       });
     },
-    [dispatchCampaignData],
+    [dispatchCompaniesData],
   );
 
   const onSwitchChange = useCallback(
     (value, event) => {
       const { name } = event.target;
-      dispatchCampaignData({
+      dispatchCompaniesData({
         type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name,
@@ -200,22 +176,23 @@ const Campaigns = () => {
         },
       });
     },
-    [dispatchCampaignData],
+    [dispatchCompaniesData],
   );
 
   const useFetching = () => {
     useEffect(() => {
-      dispatchCampaignData({
-        type: actions.LOAD_USERS_REQUEST,
+      dispatchCompaniesData({
+        type: actions.FETCH_COMPANIES_REQUEST,
         payload: {
-          page: 1,
+          limit: allCompanies.limit,
+          offset: 0,
         },
       });
     }, []);
   };
 
   const onPageChange = page => {
-    dispatchCampaignData({
+    dispatchCompaniesData({
       type: actions.LOAD_CAMPAIGN_REQUEST,
       payload: {
         page,
@@ -226,7 +203,7 @@ const Campaigns = () => {
   useFetching();
 
   const onModalToggle = useCallback(() => {
-    dispatchCampaignData({
+    dispatchCompaniesData({
       type: modalActions.SHOW_MODAL,
       modalType: 'CONFIRM_MODAL',
       modalProps: {
@@ -249,31 +226,50 @@ const Campaigns = () => {
         },
       },
     });
-  }, [createCampaign, dispatchCampaignData, onChange, onSelectChange]);
+  }, [createCampaign, dispatchCompaniesData, onChange, onSelectChange]);
+
+  const loadMore = useCallback(() => {
+    dispatchCompaniesData({
+      type: actions.FETCH_COMPANIES_REQUEST,
+      payload: {
+        limit: allCompanies.limit,
+      },
+    });
+  }, [dispatchCompaniesData, allCompanies]);
 
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Campaigns</h4>
+        <h4>Companies</h4>
         <Button
           onClick={onModalToggle}
           icon={<PlusCircleOutlined />}
           type="primary"
         >
-          Create Campaign
+          Create Company
         </Button>
       </div>
-      <Table
-        dataSource={allCampaigns.items}
-        columns={columns}
-        scroll={{ x: 1200 }}
-        bordered
-        loading={!allCampaigns.isLoading}
-        align="center"
-        pagination={{ total: allCampaigns.total, onChange: onPageChange }}
-      />
+      <InfiniteScroll
+        next={loadMore}
+        hasMore={allCompanies.items.length < allCompanies.total}
+        loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
+        dataLength={allCompanies.items.length}
+      >
+        <Table
+          dataSource={allCompanies.items}
+          columns={columns}
+          scroll={{ x: 1200 }}
+          bordered
+          loading={!allCompanies.isLoading}
+          align="center"
+          pagination={{
+            pageSize: allCompanies.items.length,
+            hideOnSinglePage: true,
+          }}
+        />
+      </InfiniteScroll>
     </>
   );
 };
 
-export default Campaigns;
+export default Companies;
