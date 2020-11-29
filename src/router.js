@@ -19,7 +19,7 @@ const loadable = loader =>
 const routes = [
   {
     path: '/timeline',
-    Component: loadable(() => import('pages/timeline')),
+    Component: loadable(() => import('pages/Timeline')),
     exact: true,
   },
   {

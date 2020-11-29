@@ -1,8 +1,10 @@
-import React, { useEffect, Fragment, useCallback } from 'react';
+import React, { useEffect, Fragment, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
+import qs from 'qs';
 
 import actions from 'redux/timeline/actions';
 
@@ -15,7 +17,9 @@ import {
   Tag,
   Button,
   DatePicker,
+  Empty,
 } from 'antd';
+import Loader from 'components/layout/Loader';
 import {
   HomeOutlined,
   TableOutlined,
@@ -27,7 +31,12 @@ import styles from './styles.module.scss';
 
 const Timeline = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const timeline = useSelector(state => state.timeline.all);
+  const [dates, setDates] = useState([]);
+  const { from, to } = qs.parse(history.location.search, {
+    ignoreQueryPrefix: true,
+  });
 
   const downloadFile = useCallback(file => {
     dispatch({
@@ -39,12 +48,33 @@ const Timeline = () => {
   const getFileIcon = useCallback(fileType => {
     switch (fileType) {
       case 'application/pdf': {
-        return <FilePdfFilled filled className="mr-2" />;
+        return <FilePdfFilled  className="mr-2" />;
       }
       default: {
         return <FileExcelFilled className="mr-2" />;
       }
     }
+  }, []);
+
+  const onDatesChange = useCallback(
+    (dates, dateStrings) => {
+      if (dates) {
+        history.push({
+          search: `?from=${dateStrings[0]}&to=${dateStrings[1]}`,
+        });
+        return setDates(dateStrings);
+      }
+      history.push({ search: '' });
+      return setDates([]);
+    },
+    [history],
+  );
+
+  const clearFilter = useCallback(() => {
+    history.push({
+      search: '',
+    });
+    setDates([]);
   }, []);
 
   const columns = [
@@ -103,11 +133,15 @@ const Timeline = () => {
   ];
 
   useEffect(() => {
+    const params = from && to && { from, to };
+
     dispatch({
       type: actions.LOAD_TIMELINE_REQUEST,
-      payload: {},
+      payload: {
+        ...params,
+      },
     });
-  }, [dispatch]);
+  }, [dispatch, history, dates]);
 
   const expandedRowRender = barcodes => {
     const columns = [
@@ -122,6 +156,23 @@ const Timeline = () => {
     return <Table columns={columns} dataSource={barcodes} pagination={false} />;
   };
 
+  if (!timeline.isLoading) {
+    return <Loader />;
+  }
+
+  if (Object.keys(timeline?.items ?? []).length === 0) {
+    return (
+      <Empty
+        imageStyle={{
+          height: 60,
+        }}
+      >
+        <Button onClick={clearFilter} type="primary">
+          Clear filter
+        </Button>
+      </Empty>
+    );
+  }
   return (
     <div>
       <Helmet title="Timeline" />
@@ -136,7 +187,14 @@ const Timeline = () => {
               )}
             >
               <h5>{moment(timelineDate).format('LL')}</h5>
-              {index === 0 && <DatePicker.RangePicker className="mb-1" />}
+              {index === 0 && (
+                <DatePicker.RangePicker
+                  defaultValue={from && to ? [moment(from), moment(to)] : null}
+                  format="YYYY-MM-DD"
+                  onChange={onDatesChange}
+                  className="mb-1"
+                />
+              )}
             </div>
             <Row className="mb-3" gutter={16}>
               <Col span={6}>
@@ -168,10 +226,10 @@ const Timeline = () => {
               </Col>
               <Col span={6}>
                 <Card className={styles.reportCart}>
-                  {commonInfo?.reports.map(report => {
+                  {commonInfo?.reports.map((report, index) => {
                     return (
                       <div
-                        key={report.company_location_uuid}
+                        key={`${report.company_location_uuid}-${index}`}
                         onClick={() => {
                           downloadFile({
                             link: report.report_url,
@@ -217,7 +275,7 @@ const Timeline = () => {
                       return expandedRowRender(
                         record.tube_ids.map((tubeId, index) => {
                           return {
-                            key: index,
+                            key: tubeId,
                             sample: index + 1,
                             sample_barcode: tubeId,
                           };

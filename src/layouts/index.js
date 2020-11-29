@@ -63,14 +63,12 @@ class Layout extends React.PureComponent {
     const Container = Layouts[layoutType];
     const isUserAuthorized = cookie.getItem('accessToken');
     const isTermsAccepted = cookie.getItem('termsAccepted');
-    const isTimelineLoading = !timeline.all.isLoading;
     const isAuthLayout = layoutType === 'auth';
-    console.log(timeline.all.isLoading);
     const BootstrappedLayout = () => {
       // show loader when user in check authorization process, not authorized yet and not on login pages
-      // if (!isUserAuthorized && !isAuthLayout) {
-      //   return <Loader />;
-      // }
+      if (!isUserAuthorized && !isAuthLayout) {
+        return <Loader />;
+      }
       // redirect to login page if current is not login page and user not authorized
       if (!isAuthLayout && !isUserAuthorized) {
         return <Redirect to="/system/login" />;
@@ -85,7 +83,7 @@ class Layout extends React.PureComponent {
 
     return (
       <Fragment>
-        <Helmet titleTemplate="Notify SPA" />
+        <Helmet titleTemplate="Mirimus" />
         {BootstrappedLayout()}
       </Fragment>
     );
