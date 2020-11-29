@@ -14,6 +14,7 @@ import actions from 'redux/companies/actions';
 import modalActions from 'redux/modal/actions';
 
 import styles from './styles.module.scss';
+import { constants } from '../../utils/constants';
 
 const Companies = () => {
   const dispatchCompaniesData = useDispatch();
@@ -184,8 +185,8 @@ const Companies = () => {
       dispatchCompaniesData({
         type: actions.FETCH_COMPANIES_REQUEST,
         payload: {
-          limit: allCompanies.limit,
-          offset: 0,
+          limit: constants.companies.itemsLoadingCount,
+          offset: allCompanies.offset,
         },
       });
     }, []);
@@ -232,7 +233,8 @@ const Companies = () => {
     dispatchCompaniesData({
       type: actions.FETCH_COMPANIES_REQUEST,
       payload: {
-        limit: allCompanies.limit,
+        limit: constants.companies.itemsLoadingCount,
+        offset: allCompanies.offset,
       },
     });
   }, [dispatchCompaniesData, allCompanies]);
