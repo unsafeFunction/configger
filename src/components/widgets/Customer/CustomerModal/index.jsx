@@ -9,7 +9,7 @@ import style from './style.module.scss';
 const CustomerModal = ({ form, loadCompanies }) => {
   const { Item } = Form;
   const [page, setPage] = useState(0);
-  const { companies, areCompaniesLoading } = useSelector(state => state.user);
+  const { companies, companiesCount, areCompaniesLoading } = useSelector(state => state.user);
 
   useEffect(() => {
     page === 0 && loadCompanies(0, () => setPage(1));
@@ -34,21 +34,24 @@ const CustomerModal = ({ form, loadCompanies }) => {
                 placeholder="Company"
                 options={companies}
                 loading={areCompaniesLoading}  
-                showArrow={true}
-                size='default'
+                showArrow
+                showSearch
+                size='middle'
+                listHeight={0}
                 dropdownMatchSelectWidth={false}
-                dropdownClassName={style.dropDown}
                 dropdownRender={menu => (
+                    <div className={style.dropDown}>
                         <InfiniteScroll
                             pageStart={page}
                             loadMore={() => loadCompanies(page, () => setPage(page + 1))}
-                            hasMore={!areCompaniesLoading && page < 5}
-                            threshold={50}
+                            hasMore={!areCompaniesLoading && companies.length < companiesCount}
+                            threshold={200}
                             useWindow={false}
                             className={'zhopa'}
                         >
                             { menu }
                         </InfiniteScroll>
+                    </div>
                 )}
             />
         </Item>

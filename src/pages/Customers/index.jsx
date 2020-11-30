@@ -95,14 +95,12 @@ const Campaigns = () => {
       modalProps: {
         title: 'Invite customer',
         width: '30%',
+        cancelButtonProps: { className: classNames(styles.modalButton) },
+        okButtonProps: { className: classNames(styles.modalButton, styles.inviteButton) },
         okText: 'Invite',
         onOk: async () => {
-          try {
-            const values = await form.validateFields();
-            console.log('Validate Success:', 5);
-          } catch (info) {
-            console.log('Validate Failed:', info);
-          }
+          const values = await form.validateFields();
+          console.log('Validate Success:', values);
         },
         message: () => (
           <CustomerModal 

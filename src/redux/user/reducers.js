@@ -5,6 +5,7 @@ const initialState = {
   items: [],
   companies: [],
   total: 0,
+  companiesCount: 0,
   authorized: false,
   isLoggingIn: false,
   isRestoring: false,
@@ -121,7 +122,7 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         companies,
-        total: action.payload.data.count,
+        companiesCount: action.payload.data.count,
         areCompaniesLoading: false,
       };
     case actions.LOAD_COMPANIES_FAILURE:
