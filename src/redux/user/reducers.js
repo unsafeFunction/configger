@@ -3,6 +3,7 @@ import actions from './actions';
 const initialState = {
   profile: {},
   items: [],
+  companies: [],
   total: 0,
   authorized: false,
   isLoggingIn: false,
@@ -10,6 +11,8 @@ const initialState = {
   isAccepting: false,
   isProfileUpdating: false,
   isPasswordChanging: false,
+  areUsersLoading: false,
+  areCompaniesLoading: false,
   reinvitingUser: null,
   error: null,
 };
@@ -66,7 +69,7 @@ export default function userReducer(state = initialState, action) {
     case actions.LOAD_USERS_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        areUsersLoading: true,
       };
     case actions.LOAD_USERS_SUCCESS:
       const newItems = action.payload.data.results.map(user => {
@@ -80,10 +83,10 @@ export default function userReducer(state = initialState, action) {
         ...state,
         items,
         total: action.payload.data.count,
-        isLoading: false,
+        areUsersLoading: false,
       };
     case actions.LOAD_USERS_FAILURE:
-      return { ...state, isLoading: false, error: action.payload.data };
+      return { ...state, areUsersLoading: false, error: action.payload.data };
     case actions.SET_STATUS_SUCCESS:
       return {
         ...state,
@@ -100,6 +103,29 @@ export default function userReducer(state = initialState, action) {
       return { ...state, reinvitingUser: null };
     case actions.REINVITE_FAILURE:
       return { ...state, reinvitingUser: null, error: action.payload.data };
+    case actions.LOAD_COMPANIES_REQUEST:
+      return {
+        ...state,
+        areCompaniesLoading: true,
+      };
+    case actions.LOAD_COMPANIES_SUCCESS:
+      const newCompanies = action.payload.data.results.map(company => {
+        return {
+          ...company,
+          key: company.company_id,
+          label: company.name,
+          value: company.name_short,
+        };
+      });
+      const companies = action.payload.page > 1 ? [...state.companies, ...newCompanies] : newCompanies;
+      return {
+        ...state,
+        companies,
+        total: action.payload.data.count,
+        areCompaniesLoading: false,
+      };
+    case actions.LOAD_COMPANIES_FAILURE:
+      return { ...state, areCompaniesLoading: false, error: action.payload.data };
     default:
       return state;
   }

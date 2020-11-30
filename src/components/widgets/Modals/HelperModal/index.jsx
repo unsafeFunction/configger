@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Modal } from 'antd'
-import { ExclamationCircleOutlined } from '@ant-design/icons'
-
+import DefaultModal from 'components/widgets/DefaultModal'
 import actions from 'redux/modal/actions'
 
 const HelperModal = React.memo(props => {
@@ -17,14 +16,20 @@ const HelperModal = React.memo(props => {
   const { message } = props
 
   switch (modal.modalType) {
-    case 'WARNING_MODAL': {
+    case 'COMPLIANCE_MODAL': {
       Modal.confirm({
         ...props,
-        icon: <ExclamationCircleOutlined color="#faad14" />,
         onCancel,
         content: message(),
       })
       return null
+    }
+    case 'WARNING_MODAL': {
+      return (
+        <DefaultModal {...props} onCancel={onCancel} isOpen={modal.isOpen}>
+          {message()}
+        </DefaultModal>
+      );
     }
     default:
       return null

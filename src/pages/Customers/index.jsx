@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Button, Tag, Spin, Space, notification, Switch, Input } from 'antd';
+import { Table, Button, Tag, Spin, Space, Switch, Input, Form } from 'antd';
 import {
   LoadingOutlined,
   CheckCircleOutlined,
@@ -8,11 +8,13 @@ import {
   SendOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import actions from 'redux/user/actions';
+import userActions from 'redux/user/actions';
+import modalActions from 'redux/modal/actions';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
 import styles from './styles.module.scss';
 import debounce from "lodash.debounce";
+import CustomerModal from 'components/widgets/Customer/CustomerModal';
 
 const Campaigns = () => {
   const dispatch = useDispatch();
@@ -20,10 +22,11 @@ const Campaigns = () => {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [searchName, setSearchName] = useState('');
-  const { isLoading, reinvitingUser, items, total } = useSelector(
+  const { areUsersLoading, areCompaniesLoading, reinvitingUser, items, total, companies } = useSelector(
     state => state.user,
   );
   const tableRef = useRef(null);
+  const [form] = Form.useForm();
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
   const dateFormat = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -37,7 +40,7 @@ const Campaigns = () => {
       return;
     }
     dispatch({
-      type: actions.LOAD_USERS_REQUEST,
+      type: userActions.LOAD_USERS_REQUEST,
       payload: {
         page: nextPage,
         search: userName,
@@ -56,7 +59,7 @@ const Campaigns = () => {
 
   const reinviteUser = useCallback(id => {
     dispatch({
-      type: actions.REINVITE_REQUEST,
+      type: userActions.REINVITE_REQUEST,
       payload: {
         id,
       },
@@ -65,12 +68,50 @@ const Campaigns = () => {
 
   const toggleUser = useCallback((id, currentStatus) => {
     dispatch({
-      type: actions.SET_STATUS_REQUEST,
+      type: userActions.SET_STATUS_REQUEST,
       payload: {
         id,
         status: !currentStatus,
       },
     });
+  });
+
+  const loadCompanies = (page, nextPageFunc) => {
+    dispatch({
+      type: userActions.LOAD_COMPANIES_REQUEST,
+      payload: {
+        page,
+        search: '',
+      },
+    });
+    console.log('current page:', page);
+    nextPageFunc();
+  }
+
+  const showInviteModal = useCallback(() => {
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'WARNING_MODAL',
+      modalProps: {
+        title: 'Invite customer',
+        width: '30%',
+        okText: 'Invite',
+        onOk: async () => {
+          try {
+            const values = await form.validateFields();
+            console.log('Validate Success:', 5);
+          } catch (info) {
+            console.log('Validate Failed:', info);
+          }
+        },
+        message: () => (
+          <CustomerModal 
+            form={form}
+            loadCompanies={loadCompanies}
+          />
+        ),
+      }
+    })
   });
 
   const convertDateTime = rawDate => {
@@ -189,6 +230,7 @@ const Campaigns = () => {
           size="large"
           className={classNames(styles.inviteButton, "text-center", "btn", "btn-info")}
           htmlType="submit"
+          onClick={showInviteModal}
         >
           Invite Customer
         </Button>
@@ -197,7 +239,7 @@ const Campaigns = () => {
         <InfiniteScroll
           pageStart={page}
           loadMore={() => loadPage(page + 1, searchName)}
-          hasMore={!isLoading && hasMore}
+          hasMore={!areUsersLoading && hasMore}
           useWindow={false}
         >
           <Table
@@ -205,7 +247,7 @@ const Campaigns = () => {
             pagination={false}
             columns={columns}
             loading={{
-              spinning: isLoading,
+              spinning: areUsersLoading,
               indicator: <Spin indicator={spinIcon} className={styles.loader} />,
             }}
             bordered

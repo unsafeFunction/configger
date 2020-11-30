@@ -10,6 +10,7 @@ import {
   changePassword,
   toggleUser,
   reinviteUser,
+  loadCompanies,
 } from 'services/user';
 import cookieStorage from 'utils/cookie';
 import actions from './actions';
@@ -284,6 +285,23 @@ export function* callReinviteUser({ payload }) {
   }
 }
 
+export function* callLoadCompanies({ payload }) {
+  const { page, search } = payload;
+  try {
+    const response = yield call(loadCompanies, page, search);
+
+    yield put({
+      type: actions.LOAD_COMPANIES_SUCCESS,
+      payload: {
+        data: response.data,
+        page
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.LOGIN_REQUEST, callLogin),
@@ -296,5 +314,6 @@ export default function* rootSaga() {
     takeEvery(actions.CHANGE_PASSWORD_REQUEST, callChangePassword),
     takeEvery(actions.SET_STATUS_REQUEST, callToggleUser),
     takeEvery(actions.REINVITE_REQUEST, callReinviteUser),
+    takeEvery(actions.LOAD_COMPANIES_REQUEST, callLoadCompanies),
   ]);
 }

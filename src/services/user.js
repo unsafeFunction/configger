@@ -81,6 +81,19 @@ export const loadUsers = async (page, search) => {
   return users;
 };
 
+export const loadCompanies = async (page, search) => {
+  const limit = 30;
+  const companies = await axiosClient.get('/companies/', {
+    params: {
+      limit,
+      offset: limit * (page - 1),
+      search,
+    },
+  });
+
+  return companies;
+};
+
 export const toggleUser = async (id, is_active) => {
   const status = await axiosClient.patch(`/users/${id}/`, {
     is_active,
