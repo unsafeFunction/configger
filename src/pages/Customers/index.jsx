@@ -13,7 +13,7 @@ import modalActions from 'redux/modal/actions';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
 import styles from './styles.module.scss';
-import debounce from "lodash.debounce";
+import debounce from 'lodash.debounce';
 import CustomerModal from 'components/widgets/Customer/CustomerModal';
 
 const Campaigns = () => {
@@ -22,9 +22,13 @@ const Campaigns = () => {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [searchName, setSearchName] = useState('');
-  const { areUsersLoading, areCompaniesLoading, reinvitingUser, items, total, companies } = useSelector(
-    state => state.user,
-  );
+  const {
+    areUsersLoading,
+    isInviting,
+    reinvitingUser,
+    items,
+    total,
+  } = useSelector(state => state.user);
   const tableRef = useRef(null);
   const [form] = Form.useForm();
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
@@ -49,13 +53,16 @@ const Campaigns = () => {
     setPage(nextPage);
   });
 
-  const searchUser = useCallback(debounce((name, page) => {
-    if (page) {
-      loadPage(1, name, true);
-      setHasMore(true);
-      tableRef.current.scroll({ top: 0 });
-    }
-  }, 500), [searchName]);
+  const searchUser = useCallback(
+    debounce((name, page) => {
+      if (page) {
+        loadPage(1, name, true);
+        setHasMore(true);
+        tableRef.current.scroll({ top: 0 });
+      }
+    }, 500),
+    [searchName],
+  );
 
   const reinviteUser = useCallback(id => {
     dispatch({
@@ -76,7 +83,7 @@ const Campaigns = () => {
     });
   });
 
-  const loadCompanies = (page, nextPageFunc) => {
+  const loadCompanies = page => {
     dispatch({
       type: userActions.LOAD_COMPANIES_REQUEST,
       payload: {
@@ -84,32 +91,35 @@ const Campaigns = () => {
         search: '',
       },
     });
-    console.log('current page:', page);
-    nextPageFunc();
-  }
+  };
+
+  const onInvite = async () => {
+    const fieldValues = await form.validateFields();
+    dispatch({
+      type: userActions.INVITE_CUSTOMER_REQUEST,
+      payload: { ...fieldValues },
+    });
+  };
 
   const showInviteModal = useCallback(() => {
     dispatch({
       type: modalActions.SHOW_MODAL,
-      modalType: 'WARNING_MODAL',
+      modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Invite customer',
         width: '30%',
         cancelButtonProps: { className: classNames(styles.modalButton) },
-        okButtonProps: { className: classNames(styles.modalButton, styles.inviteButton) },
-        okText: 'Invite',
-        onOk: async () => {
-          const values = await form.validateFields();
-          console.log('Validate Success:', values);
+        okButtonProps: {
+          className: classNames(styles.modalButton, styles.inviteButton),
+          loading: isInviting,
         },
+        okText: 'Invite',
+        onOk: onInvite,
         message: () => (
-          <CustomerModal 
-            form={form}
-            loadCompanies={loadCompanies}
-          />
+          <CustomerModal form={form} loadCompanies={loadCompanies} />
         ),
-      }
-    })
+      },
+    });
   });
 
   const convertDateTime = rawDate => {
@@ -216,8 +226,8 @@ const Campaigns = () => {
     <div>
       <div className={styles.subheader}>
         <Input
-          size='middle' 
-          prefix={ <SearchOutlined />} 
+          size="middle"
+          prefix={<SearchOutlined />}
           className={styles.search}
           placeholder="Search..."
           value={searchName}
@@ -226,7 +236,12 @@ const Campaigns = () => {
         <Button
           type="primary"
           size="large"
-          className={classNames(styles.inviteButton, "text-center", "btn", "btn-info")}
+          className={classNames(
+            styles.inviteButton,
+            'text-center',
+            'btn',
+            'btn-info',
+          )}
           htmlType="submit"
           onClick={showInviteModal}
         >
@@ -246,7 +261,9 @@ const Campaigns = () => {
             columns={columns}
             loading={{
               spinning: areUsersLoading,
-              indicator: <Spin indicator={spinIcon} className={styles.loader} />,
+              indicator: (
+                <Spin indicator={spinIcon} className={styles.loader} />
+              ),
             }}
             bordered
           />

@@ -10,6 +10,7 @@ const initialState = {
   isLoggingIn: false,
   isRestoring: false,
   isAccepting: false,
+  isInviting: false,
   isProfileUpdating: false,
   isPasswordChanging: false,
   areUsersLoading: false,
@@ -79,7 +80,8 @@ export default function userReducer(state = initialState, action) {
           key: user.id,
         };
       });
-      const items = action.payload.page > 1 ? [...state.items, ...newItems] : newItems;
+      const items =
+        action.payload.page > 1 ? [...state.items, ...newItems] : newItems;
       return {
         ...state,
         items,
@@ -115,10 +117,13 @@ export default function userReducer(state = initialState, action) {
           ...company,
           key: company.company_id,
           label: company.name,
-          value: company.name_short,
+          value: company.company_id,
         };
       });
-      const companies = action.payload.page > 1 ? [...state.companies, ...newCompanies] : newCompanies;
+      const companies =
+        action.payload.page > 1
+          ? [...state.companies, ...newCompanies]
+          : newCompanies;
       return {
         ...state,
         companies,
@@ -126,7 +131,17 @@ export default function userReducer(state = initialState, action) {
         areCompaniesLoading: false,
       };
     case actions.LOAD_COMPANIES_FAILURE:
-      return { ...state, areCompaniesLoading: false, error: action.payload.data };
+      return {
+        ...state,
+        areCompaniesLoading: false,
+        error: action.payload.data,
+      };
+    case actions.INVITE_CUSTOMER_REQUEST:
+      return { ...state, isInviting: true };
+    case actions.INVITE_CUSTOMER_SUCCESS:
+      return { ...state, isInviting: false };
+    case actions.INVITE_CUSTOMER_FAILURE:
+      return { ...state, isInviting: false, error: action.payload.data };
     default:
       return state;
   }

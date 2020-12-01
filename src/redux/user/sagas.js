@@ -11,9 +11,11 @@ import {
   toggleUser,
   reinviteUser,
   loadCompanies,
+  inviteCustomer,
 } from 'services/user';
 import cookieStorage from 'utils/cookie';
 import actions from './actions';
+import modalActions from 'redux/modal/actions';
 
 const cookie = cookieStorage();
 
@@ -239,7 +241,7 @@ export function* callLoadUsers({ payload }) {
       type: actions.LOAD_USERS_SUCCESS,
       payload: {
         data: response.data,
-        page
+        page,
       },
     });
   } catch (error) {
@@ -294,11 +296,44 @@ export function* callLoadCompanies({ payload }) {
       type: actions.LOAD_COMPANIES_SUCCESS,
       payload: {
         data: response.data,
-        page
+        page,
       },
     });
   } catch (error) {
     notification.error(error);
+  }
+}
+
+export function* callInviteCustomer({ payload }) {
+  try {
+    const response = yield call(inviteCustomer, payload);
+
+    yield put({
+      type: actions.INVITE_CUSTOMER_SUCCESS,
+    });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
+    notification.success({
+      message: 'Success!',
+      description: 'The user has been invited.',
+    });
+  } catch (error) {
+    const errorData = error.response.data;
+
+    yield put({
+      type: actions.INVITE_CUSTOMER_FAILURE,
+      payload: {
+        data: errorData,
+      },
+    });
+
+    notification.error({
+      message: 'Failure!',
+      description: `The user has not been invited. Details: ${errorData}`,
+    });
   }
 }
 
@@ -315,5 +350,6 @@ export default function* rootSaga() {
     takeEvery(actions.SET_STATUS_REQUEST, callToggleUser),
     takeEvery(actions.REINVITE_REQUEST, callReinviteUser),
     takeEvery(actions.LOAD_COMPANIES_REQUEST, callLoadCompanies),
+    takeEvery(actions.INVITE_CUSTOMER_REQUEST, callInviteCustomer),
   ]);
 }

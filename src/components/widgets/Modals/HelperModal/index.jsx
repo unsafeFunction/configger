@@ -1,30 +1,22 @@
-import React, { useCallback } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Modal } from 'antd'
-import DefaultModal from 'components/widgets/DefaultModal'
-import actions from 'redux/modal/actions'
+import React, { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Modal } from 'antd';
+import DefaultModal from 'components/widgets/DefaultModal';
+import actions from 'redux/modal/actions';
 
 const HelperModal = React.memo(props => {
-  const modal = useSelector(state => state.modal)
+  const modal = useSelector(state => state.modal);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const onCancel = useCallback(() => {
-    dispatch({ type: actions.HIDE_MODAL })
-  }, [dispatch])
+    dispatch({ type: actions.HIDE_MODAL });
+  }, [dispatch]);
 
-  const { message } = props
+  const { message } = props;
 
   switch (modal.modalType) {
     case 'COMPLIANCE_MODAL': {
-      Modal.confirm({
-        ...props,
-        onCancel,
-        content: message(),
-      })
-      return null
-    }
-    case 'WARNING_MODAL': {
       return (
         <DefaultModal {...props} onCancel={onCancel} isOpen={modal.isOpen}>
           {message()}
@@ -32,8 +24,8 @@ const HelperModal = React.memo(props => {
       );
     }
     default:
-      return null
+      return null;
   }
-})
+});
 
-export default HelperModal
+export default HelperModal;
