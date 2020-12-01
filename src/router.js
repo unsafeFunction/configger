@@ -58,16 +58,6 @@ const routes = [
     exact: true,
   },
   {
-    path: '/settings',
-    Component: loadable(() => import('pages/Settings')),
-    exact: true,
-  },
-  {
-    path: '/conversations',
-    Component: loadable(() => import('pages/messaging')),
-    exact: true,
-  },
-  {
     path: '/companies',
     Component: loadable(() => import('pages/Companies')),
     exact: true,
