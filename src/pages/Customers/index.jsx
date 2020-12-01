@@ -1,57 +1,72 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Table,
-  Button,
-  Tag,
-  Spin,
-  Space,
-  notification,
-  List,
-  Modal,
-  Switch,
-} from 'antd';
+import { Table, Button, Tag, Spin, Space, Switch, Input, Form } from 'antd';
 import {
   LoadingOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  SendOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
-import actions from 'redux/user/actions';
+import userActions from 'redux/user/actions';
+import modalActions from 'redux/modal/actions';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
 import styles from './styles.module.scss';
+import debounce from 'lodash.debounce';
+import CustomerModal from 'components/widgets/Customer/CustomerModal';
 
 const Campaigns = () => {
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const { isLoading, isReinviting, items, total } = useSelector(
-    state => state.user,
-  );
-
+  const [searchName, setSearchName] = useState('');
+  const {
+    areUsersLoading,
+    isInviting,
+    reinvitingUser,
+    items,
+    total,
+  } = useSelector(state => state.user);
+  const tableRef = useRef(null);
+  const [form] = Form.useForm();
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
-  const Loading = nextPage => {
-    if (total && nextPage > 5) {
-      notification.warning({
-        description: 'You loaded all information about users.',
-      });
+  const dateFormat = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  const timeFormat = { hour: '2-digit', minute: '2-digit' };
+
+  const loadPage = useCallback((nextPage, userName, isSearching) => {
+    const initialLoad = !!page;
+
+    if (hasMore && initialLoad && !isSearching && items.length >= total) {
       setHasMore(false);
       return;
     }
     dispatch({
-      type: actions.LOAD_USERS_REQUEST,
+      type: userActions.LOAD_USERS_REQUEST,
       payload: {
         page: nextPage,
+        search: userName,
       },
     });
     setPage(nextPage);
-  };
+  });
+
+  const searchUser = useCallback(
+    debounce((name, page) => {
+      if (page) {
+        loadPage(1, name, true);
+        setHasMore(true);
+        tableRef.current.scroll({ top: 0 });
+      }
+    }, 500),
+    [searchName],
+  );
 
   const reinviteUser = useCallback(id => {
     dispatch({
-      type: actions.REINVITE_REQUEST,
+      type: userActions.REINVITE_REQUEST,
       payload: {
         id,
       },
@@ -60,7 +75,7 @@ const Campaigns = () => {
 
   const toggleUser = useCallback((id, currentStatus) => {
     dispatch({
-      type: actions.SET_STATUS_REQUEST,
+      type: userActions.SET_STATUS_REQUEST,
       payload: {
         id,
         status: !currentStatus,
@@ -68,36 +83,83 @@ const Campaigns = () => {
     });
   });
 
+  const loadCompanies = page => {
+    dispatch({
+      type: userActions.LOAD_COMPANIES_REQUEST,
+      payload: {
+        page,
+        search: '',
+      },
+    });
+  };
+
+  const onInvite = async () => {
+    const fieldValues = await form.validateFields();
+    dispatch({
+      type: userActions.INVITE_CUSTOMER_REQUEST,
+      payload: { ...fieldValues },
+    });
+  };
+
+  const showInviteModal = useCallback(() => {
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'COMPLIANCE_MODAL',
+      modalProps: {
+        title: 'Invite customer',
+        width: '30%',
+        cancelButtonProps: { className: classNames(styles.modalButton) },
+        okButtonProps: {
+          className: classNames(styles.modalButton, styles.inviteButton),
+          loading: isInviting,
+        },
+        okText: 'Invite',
+        onOk: onInvite,
+        message: () => (
+          <CustomerModal form={form} loadCompanies={loadCompanies} />
+        ),
+      },
+    });
+  });
+
   const convertDateTime = rawDate => {
     const date = new Date(rawDate);
-    return `${date.toLocaleDateString()} ${date.toLocaleString('en-US', {
-      timeStyle: 'short',
-    })}`;
+    return `${date.toLocaleDateString(
+      'en-CA',
+      dateFormat,
+    )} ${date.toLocaleString('en-US', timeFormat)}`;
   };
+
+  useEffect(() => {
+    searchUser(searchName, page);
+    return searchUser.cancel;
+  }, [searchName, searchUser]);
 
   const columns = [
     {
       title: 'Full name',
-      dataIndex: 'fullname',
       key: 'fullname',
-      fixed: 'left',
+      render: (_, record) => (
+        <span>
+          {record.first_name} {record.last_name}
+        </span>
+      ),
     },
     {
       title: 'Email',
       dataIndex: 'email',
-      key: 'email',
+      width: 'auto',
     },
     {
       title: 'Company name',
       dataIndex: 'company',
       key: 'company',
-      width: '30%',
     },
     {
       title: 'Confiramtion statuses',
-      key: 'verified',
-      render: (verified, record) => (
-        <>
+      width: '175px',
+      render: (_, record) => (
+        <div className={classNames(styles.columnElements, styles.tagColumn)}>
           {record.verified ? (
             <Tag icon={<CheckCircleOutlined />} color="processing">
               Email confirmed
@@ -116,26 +178,32 @@ const Campaigns = () => {
               Terms not accepted
             </Tag>
           )}
-        </>
+        </div>
       ),
     },
     {
       title: 'Last login',
       dataIndex: 'last_login',
       key: 'last_login',
-      render: (text, record) => <p>{convertDateTime(text)}</p>,
+      width: '150px',
+      render: text => <span>{convertDateTime(text)}</span>,
     },
     {
       title: 'Actions',
       key: 'action',
       fixed: 'right',
-      render: (text, record) => (
-        <Space size="middle">
+      width: '130px',
+      render: (_, record) => (
+        <Space
+          size="middle"
+          className={classNames(styles.columnElements, styles.actionColumn)}
+        >
           <Button
             type="primary"
             size="small"
-            className={styles.action}
-            loading={isReinviting}
+            className={classNames(styles.action, styles.activeAction)}
+            icon={<SendOutlined />}
+            disabled={record.id === reinvitingUser}
             onClick={() => reinviteUser(record.id)}
           >
             Reinvite
@@ -144,7 +212,9 @@ const Campaigns = () => {
             checkedChildren="Active"
             unCheckedChildren="Inactive"
             checked={record.is_active}
-            className={classNames({ [styles.action]: record.is_active })}
+            className={classNames(styles.switch, styles.action, {
+              [styles.activeAction]: record.is_active,
+            })}
             onClick={() => toggleUser(record.id, record.is_active)}
           />
         </Space>
@@ -153,27 +223,52 @@ const Campaigns = () => {
   ];
 
   return (
-    <div className={styles.table}>
-      <InfiniteScroll
-        pageStart={page}
-        loadMore={() => Loading(page + 1)}
-        hasMore={!isLoading && hasMore}
-        useWindow={false}
-      >
-        <Table
-          dataSource={items}
-          pagination={false}
-          columns={columns}
-          // className={styles.table}
-          loading={{
-            spinning: isLoading,
-            indicator: <Spin indicator={spinIcon} className={styles.loader} />,
-          }}
-          scroll={{ x: 1500, y: 1500 }}
-          // scroll={{y: '83vh'}}
-          bordered
+    <div>
+      <div className={styles.subheader}>
+        <Input
+          size="middle"
+          prefix={<SearchOutlined />}
+          className={styles.search}
+          placeholder="Search..."
+          value={searchName}
+          onChange={event => setSearchName(event.target.value)}
         />
-      </InfiniteScroll>
+        <Button
+          type="primary"
+          size="large"
+          className={classNames(
+            styles.inviteButton,
+            'text-center',
+            'btn',
+            'btn-info',
+          )}
+          htmlType="submit"
+          onClick={showInviteModal}
+        >
+          Invite Customer
+        </Button>
+      </div>
+      <div ref={tableRef} className={styles.table}>
+        <InfiniteScroll
+          pageStart={page}
+          loadMore={() => loadPage(page + 1, searchName)}
+          hasMore={!areUsersLoading && hasMore}
+          useWindow={false}
+        >
+          <Table
+            dataSource={items}
+            pagination={false}
+            columns={columns}
+            loading={{
+              spinning: areUsersLoading,
+              indicator: (
+                <Spin indicator={spinIcon} className={styles.loader} />
+              ),
+            }}
+            bordered
+          />
+        </InfiniteScroll>
+      </div>
     </div>
   );
 };

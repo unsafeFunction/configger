@@ -68,16 +68,30 @@ export const refresh = async refreshToken => {
   }
 };
 
-export const loadUsers = async page => {
+export const loadUsers = async (page, search) => {
   const limit = 30;
   const users = await axiosClient.get('/users/', {
     params: {
       limit,
       offset: limit * (page - 1),
+      search,
     },
   });
 
   return users;
+};
+
+export const loadCompanies = async (page, search) => {
+  const limit = 30;
+  const companies = await axiosClient.get('/companies/', {
+    params: {
+      limit,
+      offset: limit * (page - 1),
+      search,
+    },
+  });
+
+  return companies;
 };
 
 export const toggleUser = async (id, is_active) => {
@@ -89,7 +103,15 @@ export const toggleUser = async (id, is_active) => {
 };
 
 export const reinviteUser = async id => {
-  const invitation = await axiosClient.post(`/users/${id}/reinvite/`);
+  const invite = await axiosClient.post(`/users/${id}/reinvite/`);
 
-  return invitation;
+  return invite;
+};
+
+export const inviteCustomer = async values => {
+  const invite = await axiosClient.post('/rest-auth/registration/', {
+    ...values,
+  });
+
+  return invite;
 };

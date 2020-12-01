@@ -10,10 +10,12 @@ import {
   changePassword,
   toggleUser,
   reinviteUser,
+  loadCompanies,
+  inviteCustomer,
 } from 'services/user';
 import cookieStorage from 'utils/cookie';
 import actions from './actions';
-import { take } from 'lodash';
+import modalActions from 'redux/modal/actions';
 
 const cookie = cookieStorage();
 
@@ -214,7 +216,6 @@ export function* callChangePassword({ payload }) {
       description: 'Your password has been changed.',
     });
   } catch (error) {
-    console.log(error);
     const errorData = error.response.data;
 
     yield put({
@@ -232,13 +233,15 @@ export function* callChangePassword({ payload }) {
 }
 
 export function* callLoadUsers({ payload }) {
+  const { page, search } = payload;
   try {
-    const response = yield call(loadUsers, payload.page);
+    const response = yield call(loadUsers, page, search);
 
     yield put({
       type: actions.LOAD_USERS_SUCCESS,
       payload: {
         data: response.data,
+        page,
       },
     });
   } catch (error) {
@@ -274,13 +277,63 @@ export function* callReinviteUser({ payload }) {
     });
     notification.success({
       message: 'Success!',
-      description: response.data.details,
+      description: response.data.detail,
     });
   } catch (error) {
     yield put({
       type: actions.REINVITE_FAILURE,
     });
     notification.error(error);
+  }
+}
+
+export function* callLoadCompanies({ payload }) {
+  const { page, search } = payload;
+  try {
+    const response = yield call(loadCompanies, page, search);
+
+    yield put({
+      type: actions.LOAD_COMPANIES_SUCCESS,
+      payload: {
+        data: response.data,
+        page,
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
+export function* callInviteCustomer({ payload }) {
+  try {
+    const response = yield call(inviteCustomer, payload);
+
+    yield put({
+      type: actions.INVITE_CUSTOMER_SUCCESS,
+    });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
+    notification.success({
+      message: 'Success!',
+      description: 'The user has been invited.',
+    });
+  } catch (error) {
+    const errorData = error.response.data;
+
+    yield put({
+      type: actions.INVITE_CUSTOMER_FAILURE,
+      payload: {
+        data: errorData,
+      },
+    });
+
+    notification.error({
+      message: 'Failure!',
+      description: `The user has not been invited. Details: ${errorData}`,
+    });
   }
 }
 
@@ -296,5 +349,7 @@ export default function* rootSaga() {
     takeEvery(actions.CHANGE_PASSWORD_REQUEST, callChangePassword),
     takeEvery(actions.SET_STATUS_REQUEST, callToggleUser),
     takeEvery(actions.REINVITE_REQUEST, callReinviteUser),
+    takeEvery(actions.LOAD_COMPANIES_REQUEST, callLoadCompanies),
+    takeEvery(actions.INVITE_CUSTOMER_REQUEST, callInviteCustomer),
   ]);
 }

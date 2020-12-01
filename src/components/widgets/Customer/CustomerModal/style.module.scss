@@ -1,0 +1,10 @@
+@import 'assets/styles/mixins.scss';
+
+.formItem {
+  height: 32px;
+}
+
+.dropDown {
+  max-height: 300px;
+  overflow: auto;
+}
