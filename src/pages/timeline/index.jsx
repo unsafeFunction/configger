@@ -6,8 +6,6 @@ import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import qs from 'qs';
 
-import actions from 'redux/timeline/actions';
-
 import {
   Statistic,
   Card,
@@ -26,6 +24,8 @@ import {
   FileExcelFilled,
   FilePdfFilled,
 } from '@ant-design/icons';
+
+import actions from 'redux/timeline/actions';
 
 import styles from './styles.module.scss';
 
