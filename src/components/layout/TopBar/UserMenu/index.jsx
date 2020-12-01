@@ -16,7 +16,7 @@ const ProfileMenu = ({ dispatch, history }) => {
 
   const onRedirectToProfile = useCallback(() => {
     history.push('/profile');
-  }, [, history]);
+  }, [history]);
 
   const getInitials = (firstName, lastName) => {
     if (firstName && lastName) {
