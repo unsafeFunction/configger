@@ -14,13 +14,13 @@ import {
   inviteCustomer,
 } from 'services/user';
 import cookieStorage from 'utils/cookie';
-import actions from './actions';
 import modalActions from 'redux/modal/actions';
+import actions from './actions';
 
 const cookie = cookieStorage();
 
 export function* callLogin({ payload }) {
-  const { email, password, toDashboard, acceptTerms } = payload;
+  const { email, password, toBatches, toTimeline, acceptTerms } = payload;
   try {
     const response = yield call(login, email, password);
 
@@ -29,6 +29,9 @@ export function* callLogin({ payload }) {
 
     yield put({
       type: actions.LOGIN_SUCCESS,
+      payload: {
+        ...response.data,
+      },
     });
 
     notification.success({
@@ -37,7 +40,9 @@ export function* callLogin({ payload }) {
     });
 
     if (response.data.terms_accepted) {
-      return yield call(toDashboard);
+      return response.data.role === 'admin'
+        ? yield call(toBatches)
+        : yield call(toTimeline);
     }
 
     return yield call(acceptTerms);

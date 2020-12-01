@@ -108,8 +108,7 @@ class Router extends React.Component {
               exact
               path="/"
               render={() => {
-                console.log('here');
-                return <Redirect to="/dashboard" />;
+                return <Redirect to="/timeline" />;
               }}
             />
             {routes.map(({ path, Component, exact = false }) => (

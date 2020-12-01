@@ -8,6 +8,7 @@ import style from '../style.module.scss';
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const user = useSelector(state => state.user);
 
   const onSubmit = useCallback(
     values => {
@@ -15,15 +16,14 @@ const Login = () => {
         type: actions.LOGIN_REQUEST,
         payload: {
           ...values,
-          toDashboard: () => history.push('/dashboard'),
+          toTimeline: () => history.push('/timeline'),
+          toBatches: () => history.push('/batches'),
           acceptTerms: () => history.push('/system/terms-and-conditions'),
         },
       });
     },
     [dispatch],
   );
-
-  const user = useSelector(state => state.user);
 
   const { isLoggingIn } = user;
 
@@ -72,13 +72,21 @@ const Login = () => {
             </Button>
           </Form.Item>
         </Form>
-        <Button
-          type="link"
-          className={`${style.linkButton} mb-5 font-size-18`}
-          onClick={() => history.push('/system/restore-password')}
-        >
-          Forgot password?
-        </Button>
+        <div className={style.navigationWrap}>
+          <Button
+            type="link"
+            className={`${style.linkButton} font-size-18`}
+            onClick={() => history.push('/system/restore-password')}
+          >
+            Forgot password?
+          </Button>
+          <a
+            className={`${style.linkButton} mb-5 ml-auto font-size-18`}
+            href="mailto:testingsupport@mirimus.com"
+          >
+            Contact us
+          </a>
+        </div>
         <div className="text-gray-8 text-center font-size-16">
           Copyright © 2020 Mirimus Inc.
         </div>

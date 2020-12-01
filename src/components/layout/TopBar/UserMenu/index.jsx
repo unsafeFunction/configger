@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Menu, Dropdown, Avatar } from 'antd';
-import styles from './style.module.scss';
 import { useSelector } from 'react-redux';
+import styles from './style.module.scss';
 
 const ProfileMenu = ({ dispatch, history }) => {
   const onLogout = useCallback(() => {
@@ -13,6 +13,10 @@ const ProfileMenu = ({ dispatch, history }) => {
       },
     });
   }, [dispatch, history]);
+
+  const onRedirectToProfile = useCallback(() => {
+    history.push('/profile');
+  }, [, history]);
 
   const getInitials = (firstName, lastName) => {
     if (firstName && lastName) {
@@ -30,10 +34,16 @@ const ProfileMenu = ({ dispatch, history }) => {
 
   const menu = (
     <Menu selectable={false}>
-      <Menu.Item>
-        <strong className={styles.menu}>Hello, {first_name}</strong>
+      <Menu.Item onClick={onRedirectToProfile}>
+        <strong className={styles.menu}>
+          Hello,
+          {first_name}
+        </strong>
         <div>
-          <strong>Role: {role}</strong>
+          <strong>
+            Role:
+            {role}
+          </strong>
         </div>
       </Menu.Item>
       <Menu.Divider />

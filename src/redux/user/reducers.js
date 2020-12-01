@@ -17,6 +17,7 @@ const initialState = {
   areCompaniesLoading: false,
   reinvitingUser: null,
   error: null,
+  role: null,
 };
 
 export default function userReducer(state = initialState, action) {
@@ -24,7 +25,11 @@ export default function userReducer(state = initialState, action) {
     case actions.LOGIN_REQUEST:
       return { ...state, isLoggingIn: true };
     case actions.LOGIN_SUCCESS:
-      return { ...state, isLoggingIn: false, authorized: true };
+      return {
+        ...state,
+        isLoggingIn: false,
+        authorized: true,
+      };
     case actions.LOGIN_FAILURE:
       return { ...state, isLoggingIn: false, error: action.payload.data };
     case actions.RESTORE_REQUEST:

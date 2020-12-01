@@ -248,9 +248,9 @@ class MenuLeft extends React.Component {
               )}
             </Link>
           )}
-          {!item.url && (
+          {!item.url && item.key === 'contactUs' && (
             <a
-              href="javascript: void(0);"
+              href="mailto:testingsupport@mirimus.com"
               className={style.air__menuLeft__link}
             >
               {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
@@ -410,7 +410,8 @@ class MenuLeft extends React.Component {
               </div>
               <div>
                 <div className={style.air__menuLeft__user__name}>
-                  {this.props.profile.first_name} {this.props.profile.last_name}
+                  {this.props.profile.first_name}
+                  {this.props.profile.last_name}
                 </div>
                 <div className={style.air__menuLeft__user__role}>
                   {this.props.profile.email}
