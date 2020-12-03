@@ -74,31 +74,21 @@ const companiesReducer = (state = initialState, action) => {
   }
 };
 
-const initialSingleCampaign = {
-  title: '',
-  key: '',
-  smsBody: '',
-  destination: '',
-  fromNumber: '+17739662558',
-  originalLink: '',
-  deepLinkDomain: ' https://sms-offer.com/s',
-  trackingEnabled: false,
-  conversationEnabled: false,
-  startDateTime: '',
-  error: null,
-  isLoading: false,
-  statistics: {},
+const initialSingleCompany = {
+  unique_id: '',
+  results_contacts: [],
+  name: '',
 };
 
 export default combineReducers({
   all: companiesReducer,
-  singleCampaign: single({
+  singleCompany: single({
     types: [
-      actions.GET_CAMPAIGN_REQUEST,
-      actions.GET_CAMPAIGN_SUCCESS,
-      actions.GET_CAMPAIGN_FAILURE,
+      actions.GET_COMPANY_REQUEST,
+      actions.GET_COMPANY_SUCCESS,
+      actions.GET_COMPANY_FAILURE,
     ],
-  })((state = initialSingleCampaign, action = {}) => {
+  })((state = initialSingleCompany, action = {}) => {
     switch (action.type) {
       case 'modal/HIDE_MODAL': {
         return {

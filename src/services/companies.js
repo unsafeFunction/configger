@@ -47,9 +47,9 @@ export const getStatistics = async id => {
   }
 };
 
-export const getSingleCampaign = async id => {
+export const getSingleCompany = async id => {
   try {
-    const campaign = await axiosClient.get(`/campaigns/${id}`);
+    const campaign = await axiosClient.get(`/companies/${id}/`);
 
     return campaign;
   } catch (error) {
