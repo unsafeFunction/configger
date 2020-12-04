@@ -62,6 +62,10 @@ const routes = [
     Component: loadable(() => import('pages/Companies')),
     exact: true,
   },
+  {
+    path: '/companies/:id',
+    Component: loadable(() => import('pages/Companies/Company')),
+  },
 ];
 
 const mapStateToProps = ({ settings }) => ({ settings });

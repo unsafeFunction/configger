@@ -1,13 +1,15 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Button, Tag } from 'antd';
+import { Table, Button, Tag, Input } from 'antd';
 import { CampaignModal } from 'components/widgets/campaigns';
+import { debounce } from 'lodash';
 import {
   PlusCircleOutlined,
   DeleteOutlined,
   LoadingOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/companies/actions';
@@ -18,6 +20,7 @@ import { constants } from '../../utils/constants';
 
 const Companies = () => {
   const dispatchCompaniesData = useDispatch();
+  const [searchName, setSearchName] = useState('');
 
   const allCompanies = useSelector(state => state.companies.all);
   const singleCampaign = useSelector(state => state.campaigns.singleCampaign);
@@ -186,7 +189,7 @@ const Companies = () => {
         type: actions.FETCH_COMPANIES_REQUEST,
         payload: {
           limit: constants.companies.itemsLoadingCount,
-          offset: allCompanies.offset,
+          search: searchName,
         },
       });
     }, []);
@@ -235,21 +238,63 @@ const Companies = () => {
       payload: {
         limit: constants.companies.itemsLoadingCount,
         offset: allCompanies.offset,
+        search: searchName,
       },
     });
   }, [dispatchCompaniesData, allCompanies]);
+
+  const sendQuery = useCallback(
+    query => {
+      if (query || query === '') {
+        dispatchCompaniesData({
+          type: actions.FETCH_COMPANIES_REQUEST,
+          payload: {
+            limit: constants.companies.itemsLoadingCount,
+            search: query,
+          },
+        });
+      }
+    },
+    [searchName],
+  );
+
+  const delayedQuery = useCallback(
+    debounce(q => sendQuery(q), 500),
+    [],
+  );
+
+  const onChangeSearch = useCallback(event => {
+    setSearchName(event.target.value);
+    delayedQuery(event.target.value);
+  }, []);
 
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Companies</h4>
-        <Button
-          onClick={onModalToggle}
-          icon={<PlusCircleOutlined />}
-          type="primary"
-        >
-          Create Company
-        </Button>
+        <div className={styles.tableActionsWrapper}>
+          <Input
+            size="middle"
+            prefix={<SearchOutlined />}
+            className={styles.search}
+            placeholder="Search..."
+            value={searchName}
+            onChange={onChangeSearch}
+          />
+          <Button
+            onClick={onModalToggle}
+            size="large"
+            type="primary"
+            className={classNames(
+              styles.createButton,
+              'text-center',
+              'btn',
+              'btn-info',
+            )}
+          >
+            Create Company
+          </Button>
+        </div>
       </div>
       <InfiniteScroll
         next={loadMore}

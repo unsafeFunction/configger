@@ -10,6 +10,7 @@ const initialState = {
   offset: 0,
   total: 0,
   page: 1,
+  search: '',
 };
 
 const companiesReducer = (state = initialState, action) => {
@@ -18,22 +19,33 @@ const companiesReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        search: action.payload.search,
       };
     }
     case actions.FETCH_COMPANIES_SUCCESS: {
       return {
-        items: [
-          ...state.items,
-          ...action.payload.data.map(company => {
-            return {
-              ...company,
-              action: null,
-            };
-          }),
-        ],
+        ...state,
+        items: action.payload.firstPage
+          ? action.payload.data.map(company => {
+              return {
+                ...company,
+                action: null,
+              };
+            })
+          : [
+              ...state.items,
+              ...action.payload.data.map(company => {
+                return {
+                  ...company,
+                  action: null,
+                };
+              }),
+            ],
         total: action.payload.total,
         isLoading: true,
-        offset: state.offset + constants.companies.itemsLoadingCount,
+        offset: action.payload.firstPage
+          ? constants.companies.itemsLoadingCount
+          : state.offset + constants.companies.itemsLoadingCount,
       };
     }
     case actions.REMOVE_CAMPAIGN_REQUEST: {
@@ -74,31 +86,21 @@ const companiesReducer = (state = initialState, action) => {
   }
 };
 
-const initialSingleCampaign = {
-  title: '',
-  key: '',
-  smsBody: '',
-  destination: '',
-  fromNumber: '+17739662558',
-  originalLink: '',
-  deepLinkDomain: ' https://sms-offer.com/s',
-  trackingEnabled: false,
-  conversationEnabled: false,
-  startDateTime: '',
-  error: null,
-  isLoading: false,
-  statistics: {},
+const initialSingleCompany = {
+  unique_id: '',
+  results_contacts: [],
+  name: '',
 };
 
 export default combineReducers({
   all: companiesReducer,
-  singleCampaign: single({
+  singleCompany: single({
     types: [
-      actions.GET_CAMPAIGN_REQUEST,
-      actions.GET_CAMPAIGN_SUCCESS,
-      actions.GET_CAMPAIGN_FAILURE,
+      actions.GET_COMPANY_REQUEST,
+      actions.GET_COMPANY_SUCCESS,
+      actions.GET_COMPANY_FAILURE,
     ],
-  })((state = initialSingleCampaign, action = {}) => {
+  })((state = initialSingleCompany, action = {}) => {
     switch (action.type) {
       case 'modal/HIDE_MODAL': {
         return {

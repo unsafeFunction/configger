@@ -4,10 +4,10 @@ import {
   deleteCampaign,
   createCampaign,
   startCampaign,
-  getSingleCampaign,
+  // getSingleCampaign,
   getStatistics,
 } from 'services/campaign';
-import { fetchCompanies } from 'services/companies';
+import { fetchCompanies, getSingleCompany } from 'services/companies';
 import { notification } from 'antd';
 import { getCampaign } from './selectors';
 import actions from './actions';
@@ -21,6 +21,7 @@ export function* callFetchCompanies({ payload }) {
       payload: {
         data: response.data.results,
         total: response.data.count,
+        firstPage: !response.data.previous,
       },
     });
   } catch (error) {
@@ -99,12 +100,12 @@ export function* callStartCampaign() {
   }
 }
 
-export function* callGetCampaign({ payload }) {
+export function* callGetCompany({ payload }) {
   try {
-    const response = yield call(getSingleCampaign, payload.id);
+    const response = yield call(getSingleCompany, payload.id);
 
     yield put({
-      type: actions.GET_CAMPAIGN_SUCCESS,
+      type: actions.GET_COMPANY_SUCCESS,
       payload: {
         data: response.data,
       },
@@ -120,7 +121,7 @@ export default function* rootSaga() {
     takeEvery(actions.REMOVE_CAMPAIGN_REQUEST, callRemoveCampaign),
     takeEvery(actions.CREATE_CAMPAIGN_REQUEST, callCreateCampaign),
     takeEvery(actions.START_CAMPAIGN_REQUEST, callStartCampaign),
-    takeEvery(actions.GET_CAMPAIGN_REQUEST, callGetCampaign),
+    takeEvery(actions.GET_COMPANY_REQUEST, callGetCompany),
     takeEvery(actions.GET_CAMPAIGN_STATISTICS_REQUEST, callLoadStatistics),
   ]);
 }

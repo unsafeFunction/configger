@@ -1,3 +1,5 @@
+@import 'assets/styles/mixins.scss';
+
 .page__header {
   width: 100%;
   display: flex;
@@ -15,4 +17,22 @@
   height: 60px;
   text-align: center;
   padding-top: 10px;
+}
+
+.search {
+  width: 65%;
+  margin-bottom: 1em;
+}
+
+.createButton {
+  width: 10.5em;
+  background-color: $info;
+  border-color: $info;
+  margin-left: 15px;
+}
+
+.tableActionsWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 40%;
 }

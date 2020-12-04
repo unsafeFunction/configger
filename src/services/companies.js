@@ -1,12 +1,13 @@
 import axiosClient from 'utils/axiosClient';
 import moment from 'moment';
 
-export const fetchCompanies = async ({ limit, offset }) => {
+export const fetchCompanies = async ({ limit, offset, search }) => {
   try {
     return await axiosClient.get('/companies/', {
       params: {
         limit,
         offset,
+        search,
       },
     });
   } catch (error) {
@@ -47,9 +48,9 @@ export const getStatistics = async id => {
   }
 };
 
-export const getSingleCampaign = async id => {
+export const getSingleCompany = async id => {
   try {
-    const campaign = await axiosClient.get(`/campaigns/${id}`);
+    const campaign = await axiosClient.get(`/companies/${id}/`);
 
     return campaign;
   } catch (error) {
