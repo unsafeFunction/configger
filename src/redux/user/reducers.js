@@ -47,7 +47,7 @@ export default function userReducer(state = initialState, action) {
     case actions.ACCEPT_FAILURE:
       return { ...state, isAccepting: false, error: action.payload.data };
     case actions.PROFILE_SUCCESS:
-      return { ...state, profile: action.payload.profile };
+        return { ...state, profile: action.payload.profile, role: action.payload.profile.role };
     case actions.PROFILE_FAILURE:
       return { ...state, error: action.payload.data };
     case actions.UPDATE_PROFILE_REQUEST:

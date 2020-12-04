@@ -17,7 +17,7 @@ const Layouts = {
 
 const cookie = cookieStorage();
 @withRouter
-@connect(({ user, timeline }) => ({ user, timeline }))
+@connect(({ user, timeline, menu }) => ({ user, timeline, menu }))
 class Layout extends React.PureComponent {
   previousPath = '';
 
@@ -33,9 +33,18 @@ class Layout extends React.PureComponent {
     const {
       children,
       location: { pathname, search },
+      menu: { rolePermissions },
       user,
       timeline,
     } = this.props;
+
+    let authorizedToVisit = true;
+    let defaultPath = '/';
+    if (rolePermissions && user.role) {
+      const userPermissions = rolePermissions[user.role];
+      authorizedToVisit = userPermissions.permitted.includes(pathname);
+      defaultPath = userPermissions.default;
+    }
 
     // NProgress Management
     const currentPath = pathname + search;
@@ -76,6 +85,15 @@ class Layout extends React.PureComponent {
       // redirect to terms&conditions page if user has not accepted them yet
       if (!isAuthLayout && !isTermsAccepted) {
         return <Redirect to="/system/terms-and-conditions" />;
+      }
+      if (isUserAuthorized && currentPath === "/system/login") {
+        return <Redirect to={defaultPath} />;
+      }
+      if (isUserAuthorized && currentPath === "/system/terms-and-conditions") {
+        return <Redirect to={defaultPath} />;
+      }
+      if (!authorizedToVisit) {
+        return <Redirect to={defaultPath} />;
       }
       // in other case render previously set layout
       return <Container>{children}</Container>;
