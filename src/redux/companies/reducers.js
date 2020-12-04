@@ -10,6 +10,7 @@ const initialState = {
   offset: 0,
   total: 0,
   page: 1,
+  search: '',
 };
 
 const companiesReducer = (state = initialState, action) => {
@@ -18,22 +19,33 @@ const companiesReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        search: action.payload.search,
       };
     }
     case actions.FETCH_COMPANIES_SUCCESS: {
       return {
-        items: [
-          ...state.items,
-          ...action.payload.data.map(company => {
-            return {
-              ...company,
-              action: null,
-            };
-          }),
-        ],
+        ...state,
+        items: action.payload.firstPage
+          ? action.payload.data.map(company => {
+              return {
+                ...company,
+                action: null,
+              };
+            })
+          : [
+              ...state.items,
+              ...action.payload.data.map(company => {
+                return {
+                  ...company,
+                  action: null,
+                };
+              }),
+            ],
         total: action.payload.total,
         isLoading: true,
-        offset: state.offset + constants.companies.itemsLoadingCount,
+        offset: action.payload.firstPage
+          ? constants.companies.itemsLoadingCount
+          : state.offset + constants.companies.itemsLoadingCount,
       };
     }
     case actions.REMOVE_CAMPAIGN_REQUEST: {

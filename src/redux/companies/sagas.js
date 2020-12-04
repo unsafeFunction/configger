@@ -21,6 +21,7 @@ export function* callFetchCompanies({ payload }) {
       payload: {
         data: response.data.results,
         total: response.data.count,
+        firstPage: !response.data.previous,
       },
     });
   } catch (error) {
