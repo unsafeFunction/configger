@@ -12,6 +12,7 @@ import style from './style.module.scss';
 const { Sider } = Layout;
 const mapStateToProps = ({ menu, settings, user }) => ({
   menuData: menu.menuData,
+  rolePermissions: menu.rolePermissions,
   settings,
   flyoutActive:
     (settings.menuType === 'flyout' ||
@@ -19,6 +20,7 @@ const mapStateToProps = ({ menu, settings, user }) => ({
       settings.isMenuCollapsed) &&
     !settings.isMobileView,
   profile: user.profile,
+  role: user.role,
 });
 
 @withRouter
@@ -210,7 +212,11 @@ class MenuLeft extends React.Component {
   };
 
   generateMenuItems = () => {
-    const { menuData = [] } = this.props;
+    const { 
+      menuData = [],
+      role,
+      rolePermissions
+     } = this.props;
     const { activeSubmenu, activeItem } = this.state;
 
     const menuItem = item => {
@@ -308,6 +314,12 @@ class MenuLeft extends React.Component {
     };
 
     return menuData.map(item => {
+      if (!role || !rolePermissions) {
+        return;
+      }
+      if (item.url && !rolePermissions[role].permitted.includes(item.url)) {
+        return;
+      }
       if (item.children) {
         return submenuItem(item);
       }
@@ -439,14 +451,6 @@ class MenuLeft extends React.Component {
                 <ul className={style.air__menuLeft__list}>
                   <li className={style.air__menuLeft__category}>
                     <span>Menu</span>
-                  </li>
-                  <li className={style.air__menuLeft__item}>
-                    <Link to="/timeline" className={style.air__menuLeft__link}>
-                      <i
-                        className={`fe fe-compass ${style.air__menuLeft__icon}`}
-                      />
-                      <span>Timeline</span>
-                    </Link>
                   </li>
                   {items}
                 </ul>

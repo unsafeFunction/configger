@@ -1,5 +1,11 @@
-export default async function getMenuData() {
+export async function getMenuData() {
   return [
+    {
+      title: 'Timeline',
+      key: 'timeline',
+      url: '/timeline',
+      icon: 'fe fe-compass',
+    },
     {
       title: 'Customers',
       key: 'users',
@@ -24,4 +30,21 @@ export default async function getMenuData() {
       icon: 'fe fe-mail',
     },
   ];
+}
+
+export async function getRolePermissions() {
+  return {
+    admin: {
+      permitted: ['/profile', '/customers', '/companies', '/batches'],
+      default: '/batches',
+    },
+    staff: {
+      permitted: ['/profile', '/customers', '/companies', '/batches'],
+      default: '/batches',
+    },
+    'company-admin': {
+      permitted: ['/profile', '/timeline'],
+      default: '/timeline',
+    },
+  };
 }
