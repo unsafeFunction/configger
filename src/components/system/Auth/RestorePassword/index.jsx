@@ -1,0 +1,113 @@
+import React, { useCallback } from 'react';
+import { useHistory, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, Input, Button } from 'antd';
+import actions from 'redux/user/actions';
+import classNames from 'classnames'
+import style from './style.module.scss';
+import authStyle from '../style.module.scss';
+import qs from 'qs';
+
+const RestorePassword = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { token, uid } = qs.parse(history.location.search, {
+    ignoreQueryPrefix: true,
+  });
+
+  const onSubmit = useCallback(
+    values => {
+      dispatch({
+        type: actions.RESTORE_REQUEST,
+        payload: {
+          ...values,
+          token,
+          uid,
+          redirect: () => history.push('/system/login'),
+        },
+      });
+    },
+    [dispatch, token, uid],
+  );
+
+  const user = useSelector(state => state.user);
+
+  if (!token || !uid) {
+    return <Redirect to="/system/404" />;
+  }
+
+  const { isRestoring } = user;
+
+  return (
+    <div className={authStyle.auth}>
+      <div className={`${authStyle.container}`}>
+        <div className={style.header}>
+          Password recovery
+        </div>
+        <Form layout="vertical" onFinish={onSubmit}>
+          <Form.Item
+            label="New password"
+            name="newPassword"
+            className={authStyle.formInput}
+            rules={[
+              {
+                required: true,
+                message: 'Please input your new password!',
+              },
+            ]}
+          >
+            <Input.Password size="large" placeholder="New password" />
+          </Form.Item>
+          <Form.Item
+            label="Password confirmation"
+            name="passwordConfirmation"
+            dependencies={["newPassword"]}
+            className={authStyle.formInput}
+            rules={[
+              {
+                required: true,
+                message: 'Please input your new password again!',
+              },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('newPassword') === value) {
+                    return Promise.resolve();
+                  }
+
+                  return Promise.reject(
+                    'The password that you entered does not match with the new one!',
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password size="large" placeholder="Password confirmation" />
+          </Form.Item>
+          <Form.Item className={authStyle.formButton}>
+            <Button
+              type="primary"
+              size="large"
+              className={classNames(authStyle.submitButton, 'btn', 'btn-info')}
+              htmlType="submit"
+              loading={isRestoring}
+            >
+              Restore Password
+            </Button>
+          </Form.Item>
+        </Form>
+        <Button
+          type="link"
+          className={authStyle.linkButton}
+          onClick={() => history.push('/system/login')}
+        >
+          Back to login
+        </Button>
+        <div className={authStyle.copyright}>
+          Copyright © 2020 Mirimus Inc.
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RestorePassword;

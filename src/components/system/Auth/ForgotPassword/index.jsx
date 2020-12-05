@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   const onSubmit = useCallback(
     values => {
       dispatch({
-        type: actions.RESTORE_REQUEST,
+        type: actions.FORGOT_REQUEST,
         payload: {
           ...values,
           redirect: () => history.push('/system/login'),

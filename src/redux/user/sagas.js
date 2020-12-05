@@ -2,6 +2,7 @@ import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import {
   login,
+  forgotPassword,
   restore,
   loadUsers,
   accept,
@@ -63,11 +64,48 @@ export function* callLogin({ payload }) {
   }
 }
 
-export function* callRestore({ payload }) {
+export function* callForgotPassword({ payload }) {
   const { email, redirect } = payload;
   try {
-    yield call(restore, email);
+    yield call(forgotPassword, email);
 
+    yield put({
+      type: actions.FORGOT_SUCCESS,
+    });
+
+    yield call(redirect);
+    notification.success({
+      message: 'Success!',
+      description: 'Recover email has been sent successfully.',
+    });
+  } catch (error) { 
+    const errorData = error.response.data.non_field_errors;
+
+    yield put({
+      type: actions.FORGOT_FAILURE,
+      payload: {
+        data: errorData,
+      },
+    });
+
+    notification.error({
+      message: 'Something went wrong',
+      description: errorData,
+    });
+  }
+}
+
+export function* callRestore({ payload }) {
+  const { 
+    newPassword, 
+    passwordConfirmation, 
+    token, 
+    uid,
+    redirect
+  } = payload;
+  try {
+    const response = yield call(restore, newPassword, passwordConfirmation, uid, token);
+    console.log(response);
     yield put({
       type: actions.RESTORE_SUCCESS,
     });
@@ -75,7 +113,7 @@ export function* callRestore({ payload }) {
     yield call(redirect);
     notification.success({
       message: 'Success!',
-      description: 'Recover email sent successfully.',
+      description: 'Your password has been updated.',
     });
   } catch (error) {
     const errorData = error.response.data.non_field_errors;
@@ -345,6 +383,7 @@ export function* callInviteCustomer({ payload }) {
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.LOGIN_REQUEST, callLogin),
+    takeEvery(actions.FORGOT_REQUEST, callForgotPassword),
     takeEvery(actions.RESTORE_REQUEST, callRestore),
     takeEvery(actions.ACCEPT_REQUEST, callAccept),
     takeEvery(actions.PROFILE_REQUEST, callLoadProfile),

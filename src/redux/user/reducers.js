@@ -32,6 +32,12 @@ export default function userReducer(state = initialState, action) {
       };
     case actions.LOGIN_FAILURE:
       return { ...state, isLoggingIn: false, error: action.payload.data };
+    case actions.FORGOT_REQUEST:
+      return { ...state, isRestoring: true };
+    case actions.FORGOT_SUCCESS:
+      return { ...state, isRestoring: false };
+    case actions.FORGOT_FAILURE:
+      return { ...state, isRestoring: false, error: action.payload.data };
     case actions.RESTORE_REQUEST:
       return { ...state, isRestoring: true };
     case actions.RESTORE_SUCCESS:
