@@ -76,7 +76,7 @@ const Login = () => {
           <Button
             type="link"
             className={`${style.linkButton} font-size-18`}
-            onClick={() => history.push('/system/restore-password')}
+            onClick={() => history.push('/system/forgot-password')}
           >
             Forgot password?
           </Button>
