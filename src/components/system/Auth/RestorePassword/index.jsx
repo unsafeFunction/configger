@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
 import classNames from 'classnames'
-import style from './style.module.scss';
-import authStyle from '../style.module.scss';
+import style from '../style.module.scss';
 import qs from 'qs';
 
 const RestorePassword = () => {
@@ -39,8 +38,8 @@ const RestorePassword = () => {
   const { isRestoring } = user;
 
   return (
-    <div className={authStyle.auth}>
-      <div className={`${authStyle.container}`}>
+    <div className={style.auth}>
+      <div className={`${style.container}`}>
         <div className={style.header}>
           Password recovery
         </div>
@@ -48,7 +47,7 @@ const RestorePassword = () => {
           <Form.Item
             label="New password"
             name="newPassword"
-            className={authStyle.formInput}
+            className={style.formInput}
             rules={[
               {
                 required: true,
@@ -62,7 +61,7 @@ const RestorePassword = () => {
             label="Password confirmation"
             name="passwordConfirmation"
             dependencies={["newPassword"]}
-            className={authStyle.formInput}
+            className={style.formInput}
             rules={[
               {
                 required: true,
@@ -83,11 +82,11 @@ const RestorePassword = () => {
           >
             <Input.Password size="large" placeholder="Password confirmation" />
           </Form.Item>
-          <Form.Item className={authStyle.formButton}>
+          <Form.Item className={style.formButton}>
             <Button
               type="primary"
               size="large"
-              className={classNames(authStyle.submitButton, 'btn', 'btn-info')}
+              className={classNames(style.submitButton, 'btn', 'btn-info')}
               htmlType="submit"
               loading={isRestoring}
             >
@@ -97,12 +96,12 @@ const RestorePassword = () => {
         </Form>
         <Button
           type="link"
-          className={authStyle.linkButton}
+          className={style.linkButton}
           onClick={() => history.push('/system/login')}
         >
           Back to login
         </Button>
-        <div className={authStyle.copyright}>
+        <div className={style.copyright}>
           Copyright © 2020 Mirimus Inc.
         </div>
       </div>

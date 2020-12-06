@@ -24,24 +24,19 @@
   background-color: white;
 }
 
-.googleSign {
-  background-repeat: no-repeat;
-  background-size: rem(21) rem(21);
-  background-position: center left rem(15);
-  padding-left: rem(40);
-}
-
-.footerNav {
-  li {
-    margin: rem(5) rem(14);
-  }
-}
-
 .logo {
   width: 40%;
   display: block;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1em;
+}
+
+.header {
+  color: $black;
+  font-size: 30px;
+  text-align: center;
+  margin: 1em 0;
 }
 
 .formInput {
@@ -52,50 +47,20 @@
 .linkButton {
   padding: 0;
   margin: 0;
-  margin-bottom: 2em;
   font-size: 18px;
   color: $info;
 }
 
-.paragraph {
-  text-indent: 50px;
-  text-align: justify;
-}
-
-.aligned {
-  text-align: justify;
-  ol {
-    li {
-      margin-bottom: 14px;
-    }
-    ul {
-      list-style-type: square;
-      li {
-        margin-bottom: 0px;
-      }
-    }
-  }
-}
-
-.footer {
-  background-color: white !important;
-  border-top: 1px solid rgb(236, 236, 236);
-}
-
-.button {
-  margin: 1em;
-}
-
 .navigationWrap {
   display: flex;
-
-  margin-bottom: 25px;
+  justify-content: space-between;
 }
 
 .copyright {
   color: $gray-6;
   text-align: center;
   font-size: 16px;
+  margin-top: 5em;
 }
 
 .submitButton {
@@ -103,6 +68,8 @@
   width: 100%;
   font-size: 16;
   text-transform: uppercase;
+  background-color: $info;
+  border-color: $info;
 }
 
 .formButton {
