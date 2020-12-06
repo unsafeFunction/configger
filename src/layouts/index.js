@@ -42,7 +42,10 @@ class Layout extends React.PureComponent {
     let defaultPath = '/';
     if (rolePermissions && user.role) {
       const userPermissions = rolePermissions[user.role];
-      authorizedToVisit = userPermissions.permitted.includes(pathname);
+      // e.g., from `/companies/${companyId}` path it extracts only `/companies` part
+      const regEx = /^[/][^/]*/u;
+      const mainPath = pathname.match(regEx)[0];
+      authorizedToVisit = userPermissions.permitted.includes(mainPath);
       defaultPath = userPermissions.default;
     }
 
