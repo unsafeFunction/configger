@@ -259,7 +259,7 @@ export function* callChangePassword({ payload }) {
       description: 'Your password has been changed.',
     });
   } catch (error) {
-    const errorData = error.response.data;
+    const errorData = JSON.stringify(error.response.data.field_errors);
 
     yield put({
       type: actions.CHANGE_PASSWORD_FAILURE,
