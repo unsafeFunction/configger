@@ -2,10 +2,12 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
+import classNames from 'classnames'
 import style from './style.module.scss';
 
 const Password = () => {
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
 
   const onSubmit = useCallback(
     values => {
@@ -19,19 +21,28 @@ const Password = () => {
     [dispatch],
   );
 
-  const { isPasswordChanging } = useSelector(state => state.user);
+  const { isPasswordChanging, error } = useSelector(state => state.user);
 
-  useEffect(() => {});
+  useEffect(() => {
+    const isInitializing = form.getFieldValue('currentPassword') === undefined;
+    if (!isInitializing && !isPasswordChanging && !error) {
+      form.setFieldsValue({
+        currentPassword: '',
+        newPassword: '',
+        passwordConfirmation: '',
+      });
+    }
+  }, [isPasswordChanging]);
 
   return (
-    <div className={`${style.container} pl-5 pr-5 pt-5 pb-5 bg-white`}>
-      <div className={`${style.header}`}>Change password</div>
-      <Form layout="vertical" onFinish={onSubmit}>
-        <div className={`${style.form}`}>
+    <div className={style.container}>
+      <div className={style.header}>Change password</div>
+      <Form form={form} layout="vertical" onFinish={onSubmit}>
+        <div className={style.form}>
           <Form.Item
             label="Current password"
             name="currentPassword"
-            className="w-100"
+            className={style.input}
             rules={[
               {
                 required: true,
@@ -44,7 +55,7 @@ const Password = () => {
           <Form.Item
             label="New password"
             name="newPassword"
-            className="w-100 mx-5"
+            className={classNames(style.input, 'mx-5')}
             rules={[
               {
                 required: true,
@@ -57,7 +68,8 @@ const Password = () => {
           <Form.Item
             label="Password confirmation"
             name="passwordConfirmation"
-            className="w-100"
+            dependencies={["newPassword"]}
+            className={style.input}
             rules={[
               {
                 required: true,
@@ -79,11 +91,11 @@ const Password = () => {
             <Input.Password size="large" placeholder="Password confirmation" />
           </Form.Item>
         </div>
-        <Form.Item className="my-3">
+        <Form.Item className={style.formButton}>
           <Button
             type="primary"
             size="large"
-            className="text-center text-uppercase btn btn-info float-right font-size-16"
+            className={classNames(style.submitButton, 'btn', 'btn-info', 'float-right')}
             htmlType="submit"
             loading={isPasswordChanging}
           >

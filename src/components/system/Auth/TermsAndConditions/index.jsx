@@ -2,7 +2,8 @@ import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Typography, Layout } from 'antd';
-import style from '../style.module.scss';
+import classNames from 'classnames'
+import style from './style.module.scss';
 import actions from 'redux/user/actions';
 
 const TermsAndConditions = () => {
@@ -32,15 +33,15 @@ const TermsAndConditions = () => {
   return (
     <Layout>
       <Content
-        style={{ marginLeft: '20%', marginRight: '20%', marginBottom: '5%' }}
+        className={style.plainText}
       >
-        <Title className="text-center my-4" level={3}>
+        <Title className={style.header} level={3}>
           COVID-19 TESTING
         </Title>
-        <Title className="text-center pb-4" level={3}>
+        <Title className={style.header} level={3}>
           GENERAL TERMS AND CONDITIONS
         </Title>
-        <Paragraph className={`${style.paragraph}`}>
+        <Paragraph className={style.paragraph}>
           The following represents the{' '}
           <Text className="font-italic">
             General Terms and Conditions applicable
@@ -55,14 +56,14 @@ const TermsAndConditions = () => {
           including any special terms and conditions set forth separately, shall
           govern the sale of services by Mirimus.
         </Paragraph>
-        <Paragraph className={`${style.paragraph}`}>
+        <Paragraph className={style.paragraph}>
           WHEREAS the Mirimus, Inc. located at 760 Parkside Ave. Suite 206,
           Brooklyn, NY 11226 (<Text className="font-italic">«Mirimus»</Text> or
           the <Text className="font-italic">«Laboratory»</Text>) has created a
           testing program for detecting Covid-19 referred to as the «Mirimus
           COVID-19 Testing Program»);
         </Paragraph>
-        <Paragraph className={`${style.paragraph}`}>
+        <Paragraph className={style.paragraph}>
           WHEREAS, pursuant to the Mirimus COVID-19 Testing Program, Mirimus
           receives saliva or other samples («Samples») from customers in the
           manner set forth more specifically in the Service Agreement and tests
@@ -70,21 +71,21 @@ const TermsAndConditions = () => {
           nucleic acid (the <Text className="font-weight-bold">«Program»</Text>
           );
         </Paragraph>
-        <Paragraph className={`${style.paragraph}`}>
+        <Paragraph className={style.paragraph}>
           WHEREAS, the presence of SARS-CoV-2 nucleic acid, along with other
           clinical factors, is indicative although not determinative, of
           COVID-19 infection or infectivity; and,
         </Paragraph>
-        <Paragraph className={`${style.paragraph}`}>
+        <Paragraph className={style.paragraph}>
           WHEREAS, Organization desires to participate in the Program in
           accordance with the terms and conditions of this Agreement.
         </Paragraph>
-        <Paragraph className={`${style.paragraph}`}>
+        <Paragraph className={style.paragraph}>
           <Text className="font-weight-bold">NOW, THEREFORE</Text>, in
           consideration of the premises and mutual and dependent promises set
           forth herein, the Parties hereto agree as follows:
         </Paragraph>
-        <Paragraph className={`${style.aligned} my-4`}>
+        <Paragraph className={style.aligned}>
           <ol>
             <li>
               <Text className="font-weight-bold">
@@ -626,17 +627,17 @@ const TermsAndConditions = () => {
           </ol>
         </Paragraph>
         <Checkbox
-          className="text-dark font-size-30 my-3"
+          className={style.checkbox}
           onChange={() => agree(!isAgreed)}
         >
           I agree to the Terms and Conditions
         </Checkbox>
       </Content>
-      <Footer className={`${style.footer} fixed-bottom text-center`}>
+      <Footer className={classNames(style.footer, 'fixed-bottom')}>
         <Button
           type="primary"
           size="large"
-          className={`${style.button} text-center text-uppercase btn btn-info w-30 font-size-16`}
+          className={classNames(style.button, 'btn', 'btn-info')}
           htmlType="submit"
           disabled={!isAgreed}
           loading={isAccepting}

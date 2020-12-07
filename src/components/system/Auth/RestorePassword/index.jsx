@@ -1,29 +1,39 @@
 import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
 import classNames from 'classnames'
 import style from '../style.module.scss';
+import qs from 'qs';
 
-const ForgotPassword = () => {
+const RestorePassword = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { token, uid } = qs.parse(history.location.search, {
+    ignoreQueryPrefix: true,
+  });
 
   const onSubmit = useCallback(
     values => {
       dispatch({
-        type: actions.FORGOT_REQUEST,
+        type: actions.RESTORE_REQUEST,
         payload: {
           ...values,
+          token,
+          uid,
           redirect: () => history.push('/system/login'),
         },
       });
     },
-    [dispatch],
+    [dispatch, token, uid],
   );
 
   const user = useSelector(state => state.user);
+
+  if (!token || !uid) {
+    return <Redirect to="/system/404" />;
+  }
 
   const { isRestoring } = user;
 
@@ -31,23 +41,48 @@ const ForgotPassword = () => {
     <div className={style.auth}>
       <div className={`${style.container}`}>
         <div className={style.header}>
-          Forgot password?
+          Password recovery
         </div>
         <Form layout="vertical" onFinish={onSubmit}>
           <Form.Item
-            label="Email Address"
-            name="email"
+            label="New password"
+            name="newPassword"
             className={style.formInput}
             rules={[
               {
                 required: true,
-                message: 'Please input your Email!',
+                message: 'Please input your new password!',
               },
             ]}
           >
-            <Input size="large" placeholder="Email" />
+            <Input.Password size="large" placeholder="New password" />
           </Form.Item>
-          <Form.Item className="mb-3">
+          <Form.Item
+            label="Password confirmation"
+            name="passwordConfirmation"
+            dependencies={["newPassword"]}
+            className={style.formInput}
+            rules={[
+              {
+                required: true,
+                message: 'Please input your new password again!',
+              },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('newPassword') === value) {
+                    return Promise.resolve();
+                  }
+
+                  return Promise.reject(
+                    'The password that you entered does not match with the new one!',
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password size="large" placeholder="Password confirmation" />
+          </Form.Item>
+          <Form.Item className={style.formButton}>
             <Button
               type="primary"
               size="large"
@@ -55,7 +90,7 @@ const ForgotPassword = () => {
               htmlType="submit"
               loading={isRestoring}
             >
-              Send recover link
+              Restore Password
             </Button>
           </Form.Item>
         </Form>
@@ -74,4 +109,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default RestorePassword;
