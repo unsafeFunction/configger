@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Table, Button, Tag, Input } from 'antd';
-import { CampaignModal } from 'components/widgets/campaigns';
+import { CompanyModal } from 'components/widgets/companies';
 import { debounce } from 'lodash';
 import {
   PlusCircleOutlined,
@@ -141,48 +141,6 @@ const Companies = () => {
     },
   ];
 
-  const onChange = useCallback(
-    event => {
-      const { value, name } = event.target;
-
-      dispatchCompaniesData({
-        type: actions.ON_COMPANY_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatchCompaniesData],
-  );
-
-  const onSelectChange = useCallback(
-    (value, { name }) => {
-      dispatchCompaniesData({
-        type: actions.ON_COMPANY_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatchCompaniesData],
-  );
-
-  const onSwitchChange = useCallback(
-    (value, event) => {
-      const { name } = event.target;
-      dispatchCompaniesData({
-        type: actions.ON_COMPANY_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatchCompaniesData],
-  );
-
   const useFetching = () => {
     useEffect(() => {
       dispatchCompaniesData({
@@ -211,26 +169,26 @@ const Companies = () => {
       type: modalActions.SHOW_MODAL,
       modalType: 'CONFIRM_MODAL',
       modalProps: {
-        title: 'Create campaign',
+        title: 'Create company',
         confirmAction: () => {},
         onCancel: onModalToggle,
         onOk: createCampaign,
-        message: () => (
-          <CampaignModal
-            onSwitchChange={onSwitchChange}
-            onSelectChange={onSelectChange}
-            onChange={onChange}
-            singleCampaign={singleCampaign}
-          />
-        ),
-        type: 'danger',
-        width: 820,
-        bodyStyle: {
-          padding: '0',
+        cancelButtonProps: { className: classNames(styles.modalButton) },
+        okButtonProps: {
+          className: classNames(styles.modalButton, styles.createCompanyModal),
+          // loading: isInviting,
         },
+        bodyStyle: {
+          maxHeight: '70vh',
+          overflow: 'scroll',
+        },
+        okText: 'Create',
+        message: () => <CompanyModal />,
+        type: 'danger',
+        width: '40%',
       },
     });
-  }, [createCampaign, dispatchCompaniesData, onChange, onSelectChange]);
+  }, [dispatchCompaniesData]);
 
   const loadMore = useCallback(() => {
     dispatchCompaniesData({

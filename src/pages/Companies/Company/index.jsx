@@ -390,8 +390,9 @@ const CampaignProfile = () => {
             }}
             title={() => (
               <span className="d-flex">
-                <Button icon={<ImportOutlined />} className="ml-auto mr-2" />
-                <Button onClick={onModalToggle}>Add contact</Button>
+                <Button className="ml-auto mr-2" onClick={onModalToggle}>
+                  Add contact
+                </Button>
               </span>
             )}
             align="center"
