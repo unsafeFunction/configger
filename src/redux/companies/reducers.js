@@ -64,18 +64,18 @@ const companiesReducer = (state = initialState, action) => {
         isLoading: true,
       };
     }
-    case actions.CREATE_CAMPAIGN_REQUEST:
+    case actions.CREATE_COMPANY_REQUEST:
       return {
         ...state,
         isLoading: false,
       };
-    case actions.CREATE_CAMPAIGN_SUCCESS:
+    case actions.CREATE_COMPANY_SUCCESS:
       return {
         ...state,
         items: [...state.items, action.payload.data],
         isLoading: true,
       };
-    case actions.CREATE_CAMPAIGN_FAILURE: {
+    case actions.CREATE_COMPANY_FAILURE: {
       return {
         isLoading: true,
         error: action.payload,

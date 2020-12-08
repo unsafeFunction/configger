@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Button, Tag, Input } from 'antd';
+import { Table, Button, Tag, Input, Form } from 'antd';
 import { CompanyModal } from 'components/widgets/companies';
 import { debounce } from 'lodash';
 import {
@@ -21,6 +21,7 @@ import { constants } from '../../utils/constants';
 const Companies = () => {
   const dispatchCompaniesData = useDispatch();
   const [searchName, setSearchName] = useState('');
+  const [form] = Form.useForm();
 
   const allCompanies = useSelector(state => state.companies.all);
   const singleCampaign = useSelector(state => state.campaigns.singleCampaign);
@@ -75,6 +76,15 @@ const Companies = () => {
     });
   }, [dispatchCompaniesData, singleCampaign]);
 
+  const createCompany = useCallback(async () => {
+    const fieldValues = await form.validateFields();
+    dispatchCompaniesData({
+      type: actions.CREATE_COMPANY_REQUEST,
+      payload: { ...fieldValues },
+    });
+    console.log(fieldValues);
+  }, []);
+
   const columns = [
     {
       title: 'Company Name',
@@ -83,9 +93,9 @@ const Companies = () => {
         return (
           <Link
             onClick={() => {
-              setCompanyId(company.unique_id);
+              setCompanyId(company?.unique_id);
             }}
-            to={`/companies/${company.unique_id}`}
+            to={`/companies/${company?.unique_id}`}
           >
             {`${name || '-'}`}
           </Link>
@@ -167,24 +177,21 @@ const Companies = () => {
   const onModalToggle = useCallback(() => {
     dispatchCompaniesData({
       type: modalActions.SHOW_MODAL,
-      modalType: 'CONFIRM_MODAL',
+      modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Create company',
-        confirmAction: () => {},
-        onCancel: onModalToggle,
-        onOk: createCampaign,
+        onOk: createCompany,
         cancelButtonProps: { className: classNames(styles.modalButton) },
         okButtonProps: {
           className: classNames(styles.modalButton, styles.createCompanyModal),
-          // loading: isInviting,
+          loading: allCompanies.isLoading,
         },
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
         },
         okText: 'Create',
-        message: () => <CompanyModal />,
-        type: 'danger',
+        message: () => <CompanyModal form={form} />,
         width: '40%',
       },
     });

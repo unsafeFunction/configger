@@ -25,14 +25,13 @@ export const deleteCampaign = async id => {
   }
 };
 
-export const createCampaign = async payload => {
+export const createCompany = async payload => {
   try {
-    const campaign = await axiosClient.post(`/campaigns`, {
+    const company = await axiosClient.post(`/companies/create`, {
       ...payload,
-      originalLink: `https://${payload.originalLink}`,
     });
 
-    return campaign;
+    return company;
   } catch (error) {
     return error;
   }
