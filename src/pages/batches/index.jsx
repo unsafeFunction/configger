@@ -8,7 +8,7 @@ import moment from 'moment-timezone';
 import is from 'is_js';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 import qs from 'qs';
 // import InfiniteScroll from 'react-infinite-scroller';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -17,6 +17,7 @@ import styles from './styles.module.scss';
 moment.tz.setDefault('America/New_York');
 
 const { RangePicker } = DatePicker;
+
 const batchesPage = {
   defaultLoadingNumber: 20,
   initialLoadingNumber: 40,
@@ -61,7 +62,9 @@ const Batches = () => {
       title: 'Companies',
       dataIndex: 'companies',
       key: 'companies',
-      fixed: 'left',
+      render: (text, record) => (
+        <Link to={`/batches/${record.key}`}>{text}</Link>
+      ),
     },
     {
       title: 'Pools Published',
@@ -197,9 +200,9 @@ const Batches = () => {
         <Table
           columns={columns}
           dataSource={data}
-          // scroll={{ x: 1500, y: 300 }}
           loading={batches.isLoading}
           pagination={false}
+          scroll={{ x: 1000 }}
         />
       </InfiniteScroll>
     </>

@@ -1,6 +1,6 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
-import { fetchBatches, publishBatch } from 'services/batch';
+import { fetchBatches, publishBatch } from 'services/batches';
 import cookieStorage from 'utils/cookie';
 import actions from './actions';
 
