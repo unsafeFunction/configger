@@ -69,12 +69,19 @@ const Companies = () => {
     [dispatchCompaniesData],
   );
 
-  const createCampaign = useCallback(() => {
-    dispatchCompaniesData({
-      type: actions.CREATE_CAMPAIGN_REQUEST,
-      payload: {},
-    });
-  }, [dispatchCompaniesData, singleCampaign]);
+  useEffect(() => {
+    if (allCompanies.error) {
+      form.setFields([
+        ...Object.keys(allCompanies?.error)?.map?.(field => {
+          console.log(field, allCompanies?.error?.[field]);
+          return {
+            name: field,
+            errors: [`${allCompanies?.error?.[field]}`],
+          };
+        }),
+      ]);
+    }
+  }, [allCompanies.error]);
 
   const createCompany = useCallback(async () => {
     const fieldValues = await form.validateFields();
@@ -263,19 +270,19 @@ const Companies = () => {
       </div>
       <InfiniteScroll
         next={loadMore}
-        hasMore={allCompanies.items.length < allCompanies.total}
+        hasMore={allCompanies?.items?.length < allCompanies?.total}
         loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
-        dataLength={allCompanies.items.length}
+        dataLength={allCompanies?.items?.length}
       >
         <Table
-          dataSource={allCompanies.items}
+          dataSource={allCompanies?.items}
           columns={columns}
           scroll={{ x: 1200 }}
           bordered
-          loading={!allCompanies.isLoading}
+          loading={!allCompanies?.isLoading}
           align="center"
           pagination={{
-            pageSize: allCompanies.items.length,
+            pageSize: allCompanies?.items?.length,
             hideOnSinglePage: true,
           }}
         />

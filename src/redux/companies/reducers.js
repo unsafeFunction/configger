@@ -77,8 +77,9 @@ const companiesReducer = (state = initialState, action) => {
       };
     case actions.CREATE_COMPANY_FAILURE: {
       return {
+        ...state,
         isLoading: true,
-        error: action.payload,
+        error: action.payload.data,
       };
     }
     default:

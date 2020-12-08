@@ -15,6 +15,7 @@ import {
 import { notification } from 'antd';
 import { getCampaign } from './selectors';
 import actions from './actions';
+import modalActions from '../modal/actions';
 
 export function* callFetchCompanies({ payload }) {
   try {
@@ -68,17 +69,31 @@ export function* callRemoveCampaign({ payload }) {
 export function* callCreateCompany({ payload }) {
   try {
     const response = yield call(createCompany, payload);
-
     yield put({
       type: actions.CREATE_COMPANY_SUCCESS,
       payload: response,
     });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
     notification.success({
       message: 'Create company',
       description: 'You have successfully created company!',
     });
   } catch (error) {
-    notification.error(error);
+    const errorData = error.response.data.field_errors;
+    yield put({
+      type: actions.CREATE_COMPANY_FAILURE,
+      payload: {
+        data: errorData,
+      },
+    });
+    notification.error({
+      message: 'Failure!',
+      description: `Company not created.`,
+    });
   }
 }
 
