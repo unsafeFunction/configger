@@ -10,6 +10,7 @@ import modal from './modal/reducers';
 import companies from './companies/reducers';
 import batches from './batches/reducers';
 import timeline from './timeline/reducers';
+import pools from './pools/reducers';
 
 export default history =>
   combineReducers({
@@ -24,4 +25,5 @@ export default history =>
     companies,
     batches,
     timeline,
+    pools,
   });

@@ -78,7 +78,7 @@ export function* callForgotPassword({ payload }) {
       message: 'Success!',
       description: 'Recover email has been sent successfully.',
     });
-  } catch (error) { 
+  } catch (error) {
     const errorData = error.response.data.non_field_errors;
 
     yield put({
@@ -96,15 +96,15 @@ export function* callForgotPassword({ payload }) {
 }
 
 export function* callRestore({ payload }) {
-  const { 
-    newPassword, 
-    passwordConfirmation, 
-    token, 
-    uid,
-    redirect
-  } = payload;
+  const { newPassword, passwordConfirmation, token, uid, redirect } = payload;
   try {
-    const response = yield call(restore, newPassword, passwordConfirmation, uid, token);
+    const response = yield call(
+      restore,
+      newPassword,
+      passwordConfirmation,
+      uid,
+      token,
+    );
     console.log(response);
     yield put({
       type: actions.RESTORE_SUCCESS,

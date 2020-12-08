@@ -63,6 +63,11 @@ const routes = [
     exact: true,
   },
   {
+    path: '/batches/:id',
+    Component: loadable(() => import('pages/batches/batch')),
+    // exact: true,
+  },
+  {
     path: '/companies',
     Component: loadable(() => import('pages/Companies')),
     exact: true,

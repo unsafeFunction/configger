@@ -1,6 +1,6 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import RestorePassword from 'components/system/Auth/RestorePassword'
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import RestorePassword from 'components/system/Auth/RestorePassword';
 
 class SystemRestorePassword extends React.Component {
   render() {
@@ -9,8 +9,8 @@ class SystemRestorePassword extends React.Component {
         <Helmet title="Restore Password" />
         <RestorePassword />
       </div>
-    )
+    );
   }
 }
 
-export default SystemRestorePassword
+export default SystemRestorePassword;

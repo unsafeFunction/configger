@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Typography, Layout } from 'antd';
-import classNames from 'classnames'
+import classNames from 'classnames';
 import style from './style.module.scss';
 import actions from 'redux/user/actions';
 
@@ -32,9 +32,7 @@ const TermsAndConditions = () => {
 
   return (
     <Layout>
-      <Content
-        className={style.plainText}
-      >
+      <Content className={style.plainText}>
         <Title className={style.header} level={3}>
           COVID-19 TESTING
         </Title>
@@ -626,10 +624,7 @@ const TermsAndConditions = () => {
             </li>
           </ol>
         </Paragraph>
-        <Checkbox
-          className={style.checkbox}
-          onChange={() => agree(!isAgreed)}
-        >
+        <Checkbox className={style.checkbox} onChange={() => agree(!isAgreed)}>
           I agree to the Terms and Conditions
         </Checkbox>
       </Content>

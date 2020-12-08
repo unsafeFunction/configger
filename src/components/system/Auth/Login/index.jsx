@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
-import classNames from 'classnames'
+import classNames from 'classnames';
 import style from '../style.module.scss';
 
 const Login = () => {
@@ -90,9 +90,7 @@ const Login = () => {
             Contact us
           </a>
         </div>
-        <div className={style.copyright}>
-          Copyright © 2020 Mirimus Inc.
-        </div>
+        <div className={style.copyright}>Copyright © 2020 Mirimus Inc.</div>
       </div>
     </div>
   );

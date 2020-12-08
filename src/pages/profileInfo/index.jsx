@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
-import classNames from 'classnames'
+import classNames from 'classnames';
 import style from './style.module.scss';
 
 const ProfileInfo = () => {
@@ -67,7 +67,12 @@ const ProfileInfo = () => {
           <Button
             type="primary"
             size="large"
-            className={classNames(style.submitButton, 'btn', 'btn-info', 'float-right')}
+            className={classNames(
+              style.submitButton,
+              'btn',
+              'btn-info',
+              'float-right',
+            )}
             htmlType="submit"
             loading={isProfileUpdating}
           >

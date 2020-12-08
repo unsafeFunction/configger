@@ -20,12 +20,7 @@ export const forgotPassword = async email => {
   return restore;
 };
 
-export const restore = async (
-  new_password1,
-  new_password2,
-  uid,
-  token,
-) => {
+export const restore = async (new_password1, new_password2, uid, token) => {
   const restore = await axiosClient.post('rest-auth/password/reset/confirm/', {
     new_password1,
     new_password2,

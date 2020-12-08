@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
-import classNames from 'classnames'
+import classNames from 'classnames';
 import style from './style.module.scss';
 
 const Password = () => {
@@ -68,7 +68,7 @@ const Password = () => {
           <Form.Item
             label="Password confirmation"
             name="passwordConfirmation"
-            dependencies={["newPassword"]}
+            dependencies={['newPassword']}
             className={style.input}
             rules={[
               {
@@ -95,7 +95,12 @@ const Password = () => {
           <Button
             type="primary"
             size="large"
-            className={classNames(style.submitButton, 'btn', 'btn-info', 'float-right')}
+            className={classNames(
+              style.submitButton,
+              'btn',
+              'btn-info',
+              'float-right',
+            )}
             htmlType="submit"
             loading={isPasswordChanging}
           >

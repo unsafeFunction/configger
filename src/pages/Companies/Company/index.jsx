@@ -21,6 +21,8 @@ import companyAction from 'redux/companies/actions';
 import { get } from 'lodash';
 import { moment } from 'moment';
 import styles from './styles.module.scss';
+import Pools from 'pages/pools';
+import { default as poolsActions } from 'redux/pools/actions';
 
 const { TabPane } = Tabs;
 
@@ -86,6 +88,22 @@ const CampaignProfile = () => {
         type: companyAction.GET_COMPANY_REQUEST,
         payload: {
           id: idFromUrl,
+        },
+      });
+    }, []);
+
+    useEffect(() => {
+      // const params =
+      //   from && to
+      //     ? { from: from, to: to, limit: batchesPage.defaultLoadingNumber }
+      //     : { limit: batchesPage.defaultLoadingNumber };
+      // console.log('params', params);
+      dispatch({
+        type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
+        payload: {
+          // ...params,
+          companyId: idFromUrl,
+          // limit: batchesPage.defaultLoadingNumber,
         },
       });
     }, []);
@@ -380,24 +398,7 @@ const CampaignProfile = () => {
           />
         </TabPane>
         <TabPane tab="Pools" key={2}>
-          <Table
-            columns={columns}
-            dataSource={recipients.items}
-            scroll={{ x: 1200 }}
-            loading={recipients.isLoading}
-            bordered
-            pagination={{
-              total: recipients.total,
-              onChange: onPageChange,
-            }}
-            title={() => (
-              <span className="d-flex">
-                <Button icon={<ImportOutlined />} className="ml-auto mr-2" />
-                <Button onClick={onModalToggle}>Search</Button>
-              </span>
-            )}
-            align="center"
-          />
+          <Pools />
         </TabPane>
       </Tabs>
     </>
