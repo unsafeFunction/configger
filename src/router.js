@@ -28,8 +28,13 @@ const routes = [
     exact: true,
   },
   {
-    path: '/system/restore-password',
+    path: '/system/forgot-password',
     Component: loadable(() => import('pages/system/forgot-password')),
+    exact: false,
+  },
+  {
+    path: '/system/restore-password',
+    Component: loadable(() => import('pages/system/restore-password')),
     exact: false,
   },
   {

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
+import classNames from 'classnames';
 import style from '../style.module.scss';
 
 const Login = () => {
@@ -29,7 +30,7 @@ const Login = () => {
 
   return (
     <div className={style.auth}>
-      <div className={`${style.container} pl-5 pr-5 pt-5 pb-5 bg-white`}>
+      <div className={`${style.container}`}>
         <img
           src="/resources/images/logo.png"
           alt="Mirimus"
@@ -39,6 +40,7 @@ const Login = () => {
           <Form.Item
             label="Email Address"
             name="email"
+            className={style.formInput}
             rules={[
               {
                 required: true,
@@ -51,6 +53,7 @@ const Login = () => {
           <Form.Item
             label="Password"
             name="password"
+            className={style.formInput}
             rules={[
               {
                 required: true,
@@ -60,36 +63,34 @@ const Login = () => {
           >
             <Input.Password size="large" placeholder="Password" />
           </Form.Item>
-          <Form.Item className="mb-3">
+          <Form.Item className={style.formButton}>
             <Button
               type="primary"
               size="large"
-              className="text-center btn btn-info w-100 font-size-16"
+              className={classNames(style.submitButton, 'btn', 'btn-info')}
               htmlType="submit"
               loading={isLoggingIn}
             >
-              SIGN IN
+              Sign in
             </Button>
           </Form.Item>
         </Form>
         <div className={style.navigationWrap}>
           <Button
             type="link"
-            className={`${style.linkButton} font-size-18`}
-            onClick={() => history.push('/system/restore-password')}
+            className={style.linkButton}
+            onClick={() => history.push('/system/forgot-password')}
           >
             Forgot password?
           </Button>
           <a
-            className={`${style.linkButton} mb-5 ml-auto font-size-18`}
+            className={style.linkButton}
             href="mailto:testingsupport@mirimus.com"
           >
             Contact us
           </a>
         </div>
-        <div className="text-gray-8 text-center font-size-16">
-          Copyright © 2020 Mirimus Inc.
-        </div>
+        <div className={style.copyright}>Copyright © 2020 Mirimus Inc.</div>
       </div>
     </div>
   );

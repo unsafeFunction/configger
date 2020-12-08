@@ -89,12 +89,6 @@ class Layout extends React.PureComponent {
       if (!isAuthLayout && !isTermsAccepted) {
         return <Redirect to="/system/terms-and-conditions" />;
       }
-      // if (isUserAuthorized && currentPath === "/system/login") {
-      //   return <Redirect to={defaultPath} />;
-      // }
-      // if (isUserAuthorized && currentPath === "/system/terms-and-conditions") {
-      //   return <Redirect to={defaultPath} />;
-      // }
       if (!isAuthLayout && !authorizedToVisit) {
         return <Redirect to={defaultPath} />;
       }

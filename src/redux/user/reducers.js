@@ -32,6 +32,12 @@ export default function userReducer(state = initialState, action) {
       };
     case actions.LOGIN_FAILURE:
       return { ...state, isLoggingIn: false, error: action.payload.data };
+    case actions.FORGOT_REQUEST:
+      return { ...state, isRestoring: true };
+    case actions.FORGOT_SUCCESS:
+      return { ...state, isRestoring: false };
+    case actions.FORGOT_FAILURE:
+      return { ...state, isRestoring: false, error: action.payload.data };
     case actions.RESTORE_REQUEST:
       return { ...state, isRestoring: true };
     case actions.RESTORE_SUCCESS:
@@ -47,7 +53,11 @@ export default function userReducer(state = initialState, action) {
     case actions.ACCEPT_FAILURE:
       return { ...state, isAccepting: false, error: action.payload.data };
     case actions.PROFILE_SUCCESS:
-      return { ...state, profile: action.payload.profile, role: action.payload.profile.role };
+      return {
+        ...state,
+        profile: action.payload.profile,
+        role: action.payload.profile.role,
+      };
     case actions.PROFILE_FAILURE:
       return { ...state, error: action.payload.data };
     case actions.UPDATE_PROFILE_REQUEST:
@@ -64,7 +74,7 @@ export default function userReducer(state = initialState, action) {
     case actions.UPDATE_PROFILE_FAILURE:
       return { ...state, isProfileUpdating: false, error: action.payload.data };
     case actions.CHANGE_PASSWORD_REQUEST:
-      return { ...state, isPasswordChanging: true };
+      return { ...state, isPasswordChanging: true, error: null };
     case actions.CHANGE_PASSWORD_SUCCESS:
       return { ...state, isPasswordChanging: false };
     case actions.CHANGE_PASSWORD_FAILURE:
