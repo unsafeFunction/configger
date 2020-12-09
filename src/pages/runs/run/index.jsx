@@ -17,21 +17,21 @@ import Pools from 'pages/pools';
 
 moment.tz.setDefault('America/New_York');
 
-const batchesPage = {
+const runsPage = {
   defaultLoadingNumber: 20,
   initialLoadingNumber: 40,
 };
 
-const Batch = () => {
+const Run = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const batchId = history.location.pathname.split('/')[2];
-  console.log('batchId', batchId);
+  const runId = history.location.pathname.split('/')[2];
+  console.log('runId', runId);
   // const pathArray = location.pathname.slice(1).split('/');
 
-  const batch = useSelector(state => state.batch);
-  console.log('BATCH !!!!!!!!!!!!!!!!!!', batch);
+  const run = useSelector(state => state.run);
+  console.log('RUN !!!!!!!!!!!!!!!!!!', run);
 
   // const { from, to } = qs.parse(location.search, {
   //   ignoreQueryPrefix: true,
@@ -42,15 +42,15 @@ const Batch = () => {
     useEffect(() => {
       // const params =
       //   from && to
-      //     ? { from: from, to: to, limit: batchesPage.defaultLoadingNumber }
-      //     : { limit: batchesPage.defaultLoadingNumber };
+      //     ? { from: from, to: to, limit: runsPage.defaultLoadingNumber }
+      //     : { limit: runsPage.defaultLoadingNumber };
       // console.log('params', params);
       dispatch({
-        type: actions.FETCH_POOLS_BY_BATCH_ID_REQUEST,
+        type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
         payload: {
           // ...params,
-          batchId: batchId,
-          limit: batchesPage.defaultLoadingNumber,
+          runId: runId,
+          limit: runsPage.defaultLoadingNumber,
         },
       });
     }, []);
@@ -61,7 +61,7 @@ const Batch = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Batch</h4>
+        <h4>Run</h4>
       </div>
 
       <Pools />
@@ -69,4 +69,4 @@ const Batch = () => {
   );
 };
 
-export default Batch;
+export default Run;

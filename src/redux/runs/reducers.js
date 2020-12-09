@@ -8,15 +8,15 @@ const initialState = {
   // page: 1,
 };
 
-export default function batchesReducer(state = initialState, action) {
+export default function runsReducer(state = initialState, action) {
   switch (action.type) {
-    case actions.FETCH_BATCHES_REQUEST: {
+    case actions.FETCH_RUNS_REQUEST: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case actions.FETCH_BATCHES_SUCCESS: {
+    case actions.FETCH_RUNS_SUCCESS: {
       return {
         ...state,
         items: action.payload.data.results,
@@ -25,7 +25,7 @@ export default function batchesReducer(state = initialState, action) {
         isLoading: false,
       };
     }
-    case actions.FETCH_BATCHES_FAILURE: {
+    case actions.FETCH_RUNS_FAILURE: {
       return {
         ...state,
         isLoading: false,
@@ -33,47 +33,47 @@ export default function batchesReducer(state = initialState, action) {
       };
     }
 
-    case actions.PUBLISH_BATCH_REQUEST: {
-      // console.log('PUBLISH_BATCH_REQUEST action', action);
+    case actions.PUBLISH_RUN_REQUEST: {
+      // console.log('PUBLISH_RUN_REQUEST action', action);
       return {
         ...state,
-        items: state.items.map(batch => {
-          if (batch.unique_id === action.payload.batchId) {
+        items: state.items.map(run => {
+          if (run.unique_id === action.payload.runId) {
             return {
-              ...batch,
+              ...run,
               isUpdating: true,
             };
           }
-          return batch;
+          return run;
         }),
       };
     }
-    case actions.PUBLISH_BATCH_SUCCESS: {
+    case actions.PUBLISH_RUN_SUCCESS: {
       return {
         ...state,
-        items: state.items.map(batch => {
-          if (batch.unique_id === action.payload.data.unique_id) {
+        items: state.items.map(run => {
+          if (run.unique_id === action.payload.data.unique_id) {
             return {
-              ...batch,
+              ...run,
               ...action.payload.data,
               isUpdating: false,
             };
           }
-          return batch;
+          return run;
         }),
       };
     }
-    case actions.PUBLISH_BATCH_FAILURE: {
+    case actions.PUBLISH_RUN_FAILURE: {
       return {
         ...state,
-        items: state.items.map(batch => {
-          if (batch.unique_id === action.payload.batchId) {
+        items: state.items.map(run => {
+          if (run.unique_id === action.payload.runId) {
             return {
-              ...batch,
+              ...run,
               isUpdating: false,
             };
           }
-          return batch;
+          return run;
         }),
         // error: action.payload.data,
       };

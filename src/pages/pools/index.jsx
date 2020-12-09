@@ -19,7 +19,7 @@ moment.tz.setDefault('America/New_York');
 
 // const { RangePicker } = DatePicker;
 
-const batchesPage = {
+const runsPage = {
   defaultLoadingNumber: 20,
   initialLoadingNumber: 40,
 };
@@ -30,7 +30,7 @@ const Pools = () => {
   // const location = useLocation();
   // const [dates, setDates] = useState([]);
   // const [loadingCount, setLoadingCount] = useState(
-  //   batchesPage.initialLoadingNumber,
+  //   runsPage.initialLoadingNumber,
   // );
 
   const pools = useSelector(state => state.pools);
@@ -121,7 +121,7 @@ const Pools = () => {
   // }, []);
 
   const onPublishChange = useCallback((poolId, checked) => {
-    // console.log(`switch to ${checked}`, batchId);
+    // console.log(`switch to ${checked}`, runId);
     dispatch({
       type: actions.PUBLISH_POOL_REQUEST,
       payload: {
@@ -137,28 +137,28 @@ const Pools = () => {
   //       ? { from: from, to: to, limit: loadingCount }
   //       : { limit: loadingCount };
   //   dispatch({
-  //     type: actions.FETCH_BATCHES_REQUEST,
+  //     type: actions.FETCH_RUNS_REQUEST,
   //     payload: {
   //       ...params,
   //     },
   //   });
-  //   setLoadingCount(loadingCount + batchesPage.defaultLoadingNumber);
+  //   setLoadingCount(loadingCount + runsPage.defaultLoadingNumber);
   // }, [loadingCount, from, to]);
 
-  // console.log('batches', batches);
+  // console.log('runs', runs);
   // console.log('data', data);
 
   return (
     <>
       {/* <InfiniteScroll
         next={loadMore}
-        hasMore={batches.items.length < batches.total}
+        hasMore={runs.items.length < runs.total}
         loader={
           <div className={styles.spin}>
             <Spin />
           </div>
         }
-        dataLength={batches.items.length}
+        dataLength={runs.items.length}
       > */}
       <Table
         columns={columns}

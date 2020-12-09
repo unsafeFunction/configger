@@ -3,25 +3,25 @@ import axiosClient from 'utils/axiosClient';
 
 // const cookie = cookieStorage();
 
-export const fetchBatches = async query => {
+export const fetchRuns = async query => {
   try {
-    const batches = await axiosClient.get('/pool-batches/', {
+    const runs = await axiosClient.get('/pool-batches/', {
       params: {
         ...query,
       },
     });
-    return batches;
+    return runs;
   } catch (error) {
     return error;
   }
 };
 
-export const publishBatch = async payload => {
+export const publishRun = async payload => {
   try {
-    const batch = await axiosClient.patch(`/pool-batches/${payload.batchId}/`, {
+    const run = await axiosClient.patch(`/pool-batches/${payload.runId}/`, {
       is_published: payload.isPublished,
     });
-    return batch;
+    return run;
   } catch (error) {
     return error;
   }

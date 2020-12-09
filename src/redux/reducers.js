@@ -8,7 +8,7 @@ import recipients from './recipients/reducers';
 import messages from './messages/reducers';
 import modal from './modal/reducers';
 import companies from './companies/reducers';
-import batches from './batches/reducers';
+import runs from './runs/reducers';
 import timeline from './timeline/reducers';
 import pools from './pools/reducers';
 
@@ -23,7 +23,7 @@ export default history =>
     recipients,
     messages,
     companies,
-    batches,
+    runs,
     timeline,
     pools,
   });

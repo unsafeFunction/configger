@@ -18,7 +18,7 @@ const Login = () => {
         payload: {
           ...values,
           toTimeline: () => history.push('/timeline'),
-          toBatches: () => history.push('/batches'),
+          toRuns: () => history.push('/runs'),
           acceptTerms: () => history.push('/system/terms-and-conditions'),
         },
       });

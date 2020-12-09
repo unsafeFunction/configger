@@ -95,15 +95,15 @@ const CampaignProfile = () => {
     useEffect(() => {
       // const params =
       //   from && to
-      //     ? { from: from, to: to, limit: batchesPage.defaultLoadingNumber }
-      //     : { limit: batchesPage.defaultLoadingNumber };
+      //     ? { from: from, to: to, limit: runsPage.defaultLoadingNumber }
+      //     : { limit: runsPage.defaultLoadingNumber };
       // console.log('params', params);
       dispatch({
         type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
         payload: {
           // ...params,
           companyId: idFromUrl,
-          // limit: batchesPage.defaultLoadingNumber,
+          // limit: runsPage.defaultLoadingNumber,
         },
       });
     }, []);

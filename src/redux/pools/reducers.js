@@ -9,13 +9,13 @@ const initialState = {
 
 export default function poolsReducer(state = initialState, action) {
   switch (action.type) {
-    case actions.FETCH_POOLS_BY_BATCH_ID_REQUEST: {
+    case actions.FETCH_POOLS_BY_RUN_ID_REQUEST: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case actions.FETCH_POOLS_BY_BATCH_ID_SUCCESS: {
+    case actions.FETCH_POOLS_BY_RUN_ID_SUCCESS: {
       return {
         ...state,
         items: action.payload.data.pools,
@@ -26,7 +26,7 @@ export default function poolsReducer(state = initialState, action) {
         isLoading: false,
       };
     }
-    case actions.FETCH_POOLS_BY_BATCH_ID_FAILURE: {
+    case actions.FETCH_POOLS_BY_RUN_ID_FAILURE: {
       return {
         ...state,
         isLoading: false,
@@ -58,7 +58,7 @@ export default function poolsReducer(state = initialState, action) {
     }
 
     // нужно с Philip запросы привести к единому стилю, сейчас state обновляется не правильно
-    // fetch pools by batch id
+    // fetch pools by run id
     // fetch pools by company id
     case actions.PUBLISH_POOL_REQUEST: {
       return {

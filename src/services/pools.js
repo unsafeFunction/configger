@@ -3,9 +3,9 @@ import axiosClient from 'utils/axiosClient';
 
 // const cookie = cookieStorage();
 
-export const fetchPoolsByBatchId = async payload => {
+export const fetchPoolsByRunId = async payload => {
   try {
-    const pools = await axiosClient.get(`/pool-batches/${payload.batchId}/`, {
+    const pools = await axiosClient.get(`/pool-batches/${payload.runId}/`, {
       params: {
         limit: payload.limit,
       },

@@ -1,7 +1,7 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import {
-  fetchPoolsByBatchId,
+  fetchPoolsByRunId,
   fetchPoolsByCompanyId,
   publishPool,
 } from 'services/pools';
@@ -10,12 +10,12 @@ import actions from './actions';
 
 // const cookie = cookieStorage();
 
-export function* callLoadPoolsByBatchId({ payload }) {
+export function* callLoadPoolsByRunId({ payload }) {
   try {
-    const response = yield call(fetchPoolsByBatchId, payload);
+    const response = yield call(fetchPoolsByRunId, payload);
 
     yield put({
-      type: actions.FETCH_POOLS_BY_BATCH_ID_SUCCESS,
+      type: actions.FETCH_POOLS_BY_RUN_ID_SUCCESS,
       payload: {
         data: response.data,
       },
@@ -57,7 +57,7 @@ export function* callPublishPool({ payload }) {
 
 export default function* rootSaga() {
   yield all([
-    takeEvery(actions.FETCH_POOLS_BY_BATCH_ID_REQUEST, callLoadPoolsByBatchId),
+    takeEvery(actions.FETCH_POOLS_BY_RUN_ID_REQUEST, callLoadPoolsByRunId),
     takeEvery(
       actions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
       callLoadPoolsByCompanyId,

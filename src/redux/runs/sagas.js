@@ -1,18 +1,18 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
-import { fetchBatches, publishBatch } from 'services/batches';
+import { fetchRuns, publishRun } from 'services/runs';
 import cookieStorage from 'utils/cookie';
 import actions from './actions';
 
 const cookie = cookieStorage();
 
-export function* callLoadBatches({ payload }) {
+export function* callLoadRuns({ payload }) {
   try {
-    const response = yield call(fetchBatches, payload);
-    // const response = yield call(fetchBatches);
+    const response = yield call(fetchRuns, payload);
+    // const response = yield call(fetchRuns);
 
     yield put({
-      type: actions.FETCH_BATCHES_SUCCESS,
+      type: actions.FETCH_RUNS_SUCCESS,
       payload: {
         data: response.data,
         // total: response.headers['x-total-count'],
@@ -23,12 +23,12 @@ export function* callLoadBatches({ payload }) {
   }
 }
 
-export function* callPublishBatch({ payload }) {
+export function* callPublishRun({ payload }) {
   try {
-    const response = yield call(publishBatch, payload);
+    const response = yield call(publishRun, payload);
 
     yield put({
-      type: actions.PUBLISH_BATCH_SUCCESS,
+      type: actions.PUBLISH_RUN_SUCCESS,
       payload: {
         data: response.data,
       },
@@ -40,7 +40,7 @@ export function* callPublishBatch({ payload }) {
 
 export default function* rootSaga() {
   yield all([
-    takeEvery(actions.FETCH_BATCHES_REQUEST, callLoadBatches),
-    takeEvery(actions.PUBLISH_BATCH_REQUEST, callPublishBatch),
+    takeEvery(actions.FETCH_RUNS_REQUEST, callLoadRuns),
+    takeEvery(actions.PUBLISH_RUN_REQUEST, callPublishRun),
   ]);
 }

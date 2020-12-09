@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/batches/actions';
+import actions from 'redux/runs/actions';
 import ProfileInfo from '../profileInfo';
 import Password from '../password';
 import { Table, Button, DatePicker, Spin, Switch, Popconfirm } from 'antd';
@@ -18,21 +18,21 @@ moment.tz.setDefault('America/New_York');
 
 const { RangePicker } = DatePicker;
 
-const batchesPage = {
+const runsPage = {
   defaultLoadingNumber: 20,
   initialLoadingNumber: 40,
 };
 
-const Batches = () => {
+const Runs = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
   const [dates, setDates] = useState([]);
   const [loadingCount, setLoadingCount] = useState(
-    batchesPage.initialLoadingNumber,
+    runsPage.initialLoadingNumber,
   );
 
-  const batches = useSelector(state => state.batches);
+  const runs = useSelector(state => state.runs);
 
   const { from, to } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -43,11 +43,11 @@ const Batches = () => {
   useEffect(() => {
     const params =
       from && to
-        ? { from: from, to: to, limit: batchesPage.defaultLoadingNumber }
-        : { limit: batchesPage.defaultLoadingNumber };
+        ? { from: from, to: to, limit: runsPage.defaultLoadingNumber }
+        : { limit: runsPage.defaultLoadingNumber };
     // console.log('params', params);
     dispatch({
-      type: actions.FETCH_BATCHES_REQUEST,
+      type: actions.FETCH_RUNS_REQUEST,
       payload: {
         ...params,
       },
@@ -62,9 +62,7 @@ const Batches = () => {
       title: 'Companies',
       dataIndex: 'companies',
       key: 'companies',
-      render: (text, record) => (
-        <Link to={`/batches/${record.key}`}>{text}</Link>
-      ),
+      render: (text, record) => <Link to={`/runs/${record.key}`}>{text}</Link>,
     },
     {
       title: 'Pools Published',
@@ -113,10 +111,10 @@ const Batches = () => {
     },
   ];
 
-  const data = batches.items.map(batch => ({
-    key: batch.unique_id,
-    isUpdating: batch.isUpdating,
-    companies: batch.companies
+  const data = runs.items.map(run => ({
+    key: run.unique_id,
+    isUpdating: run.isUpdating,
+    companies: run.companies
       .reduce((accumulator, currentValue) => {
         if (is.not.empty(currentValue.name)) {
           accumulator.push(currentValue.name.trim());
@@ -124,10 +122,10 @@ const Batches = () => {
         return accumulator;
       }, [])
       .join(', '),
-    published: batch.pools_published,
-    unpublished: batch.pools_unpublished,
-    date: moment(batch.results_timestamp).format('YYYY-MM-DD HH:mm'),
-    // date: moment(batch.results_timestamp).format('MMM. D, YYYY h:mm a'),
+    published: run.pools_published,
+    unpublished: run.pools_unpublished,
+    date: moment(run.results_timestamp).format('YYYY-MM-DD HH:mm'),
+    // date: moment(run.results_timestamp).format('MMM. D, YYYY h:mm a'),
   }));
 
   const onDatesChange = useCallback((dates, dateStrings) => {
@@ -143,12 +141,12 @@ const Batches = () => {
     }
   }, []);
 
-  const onPublishChange = useCallback((batchId, checked) => {
-    // console.log(`switch to ${checked}`, batchId);
+  const onPublishChange = useCallback((runId, checked) => {
+    // console.log(`switch to ${checked}`, runId);
     dispatch({
-      type: actions.PUBLISH_BATCH_REQUEST,
+      type: actions.PUBLISH_RUN_REQUEST,
       payload: {
-        batchId: batchId,
+        runId: runId,
         isPublished: checked,
       },
     });
@@ -160,21 +158,21 @@ const Batches = () => {
         ? { from: from, to: to, limit: loadingCount }
         : { limit: loadingCount };
     dispatch({
-      type: actions.FETCH_BATCHES_REQUEST,
+      type: actions.FETCH_RUNS_REQUEST,
       payload: {
         ...params,
       },
     });
-    setLoadingCount(loadingCount + batchesPage.defaultLoadingNumber);
+    setLoadingCount(loadingCount + runsPage.defaultLoadingNumber);
   }, [loadingCount, from, to]);
 
-  // console.log('batches', batches);
+  // console.log('runs', runs);
   // console.log('data', data);
 
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Batches</h4>
+        <h4>Runs</h4>
         <RangePicker
           defaultValue={from && to ? [moment(from), moment(to)] : null}
           format="YYYY-MM-DD"
@@ -189,18 +187,18 @@ const Batches = () => {
       </div>
       <InfiniteScroll
         next={loadMore}
-        hasMore={batches.items.length < batches.total}
+        hasMore={runs.items.length < runs.total}
         loader={
           <div className={styles.spin}>
             <Spin />
           </div>
         }
-        dataLength={batches.items.length}
+        dataLength={runs.items.length}
       >
         <Table
           columns={columns}
           dataSource={data}
-          loading={batches.isLoading}
+          loading={runs.isLoading}
           pagination={false}
           scroll={{ x: 1000 }}
         />
@@ -209,4 +207,4 @@ const Batches = () => {
   );
 };
 
-export default Batches;
+export default Runs;
