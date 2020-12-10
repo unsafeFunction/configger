@@ -1,44 +1,34 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/pools/actions';
-// import ProfileInfo from '../profileInfo';
-// import Password from '../password';
-import { Table, Button, DatePicker, Spin, Switch, Popconfirm } from 'antd';
+import { Table, Button, Spin, Switch, Popconfirm, Popover, Select } from 'antd';
 import moment from 'moment-timezone';
-import is from 'is_js';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useHistory, useLocation } from 'react-router-dom';
 import qs from 'qs';
-// import InfiniteScroll from 'react-infinite-scroller';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.scss';
 import { result } from 'lodash';
 
-moment.tz.setDefault('America/New_York');
+// moment.tz.setDefault('America/New_York');
 
-// const { RangePicker } = DatePicker;
+const { Option } = Select;
 
-const runsPage = {
-  defaultLoadingNumber: 20,
-  initialLoadingNumber: 40,
-};
-
-const Pools = () => {
+const Pools = props => {
   const dispatch = useDispatch();
   const history = useHistory();
-  // const location = useLocation();
-  // const [dates, setDates] = useState([]);
-  // const [loadingCount, setLoadingCount] = useState(
-  //   runsPage.initialLoadingNumber,
-  // );
 
   const pools = useSelector(state => state.pools);
+  const resutList = useSelector(state => state.pools.resultList);
 
-  // const { from, to } = qs.parse(location.search, {
-  //   ignoreQueryPrefix: true,
-  // });
-  // console.log('from to 11111', from, to);
+  const useFetching = () => {
+    useEffect(() => {
+      dispatch({ type: actions.FETCH_RESULT_LIST_REQUEST });
+    }, []);
+  };
+
+  useFetching();
 
   const columns = [
     {
@@ -60,11 +50,40 @@ const Pools = () => {
       title: 'Tube IDs',
       dataIndex: 'tubes',
       key: 'tubes',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text, record) => (
+        <Popover
+          content={record.tubes}
+          title={`${record.id} tubes`}
+          trigger="hover"
+          overlayClassName={styles.tubesPopover}
+          placement="topLeft"
+        >
+          {record.tubes}
+        </Popover>
+      ),
     },
     {
       title: 'Result',
       dataIndex: 'result',
       key: 'result',
+      width: 182,
+      render: (text, record) => (
+        <Select
+          defaultValue={record.result}
+          style={{ width: 165 }}
+          loading={record.resultIsUpdating}
+          onChange={handleResultUpdate(record.key)}
+        >
+          {resutList.items.map(item => (
+            <Option key={item.key} value={item.key}>
+              {item.value}
+            </Option>
+          ))}
+        </Select>
+      ),
     },
     {
       title: 'Company',
@@ -80,7 +99,7 @@ const Pools = () => {
         // data.length >= 1 ? (
         <Popconfirm
           title={`Sure to ${record.isPublished ? 'unpublished' : 'published'}?`}
-          onConfirm={() => onPublishChange(record.key, !record.isPublished)}
+          onConfirm={() => handlePublish(record.key, !record.isPublished)}
           placement="topRight"
         >
           <Switch
@@ -98,30 +117,17 @@ const Pools = () => {
   const data = pools.items.map(pool => ({
     key: pool.unique_id,
     isUpdating: pool.isUpdating,
+    resultIsUpdating: pool.resultIsUpdating,
     isPublished: pool.is_published,
     id: pool.pool_id,
     title: pool.title,
     size: pool.pool_size,
-    tubes: 'some list',
+    tubes: pool.tube_ids.join(', '),
     result: pool.result,
     company: pool.company.name_short,
   }));
 
-  // const onDatesChange = useCallback((dates, dateStrings) => {
-  //   // console.log('dates', dates);
-  //   // console.log('dateStrings', dateStrings);
-
-  //   if (dates) {
-  //     history.push({ search: `?from=${dateStrings[0]}&to=${dateStrings[1]}` });
-  //     setDates(dateStrings);
-  //   } else {
-  //     history.push({ search: '' });
-  //     setDates([]);
-  //   }
-  // }, []);
-
-  const onPublishChange = useCallback((poolId, checked) => {
-    // console.log(`switch to ${checked}`, runId);
+  const handlePublish = useCallback((poolId, checked) => {
     dispatch({
       type: actions.PUBLISH_POOL_REQUEST,
       payload: {
@@ -131,34 +137,31 @@ const Pools = () => {
     });
   }, []);
 
-  // const loadMore = useCallback(() => {
-  //   const params =
-  //     from && to
-  //       ? { from: from, to: to, limit: loadingCount }
-  //       : { limit: loadingCount };
-  //   dispatch({
-  //     type: actions.FETCH_RUNS_REQUEST,
-  //     payload: {
-  //       ...params,
-  //     },
-  //   });
-  //   setLoadingCount(loadingCount + runsPage.defaultLoadingNumber);
-  // }, [loadingCount, from, to]);
-
-  // console.log('runs', runs);
-  // console.log('data', data);
+  const handleResultUpdate = useCallback(
+    poolId => value => {
+      // console.log(`selected ${value}`, poolId);
+      dispatch({
+        type: actions.UPDATE_POOL_RESULT_REQUEST,
+        payload: {
+          poolId: poolId,
+          result: value,
+        },
+      });
+    },
+    [],
+  );
 
   return (
     <>
       {/* <InfiniteScroll
-        next={loadMore}
-        hasMore={runs.items.length < runs.total}
+        next={props.loadMore}
+        hasMore={pools.items.length < pools.total}
         loader={
           <div className={styles.spin}>
             <Spin />
           </div>
         }
-        dataLength={runs.items.length}
+        dataLength={pools.items.length}
       > */}
       <Table
         columns={columns}
@@ -166,6 +169,7 @@ const Pools = () => {
         loading={pools.isLoading}
         pagination={false}
         scroll={{ x: 1000 }}
+        bordered
       />
       {/* </InfiniteScroll> */}
     </>

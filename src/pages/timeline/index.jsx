@@ -48,7 +48,7 @@ const Timeline = () => {
   const getFileIcon = useCallback(fileType => {
     switch (fileType) {
       case 'application/pdf': {
-        return <FilePdfFilled  className="mr-2" />;
+        return <FilePdfFilled className="mr-2" />;
       }
       default: {
         return <FileExcelFilled className="mr-2" />;
@@ -79,7 +79,7 @@ const Timeline = () => {
 
   const columns = [
     {
-      title: 'Poll',
+      title: 'Pool',
       width: 50,
       dataIndex: 'name',
       key: 'name',

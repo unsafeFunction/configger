@@ -1,9 +1,12 @@
 import actions from './actions';
+import { constants } from 'utils/constants';
 
 const initialState = {
   items: [],
   isLoading: false,
   total: 0,
+  offset: 0,
+  search: '',
   error: null,
   // page: 1,
 };
@@ -19,10 +22,25 @@ export default function runsReducer(state = initialState, action) {
     case actions.FETCH_RUNS_SUCCESS: {
       return {
         ...state,
-        items: action.payload.data.results,
-        // items: [...state.items, action.payload.data.results],
+        items: action.payload.firstPage
+          ? action.payload.data.results.map(run => {
+              return {
+                ...run,
+              };
+            })
+          : [
+              ...state.items,
+              ...action.payload.data.results.map(run => {
+                return {
+                  ...run,
+                };
+              }),
+            ],
         total: action.payload.data.count,
         isLoading: false,
+        offset: action.payload.firstPage
+          ? constants.runs.itemsLoadingCount
+          : state.offset + constants.runs.itemsLoadingCount,
       };
     }
     case actions.FETCH_RUNS_FAILURE: {

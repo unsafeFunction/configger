@@ -15,6 +15,7 @@ export function* callLoadRuns({ payload }) {
       type: actions.FETCH_RUNS_SUCCESS,
       payload: {
         data: response.data,
+        firstPage: !response.data.previous,
         // total: response.headers['x-total-count'],
       },
     });

@@ -5,57 +5,46 @@ import ProfileInfo from '../profileInfo';
 import Password from '../password';
 import { Table, Button, DatePicker, Spin, Switch, Popconfirm } from 'antd';
 import moment from 'moment-timezone';
-import is from 'is_js';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useHistory, useLocation, Link } from 'react-router-dom';
 import qs from 'qs';
-// import InfiniteScroll from 'react-infinite-scroller';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.scss';
+import { constants } from 'utils/constants';
 
 moment.tz.setDefault('America/New_York');
 
 const { RangePicker } = DatePicker;
-
-const runsPage = {
-  defaultLoadingNumber: 20,
-  initialLoadingNumber: 40,
-};
 
 const Runs = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
   const [dates, setDates] = useState([]);
-  const [loadingCount, setLoadingCount] = useState(
-    runsPage.initialLoadingNumber,
-  );
 
   const runs = useSelector(state => state.runs);
 
   const { from, to } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
-  // console.log('from to 11111', from, to);
 
-  // const useFetching = () => {
-  useEffect(() => {
-    const params =
-      from && to
-        ? { from: from, to: to, limit: runsPage.defaultLoadingNumber }
-        : { limit: runsPage.defaultLoadingNumber };
-    // console.log('params', params);
-    dispatch({
-      type: actions.FETCH_RUNS_REQUEST,
-      payload: {
-        ...params,
-      },
-    });
-  }, [dates, history]);
-  // };
+  const useFetching = () => {
+    useEffect(() => {
+      const params =
+        from && to
+          ? { from, to, limit: constants.runs.itemsLoadingCount }
+          : { limit: constants.runs.itemsLoadingCount };
+      dispatch({
+        type: actions.FETCH_RUNS_REQUEST,
+        payload: {
+          ...params,
+        },
+      });
+    }, [dates, history]);
+  };
 
-  // useFetching();
+  useFetching();
 
   const columns = [
     {
@@ -116,7 +105,7 @@ const Runs = () => {
     isUpdating: run.isUpdating,
     companies: run.companies
       .reduce((accumulator, currentValue) => {
-        if (is.not.empty(currentValue.name)) {
+        if (currentValue.name !== '') {
           accumulator.push(currentValue.name.trim());
         }
         return accumulator;
@@ -155,16 +144,20 @@ const Runs = () => {
   const loadMore = useCallback(() => {
     const params =
       from && to
-        ? { from: from, to: to, limit: loadingCount }
-        : { limit: loadingCount };
+        ? {
+            from,
+            to,
+            limit: constants.runs.itemsLoadingCount,
+            offset: runs.offset,
+          }
+        : { limit: constants.runs.itemsLoadingCount, offset: runs.offset };
     dispatch({
       type: actions.FETCH_RUNS_REQUEST,
       payload: {
         ...params,
       },
     });
-    setLoadingCount(loadingCount + runsPage.defaultLoadingNumber);
-  }, [loadingCount, from, to]);
+  }, [dispatch, from, to, runs]);
 
   // console.log('runs', runs);
   // console.log('data', data);
@@ -174,7 +167,11 @@ const Runs = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Runs</h4>
         <RangePicker
-          defaultValue={from && to ? [moment(from), moment(to)] : null}
+          defaultValue={
+            from && to
+              ? [moment(from), moment(to)]
+              : [moment().subtract(7, 'days'), moment()]
+          }
           format="YYYY-MM-DD"
           // format="MMM. D, YYYY"
           ranges={{
@@ -201,6 +198,7 @@ const Runs = () => {
           loading={runs.isLoading}
           pagination={false}
           scroll={{ x: 1000 }}
+          bordered
         />
       </InfiniteScroll>
     </>
