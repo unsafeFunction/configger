@@ -7,10 +7,15 @@ import {
   // getSingleCampaign,
   getStatistics,
 } from 'services/campaign';
-import { fetchCompanies, getSingleCompany } from 'services/companies';
+import {
+  fetchCompanies,
+  getSingleCompany,
+  createCompany,
+} from 'services/companies';
 import { notification } from 'antd';
 import { getCampaign } from './selectors';
 import actions from './actions';
+import modalActions from '../modal/actions';
 
 export function* callFetchCompanies({ payload }) {
   try {
@@ -61,21 +66,34 @@ export function* callRemoveCampaign({ payload }) {
   }
 }
 
-export function* callCreateCampaign() {
+export function* callCreateCompany({ payload }) {
   try {
-    const data = yield select(getCampaign);
-    const response = yield call(createCampaign, data);
-
+    const response = yield call(createCompany, payload);
     yield put({
-      type: actions.CREATE_CAMPAIGN_SUCCESS,
+      type: actions.CREATE_COMPANY_SUCCESS,
       payload: response,
     });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
     notification.success({
-      message: 'Create campaign',
-      description: 'You have successfully created campaign!',
+      message: 'Create company',
+      description: 'You have successfully created company!',
     });
   } catch (error) {
-    notification.error(error);
+    const errorData = error.response.data.field_errors;
+    yield put({
+      type: actions.CREATE_COMPANY_FAILURE,
+      payload: {
+        data: errorData,
+      },
+    });
+    notification.error({
+      message: 'Failure!',
+      description: `Company not created.`,
+    });
   }
 }
 
@@ -119,7 +137,7 @@ export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_COMPANIES_REQUEST, callFetchCompanies),
     takeEvery(actions.REMOVE_CAMPAIGN_REQUEST, callRemoveCampaign),
-    takeEvery(actions.CREATE_CAMPAIGN_REQUEST, callCreateCampaign),
+    takeEvery(actions.CREATE_COMPANY_REQUEST, callCreateCompany),
     takeEvery(actions.START_CAMPAIGN_REQUEST, callStartCampaign),
     takeEvery(actions.GET_COMPANY_REQUEST, callGetCompany),
     takeEvery(actions.GET_CAMPAIGN_STATISTICS_REQUEST, callLoadStatistics),

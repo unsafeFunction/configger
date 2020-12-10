@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { Tabs, Row, Col, Table, Card, Tag, Button, Skeleton } from 'antd';
+import { Tabs, Row, Col, Table, Card, Tag, Button, Skeleton, Form } from 'antd';
 import Chart3 from 'components/widgets/Charts/3';
 import General2 from 'components/widgets/General/2';
 import General2v1 from 'components/widgets/General/2v1';
@@ -13,7 +13,7 @@ import {
   ImportOutlined,
   MessageOutlined,
 } from '@ant-design/icons';
-import { RecipientModal } from 'components/widgets/recipients';
+import { ContactResultModal } from 'components/widgets/companies';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/recipients/actions';
 import campaignAction from 'redux/campaigns/actions';
@@ -56,6 +56,7 @@ const CampaignProfile = () => {
   const recipients = useSelector(state => state.recipients.all);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [form] = Form.useForm();
 
   const useFetching = () => {
     const idFromUrl = history.location.pathname.split('/')[2];
@@ -121,113 +122,31 @@ const CampaignProfile = () => {
     });
   }, [dispatch, singleCompany]);
 
-  const onChange = useCallback(
-    event => {
-      const { value, name } = event.target;
-
-      dispatch({
-        type: actions.ON_RECIPIENT_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatch],
-  );
-
-  const onSelectChange = useCallback(
-    (value, { name }) => {
-      dispatch({
-        type: actions.ON_RECIPIENT_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatch],
-  );
-
-  const onPickerChange = useCallback(
-    value => {
-      dispatch({
-        type: actions.ON_RECIPIENT_DATA_CHANGE,
-        payload: {
-          name: 'deliveryTime',
-          value,
-        },
-      });
-    },
-    [dispatch],
-  );
+  const handleSubmit = useCallback(() => {
+    dispatch({
+      type: actions.CREATE_RECIPIENT_REQUEST,
+      payload: {},
+    });
+  }, [dispatch, singleCompany]);
 
   const onModalToggle = useCallback(() => {
     dispatch({
       type: modalActions.SHOW_MODAL,
-      modalType: 'CONFIRM_MODAL',
+      modalType: 'COMPLIANCE_MODAL',
       modalProps: {
-        title: 'Add recipient',
-        confirmAction: () => {},
-        onCancel: () => {},
-        onOk: createRecipient,
-        message: () => (
-          <RecipientModal
-            onSelectChange={onSelectChange}
-            onChange={onChange}
-            singleCampaign={singleCompany}
-            onPickerChange={onPickerChange}
-          />
-        ),
-        type: 'danger',
-        width: 820,
-        bodyStyle: {
-          padding: '0',
-        },
+        title: 'Add User',
+        onOk: handleSubmit,
+        message: () => <ContactResultModal form={form} />,
+        width: '40%',
       },
     });
-  }, [createRecipient, dispatch, onChange, onSelectChange]);
+  }, [handleSubmit, dispatch]);
 
   const updateRecipient = useCallback(() => {
     dispatch({
       type: actions.PUT_RECIPIENT_REQUEST,
     });
   }, [dispatch]);
-
-  const onEditModalToggle = useCallback(
-    id => {
-      dispatch({
-        type: actions.GET_RECIPIENT_REQUEST,
-        payload: {
-          id,
-        },
-      });
-      dispatch({
-        type: modalActions.SHOW_MODAL,
-        modalType: 'CONFIRM_MODAL',
-        modalProps: {
-          title: 'Add recipient',
-          confirmAction: () => {},
-          onCancel: () => {},
-          onOk: updateRecipient,
-          message: () => (
-            <RecipientModal
-              onSelectChange={onSelectChange}
-              onChange={onChange}
-              singleCampaign={singleCompany}
-              onPickerChange={onPickerChange}
-            />
-          ),
-          type: 'danger',
-          width: 820,
-          bodyStyle: {
-            padding: '0',
-          },
-        },
-      });
-    },
-    [createRecipient, dispatch, onChange, onSelectChange],
-  );
 
   const onTabChange = useCallback(tabKey => {
     setActiveTab(tabKey);
@@ -275,13 +194,6 @@ const CampaignProfile = () => {
       render: (value, recipient) => {
         return (
           <span className="d-flex">
-            <Button
-              type="primary"
-              ghost
-              className="mr-2"
-              onClick={() => onEditModalToggle(recipient.id)}
-              icon={<EditOutlined />}
-            />
             <Button type="danger" ghost icon={<DeleteOutlined />} />
           </span>
         );
@@ -356,13 +268,6 @@ const CampaignProfile = () => {
       render: (value, recipient) => {
         return (
           <span className="d-flex">
-            <Button
-              type="primary"
-              ghost
-              className="mr-2"
-              onClick={() => onEditModalToggle(recipient.id)}
-              icon={<EditOutlined />}
-            />
             <Button type="danger" ghost icon={<DeleteOutlined />} />
           </span>
         );
@@ -380,18 +285,19 @@ const CampaignProfile = () => {
         >
           <Table
             columns={contactsColumns}
-            dataSource={singleCompany.results_contacts}
+            dataSource={singleCompany?.results_contacts}
             scroll={{ x: 1200 }}
             loading={!singleCompany.isLoading}
             bordered
             pagination={{
-              pageSize: singleCompany.results_contacts.length,
+              pageSize: singleCompany?.results_contacts?.length,
               hideOnSinglePage: true,
             }}
             title={() => (
               <span className="d-flex">
-                <Button icon={<ImportOutlined />} className="ml-auto mr-2" />
-                <Button onClick={onModalToggle}>Add contact</Button>
+                <Button className="ml-auto mr-2" onClick={onModalToggle}>
+                  Add contact
+                </Button>
               </span>
             )}
             align="center"

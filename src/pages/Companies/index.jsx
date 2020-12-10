@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Button, Tag, Input } from 'antd';
-import { CampaignModal } from 'components/widgets/campaigns';
+import { Table, Button, Tag, Input, Form } from 'antd';
+import { CompanyModal } from 'components/widgets/companies';
 import { debounce } from 'lodash';
 import {
   PlusCircleOutlined,
@@ -21,6 +21,7 @@ import { constants } from '../../utils/constants';
 const Companies = () => {
   const dispatchCompaniesData = useDispatch();
   const [searchName, setSearchName] = useState('');
+  const [form] = Form.useForm();
 
   const allCompanies = useSelector(state => state.companies.all);
   const singleCampaign = useSelector(state => state.campaigns.singleCampaign);
@@ -68,12 +69,28 @@ const Companies = () => {
     [dispatchCompaniesData],
   );
 
-  const createCampaign = useCallback(() => {
+  useEffect(() => {
+    if (allCompanies.error) {
+      form.setFields([
+        ...Object.keys(allCompanies?.error)?.map?.(field => {
+          console.log(field, allCompanies?.error?.[field]);
+          return {
+            name: field,
+            errors: [`${allCompanies?.error?.[field]}`],
+          };
+        }),
+      ]);
+    }
+  }, [allCompanies.error]);
+
+  const createCompany = useCallback(async () => {
+    const fieldValues = await form.validateFields();
     dispatchCompaniesData({
-      type: actions.CREATE_CAMPAIGN_REQUEST,
-      payload: {},
+      type: actions.CREATE_COMPANY_REQUEST,
+      payload: { ...fieldValues },
     });
-  }, [dispatchCompaniesData, singleCampaign]);
+    console.log(fieldValues);
+  }, []);
 
   const columns = [
     {
@@ -83,9 +100,9 @@ const Companies = () => {
         return (
           <Link
             onClick={() => {
-              setCompanyId(company.unique_id);
+              setCompanyId(company?.unique_id);
             }}
-            to={`/companies/${company.unique_id}`}
+            to={`/companies/${company?.unique_id}`}
           >
             {`${name || '-'}`}
           </Link>
@@ -141,48 +158,6 @@ const Companies = () => {
     },
   ];
 
-  const onChange = useCallback(
-    event => {
-      const { value, name } = event.target;
-
-      dispatchCompaniesData({
-        type: actions.ON_COMPANY_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatchCompaniesData],
-  );
-
-  const onSelectChange = useCallback(
-    (value, { name }) => {
-      dispatchCompaniesData({
-        type: actions.ON_COMPANY_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatchCompaniesData],
-  );
-
-  const onSwitchChange = useCallback(
-    (value, event) => {
-      const { name } = event.target;
-      dispatchCompaniesData({
-        type: actions.ON_COMPANY_DATA_CHANGE,
-        payload: {
-          name,
-          value,
-        },
-      });
-    },
-    [dispatchCompaniesData],
-  );
-
   const useFetching = () => {
     useEffect(() => {
       dispatchCompaniesData({
@@ -209,28 +184,25 @@ const Companies = () => {
   const onModalToggle = useCallback(() => {
     dispatchCompaniesData({
       type: modalActions.SHOW_MODAL,
-      modalType: 'CONFIRM_MODAL',
+      modalType: 'COMPLIANCE_MODAL',
       modalProps: {
-        title: 'Create campaign',
-        confirmAction: () => {},
-        onCancel: onModalToggle,
-        onOk: createCampaign,
-        message: () => (
-          <CampaignModal
-            onSwitchChange={onSwitchChange}
-            onSelectChange={onSelectChange}
-            onChange={onChange}
-            singleCampaign={singleCampaign}
-          />
-        ),
-        type: 'danger',
-        width: 820,
-        bodyStyle: {
-          padding: '0',
+        title: 'Create company',
+        onOk: createCompany,
+        cancelButtonProps: { className: classNames(styles.modalButton) },
+        okButtonProps: {
+          className: classNames(styles.modalButton, styles.createCompanyModal),
+          loading: allCompanies.isLoading,
         },
+        bodyStyle: {
+          maxHeight: '70vh',
+          overflow: 'scroll',
+        },
+        okText: 'Create',
+        message: () => <CompanyModal form={form} />,
+        width: '40%',
       },
     });
-  }, [createCampaign, dispatchCompaniesData, onChange, onSelectChange]);
+  }, [dispatchCompaniesData]);
 
   const loadMore = useCallback(() => {
     dispatchCompaniesData({
@@ -298,19 +270,19 @@ const Companies = () => {
       </div>
       <InfiniteScroll
         next={loadMore}
-        hasMore={allCompanies.items.length < allCompanies.total}
+        hasMore={allCompanies?.items?.length < allCompanies?.total}
         loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
-        dataLength={allCompanies.items.length}
+        dataLength={allCompanies?.items?.length}
       >
         <Table
-          dataSource={allCompanies.items}
+          dataSource={allCompanies?.items}
           columns={columns}
           scroll={{ x: 1200 }}
           bordered
-          loading={!allCompanies.isLoading}
+          loading={!allCompanies?.isLoading}
           align="center"
           pagination={{
-            pageSize: allCompanies.items.length,
+            pageSize: allCompanies?.items?.length,
             hideOnSinglePage: true,
           }}
         />
