@@ -10,6 +10,7 @@ import styles from './style.module.scss';
 const SubBar = ({ location }) => {
   const pathArray = location.pathname.slice(1).split('/');
   const campaign = useSelector(state => state.campaigns.singleCampaign);
+  const company = useSelector(state => state.companies.singleCompany);
 
   return (
     <div className={styles.subbar}>
@@ -20,8 +21,8 @@ const SubBar = ({ location }) => {
               return (
                 <span key={path} className={styles.breadcrumb__last}>
                   <Switch>
-                    <Route exact path="/campaigns/:id">
-                      {`SMS-${campaign?.id?.split('-')[0]} | ${campaign.title}`}
+                    <Route exact path="/companies/:id">
+                      {company.name}
                     </Route>
                     <Route path="*">{path}</Route>
                   </Switch>
