@@ -25,17 +25,12 @@ export const deleteCampaign = async id => {
   }
 };
 
-export const createCampaign = async payload => {
-  try {
-    const campaign = await axiosClient.post(`/campaigns`, {
-      ...payload,
-      originalLink: `https://${payload.originalLink}`,
-    });
+export const createCompany = async payload => {
+  const company = await axiosClient.post(`/companies/create`, {
+    ...payload,
+  });
 
-    return campaign;
-  } catch (error) {
-    return error;
-  }
+  return company;
 };
 
 export const getStatistics = async id => {
