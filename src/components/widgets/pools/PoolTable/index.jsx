@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/pools/actions';
+import actions from '../../../../redux/pools/actions';
 import { Table, Button, Spin, Switch, Popconfirm, Popover, Select } from 'antd';
 import moment from 'moment-timezone';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -15,7 +15,7 @@ import { result } from 'lodash';
 
 const { Option } = Select;
 
-const Pools = props => {
+const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -58,7 +58,7 @@ const Pools = props => {
           content={record.tubes}
           title={`${record.id} tubes`}
           trigger="hover"
-          overlayClassName={styles.tubesPopover}
+          overlayClassName={styles.popover}
           placement="topLeft"
         >
           {record.tubes}
@@ -86,9 +86,29 @@ const Pools = props => {
       ),
     },
     {
+      title: 'Results Timestamp',
+      dataIndex: 'date',
+      key: 'date',
+      width: 180,
+    },
+    {
       title: 'Company',
-      dataIndex: 'company',
-      key: 'company',
+      dataIndex: 'shortCompany',
+      key: 'shortCompany',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text, record) => (
+        <Popover
+          content={record.company}
+          // title={`${record.id} tubes`}
+          trigger="hover"
+          overlayClassName={styles.popover}
+          placement="topLeft"
+        >
+          {record.shortCompany}
+        </Popover>
+      ),
     },
     {
       title: 'Action',
@@ -124,7 +144,9 @@ const Pools = props => {
     size: pool.pool_size,
     tubes: pool.tube_ids.join(', '),
     result: pool.result,
-    company: pool.company.name_short,
+    date: pool.results_updated_on,
+    company: pool.company.name,
+    shortCompany: pool.company.name_short,
   }));
 
   const handlePublish = useCallback((poolId, checked) => {
@@ -153,8 +175,8 @@ const Pools = props => {
 
   return (
     <>
-      {/* <InfiniteScroll
-        next={props.loadMore}
+      <InfiniteScroll
+        next={loadMore}
         hasMore={pools.items.length < pools.total}
         loader={
           <div className={styles.spin}>
@@ -162,18 +184,18 @@ const Pools = props => {
           </div>
         }
         dataLength={pools.items.length}
-      > */}
-      <Table
-        columns={columns}
-        dataSource={data}
-        loading={pools.isLoading}
-        pagination={false}
-        scroll={{ x: 1000 }}
-        bordered
-      />
-      {/* </InfiniteScroll> */}
+      >
+        <Table
+          columns={columns}
+          dataSource={data}
+          loading={pools.isLoading}
+          pagination={false}
+          scroll={{ x: 1000 }}
+          bordered
+        />
+      </InfiniteScroll>
     </>
   );
 };
 
-export default Pools;
+export default PoolTable;

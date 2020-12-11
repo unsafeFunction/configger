@@ -32,7 +32,7 @@ import companyAction from 'redux/companies/actions';
 import { get } from 'lodash';
 import { moment } from 'moment';
 import styles from './styles.module.scss';
-import Pools from 'pages/pools';
+import PoolTable from 'components/widgets/pools/PoolTable';
 import { default as poolsActions } from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -324,18 +324,7 @@ const CampaignProfile = () => {
           />
         </TabPane>
         <TabPane tab="Pools" key={2}>
-          <InfiniteScroll
-            next={loadMore}
-            hasMore={pools.items.length < pools.total}
-            loader={
-              <div className={styles.spin}>
-                <Spin />
-              </div>
-            }
-            dataLength={pools.items.length}
-          >
-            <Pools />
-          </InfiniteScroll>
+          <PoolTable loadMore={loadMore} />
         </TabPane>
       </Tabs>
     </>

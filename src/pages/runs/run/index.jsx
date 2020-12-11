@@ -19,7 +19,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.scss';
-import Pools from 'pages/pools';
+import PoolTable from 'components/widgets/pools/PoolTable';
 import { constants } from 'utils/constants';
 import { debounce } from 'lodash';
 
@@ -107,19 +107,7 @@ const Run = () => {
         />
       </div>
 
-      {/* <InfiniteScroll
-        next={loadMore}
-        hasMore={pools.items.length < pools.total}
-        loader={
-          <div className={styles.spin}>
-            <Spin />
-          </div>
-        }
-        dataLength={pools.items.length}
-      > */}
-      {/* <Pools loadMore={loadMore} /> */}
-      <Pools />
-      {/* </InfiniteScroll> */}
+      <PoolTable loadMore={loadMore} />
     </>
   );
 };
