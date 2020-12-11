@@ -25,24 +25,13 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: action.payload.firstPage
-          ? action.payload.data.results.map(pool => {
-              return {
-                ...pool,
-              };
-            })
-          : [
-              ...state.items,
-              ...action.payload.data.results.map(pool => {
-                return {
-                  ...pool,
-                };
-              }),
-            ],
+          ? action.payload.data.results
+          : [...state.items, ...action.payload.data.results],
         total: action.payload.data.count,
         isLoading: false,
         offset: action.payload.firstPage
-          ? constants.pools.itemsLoadingCount
-          : state.offset + constants.pools.itemsLoadingCount,
+          ? constants?.pools?.itemsLoadingCount
+          : state.offset + constants?.pools?.itemsLoadingCount,
       };
     }
     case actions.FETCH_POOLS_BY_RUN_ID_FAILURE: {
@@ -63,24 +52,13 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: action.payload.firstPage
-          ? action.payload.data.results.map(pool => {
-              return {
-                ...pool,
-              };
-            })
-          : [
-              ...state.items,
-              ...action.payload.data.results.map(pool => {
-                return {
-                  ...pool,
-                };
-              }),
-            ],
+          ? action.payload.data.results
+          : [...state.items, ...action.payload.data.results],
         total: action.payload.data.count,
         isLoading: false,
         offset: action.payload.firstPage
-          ? constants.pools.itemsLoadingCount
-          : state.offset + constants.pools.itemsLoadingCount,
+          ? constants?.pools?.itemsLoadingCount
+          : state.offset + constants?.pools?.itemsLoadingCount,
       };
     }
     case actions.FETCH_POOLS_BY_COMPANY_ID_FAILURE: {

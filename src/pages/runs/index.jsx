@@ -1,11 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/runs/actions';
-import ProfileInfo from '../profileInfo';
-import Password from '../password';
-import { Table, Button, DatePicker, Spin, Switch, Popconfirm } from 'antd';
+import { Table, DatePicker, Spin, Switch, Popconfirm } from 'antd';
 import moment from 'moment-timezone';
-import { PlusCircleOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useHistory, useLocation, Link } from 'react-router-dom';
 import qs from 'qs';
@@ -33,15 +30,15 @@ const Runs = () => {
     useEffect(() => {
       const params =
         from && to
-          ? { from, to, limit: constants.runs.itemsLoadingCount }
-          : { limit: constants.runs.itemsLoadingCount };
+          ? { from, to, limit: constants?.runs?.itemsLoadingCount }
+          : { limit: constants?.runs?.itemsLoadingCount };
       dispatch({
         type: actions.FETCH_RUNS_REQUEST,
         payload: {
           ...params,
         },
       });
-    }, [dates, history]);
+    }, [dispatch, dates, history]);
   };
 
   useFetching();
@@ -50,77 +47,65 @@ const Runs = () => {
     {
       title: 'Companies',
       dataIndex: 'companies',
-      key: 'companies',
-      render: (text, record) => <Link to={`/runs/${record.key}`}>{text}</Link>,
+      render: (text, record) => (
+        <Link to={`/runs/${record.unique_id}`}>{text}</Link>
+      ),
     },
     {
       title: 'Pools Published',
-      dataIndex: 'published',
-      key: 'published',
+      dataIndex: 'pools_published',
       width: 100,
     },
     {
       title: 'Pools Unpublished',
-      dataIndex: 'unpublished',
-      key: 'unpublished',
+      dataIndex: 'pools_unpublished',
       width: 100,
     },
     {
       title: 'Results Timestamp',
       dataIndex: 'date',
-      key: 'date',
-      // width: 170,
       width: 150,
     },
     {
       title: 'Action',
-      key: 'operation',
       fixed: 'right',
       width: 120,
-      render: (text, record) => (
-        // data.length >= 1 ? (
+      render: (_, record) => (
         <Popconfirm
           title={`Sure to ${
-            record.unpublished === 0 ? 'unpublished' : 'published'
+            record.pools_unpublished === 0 ? 'unpublished' : 'published'
           }?`}
           onConfirm={() =>
-            onPublishChange(record.key, !(record.unpublished === 0))
+            onPublishChange(record.unique_id, !(record.pools_unpublished === 0))
           }
           placement="topRight"
         >
           <Switch
             checkedChildren="Published"
             unCheckedChildren="Unpublished"
-            checked={record.unpublished === 0}
+            checked={record.pools_unpublished === 0}
             loading={record.isUpdating}
           />
         </Popconfirm>
       ),
-      // ) : null,
     },
   ];
 
   const data = runs.items.map(run => ({
+    ...run,
     key: run.unique_id,
-    isUpdating: run.isUpdating,
     companies: run.companies
       .reduce((accumulator, currentValue) => {
-        if (currentValue.name !== '') {
+        if (currentValue?.name) {
           accumulator.push(currentValue.name.trim());
         }
         return accumulator;
       }, [])
       .join(', '),
-    published: run.pools_published,
-    unpublished: run.pools_unpublished,
     date: moment(run.results_timestamp).format('YYYY-MM-DD HH:mm'),
-    // date: moment(run.results_timestamp).format('MMM. D, YYYY h:mm a'),
   }));
 
   const onDatesChange = useCallback((dates, dateStrings) => {
-    // console.log('dates', dates);
-    // console.log('dateStrings', dateStrings);
-
     if (dates) {
       history.push({ search: `?from=${dateStrings[0]}&to=${dateStrings[1]}` });
       setDates(dateStrings);
@@ -130,16 +115,18 @@ const Runs = () => {
     }
   }, []);
 
-  const onPublishChange = useCallback((runId, checked) => {
-    // console.log(`switch to ${checked}`, runId);
-    dispatch({
-      type: actions.PUBLISH_RUN_REQUEST,
-      payload: {
-        runId: runId,
-        isPublished: checked,
-      },
-    });
-  }, []);
+  const onPublishChange = useCallback(
+    (runId, checked) => {
+      dispatch({
+        type: actions.PUBLISH_RUN_REQUEST,
+        payload: {
+          runId,
+          isPublished: checked,
+        },
+      });
+    },
+    [dispatch],
+  );
 
   const loadMore = useCallback(() => {
     const params =
@@ -147,10 +134,10 @@ const Runs = () => {
         ? {
             from,
             to,
-            limit: constants.runs.itemsLoadingCount,
+            limit: constants?.runs?.itemsLoadingCount,
             offset: runs.offset,
           }
-        : { limit: constants.runs.itemsLoadingCount, offset: runs.offset };
+        : { limit: constants?.runs?.itemsLoadingCount, offset: runs.offset };
     dispatch({
       type: actions.FETCH_RUNS_REQUEST,
       payload: {
@@ -158,9 +145,6 @@ const Runs = () => {
       },
     });
   }, [dispatch, from, to, runs]);
-
-  // console.log('runs', runs);
-  // console.log('data', data);
 
   return (
     <>
@@ -173,7 +157,6 @@ const Runs = () => {
               : [moment().subtract(7, 'days'), moment()]
           }
           format="YYYY-MM-DD"
-          // format="MMM. D, YYYY"
           ranges={{
             Today: [moment(), moment()],
             'Last 7 Days': [moment().subtract(7, 'days'), moment()],

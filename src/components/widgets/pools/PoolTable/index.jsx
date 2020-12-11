@@ -1,23 +1,14 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from '../../../../redux/pools/actions';
-import { Table, Button, Spin, Switch, Popconfirm, Popover, Select } from 'antd';
-import moment from 'moment-timezone';
-import { PlusCircleOutlined } from '@ant-design/icons';
-import classNames from 'classnames';
-import { useHistory, useLocation } from 'react-router-dom';
-import qs from 'qs';
+import { Table, Spin, Switch, Popconfirm, Popover, Select } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.scss';
-import { result } from 'lodash';
-
-// moment.tz.setDefault('America/New_York');
 
 const { Option } = Select;
 
 const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const pools = useSelector(state => state.pools);
   const resutList = useSelector(state => state.pools.resultList);
@@ -25,7 +16,7 @@ const PoolTable = ({ loadMore }) => {
   const useFetching = () => {
     useEffect(() => {
       dispatch({ type: actions.FETCH_RESULT_LIST_REQUEST });
-    }, []);
+    }, [dispatch]);
   };
 
   useFetching();
@@ -33,30 +24,26 @@ const PoolTable = ({ loadMore }) => {
   const columns = [
     {
       title: 'Pool ID',
-      dataIndex: 'id',
-      key: 'id',
+      dataIndex: 'pool_id',
     },
     {
       title: 'Pool Title',
       dataIndex: 'title',
-      key: 'title',
     },
     {
       title: 'Pool Size',
-      dataIndex: 'size',
-      key: 'size',
+      dataIndex: 'pool_size',
     },
     {
       title: 'Tube IDs',
       dataIndex: 'tubes',
-      key: 'tubes',
       ellipsis: {
         showTitle: false,
       },
-      render: (text, record) => (
+      render: (_, record) => (
         <Popover
           content={record.tubes}
-          title={`${record.id} tubes`}
+          title={`${record.pool_id} tubes`}
           trigger="hover"
           overlayClassName={styles.popover}
           placement="topLeft"
@@ -68,14 +55,13 @@ const PoolTable = ({ loadMore }) => {
     {
       title: 'Result',
       dataIndex: 'result',
-      key: 'result',
       width: 182,
-      render: (text, record) => (
+      render: (_, record) => (
         <Select
           defaultValue={record.result}
           style={{ width: 165 }}
           loading={record.resultIsUpdating}
-          onChange={handleResultUpdate(record.key)}
+          onChange={handleResultUpdate(record.unique_id)}
         >
           {resutList.items.map(item => (
             <Option key={item.key} value={item.key}>
@@ -87,21 +73,18 @@ const PoolTable = ({ loadMore }) => {
     },
     {
       title: 'Results Timestamp',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'results_updated_on',
       width: 180,
     },
     {
       title: 'Company',
       dataIndex: 'shortCompany',
-      key: 'shortCompany',
       ellipsis: {
         showTitle: false,
       },
-      render: (text, record) => (
+      render: (_, record) => (
         <Popover
           content={record.company}
-          // title={`${record.id} tubes`}
           trigger="hover"
           overlayClassName={styles.popover}
           placement="topLeft"
@@ -112,65 +95,61 @@ const PoolTable = ({ loadMore }) => {
     },
     {
       title: 'Action',
-      key: 'operation',
       fixed: 'right',
       width: 120,
-      render: (text, record) => (
-        // data.length >= 1 ? (
+      render: (_, record) => (
         <Popconfirm
-          title={`Sure to ${record.isPublished ? 'unpublished' : 'published'}?`}
-          onConfirm={() => handlePublish(record.key, !record.isPublished)}
+          title={`Sure to ${
+            record.is_published ? 'unpublished' : 'published'
+          }?`}
+          onConfirm={() =>
+            handlePublish(record.unique_id, !record.is_published)
+          }
           placement="topRight"
         >
           <Switch
             checkedChildren="Published"
             unCheckedChildren="Unpublished"
-            checked={record.isPublished}
+            checked={record.is_published}
             loading={record.isUpdating}
           />
         </Popconfirm>
       ),
-      // ) : null,
     },
   ];
 
   const data = pools.items.map(pool => ({
+    ...pool,
     key: pool.unique_id,
-    isUpdating: pool.isUpdating,
-    resultIsUpdating: pool.resultIsUpdating,
-    isPublished: pool.is_published,
-    id: pool.pool_id,
-    title: pool.title,
-    size: pool.pool_size,
     tubes: pool.tube_ids.join(', '),
-    result: pool.result,
-    date: pool.results_updated_on,
     company: pool.company.name,
     shortCompany: pool.company.name_short,
   }));
 
-  const handlePublish = useCallback((poolId, checked) => {
-    dispatch({
-      type: actions.PUBLISH_POOL_REQUEST,
-      payload: {
-        poolId: poolId,
-        isPublished: checked,
-      },
-    });
-  }, []);
+  const handlePublish = useCallback(
+    (poolId, checked) => {
+      dispatch({
+        type: actions.PUBLISH_POOL_REQUEST,
+        payload: {
+          poolId,
+          isPublished: checked,
+        },
+      });
+    },
+    [dispatch],
+  );
 
   const handleResultUpdate = useCallback(
     poolId => value => {
-      // console.log(`selected ${value}`, poolId);
       dispatch({
         type: actions.UPDATE_POOL_RESULT_REQUEST,
         payload: {
-          poolId: poolId,
+          poolId,
           result: value,
         },
       });
     },
-    [],
+    [dispatch],
   );
 
   return (

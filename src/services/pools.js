@@ -1,7 +1,4 @@
 import axiosClient from 'utils/axiosClient';
-// import cookieStorage from 'utils/cookie';
-
-// const cookie = cookieStorage();
 
 export const fetchPoolsByRunId = async ({ runId, limit, offset, search }) => {
   try {

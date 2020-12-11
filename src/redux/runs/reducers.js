@@ -8,7 +8,6 @@ const initialState = {
   offset: 0,
   search: '',
   error: null,
-  // page: 1,
 };
 
 export default function runsReducer(state = initialState, action) {
@@ -23,24 +22,13 @@ export default function runsReducer(state = initialState, action) {
       return {
         ...state,
         items: action.payload.firstPage
-          ? action.payload.data.results.map(run => {
-              return {
-                ...run,
-              };
-            })
-          : [
-              ...state.items,
-              ...action.payload.data.results.map(run => {
-                return {
-                  ...run,
-                };
-              }),
-            ],
+          ? action.payload.data.results
+          : [...state.items, ...action.payload.data.results],
         total: action.payload.data.count,
         isLoading: false,
         offset: action.payload.firstPage
-          ? constants.runs.itemsLoadingCount
-          : state.offset + constants.runs.itemsLoadingCount,
+          ? constants?.runs?.itemsLoadingCount
+          : state.offset + constants?.runs?.itemsLoadingCount,
       };
     }
     case actions.FETCH_RUNS_FAILURE: {
@@ -52,7 +40,6 @@ export default function runsReducer(state = initialState, action) {
     }
 
     case actions.PUBLISH_RUN_REQUEST: {
-      // console.log('PUBLISH_RUN_REQUEST action', action);
       return {
         ...state,
         items: state.items.map(run => {

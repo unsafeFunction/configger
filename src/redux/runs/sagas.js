@@ -9,14 +9,12 @@ const cookie = cookieStorage();
 export function* callLoadRuns({ payload }) {
   try {
     const response = yield call(fetchRuns, payload);
-    // const response = yield call(fetchRuns);
 
     yield put({
       type: actions.FETCH_RUNS_SUCCESS,
       payload: {
         data: response.data,
         firstPage: !response.data.previous,
-        // total: response.headers['x-total-count'],
       },
     });
   } catch (error) {
@@ -33,6 +31,9 @@ export function* callPublishRun({ payload }) {
       payload: {
         data: response.data,
       },
+    });
+    notification.success({
+      message: 'Run updated',
     });
   } catch (error) {
     notification.error(error);

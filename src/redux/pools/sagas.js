@@ -7,10 +7,7 @@ import {
   fetchResultList,
   updatePoolResult,
 } from 'services/pools';
-// import cookieStorage from 'utils/cookie';
 import actions from './actions';
-
-// const cookie = cookieStorage();
 
 export function* callLoadPoolsByRunId({ payload }) {
   try {
@@ -54,6 +51,9 @@ export function* callPublishPool({ payload }) {
         data: response.data,
       },
     });
+    notification.success({
+      message: 'Pool updated',
+    });
   } catch (error) {
     notification.error(error);
   }
@@ -85,7 +85,7 @@ export function* callUpdatePoolResult({ payload }) {
       },
     });
     notification.success({
-      message: 'Result updated',
+      message: 'Pool updated',
     });
   } catch (error) {
     notification.error(error);

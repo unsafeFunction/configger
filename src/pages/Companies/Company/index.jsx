@@ -177,7 +177,7 @@ const CampaignProfile = () => {
       type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
       payload: {
         companyId: idFromUrl,
-        limit: constants.pools.itemsLoadingCount,
+        limit: constants?.pools?.itemsLoadingCount,
         offset: pools.offset,
       },
     });
