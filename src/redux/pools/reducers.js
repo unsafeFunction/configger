@@ -25,22 +25,20 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: action.payload.firstPage
-          ? action.payload.data.pools.map(pool => {
+          ? action.payload.data.results.map(pool => {
               return {
                 ...pool,
               };
             })
           : [
               ...state.items,
-              ...action.payload.data.pools.map(pool => {
+              ...action.payload.data.results.map(pool => {
                 return {
                   ...pool,
                 };
               }),
             ],
-        total:
-          action.payload.data.pools_published +
-          action.payload.data.pools_unpublished,
+        total: action.payload.data.count,
         isLoading: false,
         offset: action.payload.firstPage
           ? constants.pools.itemsLoadingCount
