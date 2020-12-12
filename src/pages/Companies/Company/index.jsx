@@ -13,11 +13,6 @@ import {
   Spin,
   Form,
 } from 'antd';
-import Chart3 from 'components/widgets/Charts/3';
-import General2 from 'components/widgets/General/2';
-import General2v1 from 'components/widgets/General/2v1';
-import General2v2 from 'components/widgets/General/2v2';
-import General2v3 from 'components/widgets/General/2v3';
 import {
   EditOutlined,
   DeleteOutlined,
@@ -26,16 +21,13 @@ import {
 } from '@ant-design/icons';
 import { ContactResultModal } from 'components/widgets/companies';
 import modalActions from 'redux/modal/actions';
-import actions from 'redux/recipients/actions';
-import campaignAction from 'redux/campaigns/actions';
 import companyAction from 'redux/companies/actions';
-import { get } from 'lodash';
 import { moment } from 'moment';
-import styles from './styles.module.scss';
 import PoolTable from 'components/widgets/pools/PoolTable';
 import { default as poolsActions } from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
 
@@ -66,7 +58,6 @@ const tabListNoTitle = [
 const CampaignProfile = () => {
   const [activeTab, setActiveTab] = useState('averageStatistics');
   const singleCompany = useSelector(state => state.companies.singleCompany);
-  const recipients = useSelector(state => state.recipients.all);
   const pools = useSelector(state => state.pools);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -75,30 +66,6 @@ const CampaignProfile = () => {
   const useFetching = () => {
     const idFromUrl = history.location.pathname.split('/')[2];
     useEffect(() => {
-      // if (!singleCampaign.id) {
-      //   dispatch({
-      //     type: campaignAction.ON_CAMPAIGN_DATA_CHANGE,
-      //     payload: {
-      //       name: 'id',
-      //       value: idFromUrl,
-      //     },
-      //   });
-      // }
-      //
-      // dispatch({
-      //   type: actions.LOAD_RECIPIENTS_REQUEST,
-      //   payload: {
-      //     campaignId: singleCampaign.id || idFromUrl,
-      //   },
-      // });
-      //
-      // dispatch({
-      //   type: campaignAction.GET_CAMPAIGN_STATISTICS_REQUEST,
-      //   payload: {
-      //     campaignId: singleCampaign.id || idFromUrl,
-      //   },
-      // });
-
       dispatch({
         type: companyAction.GET_COMPANY_REQUEST,
         payload: {
@@ -120,22 +87,7 @@ const CampaignProfile = () => {
 
   useFetching();
 
-  const createRecipient = useCallback(() => {
-    dispatch({
-      type: actions.CREATE_RECIPIENT_REQUEST,
-      payload: {
-        campaignId:
-          singleCompany.unique_id || history.location.pathname.split('/')[2],
-      },
-    });
-  }, [dispatch, singleCompany]);
-
-  const handleSubmit = useCallback(() => {
-    dispatch({
-      type: actions.CREATE_RECIPIENT_REQUEST,
-      payload: {},
-    });
-  }, [dispatch, singleCompany]);
+  const handleSubmit = useCallback(() => {}, []);
 
   const onModalToggle = useCallback(() => {
     dispatch({
@@ -150,26 +102,9 @@ const CampaignProfile = () => {
     });
   }, [handleSubmit, dispatch]);
 
-  const updateRecipient = useCallback(() => {
-    dispatch({
-      type: actions.PUT_RECIPIENT_REQUEST,
-    });
-  }, [dispatch]);
-
   const onTabChange = useCallback(tabKey => {
     setActiveTab(tabKey);
   }, []);
-
-  const onPageChange = page => {
-    dispatch({
-      type: actions.LOAD_RECIPIENTS_REQUEST,
-      payload: {
-        page,
-        campaignId:
-          singleCompany.unique_id || history.location.pathname.split('/')[2],
-      },
-    });
-  };
 
   const loadMore = useCallback(() => {
     const idFromUrl = history.location.pathname.split('/')[2];

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import cookieStorage from 'utils/cookie';
-import { refresh } from 'services/user';
 
 const cookie = cookieStorage();
 
@@ -24,24 +23,26 @@ API.interceptors.request.use(
   },
 );
 
-API.interceptors.response.use(
-  response => {
-    return response;
-  },
-  async error => {
-    const originalRequest = error.config;
+// If we realise refresh token this should be uncommented
 
-    if (error.response.status === 401 || error.response.status === 403) {
-      const response = await refresh(cookie.getItem('refreshToken'));
-      originalRequest.headers.Authorization = response.data.key;
-      const retryOriginalRequest = new Promise(resolve => {
-        resolve(axios(originalRequest));
-      });
+// API.interceptors.response.use(
+//   response => {
+//     return response;
+//   },
+//   async error => {
+//     const originalRequest = error.config;
 
-      return retryOriginalRequest;
-    }
-    return Promise.reject(error);
-  },
-);
+//     if (error.response.status === 401 || error.response.status === 403) {
+//       const response = await refresh(cookie.getItem('refreshToken'));
+//       originalRequest.headers.Authorization = response.data.key;
+//       const retryOriginalRequest = new Promise(resolve => {
+//         resolve(axios(originalRequest));
+//       });
+
+//       return retryOriginalRequest;
+//     }
+//     return Promise.reject(error);
+//   },
+// );
 
 export default API;

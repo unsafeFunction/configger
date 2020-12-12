@@ -46,7 +46,7 @@ export const publishPool = async payload => {
   }
 };
 
-export const fetchResultList = async payload => {
+export const fetchResultList = async () => {
   try {
     const resultList = await axiosClient.get(`/pools/test-result-choices/`);
     return resultList;

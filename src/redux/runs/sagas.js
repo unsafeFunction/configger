@@ -1,10 +1,7 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import { fetchRuns, publishRun } from 'services/runs';
-import cookieStorage from 'utils/cookie';
 import actions from './actions';
-
-const cookie = cookieStorage();
 
 export function* callLoadRuns({ payload }) {
   try {

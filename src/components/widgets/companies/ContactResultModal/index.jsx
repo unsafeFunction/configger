@@ -16,13 +16,13 @@ import {
   Button,
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import InfiniteScroll from 'react-infinite-scroller';
+import debounce from 'lodash.debounce';
 import styles from './styles.module.scss';
 import style from '../../Customer/CustomerModal/style.module.scss';
 import { constants } from '../../../../utils/constants';
-import InfiniteScroll from 'react-infinite-scroller';
 import userActions from '../../../../redux/user/actions';
 import actions from '../../../../redux/companies/actions';
-import { debounce } from 'lodash';
 
 const ContactResultModal = ({ form }) => {
   const { Item } = Form;
@@ -38,14 +38,14 @@ const ContactResultModal = ({ form }) => {
       type: userActions.LOAD_USERS_REQUEST,
       payload: {
         page,
-        search: search,
+        search,
       },
     });
   }, []);
 
   const loadPage = useCallback(
     page => {
-      loadUsers({ page: page, search: searchName });
+      loadUsers({ page, search: searchName });
       setPage(page + 1);
     },
     [searchName],

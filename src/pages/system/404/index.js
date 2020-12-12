@@ -1,6 +1,6 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import Error404 from 'components/system/Errors/404'
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import Error404 from 'components/system/Errors/404/index.jsx';
 
 class System404 extends React.Component {
   render() {
@@ -9,8 +9,8 @@ class System404 extends React.Component {
         <Helmet title="Page 404" />
         <Error404 />
       </div>
-    )
+    );
   }
 }
 
-export default System404
+export default System404;

@@ -1,7 +1,4 @@
 import axiosClient from 'utils/axiosClient';
-import cookieStorage from 'utils/cookie';
-
-const cookie = cookieStorage();
 
 export const login = async (username, password) => {
   const login = await axiosClient.post('/rest-auth/login/', {
@@ -66,17 +63,6 @@ export const changePassword = async (
   });
 
   return update;
-};
-
-export const refresh = async refreshToken => {
-  try {
-    // const response = await axiosClient.post('/auth/refresh-token', {
-    //   refreshToken,
-    // });
-    return null;
-  } catch (error) {
-    return error;
-  }
 };
 
 export const loadUsers = async (page, search) => {

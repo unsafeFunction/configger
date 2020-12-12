@@ -3,13 +3,11 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Switch from 'react-router-transition-switch';
 import { Link, Route } from 'react-router-dom';
-import { CampaignBreadcrumbsButtons } from 'components/widgets/campaigns';
 
 import styles from './style.module.scss';
 
 const SubBar = ({ location }) => {
   const pathArray = location.pathname.slice(1).split('/');
-  const campaign = useSelector(state => state.campaigns.singleCampaign);
   const company = useSelector(state => state.companies.singleCompany);
 
   return (
@@ -42,11 +40,6 @@ const SubBar = ({ location }) => {
           })}
         </li>
       </ul>
-      <Switch>
-        <Route exact path="/campaigns/:id">
-          <CampaignBreadcrumbsButtons />
-        </Route>
-      </Switch>
     </div>
   );
 };

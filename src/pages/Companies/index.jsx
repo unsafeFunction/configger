@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Table, Button, Tag, Input, Form } from 'antd';
 import { CompanyModal } from 'components/widgets/companies';
-import { debounce } from 'lodash';
+import debounce  from 'lodash.debounce';
 import {
   PlusCircleOutlined,
   DeleteOutlined,
@@ -24,7 +24,6 @@ const Companies = () => {
   const [form] = Form.useForm();
 
   const allCompanies = useSelector(state => state.companies.all);
-  const singleCampaign = useSelector(state => state.campaigns.singleCampaign);
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
   const getStatus = status => {

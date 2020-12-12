@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import _ from 'lodash';
+import find from 'lodash.find';
+import get from 'lodash.get';
 import classNames from 'classnames';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Layout } from 'antd';
@@ -190,7 +191,7 @@ class MenuLeft extends React.Component {
         }
         return flattenedItems;
       }, []);
-    const activeItem = _.find(flattenItems(menuData, 'children'), [
+    const activeItem = find(flattenItems(menuData, 'children'), [
       'url',
       props.location.pathname,
     ]);
@@ -206,17 +207,13 @@ class MenuLeft extends React.Component {
       return key;
     });
     this.setState({
-      activeItem: _.get(activeItem, 'key', null),
+      activeItem: get(activeItem, 'key', null),
       activeSubmenu: activeSubmenu.key,
     });
   };
 
   generateMenuItems = () => {
-    const { 
-      menuData = [],
-      role,
-      rolePermissions
-     } = this.props;
+    const { menuData = [], role, rolePermissions } = this.props;
     const { activeSubmenu, activeItem } = this.state;
 
     const menuItem = item => {
