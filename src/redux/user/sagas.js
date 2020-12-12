@@ -21,7 +21,7 @@ import actions from './actions';
 const cookie = cookieStorage();
 
 export function* callLogin({ payload }) {
-  const { email, password, toBatches, toTimeline, acceptTerms } = payload;
+  const { email, password, toRuns, toTimeline, acceptTerms } = payload;
   try {
     const response = yield call(login, email, password);
 
@@ -42,7 +42,7 @@ export function* callLogin({ payload }) {
 
     if (response.data.terms_accepted) {
       return response.data.role === 'admin'
-        ? yield call(toBatches)
+        ? yield call(toRuns)
         : yield call(toTimeline);
     }
 

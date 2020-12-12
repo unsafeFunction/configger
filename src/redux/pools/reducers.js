@@ -1,32 +1,40 @@
 import actions from './actions';
+import { constants } from 'utils/constants';
 
 const initialState = {
   items: [],
   isLoading: false,
   total: 0,
   error: null,
+  resultList: {
+    items: [],
+    isLoading: false,
+    error: null,
+  },
 };
 
 export default function poolsReducer(state = initialState, action) {
   switch (action.type) {
-    case actions.FETCH_POOLS_BY_BATCH_ID_REQUEST: {
+    case actions.FETCH_POOLS_BY_RUN_ID_REQUEST: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case actions.FETCH_POOLS_BY_BATCH_ID_SUCCESS: {
+    case actions.FETCH_POOLS_BY_RUN_ID_SUCCESS: {
       return {
         ...state,
-        items: action.payload.data.pools,
-        // items: [...state.items, action.payload.data.results],
-        total:
-          action.payload.data.pools_published +
-          action.payload.data.pools_unpublished,
+        items: action.payload.firstPage
+          ? action.payload.data.results
+          : [...state.items, ...action.payload.data.results],
+        total: action.payload.data.count,
         isLoading: false,
+        offset: action.payload.firstPage
+          ? constants?.pools?.itemsLoadingCount
+          : state.offset + constants?.pools?.itemsLoadingCount,
       };
     }
-    case actions.FETCH_POOLS_BY_BATCH_ID_FAILURE: {
+    case actions.FETCH_POOLS_BY_RUN_ID_FAILURE: {
       return {
         ...state,
         isLoading: false,
@@ -43,10 +51,14 @@ export default function poolsReducer(state = initialState, action) {
     case actions.FETCH_POOLS_BY_COMPANY_ID_SUCCESS: {
       return {
         ...state,
-        items: action.payload.data.results,
-        // items: [...state.items, action.payload.data.results],
+        items: action.payload.firstPage
+          ? action.payload.data.results
+          : [...state.items, ...action.payload.data.results],
         total: action.payload.data.count,
         isLoading: false,
+        offset: action.payload.firstPage
+          ? constants?.pools?.itemsLoadingCount
+          : state.offset + constants?.pools?.itemsLoadingCount,
       };
     }
     case actions.FETCH_POOLS_BY_COMPANY_ID_FAILURE: {
@@ -57,9 +69,6 @@ export default function poolsReducer(state = initialState, action) {
       };
     }
 
-    // нужно с Philip запросы привести к единому стилю, сейчас state обновляется не правильно
-    // fetch pools by batch id
-    // fetch pools by company id
     case actions.PUBLISH_POOL_REQUEST: {
       return {
         ...state,
@@ -104,6 +113,84 @@ export default function poolsReducer(state = initialState, action) {
         // error: action.payload.data,
       };
     }
+
+    case actions.FETCH_RESULT_LIST_REQUEST: {
+      return {
+        ...state,
+        resultList: {
+          ...state.resultList,
+          items: [],
+          isLoading: true,
+          error: null,
+        },
+      };
+    }
+    case actions.FETCH_RESULT_LIST_SUCCESS: {
+      return {
+        ...state,
+        resultList: {
+          ...state.resultList,
+          isLoading: false,
+          items: action.payload.data,
+        },
+      };
+    }
+    case actions.FETCH_RESULT_LIST_FAILURE: {
+      return {
+        ...state,
+        resultList: {
+          ...state.resultList,
+          isLoading: false,
+          // error: action.payload.data,
+        },
+      };
+    }
+
+    case actions.UPDATE_POOL_RESULT_REQUEST: {
+      return {
+        ...state,
+        items: state.items.map(pool => {
+          if (pool.unique_id === action.payload.poolId) {
+            return {
+              ...pool,
+              resultIsUpdating: true,
+            };
+          }
+          return pool;
+        }),
+      };
+    }
+    case actions.UPDATE_POOL_RESULT_SUCCESS: {
+      return {
+        ...state,
+        items: state.items.map(pool => {
+          if (pool.unique_id === action.payload.data.unique_id) {
+            return {
+              ...pool,
+              ...action.payload.data,
+              resultIsUpdating: false,
+            };
+          }
+          return pool;
+        }),
+      };
+    }
+    case actions.UPDATE_POOL_RESULT_FAILURE: {
+      return {
+        ...state,
+        items: state.items.map(pool => {
+          if (pool.unique_id === action.payload.poolId) {
+            return {
+              ...pool,
+              resultIsUpdating: false,
+            };
+          }
+          return pool;
+        }),
+        // error: action.payload.data,
+      };
+    }
+
     default:
       return state;
   }

@@ -1,7 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { Tabs, Row, Col, Table, Card, Tag, Button, Skeleton, Form } from 'antd';
+import {
+  Tabs,
+  Row,
+  Col,
+  Table,
+  Card,
+  Tag,
+  Button,
+  Skeleton,
+  Spin,
+  Form,
+} from 'antd';
 import Chart3 from 'components/widgets/Charts/3';
 import General2 from 'components/widgets/General/2';
 import General2v1 from 'components/widgets/General/2v1';
@@ -21,8 +32,10 @@ import companyAction from 'redux/companies/actions';
 import { get } from 'lodash';
 import { moment } from 'moment';
 import styles from './styles.module.scss';
-import Pools from 'pages/pools';
+import PoolTable from 'components/widgets/pools/PoolTable';
 import { default as poolsActions } from 'redux/pools/actions';
+import { constants } from 'utils/constants';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const { TabPane } = Tabs;
 
@@ -54,6 +67,7 @@ const CampaignProfile = () => {
   const [activeTab, setActiveTab] = useState('averageStatistics');
   const singleCompany = useSelector(state => state.companies.singleCompany);
   const recipients = useSelector(state => state.recipients.all);
+  const pools = useSelector(state => state.pools);
   const dispatch = useDispatch();
   const history = useHistory();
   const [form] = Form.useForm();
@@ -94,17 +108,11 @@ const CampaignProfile = () => {
     }, []);
 
     useEffect(() => {
-      // const params =
-      //   from && to
-      //     ? { from: from, to: to, limit: batchesPage.defaultLoadingNumber }
-      //     : { limit: batchesPage.defaultLoadingNumber };
-      // console.log('params', params);
       dispatch({
         type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
         payload: {
-          // ...params,
           companyId: idFromUrl,
-          // limit: batchesPage.defaultLoadingNumber,
+          limit: constants.pools.itemsLoadingCount,
         },
       });
     }, []);
@@ -162,6 +170,18 @@ const CampaignProfile = () => {
       },
     });
   };
+
+  const loadMore = useCallback(() => {
+    const idFromUrl = history.location.pathname.split('/')[2];
+    dispatch({
+      type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
+      payload: {
+        companyId: idFromUrl,
+        limit: constants?.pools?.itemsLoadingCount,
+        offset: pools.offset,
+      },
+    });
+  }, [dispatch, pools]);
 
   const contactsColumns = [
     {
@@ -304,7 +324,7 @@ const CampaignProfile = () => {
           />
         </TabPane>
         <TabPane tab="Pools" key={2}>
-          <Pools />
+          <PoolTable loadMore={loadMore} />
         </TabPane>
       </Tabs>
     </>

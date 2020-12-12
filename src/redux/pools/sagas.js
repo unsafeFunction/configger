@@ -1,23 +1,23 @@
-import { all, takeEvery, put, call } from 'redux-saga/effects';
+import { all, takeEvery, takeLatest, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import {
-  fetchPoolsByBatchId,
+  fetchPoolsByRunId,
   fetchPoolsByCompanyId,
   publishPool,
+  fetchResultList,
+  updatePoolResult,
 } from 'services/pools';
-// import cookieStorage from 'utils/cookie';
 import actions from './actions';
 
-// const cookie = cookieStorage();
-
-export function* callLoadPoolsByBatchId({ payload }) {
+export function* callLoadPoolsByRunId({ payload }) {
   try {
-    const response = yield call(fetchPoolsByBatchId, payload);
+    const response = yield call(fetchPoolsByRunId, payload);
 
     yield put({
-      type: actions.FETCH_POOLS_BY_BATCH_ID_SUCCESS,
+      type: actions.FETCH_POOLS_BY_RUN_ID_SUCCESS,
       payload: {
         data: response.data,
+        firstPage: !response.data.previous,
       },
     });
   } catch (error) {
@@ -33,6 +33,7 @@ export function* callLoadPoolsByCompanyId({ payload }) {
       type: actions.FETCH_POOLS_BY_COMPANY_ID_SUCCESS,
       payload: {
         data: response.data,
+        firstPage: !response.data.previous,
       },
     });
   } catch (error) {
@@ -50,6 +51,42 @@ export function* callPublishPool({ payload }) {
         data: response.data,
       },
     });
+    notification.success({
+      message: 'Pool updated',
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
+export function* callFetchResultList({ payload }) {
+  try {
+    const response = yield call(fetchResultList, payload);
+
+    yield put({
+      type: actions.FETCH_RESULT_LIST_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
+export function* callUpdatePoolResult({ payload }) {
+  try {
+    const response = yield call(updatePoolResult, payload);
+
+    yield put({
+      type: actions.UPDATE_POOL_RESULT_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+    notification.success({
+      message: 'Pool updated',
+    });
   } catch (error) {
     notification.error(error);
   }
@@ -57,11 +94,13 @@ export function* callPublishPool({ payload }) {
 
 export default function* rootSaga() {
   yield all([
-    takeEvery(actions.FETCH_POOLS_BY_BATCH_ID_REQUEST, callLoadPoolsByBatchId),
+    takeEvery(actions.FETCH_POOLS_BY_RUN_ID_REQUEST, callLoadPoolsByRunId),
     takeEvery(
       actions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
       callLoadPoolsByCompanyId,
     ),
     takeEvery(actions.PUBLISH_POOL_REQUEST, callPublishPool),
+    takeEvery(actions.FETCH_RESULT_LIST_REQUEST, callFetchResultList),
+    takeLatest(actions.UPDATE_POOL_RESULT_REQUEST, callUpdatePoolResult),
   ]);
 }

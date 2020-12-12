@@ -6,7 +6,7 @@ import campaigns from './campaigns/sagas';
 import recipients from './recipients/sagas';
 import messages from './messages/sagas';
 import companies from './companies/sagas';
-import batches from './batches/sagas';
+import runs from './runs/sagas';
 import timeline from './timeline/sagas';
 import pools from './pools/sagas';
 
@@ -18,7 +18,7 @@ export default function* rootSaga() {
     campaigns(),
     recipients(),
     messages(),
-    batches(),
+    runs(),
     timeline(),
     companies(),
     pools(),

@@ -19,9 +19,9 @@ export async function getMenuData() {
       url: '/companies',
     },
     {
-      title: 'Batches',
-      key: 'batches',
-      url: '/batches',
+      title: 'Runs',
+      key: 'runs',
+      url: '/runs',
       icon: 'fe fe-box',
     },
     {
@@ -35,12 +35,12 @@ export async function getMenuData() {
 export async function getRolePermissions() {
   return {
     admin: {
-      permitted: ['/profile', '/customers', '/companies', '/batches'],
-      default: '/batches',
+      permitted: ['/profile', '/customers', '/companies', '/runs'],
+      default: '/runs',
     },
     staff: {
-      permitted: ['/profile', '/customers', '/companies', '/batches'],
-      default: '/batches',
+      permitted: ['/profile', '/customers', '/companies', '/runs'],
+      default: '/runs',
     },
     'company-admin': {
       permitted: ['/profile', '/timeline'],
