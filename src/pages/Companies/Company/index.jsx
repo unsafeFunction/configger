@@ -26,6 +26,7 @@ import { moment } from 'moment';
 import PoolTable from 'components/widgets/pools/PoolTable';
 import { default as poolsActions } from 'redux/pools/actions';
 import { constants } from 'utils/constants';
+import actions from 'redux/companies/actions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.scss';
 
@@ -87,7 +88,20 @@ const CampaignProfile = () => {
 
   useFetching();
 
-  const handleSubmit = useCallback(() => {}, []);
+  const handleSubmit = useCallback(() => {
+    const modalResultContacts = form.getFieldValue('results_contacts');
+    console.log(form.getFieldsValue(), singleCompany, modalResultContacts);
+    dispatch({
+      type: actions.ADD_USERS_REQUEST,
+      payload: {
+        id: singleCompany?.unique_id,
+        results_contacts: [
+          ...modalResultContacts,
+          ...singleCompany?.results_contacts?.map(user => user.id),
+        ],
+      },
+    });
+  }, [singleCompany]);
 
   const onModalToggle = useCallback(() => {
     dispatch({

@@ -24,9 +24,21 @@ export const createCompany = async payload => {
 
 export const getSingleCompany = async id => {
   try {
-    const campaign = await axiosClient.get(`/companies/${id}/`);
+    const company = await axiosClient.get(`/companies/${id}/`);
 
-    return campaign;
+    return company;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const addUsers = async payload => {
+  try {
+    const users = await axiosClient.patch(`/companies/${payload.id}/`, {
+      results_contacts: payload.results_contacts,
+    });
+
+    return users;
   } catch (error) {
     return error;
   }

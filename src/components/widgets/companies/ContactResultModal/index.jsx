@@ -76,7 +76,7 @@ const ContactResultModal = ({ form }) => {
     <Form form={form} layout="vertical">
       <Item
         label="Users"
-        name="users"
+        name="results_contacts"
         rules={[
           {
             required: true,

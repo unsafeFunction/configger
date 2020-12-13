@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Table, Button, Tag, Input, Form } from 'antd';
 import { CompanyModal } from 'components/widgets/companies';
-import debounce  from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import {
   PlusCircleOutlined,
   DeleteOutlined,
@@ -72,7 +72,6 @@ const Companies = () => {
     if (allCompanies.error) {
       form.setFields([
         ...Object.keys(allCompanies?.error)?.map?.(field => {
-          console.log(field, allCompanies?.error?.[field]);
           return {
             name: field,
             errors: [`${allCompanies?.error?.[field]}`],
@@ -88,7 +87,6 @@ const Companies = () => {
       type: actions.CREATE_COMPANY_REQUEST,
       payload: { ...fieldValues },
     });
-    console.log(fieldValues);
   }, []);
 
   const columns = [

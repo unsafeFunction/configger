@@ -82,6 +82,25 @@ const companiesReducer = (state = initialState, action) => {
         error: action.payload.data,
       };
     }
+    case actions.ADD_USERS_REQUEST: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case actions.ADD_USERS_SUCCESS:
+      return {
+        ...state,
+        items: [...state.items, action.payload.data],
+        isLoading: true,
+      };
+    case actions.ADD_USERS_FAILURE: {
+      return {
+        ...state,
+        isLoading: true,
+        error: action.payload.data,
+      };
+    }
     default:
       return state;
   }
