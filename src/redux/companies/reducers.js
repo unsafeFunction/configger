@@ -82,25 +82,6 @@ const companiesReducer = (state = initialState, action) => {
         error: action.payload.data,
       };
     }
-    case actions.ADD_USERS_REQUEST: {
-      return {
-        ...state,
-        isLoading: false,
-      };
-    }
-    case actions.ADD_USERS_SUCCESS:
-      return {
-        ...state,
-        items: [...state.items, action.payload.data],
-        isLoading: true,
-      };
-    case actions.ADD_USERS_FAILURE: {
-      return {
-        ...state,
-        isLoading: true,
-        error: action.payload.data,
-      };
-    }
     default:
       return state;
   }
@@ -122,11 +103,11 @@ export default combineReducers({
     ],
   })((state = initialSingleCompany, action = {}) => {
     switch (action.type) {
-      case 'modal/HIDE_MODAL': {
-        return {
-          ...initialState,
-        };
-      }
+      // case 'modal/HIDE_MODAL': {
+      //   return {
+      //     ...initialState,
+      //   };
+      // }
       case actions.START_CAMPAIGN_REQUEST:
         return {
           ...state,
@@ -167,6 +148,25 @@ export default combineReducers({
         return Object.assign({}, state, {
           smsBody: `${state.smsBody}${action.payload}`,
         });
+      case actions.UPDATE_USERS_REQUEST: {
+        return {
+          ...state,
+          isLoading: false,
+        };
+      }
+      case actions.UPDATE_USERS_SUCCESS:
+        return {
+          ...state,
+          results_contacts: action.payload.data.results_contacts,
+          isLoading: true,
+        };
+      case actions.UPDATE_USERS_FAILURE: {
+        return {
+          ...state,
+          isLoading: true,
+          error: action.payload.data,
+        };
+      }
       default: {
         return state;
       }

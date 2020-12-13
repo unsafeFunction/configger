@@ -32,7 +32,7 @@ export const getSingleCompany = async id => {
   }
 };
 
-export const addUsers = async payload => {
+export const updateUsers = async payload => {
   try {
     const users = await axiosClient.patch(`/companies/${payload.id}/`, {
       results_contacts: payload.results_contacts,

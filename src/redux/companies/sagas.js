@@ -3,7 +3,7 @@ import {
   fetchCompanies,
   getSingleCompany,
   createCompany,
-  addUsers,
+  updateUsers,
 } from 'services/companies';
 import { notification } from 'antd';
 import actions from './actions';
@@ -72,15 +72,18 @@ export function* callGetCompany({ payload }) {
   }
 }
 
-export function* callAddUsers({ payload }) {
+export function* callUpdateUsers({ payload }) {
   try {
-    const response = yield call(addUsers, payload);
+    const response = yield call(updateUsers, payload);
 
     yield put({
-      type: actions.ADD_USERS_SUCCESS,
+      type: actions.UPDATE_USERS_SUCCESS,
       payload: {
         data: response.data,
       },
+    });
+    yield put({
+      type: modalActions.HIDE_MODAL,
     });
   } catch (error) {
     notification.error(error);
@@ -92,6 +95,6 @@ export default function* rootSaga() {
     takeEvery(actions.FETCH_COMPANIES_REQUEST, callFetchCompanies),
     takeEvery(actions.CREATE_COMPANY_REQUEST, callCreateCompany),
     takeEvery(actions.GET_COMPANY_REQUEST, callGetCompany),
-    takeEvery(actions.ADD_USERS_REQUEST, callAddUsers),
+    takeEvery(actions.UPDATE_USERS_REQUEST, callUpdateUsers),
   ]);
 }

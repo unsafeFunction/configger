@@ -91,7 +91,7 @@ const CampaignProfile = () => {
   const handleSubmit = useCallback(() => {
     const modalResultContacts = form.getFieldValue('results_contacts');
     dispatch({
-      type: actions.ADD_USERS_REQUEST,
+      type: actions.UPDATE_USERS_REQUEST,
       payload: {
         id: singleCompany?.unique_id,
         results_contacts: [
@@ -123,6 +123,21 @@ const CampaignProfile = () => {
   const onTabChange = useCallback(tabKey => {
     setActiveTab(tabKey);
   }, []);
+
+  const removeUser = useCallback(
+    userId => {
+      dispatch({
+        type: actions.UPDATE_USERS_REQUEST,
+        payload: {
+          id: singleCompany?.unique_id,
+          results_contacts: singleCompany?.results_contacts
+            ?.filter(({ id }) => id !== userId)
+            .map(user => user.id),
+        },
+      });
+    },
+    [dispatch, singleCompany],
+  );
 
   const loadMore = useCallback(() => {
     const idFromUrl = history.location.pathname.split('/')[2];
@@ -164,10 +179,27 @@ const CampaignProfile = () => {
     {
       title: 'Actions',
       dataIndex: 'actions',
-      render: (value, recipient) => {
+      render: (value, user) => {
         return (
           <span className="d-flex">
-            <Button type="danger" ghost icon={<DeleteOutlined />} />
+            <Button
+              type="danger"
+              ghost
+              icon={<DeleteOutlined />}
+              onClick={() =>
+                dispatch({
+                  type: modalActions.SHOW_MODAL,
+                  modalType: 'WARNING_MODAL',
+                  modalProps: {
+                    message: () => (
+                      <h4>{`You try to delete ${user.first_name} ${user.last_name} from ${singleCompany?.name}. Are you sure?`}</h4>
+                    ),
+                    title: 'Remove user',
+                    onOk: () => removeUser(user.id),
+                  },
+                })
+              }
+            />
           </span>
         );
       },

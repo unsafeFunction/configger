@@ -43,18 +43,6 @@ const Companies = () => {
     }
   };
 
-  const removeCampaign = useCallback(
-    id => {
-      dispatchCompaniesData({
-        type: actions.REMOVE_CAMPAIGN_REQUEST,
-        payload: {
-          id,
-        },
-      });
-    },
-    [dispatchCompaniesData],
-  );
-
   const setCompanyId = useCallback(
     value => {
       dispatchCompaniesData({
@@ -125,32 +113,6 @@ const Companies = () => {
       dataIndex: 'company_id',
       render: value => {
         return value || '-';
-      },
-    },
-    {
-      title: 'Actions',
-      dataIndex: 'action',
-      render: (action, company) => {
-        return (
-          <Button
-            type="danger"
-            ghost
-            icon={<DeleteOutlined />}
-            onClick={() =>
-              dispatchCompaniesData({
-                type: modalActions.SHOW_MODAL,
-                modalType: 'WARNING_MODAL',
-                modalProps: {
-                  message: () => (
-                    <h4>{`You try to delete ${company.name}. Are you sure?`}</h4>
-                  ),
-                  title: 'Remove campaign',
-                  onOk: () => removeCampaign(company.id),
-                },
-              })
-            }
-          />
-        );
       },
     },
   ];
