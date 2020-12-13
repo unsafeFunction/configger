@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Table, Button, Tag, Input, Form } from 'antd';
 import { CompanyModal } from 'components/widgets/companies';
-import debounce  from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import {
   PlusCircleOutlined,
   DeleteOutlined,
@@ -43,18 +43,6 @@ const Companies = () => {
     }
   };
 
-  const removeCampaign = useCallback(
-    id => {
-      dispatchCompaniesData({
-        type: actions.REMOVE_CAMPAIGN_REQUEST,
-        payload: {
-          id,
-        },
-      });
-    },
-    [dispatchCompaniesData],
-  );
-
   const setCompanyId = useCallback(
     value => {
       dispatchCompaniesData({
@@ -72,7 +60,6 @@ const Companies = () => {
     if (allCompanies.error) {
       form.setFields([
         ...Object.keys(allCompanies?.error)?.map?.(field => {
-          console.log(field, allCompanies?.error?.[field]);
           return {
             name: field,
             errors: [`${allCompanies?.error?.[field]}`],
@@ -88,7 +75,6 @@ const Companies = () => {
       type: actions.CREATE_COMPANY_REQUEST,
       payload: { ...fieldValues },
     });
-    console.log(fieldValues);
   }, []);
 
   const columns = [
@@ -127,32 +113,6 @@ const Companies = () => {
       dataIndex: 'company_id',
       render: value => {
         return value || '-';
-      },
-    },
-    {
-      title: 'Actions',
-      dataIndex: 'action',
-      render: (action, company) => {
-        return (
-          <Button
-            type="danger"
-            ghost
-            icon={<DeleteOutlined />}
-            onClick={() =>
-              dispatchCompaniesData({
-                type: modalActions.SHOW_MODAL,
-                modalType: 'WARNING_MODAL',
-                modalProps: {
-                  message: () => (
-                    <h4>{`You try to delete ${company.name}. Are you sure?`}</h4>
-                  ),
-                  title: 'Remove campaign',
-                  onOk: () => removeCampaign(company.id),
-                },
-              })
-            }
-          />
-        );
       },
     },
   ];

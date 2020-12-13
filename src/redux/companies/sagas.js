@@ -3,6 +3,7 @@ import {
   fetchCompanies,
   getSingleCompany,
   createCompany,
+  updateUsers,
 } from 'services/companies';
 import { notification } from 'antd';
 import actions from './actions';
@@ -71,10 +72,33 @@ export function* callGetCompany({ payload }) {
   }
 }
 
+export function* callUpdateUsers({ payload }) {
+  try {
+    const response = yield call(updateUsers, payload);
+
+    yield put({
+      type: actions.UPDATE_USERS_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+    notification.success({
+      message: 'Success',
+      description: 'Contact change was successful!',
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_COMPANIES_REQUEST, callFetchCompanies),
     takeEvery(actions.CREATE_COMPANY_REQUEST, callCreateCompany),
     takeEvery(actions.GET_COMPANY_REQUEST, callGetCompany),
+    takeEvery(actions.UPDATE_USERS_REQUEST, callUpdateUsers),
   ]);
 }

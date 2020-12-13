@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from 'antd';
 import DefaultModal from 'components/widgets/DefaultModal';
 import actions from 'redux/modal/actions';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const HelperModal = React.memo(props => {
   const modal = useSelector(state => state.modal);
@@ -22,6 +23,15 @@ const HelperModal = React.memo(props => {
           {message()}
         </DefaultModal>
       );
+    }
+    case 'WARNING_MODAL': {
+      Modal.confirm({
+        ...props,
+        icon: <ExclamationCircleOutlined color="#faad14" />,
+        onCancel,
+        content: message(),
+      });
+      return null;
     }
     default:
       return null;

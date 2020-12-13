@@ -118,7 +118,7 @@ const PoolTable = ({ loadMore }) => {
     },
   ];
 
-  const data = pools.items.map(pool => ({
+  const data = pools?.items?.map?.(pool => ({
     ...pool,
     key: pool.unique_id,
     tubes: pool.tube_ids.join(', '),
@@ -156,13 +156,13 @@ const PoolTable = ({ loadMore }) => {
     <>
       <InfiniteScroll
         next={loadMore}
-        hasMore={pools.items.length < pools.total}
+        hasMore={pools?.items?.length < pools.total}
         loader={
           <div className={styles.spin}>
             <Spin />
           </div>
         }
-        dataLength={pools.items.length}
+        dataLength={pools?.items?.length}
       >
         <Table
           columns={columns}
