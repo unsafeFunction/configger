@@ -12,6 +12,7 @@ import {
   Skeleton,
   Spin,
   Form,
+  Input,
 } from 'antd';
 import {
   EditOutlined,
@@ -20,6 +21,7 @@ import {
   MessageOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import { ContactResultModal } from 'components/widgets/companies';
 import modalActions from 'redux/modal/actions';
@@ -31,6 +33,7 @@ import { constants } from 'utils/constants';
 import actions from 'redux/companies/actions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.scss';
+import { debounce } from 'lodash';
 
 const { TabPane } = Tabs;
 
@@ -58,16 +61,17 @@ const tabListNoTitle = [
   },
 ];
 
-const CampaignProfile = () => {
+const CompanyProfile = () => {
   const [activeTab, setActiveTab] = useState('averageStatistics');
+  const [searchName, setSearchName] = useState('');
   const singleCompany = useSelector(state => state.companies.singleCompany);
   const pools = useSelector(state => state.pools);
   const dispatch = useDispatch();
   const history = useHistory();
+  const idFromUrl = history.location.pathname.split('/')[2];
   const [form] = Form.useForm();
 
   const useFetching = () => {
-    const idFromUrl = history.location.pathname.split('/')[2];
     useEffect(() => {
       dispatch({
         type: companyAction.GET_COMPANY_REQUEST,
@@ -89,6 +93,32 @@ const CampaignProfile = () => {
   };
 
   useFetching();
+
+  const sendQuery = useCallback(
+    query => {
+      if (query || query === '') {
+        dispatch({
+          type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
+          payload: {
+            companyId: idFromUrl,
+            limit: constants?.pools?.itemsLoadingCount,
+            search: query,
+          },
+        });
+      }
+    },
+    [dispatch, searchName, idFromUrl],
+  );
+
+  const delayedQuery = useCallback(
+    debounce(q => sendQuery(q), 500),
+    [],
+  );
+
+  const onChangeSearch = useCallback(event => {
+    setSearchName(event.target.value);
+    delayedQuery(event.target.value);
+  }, []);
 
   const handleSubmit = useCallback(() => {
     const modalResultContacts = form.getFieldValue('results_contacts');
@@ -150,9 +180,10 @@ const CampaignProfile = () => {
         companyId: idFromUrl,
         limit: constants?.pools?.itemsLoadingCount,
         offset: pools.offset,
+        search: searchName,
       },
     });
-  }, [dispatch, pools]);
+  }, [dispatch, pools, searchName]);
 
   const contactsColumns = [
     {
@@ -342,6 +373,14 @@ const CampaignProfile = () => {
           />
         </TabPane>
         <TabPane tab="Pools" key={2}>
+          <Input
+            size="middle"
+            prefix={<SearchOutlined />}
+            className={styles.search}
+            placeholder="Search..."
+            value={searchName}
+            onChange={onChangeSearch}
+          />
           <PoolTable loadMore={loadMore} />
         </TabPane>
       </Tabs>
@@ -349,4 +388,4 @@ const CampaignProfile = () => {
   );
 };
 
-export default CampaignProfile;
+export default CompanyProfile;
