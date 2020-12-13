@@ -100,6 +100,7 @@ const CampaignProfile = () => {
         ],
       },
     });
+    form.resetFields();
   }, [singleCompany]);
 
   const onModalToggle = useCallback(() => {
