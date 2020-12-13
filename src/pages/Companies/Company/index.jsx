@@ -90,7 +90,6 @@ const CampaignProfile = () => {
 
   const handleSubmit = useCallback(() => {
     const modalResultContacts = form.getFieldValue('results_contacts');
-    console.log(form.getFieldsValue(), singleCompany, modalResultContacts);
     dispatch({
       type: actions.ADD_USERS_REQUEST,
       payload: {
@@ -110,7 +109,12 @@ const CampaignProfile = () => {
       modalProps: {
         title: 'Add User',
         onOk: handleSubmit,
-        message: () => <ContactResultModal form={form} />,
+        message: () => (
+          <ContactResultModal
+            form={form}
+            existUsers={singleCompany?.results_contacts}
+          />
+        ),
         width: '40%',
       },
     });

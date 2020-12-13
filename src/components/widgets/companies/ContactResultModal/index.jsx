@@ -24,7 +24,7 @@ import { constants } from '../../../../utils/constants';
 import userActions from '../../../../redux/user/actions';
 import actions from '../../../../redux/companies/actions';
 
-const ContactResultModal = ({ form }) => {
+const ContactResultModal = ({ form, existUsers }) => {
   const { Item } = Form;
   const [page, setPage] = useState(0);
   const [searchName, setSearchName] = useState('');
@@ -88,12 +88,14 @@ const ContactResultModal = ({ form }) => {
           placeholder="Users"
           mode="multiple"
           size="middle"
-          options={users.map(user => {
-            return {
-              label: `${user.first_name} ${user.last_name}`,
-              value: user.id,
-            };
-          })}
+          options={users
+            .filter(user => !existUsers.find(({ id }) => id === user.id))
+            .map(user => {
+              return {
+                label: `${user.first_name} ${user.last_name}`,
+                value: user.id,
+              };
+            })}
           loading={areUsersLoading}
           showArrow
           onSearch={onChangeSearch}
