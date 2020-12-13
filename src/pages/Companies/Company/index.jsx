@@ -18,6 +18,8 @@ import {
   DeleteOutlined,
   ImportOutlined,
   MessageOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
 } from '@ant-design/icons';
 import { ContactResultModal } from 'components/widgets/companies';
 import modalActions from 'redux/modal/actions';
@@ -168,6 +170,17 @@ const CampaignProfile = () => {
     {
       title: 'Confirmation status',
       dataIndex: 'verified',
+      align: 'center',
+      render: (_, record) =>
+        record.verified ? (
+          <Tag icon={<CheckCircleOutlined />} color="processing">
+            Email confirmed
+          </Tag>
+        ) : (
+          <Tag icon={<CloseCircleOutlined />} color="error">
+            Email not confirmed
+          </Tag>
+        ),
     },
     {
       title: 'Role',
@@ -176,32 +189,51 @@ const CampaignProfile = () => {
     {
       title: 'Terms accepted',
       dataIndex: 'terms_accepted',
+      align: 'center',
+      render: (_, record) =>
+        record.terms_accepted ? (
+          <Tag icon={<CheckCircleOutlined />} color="processing">
+            Terms accepted
+          </Tag>
+        ) : (
+          <Tag icon={<CloseCircleOutlined />} color="volcano">
+            Terms not accepted
+          </Tag>
+        ),
     },
     {
       title: 'Actions',
       dataIndex: 'actions',
+      align: 'center',
       render: (value, user) => {
         return (
-          <span className="d-flex">
-            <Button
-              type="danger"
-              ghost
-              icon={<DeleteOutlined />}
-              onClick={() =>
-                dispatch({
-                  type: modalActions.SHOW_MODAL,
-                  modalType: 'WARNING_MODAL',
-                  modalProps: {
-                    message: () => (
-                      <h4>{`You try to delete ${user.first_name} ${user.last_name} from ${singleCompany?.name}. Are you sure?`}</h4>
-                    ),
-                    title: 'Remove user',
-                    onOk: () => removeUser(user.id),
-                  },
-                })
-              }
-            />
-          </span>
+          <Button
+            type="danger"
+            ghost
+            icon={<DeleteOutlined />}
+            onClick={() =>
+              dispatch({
+                type: modalActions.SHOW_MODAL,
+                modalType: 'WARNING_MODAL',
+                modalProps: {
+                  message: () => (
+                    <>
+                      <p className={styles.modalWarningMessage}>
+                        You try to delete <span>{user.first_name}</span>{' '}
+                        <span>{user.last_name}</span> from{' '}
+                        <span>{singleCompany?.name}</span>.
+                      </p>
+                      <p className={styles.modalWarningMessage}>
+                        Are you sure?
+                      </p>
+                    </>
+                  ),
+                  title: 'Confirm action',
+                  onOk: () => removeUser(user.id),
+                },
+              })
+            }
+          />
         );
       },
     },

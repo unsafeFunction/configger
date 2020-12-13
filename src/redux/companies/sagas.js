@@ -85,6 +85,10 @@ export function* callUpdateUsers({ payload }) {
     yield put({
       type: modalActions.HIDE_MODAL,
     });
+    notification.success({
+      message: 'Success',
+      description: 'Contact change was successful!',
+    });
   } catch (error) {
     notification.error(error);
   }
