@@ -1,15 +1,25 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from '../../../../redux/pools/actions';
-import { Table, Spin, Switch, Popconfirm, Popover, Select } from 'antd';
+import {
+  Table,
+  Spin,
+  Switch,
+  Popconfirm,
+  Popover,
+  Select,
+  Typography,
+} from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.scss';
 
 const { Option } = Select;
+const { Text } = Typography;
 
 const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();
 
+  const user = useSelector(state => state.user);
   const pools = useSelector(state => state.pools);
   const resutList = useSelector(state => state.pools.resultList);
 
@@ -58,16 +68,25 @@ const PoolTable = ({ loadMore }) => {
       width: 182,
       render: (_, record) => (
         <Select
-          defaultValue={record.result}
+          defaultValue={
+            <Text type={record.result === 'COVID-19 Detected' && 'danger'}>
+              {record.result}
+            </Text>
+          }
           style={{ width: 165 }}
           loading={record.resultIsUpdating}
           onChange={handleResultUpdate(record.unique_id)}
+          disabled={user.role === 'staff' || record.resultIsUpdating}
         >
-          {resutList.items.map(item => (
-            <Option key={item.key} value={item.key}>
-              {item.value}
-            </Option>
-          ))}
+          {resutList?.items
+            ?.filter(option => option.value !== record.result)
+            .map(item => (
+              <Option key={item.key} value={item.key}>
+                <Text type={item.value === 'COVID-19 Detected' && 'danger'}>
+                  {item.value}
+                </Text>
+              </Option>
+            ))}
         </Select>
       ),
     },
@@ -112,6 +131,7 @@ const PoolTable = ({ loadMore }) => {
             unCheckedChildren="Unpublished"
             checked={record.is_published}
             loading={record.isUpdating}
+            disabled={user.role === 'staff'}
           />
         </Popconfirm>
       ),

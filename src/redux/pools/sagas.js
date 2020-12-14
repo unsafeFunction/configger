@@ -1,4 +1,4 @@
-import { all, takeEvery, takeLatest, put, call } from 'redux-saga/effects';
+import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import {
   fetchPoolsByRunId,
@@ -101,6 +101,6 @@ export default function* rootSaga() {
     ),
     takeEvery(actions.PUBLISH_POOL_REQUEST, callPublishPool),
     takeEvery(actions.FETCH_RESULT_LIST_REQUEST, callFetchResultList),
-    takeLatest(actions.UPDATE_POOL_RESULT_REQUEST, callUpdatePoolResult),
+    takeEvery(actions.UPDATE_POOL_RESULT_REQUEST, callUpdatePoolResult),
   ]);
 }
