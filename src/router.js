@@ -68,6 +68,10 @@ const routes = [
     // exact: true,
   },
   {
+    path: '/pools',
+    Component: loadable(() => import('pages/Pools')),
+  },
+  {
     path: '/companies',
     Component: loadable(() => import('pages/Companies')),
     exact: true,

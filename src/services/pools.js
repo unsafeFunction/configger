@@ -65,3 +65,18 @@ export const updatePoolResult = async payload => {
     return error;
   }
 };
+
+export const fetchPools = async ({ limit, offset, search }) => {
+  try {
+    const pools = await axiosClient.get(`/pools/`, {
+      params: {
+        limit,
+        offset,
+        search,
+      },
+    });
+    return pools;
+  } catch (error) {
+    return error;
+  }
+};

@@ -56,10 +56,8 @@ const ContactResultModal = ({ form, existUsers }) => {
   });
 
   const sendQuery = useCallback(query => {
-    if (query || query === '') {
-      loadUsers({ page: 1, search: query });
-      setPage(1);
-    }
+    loadUsers({ page: 1, search: query });
+    setPage(1);
   }, []);
 
   const delayedQuery = useCallback(

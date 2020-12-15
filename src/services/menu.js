@@ -25,6 +25,12 @@ export async function getMenuData() {
       icon: 'fe fe-box',
     },
     {
+      title: 'Pools',
+      key: 'pools',
+      url: '/pools',
+      icon: 'fe fe-folder',
+    },
+    {
       title: 'Contact Us',
       key: 'contactUs',
       icon: 'fe fe-mail',
@@ -35,11 +41,11 @@ export async function getMenuData() {
 export async function getRolePermissions() {
   return {
     admin: {
-      permitted: ['/profile', '/customers', '/companies', '/runs'],
+      permitted: ['/profile', '/customers', '/companies', '/runs', '/pools'],
       default: '/runs',
     },
     staff: {
-      permitted: ['/profile', '/customers', '/companies', '/runs'],
+      permitted: ['/profile', '/customers', '/companies', '/runs', '/pools'],
       default: '/runs',
     },
     'company-admin': {
