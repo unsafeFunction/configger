@@ -52,15 +52,13 @@ const Pools = () => {
 
   const sendQuery = useCallback(
     query => {
-      if (query || query === '') {
-        dispatch({
-          type: actions.FETCH_ALL_POOLS_REQUEST,
-          payload: {
-            limit: constants.companies.itemsLoadingCount,
-            search: query,
-          },
-        });
-      }
+      dispatch({
+        type: actions.FETCH_ALL_POOLS_REQUEST,
+        payload: {
+          limit: constants.companies.itemsLoadingCount,
+          search: query,
+        },
+      });
     },
     [searchName],
   );
