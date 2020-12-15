@@ -46,7 +46,7 @@ const Run = () => {
         });
       }
     },
-    [dispatch, searchName],
+    [dispatch, searchName, runId],
   );
 
   const delayedQuery = useCallback(
@@ -66,9 +66,10 @@ const Run = () => {
         runId,
         limit: constants?.pools?.itemsLoadingCount,
         offset: pools.offset,
+        search: searchName,
       },
     });
-  }, [dispatch, pools]);
+  }, [dispatch, pools, searchName]);
 
   return (
     <>
