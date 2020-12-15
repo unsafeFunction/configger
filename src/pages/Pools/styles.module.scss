@@ -1,0 +1,46 @@
+@import 'assets/styles/mixins.scss';
+
+.page__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+.infiniteLoadingIcon {
+  height: 60px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.search {
+  margin-bottom: 1em;
+}
+
+.createButton {
+  width: 10.5em;
+  background-color: $info;
+  border-color: $info;
+  margin-left: 15px;
+}
+
+.tableActionsWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+}
+
+.modalButton {
+  width: 100px;
+}
+
+.createCompanyModal {
+  background-color: $info;
+  border-color: $info;
+}

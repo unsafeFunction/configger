@@ -105,7 +105,6 @@ export function* callRestore({ payload }) {
       uid,
       token,
     );
-    console.log(response);
     yield put({
       type: actions.RESTORE_SUCCESS,
     });

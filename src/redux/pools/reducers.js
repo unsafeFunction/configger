@@ -5,6 +5,7 @@ const initialState = {
   items: [],
   isLoading: false,
   total: 0,
+  offset: 0,
   error: null,
   resultList: {
     items: [],
@@ -62,6 +63,33 @@ export default function poolsReducer(state = initialState, action) {
       };
     }
     case actions.FETCH_POOLS_BY_COMPANY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        // error: action.payload.data,
+      };
+    }
+
+    case actions.FETCH_ALL_POOLS_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_ALL_POOLS_SUCCESS: {
+      return {
+        ...state,
+        items: action.payload.firstPage
+          ? action.payload.data.results
+          : [...state.items, ...action.payload.data.results],
+        total: action.payload.data.count,
+        isLoading: false,
+        offset: action.payload.firstPage
+          ? constants?.pools?.itemsLoadingCount
+          : state.offset + constants?.pools?.itemsLoadingCount,
+      };
+    }
+    case actions.FETCH_ALL_POOLS_FAILURE: {
       return {
         ...state,
         isLoading: false,
