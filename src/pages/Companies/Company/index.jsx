@@ -32,8 +32,8 @@ import { default as poolsActions } from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import actions from 'redux/companies/actions';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import styles from './styles.module.scss';
 import { debounce } from 'lodash';
+import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
 
@@ -96,16 +96,14 @@ const CompanyProfile = () => {
 
   const sendQuery = useCallback(
     query => {
-      if (query || query === '') {
-        dispatch({
-          type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
-          payload: {
-            companyId: idFromUrl,
-            limit: constants?.pools?.itemsLoadingCount,
-            search: query,
-          },
-        });
-      }
+      dispatch({
+        type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
+        payload: {
+          companyId: idFromUrl,
+          limit: constants?.pools?.itemsLoadingCount,
+          search: query,
+        },
+      });
     },
     [dispatch, searchName, idFromUrl],
   );
@@ -250,10 +248,15 @@ const CompanyProfile = () => {
                   message: () => (
                     <>
                       <p className={styles.modalWarningMessage}>
-                        You try to delete <span>{user.first_name}</span>{' '}
-                        <span>{user.last_name}</span> from{' '}
-                        <span>{singleCompany?.name}</span>.
-                      </p>
+                        You try to delete 
+{' '}
+<span>{user.first_name}</span>{' '}
+                        <span>{user.last_name}</span>
+{' '}
+from{' '}
+                        <span>{singleCompany?.name}</span>
+.
+</p>
                       <p className={styles.modalWarningMessage}>
                         Are you sure?
                       </p>

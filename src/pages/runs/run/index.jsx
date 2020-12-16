@@ -5,10 +5,10 @@ import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
-import styles from './styles.module.scss';
 import PoolTable from 'components/widgets/pools/PoolTable';
 import { constants } from 'utils/constants';
 import { debounce } from 'lodash';
+import styles from './styles.module.scss';
 
 const Run = () => {
   const dispatch = useDispatch();
@@ -35,18 +35,16 @@ const Run = () => {
 
   const sendQuery = useCallback(
     query => {
-      if (query || query === '') {
-        dispatch({
-          type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
-          payload: {
-            runId,
-            limit: constants?.pools?.itemsLoadingCount,
-            search: query,
-          },
-        });
-      }
+      dispatch({
+        type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
+        payload: {
+          runId,
+          limit: constants?.pools?.itemsLoadingCount,
+          search: query,
+        },
+      });
     },
-    [dispatch, searchName],
+    [dispatch, searchName, runId],
   );
 
   const delayedQuery = useCallback(
@@ -66,9 +64,10 @@ const Run = () => {
         runId,
         limit: constants?.pools?.itemsLoadingCount,
         offset: pools.offset,
+        search: searchName,
       },
     });
-  }, [dispatch, pools]);
+  }, [dispatch, pools, searchName]);
 
   return (
     <>

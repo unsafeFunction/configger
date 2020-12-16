@@ -177,7 +177,6 @@ const Companies = () => {
 
   const sendQuery = useCallback(
     query => {
-      if (query || query === '') {
         dispatchCompaniesData({
           type: actions.FETCH_COMPANIES_REQUEST,
           payload: {
@@ -185,7 +184,6 @@ const Companies = () => {
             search: query,
           },
         });
-      }
     },
     [searchName],
   );

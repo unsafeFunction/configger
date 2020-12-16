@@ -20,6 +20,7 @@ const Runs = () => {
   const location = useLocation();
   const [dates, setDates] = useState([]);
 
+  const user = useSelector(state => state.user);
   const runs = useSelector(state => state.runs);
 
   const { from, to } = qs.parse(location.search, {
@@ -87,13 +88,14 @@ const Runs = () => {
             unCheckedChildren="Unpublished"
             checked={record.pools_unpublished === 0}
             loading={record.isUpdating}
+            disabled={user.role === 'staff'}
           />
         </Popconfirm>
       ),
     },
   ];
 
-  const data = runs.items.map(run => ({
+  const data = runs?.items?.map?.(run => ({
     ...run,
     key: run.unique_id,
     companies: run.companies
