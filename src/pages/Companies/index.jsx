@@ -88,6 +88,7 @@ const Companies = () => {
               setCompanyId(company?.unique_id);
             }}
             to={`/companies/${company?.unique_id}`}
+            className="text-blue"
           >
             {`${name || '-'}`}
           </Link>
@@ -147,9 +148,9 @@ const Companies = () => {
       modalProps: {
         title: 'Create company',
         onOk: createCompany,
-        cancelButtonProps: { className: classNames(styles.modalButton) },
+        cancelButtonProps: { className: styles.modalButton },
         okButtonProps: {
-          className: classNames(styles.modalButton, styles.createCompanyModal),
+          className: styles.modalButton,
           loading: allCompanies.isLoading,
         },
         bodyStyle: {
@@ -214,12 +215,7 @@ const Companies = () => {
             onClick={onModalToggle}
             size="large"
             type="primary"
-            className={classNames(
-              styles.createButton,
-              'text-center',
-              'btn',
-              'btn-info',
-            )}
+            className={'ml-3'}
           >
             Create Company
           </Button>

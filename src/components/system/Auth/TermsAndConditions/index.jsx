@@ -632,7 +632,7 @@ const TermsAndConditions = () => {
         <Button
           type="primary"
           size="large"
-          className={classNames(style.button, 'btn', 'btn-info')}
+          className={classNames('text-uppercase', 'm-3')}
           htmlType="submit"
           disabled={!isAgreed}
           loading={isAccepting}

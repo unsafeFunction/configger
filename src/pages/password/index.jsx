@@ -95,12 +95,7 @@ const Password = () => {
           <Button
             type="primary"
             size="large"
-            className={classNames(
-              style.submitButton,
-              'btn',
-              'btn-info',
-              'float-right',
-            )}
+            className={classNames('text-uppercase', 'float-right')}
             htmlType="submit"
             loading={isPasswordChanging}
           >

@@ -32,8 +32,8 @@ const Login = () => {
     <div className={style.auth}>
       <div className={`${style.container}`}>
         <img
-          src="/resources/images/logo.png"
-          alt="Mirimus"
+          src="/resources/images/mirimus.svg"
+          alt="Mirimus Inc."
           className={style.logo}
         />
         <Form layout="vertical" onFinish={onSubmit}>
@@ -67,7 +67,7 @@ const Login = () => {
             <Button
               type="primary"
               size="large"
-              className={classNames(style.submitButton, 'btn', 'btn-info')}
+              className={style.submitButton}
               htmlType="submit"
               loading={isLoggingIn}
             >

@@ -396,13 +396,13 @@ class MenuLeft extends React.Component {
               className={style.air__menuLeft__logo}
             >
               <img
-                src="/resources/images/logo.png"
-                alt="Mirimus"
+                src="/resources/images/mirimus-light.svg"
+                alt="Mirimus Inc."
                 className={style.logo}
               />
               <div className={style.air__menuLeft__logo__name}>Mirimus</div>
               <div className={style.air__menuLeft__logo__descr}>
-                Admin panel
+                Clinical Labs
               </div>
             </a>
             <Link

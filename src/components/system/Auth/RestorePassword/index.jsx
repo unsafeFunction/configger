@@ -84,7 +84,7 @@ const RestorePassword = () => {
             <Button
               type="primary"
               size="large"
-              className={classNames(style.submitButton, 'btn', 'btn-info')}
+              className={style.submitButton}
               htmlType="submit"
               loading={isRestoring}
             >

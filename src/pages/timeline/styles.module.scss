@@ -4,19 +4,13 @@
   margin-right: 10px;
 }
 
-.downloadButton {
-  background-color: $info;
-  border: $info;
-}
-
 .reportCart {
   height: 100%;
 
   .report {
     font-size: 16px;
-
     cursor: pointer;
-    color: $info;
+    color: $primary;
   }
 }
 

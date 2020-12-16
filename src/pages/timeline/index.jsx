@@ -91,7 +91,9 @@ const Timeline = () => {
       dataIndex: 'status',
       key: 'status',
       render: value => (
-        <Tag color={value === 'Not Detected' ? 'volcano' : 'red'}>{value}</Tag>
+        <Tag color={value === 'Not Detected' ? 'processing' : 'red'}>
+          {value}
+        </Tag>
       ),
     },
     {
@@ -114,8 +116,6 @@ const Timeline = () => {
       render: value => {
         return (
           <Button
-            className={styles.downloadButton}
-            color="#0887c9"
             type="primary"
             onClick={() => {
               downloadFile({
