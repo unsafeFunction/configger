@@ -113,7 +113,8 @@
   max-width: 400px;
   font-size: 18px;
   font-weight: 600;
-  color: #222155;
+  // color: #222155;
+  color: $blue;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

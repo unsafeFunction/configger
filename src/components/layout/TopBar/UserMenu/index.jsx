@@ -35,22 +35,16 @@ const ProfileMenu = ({ dispatch, history }) => {
   const menu = (
     <Menu selectable={false}>
       <Menu.Item onClick={onRedirectToProfile}>
-        <strong className={styles.menu}>
-          Hello,
-          {first_name}
-        </strong>
+        <strong className={styles.menu}>Hello, {first_name}</strong>
         <div>
-          <strong>
-            Role:
-            {role}
-          </strong>
+          <strong>Role: {role}</strong>
         </div>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item>
         <div role="presentation" onClick={onLogout}>
           <i className={`${styles.menuIcon} fe fe-log-out`} />
-          Logout
+          Sign out
         </div>
       </Menu.Item>
     </Menu>

@@ -15,7 +15,8 @@ module.exports = {
   '@background-color-light': '#f2f4f8',
   '@background-color-base': '#f2f4f8',
 
-  '@primary-color': '#1b55e3',
+  // '@primary-color': '#1b55e3',
+  '@primary-color': '#0679a6',
   '@info-color': '#0887c9',
   '@success-color': '#46be8a',
   '@error-color': '#fb434a',
@@ -23,7 +24,8 @@ module.exports = {
   '@warning-color': '#f39834',
   '@normal-color': '#e4e9f0',
 
-  '@input-color': '#161537',
+  // '@input-color': '#161537',
+  '@input-color': '#263238',
   '@input-padding-horizontal': '13px',
   '@input-padding-vertical-base': '7px',
   '@input-padding-vertical-sm': '11px',
@@ -50,4 +52,4 @@ module.exports = {
   '@layout-body-background': '#fff',
   '@layout-header-background': 'transparent',
   '@layout-sider-background': 'transparent',
-}
+};

@@ -108,9 +108,9 @@ const Campaigns = () => {
       modalProps: {
         title: 'Invite customer',
         width: '30%',
-        cancelButtonProps: { className: classNames(styles.modalButton) },
+        cancelButtonProps: { className: styles.modalButton },
         okButtonProps: {
-          className: classNames(styles.modalButton, styles.inviteButton),
+          className: styles.modalButton,
           loading: isInviting,
         },
         okText: 'Invite',
@@ -236,12 +236,6 @@ const Campaigns = () => {
         <Button
           type="primary"
           size="large"
-          className={classNames(
-            styles.inviteButton,
-            'text-center',
-            'btn',
-            'btn-info',
-          )}
           htmlType="submit"
           onClick={showInviteModal}
         >

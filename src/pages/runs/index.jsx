@@ -48,7 +48,9 @@ const Runs = () => {
       title: 'Companies',
       dataIndex: 'companies',
       render: (text, record) => (
-        <Link to={`/runs/${record.unique_id}`}>{text}</Link>
+        <Link to={`/runs/${record.unique_id}`} className="text-blue">
+          {text}
+        </Link>
       ),
     },
     {
