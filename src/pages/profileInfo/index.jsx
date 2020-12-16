@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
+import ReactInputMask from 'react-input-mask';
 import actions from 'redux/user/actions';
 import classNames from 'classnames';
 import style from './style.module.scss';
@@ -20,12 +21,15 @@ const ProfileInfo = () => {
     [dispatch],
   );
 
-  const { profile, isProfileUpdating } = useSelector(state => state.user);
+  const { profile, isProfileUpdating, error } = useSelector(
+    state => state.user,
+  );
 
   useEffect(() => {
     form.setFieldsValue({
       first_name: profile.first_name,
       last_name: profile.last_name,
+      phone_number: profile.phone_number,
     });
   }, [profile]);
 
@@ -52,7 +56,7 @@ const ProfileInfo = () => {
             label="Last name"
             name="last_name"
             initialValue={profile.last_name}
-            className={classNames(style.input, 'ml-5')}
+            className={classNames(style.input, 'ml-2')}
             rules={[
               {
                 required: true,
@@ -61,6 +65,18 @@ const ProfileInfo = () => {
             ]}
           >
             <Input size="large" placeholder="Last name" />
+          </Form.Item>
+          <Form.Item
+            label="Phone number"
+            name="phone_number"
+            initialValue={profile?.phone_number}
+            className={classNames(style.input, 'ml-5')}
+          >
+            <ReactInputMask mask="(999) 999-9999">
+              {() => {
+                return <Input size="large" placeholder="Phone number" />;
+              }}
+            </ReactInputMask>
           </Form.Item>
         </div>
         <Form.Item className={style.formButton}>

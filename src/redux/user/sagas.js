@@ -183,7 +183,13 @@ export function* callLoadProfile() {
     yield put({
       type: actions.PROFILE_SUCCESS,
       payload: {
-        profile: response.data,
+        profile: {
+          ...response.data,
+          phone_number: response.data?.phone_number?.slice(
+            2,
+            response.data?.phone_number?.length,
+          ),
+        },
       },
     });
   } catch (error) {
@@ -204,9 +210,9 @@ export function* callLoadProfile() {
 }
 
 export function* callUpdateProfile({ payload }) {
-  const { first_name, last_name } = payload;
+  const { first_name, last_name, phone_number } = payload;
   try {
-    yield call(updateProfile, first_name, last_name);
+    yield call(updateProfile, first_name, last_name, phone_number);
 
     yield put({
       type: actions.UPDATE_PROFILE_SUCCESS,
@@ -214,6 +220,7 @@ export function* callUpdateProfile({ payload }) {
         data: {
           first_name,
           last_name,
+          phone_number,
         },
       },
     });
@@ -231,7 +238,12 @@ export function* callUpdateProfile({ payload }) {
         data: errorData,
       },
     });
-
+    if (errorData?.field_errors?.phone_number) {
+      return notification.error({
+        message: 'Something went wrong',
+        description: errorData?.field_errors?.phone_number,
+      });
+    }
     notification.error({
       message: 'Something went wrong',
       description: errorData,

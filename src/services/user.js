@@ -42,9 +42,10 @@ export const getProfile = async () => {
   return profile;
 };
 
-export const updateProfile = async (first_name, last_name) => {
+export const updateProfile = async (first_name, last_name, phone_number) => {
   const update = await axiosClient.patch('/me/', {
     first_name,
+    phone_number: phone_number ? `+1${phone_number.replace(/[^\d]/g, '')}` : '',
     last_name,
   });
 

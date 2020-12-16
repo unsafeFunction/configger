@@ -9,11 +9,13 @@ import SubBar from 'components/layout/SubBar';
 import MenuTop from 'components/layout/MenuTop';
 import Modal from 'components/widgets/Modals';
 import actions from 'redux/user/actions';
+import { Alert } from 'antd';
+import styles from './styles.module.scss';
 
 const AppLayout = props => {
   const dispatch = useDispatch();
   const settings = useSelector(state => state.settings);
-
+  const { role, profile } = useSelector(state => state.user);
   const {
     menuLayoutType,
     isContentNoMaxWidth,
@@ -44,6 +46,16 @@ const AppLayout = props => {
         air__layout__borderless: isBorderless,
       })}
     >
+      {role === 'company-admin' && !profile?.phone_number && (
+        <Alert
+          className={styles.phoneWarning}
+          message="Informational Notes!"
+          description="Receive text message notifications for DETECTED pool results. Go to Profile in the main menu and enter your mobile phone number to begin receiving text message notifications."
+          type="warning"
+          showIcon
+          closable
+        />
+      )}
       {menuLayoutType === 'left' && <MenuLeft />}
       {menuLayoutType === 'top' && <MenuTop />}
       <Layout>
