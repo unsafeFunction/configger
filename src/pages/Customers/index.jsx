@@ -224,24 +224,30 @@ const Campaigns = () => {
 
   return (
     <div>
-      <div className={styles.subheader}>
-        <Input
-          size="middle"
-          prefix={<SearchOutlined />}
-          className={styles.search}
-          placeholder="Search..."
-          value={searchName}
-          onChange={event => setSearchName(event.target.value)}
-        />
-        <Button
-          type="primary"
-          size="large"
-          htmlType="submit"
-          onClick={showInviteModal}
-        >
-          Invite Customer
-        </Button>
+      <div className={classNames('air__utils__heading', styles.page__header)}>
+        <h4>Customers</h4>
+        <div className={styles.tableActionsWrapper}>
+          <Input
+            size="middle"
+            prefix={<SearchOutlined />}
+            className={styles.search}
+            placeholder="Search..."
+            value={searchName}
+            onChange={event => setSearchName(event.target.value)}
+          />
+
+          <Button
+            type="primary"
+            size="large"
+            htmlType="submit"
+            onClick={showInviteModal}
+            className="ml-3"
+          >
+            Invite Customer
+          </Button>
+        </div>
       </div>
+
       <div ref={tableRef} className={styles.table}>
         <InfiniteScroll
           pageStart={page}

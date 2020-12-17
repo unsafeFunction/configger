@@ -167,6 +167,7 @@ const Runs = () => {
             'This Month': [moment().startOf('month'), moment().endOf('month')],
           }}
           onChange={onDatesChange}
+          className={styles.rangePicker}
         />
       </div>
       <InfiniteScroll
