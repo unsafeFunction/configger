@@ -10,10 +10,13 @@ module.exports = {
   '@font-family': 'Source Sans Pro, sans-serif',
   '@code-family': 'Source Sans Pro, sans-serif',
 
-  '@border-color-base': '#e4e9f0',
+  // '@border-color-base': '#e4e9f0',
+  '@border-color-base': '#cfd8dc',
 
-  '@background-color-light': '#f2f4f8',
-  '@background-color-base': '#f2f4f8',
+  // '@background-color-light': '#f2f4f8',
+  '@background-color-light': '#eceff1',
+  // '@background-color-base': '#f2f4f8',
+  '@background-color-base': '#eceff1',
 
   // '@primary-color': '#1b55e3',
   '@primary-color': '#0679a6',
@@ -22,7 +25,8 @@ module.exports = {
   '@error-color': '#fb434a',
   '@highlight-color': '#fb434a',
   '@warning-color': '#f39834',
-  '@normal-color': '#e4e9f0',
+  // '@normal-color': '#e4e9f0',
+  '@normal-color': '#cfd8dc',
 
   // '@input-color': '#161537',
   '@input-color': '#263238',
@@ -30,7 +34,8 @@ module.exports = {
   '@input-padding-vertical-base': '7px',
   '@input-padding-vertical-sm': '11px',
   '@input-padding-vertical-lg': '11px',
-  '@input-border-color': '#e4e9f0',
+  // '@input-border-color': '#e4e9f0',
+  '@input-border-color': '#cfd8dc',
   '@input-hover-border-color': '#0190fe',
 
   '@shadow-color': 'rgba(0,0,0,.15)',
@@ -41,13 +46,17 @@ module.exports = {
   '@shadow-1-right': '10px 0 35px -5px rgba(0,0,0,.15)',
   '@shadow-2': '0 0px 35px -5px rgba(0,0,0,.15)',
 
-  '@table-header-bg': '#f2f4f8',
-  '@table-header-sort-bg': '#f2f4f8',
-  '@table-row-hover-bg': '#e4e9f0',
+  // '@table-header-bg': '#f2f4f8',
+  '@table-header-bg': '#eceff1',
+  // '@table-header-sort-bg': '#f2f4f8',
+  '@table-header-sort-bg': '#eceff1',
+  // '@table-row-hover-bg': '#e4e9f0',
+  '@table-row-hover-bg': '#cfd8dc',
   '@table-padding-vertical': '12px',
   '@table-padding-horizontal': '8px',
 
-  '@modal-mask-bg': 'rgba(15, 12, 41, 0.5)',
+  // '@modal-mask-bg': 'rgba(15, 12, 41, 0.5)',
+  '@modal-mask-bg': 'rgba(38, 50, 56, 0.5)',
 
   '@layout-body-background': '#fff',
   '@layout-header-background': 'transparent',
