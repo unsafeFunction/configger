@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import actions from '../../../../redux/pools/actions';
-import modalActions from '../../../../redux/modal/actions';
+import actions from 'redux/pools/actions';
+import modalActions from 'redux/modal/actions';
 import {
   Table,
   Spin,
