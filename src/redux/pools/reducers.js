@@ -130,7 +130,7 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map(pool => {
-          if (pool.unique_id === action.payload.poolId) {
+          if (pool.unique_id === action?.payload?.poolId) {
             return {
               ...pool,
               isUpdating: false,
@@ -207,7 +207,7 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map(pool => {
-          if (pool.unique_id === action.payload.poolId) {
+          if (pool.unique_id === action?.payload?.poolId) {
             return {
               ...pool,
               resultIsUpdating: false,

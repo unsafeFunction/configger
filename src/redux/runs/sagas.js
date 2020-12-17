@@ -33,6 +33,12 @@ export function* callPublishRun({ payload }) {
       message: 'Run updated',
     });
   } catch (error) {
+    yield put({
+      type: actions.PUBLISH_RUN_FAILURE,
+      payload: {
+        runId: payload.runId,
+      },
+    });
     notification.error(error);
   }
 }
