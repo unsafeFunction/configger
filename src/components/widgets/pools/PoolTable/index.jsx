@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import actions from '../../../../redux/pools/actions';
+import actions from 'redux/pools/actions';
+import modalActions from 'redux/modal/actions';
 import {
   Table,
   Spin,
@@ -68,20 +69,20 @@ const PoolTable = ({ loadMore }) => {
       width: 182,
       render: (_, record) => (
         <Select
-          defaultValue={
+          value={
             <Text type={record.result === 'COVID-19 Detected' && 'danger'}>
               {record.result}
             </Text>
           }
           style={{ width: 165 }}
           loading={record.resultIsUpdating}
-          onChange={handleResultUpdate(record.unique_id)}
+          onSelect={onModalToggle(record.unique_id, record.pool_id)}
           disabled={user.role === 'staff' || record.resultIsUpdating}
         >
           {resutList?.items
             ?.filter(option => option.value !== record.result)
             .map(item => (
-              <Option key={item.key} value={item.key}>
+              <Option key={item.key} value={item.value}>
                 <Text type={item.value === 'COVID-19 Detected' && 'danger'}>
                   {item.value}
                 </Text>
@@ -159,17 +160,38 @@ const PoolTable = ({ loadMore }) => {
     [dispatch],
   );
 
-  const handleResultUpdate = useCallback(
-    poolId => value => {
+  const resultUpdate = useCallback(
+    ({ poolUniqueId, value }) => {
       dispatch({
         type: actions.UPDATE_POOL_RESULT_REQUEST,
         payload: {
-          poolId,
+          poolId: poolUniqueId,
           result: value,
         },
       });
     },
     [dispatch],
+  );
+
+  const onModalToggle = useCallback(
+    (poolUniqueId, poolId) => (_, option) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Confirm action',
+          onOk: () => resultUpdate({ poolUniqueId, value: option.key }),
+          bodyStyle: {
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          },
+          okText: 'Update result',
+          message: () => `Sure to updated ${poolId} ${option.value}?`,
+          width: '40%',
+        },
+      });
+    },
+    [resultUpdate, dispatch],
   );
 
   return (
