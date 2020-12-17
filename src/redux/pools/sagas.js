@@ -59,6 +59,12 @@ export function* callPublishPool({ payload }) {
       message: 'Pool updated',
     });
   } catch (error) {
+    yield put({
+      type: actions.PUBLISH_POOL_FAILURE,
+      payload: {
+        poolId: payload.poolId,
+      },
+    });
     notification.error(error);
   }
 }
@@ -97,6 +103,12 @@ export function* callUpdatePoolResult({ payload }) {
       message: 'Pool updated',
     });
   } catch (error) {
+    yield put({
+      type: actions.UPDATE_POOL_RESULT_FAILURE,
+      payload: {
+        poolId: payload.poolId,
+      },
+    });
     notification.error(error);
   }
 }

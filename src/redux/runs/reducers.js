@@ -72,7 +72,7 @@ export default function runsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map(run => {
-          if (run.unique_id === action.payload.runId) {
+          if (run.unique_id === action?.payload?.runId) {
             return {
               ...run,
               isUpdating: false,
