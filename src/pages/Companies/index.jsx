@@ -177,13 +177,13 @@ const Companies = () => {
 
   const sendQuery = useCallback(
     query => {
-        dispatchCompaniesData({
-          type: actions.FETCH_COMPANIES_REQUEST,
-          payload: {
-            limit: constants.companies.itemsLoadingCount,
-            search: query,
-          },
-        });
+      dispatchCompaniesData({
+        type: actions.FETCH_COMPANIES_REQUEST,
+        payload: {
+          limit: constants.companies.itemsLoadingCount,
+          search: query,
+        },
+      });
     },
     [searchName],
   );
@@ -215,7 +215,7 @@ const Companies = () => {
             onClick={onModalToggle}
             size="large"
             type="primary"
-            className={'ml-3'}
+            className="ml-3"
           >
             Create Company
           </Button>

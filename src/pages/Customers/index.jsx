@@ -241,7 +241,7 @@ const Campaigns = () => {
             size="large"
             htmlType="submit"
             onClick={showInviteModal}
-            className={'ml-3'}
+            className="ml-3"
           >
             Invite Customer
           </Button>
