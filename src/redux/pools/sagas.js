@@ -9,6 +9,7 @@ import {
   fetchPools,
 } from 'services/pools';
 import actions from './actions';
+import modalActions from 'redux/modal/actions';
 
 export function* callLoadPoolsByRunId({ payload }) {
   try {
@@ -87,6 +88,11 @@ export function* callUpdatePoolResult({ payload }) {
         data: response.data,
       },
     });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
     notification.success({
       message: 'Pool updated',
     });
