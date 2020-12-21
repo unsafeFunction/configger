@@ -151,7 +151,6 @@ const Companies = () => {
         cancelButtonProps: { className: styles.modalButton },
         okButtonProps: {
           className: styles.modalButton,
-          loading: allCompanies.isLoading,
         },
         bodyStyle: {
           maxHeight: '70vh',
