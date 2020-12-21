@@ -23,6 +23,7 @@ import {
   TableOutlined,
   FileExcelFilled,
   FilePdfFilled,
+  FileOutlined,
 } from '@ant-design/icons';
 
 import actions from 'redux/timeline/actions';
@@ -226,25 +227,33 @@ const Timeline = () => {
               </Col>
               <Col span={6}>
                 <Card className={styles.reportCart}>
-                  {commonInfo?.reports.map((report, index) => {
-                    return (
-                      <div
-                        key={`${report.company_location_uuid}-${index}`}
-                        onClick={() => {
-                          downloadFile({
-                            link: report.report_url,
-                            name: report.report_filename,
-                            contentType: report.report_content_type,
-                          });
-                        }}
-                        className={styles.report}
-                        role="presentation"
-                      >
-                        {getFileIcon(report.report_content_type)}
-                        <span>{report?.report_type}</span>
-                      </div>
-                    );
-                  })}
+                  {commonInfo?.reports?.length ? (
+                    commonInfo?.reports.map((report, index) => {
+                      return (
+                        <div
+                          key={`${report.company_location_uuid}-${index}`}
+                          onClick={() => {
+                            downloadFile({
+                              link: report.report_url,
+                              name: report.report_filename,
+                              contentType: report.report_content_type,
+                            });
+                          }}
+                          className={styles.report}
+                          role="presentation"
+                        >
+                          {getFileIcon(report.report_content_type)}
+                          <span>{report?.report_type}</span>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <Statistic
+                      title="Reports"
+                      value="No reports"
+                      prefix={<FileOutlined className={styles.statisticIcon} />}
+                    />
+                  )}
                 </Card>
               </Col>
             </Row>
