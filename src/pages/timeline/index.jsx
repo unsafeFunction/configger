@@ -121,7 +121,7 @@ const Timeline = () => {
               downloadFile({
                 link: value.barcodes_report.url,
                 name: value.barcodes_report.file_name,
-                contentType: 'application/pdf',
+                contentType: 'application/csv',
               });
             }}
           >
