@@ -19,3 +19,21 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.locationName {
+  div:last-child {
+    display:flex;
+    align-items: baseline;
+
+      span:last-child {
+        text-overflow: ellipsis;
+        width: 100%;
+        max-width: 190px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 18px;
+        font-weight: 500;
+        overflow: hidden;
+      }
+  }
+}
