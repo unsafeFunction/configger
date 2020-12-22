@@ -138,7 +138,7 @@ const CompanyProfile = () => {
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
-        title: 'Add User',
+        title: 'Add Results Contact',
         onOk: handleSubmit,
         message: () => (
           <ContactResultModal
@@ -248,15 +248,10 @@ const CompanyProfile = () => {
                   message: () => (
                     <>
                       <p className={styles.modalWarningMessage}>
-                        You try to delete 
-{' '}
-<span>{user.first_name}</span>{' '}
-                        <span>{user.last_name}</span>
-{' '}
-from{' '}
-                        <span>{singleCompany?.name}</span>
-.
-</p>
+                        You try to delete <span>{user.first_name}</span>{' '}
+                        <span>{user.last_name}</span> from{' '}
+                        <span>{singleCompany?.name}</span>.
+                      </p>
                       <p className={styles.modalWarningMessage}>
                         Are you sure?
                       </p>
@@ -368,7 +363,7 @@ from{' '}
             title={() => (
               <span className="d-flex">
                 <Button className="ml-auto mr-2" onClick={onModalToggle}>
-                  Add contact
+                  Add Results Contact
                 </Button>
               </span>
             )}

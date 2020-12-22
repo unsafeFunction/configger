@@ -26,7 +26,7 @@ import actions from '../../../../redux/companies/actions';
 
 const ContactResultModal = ({ form, existUsers }) => {
   const { Item } = Form;
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [searchName, setSearchName] = useState('');
   const dispatch = useDispatch();
   const { items: users, total, areUsersLoading } = useSelector(
@@ -51,13 +51,11 @@ const ContactResultModal = ({ form, existUsers }) => {
     [searchName],
   );
 
-  useEffect(() => {
-    page === 0 && loadPage(0);
-  });
-
   const sendQuery = useCallback(query => {
-    loadUsers({ page: 1, search: query });
-    setPage(1);
+    if (query) {
+      loadUsers({ page: 1, search: query });
+      setPage(2);
+    }
   }, []);
 
   const delayedQuery = useCallback(
@@ -70,10 +68,14 @@ const ContactResultModal = ({ form, existUsers }) => {
     delayedQuery(value);
   }, []);
 
+  const handleResetSearch = useCallback(() => {
+    setSearchName('');
+  }, []);
+
   return (
     <Form form={form} layout="vertical">
       <Item
-        label="Users"
+        label="Results Contacts"
         name="results_contacts"
         rules={[
           {
@@ -83,7 +85,7 @@ const ContactResultModal = ({ form, existUsers }) => {
         ]}
       >
         <Select
-          placeholder="Users"
+          placeholder="Results Contacts"
           mode="multiple"
           size="middle"
           options={users
@@ -95,26 +97,31 @@ const ContactResultModal = ({ form, existUsers }) => {
               };
             })}
           loading={areUsersLoading}
-          showArrow
           onSearch={onChangeSearch}
+          onSelect={handleResetSearch}
           showSearch
+          filterOption={false}
+          onBlur={handleResetSearch}
           optionFilterProp="label"
           listHeight={0}
-          dropdownMatchSelectWidth={false}
-          dropdownRender={menu => (
-            <div className={style.dropDown}>
-              <InfiniteScroll
-                pageStart={page}
-                loadMore={() => loadPage(page)}
-                dataLength={users.length}
-                hasMore={!areUsersLoading && users.length < total}
-                threshold={50}
-                useWindow={false}
-              >
-                {menu}
-              </InfiniteScroll>
-            </div>
-          )}
+          open
+          dropdownClassName={classNames({ [style.hide]: !searchName.length })}
+          dropdownRender={menu => {
+            return searchName.length ? (
+              <div className={style.dropDown}>
+                <InfiniteScroll
+                  pageStart={page}
+                  loadMore={() => loadPage(page)}
+                  dataLength={users.length}
+                  hasMore={!areUsersLoading && users.length < total}
+                  threshold={50}
+                  useWindow={false}
+                >
+                  {menu}
+                </InfiniteScroll>
+              </div>
+            ) : null;
+          }}
         />
       </Item>
     </Form>
