@@ -5,6 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import qs from 'qs';
+import orderBy from 'lodash.orderby';
 
 import {
   Statistic,
@@ -85,6 +86,9 @@ const Timeline = () => {
       dataIndex: 'name',
       key: 'name',
       fixed: 'left',
+      sorter: {
+        compare: (a, b) =>  (a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
+      },
     },
     {
       title: 'Result',
