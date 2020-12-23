@@ -127,7 +127,7 @@ const ContactResultModal = ({ form, existUsers }) => {
                   pageStart={1}
                   loadMore={loadPage}
                   dataLength={users.length}
-                  hasMore={!isLoading && formattedUsers.length < total}
+                  hasMore={!isLoading && users.length < total}
                   threshold={50}
                   useWindow={false}
                 >
