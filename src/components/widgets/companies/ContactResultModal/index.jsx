@@ -14,24 +14,45 @@ import {
   Form,
   Space,
   Button,
+  Spin,
 } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  MinusCircleOutlined,
+  PlusOutlined,
+  CloseOutlined,
+} from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroller';
 import debounce from 'lodash.debounce';
-import styles from './styles.module.scss';
-import style from '../../Customer/CustomerModal/style.module.scss';
+import style from './styles.module.scss';
 import { constants } from '../../../../utils/constants';
 import userActions from '../../../../redux/user/actions';
 import actions from '../../../../redux/companies/actions';
+import { LoadingNode, NotFoundNode } from './components';
 
 const ContactResultModal = ({ form, existUsers }) => {
   const { Item } = Form;
   const [page, setPage] = useState(1);
-  const [searchName, setSearchName] = useState('');
+  const [formattedUsers, setFormattedUsers] = useState([]);
+  const [searchName, setSearchName] = useState(null);
+  const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { items: users, total, areUsersLoading } = useSelector(
     state => state.user,
   );
+
+  useEffect(() => {
+    setFormattedUsers(
+      users
+        .filter(user => !existUsers.find(({ id }) => id === user.id))
+        .map(user => {
+          return {
+            label: `${user.first_name} ${user.last_name}`,
+            value: user.id,
+          };
+        }),
+    );
+    setLoading(false);
+  }, [users]);
 
   const loadUsers = useCallback(({ page, search }) => {
     dispatch({
@@ -43,18 +64,16 @@ const ContactResultModal = ({ form, existUsers }) => {
     });
   }, []);
 
-  const loadPage = useCallback(
-    page => {
-      loadUsers({ page, search: searchName });
-      setPage(page + 1);
-    },
-    [searchName],
-  );
+  const loadPage = useCallback(() => {
+    setLoading(true);
+    setPage(page + 1);
+    loadUsers({ page, search: searchName });
+  }, [searchName, page]);
 
   const sendQuery = useCallback(query => {
     if (query) {
       loadUsers({ page: 1, search: query });
-      setPage(2);
+      setPage(1);
     }
   }, []);
 
@@ -64,12 +83,14 @@ const ContactResultModal = ({ form, existUsers }) => {
   );
 
   const onChangeSearch = useCallback(value => {
+    setLoading(true);
+    setFormattedUsers([]);
     setSearchName(value);
     delayedQuery(value);
   }, []);
 
   const handleResetSearch = useCallback(() => {
-    setSearchName('');
+    setSearchName(null);
   }, []);
 
   return (
@@ -88,32 +109,25 @@ const ContactResultModal = ({ form, existUsers }) => {
           placeholder="Results Contacts"
           mode="multiple"
           size="middle"
-          options={users
-            .filter(user => !existUsers.find(({ id }) => id === user.id))
-            .map(user => {
-              return {
-                label: `${user.first_name} ${user.last_name}`,
-                value: user.id,
-              };
-            })}
-          loading={areUsersLoading}
+          options={formattedUsers}
           onSearch={onChangeSearch}
           onSelect={handleResetSearch}
           showSearch
           filterOption={false}
+          notFoundContent={isLoading ? <LoadingNode /> : <NotFoundNode />}
           onBlur={handleResetSearch}
           optionFilterProp="label"
           listHeight={0}
           open
-          dropdownClassName={classNames({ [style.hide]: !searchName.length })}
+          dropdownClassName={classNames({ [style.hide]: !searchName })}
           dropdownRender={menu => {
-            return searchName.length ? (
+            return searchName ? (
               <div className={style.dropDown}>
                 <InfiniteScroll
-                  pageStart={page}
-                  loadMore={() => loadPage(page)}
+                  pageStart={1}
+                  loadMore={loadPage}
                   dataLength={users.length}
-                  hasMore={!areUsersLoading && users.length < total}
+                  hasMore={!isLoading && formattedUsers.length < total}
                   threshold={50}
                   useWindow={false}
                 >
