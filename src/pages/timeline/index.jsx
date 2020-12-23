@@ -87,7 +87,7 @@ const Timeline = () => {
       key: 'name',
       fixed: 'left',
       sorter: {
-        compare: (a, b) =>  (a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
+        compare: (a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0),
       },
     },
     {
@@ -225,7 +225,9 @@ const Timeline = () => {
                           className={styles.locationName}
                           title="Location"
                           value={commonInfo?.stats.location_name}
-                          prefix={<HomeOutlined className={styles.statisticIcon} />}
+                          prefix={
+                            <HomeOutlined className={styles.statisticIcon} />
+                          }
                         />
                       </Card>
                     </Col>
@@ -235,7 +237,9 @@ const Timeline = () => {
                           className={styles.locationName}
                           title="Total pools count"
                           value={commonInfo?.stats.pool_count}
-                          prefix={<TableOutlined className={styles.statisticIcon} />}
+                          prefix={
+                            <TableOutlined className={styles.statisticIcon} />
+                          }
                         />
                       </Card>
                     </Col>
@@ -245,7 +249,9 @@ const Timeline = () => {
                           className={styles.locationName}
                           title="Total samples count"
                           value={commonInfo?.stats.sample_count}
-                          prefix={<TableOutlined className={styles.statisticIcon} />}
+                          prefix={
+                            <TableOutlined className={styles.statisticIcon} />
+                          }
                         />
                       </Card>
                     </Col>
@@ -272,36 +278,38 @@ const Timeline = () => {
                             );
                           })
                         ) : (
-                        <Statistic
+                          <Statistic
                             title="Reports"
                             value="No reports"
-                            prefix={<FileOutlined className={styles.statisticIcon} />}
-                        />
-                      )}
-                    </Card>
-                  </Col>
-                </Row>
-                <Table
-                      className="mb-5"
-                      pagination={false}
-                      columns={columns}
-                      dataSource={pools}
-                      scroll={{ x: 1500, y: 1500 }}
-                      bordered
-                      expandable={{
-                        expandedRowRender: record => {
-                          return expandedRowRender(
-                            record.tube_ids.map((tubeId, index) => {
-                              return {
-                                key: tubeId,
-                                sample: index + 1,
-                                sample_barcode: tubeId,
-                              };
-                            }),
-                          );
-                        },
-                      }}
-                    />
+                            prefix={
+                              <FileOutlined className={styles.statisticIcon} />
+                            }
+                          />
+                        )}
+                      </Card>
+                    </Col>
+                  </Row>
+                  <Table
+                    className="mb-5"
+                    pagination={false}
+                    columns={columns}
+                    dataSource={pools}
+                    scroll={{ x: 1500, y: 1500 }}
+                    bordered
+                    expandable={{
+                      expandedRowRender: record => {
+                        return expandedRowRender(
+                          record.tube_ids.map((tubeId, index) => {
+                            return {
+                              key: tubeId,
+                              sample: index + 1,
+                              sample_barcode: tubeId,
+                            };
+                          }),
+                        );
+                      },
+                    }}
+                  />
                 </>
               );
             })}

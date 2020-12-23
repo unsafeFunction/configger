@@ -1,9 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Tabs, Table, Tag, Button, Form, Input } from 'antd';
+import { Link, useHistory } from 'react-router-dom';
+import {
+  Tabs,
+  Row,
+  Col,
+  Table,
+  Card,
+  Tag,
+  Button,
+  Skeleton,
+  Spin,
+  Form,
+  Input,
+} from 'antd';
 import {
   DeleteOutlined,
+  ImportOutlined,
+  MessageOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
   SearchOutlined,
@@ -95,7 +109,7 @@ const CompanyProfile = () => {
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
-        title: 'Add User',
+        title: 'Add Results Contact',
         onOk: handleSubmit,
         message: () => (
           <ContactResultModal
@@ -201,10 +215,8 @@ const CompanyProfile = () => {
                   message: () => (
                     <>
                       <p className={styles.modalWarningMessage}>
-                        You try to delete
-                        <span>{user.first_name}</span>
-                        <span>{user.last_name}</span>
-                        from
+                        You try to delete <span>{user.first_name}</span>{' '}
+                        <span>{user.last_name}</span> from{' '}
                         <span>{singleCompany?.name}</span>.
                       </p>
                       <p className={styles.modalWarningMessage}>
@@ -244,7 +256,7 @@ const CompanyProfile = () => {
             title={() => (
               <span className="d-flex">
                 <Button className="ml-auto mr-2" onClick={onModalToggle}>
-                  Add contact
+                  Add Results Contact
                 </Button>
               </span>
             )}

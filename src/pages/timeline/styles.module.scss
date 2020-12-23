@@ -22,18 +22,18 @@
 
 .locationName {
   div:last-child {
-    display:flex;
+    display: flex;
     align-items: baseline;
 
-      span:last-child {
-        text-overflow: ellipsis;
-        width: 100%;
-        max-width: 190px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: 18px;
-        font-weight: 500;
-        overflow: hidden;
-      }
+    span:last-child {
+      text-overflow: ellipsis;
+      width: 100%;
+      max-width: 190px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 18px;
+      font-weight: 500;
+      overflow: hidden;
+    }
   }
 }
