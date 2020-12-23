@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
 import PoolTable from 'components/widgets/pools/PoolTable';
 import { constants } from 'utils/constants';
-import { debounce } from 'lodash';
+import debounce from 'lodash.debounce';
 import styles from './styles.module.scss';
 
 const Run = () => {

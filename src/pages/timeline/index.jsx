@@ -5,6 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import qs from 'qs';
+import orderBy from 'lodash.orderby';
 
 import {
   Statistic,
@@ -85,6 +86,9 @@ const Timeline = () => {
       dataIndex: 'name',
       key: 'name',
       fixed: 'left',
+      sorter: {
+        compare: (a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0),
+      },
     },
     {
       title: 'Result',
@@ -178,7 +182,6 @@ const Timeline = () => {
     <div>
       <Helmet title="Timeline" />
       {Object.keys(timeline?.items ?? []).map((timelineDate, index) => {
-        const commonInfo = Object.values(timeline?.items[timelineDate][0])[0];
         return (
           <Fragment key={`${timelineDate}-${index}`}>
             <div
@@ -197,67 +200,8 @@ const Timeline = () => {
                 />
               )}
             </div>
-            <Row className="mb-3" gutter={16}>
-              <Col span={6}>
-                <Card>
-                  <Statistic
-                    title="Location"
-                    value={commonInfo?.stats.location_name}
-                    prefix={<HomeOutlined className={styles.statisticIcon} />}
-                  />
-                </Card>
-              </Col>
-              <Col span={6}>
-                <Card>
-                  <Statistic
-                    title="Total pools count"
-                    value={commonInfo?.stats.pool_count}
-                    prefix={<TableOutlined className={styles.statisticIcon} />}
-                  />
-                </Card>
-              </Col>
-              <Col span={6}>
-                <Card>
-                  <Statistic
-                    title="Total samples count"
-                    value={commonInfo?.stats.sample_count}
-                    prefix={<TableOutlined className={styles.statisticIcon} />}
-                  />
-                </Card>
-              </Col>
-              <Col span={6}>
-                <Card className={styles.reportCart}>
-                  {commonInfo?.reports?.length ? (
-                    commonInfo?.reports.map((report, index) => {
-                      return (
-                        <div
-                          key={`${report.company_location_uuid}-${index}`}
-                          onClick={() => {
-                            downloadFile({
-                              link: report.report_url,
-                              name: report.report_filename,
-                              contentType: report.report_content_type,
-                            });
-                          }}
-                          className={styles.report}
-                          role="presentation"
-                        >
-                          {getFileIcon(report.report_content_type)}
-                          <span>{report?.report_type}</span>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <Statistic
-                      title="Reports"
-                      value="No reports"
-                      prefix={<FileOutlined className={styles.statisticIcon} />}
-                    />
-                  )}
-                </Card>
-              </Col>
-            </Row>
-            {timeline?.items[timelineDate].map(timelineItem => {
+
+            {timeline?.items[timelineDate].map((timelineItem, index) => {
               const pools = Object.values(timelineItem)[0].pools?.map(
                 (pool, index) => {
                   return {
@@ -270,29 +214,103 @@ const Timeline = () => {
                   };
                 },
               );
+              const commonInfo = Object.values(timelineItem)[0];
 
               return (
-                <Table
-                  className="mb-5"
-                  pagination={false}
-                  columns={columns}
-                  dataSource={pools}
-                  scroll={{ x: 1500, y: 1500 }}
-                  bordered
-                  expandable={{
-                    expandedRowRender: record => {
-                      return expandedRowRender(
-                        record.tube_ids.map((tubeId, index) => {
-                          return {
-                            key: tubeId,
-                            sample: index + 1,
-                            sample_barcode: tubeId,
-                          };
-                        }),
-                      );
-                    },
-                  }}
-                />
+                <>
+                  <Row className="mb-3" gutter={16}>
+                    <Col span={6}>
+                      <Card className={styles.statCart}>
+                        <Statistic
+                          className={styles.locationName}
+                          title="Location"
+                          value={commonInfo?.stats.location_name}
+                          prefix={
+                            <HomeOutlined className={styles.statisticIcon} />
+                          }
+                        />
+                      </Card>
+                    </Col>
+                    <Col span={6}>
+                      <Card className={styles.statCart}>
+                        <Statistic
+                          className={styles.locationName}
+                          title="Total pools count"
+                          value={commonInfo?.stats.pool_count}
+                          prefix={
+                            <TableOutlined className={styles.statisticIcon} />
+                          }
+                        />
+                      </Card>
+                    </Col>
+                    <Col span={6}>
+                      <Card className={styles.statCart}>
+                        <Statistic
+                          className={styles.locationName}
+                          title="Total samples count"
+                          value={commonInfo?.stats.sample_count}
+                          prefix={
+                            <TableOutlined className={styles.statisticIcon} />
+                          }
+                        />
+                      </Card>
+                    </Col>
+                    <Col span={6}>
+                      <Card className={styles.reportCart}>
+                        {commonInfo?.reports?.length ? (
+                          commonInfo?.reports.map((report, index) => {
+                            return (
+                              <div
+                                key={`${report.company_location_uuid}-${index}`}
+                                onClick={() => {
+                                  downloadFile({
+                                    link: report.report_url,
+                                    name: report.report_filename,
+                                    contentType: report.report_content_type,
+                                  });
+                                }}
+                                className={styles.report}
+                                role="presentation"
+                              >
+                                {getFileIcon(report.report_content_type)}
+                                <span>{report?.report_type}</span>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <Statistic
+                            title="Reports"
+                            value="No reports"
+                            prefix={
+                              <FileOutlined className={styles.statisticIcon} />
+                            }
+                          />
+                        )}
+                      </Card>
+                    </Col>
+                  </Row>
+                  <Table
+                    className="mb-5"
+                    pagination={false}
+                    columns={columns}
+                    dataSource={pools}
+                    scroll={{ x: 1500, y: 1500 }}
+                    bordered
+                    expandable={{
+                      expandedRowRender: record => {
+                        return expandedRowRender(
+                          record.tube_ids.map((tubeId, index) => {
+                            return {
+                              key: tubeId,
+                              sample: index + 1,
+                              sample_barcode: tubeId,
+                            };
+                          }),
+                        );
+                      },
+                    }}
+                  />
+                </>
               );
             })}
           </Fragment>
