@@ -67,7 +67,7 @@ const ContactResultModal = ({ form, existUsers }) => {
   const loadPage = useCallback(() => {
     setLoading(true);
     setPage(page + 1);
-    loadUsers({ page, search: searchName });
+    loadUsers({ page: page + 1, search: searchName });
   }, [searchName, page]);
 
   const sendQuery = useCallback(query => {
