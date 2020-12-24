@@ -116,7 +116,7 @@ const Campaigns = () => {
 
   const showInviteModal = useCallback(() => {
     dispatch({
-      type: null.SHOW_MODAL,
+      type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Invite customer',
