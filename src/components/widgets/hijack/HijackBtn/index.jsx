@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Tooltip } from 'antd';
@@ -44,6 +45,14 @@ const HijackBtn = ({ userId, userFirstName, userLastName, userRole, path }) => {
       />
     </Tooltip>
   );
+};
+
+HijackBtn.propTypes = {
+  userId: PropTypes.number.isRequired,
+  userFirstName: PropTypes.string.isRequired,
+  userLastName: PropTypes.string.isRequired,
+  userRole: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
 };
 
 export default HijackBtn;

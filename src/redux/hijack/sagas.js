@@ -27,7 +27,7 @@ export function* callFetchCredentials({ payload }) {
         path,
         accessToken: cookie.getItem('accessToken'),
         termsAccepted: cookie.getItem('termsAccepted'),
-        currentRole,
+        role: currentRole,
       },
     });
 
@@ -59,18 +59,12 @@ export function* callFetchCredentials({ payload }) {
       message: 'Something went wrong',
       description: errorData?.detail,
     });
+    return error;
   }
 }
 
 export function* callHijackLogout({ payload }) {
-  const {
-    userFirstName,
-    userLastName,
-    redirect,
-    accessToken,
-    termsAccepted,
-    role,
-  } = payload;
+  const { redirect, accessToken, termsAccepted, role } = payload;
 
   try {
     yield put({
@@ -83,7 +77,7 @@ export function* callHijackLogout({ payload }) {
 
     notification.success({
       message: 'Logged Out',
-      description: `You have successfully logged out as ${userFirstName} ${userLastName}!`,
+      description: `You have successfully logged out!`,
     });
 
     return yield call(redirect);

@@ -23,10 +23,7 @@ export default function runsReducer(state = initialState, action) {
         ...state,
         isLoading: false,
         isActive: true,
-        path: action.payload.path,
-        accessToken: action.payload.accessToken,
-        termsAccepted: action.payload.termsAccepted,
-        role: action.payload.currentRole,
+        ...action.payload,
       };
     }
     case actions.FETCH_CREDENTIALS_FAILURE: {

@@ -8,19 +8,19 @@ const HijackBar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const hijack = useSelector(state => state.hijack);
+  const { path, accessToken, termsAccepted, role } = useSelector(
+    state => state.hijack,
+  );
   const { first_name, last_name } = useSelector(state => state.user?.profile);
 
   const handleHijackLogout = useCallback(() => {
     dispatch({
       type: 'hijack/LOGOUT',
       payload: {
-        userFirstName: first_name,
-        userLastName: last_name,
-        redirect: () => history.replace(hijack.path),
-        accessToken: hijack.accessToken,
-        termsAccepted: hijack.termsAccepted,
-        role: hijack.role,
+        redirect: () => history.replace(path),
+        accessToken,
+        termsAccepted,
+        role,
       },
     });
   }, [dispatch]);
