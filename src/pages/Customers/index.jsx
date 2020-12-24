@@ -22,11 +22,11 @@ import userActions from 'redux/user/actions';
 import modalActions from 'redux/modal/actions';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
-import styles from './styles.module.scss';
 import debounce from 'lodash.debounce';
 import CustomerModal from 'components/widgets/Customer/CustomerModal';
 import HijackBtn from 'components/widgets/hijack/HijackBtn';
 import { useHistory } from 'react-router-dom';
+import styles from './styles.module.scss';
 
 const Campaigns = () => {
   const dispatch = useDispatch();
@@ -116,7 +116,7 @@ const Campaigns = () => {
 
   const showInviteModal = useCallback(() => {
     dispatch({
-      type: modalActions.SHOW_MODAL,
+      type: null.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Invite customer',
@@ -154,7 +154,9 @@ const Campaigns = () => {
       key: 'fullname',
       render: (_, record) => (
         <span>
-          {record.first_name} {record.last_name}
+          {record.first_name} 
+{' '}
+{record.last_name}
         </span>
       ),
     },

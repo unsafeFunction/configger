@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
+    "@sentry/react": "^5.29.2",
     "antd": "^4.1.4",
     "axios": "^0.19.2",
     "bootstrap-css-only": "^4.3.1",
