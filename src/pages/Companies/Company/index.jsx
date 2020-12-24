@@ -16,7 +16,6 @@ import {
   Space,
 } from 'antd';
 import {
-  EditOutlined,
   DeleteOutlined,
   ImportOutlined,
   MessageOutlined,
@@ -26,45 +25,17 @@ import {
 } from '@ant-design/icons';
 import { ContactResultModal } from 'components/widgets/companies';
 import modalActions from 'redux/modal/actions';
-import companyAction from 'redux/companies/actions';
-import { moment } from 'moment';
 import PoolTable from 'components/widgets/pools/PoolTable';
 import { default as poolsActions } from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import actions from 'redux/companies/actions';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { debounce } from 'lodash';
+import debounce from 'lodash.debounce';
 import HijackBtn from 'components/widgets/hijack/HijackBtn';
 import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
 
-const getStatus = status => {
-  switch (status) {
-    case 'COMPLETED':
-      return <Tag color="#32CD32">{status}</Tag>;
-    case 'SCHEDULED':
-      return <Tag color="#1B55e3">{status}</Tag>;
-    case 'DRAFT':
-      return <Tag color="#6c757d">{status}</Tag>;
-    case 'FAILED':
-      return <Tag color="#dc3545">{status}</Tag>;
-    case 'DELIVERED':
-      return <Tag color="#28a745">{status}</Tag>;
-    default:
-      return <Tag color="#fd7e14">{status}</Tag>;
-  }
-};
-
-const tabListNoTitle = [
-  {
-    key: 'averageStatistics',
-    tab: 'Average',
-  },
-];
-
 const CompanyProfile = () => {
-  const [activeTab, setActiveTab] = useState('averageStatistics');
   const [searchName, setSearchName] = useState('');
   const singleCompany = useSelector(state => state.companies.singleCompany);
   const pools = useSelector(state => state.pools);
@@ -76,7 +47,7 @@ const CompanyProfile = () => {
   const useFetching = () => {
     useEffect(() => {
       dispatch({
-        type: companyAction.GET_COMPANY_REQUEST,
+        type: actions.GET_COMPANY_REQUEST,
         payload: {
           id: idFromUrl,
         },
@@ -140,7 +111,7 @@ const CompanyProfile = () => {
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
-        title: 'Add User',
+        title: 'Add Results Contact',
         onOk: handleSubmit,
         message: () => (
           <ContactResultModal
@@ -152,10 +123,6 @@ const CompanyProfile = () => {
       },
     });
   }, [handleSubmit, dispatch]);
-
-  const onTabChange = useCallback(tabKey => {
-    setActiveTab(tabKey);
-  }, []);
 
   const removeUser = useCallback(
     userId => {
@@ -279,80 +246,6 @@ const CompanyProfile = () => {
     },
   ];
 
-  const columns = [
-    {
-      title: 'SID',
-      dataIndex: 'shortId',
-    },
-    {
-      title: 'From number',
-      dataIndex: 'fromNumber',
-      render: (value, recipient) => {
-        return recipient.campaign.fromNumber;
-      },
-    },
-    {
-      title: 'Name',
-      dataIndex: 'username',
-    },
-    {
-      title: 'To number',
-      dataIndex: 'toNumber',
-    },
-    {
-      title: 'Timezone',
-      dataIndex: 'timezone',
-      render: (value, recipient) => {
-        return recipient.customer.timezone;
-      },
-    },
-    {
-      title: 'SMS body',
-      dataIndex: 'smsBody',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'deliveryStatus',
-      render: status => {
-        return getStatus(status);
-      },
-    },
-    {
-      title: 'Conversations',
-      dataIndex: 'conversations',
-      render: () => {
-        return (
-          <Link to="/conversations">
-            <MessageOutlined />
-          </Link>
-        );
-      },
-    },
-    {
-      title: 'Deliver at',
-      dataIndex: 'deliveryTime',
-    },
-    {
-      title: 'Edited',
-      dataIndex: 'updatedAt',
-    },
-    {
-      title: 'Clicked At',
-      dataIndex: 'clickedAt',
-    },
-    {
-      title: 'Actions',
-      dataIndex: 'actions',
-      render: (value, recipient) => {
-        return (
-          <span className="d-flex">
-            <Button type="danger" ghost icon={<DeleteOutlined />} />
-          </span>
-        );
-      },
-    },
-  ];
-
   return (
     <>
       <Tabs defaultActiveKey={1}>
@@ -374,7 +267,7 @@ const CompanyProfile = () => {
             title={() => (
               <span className="d-flex">
                 <Button className="ml-auto mr-2" onClick={onModalToggle}>
-                  Add contact
+                  Add Results Contact
                 </Button>
               </span>
             )}
