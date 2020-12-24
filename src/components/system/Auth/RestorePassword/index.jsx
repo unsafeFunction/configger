@@ -49,7 +49,7 @@ const RestorePassword = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your new password!',
+                message: 'Please input new password!',
               },
             ]}
           >
@@ -63,7 +63,7 @@ const RestorePassword = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your new password again!',
+                message: 'Please input new password again!',
               },
               ({ getFieldValue }) => ({
                 validator(rule, value) {

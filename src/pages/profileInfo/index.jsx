@@ -46,7 +46,7 @@ const ProfileInfo = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your first name!',
+                message: 'Please input first name!',
               },
             ]}
           >
@@ -60,7 +60,7 @@ const ProfileInfo = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your last name!',
+                message: 'Please input last name!',
               },
             ]}
           >
