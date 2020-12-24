@@ -8,6 +8,7 @@ import companies from './companies/reducers';
 import runs from './runs/reducers';
 import timeline from './timeline/reducers';
 import pools from './pools/reducers';
+import hijack from './hijack/reducers';
 
 export default history =>
   combineReducers({
@@ -20,4 +21,5 @@ export default history =>
     runs,
     timeline,
     pools,
+    hijack,
   });
