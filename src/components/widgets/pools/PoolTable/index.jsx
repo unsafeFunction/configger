@@ -186,7 +186,8 @@ const PoolTable = ({ loadMore }) => {
             overflow: 'scroll',
           },
           okText: 'Update result',
-          message: () => `Sure to updated ${poolId} ${option.value}?`,
+          message: () =>
+            `Are you sure you would like to update pool ${poolId} result to ${option.value}?`,
           width: '40%',
         },
       });

@@ -66,7 +66,7 @@ const CustomerModal = ({ form, loadCompanies }) => {
         rules={[
           {
             required: true,
-            message: 'Please input your first name!',
+            message: 'Please input first name!',
           },
         ]}
       >
@@ -78,7 +78,7 @@ const CustomerModal = ({ form, loadCompanies }) => {
         rules={[
           {
             required: true,
-            message: 'Please input your last name!',
+            message: 'Please input last name!',
           },
         ]}
       >
@@ -90,7 +90,7 @@ const CustomerModal = ({ form, loadCompanies }) => {
         rules={[
           {
             required: true,
-            message: 'Please input your Email!',
+            message: 'Please input Email!',
           },
         ]}
       >
