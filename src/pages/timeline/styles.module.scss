@@ -11,6 +11,9 @@
     font-size: 16px;
     cursor: pointer;
     color: $primary;
+    @media (max-width: $xs-max-width) {
+      font-size: 18px;
+    }
   }
 }
 
@@ -29,11 +32,20 @@
       text-overflow: ellipsis;
       width: 100%;
       max-width: 190px;
-      text-overflow: ellipsis;
       white-space: nowrap;
       font-size: 18px;
       font-weight: 500;
       overflow: hidden;
+    }
+  }
+}
+
+.downloadBarcodesBtn {
+  @media (max-width: $xs-max-width) {
+    height: auto;
+
+    span {
+      white-space: normal;
     }
   }
 }
