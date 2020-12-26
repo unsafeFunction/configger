@@ -1,18 +1,18 @@
-import React from 'react'
-import { Form, Input, Button } from 'antd'
-import { Link } from 'react-router-dom'
-import style from '../style.module.scss'
+import React from 'react';
+import { Form, Input, Button } from 'antd';
+import { Link } from 'react-router-dom';
+import style from '../style.module.scss';
 
 @Form.create()
 class Lockscreen extends React.Component {
   onSubmit = event => {
-    event.preventDefault()
-    const { form } = this.props
-    form.validateFields(() => {})
-  }
+    event.preventDefault();
+    const { form } = this.props;
+    form.validateFields(() => {});
+  };
 
   render() {
-    const { form } = this.props
+    const { form } = this.props;
 
     return (
       <div className={style.auth}>
@@ -27,16 +27,25 @@ class Lockscreen extends React.Component {
             </div>
           </div>
         </div>
-        <div className={`${style.container} pl-5 pr-5 pt-5 pb-5 bg-white text-center`}>
+        <div
+          className={`${style.container} pl-5 pr-5 pt-5 pb-5 bg-white text-center`}
+        >
           <div className="text-dark font-size-30 mb-4">Account Locked</div>
           <div className="air__utils__avatar air__utils__avatar--size64 d-inline-block mb-2">
             <img src="resources/images/avatars/2.jpg" alt="Mary Stanform" />
           </div>
-          <div className="font-weight-bold font-size-18 text-dark mb-4">Mary Stanform</div>
-          <Form layout="vertical" hideRequiredMark onSubmit={this.onSubmit} className="mb-4">
+          <div className="font-weight-bold font-size-18 text-dark mb-4">
+            Mary Stanform
+          </div>
+          <Form
+            layout="vertical"
+            hideRequiredMark
+            onSubmit={this.onSubmit}
+            className="mb-4"
+          >
             <Form.Item>
               {form.getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your password' }],
+                rules: [{ required: true, message: 'Please input password' }],
               })(<Input size="large" placeholder="Password" />)}
             </Form.Item>
             <Button
@@ -51,7 +60,10 @@ class Lockscreen extends React.Component {
         </div>
         <div className="text-center font-size-18 pt-4 mb-auto">
           <span className="mr-2">Don&apos;t have an account?</span>
-          <Link to="/system/register" className="font-weight-bold text-blue text-underlined">
+          <Link
+            to="/system/register"
+            className="font-weight-bold text-blue text-underlined"
+          >
             <u>Sign Up</u>
           </Link>
         </div>
@@ -72,11 +84,13 @@ class Lockscreen extends React.Component {
               <a href="javascript: void(0);">Contacts</a>
             </li>
           </ul>
-          <div className="text-gray-4 text-center">© 2019 Mediatec. All rights reserved.</div>
+          <div className="text-gray-4 text-center">
+            © 2019 Mediatec. All rights reserved.
+          </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default Lockscreen
+export default Lockscreen;

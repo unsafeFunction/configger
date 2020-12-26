@@ -3,13 +3,15 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Typography, Layout } from 'antd';
 import classNames from 'classnames';
-import style from './style.module.scss';
 import actions from 'redux/user/actions';
+import HijackBar from 'components/widgets/hijack/HijackBar';
+import style from './style.module.scss';
 
 const TermsAndConditions = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [isAgreed, agree] = useState(false);
+  const hijack = useSelector(state => state.hijack);
 
   const onClick = useCallback(
     values => {
@@ -32,6 +34,8 @@ const TermsAndConditions = () => {
 
   return (
     <Layout>
+      {hijack.isActive && <HijackBar />}
+
       <Content className={style.plainText}>
         <Title className={style.header} level={3}>
           COVID-19 TESTING

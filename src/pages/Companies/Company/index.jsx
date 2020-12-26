@@ -13,6 +13,7 @@ import {
   Spin,
   Form,
   Input,
+  Space,
 } from 'antd';
 import {
   DeleteOutlined,
@@ -29,6 +30,7 @@ import { default as poolsActions } from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import actions from 'redux/companies/actions';
 import debounce from 'lodash.debounce';
+import HijackBtn from 'components/widgets/hijack/HijackBtn';
 import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
@@ -203,33 +205,42 @@ const CompanyProfile = () => {
       align: 'center',
       render: (value, user) => {
         return (
-          <Button
-            type="danger"
-            ghost
-            icon={<DeleteOutlined />}
-            onClick={() =>
-              dispatch({
-                type: modalActions.SHOW_MODAL,
-                modalType: 'WARNING_MODAL',
-                modalProps: {
-                  message: () => (
-                    <>
-                      <p className={styles.modalWarningMessage}>
-                        You try to delete <span>{user.first_name}</span>{' '}
-                        <span>{user.last_name}</span> from{' '}
-                        <span>{singleCompany?.name}</span>.
-                      </p>
-                      <p className={styles.modalWarningMessage}>
-                        Are you sure?
-                      </p>
-                    </>
-                  ),
-                  title: 'Confirm action',
-                  onOk: () => removeUser(user.id),
-                },
-              })
-            }
-          />
+          <Space size="middle">
+            <Button
+              type="danger"
+              ghost
+              icon={<DeleteOutlined />}
+              onClick={() =>
+                dispatch({
+                  type: modalActions.SHOW_MODAL,
+                  modalType: 'WARNING_MODAL',
+                  modalProps: {
+                    message: () => (
+                      <>
+                        <p className={styles.modalWarningMessage}>
+                          You try to delete <span>{user.first_name}</span>{' '}
+                          <span>{user.last_name}</span> from{' '}
+                          <span>{singleCompany?.name}</span>.
+                        </p>
+                        <p className={styles.modalWarningMessage}>
+                          Are you sure?
+                        </p>
+                      </>
+                    ),
+                    title: 'Confirm action',
+                    onOk: () => removeUser(user.id),
+                  },
+                })
+              }
+            />
+            <HijackBtn
+              userId={user.id}
+              userFirstName={user.first_name}
+              userLastName={user.last_name}
+              userRole={user.role}
+              path={history.location.pathname}
+            />
+          </Space>
         );
       },
     },

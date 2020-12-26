@@ -46,7 +46,7 @@ const Password = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your current password!',
+                message: 'Please input current password!',
               },
             ]}
           >
@@ -59,7 +59,7 @@ const Password = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your new password!',
+                message: 'Please input new password!',
               },
             ]}
           >
@@ -73,7 +73,7 @@ const Password = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your new password again!',
+                message: 'Please input new password again!',
               },
               ({ getFieldValue }) => ({
                 validator(rule, value) {

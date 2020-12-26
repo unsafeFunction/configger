@@ -39,7 +39,7 @@ const ForgotPassword = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your Email!',
+                message: 'Please input Email!',
               },
             ]}
           >

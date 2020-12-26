@@ -1,6 +1,16 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Button, Tag, Spin, Space, Switch, Input, Form } from 'antd';
+import {
+  Table,
+  Button,
+  Tag,
+  Spin,
+  Space,
+  Switch,
+  Input,
+  Form,
+  Tooltip,
+} from 'antd';
 import {
   LoadingOutlined,
   CheckCircleOutlined,
@@ -12,12 +22,15 @@ import userActions from 'redux/user/actions';
 import modalActions from 'redux/modal/actions';
 import InfiniteScroll from 'react-infinite-scroller';
 import classNames from 'classnames';
-import styles from './styles.module.scss';
 import debounce from 'lodash.debounce';
 import CustomerModal from 'components/widgets/Customer/CustomerModal';
+import HijackBtn from 'components/widgets/hijack/HijackBtn';
+import { useHistory } from 'react-router-dom';
+import styles from './styles.module.scss';
 
 const Campaigns = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -194,28 +207,33 @@ const Campaigns = () => {
       fixed: 'right',
       width: '130px',
       render: (_, record) => (
-        <Space
-          size="middle"
-          className={classNames(styles.columnElements, styles.actionColumn)}
-        >
-          <Button
-            type="primary"
-            size="small"
-            className={classNames(styles.action, styles.activeAction)}
-            icon={<SendOutlined />}
-            disabled={record.id === reinvitingUser}
-            onClick={() => reinviteUser(record.id)}
-          >
-            Reinvite
-          </Button>
+        <Space size="middle">
           <Switch
             checkedChildren="Active"
             unCheckedChildren="Inactive"
             checked={record.is_active}
-            className={classNames(styles.switch, styles.action, {
-              [styles.activeAction]: record.is_active,
-            })}
             onClick={() => toggleUser(record.id, record.is_active)}
+          />
+
+          <Tooltip
+            title={`Reinvite ${record.first_name} ${record.last_name}`}
+            placement="bottomRight"
+          >
+            <Button
+              type="primary"
+              ghost
+              icon={<SendOutlined />}
+              disabled={record.id === reinvitingUser}
+              onClick={() => reinviteUser(record.id)}
+            />
+          </Tooltip>
+
+          <HijackBtn
+            userId={record.id}
+            userFirstName={record.first_name}
+            userLastName={record.last_name}
+            userRole={record.role}
+            path={history.location.pathname}
           />
         </Space>
       ),

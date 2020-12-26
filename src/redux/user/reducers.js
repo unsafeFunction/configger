@@ -157,6 +157,15 @@ export default function userReducer(state = initialState, action) {
       return { ...state, isInviting: false };
     case actions.INVITE_CUSTOMER_FAILURE:
       return { ...state, isInviting: false, error: action.payload.data };
+    case actions.REPLACE_ROLE:
+      return {
+        ...state,
+        role: action.payload.role,
+        profile: {
+          ...state.profile,
+          role: action.payload.role,
+        },
+      };
     default:
       return state;
   }
