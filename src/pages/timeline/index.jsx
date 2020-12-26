@@ -27,6 +27,7 @@ import {
   FileOutlined,
   UpOutlined,
   DownOutlined,
+  DownloadOutlined,
 } from '@ant-design/icons';
 
 import actions from 'redux/timeline/actions';
@@ -44,6 +45,7 @@ const Timeline = () => {
   });
 
   const windowSize = useWindowSize();
+  const isMobile = windowSize.width < 768;
 
   const downloadFile = useCallback(file => {
     dispatch({
@@ -61,6 +63,14 @@ const Timeline = () => {
         return <FileExcelFilled className="mr-2" />;
       }
     }
+  }, []);
+
+  const handleDownloadBarcodes = useCallback(value => {
+    downloadFile({
+      link: value.barcodes_report.url,
+      name: value.barcodes_report.file_name,
+      contentType: 'application/csv',
+    });
   }, []);
 
   const onDatesChange = useCallback(
@@ -121,19 +131,21 @@ const Timeline = () => {
       title: 'Action',
       key: 'actions',
       fixed: 'right',
-      width: windowSize.width < 768 ? 55 : 85,
+      align: isMobile && 'center',
+      width: isMobile ? 58 : 85,
       render: value => {
-        return (
+        return isMobile ? (
+          <DownloadOutlined
+            width="30px"
+            height="30px"
+            className={styles.downloadBarcodesIcon}
+            onClick={() => handleDownloadBarcodes(value)}
+          />
+        ) : (
           <Button
             className={styles.downloadBarcodesBtn}
             type="primary"
-            onClick={() => {
-              downloadFile({
-                link: value.barcodes_report.url,
-                name: value.barcodes_report.file_name,
-                contentType: 'application/csv',
-              });
-            }}
+            onClick={() => handleDownloadBarcodes(value)}
           >
             Download barcodes
           </Button>
