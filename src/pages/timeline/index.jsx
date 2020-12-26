@@ -25,11 +25,15 @@ import {
   FileExcelFilled,
   FilePdfFilled,
   FileOutlined,
+  UpOutlined,
+  DownOutlined,
+  DownloadOutlined,
 } from '@ant-design/icons';
 
 import actions from 'redux/timeline/actions';
 
 import styles from './styles.module.scss';
+import useWindowSize from '../../hooks/useWindowSize';
 
 const Timeline = () => {
   const dispatch = useDispatch();
@@ -39,6 +43,9 @@ const Timeline = () => {
   const { from, to } = qs.parse(history.location.search, {
     ignoreQueryPrefix: true,
   });
+
+  const windowSize = useWindowSize();
+  const isMobile = windowSize.width < 768;
 
   const downloadFile = useCallback(file => {
     dispatch({
@@ -56,6 +63,14 @@ const Timeline = () => {
         return <FileExcelFilled className="mr-2" />;
       }
     }
+  }, []);
+
+  const handleDownloadBarcodes = useCallback(value => {
+    downloadFile({
+      link: value.barcodes_report.url,
+      name: value.barcodes_report.file_name,
+      contentType: 'application/csv',
+    });
   }, []);
 
   const onDatesChange = useCallback(
@@ -82,10 +97,9 @@ const Timeline = () => {
   const columns = [
     {
       title: 'Pool',
-      width: 50,
+      width: 100,
       dataIndex: 'name',
       key: 'name',
-      fixed: 'left',
       sorter: {
         compare: (a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0),
       },
@@ -117,18 +131,21 @@ const Timeline = () => {
       title: 'Action',
       key: 'actions',
       fixed: 'right',
-      width: 100,
+      align: isMobile && 'center',
+      width: isMobile ? 58 : 85,
       render: value => {
-        return (
+        return isMobile ? (
+          <DownloadOutlined
+            width="30px"
+            height="30px"
+            className={styles.downloadBarcodesIcon}
+            onClick={() => handleDownloadBarcodes(value)}
+          />
+        ) : (
           <Button
+            className={styles.downloadBarcodesBtn}
             type="primary"
-            onClick={() => {
-              downloadFile({
-                link: value.barcodes_report.url,
-                name: value.barcodes_report.file_name,
-                contentType: 'application/csv',
-              });
-            }}
+            onClick={() => handleDownloadBarcodes(value)}
           >
             Download barcodes
           </Button>
@@ -148,7 +165,7 @@ const Timeline = () => {
     });
   }, [dispatch, history, dates]);
 
-  const expandedRowRender = barcodes => {
+  const expandedRow = barcodes => {
     const columns = [
       { title: 'Sample', dataIndex: 'sample', key: 'sample' },
       {
@@ -219,7 +236,7 @@ const Timeline = () => {
               return (
                 <>
                   <Row className="mb-3" gutter={16}>
-                    <Col span={6}>
+                    <Col span={6} xs={24} md={12} className="mb-3">
                       <Card className={styles.statCart}>
                         <Statistic
                           className={styles.locationName}
@@ -231,7 +248,7 @@ const Timeline = () => {
                         />
                       </Card>
                     </Col>
-                    <Col span={6}>
+                    <Col span={6} xs={24} md={12} className="mb-3">
                       <Card className={styles.statCart}>
                         <Statistic
                           className={styles.locationName}
@@ -243,7 +260,7 @@ const Timeline = () => {
                         />
                       </Card>
                     </Col>
-                    <Col span={6}>
+                    <Col span={6} xs={24} md={12} className="mb-3">
                       <Card className={styles.statCart}>
                         <Statistic
                           className={styles.locationName}
@@ -255,7 +272,7 @@ const Timeline = () => {
                         />
                       </Card>
                     </Col>
-                    <Col span={6}>
+                    <Col span={6} xs={24} md={12} className="mb-3">
                       <Card className={styles.reportCart}>
                         {commonInfo?.reports?.length ? (
                           commonInfo?.reports.map((report, index) => {
@@ -294,20 +311,18 @@ const Timeline = () => {
                     pagination={false}
                     columns={columns}
                     dataSource={pools}
-                    scroll={{ x: 1500, y: 1500 }}
+                    scroll={{ x: 'max-content', y: 1200 }}
                     bordered
-                    expandable={{
-                      expandedRowRender: record => {
-                        return expandedRowRender(
-                          record.tube_ids.map((tubeId, index) => {
-                            return {
-                              key: tubeId,
-                              sample: index + 1,
-                              sample_barcode: tubeId,
-                            };
-                          }),
-                        );
-                      },
+                    expandedRowRender={record => {
+                      return expandedRow(
+                        record.tube_ids.map((tubeId, index) => {
+                          return {
+                            key: tubeId,
+                            sample: index + 1,
+                            sample_barcode: tubeId,
+                          };
+                        }),
+                      );
                     }}
                   />
                 </>

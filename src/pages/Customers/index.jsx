@@ -154,9 +154,7 @@ const Campaigns = () => {
       key: 'fullname',
       render: (_, record) => (
         <span>
-          {record.first_name} 
-{' '}
-{record.last_name}
+          {record.first_name} {record.last_name}
         </span>
       ),
     },
