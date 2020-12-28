@@ -82,6 +82,7 @@ const Runs = () => {
             onPublishChange(record.unique_id, !(record.pools_unpublished === 0))
           }
           placement="topRight"
+          disabled={user.role === 'staff'}
         >
           <Switch
             checkedChildren="Published"
