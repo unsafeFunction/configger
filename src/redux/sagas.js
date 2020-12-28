@@ -7,6 +7,7 @@ import runs from './runs/sagas';
 import timeline from './timeline/sagas';
 import pools from './pools/sagas';
 import hijack from './hijack/sagas';
+import activityStream from './activityStream/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -18,5 +19,6 @@ export default function* rootSaga() {
     companies(),
     pools(),
     hijack(),
+    activityStream(),
   ]);
 }

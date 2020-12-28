@@ -41,11 +41,25 @@ export async function getMenuData() {
 export async function getRolePermissions() {
   return {
     admin: {
-      permitted: ['/profile', '/customers', '/companies', '/runs', '/pools'],
+      permitted: [
+        '/profile',
+        '/customers',
+        '/companies',
+        '/runs',
+        '/pools',
+        '/activity-stream',
+      ],
       default: '/runs',
     },
     staff: {
-      permitted: ['/profile', '/customers', '/companies', '/runs', '/pools'],
+      permitted: [
+        '/profile',
+        '/customers',
+        '/companies',
+        '/runs',
+        '/pools',
+        '/activity-stream',
+      ],
       default: '/runs',
     },
     'company-admin': {

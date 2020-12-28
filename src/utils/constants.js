@@ -8,6 +8,9 @@ export const constants = {
   pools: {
     itemsLoadingCount: 25,
   },
+  activityStream: {
+    itemsLoadingCount: 25,
+  },
   USstates: [
     {
       label: 'Alabama',

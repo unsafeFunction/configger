@@ -1,0 +1,10 @@
+const actions = {
+  FETCH_ACTIVITY_BY_USER_ID_REQUEST:
+    'activityStream/FETCH_ACTIVITY_BY_USER_ID_REQUEST',
+  FETCH_ACTIVITY_BY_USER_ID_SUCCESS:
+    'activityStream/FETCH_ACTIVITY_BY_USER_ID_SUCCESS',
+  FETCH_ACTIVITY_BY_USER_ID_FAILURE:
+    'activityStream/FETCH_ACTIVITY_BY_USER_ID_FAILURE',
+};
+
+export default actions;

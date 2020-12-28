@@ -80,6 +80,10 @@ const routes = [
     path: '/companies/:id',
     Component: loadable(() => import('pages/Companies/Company')),
   },
+  {
+    path: '/activity-stream/:userId',
+    Component: loadable(() => import('pages/activityStream')),
+  },
 ];
 
 const mapStateToProps = ({ settings }) => ({ settings });

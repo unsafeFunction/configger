@@ -25,7 +25,7 @@ import classNames from 'classnames';
 import debounce from 'lodash.debounce';
 import CustomerModal from 'components/widgets/Customer/CustomerModal';
 import HijackBtn from 'components/widgets/hijack/HijackBtn';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import styles from './styles.module.scss';
 
 const Campaigns = () => {
@@ -153,9 +153,9 @@ const Campaigns = () => {
       title: 'Full name',
       key: 'fullname',
       render: (_, record) => (
-        <span>
+        <Link to={`/activity-stream/${record.id}`} className="text-blue">
           {record.first_name} {record.last_name}
-        </span>
+        </Link>
       ),
     },
     {
