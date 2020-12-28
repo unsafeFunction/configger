@@ -154,12 +154,13 @@ const CompanyProfile = () => {
 
   const contactsColumns = [
     {
-      title: 'Firstname',
-      dataIndex: 'first_name',
-    },
-    {
-      title: 'Lastname',
-      dataIndex: 'last_name',
+      title: 'Full name',
+      dataIndex: 'fullname',
+      render: (_, record) => (
+        <Link to={`/activity-stream/${record.id}`} className="text-blue">
+          {record.first_name} {record.last_name}
+        </Link>
+      ),
     },
     {
       title: 'Email',
