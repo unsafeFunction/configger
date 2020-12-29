@@ -1,7 +1,18 @@
 @import 'assets/styles/mixins.scss';
 
 .formItem {
-  height: 32px;
+  label {
+    font-size: 16px;
+  }
+
+  input {
+    height: 32px;
+
+    @media (max-width: $sm-max-width) {
+      height: 40px;
+      font-size: 16px;
+    }
+  }
 }
 
 .dropDown {

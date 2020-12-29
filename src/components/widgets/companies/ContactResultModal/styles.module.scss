@@ -28,14 +28,14 @@
 .contactResultModal {
   @media (max-width: $sm-max-width) {
     p {
-      font-size: 18px;
+      font-size: 16px;
     }
   }
 }
 
 .formItem {
   label {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   input {
@@ -43,7 +43,7 @@
 
     @media (max-width: $sm-max-width) {
       height: 40px;
-      font-size: 18px;
+      font-size: 16px;
     }
   }
 }

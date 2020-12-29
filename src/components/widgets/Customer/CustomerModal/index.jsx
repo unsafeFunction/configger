@@ -25,6 +25,7 @@ const CustomerModal = ({ form, loadCompanies }) => {
       <Item
         label="Companies"
         name="companies"
+        className={style.formItem}
         rules={[
           {
             required: true,
@@ -63,6 +64,7 @@ const CustomerModal = ({ form, loadCompanies }) => {
       <Item
         label="First name"
         name="first_name"
+        className={style.formItem}
         rules={[
           {
             required: true,
@@ -70,11 +72,12 @@ const CustomerModal = ({ form, loadCompanies }) => {
           },
         ]}
       >
-        <Input placeholder="First name" className={style.formItem} />
+        <Input placeholder="First name" />
       </Item>
       <Item
         label="Last name"
         name="last_name"
+        className={style.formItem}
         rules={[
           {
             required: true,
@@ -82,11 +85,12 @@ const CustomerModal = ({ form, loadCompanies }) => {
           },
         ]}
       >
-        <Input placeholder="Last name" className={style.formItem} />
+        <Input placeholder="Last name" />
       </Item>
       <Item
         label="Email"
         name="email"
+        className={style.formItem}
         rules={[
           {
             required: true,
@@ -94,7 +98,7 @@ const CustomerModal = ({ form, loadCompanies }) => {
           },
         ]}
       >
-        <Input placeholder="Email" className={style.formItem} />
+        <Input placeholder="Email" />
       </Item>
     </Form>
   );
