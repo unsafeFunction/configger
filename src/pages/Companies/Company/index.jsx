@@ -113,13 +113,16 @@ const CompanyProfile = () => {
       modalProps: {
         title: 'Add Results Contact',
         onOk: handleSubmit,
+        cancelButtonProps: { className: styles.modalButton },
+        okButtonProps: {
+          className: styles.modalButton,
+        },
         message: () => (
           <ContactResultModal
             form={form}
             existUsers={singleCompany?.results_contacts}
           />
         ),
-        width: '40%',
       },
     });
   }, [handleSubmit, dispatch]);

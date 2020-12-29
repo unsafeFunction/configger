@@ -1,3 +1,5 @@
+@import 'assets/styles/mixins.scss';
+
 .dropDown {
   max-height: 300px;
   overflow: auto;
@@ -21,4 +23,27 @@
 .loadingNode {
   display: flex;
   justify-content: center;
+}
+
+.contactResultModal {
+  @media (max-width: $sm-max-width) {
+    p {
+      font-size: 18px;
+    }
+  }
+}
+
+.formItem {
+  label {
+    font-size: 18px;
+  }
+
+  input {
+    height: 32px;
+
+    @media (max-width: $sm-max-width) {
+      height: 40px;
+      font-size: 18px;
+    }
+  }
 }
