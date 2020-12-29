@@ -113,3 +113,7 @@ export const inviteCustomer = async values => {
 
   return invite;
 };
+
+export const fetchUserById = async id => {
+  return await axiosClient.get(`/users/${id}/`);
+};

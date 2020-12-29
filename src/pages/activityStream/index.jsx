@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/activityStream/actions';
-import { DatePicker, Spin, Timeline, Empty } from 'antd';
+import { DatePicker, Spin, Timeline, Empty, Descriptions, Divider } from 'antd';
 import { UserOutlined, UserAddOutlined, EyeOutlined } from '@ant-design/icons';
 import moment from 'moment-timezone';
 import classNames from 'classnames';
@@ -24,12 +24,20 @@ const ActivityStream = () => {
   const userId = history.location.pathname.split('/')[2];
 
   const activityStream = useSelector(state => state.activityStream);
+  const user = useSelector(state => state.activityStream?.user);
 
   const { from, to } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
 
   const useFetching = () => {
+    useEffect(() => {
+      dispatch({
+        type: actions.FETCH_USER_BY_ID_REQUEST,
+        payload: { userId },
+      });
+    }, [dispatch]);
+
     useEffect(() => {
       const params =
         from && to
@@ -99,14 +107,25 @@ const ActivityStream = () => {
           className={styles.rangePicker}
         />
       </div>
+
+      <Descriptions title="User Info">
+        <Descriptions.Item label="Full Name">
+          {user?.first_name} {user?.last_name}
+        </Descriptions.Item>
+        <Descriptions.Item label="Email">{user?.email}</Descriptions.Item>
+        <Descriptions.Item label="Role">{user?.role}</Descriptions.Item>
+        <Descriptions.Item label="Last Login">
+          {moment(user?.last_login).isSame(new Date(), 'month')
+            ? moment(user?.last_login).fromNow()
+            : user?.last_login}
+        </Descriptions.Item>
+      </Descriptions>
+
+      <Divider />
+
       <InfiniteScroll
         next={loadMore}
         hasMore={activityStream?.items?.length < activityStream?.total}
-        loader={
-          <div className={styles.spin}>
-            <Spin />
-          </div>
-        }
         dataLength={activityStream?.items?.length}
       >
         {activityStream?.items?.length ? (
@@ -118,12 +137,16 @@ const ActivityStream = () => {
             {activityStream.items.map(item => (
               <Timeline.Item
                 key={item.id}
-                label={item.timestamp_localtime}
+                label={
+                  moment(item.timestamp_localtime).isSame(new Date(), 'month')
+                    ? moment(item.timestamp_localtime).fromNow()
+                    : item.timestamp_localtime
+                }
                 dot={
                   item.verb === 'invited' ? (
                     <UserAddOutlined style={{ fontSize: '16px' }} />
                   ) : null || item.verb === 'viewed timeline' ? (
-                    <EyeOutlined style={{ fontSize: '16px' }} />
+                    <EyeOutlined className={styles.timeline} />
                   ) : null
                 }
               >
