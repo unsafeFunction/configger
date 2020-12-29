@@ -632,7 +632,7 @@ const TermsAndConditions = () => {
           I agree to the Terms and Conditions
         </Checkbox>
       </Content>
-      <Footer className={classNames(style.footer, 'fixed-bottom')}>
+      <Footer className={style.footer}>
         <Button
           type="primary"
           size="large"
