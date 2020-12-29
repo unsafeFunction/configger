@@ -28,7 +28,14 @@ function useWindowSize() {
     return () => window.removeEventListener('resize', handleResize);
   }, []); // Empty array ensures that effect is only run on mount
 
-  return windowSize;
+  const isMobile = windowSize.width < 768;
+  const isTablet = windowSize.width >= 768 && windowSize.width <= 1024;
+
+  return {
+    isMobile,
+    isTablet,
+    windowSize,
+  };
 }
 
 export default useWindowSize;

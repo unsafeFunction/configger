@@ -16,9 +16,12 @@ import actions from 'redux/companies/actions';
 import modalActions from 'redux/modal/actions';
 
 import styles from './styles.module.scss';
-import { constants } from '../../utils/constants';
+import { constants } from 'utils/constants';
+import useWindowSize from 'hooks/useWindowSize';
 
 const Companies = () => {
+  const { isMobile, isTablet } = useWindowSize();
+
   const dispatchCompaniesData = useDispatch();
   const [searchName, setSearchName] = useState('');
   const [form] = Form.useForm();
@@ -158,7 +161,6 @@ const Companies = () => {
         },
         okText: 'Create',
         message: () => <CompanyModal form={form} />,
-        width: '40%',
       },
     });
   }, [dispatchCompaniesData]);
@@ -200,25 +202,55 @@ const Companies = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Companies</h4>
-        <div className={styles.tableActionsWrapper}>
-          <Input
-            size="middle"
-            prefix={<SearchOutlined />}
-            className={styles.search}
-            placeholder="Search..."
-            value={searchName}
-            onChange={onChangeSearch}
-          />
-          <Button
-            onClick={onModalToggle}
-            size="large"
-            type="primary"
-            className="ml-3"
-          >
-            Create Company
-          </Button>
-        </div>
+        {isMobile ? (
+          <div className={styles.mobileTableHeaderWrapper}>
+            <div className={styles.mobileTableHeaderRow}>
+              <h4>Companies</h4>
+              <Button
+                onClick={onModalToggle}
+                size="large"
+                type="primary"
+                className={!isMobile && 'ml-3'}
+              >
+                Create Company
+              </Button>
+            </div>
+            <Input
+              size="middle"
+              prefix={<SearchOutlined />}
+              className={styles.search}
+              placeholder="Search..."
+              value={searchName}
+              onChange={onChangeSearch}
+            />
+          </div>
+        ) : (
+          <>
+            <h4>Companies</h4>
+            <div
+              className={classNames(styles.tableActionsWrapper, {
+                [styles.tabletActionsWrapper]: isTablet,
+              })}
+            >
+              <Input
+                size="middle"
+                prefix={<SearchOutlined />}
+                className={styles.search}
+                placeholder="Search..."
+                value={searchName}
+                onChange={onChangeSearch}
+              />
+              <Button
+                onClick={onModalToggle}
+                size="large"
+                type="primary"
+                className={!isMobile && 'ml-3'}
+              >
+                Create Company
+              </Button>
+            </div>
+          </>
+        )}
       </div>
       <InfiniteScroll
         next={loadMore}

@@ -19,17 +19,44 @@
   padding-top: 10px;
 }
 
-.search {
-  width: 65%;
-  margin-bottom: 1em;
-}
-
 .tableActionsWrapper {
   display: flex;
   justify-content: space-between;
   width: 40%;
+
+  .search {
+    width: 65%;
+    margin-bottom: 1em;
+  }
+}
+
+.mobileTableHeaderWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .mobileTableHeaderRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+    align-items: center;
+
+    .search {
+      width: 100%;
+    }
+  }
+}
+
+.tabletActionsWrapper {
+  width: 60%;
+  .search {
+    width: 68%;
+  }
 }
 
 .modalButton {
   width: 100px;
+}
+
+.createCompanyModal {
 }

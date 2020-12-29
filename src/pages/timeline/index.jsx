@@ -44,8 +44,7 @@ const Timeline = () => {
     ignoreQueryPrefix: true,
   });
 
-  const windowSize = useWindowSize();
-  const isMobile = windowSize.width < 768;
+  const { isMobile } = useWindowSize();
 
   const downloadFile = useCallback(file => {
     dispatch({
