@@ -2,6 +2,7 @@ import actions from './actions';
 import { constants } from 'utils/constants';
 
 const initialState = {
+  user: {},
   items: [],
   isLoading: false,
   total: 0,
@@ -35,6 +36,19 @@ export default function activityStreamReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+        ...action.payload,
+      };
+    }
+
+    case actions.FETCH_USER_BY_ID_REQUEST: {
+      return {
+        ...state,
+        user: {},
+      };
+    }
+    case actions.FETCH_USER_BY_ID_SUCCESS: {
+      return {
+        ...state,
         ...action.payload,
       };
     }
