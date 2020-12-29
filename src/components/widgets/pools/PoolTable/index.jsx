@@ -181,6 +181,10 @@ const PoolTable = ({ loadMore }) => {
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
           title: 'Confirm action',
+          cancelButtonProps: { className: styles.modalButton },
+          okButtonProps: {
+            className: styles.modalButton,
+          },
           onOk: () => resultUpdate({ poolUniqueId, value: option.key }),
           bodyStyle: {
             maxHeight: '70vh',
@@ -189,7 +193,6 @@ const PoolTable = ({ loadMore }) => {
           okText: 'Update result',
           message: () =>
             `Are you sure you would like to update pool ${poolId} result to ${option.value}?`,
-          width: '40%',
         },
       });
     },
