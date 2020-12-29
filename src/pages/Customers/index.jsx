@@ -27,10 +27,12 @@ import CustomerModal from 'components/widgets/Customer/CustomerModal';
 import HijackBtn from 'components/widgets/hijack/HijackBtn';
 import { useHistory, Link } from 'react-router-dom';
 import styles from './styles.module.scss';
+import useWindowSize from 'hooks/useWindowSize';
 
 const Campaigns = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { isMobile, isTablet } = useWindowSize();
 
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -120,7 +122,10 @@ const Campaigns = () => {
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Invite customer',
-        width: '30%',
+        bodyStyle: {
+          maxHeight: '70vh',
+          overflow: 'scroll',
+        },
         cancelButtonProps: { className: styles.modalButton },
         okButtonProps: {
           className: styles.modalButton,
@@ -243,27 +248,57 @@ const Campaigns = () => {
   return (
     <div>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Customers</h4>
-        <div className={styles.tableActionsWrapper}>
-          <Input
-            size="middle"
-            prefix={<SearchOutlined />}
-            className={styles.search}
-            placeholder="Search..."
-            value={searchName}
-            onChange={event => setSearchName(event.target.value)}
-          />
-
-          <Button
-            type="primary"
-            size="large"
-            htmlType="submit"
-            onClick={showInviteModal}
-            className="ml-3"
-          >
-            Invite Customer
-          </Button>
-        </div>
+        {isMobile ? (
+          <div className={styles.mobileTableHeaderWrapper}>
+            <div className={styles.mobileTableHeaderRow}>
+              <h4>Customers</h4>
+              <Button
+                type="primary"
+                size="large"
+                htmlType="submit"
+                onClick={showInviteModal}
+                className="ml-3"
+              >
+                Invite Customer
+              </Button>
+            </div>
+            <Input
+              size="middle"
+              prefix={<SearchOutlined />}
+              className={styles.search}
+              placeholder="Search..."
+              value={searchName}
+              onChange={event => setSearchName(event.target.value)}
+            />
+          </div>
+        ) : (
+          <>
+            <h4>Customers</h4>
+            <div
+              className={classNames(styles.tableActionsWrapper, {
+                [styles.tabletActionsWrapper]: isTablet,
+              })}
+            >
+              <Input
+                size="middle"
+                prefix={<SearchOutlined />}
+                className={styles.search}
+                placeholder="Search..."
+                value={searchName}
+                onChange={event => setSearchName(event.target.value)}
+              />
+              <Button
+                type="primary"
+                size="large"
+                htmlType="submit"
+                onClick={showInviteModal}
+                className="ml-3"
+              >
+                Invite Customer
+              </Button>
+            </div>
+          </>
+        )}
       </div>
 
       <div ref={tableRef} className={styles.table}>

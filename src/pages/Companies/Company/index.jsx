@@ -32,6 +32,7 @@ import actions from 'redux/companies/actions';
 import debounce from 'lodash.debounce';
 import HijackBtn from 'components/widgets/hijack/HijackBtn';
 import styles from './styles.module.scss';
+import useWindowSize from 'hooks/useWindowSize';
 
 const { TabPane } = Tabs;
 
@@ -43,6 +44,7 @@ const CompanyProfile = () => {
   const history = useHistory();
   const idFromUrl = history.location.pathname.split('/')[2];
   const [form] = Form.useForm();
+  const { isMobile } = useWindowSize();
 
   const useFetching = () => {
     useEffect(() => {
@@ -113,13 +115,16 @@ const CompanyProfile = () => {
       modalProps: {
         title: 'Add Results Contact',
         onOk: handleSubmit,
+        cancelButtonProps: { className: styles.modalButton },
+        okButtonProps: {
+          className: styles.modalButton,
+        },
         message: () => (
           <ContactResultModal
             form={form}
             existUsers={singleCompany?.results_contacts}
           />
         ),
-        width: '40%',
       },
     });
   }, [handleSubmit, dispatch]);
@@ -202,8 +207,10 @@ const CompanyProfile = () => {
     },
     {
       title: 'Actions',
+      fixed: 'right',
       dataIndex: 'actions',
       align: 'center',
+      width: isMobile ? 100 : 150,
       render: (value, user) => {
         return (
           <Space size="middle">

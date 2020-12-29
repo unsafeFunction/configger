@@ -15,4 +15,8 @@
   display: flex;
   justify-content: space-between;
   width: 30%;
+
+  @media (max-width: $sm-max-width) {
+    width: 60%;
+  }
 }

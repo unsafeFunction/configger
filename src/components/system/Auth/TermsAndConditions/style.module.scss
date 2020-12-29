@@ -30,6 +30,9 @@
   background-color: white !important;
   border-top: 1px solid rgb(236, 236, 236);
   text-align: center;
+  position: sticky;
+  bottom: 0;
+  left: 0;
 }
 
 .checkbox {
@@ -42,4 +45,8 @@
   margin-left: 20%;
   margin-right: 20%;
   margin-bottom: 5%;
+
+  @media (max-width: $sm-max-width) {
+    margin: 0 10% 5%;
+  }
 }

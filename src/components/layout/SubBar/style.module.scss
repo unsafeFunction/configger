@@ -37,6 +37,11 @@
   align-items: center;
   flex-direction: row;
   margin-right: rem(30);
+
+  @media (max-width: $sm-max-width) {
+    flex-wrap: wrap;
+  }
+
   &::after {
     content: '-';
     position: absolute;

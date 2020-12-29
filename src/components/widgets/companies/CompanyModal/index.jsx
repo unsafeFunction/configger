@@ -17,18 +17,18 @@ import {
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
-import style from '../../Customer/CustomerModal/style.module.scss';
 import { constants } from '../../../../utils/constants';
 
 const CompanyModal = ({ form }) => {
   const { Item, List } = Form;
   return (
-    <Form form={form} layout="vertical">
+    <Form form={form} layout="vertical" className={styles.companyModalWrapper}>
       <div>
         <p>Company details</p>
         <Item
           label="Name"
           name="name"
+          className={styles.formItem}
           rules={[
             {
               required: true,
@@ -36,10 +36,11 @@ const CompanyModal = ({ form }) => {
             },
           ]}
         >
-          <Input placeholder="Company name" className={style.formItem} />
+          <Input placeholder="Company name" />
         </Item>
         <Item
           label="Short name"
+          className={styles.formItem}
           name="name_short"
           rules={[
             {
@@ -48,11 +49,12 @@ const CompanyModal = ({ form }) => {
             },
           ]}
         >
-          <Input placeholder="Short name" className={style.formItem} />
+          <Input placeholder="Short name" />
         </Item>
         <Item
           label="Code"
           name="code"
+          className={styles.formItem}
           rules={[
             {
               required: true,
@@ -60,11 +62,12 @@ const CompanyModal = ({ form }) => {
             },
           ]}
         >
-          <Input placeholder="Code" className={style.formItem} />
+          <Input placeholder="Code" />
         </Item>
         <Item
           label="Company Id"
           name="company_id"
+          className={styles.formItem}
           rules={[
             {
               required: true,
@@ -72,7 +75,7 @@ const CompanyModal = ({ form }) => {
             },
           ]}
         >
-          <Input placeholder="Company Id" className={style.formItem} />
+          <Input placeholder="Company Id" />
         </Item>
       </div>
       <div>
@@ -89,6 +92,7 @@ const CompanyModal = ({ form }) => {
                   >
                     <Item
                       {...field}
+                      className={styles.formItem}
                       name={[field.name, 'title']}
                       fieldKey={[field.fieldKey, 'title']}
                       label="Title"
@@ -99,10 +103,11 @@ const CompanyModal = ({ form }) => {
                         },
                       ]}
                     >
-                      <Input placeholder="Title" className={style.formItem} />
+                      <Input placeholder="Title" />
                     </Item>
                     <Item
                       {...field}
+                      className={styles.formItem}
                       name={[field.name, 'street_address']}
                       fieldKey={[field.fieldKey, 'street_address']}
                       label="Street address"
@@ -113,24 +118,20 @@ const CompanyModal = ({ form }) => {
                         },
                       ]}
                     >
-                      <Input
-                        placeholder="Short name"
-                        className={style.formItem}
-                      />
+                      <Input placeholder="Short name" />
                     </Item>
                     <Item
                       {...field}
+                      className={styles.formItem}
                       name={[field.name, 'street_address2']}
                       fieldKey={[field.fieldKey, 'street_address2']}
                       label="Street address 2"
                     >
-                      <Input
-                        placeholder="Street address 2"
-                        className={style.formItem}
-                      />
+                      <Input placeholder="Street address 2" />
                     </Item>
                     <Item
                       {...field}
+                      className={styles.formItem}
                       name={[field.name, 'city']}
                       fieldKey={[field.fieldKey, 'city']}
                       label="City"
@@ -141,11 +142,12 @@ const CompanyModal = ({ form }) => {
                         },
                       ]}
                     >
-                      <Input placeholder="City" className={style.formItem} />
+                      <Input placeholder="City" />
                     </Item>
                     <Item
                       {...field}
                       name={[field.name, 'state']}
+                      className={styles.formItem}
                       fieldKey={[field.fieldKey, 'state']}
                       label="State"
                       rules={[
@@ -168,6 +170,7 @@ const CompanyModal = ({ form }) => {
                     <Item
                       {...field}
                       name={[field.name, 'zipcode']}
+                      className={styles.formItem}
                       fieldKey={[field.fieldKey, 'zipcode']}
                       label="Zipcode"
                       rules={[
@@ -177,11 +180,12 @@ const CompanyModal = ({ form }) => {
                         },
                       ]}
                     >
-                      <Input placeholder="Zipcode" className={style.formItem} />
+                      <Input placeholder="Zipcode" />
                     </Item>
-                    <Item>
+                    <Item className={styles.formItem}>
                       <Button
                         type="dashed"
+                        className={styles.addCompanyLocationBtn}
                         onClick={() => remove(field.name)}
                         block
                         icon={<MinusCircleOutlined />}
@@ -194,6 +198,7 @@ const CompanyModal = ({ form }) => {
                 <Item>
                   <Button
                     type="dashed"
+                    className={styles.addCompanyLocationBtn}
                     onClick={() => add()}
                     block
                     icon={<PlusOutlined />}

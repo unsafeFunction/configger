@@ -23,7 +23,7 @@ import {
 } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroller';
 import debounce from 'lodash.debounce';
-import style from './styles.module.scss';
+import styles from './styles.module.scss';
 import { constants } from '../../../../utils/constants';
 import userActions from '../../../../redux/user/actions';
 import actions from '../../../../redux/companies/actions';
@@ -94,10 +94,11 @@ const ContactResultModal = ({ form, existUsers }) => {
   }, []);
 
   return (
-    <Form form={form} layout="vertical">
+    <Form form={form} layout="vertical" className={styles.contactResultModal}>
       <Item
         label="Results Contacts"
         name="results_contacts"
+        className={styles.formItem}
         rules={[
           {
             required: true,
@@ -119,10 +120,10 @@ const ContactResultModal = ({ form, existUsers }) => {
           optionFilterProp="label"
           listHeight={0}
           open
-          dropdownClassName={classNames({ [style.hide]: !searchName })}
+          dropdownClassName={classNames({ [styles.hide]: !searchName })}
           dropdownRender={menu => {
             return searchName ? (
-              <div className={style.dropDown}>
+              <div className={styles.dropDown}>
                 <InfiniteScroll
                   pageStart={1}
                   loadMore={loadPage}
