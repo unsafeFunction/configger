@@ -126,6 +126,7 @@ const PoolTable = ({ loadMore }) => {
             handlePublish(record.unique_id, !record.is_published)
           }
           placement="topRight"
+          disabled={user.role === 'staff'}
         >
           <Switch
             checkedChildren="Published"
