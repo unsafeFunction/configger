@@ -5,6 +5,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: $sm-max-width) {
+    flex-direction: column-reverse;
+    align-items: baseline;
+  }
 }
 .spin {
   text-align: center;

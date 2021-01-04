@@ -5,6 +5,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: $sm-max-width) {
+    flex-direction: column-reverse;
+    align-items: baseline;
+  }
+
 }
 
 .search {
@@ -17,6 +23,6 @@
   width: 30%;
 
   @media (max-width: $sm-max-width) {
-    width: 60%;
+    width: 100%;
   }
 }
