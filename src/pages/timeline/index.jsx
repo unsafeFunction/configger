@@ -29,6 +29,7 @@ import {
   DownOutlined,
   DownloadOutlined,
 } from '@ant-design/icons';
+import { DownloadLogo } from 'assets';
 
 import actions from 'redux/timeline/actions';
 
@@ -134,7 +135,7 @@ const Timeline = () => {
       width: isMobile ? 58 : 85,
       render: value => {
         return isMobile ? (
-          <DownloadOutlined
+          <DownloadLogo
             width="30px"
             height="30px"
             className={styles.downloadBarcodesIcon}
