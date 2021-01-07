@@ -261,7 +261,7 @@ const Campaigns = () => {
                 onClick={showInviteModal}
                 className="ml-3"
               >
-                Invite Customer
+                Invite User
               </Button>
             </div>
             <Input
@@ -296,7 +296,7 @@ const Campaigns = () => {
                 onClick={showInviteModal}
                 className="ml-3"
               >
-                Invite Customer
+                Invite User
               </Button>
             </div>
           </>
