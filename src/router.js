@@ -53,8 +53,8 @@ const routes = [
     exact: true,
   },
   {
-    path: '/customers',
-    Component: loadable(() => import('pages/Customers')),
+    path: '/users',
+    Component: loadable(() => import('pages/Users')),
     exact: true,
   },
   {

@@ -26,8 +26,8 @@ import debounce from 'lodash.debounce';
 import CustomerModal from 'components/widgets/Customer/CustomerModal';
 import HijackBtn from 'components/widgets/hijack/HijackBtn';
 import { useHistory, Link } from 'react-router-dom';
-import styles from './styles.module.scss';
 import useWindowSize from 'hooks/useWindowSize';
+import styles from './styles.module.scss';
 
 const Campaigns = () => {
   const dispatch = useDispatch();
@@ -121,7 +121,7 @@ const Campaigns = () => {
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
-        title: 'Invite customer',
+        title: 'Invite user',
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
@@ -159,7 +159,9 @@ const Campaigns = () => {
       key: 'fullname',
       render: (_, record) => (
         <Link to={`/activity-stream/${record.id}`} className="text-blue">
-          {record.first_name} {record.last_name}
+          {record.first_name} 
+{' '}
+{record.last_name}
         </Link>
       ),
     },
@@ -251,7 +253,7 @@ const Campaigns = () => {
         {isMobile ? (
           <div className={styles.mobileTableHeaderWrapper}>
             <div className={styles.mobileTableHeaderRow}>
-              <h4>Customers</h4>
+              <h4>Users</h4>
               <Button
                 type="primary"
                 size="large"
@@ -273,7 +275,7 @@ const Campaigns = () => {
           </div>
         ) : (
           <>
-            <h4>Customers</h4>
+            <h4>Users</h4>
             <div
               className={classNames(styles.tableActionsWrapper, {
                 [styles.tabletActionsWrapper]: isTablet,

@@ -7,9 +7,9 @@ export async function getMenuData() {
       icon: 'fe fe-compass',
     },
     {
-      title: 'Customers',
+      title: 'Users',
       key: 'users',
-      url: '/customers',
+      url: '/users',
       icon: 'fe fe-user',
     },
     {
@@ -43,7 +43,7 @@ export async function getRolePermissions() {
     admin: {
       permitted: [
         '/profile',
-        '/customers',
+        '/users',
         '/companies',
         '/runs',
         '/pools',
@@ -54,7 +54,7 @@ export async function getRolePermissions() {
     staff: {
       permitted: [
         '/profile',
-        '/customers',
+        '/users',
         '/companies',
         '/runs',
         '/pools',
