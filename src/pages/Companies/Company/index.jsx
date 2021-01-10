@@ -1,24 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import {
-  Tabs,
-  Row,
-  Col,
-  Table,
-  Card,
-  Tag,
-  Button,
-  Skeleton,
-  Spin,
-  Form,
-  Input,
-  Space,
-} from 'antd';
+import { Tabs, Table, Tag, Button, Form, Input, Space } from 'antd';
 import {
   DeleteOutlined,
-  ImportOutlined,
-  MessageOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
   SearchOutlined,
@@ -31,8 +16,8 @@ import { constants } from 'utils/constants';
 import actions from 'redux/companies/actions';
 import debounce from 'lodash.debounce';
 import HijackBtn from 'components/widgets/hijack/HijackBtn';
-import styles from './styles.module.scss';
 import useWindowSize from 'hooks/useWindowSize';
+import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
 
@@ -163,7 +148,9 @@ const CompanyProfile = () => {
       dataIndex: 'fullname',
       render: (_, record) => (
         <Link to={`/activity-stream/${record.id}`} className="text-blue">
-          {record.first_name} {record.last_name}
+          {record.first_name} 
+{' '}
+{record.last_name}
         </Link>
       ),
     },
@@ -226,7 +213,9 @@ const CompanyProfile = () => {
                     message: () => (
                       <>
                         <p className={styles.modalWarningMessage}>
-                          You try to delete <span>{user.first_name}</span>{' '}
+                          You try to delete 
+{' '}
+<span>{user.first_name}</span>{' '}
                           <span>{user.last_name}</span> from{' '}
                           <span>{singleCompany?.name}</span>.
                         </p>

@@ -115,6 +115,10 @@ const ContactResultModal = ({ form, existUsers }) => {
           onSelect={handleResetSearch}
           showSearch
           filterOption={false}
+          dropdownStyle={{
+            maxHeight: 200,
+            overflowY: 'hidden',
+          }}
           notFoundContent={isLoading ? <LoadingNode /> : <NotFoundNode />}
           onBlur={handleResetSearch}
           optionFilterProp="label"

@@ -39,6 +39,11 @@ const CustomerModal = ({ form, loadCompanies }) => {
           size="middle"
           options={companies}
           loading={areCompaniesLoading}
+          dropdownStyle={{
+            maxHeight: 200,
+            overflowY: 'hidden',
+            overflowX: 'scroll',
+          }}
           showArrow
           showSearch
           optionFilterProp="label"
