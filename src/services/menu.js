@@ -71,7 +71,7 @@ export async function getRolePermissions() {
       default: '/runs',
     },
     'company-admin': {
-      permitted: ['/profile', '/timeline'],
+      permitted: ['/profile', '/timeline', '/intake'],
       default: '/timeline',
     },
   };
