@@ -1,13 +1,42 @@
-import React from 'react';
+import React, {useEffect,useCallback} from 'react';
 import { Row, Col, Input, Button, Form, DatePicker, InputNumber } from 'antd';
 import { QrCode, Logo } from 'assets';
 import styles from './styles.module.scss';
+import actions from 'redux/intake/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Intake = ({ company = {} }) => {
+
+  const dispatch = useDispatch();
+
+  const useFetching = () => {
+    useEffect(() => {
+      dispatch({
+        type: actions.FETCH_COMPANIES_REQUEST,
+      });
+    }, []);
+  };
+
+  const handleSubmit = useCallback(() => {
+    dispatch({
+      type: actions.CREATE_PACKING_REQUEST,
+      payload: {
+        companyName: "FKO",
+        companyId: '821859365',
+        sampleCount: "12",
+        poolCount: '33',
+        shipDate: "2021/01/10",
+      }
+    })
+  }, []);
+
+  useFetching();
+
+
   return (
     <Row>
       <Col className="mr-4" xs={10}>
-        <Form layout="vertical">
+        <Form layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             label="Company name"
             name="company_name"
@@ -73,7 +102,10 @@ const Intake = ({ company = {} }) => {
               <DatePicker size="large" />
             </Form.Item>
           </Row>
-          <Button className={styles.downloadButton} size="large" type="primary">
+          <Button className={styles.downloadButton}
+                  size="large"
+                  type="primary"
+                  htmlType="submit">
             Save and Download
           </Button>
         </Form>
