@@ -1,3 +1,5 @@
 import { ReactComponent as DownloadLogo } from './download.svg';
+import { ReactComponent as QrCode } from './qr-code.svg';
+import { ReactComponent as Logo } from './logo.svg';
 
-export { DownloadLogo };
+export { DownloadLogo, QrCode, Logo };

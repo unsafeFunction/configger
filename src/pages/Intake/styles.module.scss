@@ -1,0 +1,68 @@
+.email {
+    padding: 40px;
+    border: 1px solid black;
+
+    h2 {
+        text-align: center;
+    }
+
+    .titleDescription {
+       display: flex;
+       justify-content: center;
+
+       margin-bottom: 20px;
+    }
+
+    ul {
+        list-style: none;
+
+        li {
+            margin-bottom: 12px;
+
+            font-size: 18px;
+
+            span {
+                &:first-child {
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
+
+    .qrIcon {
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+.numericInput, .downloadButton {
+    width: 100%;
+}
+
+.shipmentInfo {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 30px;
+
+    .labDetails {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .labAddresses {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            margin-left: 30px;
+            margin-right: 60px;
+
+            span {
+                &:first-child {
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}

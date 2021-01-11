@@ -31,6 +31,12 @@ export async function getMenuData() {
       icon: 'fe fe-folder',
     },
     {
+      title: 'Intake',
+      key: 'intake',
+      url: '/intake',
+      icon: 'fe fe-download',
+    },
+    {
       title: 'Contact Us',
       key: 'contactUs',
       icon: 'fe fe-mail',
@@ -48,6 +54,7 @@ export async function getRolePermissions() {
         '/runs',
         '/pools',
         '/activity-stream',
+        '/intake',
       ],
       default: '/runs',
     },
@@ -59,6 +66,7 @@ export async function getRolePermissions() {
         '/runs',
         '/pools',
         '/activity-stream',
+        '/intake',
       ],
       default: '/runs',
     },
