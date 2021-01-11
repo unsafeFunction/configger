@@ -10,6 +10,7 @@ import timeline from './timeline/reducers';
 import pools from './pools/reducers';
 import hijack from './hijack/reducers';
 import activityStream from './activityStream/reducers';
+import intake from './intake/reducers';
 
 export default history =>
   combineReducers({
@@ -24,4 +25,5 @@ export default history =>
     pools,
     hijack,
     activityStream,
+    intake,
   });
