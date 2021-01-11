@@ -1,46 +1,97 @@
-import React, {useEffect,useCallback} from 'react';
-import { Row, Col, Input, Button, Form, DatePicker, InputNumber } from 'antd';
+import React, { useEffect, useCallback, useReducer } from 'react';
+import {
+  Row,
+  Col,
+  Input,
+  Button,
+  Form,
+  DatePicker,
+  InputNumber,
+  Select,
+} from 'antd';
+import moment from 'moment';
 import { QrCode, Logo } from 'assets';
-import styles from './styles.module.scss';
 import actions from 'redux/intake/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import styles from './styles.module.scss';
+
+const initialState = {};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'setValue':
+      return {
+        ...state,
+        [action.payload.name]: action.payload.value,
+      };
+    default:
+      throw new Error();
+  }
+}
 
 const Intake = ({ company = {} }) => {
-
   const dispatch = useDispatch();
-
+  const user = useSelector(state => state.user);
+  const [form] = Form.useForm();
   const useFetching = () => {
     useEffect(() => {
       dispatch({
         type: actions.FETCH_COMPANIES_REQUEST,
       });
-    }, []);
+    }, [dispatch]);
   };
+
+  const [state, componentDispatch] = useReducer(reducer, initialState);
 
   const handleSubmit = useCallback(() => {
     dispatch({
       type: actions.CREATE_PACKING_REQUEST,
       payload: {
-        companyName: "FKO",
-        companyId: '821859365',
-        sampleCount: "12",
-        poolCount: '33',
-        shipDate: "2021/01/10",
-      }
-    })
+        ...state,
+      },
+    });
+  }, [dispatch, state]);
+
+  const handleCompanyNameChange = useCallback((_, objectValue) => {
+    componentDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'companyName',
+        value: objectValue.label,
+      },
+    });
+    componentDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'companyId',
+        value: objectValue.value,
+      },
+    });
+
+    form.setFieldsValue({
+      company_id: objectValue.value,
+    });
+  }, []);
+
+  const handleInputChange = useCallback((name, value) => {
+    componentDispatch({
+      type: 'setValue',
+      payload: {
+        name,
+        value,
+      },
+    });
   }, []);
 
   useFetching();
 
-
   return (
     <Row>
       <Col className="mr-4" xs={10}>
-        <Form layout="vertical" onFinish={handleSubmit}>
+        <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             label="Company name"
             name="company_name"
-            // initialValue={profile.first_name}
             rules={[
               {
                 required: true,
@@ -48,15 +99,24 @@ const Intake = ({ company = {} }) => {
               },
             ]}
           >
-            <Input size="medium" placeholder="Company name" />
+            <Select
+              placeholder="Company name"
+              size="middle"
+              options={user?.profile?.companies?.map(item => {
+                return {
+                  label: Object.keys(item)[0],
+                  value: Object.values(item)[0],
+                };
+              })}
+              showArrow
+              showSearch
+              optionFilterProp="label"
+              dropdownMatchSelectWidth={false}
+              onChange={handleCompanyNameChange}
+            />
           </Form.Item>
-          <Form.Item
-            label="Company ID"
-            name="company_id"
-            disabled
-            // initialValue={profile.first_name}
-          >
-            <Input size="medium" placeholder="Company ID" />
+          <Form.Item label="Company ID" name="company_id">
+            <Input disabled size="medium" placeholder="Company ID" />
           </Form.Item>
           <Row>
             <Col className="mr-5" xs={10}>
@@ -64,7 +124,6 @@ const Intake = ({ company = {} }) => {
                 type="number"
                 label="Samples"
                 name="sample_number"
-                // initialValue={profile.first_name}
                 rules={[
                   {
                     required: true,
@@ -76,6 +135,7 @@ const Intake = ({ company = {} }) => {
                   className={styles.numericInput}
                   size="large"
                   placeholder="Samples"
+                  onChange={value => handleInputChange('sampleCount', value)}
                 />
               </Form.Item>
             </Col>
@@ -83,7 +143,6 @@ const Intake = ({ company = {} }) => {
               <Form.Item
                 label="Pools"
                 name="pool_number"
-                // initialValue={profile.first_name}
                 rules={[
                   {
                     required: true,
@@ -95,17 +154,38 @@ const Intake = ({ company = {} }) => {
                   className={styles.numericInput}
                   size="large"
                   placeholder="Pools"
+                  onChange={value => handleInputChange('poolCount', value)}
                 />
               </Form.Item>
             </Col>
-            <Form.Item className="mr-5" label="Ship Date" name="date">
-              <DatePicker size="large" />
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input pool number!',
+                },
+              ]}
+              className="mr-5"
+              label="Ship Date"
+              name="date"
+            >
+              <DatePicker
+                onChange={value =>
+                  handleInputChange(
+                    'shipDate',
+                    moment(value).format('YYYY/MM/DD'),
+                  )
+                }
+                size="large"
+              />
             </Form.Item>
           </Row>
-          <Button className={styles.downloadButton}
-                  size="large"
-                  type="primary"
-                  htmlType="submit">
+          <Button
+            className={styles.downloadButton}
+            size="large"
+            type="primary"
+            htmlType="submit"
+          >
             Save and Download
           </Button>
         </Form>
@@ -119,23 +199,23 @@ const Intake = ({ company = {} }) => {
           <ul className="mb-5">
             <li>
               <span>Company:</span>
-              <span>{company.name || '-'}</span>
+              <span>{state.companyName || '-'}</span>
             </li>
             <li>
               <span>ID:</span>
-              <span>{company.id || '-'}</span>
+              <span>{state.companyId || '-'}</span>
             </li>
             <li>
               <span>Samples:</span>
-              <span>{company.sample_size || '-'}</span>
+              <span>{state.sampleCount || '-'}</span>
             </li>
             <li>
               <span>Pools:</span>
-              <span>{company.pool_size || '-'}</span>
+              <span>{state.poolCount || '-'}</span>
             </li>
             <li>
               <span>Date:</span>
-              <span>{company.date || '-'}</span>
+              <span>{state.shipDate || '-'}</span>
             </li>
           </ul>
           <QrCode className={styles.qrIcon} />
