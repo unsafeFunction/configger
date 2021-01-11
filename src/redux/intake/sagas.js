@@ -37,14 +37,13 @@ export function* callCreatePackingSlip({ payload }) {
     });
     yield call(downloadFile, {
       link: response.data['packing-slip-url'],
-      name: 'test',
+      name: response.data['packing-slip-filename'],
       contentType: 'application/pdf',
     });
   } catch (error) {
     notification.error(error);
   }
 }
-
 
 export default function* rootSaga() {
   yield all([
