@@ -29,7 +29,6 @@ export function* callFetchCompanies({ payload }) {
 export function* callCreatePackingSlip({ payload }) {
   try {
     const response = yield call(createPackingSlip, payload);
-    console.log(response);
     yield put({
       type: actions.CREATE_PACKING_SUCCESS,
       payload: {
