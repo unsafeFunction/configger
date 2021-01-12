@@ -159,9 +159,6 @@ class Sidebar extends React.Component {
                   components and elements inside, like this theme settings
                 </p>
                 <div className={style.air__sidebar__type}>
-                  <div className={style.air__sidebar__type__title}>
-                    <span>Menu Layout</span>
-                  </div>
                   <div className={style.air__sidebar__type__items}>
                     <Radio.Group onChange={this.selectMenuLayoutType} defaultValue={menuLayoutType}>
                       <div className="row">

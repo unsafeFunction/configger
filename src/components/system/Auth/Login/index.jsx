@@ -17,7 +17,7 @@ const Login = () => {
         type: actions.LOGIN_REQUEST,
         payload: {
           ...values,
-          toTimeline: () => history.push('/timeline'),
+          toTimeline: () => history.push('/results'),
           toRuns: () => history.push('/runs'),
           acceptTerms: () => history.push('/system/terms-and-conditions'),
         },
@@ -87,7 +87,7 @@ const Login = () => {
             className={style.linkButton}
             href="mailto:testingsupport@mirimus.com"
           >
-            Contact us
+            Help
           </a>
         </div>
         <div className={style.copyright}>Copyright © 2020 Mirimus Inc.</div>

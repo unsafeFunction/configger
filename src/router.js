@@ -18,7 +18,7 @@ const loadable = loader =>
 
 const routes = [
   {
-    path: '/timeline',
+    path: '/results',
     Component: loadable(() => import('pages/timeline')),
     exact: true,
   },
@@ -85,7 +85,7 @@ const routes = [
     Component: loadable(() => import('pages/activityStream')),
   },
   {
-    path: '/intake',
+    path: '/packing-slip',
     Component: loadable(() => import('pages/Intake')),
   },
 ];
@@ -124,7 +124,7 @@ class Router extends React.Component {
               exact
               path="/"
               render={() => {
-                return <Redirect to="/timeline" />;
+                return <Redirect to="/results" />;
               }}
             />
             {routes.map(({ path, Component, exact = false }) => (
