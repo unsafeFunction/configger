@@ -41,6 +41,29 @@ const Intake = ({ company = {} }) => {
     }, [dispatch]);
   };
 
+  useEffect(() => {
+    if (user?.profile?.companies?.length === 1) {
+      componentDispatch({
+        type: 'setValue',
+        payload: {
+          name: 'companyName',
+          value: Object.keys(user?.profile?.companies?.[0])?.[0],
+        },
+      });
+      componentDispatch({
+        type: 'setValue',
+        payload: {
+          name: 'companyId',
+          value: Object.values(user?.profile?.companies?.[0])?.[0],
+        },
+      });
+      form.setFieldsValue({
+        company_name: Object.keys(user?.profile?.companies?.[0])?.[0],
+        company_id: Object.values(user?.profile?.companies?.[0])?.[0],
+      });
+    }
+  }, [user]);
+
   const [state, componentDispatch] = useReducer(reducer, initialState);
 
   const handleSubmit = useCallback(() => {
@@ -99,21 +122,25 @@ const Intake = ({ company = {} }) => {
               },
             ]}
           >
-            <Select
-              placeholder="Company name"
-              size="middle"
-              options={user?.profile?.companies?.map(item => {
-                return {
-                  label: Object.keys(item)[0],
-                  value: Object.values(item)[0],
-                };
-              })}
-              showArrow
-              showSearch
-              optionFilterProp="label"
-              dropdownMatchSelectWidth={false}
-              onChange={handleCompanyNameChange}
-            />
+            {user?.profile?.companies?.length > 1 ? (
+              <Select
+                placeholder="Company name"
+                size="middle"
+                options={user?.profile?.companies?.map(item => {
+                  return {
+                    label: Object.keys(item)[0],
+                    value: Object.values(item)[0],
+                  };
+                })}
+                showArrow
+                showSearch
+                optionFilterProp="label"
+                dropdownMatchSelectWidth={false}
+                onChange={handleCompanyNameChange}
+              />
+            ) : (
+              <Input disabled size="medium" placeholder="Company Name" />
+            )}
           </Form.Item>
           <Form.Item label="Company ID" name="company_id">
             <Input disabled size="medium" placeholder="Company ID" />
@@ -133,6 +160,7 @@ const Intake = ({ company = {} }) => {
               >
                 <InputNumber
                   className={styles.numericInput}
+                  min="0"
                   size="large"
                   placeholder="Samples"
                   onChange={value => handleInputChange('sampleCount', value)}
@@ -152,6 +180,7 @@ const Intake = ({ company = {} }) => {
               >
                 <InputNumber
                   className={styles.numericInput}
+                  min="0"
                   size="large"
                   placeholder="Pools"
                   onChange={value => handleInputChange('poolCount', value)}
