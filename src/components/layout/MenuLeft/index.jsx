@@ -405,7 +405,7 @@ class MenuLeft extends React.Component {
                 Clinical Labs
               </div>
             </a>
-            <Link
+            {/* <Link
               to="/profile"
               className={`${style.air__menuLeft__link} ${style.profileLink}`}
             >
@@ -426,7 +426,7 @@ class MenuLeft extends React.Component {
                   {this.props.profile.email}
                 </div>
               </div>
-            </Link>
+            </Link> */}
             <Scrollbars
               autoHide
               renderThumbVertical={({ ...props }) => (
@@ -445,12 +445,7 @@ class MenuLeft extends React.Component {
                 id="menu-left-container"
                 className={style.air__menuLeft__container}
               >
-                <ul className={style.air__menuLeft__list}>
-                  <li className={style.air__menuLeft__category}>
-                    <span>Menu</span>
-                  </li>
-                  {items}
-                </ul>
+                <ul className={style.air__menuLeft__list}>{items}</ul>
               </div>
             </Scrollbars>
           </div>

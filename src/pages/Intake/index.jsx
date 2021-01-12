@@ -225,7 +225,7 @@ const Intake = ({ company = {} }) => {
               <div className={styles.labAddresses}>
                 <span>Ship samples to:</span>
                 <span>Mirimus Clinical Labs</span>
-                <span>Sample Intake</span>
+                <span>Sample Packing Slip</span>
                 <span>710 Parkside Avenue</span>
                 <span>Brooklyn, NY 11226</span>
               </div>
