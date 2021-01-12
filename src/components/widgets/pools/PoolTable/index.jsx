@@ -34,12 +34,71 @@ const PoolTable = ({ loadMore }) => {
 
   const columns = [
     {
-      title: 'Pool ID',
-      dataIndex: 'pool_id',
+      title: 'Results Timestamp',
+      dataIndex: 'results_updated_on',
+      width: 180,
+    },
+    {
+      title: 'Run Title',
+      dataIndex: 'run_title',
+    },
+    {
+      title: 'Company',
+      dataIndex: 'shortCompany',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (_, record) => (
+        <Popover
+          content={record.company}
+          trigger="hover"
+          overlayClassName={styles.popover}
+          placement="topLeft"
+        >
+          {record.shortCompany}
+        </Popover>
+      ),
     },
     {
       title: 'Pool Title',
       dataIndex: 'title',
+    },
+    {
+      title: 'Rack ID',
+      dataIndex: 'rack_id',
+    },
+    {
+      title: 'Pool ID',
+      dataIndex: 'pool_id',
+    },
+    {
+      title: 'Result',
+      dataIndex: 'result',
+      width: 182,
+      render: (_, record) => (
+        <Select
+          value={
+            // eslint-disable-next-line react/jsx-wrap-multilines
+            <Text type={record.result === 'COVID-19 Detected' && 'danger'}>
+              {record.result}
+            </Text>
+          }
+          style={{ width: 165 }}
+          loading={record.resultIsUpdating}
+          onSelect={onModalToggle(record.unique_id, record.pool_id)}
+          disabled={user.role === 'staff' || record.resultIsUpdating}
+        >
+          {resutList?.items
+            ?.filter(option => option.value !== record.result)
+            .map(item => (
+              <Option key={item.key} value={item.value}>
+                <Text type={item.value === 'COVID-19 Detected' && 'danger'}>
+                  {item.value}
+                </Text>
+              </Option>
+            ))}
+        </Select>
+      ),
     },
     {
       title: 'Pool Size',
@@ -63,56 +122,7 @@ const PoolTable = ({ loadMore }) => {
         </Popover>
       ),
     },
-    {
-      title: 'Result',
-      dataIndex: 'result',
-      width: 182,
-      render: (_, record) => (
-        <Select
-          value={
-            <Text type={record.result === 'COVID-19 Detected' && 'danger'}>
-              {record.result}
-            </Text>
-          }
-          style={{ width: 165 }}
-          loading={record.resultIsUpdating}
-          onSelect={onModalToggle(record.unique_id, record.pool_id)}
-          disabled={user.role === 'staff' || record.resultIsUpdating}
-        >
-          {resutList?.items
-            ?.filter(option => option.value !== record.result)
-            .map(item => (
-              <Option key={item.key} value={item.value}>
-                <Text type={item.value === 'COVID-19 Detected' && 'danger'}>
-                  {item.value}
-                </Text>
-              </Option>
-            ))}
-        </Select>
-      ),
-    },
-    {
-      title: 'Results Timestamp',
-      dataIndex: 'results_updated_on',
-      width: 180,
-    },
-    {
-      title: 'Company',
-      dataIndex: 'shortCompany',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (_, record) => (
-        <Popover
-          content={record.company}
-          trigger="hover"
-          overlayClassName={styles.popover}
-          placement="topLeft"
-        >
-          {record.shortCompany}
-        </Popover>
-      ),
-    },
+
     {
       title: 'Action',
       fixed: 'right',
@@ -205,6 +215,7 @@ const PoolTable = ({ loadMore }) => {
         next={loadMore}
         hasMore={pools?.items?.length < pools.total}
         loader={
+          // eslint-disable-next-line react/jsx-wrap-multilines
           <div className={styles.spin}>
             <Spin />
           </div>

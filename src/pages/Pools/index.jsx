@@ -1,19 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Button, Tag, Input, Form } from 'antd';
-import { CompanyModal } from 'components/widgets/companies';
+import { Input } from 'antd';
 import debounce from 'lodash.debounce';
-import {
-  PlusCircleOutlined,
-  DeleteOutlined,
-  LoadingOutlined,
-  SearchOutlined,
-} from '@ant-design/icons';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { SearchOutlined } from '@ant-design/icons';
 import actions from 'redux/pools/actions';
-import modalActions from 'redux/modal/actions';
 
 import styles from './styles.module.scss';
 import { constants } from '../../utils/constants';
