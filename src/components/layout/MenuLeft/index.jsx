@@ -446,9 +446,6 @@ class MenuLeft extends React.Component {
                 className={style.air__menuLeft__container}
               >
                 <ul className={style.air__menuLeft__list}>
-                  <li className={style.air__menuLeft__category}>
-                    <span>Menu</span>
-                  </li>
                   {items}
                 </ul>
               </div>

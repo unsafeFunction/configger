@@ -69,3 +69,11 @@
     width: 20px;
   }
 }
+
+.statCart {
+  @media (max-width: $xs-max-width) {
+    > div {
+      padding: 4px 10px !important;
+    }
+  }
+}

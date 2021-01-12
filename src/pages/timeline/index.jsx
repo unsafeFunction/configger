@@ -25,6 +25,7 @@ import {
   FileExcelFilled,
   FilePdfFilled,
   FileOutlined,
+  IdcardOutlined,
   UpOutlined,
   DownOutlined,
   DownloadOutlined,
@@ -197,7 +198,7 @@ const Timeline = () => {
   }
   return (
     <div>
-      <Helmet title="Timeline" />
+      <Helmet title="Results" />
       {Object.keys(timeline?.items ?? []).map((timelineDate, index) => {
         return (
           <Fragment key={`${timelineDate}-${index}`}>
@@ -236,11 +237,11 @@ const Timeline = () => {
               return (
                 <>
                   <Row className="mb-3" gutter={16}>
-                    <Col span={6} xs={24} md={12} className="mb-3">
+                    <Col span={6} xs={24} md={6} className="mb-3">
                       <Card className={styles.statCart}>
                         <Statistic
                           className={styles.locationName}
-                          title="Location"
+                          title="Company"
                           value={commonInfo?.stats.location_name}
                           prefix={
                             <HomeOutlined className={styles.statisticIcon} />
@@ -248,11 +249,24 @@ const Timeline = () => {
                         />
                       </Card>
                     </Col>
-                    <Col span={6} xs={24} md={12} className="mb-3">
+                    <Col span={6} xs={24} md={6} className="mb-3">
                       <Card className={styles.statCart}>
                         <Statistic
                           className={styles.locationName}
-                          title="Total pools count"
+                          title="Company ID"
+                          formatter={(value) => value}
+                          value={commonInfo?.stats.company_id}
+                          prefix={
+                            <IdcardOutlined className={styles.statisticIcon} />
+                          }
+                        />
+                      </Card>
+                    </Col>
+                    <Col span={6} xs={24} md={3} className="mb-3">
+                      <Card className={styles.statCart}>
+                        <Statistic
+                          className={styles.locationName}
+                          title="Pools"
                           value={commonInfo?.stats.pool_count}
                           prefix={
                             <TableOutlined className={styles.statisticIcon} />
@@ -260,11 +274,11 @@ const Timeline = () => {
                         />
                       </Card>
                     </Col>
-                    <Col span={6} xs={24} md={12} className="mb-3">
+                    <Col span={6} xs={24} md={3} className="mb-3">
                       <Card className={styles.statCart}>
                         <Statistic
                           className={styles.locationName}
-                          title="Total samples count"
+                          title="Samples"
                           value={commonInfo?.stats.sample_count}
                           prefix={
                             <TableOutlined className={styles.statisticIcon} />
@@ -272,7 +286,7 @@ const Timeline = () => {
                         />
                       </Card>
                     </Col>
-                    <Col span={6} xs={24} md={12} className="mb-3">
+                    <Col span={6} xs={24} md={6} className="mb-3">
                       <Card className={styles.reportCart}>
                         {commonInfo?.reports?.length ? (
                           commonInfo?.reports.map((report, index) => {
@@ -311,7 +325,7 @@ const Timeline = () => {
                     pagination={false}
                     columns={columns}
                     dataSource={pools}
-                    scroll={{ x: 'max-content', y: 1200 }}
+                    scroll={{ x: 'max-content' }}
                     bordered
                     expandedRowRender={record => {
                       return expandedRow(

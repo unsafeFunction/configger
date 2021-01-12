@@ -22,7 +22,7 @@ const HijackBtn = ({ userId, userFirstName, userLastName, userRole, path }) => {
         userLastName,
         path,
         currentRole,
-        toTimeline: () => history.replace('/timeline'),
+        toTimeline: () => history.replace('/results'),
         toRuns: () => history.replace('/runs'),
         toTerms: () => history.replace('/system/terms-and-conditions'),
       },

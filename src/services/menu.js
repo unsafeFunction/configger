@@ -1,9 +1,9 @@
 export async function getMenuData() {
   return [
     {
-      title: 'Timeline',
-      key: 'timeline',
-      url: '/timeline',
+      title: 'Results',
+      key: 'results',
+      url: '/results',
       icon: 'fe fe-compass',
     },
     {
@@ -31,13 +31,13 @@ export async function getMenuData() {
       icon: 'fe fe-folder',
     },
     {
-      title: 'Intake',
-      key: 'intake',
-      url: '/intake',
+      title: 'Packing Slip',
+      key: 'packingSlip',
+      url: '/packing-slip',
       icon: 'fe fe-download',
     },
     {
-      title: 'Contact Us',
+      title: 'Help',
       key: 'contactUs',
       icon: 'fe fe-mail',
     },
@@ -54,7 +54,7 @@ export async function getRolePermissions() {
         '/runs',
         '/pools',
         '/activity-stream',
-        '/intake',
+        '/packing-slip',
       ],
       default: '/runs',
     },
@@ -66,13 +66,13 @@ export async function getRolePermissions() {
         '/runs',
         '/pools',
         '/activity-stream',
-        '/intake',
+        '/packing-slip',
       ],
       default: '/runs',
     },
     'company-admin': {
-      permitted: ['/profile', '/timeline', '/intake'],
-      default: '/timeline',
+      permitted: ['/profile', '/results', '/packing-slip'],
+      default: '/results',
     },
   };
 }
