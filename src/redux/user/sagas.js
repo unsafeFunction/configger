@@ -4,7 +4,6 @@ import {
   login,
   forgotPassword,
   restore,
-  loadUsers,
   accept,
   getProfile,
   updateProfile,
@@ -286,23 +285,6 @@ export function* callChangePassword({ payload }) {
   }
 }
 
-export function* callLoadUsers({ payload }) {
-  try {
-    const response = yield call(loadUsers, payload);
-
-    yield put({
-      type: actions.LOAD_USERS_SUCCESS,
-      payload: {
-        data: response.data,
-        total: response.data.count,
-        firstPage: !response.data.previous,
-      },
-    });
-  } catch (error) {
-    notification.error(error);
-  }
-}
-
 export function* callToggleUser({ payload }) {
   const { id, status } = payload;
   try {
@@ -399,7 +381,6 @@ export default function* rootSaga() {
     takeEvery(actions.ACCEPT_REQUEST, callAccept),
     takeEvery(actions.PROFILE_REQUEST, callLoadProfile),
     takeEvery(actions.LOGOUT, callLogout),
-    takeEvery(actions.LOAD_USERS_REQUEST, callLoadUsers),
     takeEvery(actions.UPDATE_PROFILE_REQUEST, callUpdateProfile),
     takeEvery(actions.CHANGE_PASSWORD_REQUEST, callChangePassword),
     takeEvery(actions.SET_STATUS_REQUEST, callToggleUser),

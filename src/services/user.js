@@ -66,18 +66,6 @@ export const changePassword = async (
   return update;
 };
 
-export const loadUsers = async ({ limit, offset, search }) => {
-  const users = await axiosClient.get('/users/', {
-    params: {
-      limit,
-      offset,
-      search,
-    },
-  });
-
-  return users;
-};
-
 export const loadCompanies = async (page, search) => {
   const limit = 30;
   const companies = await axiosClient.get('/companies/', {

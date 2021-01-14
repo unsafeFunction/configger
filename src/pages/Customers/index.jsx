@@ -18,7 +18,7 @@ import {
   SendOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import userActions from 'redux/user/actions';
+import actions from 'redux/customers/actions';
 import modalActions from 'redux/modal/actions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import classNames from 'classnames';
@@ -30,7 +30,7 @@ import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
 import styles from './styles.module.scss';
 
-const Campaigns = () => {
+const Customers = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isMobile, isTablet } = useWindowSize();
@@ -38,14 +38,7 @@ const Campaigns = () => {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [searchName, setSearchName] = useState('');
-  const {
-    areUsersLoading,
-    isInviting,
-    reinvitingUser,
-    items,
-    offset,
-    total,
-  } = useSelector(state => state.user);
+  const customers = useSelector(state => state.customers);
   const tableRef = useRef(null);
   const [form] = Form.useForm();
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
@@ -56,10 +49,10 @@ const Campaigns = () => {
   const useFetching = () => {
     useEffect(() => {
       dispatch({
-        type: userActions.LOAD_USERS_REQUEST,
+        type: actions.FETCH_CUSTOMERS_REQUEST,
         payload: {
-          limit: constants?.runs?.itemsLoadingCount,
-          search: searchName,
+          limit: constants?.customers?.itemsLoadingCount,
+          // search: searchName,
         },
       });
     }, [dispatch]);
@@ -69,26 +62,26 @@ const Campaigns = () => {
 
   const loadMore = useCallback(() => {
     dispatch({
-      type: userActions.LOAD_USERS_REQUEST,
+      type: actions.FETCH_CUSTOMERS_REQUEST,
       payload: {
-        limit: constants?.runs?.itemsLoadingCount,
-        offset,
+        limit: constants?.customers?.itemsLoadingCount,
+        offset: customers?.offset,
         search: searchName,
       },
     });
-  }, [dispatch, offset, searchName, constants]);
+  }, [dispatch, customers, searchName]);
 
   const sendQuery = useCallback(
     query => {
       dispatch({
-        type: userActions.LOAD_USERS_REQUEST,
+        type: actions.FETCH_CUSTOMERS_REQUEST,
         payload: {
-          limit: constants.companies.itemsLoadingCount,
+          limit: constants?.customers?.itemsLoadingCount,
           search: query,
         },
       });
     },
-    [searchName],
+    [dispatch, searchName],
   );
 
   const delayedQuery = useCallback(
@@ -103,7 +96,7 @@ const Campaigns = () => {
 
   const reinviteUser = useCallback(id => {
     dispatch({
-      type: userActions.REINVITE_REQUEST,
+      type: actions.REINVITE_REQUEST,
       payload: {
         id,
       },
@@ -112,7 +105,7 @@ const Campaigns = () => {
 
   const toggleUser = useCallback((id, currentStatus) => {
     dispatch({
-      type: userActions.SET_STATUS_REQUEST,
+      type: actions.SET_STATUS_REQUEST,
       payload: {
         id,
         status: !currentStatus,
@@ -122,7 +115,7 @@ const Campaigns = () => {
 
   const loadCompanies = page => {
     dispatch({
-      type: userActions.LOAD_COMPANIES_REQUEST,
+      type: actions.FETCH_COMPANIES_REQUEST,
       payload: {
         page,
         search: '',
@@ -133,7 +126,7 @@ const Campaigns = () => {
   const onInvite = async () => {
     const fieldValues = await form.validateFields();
     dispatch({
-      type: userActions.INVITE_CUSTOMER_REQUEST,
+      type: actions.INVITE_CUSTOMER_REQUEST,
       payload: { ...fieldValues },
     });
   };
@@ -151,7 +144,7 @@ const Campaigns = () => {
         cancelButtonProps: { className: styles.modalButton },
         okButtonProps: {
           className: styles.modalButton,
-          loading: isInviting,
+          loading: customers?.isInviting,
         },
         okText: 'Invite',
         onOk: onInvite,
@@ -176,9 +169,7 @@ const Campaigns = () => {
       key: 'fullname',
       render: (_, record) => (
         <Link to={`/activity-stream/${record.id}`} className="text-blue">
-          {record.first_name} 
-{' '}
-{record.last_name}
+          {record.first_name} {record.last_name}
         </Link>
       ),
     },
@@ -247,7 +238,7 @@ const Campaigns = () => {
               type="primary"
               ghost
               icon={<SendOutlined />}
-              disabled={record.id === reinvitingUser}
+              disabled={record.id === customers?.reinvitingUser}
               onClick={() => reinviteUser(record.id)}
             />
           </Tooltip>
@@ -263,6 +254,11 @@ const Campaigns = () => {
       ),
     },
   ];
+
+  const data = customers?.items?.map?.(item => ({
+    ...item,
+    key: item.id,
+  }));
 
   return (
     <div>
@@ -323,21 +319,20 @@ const Campaigns = () => {
       <div className={styles.table}>
         <InfiniteScroll
           next={loadMore}
-          hasMore={items.length < total}
+          hasMore={customers?.items?.length < customers?.total}
           loader={
-            // eslint-disable-next-line react/jsx-wrap-multilines
             <div className={styles.spin}>
               <Spin />
             </div>
           }
-          dataLength={items.length}
+          dataLength={customers?.items?.length}
         >
           <Table
-            dataSource={items}
+            dataSource={data}
             pagination={false}
             columns={columns}
             loading={{
-              spinning: areUsersLoading,
+              spinning: customers?.areUsersLoading,
               indicator: (
                 <Spin indicator={spinIcon} className={styles.loader} />
               ),
@@ -350,4 +345,4 @@ const Campaigns = () => {
   );
 };
 
-export default Campaigns;
+export default Customers;

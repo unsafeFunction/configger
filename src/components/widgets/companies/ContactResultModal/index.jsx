@@ -24,9 +24,9 @@ import {
 import InfiniteScroll from 'react-infinite-scroller';
 import debounce from 'lodash.debounce';
 import styles from './styles.module.scss';
-import { constants } from '../../../../utils/constants';
-import userActions from '../../../../redux/user/actions';
-import actions from '../../../../redux/companies/actions';
+import { constants } from 'utils/constants';
+import customersActions from 'redux/user/actions';
+import actions from 'redux/companies/actions';
 import { LoadingNode, NotFoundNode } from './components';
 
 const ContactResultModal = ({ form, existUsers }) => {
@@ -56,7 +56,7 @@ const ContactResultModal = ({ form, existUsers }) => {
 
   const loadUsers = useCallback(({ page, search }) => {
     dispatch({
-      type: userActions.LOAD_USERS_REQUEST,
+      type: customersActions.FETCH_CUSTOMERS_REQUEST,
       payload: {
         page,
         search,
