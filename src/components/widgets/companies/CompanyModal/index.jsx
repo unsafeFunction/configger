@@ -51,7 +51,7 @@ const CompanyModal = ({ form }) => {
         >
           <Input placeholder="Short name" />
         </Item>
-        <Item
+        {/* <Item
           label="Code"
           name="code"
           className={styles.formItem}
@@ -76,7 +76,7 @@ const CompanyModal = ({ form }) => {
           ]}
         >
           <Input placeholder="Company Id" />
-        </Item>
+        </Item> */}
       </div>
       <div>
         <p>Location details</p>

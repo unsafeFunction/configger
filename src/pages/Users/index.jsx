@@ -20,12 +20,13 @@ import {
 } from '@ant-design/icons';
 import userActions from 'redux/user/actions';
 import modalActions from 'redux/modal/actions';
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
 import CustomerModal from 'components/widgets/Customer/CustomerModal';
 import HijackBtn from 'components/widgets/hijack/HijackBtn';
 import { useHistory, Link } from 'react-router-dom';
+import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
 import styles from './styles.module.scss';
 
@@ -42,6 +43,7 @@ const Campaigns = () => {
     isInviting,
     reinvitingUser,
     items,
+    offset,
     total,
   } = useSelector(state => state.user);
   const tableRef = useRef(null);
@@ -51,33 +53,53 @@ const Campaigns = () => {
   const dateFormat = { day: '2-digit', month: '2-digit', year: 'numeric' };
   const timeFormat = { hour: '2-digit', minute: '2-digit' };
 
-  const loadPage = useCallback((nextPage, userName, isSearching) => {
-    const initialLoad = !!page;
+  const useFetching = () => {
+    useEffect(() => {
+      dispatch({
+        type: userActions.LOAD_USERS_REQUEST,
+        payload: {
+          limit: constants?.runs?.itemsLoadingCount,
+          search: searchName,
+        },
+      });
+    }, [dispatch]);
+  };
 
-    if (hasMore && initialLoad && !isSearching && items.length >= total) {
-      setHasMore(false);
-      return;
-    }
+  useFetching();
+
+  const loadMore = useCallback(() => {
     dispatch({
       type: userActions.LOAD_USERS_REQUEST,
       payload: {
-        page: nextPage,
-        search: userName,
+        limit: constants?.runs?.itemsLoadingCount,
+        offset,
+        search: searchName,
       },
     });
-    setPage(nextPage);
-  });
+  }, [dispatch, offset, searchName, constants]);
 
-  const searchUser = useCallback(
-    debounce((name, page) => {
-      if (page) {
-        loadPage(1, name, true);
-        setHasMore(true);
-        tableRef.current.scroll({ top: 0 });
-      }
-    }, 500),
+  const sendQuery = useCallback(
+    query => {
+      dispatch({
+        type: userActions.LOAD_USERS_REQUEST,
+        payload: {
+          limit: constants.companies.itemsLoadingCount,
+          search: query,
+        },
+      });
+    },
     [searchName],
   );
+
+  const delayedQuery = useCallback(
+    debounce(q => sendQuery(q), 500),
+    [],
+  );
+
+  const onChangeSearch = useCallback(event => {
+    setSearchName(event.target.value);
+    delayedQuery(event.target.value);
+  }, []);
 
   const reinviteUser = useCallback(id => {
     dispatch({
@@ -147,11 +169,6 @@ const Campaigns = () => {
       dateFormat,
     )} ${date.toLocaleString('en-US', timeFormat)}`;
   };
-
-  useEffect(() => {
-    searchUser(searchName, page);
-    return searchUser.cancel;
-  }, [searchName, searchUser]);
 
   const columns = [
     {
@@ -270,7 +287,7 @@ const Campaigns = () => {
               className={styles.search}
               placeholder="Search..."
               value={searchName}
-              onChange={event => setSearchName(event.target.value)}
+              onChange={onChangeSearch}
             />
           </div>
         ) : (
@@ -287,7 +304,7 @@ const Campaigns = () => {
                 className={styles.search}
                 placeholder="Search..."
                 value={searchName}
-                onChange={event => setSearchName(event.target.value)}
+                onChange={onChangeSearch}
               />
               <Button
                 type="primary"
@@ -303,12 +320,17 @@ const Campaigns = () => {
         )}
       </div>
 
-      <div ref={tableRef} className={styles.table}>
+      <div className={styles.table}>
         <InfiniteScroll
-          pageStart={page}
-          loadMore={() => loadPage(page + 1, searchName)}
-          hasMore={!areUsersLoading && hasMore}
-          useWindow={false}
+          next={loadMore}
+          hasMore={items.length < total}
+          loader={
+            // eslint-disable-next-line react/jsx-wrap-multilines
+            <div className={styles.spin}>
+              <Spin />
+            </div>
+          }
+          dataLength={items.length}
         >
           <Table
             dataSource={items}

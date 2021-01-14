@@ -287,15 +287,15 @@ export function* callChangePassword({ payload }) {
 }
 
 export function* callLoadUsers({ payload }) {
-  const { page, search } = payload;
   try {
-    const response = yield call(loadUsers, page, search);
+    const response = yield call(loadUsers, payload);
 
     yield put({
       type: actions.LOAD_USERS_SUCCESS,
       payload: {
         data: response.data,
-        page,
+        total: response.data.count,
+        firstPage: !response.data.previous,
       },
     });
   } catch (error) {

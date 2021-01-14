@@ -1,3 +1,4 @@
+import { constants } from 'utils/constants';
 import actions from './actions';
 
 const initialState = {
@@ -5,6 +6,7 @@ const initialState = {
   items: [],
   companies: [],
   total: 0,
+  offset: 0,
   companiesCount: 0,
   authorized: false,
   isLoggingIn: false,
@@ -89,20 +91,31 @@ export default function userReducer(state = initialState, action) {
         areUsersLoading: true,
       };
     case actions.LOAD_USERS_SUCCESS:
-      const newItems = action.payload.data.results.map(user => {
-        return {
-          ...user,
-          key: user.id,
-        };
-      });
-      const items =
-        action.payload.page > 1 ? [...state.items, ...newItems] : newItems;
       return {
         ...state,
-        items,
+        items: action.payload.firstPage
+          ? action.payload.data.results
+          : [...state.items, ...action.payload.data.results],
         total: action.payload.data.count,
         areUsersLoading: false,
+        offset: action.payload.firstPage
+          ? constants?.pools?.itemsLoadingCount
+          : state.offset + constants?.pools?.itemsLoadingCount,
       };
+    // const newItems = action.payload.data.results.map(user => {
+    //   return {
+    //     ...user,
+    //     key: user.id,
+    //   };
+    // });
+    // const items =
+    //   action.payload.page > 1 ? [...state.items, ...newItems] : newItems;
+    // return {
+    //   ...state,
+    //   items,
+    //   total: action.payload.data.count,
+    //   areUsersLoading: false,
+    // };
     case actions.LOAD_USERS_FAILURE:
       return { ...state, areUsersLoading: false, error: action.payload.data };
     case actions.SET_STATUS_SUCCESS:
