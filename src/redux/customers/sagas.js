@@ -19,7 +19,7 @@ export function* callLoadCustomers({ payload }) {
       type: actions.FETCH_CUSTOMERS_SUCCESS,
       payload: {
         data: response.data,
-        // total: response.data.count,
+        total: response.data.count,
         firstPage: !response.data.previous,
       },
     });
@@ -72,7 +72,7 @@ export function* callLoadCompanies({ payload }) {
     const response = yield call(fetchCompanies, page, search);
 
     yield put({
-      type: actions.LOAD_COMPANIES_SUCCESS,
+      type: actions.FETCH_COMPANIES_SUCCESS,
       payload: {
         data: response.data,
         page,

@@ -25,7 +25,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import debounce from 'lodash.debounce';
 import styles from './styles.module.scss';
 import { constants } from 'utils/constants';
-import customersActions from 'redux/user/actions';
+import customersActions from 'redux/customers/actions';
 import actions from 'redux/companies/actions';
 import { LoadingNode, NotFoundNode } from './components';
 
@@ -37,7 +37,7 @@ const ContactResultModal = ({ form, existUsers }) => {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { items: users, total, areUsersLoading } = useSelector(
-    state => state.user,
+    state => state.customers,
   );
 
   useEffect(() => {

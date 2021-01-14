@@ -27,16 +27,11 @@ export default function userReducer(state = initialState, action) {
         items: action.payload.firstPage
           ? action.payload.data.results
           : [...state.items, ...action.payload.data.results],
-        total: action.payload.data.count,
-        // total: action.payload.total,
+        total: action.payload.total,
         areUsersLoading: false,
         offset: action.payload.firstPage
           ? constants?.customers?.itemsLoadingCount
           : state.offset + constants?.customers?.itemsLoadingCount,
-        // };
-
-        // ...state,
-        // items: action.payload.data.results,
       };
     case actions.FETCH_CUSTOMERS_FAILURE:
       return { ...state, areUsersLoading: false, error: action.payload.data };

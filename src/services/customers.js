@@ -8,7 +8,6 @@ export const fetchCustomers = async ({ limit, offset, search }) => {
       search,
     },
   });
-  console.log('USERS', users);
   return users;
 };
 
