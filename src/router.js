@@ -88,6 +88,10 @@ const routes = [
     path: '/packing-slip',
     Component: loadable(() => import('pages/Intake')),
   },
+  {
+    path: '/search',
+    Component: loadable(() => import('pages/search')),
+  },
 ];
 
 const mapStateToProps = ({ settings }) => ({ settings });

@@ -37,6 +37,12 @@ export async function getMenuData() {
       icon: 'fe fe-download',
     },
     {
+      title: 'Search',
+      key: 'search',
+      url: '/search',
+      icon: 'fe fe-search',
+    },
+    {
       title: 'Help',
       key: 'contactUs',
       icon: 'fe fe-mail',
@@ -55,6 +61,7 @@ export async function getRolePermissions() {
         '/pools',
         '/activity-stream',
         '/packing-slip',
+        '/search',
       ],
       default: '/runs',
     },
@@ -67,6 +74,7 @@ export async function getRolePermissions() {
         '/pools',
         '/activity-stream',
         '/packing-slip',
+        '/search',
       ],
       default: '/runs',
     },
