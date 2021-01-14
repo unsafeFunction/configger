@@ -8,3 +8,17 @@
     margin-bottom: 0;
   }
 }
+
+.emptyPlaceholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 17px;
+  }
+
+  span {
+    margin-left: 5px;
+  }
+}

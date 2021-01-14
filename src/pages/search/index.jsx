@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/search/actions';
-import { Input, Steps } from 'antd';
+import { Empty, Input, Steps } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
@@ -112,26 +112,35 @@ const Search = () => {
         value={searchName}
         onChange={onChangeSearch}
       />
-
-      <Steps direction="vertical" current={searchMock.current} className={styles.stages}>
-        {searchMock?.items?.map((step, stepIdx) => (
-          <Step
-            title={step.title}
-            key={step.title}
-            description={(
-              <div>
-                {step.data.map((info) => (
-                  <p>
-                  {info.title}<span className={`ml-3 ${stepIdx !== searchMock.current ? 'text-muted' : 'text-primary' }`}>
+      {!searchName && (
+        <div className={styles.emptyPlaceholder}>
+          <p>Start typing for search <SearchOutlined /></p>
+        </div>
+      )}
+      {searchName && searchMock.items.length && (
+        <Steps direction="vertical" current={searchMock.current} className={styles.stages}>
+          {searchMock?.items?.map((step, stepIdx) => (
+            <Step
+              title={step.title}
+              key={step.title}
+              description={(
+                <div>
+                  {step.data.map((info) => (
+                    <p>
+                      {info.title}<span className={`ml-3 ${stepIdx !== searchMock.current ? 'text-muted' : 'text-primary' }`}>
                     {info.id === 'company_date' ? moment(info.value).format('YYYY-MM-DD') : info.value}
                   </span>
-                  </p>
-                ))}
-              </div>
-            )}
+                    </p>
+                  ))}
+                </div>
+              )}
             />
           ))}
-      </Steps>
+        </Steps>
+      )}
+      {searchName && !searchMock.items.length && (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      )}
     </>
   );
 };
