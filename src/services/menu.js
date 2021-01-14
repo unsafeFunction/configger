@@ -1,41 +1,41 @@
 export async function getMenuData() {
   return [
-    {
-      title: 'Timeline',
-      key: 'timeline',
-      url: '/timeline',
-      icon: 'fe fe-compass',
-    },
-    {
-      title: 'Users',
-      key: 'users',
-      url: '/users',
-      icon: 'fe fe-user',
-    },
-    {
-      title: 'Companies',
-      key: 'companies',
-      icon: 'fe fe-briefcase',
-      url: '/companies',
-    },
-    {
-      title: 'Runs',
-      key: 'runs',
-      url: '/runs',
-      icon: 'fe fe-box',
-    },
-    {
-      title: 'Pools',
-      key: 'pools',
-      url: '/pools',
-      icon: 'fe fe-folder',
-    },
+    // {
+    //   title: 'Timeline',
+    //   key: 'timeline',
+    //   url: '/timeline',
+    //   icon: 'fe fe-compass',
+    // },
+    // {
+    //   title: 'Users',
+    //   key: 'users',
+    //   url: '/users',
+    //   icon: 'fe fe-user',
+    // },
+    // {
+    //   title: 'Companies',
+    //   key: 'companies',
+    //   icon: 'fe fe-briefcase',
+    //   url: '/companies',
+    // },
     {
       title: 'Intake',
-      key: 'intake',
+      key: 'runs',
       url: '/intake',
-      icon: 'fe fe-download',
+      icon: 'fe fe-box',
     },
+    // {
+    //   title: 'Pools',
+    //   key: 'pools',
+    //   url: '/pools',
+    //   icon: 'fe fe-folder',
+    // },
+    // {
+    //   title: 'Intake',
+    //   key: 'intake',
+    //   url: '/intake',
+    //   icon: 'fe fe-downloaddd',
+    // },
     {
       title: 'Contact Us',
       key: 'contactUs',
@@ -49,11 +49,11 @@ export async function getRolePermissions() {
     admin: {
       permitted: [
         '/profile',
-        '/users',
-        '/companies',
-        '/runs',
-        '/pools',
-        '/activity-stream',
+        // '/users',
+        // '/companies',
+        // '/runs',
+        // '/pools',
+        // '/activity-stream',
         '/intake',
       ],
       default: '/runs',

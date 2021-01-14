@@ -57,16 +57,16 @@ const routes = [
     Component: loadable(() => import('pages/Users')),
     exact: true,
   },
-  {
-    path: '/runs',
-    Component: loadable(() => import('pages/runs')),
-    exact: true,
-  },
-  {
-    path: '/runs/:id',
-    Component: loadable(() => import('pages/runs/run')),
-    // exact: true,
-  },
+  // {
+  //   path: '/runs',
+  //   Component: loadable(() => import('pages/runs')),
+  //   exact: true,
+  // },
+  // {
+  //   path: '/runs/:id',
+  //   Component: loadable(() => import('pages/runs/run')),
+  //   // exact: true,
+  // },
   {
     path: '/pools',
     Component: loadable(() => import('pages/Pools')),
@@ -86,7 +86,7 @@ const routes = [
   },
   {
     path: '/intake',
-    Component: loadable(() => import('pages/Intake')),
+    Component: loadable(() => import('pages/intake')),
   },
 ];
 
