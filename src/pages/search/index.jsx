@@ -19,6 +19,55 @@ const Search = () => {
   const [searchName, setSearchName] = useState('');
 
   const search = useSelector(state => state.search);
+  const searchMock = {
+    current: 2,
+    items: [
+      {
+        title: 'Stage 1: Intake',
+        data: [
+          {
+            title: 'Company',
+            value: 'Some Name',
+          },
+          {
+            title: 'Company ID',
+            value: '123456789',
+            id: 'text',
+          },
+          {
+            title: 'Scan Date & Time',
+            value: 2020-12-12,
+            id: 'company_date',
+          }
+        ]
+    }, {
+        title: 'Stage 2: Pooling',
+        data: [
+          {
+            title: 'Company',
+            value: 'Some Name',
+          }
+        ]
+      },
+      {
+        title: 'Stage 3: RNA Extraction',
+        data: [
+          {
+            title: 'Company',
+            value: 'Some Name',
+          }
+        ]
+      },
+      {
+        title: 'Stage 4: Test',
+        data: [
+          {
+            title: 'Company',
+            value: 'Some Name',
+          }
+        ]
+      }]
+  }
 
   const useFetching = () => {
     useEffect(() => {
@@ -64,158 +113,24 @@ const Search = () => {
         onChange={onChangeSearch}
       />
 
-      <Steps direction="vertical" current={4} className={styles.stages}>
-        <Step
-          title="Stage 1: Intake"
-          description={
-            <div>
-              <p>
-                Company<span className="ml-3 text-primary">Some Name</span>
-              </p>
-              <p>
-                Company ID<span className="ml-3 text-primary">123456789</span>
-              </p>
-              <p>
-                Scan Date &amp; Time
-                <span className="ml-3 text-primary">
-                  {moment(undefined).format('DD MMM YYYY hh:mm A')}
-                </span>
-              </p>
-              <p>
-                Rack ID<span className="ml-3 text-primary">123456789</span>
-              </p>
-              <p>
-                Tube Position<span className="ml-3 text-primary">8</span>
-              </p>
-              <p>
-                Pool Name<span className="ml-3 text-primary">123456789</span>
-              </p>
-              <p>
-                Pool ID<span className="ml-3 text-primary">123456789</span>
-              </p>
-            </div>
-          }
-        />
-        <Step
-          title="Stage 2: Pooling"
-          description={
-            <div>
-              <p>
-                Pool Rack Name
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-              <p>
-                Pool Rack ID<span className="ml-3 text-primary">some data</span>
-              </p>
-              <p>
-                Pool Rack Scan Date &amp; Time
-                <span className="ml-3 text-primary">
-                  {moment(undefined).format('DD MMM YYYY hh:mm A')}
-                </span>
-              </p>
-              <p>
-                Pool Rack Position
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-            </div>
-          }
-        />
-        <Step
-          title="Stage 3: RNA Extraction"
-          description={
-            <div>
-              <p>
-                Sample Plate ID
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-              <p>
-                Sample Plate Name
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-              <p>
-                Sample Plate Position
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-            </div>
-          }
-        />
-        <Step
-          title="Stage 4: QPCR"
-          description={
-            <div>
-              <p>
-                Run Name
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-              <p>
-                Run Template
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-              <p>
-                Well Plate Positions
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-            </div>
-          }
-        />
-        <Step
-          title="Stage 5: Analysis"
-          description={
-            <div>
-              <p>
-                Raw Data
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-              <p>
-                Well Plate Positions 1/2/3
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-              <p>
-                CQ Value
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-              <p>
-                Interpretive Result
-                <span className="ml-3 text-primary">some data</span>
-              </p>
-            </div>
-          }
-        />
-        <Step
-          title="Stage 6: Results"
-          description={
-            <div>
-              <p>
-                Published Pool Result
-                <span className="ml-3 text-primary">-</span>
-              </p>
-              <p>
-                Published Pool Result Date &amp; Time
-                <span className="ml-3 text-primary">-</span>
-              </p>
-              <p>
-                Published Subpool Result
-                <span className="ml-3 text-primary">-</span>
-              </p>
-              <p>
-                Published Subpool Result Date &amp; Time
-                <span className="ml-3 text-primary">-</span>
-              </p>
-              <p>
-                Diagnostic Result
-                <span className="ml-3 text-primary">-</span>
-              </p>
-              <p>
-                Diagnostic Result Date &amp; Time
-                <span className="ml-3 text-primary">-</span>
-              </p>
-              <p>
-                Diagnostic Result File
-                <span className="ml-3 text-primary">-</span>
-              </p>
-            </div>
-          }
-        />
+      <Steps direction="vertical" current={searchMock.current} className={styles.stages}>
+        {searchMock?.items?.map((step, stepIdx) => (
+          <Step
+            title={step.title}
+            key={step.title}
+            description={(
+              <div>
+                {step.data.map((info) => (
+                  <p>
+                  {info.title}<span className={`ml-3 ${stepIdx !== searchMock.current ? 'text-muted' : 'text-primary' }`}>
+                    {info.id === 'company_date' ? moment(info.value).format('YYYY-MM-DD') : info.value}
+                  </span>
+                  </p>
+                ))}
+              </div>
+            )}
+            />
+          ))}
       </Steps>
     </>
   );
