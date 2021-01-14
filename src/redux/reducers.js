@@ -11,6 +11,7 @@ import pools from './pools/reducers';
 import hijack from './hijack/reducers';
 import activityStream from './activityStream/reducers';
 import intake from './intake/reducers';
+import search from './search/reducers';
 
 export default history =>
   combineReducers({
@@ -26,4 +27,5 @@ export default history =>
     hijack,
     activityStream,
     intake,
+    search,
   });

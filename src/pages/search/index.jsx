@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import actions from 'redux/search/actions';
+import actions from 'redux/search/actions';
 import { Input, Steps } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
@@ -18,45 +18,40 @@ const Search = () => {
   const history = useHistory();
   const [searchName, setSearchName] = useState('');
 
-  // const pools = useSelector(state => state.pools);
+  const search = useSelector(state => state.search);
 
-  // const useFetching = () => {
-  //   useEffect(() => {
-  //     dispatch({
-  //       type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
-  //       payload: {
-  //         runId,
-  //         limit: constants?.pools?.itemsLoadingCount,
-  //       },
-  //     });
-  //   }, [dispatch]);
-  // };
+  const useFetching = () => {
+    useEffect(() => {
+      dispatch({
+        type: actions.FETCH_INFO_REQUEST,
+        payload: {}
+      });
+    }, [dispatch]);
+  };
 
-  // useFetching();
+  useFetching();
 
-  // const sendQuery = useCallback(
-  //   query => {
-  //     dispatch({
-  //       type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
-  //       payload: {
-  //         runId,
-  //         limit: constants?.pools?.itemsLoadingCount,
-  //         search: query,
-  //       },
-  //     });
-  //   },
-  //   [dispatch, searchName, runId],
-  // );
+  const sendQuery = useCallback(
+    query => {
+      dispatch({
+        type: actions.FETCH_INFO_REQUEST,
+        payload: {
+          search: query,
+        },
+      });
+    },
+    [dispatch],
+  );
 
-  // const delayedQuery = useCallback(
-  //   debounce(q => sendQuery(q), 500),
-  //   [],
-  // );
+  const delayedQuery = useCallback(
+    debounce(q => sendQuery(q), 500),
+    [],
+  );
 
-  // const onChangeSearch = useCallback(event => {
-  //   setSearchName(event.target.value);
-  //   delayedQuery(event.target.value);
-  // }, []);
+  const onChangeSearch = useCallback(event => {
+    setSearchName(event.target.value);
+    delayedQuery(event.target.value);
+  }, []);
 
   return (
     <>
@@ -65,8 +60,8 @@ const Search = () => {
         prefix={<SearchOutlined />}
         className={styles.search}
         placeholder="Enter barcode..."
-        // value={searchName}
-        // onChange={onChangeSearch}
+        value={searchName}
+        onChange={onChangeSearch}
       />
 
       <Steps direction="vertical" current={4} className={styles.stages}>
