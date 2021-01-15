@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import styles from './styles.module.scss';
 import moment from 'moment-timezone';
+import Loader from '../../components/layout/Loader';
 
 moment.tz.setDefault('America/New_York');
 
@@ -19,75 +20,17 @@ const Search = () => {
   const [searchName, setSearchName] = useState('');
 
   const search = useSelector(state => state.search);
-  const searchMock = {
-    current: 2,
-    items: [
-      {
-        title: 'Stage 1: Intake',
-        data: [
-          {
-            title: 'Company',
-            value: 'Some Name',
-          },
-          {
-            title: 'Company ID',
-            value: '123456789',
-            id: 'text',
-          },
-          {
-            title: 'Scan Date & Time',
-            value: 2020-12-12,
-            id: 'company_date',
-          }
-        ]
-    }, {
-        title: 'Stage 2: Pooling',
-        data: [
-          {
-            title: 'Company',
-            value: 'Some Name',
-          }
-        ]
-      },
-      {
-        title: 'Stage 3: RNA Extraction',
-        data: [
-          {
-            title: 'Company',
-            value: 'Some Name',
-          }
-        ]
-      },
-      {
-        title: 'Stage 4: Test',
-        data: [
-          {
-            title: 'Company',
-            value: 'Some Name',
-          }
-        ]
-      }]
-  }
-
-  const useFetching = () => {
-    useEffect(() => {
-      dispatch({
-        type: actions.FETCH_INFO_REQUEST,
-        payload: {}
-      });
-    }, [dispatch]);
-  };
-
-  useFetching();
 
   const sendQuery = useCallback(
     query => {
-      dispatch({
-        type: actions.FETCH_INFO_REQUEST,
-        payload: {
-          search: query,
-        },
-      });
+      if (query) {
+        dispatch({
+          type: actions.FETCH_INFO_REQUEST,
+          payload: {
+            search: query,
+          },
+        });
+      }
     },
     [dispatch],
   );
@@ -117,9 +60,9 @@ const Search = () => {
           <p>Start typing for search <SearchOutlined /></p>
         </div>
       )}
-      {searchName && searchMock.items.length && (
-        <Steps direction="vertical" current={searchMock.current} className={styles.stages}>
-          {searchMock?.items?.map((step, stepIdx) => (
+      {searchName && search?.items?.length > 0 && !search.isLoading && (
+        <Steps direction="vertical" current={search.current} className={styles.stages}>
+          {search?.items?.map((step, stepIdx) => (
             <Step
               title={step.title}
               key={step.title}
@@ -127,7 +70,7 @@ const Search = () => {
                 <div>
                   {step.data.map((info) => (
                     <p>
-                      {info.title}<span className={`ml-3 ${stepIdx !== searchMock.current ? 'text-muted' : 'text-primary' }`}>
+                      {info.title}<span className={`ml-3 ${stepIdx !== search.current ? 'text-muted' : 'text-primary' }`}>
                     {info.id === 'company_date' ? moment(info.value).format('YYYY-MM-DD') : info.value}
                   </span>
                     </p>
@@ -138,7 +81,8 @@ const Search = () => {
           ))}
         </Steps>
       )}
-      {searchName && !searchMock.items.length && (
+      {searchName && search.isLoading && (<Loader />)}
+      {searchName && !search?.items?.length  && !search.isLoading && (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
       )}
     </>

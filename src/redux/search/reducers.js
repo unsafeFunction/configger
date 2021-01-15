@@ -16,10 +16,11 @@ export default function searchReducer(state = initialState, action) {
       };
     }
     case actions.FETCH_INFO_SUCCESS: {
+      console.log(action.payload.data);
       return {
         ...state,
-        items: action.payload.data.results,
-        total: action.payload.data.count,
+        items: action.payload.data,
+        // total: action?.payload?.data?.count,
         isLoading: false,
       };
     }

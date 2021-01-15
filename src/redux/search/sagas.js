@@ -13,11 +13,11 @@ export function* callFetchInfo({ payload }) {
       type: actions.FETCH_INFO_SUCCESS,
       payload: {
         data: response.data,
-        total: response.data.count,
+        // total: response?.data?.count,
       },
     });
   } catch (error) {
-    notification.error(error);
+    notification.error({message: error?.response?.data?.error});
   }
 }
 
