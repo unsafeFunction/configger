@@ -3,6 +3,7 @@ import { constants } from 'utils/constants';
 
 const initialState = {
   items: [],
+  current: 0,
   isLoading: false,
   total: 0,
 };
@@ -19,7 +20,8 @@ export default function searchReducer(state = initialState, action) {
       console.log(action.payload.data);
       return {
         ...state,
-        items: action.payload.data,
+        items: action.payload.data.items,
+        current: action.payload.data.current,
         // total: action?.payload?.data?.count,
         isLoading: false,
       };
