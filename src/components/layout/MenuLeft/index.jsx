@@ -229,6 +229,8 @@ class MenuLeft extends React.Component {
         <li
           className={classNames(style.air__menuLeft__item, {
             [style.air__menuLeft__item__active]: activeItem === key,
+            [style.helpItem]:
+              item.key === 'contactUs' || item.key === 'helpCenter',
           })}
           key={key}
         >
@@ -251,20 +253,20 @@ class MenuLeft extends React.Component {
               )}
             </Link>
           )}
-          {!item.url && item.key === 'contactUs' && (
+          {!item.url && item.key === 'helpCenter' && (
             <a
-              href="mailto:testingsupport@mirimus.com"
+              href="https://mirimus.freshdesk.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               className={style.air__menuLeft__link}
             >
               {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
               <span>{title}</span>
             </a>
           )}
-          {!item.url && item.key === 'helpCenter' && (
+          {!item.url && item.key === 'contactUs' && (
             <a
-              href="https://mirimus.freshdesk.com/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:testingsupport@mirimus.com"
               className={style.air__menuLeft__link}
             >
               {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}

@@ -56,16 +56,16 @@
     padding-bottom: rem(20);
     & > ul {
       & > li {
-        &:last-child {
-          position: absolute;
-          bottom: 21px;
-          width: 100%;
-        }
+        // &:last-child {
+        //   position: absolute;
+        //   bottom: 21px;
+        //   width: 100%;
+        // }
 
-        &:nth-child(8) {
-          position: absolute;
-          bottom: 55px;
-        }
+        // &:nth-child(8) {
+        //   position: absolute;
+        //   bottom: 55px;
+        // }
       }
     }
   }
@@ -1080,4 +1080,13 @@
   color: white;
   font-size: 1.5em;
   text-align: center;
+}
+
+.helpItem {
+  position: absolute;
+  bottom: 18px;
+
+  &:last-child {
+    bottom: 51px;
+  }
 }
