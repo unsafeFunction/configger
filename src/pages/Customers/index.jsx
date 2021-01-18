@@ -320,11 +320,6 @@ const Customers = () => {
         <InfiniteScroll
           next={loadMore}
           hasMore={customers?.items?.length < customers?.total}
-          loader={
-            <div className={styles.spin}>
-              <Spin />
-            </div>
-          }
           dataLength={customers?.items?.length}
         >
           <Table
