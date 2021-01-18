@@ -33,13 +33,6 @@ const Intake = ({ company = {} }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const [form] = Form.useForm();
-  const useFetching = () => {
-    useEffect(() => {
-      dispatch({
-        type: actions.FETCH_COMPANIES_REQUEST,
-      });
-    }, [dispatch]);
-  };
 
   useEffect(() => {
     if (user?.profile?.companies?.length === 1) {
@@ -105,8 +98,6 @@ const Intake = ({ company = {} }) => {
       },
     });
   }, []);
-
-  useFetching();
 
   return (
     <Row gutter={{ xs: 24, sm: 24, md: 24, lg: 24, xl: 48, xxl: 56 }}>
