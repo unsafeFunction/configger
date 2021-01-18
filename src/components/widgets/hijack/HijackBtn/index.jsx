@@ -6,7 +6,14 @@ import { Button, Tooltip } from 'antd';
 import { LoginOutlined } from '@ant-design/icons';
 import actions from 'redux/hijack/actions';
 
-const HijackBtn = ({ userId, userFirstName, userLastName, userRole, path }) => {
+const HijackBtn = ({
+  userId,
+  userFirstName,
+  userLastName,
+  userRole,
+  path,
+  userIsActive,
+}) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -40,7 +47,10 @@ const HijackBtn = ({ userId, userFirstName, userLastName, userRole, path }) => {
         icon={<LoginOutlined />}
         onClick={handleHijackLogin}
         disabled={
-          hijack.isLoading || hijack.isActive || userRole !== 'company-admin'
+          hijack.isLoading ||
+          hijack.isActive ||
+          userRole !== 'company-admin' ||
+          !userIsActive
         }
       />
     </Tooltip>
@@ -53,6 +63,7 @@ HijackBtn.propTypes = {
   userLastName: PropTypes.string.isRequired,
   userRole: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  userIsActive: PropTypes.bool.isRequired,
 };
 
 export default HijackBtn;

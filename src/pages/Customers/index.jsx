@@ -249,6 +249,7 @@ const Customers = () => {
             userLastName={record.last_name}
             userRole={record.role}
             path={history.location.pathname}
+            userIsActive={record.is_active}
           />
         </Space>
       ),
