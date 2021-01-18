@@ -1,5 +1,4 @@
 import actions from './actions';
-import { constants } from 'utils/constants';
 
 const initialState = {
   items: [],
@@ -17,12 +16,10 @@ export default function searchReducer(state = initialState, action) {
       };
     }
     case actions.FETCH_INFO_SUCCESS: {
-      console.log(action.payload.data);
       return {
         ...state,
-        items: action.payload.data.items,
-        current: action.payload.data.current,
-        // total: action?.payload?.data?.count,
+        items: action.payload?.data?.items ?? [],
+        current: action.payload?.data?.current ?? 0,
         isLoading: false,
       };
     }
@@ -30,7 +27,7 @@ export default function searchReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        // error: action.payload.data,
+        error: action.payload.data,
       };
     }
     default:

@@ -1,5 +1,4 @@
 import axiosClient from 'utils/axiosClient';
-import { notification } from 'antd';
 
 export const fetchInfo = async ({ search }) => {
   try {
@@ -10,7 +9,6 @@ export const fetchInfo = async ({ search }) => {
     });
     return searchInfo;
   } catch (error) {
-    notification.error({message: error?.response?.data?.error});
     return error?.response?.data?.error;
   }
 };

@@ -1,8 +1,6 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
-import {
-  fetchInfo
-} from 'services/search';
+import { fetchInfo } from 'services/search';
 import actions from './actions';
 
 export function* callFetchInfo({ payload }) {
@@ -17,12 +15,10 @@ export function* callFetchInfo({ payload }) {
       },
     });
   } catch (error) {
-    notification.error({message: error?.response?.data?.error});
+    notification.error({ message: error?.response?.data?.error });
   }
 }
 
 export default function* rootSaga() {
-  yield all([
-    takeEvery(actions.FETCH_INFO_REQUEST, callFetchInfo),
-  ]);
+  yield all([takeEvery(actions.FETCH_INFO_REQUEST, callFetchInfo)]);
 }
