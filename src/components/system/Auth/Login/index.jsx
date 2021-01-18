@@ -87,7 +87,7 @@ const Login = () => {
             className={style.linkButton}
             href="mailto:testingsupport@mirimus.com"
           >
-            Help
+            Email Support
           </a>
         </div>
         <div className={style.copyright}>Copyright © 2020 Mirimus Inc.</div>
