@@ -35,6 +35,9 @@ export default function runsReducer(state = initialState, action) {
     case actions.LOGOUT: {
       return initialState;
     }
+    case actions.RESTORE: {
+      return { ...state, ...action.payload };
+    }
     default:
       return state;
   }

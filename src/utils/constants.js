@@ -1,4 +1,7 @@
 export const constants = {
+  customers: {
+    itemsLoadingCount: 25,
+  },
   companies: {
     itemsLoadingCount: 25,
   },

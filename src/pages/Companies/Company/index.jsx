@@ -148,9 +148,7 @@ const CompanyProfile = () => {
       dataIndex: 'fullname',
       render: (_, record) => (
         <Link to={`/activity-stream/${record.id}`} className="text-blue">
-          {record.first_name} 
-{' '}
-{record.last_name}
+          {record.first_name} {record.last_name}
         </Link>
       ),
     },
@@ -213,9 +211,7 @@ const CompanyProfile = () => {
                     message: () => (
                       <>
                         <p className={styles.modalWarningMessage}>
-                          You try to delete 
-{' '}
-<span>{user.first_name}</span>{' '}
+                          You try to delete <span>{user.first_name}</span>{' '}
                           <span>{user.last_name}</span> from{' '}
                           <span>{singleCompany?.name}</span>.
                         </p>

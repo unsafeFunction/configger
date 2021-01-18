@@ -4,6 +4,7 @@ import user from './user/reducers';
 import menu from './menu/reducers';
 import settings from './settings/reducers';
 import modal from './modal/reducers';
+import customers from './customers/reducers';
 import companies from './companies/reducers';
 import runs from './runs/reducers';
 import timeline from './timeline/reducers';
@@ -21,6 +22,7 @@ export default history =>
     menu,
     settings,
     modal,
+    customers,
     companies,
     runs,
     timeline,

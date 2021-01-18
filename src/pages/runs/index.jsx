@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import { useHistory, useLocation, Link } from 'react-router-dom';
 import qs from 'qs';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import styles from './styles.module.scss';
 import { constants } from 'utils/constants';
+import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
@@ -137,11 +137,11 @@ const Runs = () => {
     const params =
       from && to
         ? {
-            from,
-            to,
-            limit: constants?.runs?.itemsLoadingCount,
-            offset: runs.offset,
-          }
+          from,
+          to,
+          limit: constants?.runs?.itemsLoadingCount,
+          offset: runs.offset,
+        }
         : { limit: constants?.runs?.itemsLoadingCount, offset: runs.offset };
     dispatch({
       type: actions.FETCH_RUNS_REQUEST,
@@ -175,6 +175,7 @@ const Runs = () => {
         next={loadMore}
         hasMore={runs.items.length < runs.total}
         loader={
+          // eslint-disable-next-line react/jsx-wrap-multilines
           <div className={styles.spin}>
             <Spin />
           </div>
