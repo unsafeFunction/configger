@@ -61,6 +61,11 @@
           bottom: 21px;
           width: 100%;
         }
+
+        &:nth-child(8) {
+          position: absolute;
+          bottom: 55px;
+        }
       }
     }
   }

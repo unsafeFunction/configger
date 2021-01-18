@@ -49,7 +49,12 @@ export async function getMenuData() {
       icon: 'fe fe-monitor',
     },
     {
-      title: 'Help',
+      title: 'Help Center',
+      key: 'helpCenter',
+      icon: 'fa fa-question-circle-o',
+    },
+    {
+      title: 'Email Support',
       key: 'contactUs',
       icon: 'fe fe-mail',
     },

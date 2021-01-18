@@ -35,10 +35,6 @@ const ProfileMenu = ({ dispatch, history }) => {
   const menu = (
     <Menu selectable={false}>
       <Menu.Item onClick={onRedirectToProfile}>
-        {/* <strong className={styles.menu}>Hello, {first_name}</strong>
-        <div>
-          <strong>Role: {role}</strong>
-        </div> */}
         <strong>Profile</strong>
       </Menu.Item>
       <Menu.Divider />
