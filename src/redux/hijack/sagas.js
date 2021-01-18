@@ -21,12 +21,15 @@ export function* callFetchCredentials({ payload }) {
   try {
     const response = yield call(fetchCredentials, { userId });
 
+    const accessToken = cookie.getItem('accessToken');
+    const termsAccepted = cookie.getItem('termsAccepted');
+
     yield put({
       type: actions.FETCH_CREDENTIALS_SUCCESS,
       payload: {
         path,
-        accessToken: cookie.getItem('accessToken'),
-        termsAccepted: cookie.getItem('termsAccepted'),
+        accessToken,
+        termsAccepted,
         role: currentRole,
       },
     });
@@ -38,6 +41,16 @@ export function* callFetchCredentials({ payload }) {
 
     cookie.setItem('accessToken', response.data.key);
     cookie.setItem('termsAccepted', response.data.terms_accepted);
+    cookie.setItem(
+      'hijack',
+      JSON.stringify({
+        isActive: true,
+        path,
+        accessToken,
+        termsAccepted,
+        role: currentRole,
+      }),
+    );
 
     notification.success({
       message: 'Logged In',
@@ -74,6 +87,7 @@ export function* callHijackLogout({ payload }) {
 
     cookie.setItem('accessToken', accessToken);
     cookie.setItem('termsAccepted', termsAccepted);
+    cookie.removeItem('hijack');
 
     notification.success({
       message: 'Logged Out',
@@ -89,9 +103,21 @@ export function* callHijackLogout({ payload }) {
   }
 }
 
+export function* RESTORE() {
+  const hijack = cookie.getItem('hijack');
+
+  if (hijack) {
+    yield put({
+      type: actions.RESTORE,
+      payload: JSON.parse(hijack),
+    });
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeLatest(actions.FETCH_CREDENTIALS_REQUEST, callFetchCredentials),
     takeLatest(actions.LOGOUT, callHijackLogout),
+    RESTORE(), // run once on app load
   ]);
 }
