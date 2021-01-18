@@ -17,6 +17,8 @@ import {
   Button,
   DatePicker,
   Empty,
+  Tooltip,
+  Typography
 } from 'antd';
 import Loader from 'components/layout/Loader';
 import {
@@ -26,9 +28,6 @@ import {
   FilePdfFilled,
   FileOutlined,
   IdcardOutlined,
-  UpOutlined,
-  DownOutlined,
-  DownloadOutlined,
 } from '@ant-design/icons';
 import { DownloadLogo } from 'assets';
 
@@ -74,6 +73,79 @@ const Timeline = () => {
     });
   }, []);
 
+  const getDescription = (status) => {
+    switch (status) {
+      case 'COVID-19 Detected': {
+        return (
+          <div className={styles.hintItem}>
+            <Typography.Text className={styles.hintStatus} type="danger">
+              Detected -
+            </Typography.Text>
+            <span className={styles.hintDescription}>
+              COVID-19 Detected
+            </span>
+        </div>
+        )
+      }
+      case 'Not Detected': {
+        return (
+          <div className={styles.hintItem}>
+            <span className={styles.hintStatus}>Not Detected - </span>
+            <span className={styles.hintDescription}>
+             COVID-19 Not Detected
+            </span>
+        </div>
+        )
+      }
+      case 'Inconclusive': {
+        return (
+          <div className={styles.hintItem}>
+            <span className={styles.hintStatus}>Inconclusive - </span>
+            <span className={styles.hintDescription}>
+              Mirimus need to perform another test
+            </span>
+        </div>
+        )
+      }
+      case 'In Progress': {
+        return (
+          <div className={styles.hintItem}>
+            <span className={styles.hintStatus}>In Progress - </span>
+            <span className={styles.hintDescription}>
+               Your samples were tested but need to be retested due to a
+                quality control.
+            </span>
+        </div>
+        )
+      }
+      case 'Processing': {
+        return (
+          <div className={styles.hintItem}>
+            <span className={styles.hintStatus}>Processing - </span>
+            <span className={styles.hintDescription}>
+              Your samples were received by the lab and are in queue to be
+              tested
+            </span>
+        </div>
+        )
+      }
+      case 'Invalid': {
+        return (
+          <div className={styles.hintItem}>
+            <span className={styles.hintStatus}>Invalid - </span>
+            <span className={styles.hintDescription}>
+              Your samples obtained no result. Either the sample quality
+              was poor or there was not sufficient sample volume for
+              testing. Samples must be resubmitted. The lab has completed
+              testing on the samples.
+            </span>
+        </div>
+        )
+      }
+
+    }
+  }
+
   const onDatesChange = useCallback(
     (dates, dateStrings) => {
       if (dates) {
@@ -111,9 +183,15 @@ const Timeline = () => {
       dataIndex: 'status',
       key: 'status',
       render: value => (
-        <Tag color={value === 'Not Detected' ? 'processing' : 'red'}>
-          {value}
-        </Tag>
+        <Tooltip
+          placement="bottom"
+          title={getDescription(value)}
+          overlayClassName={styles.hintTooltip}
+        >
+          <Tag color={value === 'Not Detected' ? 'processing' : 'red'}>
+            {value}
+          </Tag>
+        </Tooltip>
       ),
     },
     {

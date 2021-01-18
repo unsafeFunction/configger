@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/pools/actions';
@@ -10,7 +11,9 @@ import {
   Popover,
   Select,
   Typography,
+  Tooltip,
 } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.scss';
 
@@ -72,7 +75,58 @@ const PoolTable = ({ loadMore }) => {
       dataIndex: 'pool_id',
     },
     {
-      title: 'Result',
+      title: (
+        <div className={styles.resultsStyle}>
+          <span>Result</span>
+          {/* <Tooltip
+            overlayClassName={styles.hintTooltip}
+            placement="bottom"
+            title={
+              <ul className={styles.hintList}>
+                <li className={styles.hintItem}>
+                  <Text className={styles.hintStatus} type="danger">
+                    DETECTED -
+                  </Text>
+                  <span className={styles.hintDescription}>detected</span>
+                </li>
+                <li className={styles.hintItem}>
+                  <span className={styles.hintStatus}>NOT DETECTED - </span>
+                  <span className={styles.hintDescription}>detected</span>
+                </li>
+                <li className={styles.hintItem}>
+                  <span className={styles.hintStatus}>Inconclusive - </span>
+                  <span className={styles.hintDescription}>detected</span>
+                </li>
+                <li className={styles.hintItem}>
+                  <span className={styles.hintStatus}>In progress - </span>
+                  <span className={styles.hintDescription}>
+                    Your samples were tested but need to be retested due to a
+                    quality control.
+                  </span>
+                </li>
+                <li className={styles.hintItem}>
+                  <span className={styles.hintStatus}>Processing - </span>
+                  <span className={styles.hintDescription}>
+                    Your samples were received by the lab and are in queue to be
+                    tested
+                  </span>
+                </li>
+                <li className={styles.hintItem}>
+                  <span className={styles.hintStatus}>Invalid - </span>
+                  <span className={styles.hintDescription}>
+                    Your samples obtained no result. Either the sample quality
+                    was poor or there was not sufficient sample volume for
+                    testing. Samples must be resubmitted. The lab has completed
+                    testing on the samples.
+                  </span>
+                </li>
+              </ul>
+            }
+          >
+            <QuestionCircleOutlined size="small" />
+          </Tooltip> */}
+        </div>
+      ),
       dataIndex: 'result',
       width: 182,
       render: (_, record) => (

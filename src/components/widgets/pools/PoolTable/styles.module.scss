@@ -12,3 +12,35 @@
 .modalButton {
   width: 130px;
 }
+
+.resultsStyle {
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-right: 10px;
+
+    cursor: pointer;
+  }
+}
+
+.hintTooltip {
+  width: 100%;
+  min-width: 500px;
+
+}
+
+.hintList {
+  list-style: none;
+  padding: 0;
+
+  padding: 10px;
+
+  .hintItem {
+    margin-bottom: 10px;
+
+    .hintStatus {
+      font-weight: 600;
+    }
+  }
+}
