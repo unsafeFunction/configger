@@ -109,8 +109,8 @@ const Intake = ({ company = {} }) => {
   useFetching();
 
   return (
-    <Row>
-      <Col className="mr-4" xs={10}>
+    <Row gutter={{ xs: 24, sm: 24, md: 24, lg: 24, xl: 48, xxl: 56 }}>
+      <Col sm={16} md={14} lg={12} xl={10} className="mb-5">
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             label="Company name"
@@ -145,8 +145,8 @@ const Intake = ({ company = {} }) => {
           <Form.Item label="Company ID" name="company_id">
             <Input disabled size="medium" placeholder="Company ID" />
           </Form.Item>
-          <Row>
-            <Col className="mr-5" xs={10}>
+          <Row gutter={16}>
+            <Col xs={12}>
               <Form.Item
                 type="number"
                 label="Samples"
@@ -167,7 +167,7 @@ const Intake = ({ company = {} }) => {
                 />
               </Form.Item>
             </Col>
-            <Col xs={11}>
+            <Col xs={12}>
               <Form.Item
                 label="Pools"
                 name="pool_number"
@@ -187,27 +187,29 @@ const Intake = ({ company = {} }) => {
                 />
               </Form.Item>
             </Col>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input pool number!',
-                },
-              ]}
-              className="mr-5"
-              label="Ship Date"
-              name="date"
-            >
-              <DatePicker
-                onChange={value =>
-                  handleInputChange(
-                    'shipDate',
-                    moment(value).format('YYYY/MM/DD'),
-                  )
-                }
-                size="large"
-              />
-            </Form.Item>
+            <Col xs={12}>
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input pool number!',
+                  },
+                ]}
+                label="Ship Date"
+                name="date"
+              >
+                <DatePicker
+                  onChange={value =>
+                    handleInputChange(
+                      'shipDate',
+                      moment(value).format('YYYY/MM/DD'),
+                    )
+                  }
+                  size="large"
+                  className="w-100"
+                />
+              </Form.Item>
+            </Col>
           </Row>
           <Button
             className={styles.downloadButton}
@@ -219,7 +221,7 @@ const Intake = ({ company = {} }) => {
           </Button>
         </Form>
       </Col>
-      <Col xs={12}>
+      <Col lg={12} xl={10} className="mb-5">
         <div className={styles.email}>
           <h2>Hello</h2>
           <span className={styles.titleDescription}>
