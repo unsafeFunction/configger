@@ -11,10 +11,15 @@ export function* callFetchInfo({ payload }) {
       type: actions.FETCH_INFO_SUCCESS,
       payload: {
         data: response.data,
-        // total: response?.data?.count,
       },
     });
   } catch (error) {
+    yield put({
+      type: actions.FETCH_INFO_FAILURE,
+      payload: {
+        data: error?.response?.data?.error,
+      },
+    });
     notification.error({ message: error?.response?.data?.error });
   }
 }
