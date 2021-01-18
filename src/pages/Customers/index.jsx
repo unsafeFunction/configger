@@ -89,10 +89,13 @@ const Customers = () => {
     [],
   );
 
-  const onChangeSearch = useCallback(event => {
-    setSearchName(event.target.value);
-    delayedQuery(event.target.value);
-  }, []);
+  const onChangeSearch = useCallback(
+    event => {
+      setSearchName(event.target.value);
+      delayedQuery(event.target.value);
+    },
+    [setSearchName],
+  );
 
   const reinviteUser = useCallback(id => {
     dispatch({
@@ -169,7 +172,9 @@ const Customers = () => {
       key: 'fullname',
       render: (_, record) => (
         <Link to={`/activity-stream/${record.id}`} className="text-blue">
-          {record.first_name} {record.last_name}
+          {record.first_name} 
+{' '}
+{record.last_name}
         </Link>
       ),
     },
