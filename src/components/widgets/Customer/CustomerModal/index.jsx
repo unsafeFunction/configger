@@ -8,7 +8,7 @@ const CustomerModal = ({ form, loadCompanies }) => {
   const { Item } = Form;
   const [page, setPage] = useState(0);
   const { companies, companiesCount, areCompaniesLoading } = useSelector(
-    state => state.user,
+    state => state.customers,
   );
 
   const loadPage = page => {
