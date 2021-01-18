@@ -79,10 +79,13 @@ const Timeline = () => {
         return (
           <div className={styles.hintItem}>
             <Typography.Text className={styles.hintStatus} type="danger">
-              Detected -
+            Detected - &nbsp;
             </Typography.Text>
             <span className={styles.hintDescription}>
-              COVID-19 Detected
+            results are indicative of the presence of SARS-CoV-2 RNA. Detected results do not rule out
+            bacterial infection or co-infection with other viruses. The agent detected may not be the definitive cause of
+            disease. Laboratories within the United States and its territories are required to report all positive results to the
+            appropriate public health authorities.
             </span>
         </div>
         )
@@ -92,7 +95,8 @@ const Timeline = () => {
           <div className={styles.hintItem}>
             <span className={styles.hintStatus}>Not Detected - </span>
             <span className={styles.hintDescription}>
-             COVID-19 Not Detected
+             results do not preclude SARS-CoV-2 infection and should not be used as the sole basis for
+            patient management decisions.
             </span>
         </div>
         )
@@ -102,7 +106,8 @@ const Timeline = () => {
           <div className={styles.hintItem}>
             <span className={styles.hintStatus}>Inconclusive - </span>
             <span className={styles.hintDescription}>
-              Mirimus need to perform another test
+            results are indicative of the presence of SARS-CoV-2 RNA that does not meet the limit of
+            detection. A confirmatory test is recommended 48-72 hours from the prior test.
             </span>
         </div>
         )

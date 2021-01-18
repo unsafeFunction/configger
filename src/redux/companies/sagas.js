@@ -39,7 +39,7 @@ export function* callCreateCompany({ payload }) {
     });
 
     notification.success({
-      message: 'Create company',
+      message: 'Add Company',
       description: 'You have successfully created company!',
     });
   } catch (error) {

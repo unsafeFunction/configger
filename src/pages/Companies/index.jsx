@@ -149,7 +149,7 @@ const Companies = () => {
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
-        title: 'Create company',
+        title: 'Add company',
         onOk: createCompany,
         cancelButtonProps: { className: styles.modalButton },
         okButtonProps: {
@@ -212,7 +212,7 @@ const Companies = () => {
                 type="primary"
                 className={!isMobile && 'ml-3'}
               >
-                Create Company
+                Add Company
               </Button>
             </div>
             <Input
@@ -246,7 +246,7 @@ const Companies = () => {
                 type="primary"
                 className={!isMobile && 'ml-3'}
               >
-                Create Company
+                Add Company
               </Button>
             </div>
           </>
