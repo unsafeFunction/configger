@@ -92,6 +92,10 @@ const routes = [
     path: '/search',
     Component: loadable(() => import('pages/search')),
   },
+  {
+    path: '/intake',
+    Component: loadable(() => import('pages/IntakeLims')),
+  },
 ];
 
 const mapStateToProps = ({ settings }) => ({ settings });
