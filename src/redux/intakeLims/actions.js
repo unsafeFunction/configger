@@ -1,0 +1,7 @@
+const actions = {
+  FETCH_INTAKE_REQUEST: 'intake/FETCH_INTAKE_REQUEST',
+  FETCH_INTAKE_SUCCESS: 'intake/FETCH_INTAKE_SUCCESS',
+  FETCH_INTAKE_FAILURE: 'intake/FETCH_INTAKE_FAILURE',
+};
+
+export default actions;

@@ -12,6 +12,7 @@ import hijack from './hijack/reducers';
 import activityStream from './activityStream/reducers';
 import intake from './intake/reducers';
 import search from './search/reducers';
+import intakeLims from './intakeLims/reducers';
 
 export default history =>
   combineReducers({
@@ -28,4 +29,5 @@ export default history =>
     activityStream,
     intake,
     search,
+    intakeLims,
   });

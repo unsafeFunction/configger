@@ -43,6 +43,12 @@ export async function getMenuData() {
       icon: 'fe fe-search',
     },
     {
+      title: 'Intake',
+      key: 'intake',
+      url: '/intake',
+      icon: 'fe fe-monitor',
+    },
+    {
       title: 'Help',
       key: 'contactUs',
       icon: 'fe fe-mail',
@@ -62,6 +68,7 @@ export async function getRolePermissions() {
         '/activity-stream',
         '/packing-slip',
         '/search',
+        '/intake',
       ],
       default: '/runs',
     },
@@ -75,6 +82,7 @@ export async function getRolePermissions() {
         '/activity-stream',
         '/packing-slip',
         '/search',
+        '/intake',
       ],
       default: '/runs',
     },
