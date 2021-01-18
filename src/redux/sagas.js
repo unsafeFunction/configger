@@ -10,6 +10,8 @@ import pools from './pools/sagas';
 import hijack from './hijack/sagas';
 import activityStream from './activityStream/sagas';
 import intake from './intake/sagas';
+import search from './search/sagas';
+import intakeLims from './intakeLims/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -24,5 +26,7 @@ export default function* rootSaga() {
     hijack(),
     activityStream(),
     intake(),
+    search(),
+    intakeLims(),
   ]);
 }
