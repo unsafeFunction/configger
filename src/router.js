@@ -58,6 +58,10 @@ const routes = [
     exact: true,
   },
   {
+    path: '/users/:userId',
+    Component: loadable(() => import('pages/activityStream')),
+  },
+  {
     path: '/runs',
     Component: loadable(() => import('pages/runs')),
     exact: true,
@@ -79,10 +83,6 @@ const routes = [
   {
     path: '/companies/:id',
     Component: loadable(() => import('pages/Companies/Company')),
-  },
-  {
-    path: '/activity-stream/:userId',
-    Component: loadable(() => import('pages/activityStream')),
   },
   {
     path: '/packing-slip',

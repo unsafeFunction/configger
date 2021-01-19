@@ -171,10 +171,8 @@ const Customers = () => {
       title: 'Full name',
       key: 'fullname',
       render: (_, record) => (
-        <Link to={`/activity-stream/${record.id}`} className="text-blue">
-          {record.first_name} 
-{' '}
-{record.last_name}
+        <Link to={`/users/${record.id}`} className="text-blue">
+          {record.first_name} {record.last_name}
         </Link>
       ),
     },
