@@ -147,7 +147,7 @@ const CompanyProfile = () => {
       title: 'Full name',
       dataIndex: 'fullname',
       render: (_, record) => (
-        <Link to={`/activity-stream/${record.id}`} className="text-blue">
+        <Link to={`/users/${record.id}`} className="text-blue">
           {record.first_name} {record.last_name}
         </Link>
       ),
