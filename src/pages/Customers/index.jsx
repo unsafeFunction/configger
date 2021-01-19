@@ -172,9 +172,7 @@ const Customers = () => {
       key: 'fullname',
       render: (_, record) => (
         <Link to={`/activity-stream/${record.id}`} className="text-blue">
-          {record.first_name} 
-{' '}
-{record.last_name}
+          {record.first_name} {record.last_name}
         </Link>
       ),
     },
@@ -224,8 +222,7 @@ const Customers = () => {
     {
       title: 'Actions',
       key: 'action',
-      fixed: 'right',
-      width: '130px',
+      width: '190px',
       render: (_, record) => (
         <Space size="middle">
           <Switch
@@ -339,6 +336,7 @@ const Customers = () => {
               ),
             }}
             bordered
+            scroll={{ x: 1400 }}
           />
         </InfiniteScroll>
       </div>
