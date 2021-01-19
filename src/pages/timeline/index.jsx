@@ -211,7 +211,7 @@ const Timeline = () => {
       case 'Invalid': {
         return (
           <div className={styles.hintItem}>
-            <span className={styles.hintStatus}>Invalid - </span>
+            <span className={styles.hintStatus}>INVALID - </span>
             <span className={styles.hintDescription}>
               Your samples obtained no result. Either the sample quality
               was poor or there was not sufficient sample volume for
