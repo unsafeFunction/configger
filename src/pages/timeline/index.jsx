@@ -28,8 +28,12 @@ import {
   FilePdfFilled,
   FileOutlined,
   IdcardOutlined,
+  MinusCircleFilled,
+  PlusCircleFilled,
+  ClockCircleFilled,
 } from '@ant-design/icons';
 import { DownloadLogo } from 'assets';
+import TwoToneComponent from '../../assets/TwoTone';
 
 import actions from 'redux/timeline/actions';
 
@@ -73,13 +77,83 @@ const Timeline = () => {
     });
   }, []);
 
+  const getColor = (status) => {
+    switch (status) {
+      case 'COVID-19 Detected': {
+        return (
+          'red'
+        )
+      }
+      case 'Not Detected': {
+        return (
+          'green'
+        )
+      }
+      case 'Inconclusive': {
+        return (
+          'orange'
+        )
+      }
+      case 'In Progress': {
+        return (
+          'blue'
+        )
+      }
+      // case 'Processing': {
+      //   return (
+      //
+      //   )
+      // }
+      // case 'Invalid': {
+      //   return (
+      //
+      //   )
+      // }
+    }
+  }
+
+  const getIcon = (status) => {
+    switch (status) {
+      case 'COVID-19 Detected': {
+        return (
+          <PlusCircleFilled />
+        )
+      }
+      case 'Not Detected': {
+        return (
+          <MinusCircleFilled />
+        )
+      }
+      case 'Inconclusive': {
+        return (
+          <TwoToneComponent />
+        )
+      }
+      case 'In Progress': {
+        return (
+          <ClockCircleFilled />
+        )
+      }
+      // case 'Processing': {
+      //   return (
+      //
+      //   )
+      // }
+      // case 'Invalid': {
+      //   return (
+      //
+      //   )
+      // }
+    }
+  }
+
   const getDescription = (status) => {
     switch (status) {
       case 'COVID-19 Detected': {
         return (
           <div className={styles.hintItem}>
             <Typography.Text className={styles.hintStatus} type="danger">
-            Detected - &nbsp;
+            DETECTED - &nbsp;
             </Typography.Text>
             <span className={styles.hintDescription}>
             results are indicative of the presence of SARS-CoV-2 RNA. Detected results do not rule out
@@ -93,7 +167,7 @@ const Timeline = () => {
       case 'Not Detected': {
         return (
           <div className={styles.hintItem}>
-            <span className={styles.hintStatus}>Not Detected - </span>
+            <span className={styles.hintStatus}>NOT DETECTED - </span>
             <span className={styles.hintDescription}>
              results do not preclude SARS-CoV-2 infection and should not be used as the sole basis for
             patient management decisions.
@@ -104,7 +178,7 @@ const Timeline = () => {
       case 'Inconclusive': {
         return (
           <div className={styles.hintItem}>
-            <span className={styles.hintStatus}>Inconclusive - </span>
+            <span className={styles.hintStatus}>INCONCLUSIVE - </span>
             <span className={styles.hintDescription}>
             results are indicative of the presence of SARS-CoV-2 RNA that does not meet the limit of
             detection. A confirmatory test is recommended 48-72 hours from the prior test.
@@ -115,7 +189,7 @@ const Timeline = () => {
       case 'In Progress': {
         return (
           <div className={styles.hintItem}>
-            <span className={styles.hintStatus}>In Progress - </span>
+            <span className={styles.hintStatus}>IN PROGRESS - </span>
             <span className={styles.hintDescription}>
                Your samples were tested but need to be retested due to a
                 quality control.
@@ -137,7 +211,7 @@ const Timeline = () => {
       case 'Invalid': {
         return (
           <div className={styles.hintItem}>
-            <span className={styles.hintStatus}>Invalid - </span>
+            <span className={styles.hintStatus}>INVALID - </span>
             <span className={styles.hintDescription}>
               Your samples obtained no result. Either the sample quality
               was poor or there was not sufficient sample volume for
@@ -193,8 +267,8 @@ const Timeline = () => {
           title={getDescription(value)}
           overlayClassName={styles.hintTooltip}
         >
-          <Tag color={value === 'Not Detected' ? 'processing' : 'red'}>
-            {value}
+          <Tag color={getColor(value)} icon={getIcon(value)}>
+            {value === 'COVID-19 Detected' ? 'DETECTED' : value.toUpperCase()}
           </Tag>
         </Tooltip>
       ),
