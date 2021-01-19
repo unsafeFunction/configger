@@ -1,3 +1,5 @@
+import { Badge } from 'antd';
+
 export async function getMenuData() {
   return [
     {
@@ -37,9 +39,8 @@ export async function getMenuData() {
       icon: 'fe fe-download',
     },
     {
-      title: 'Search',
+      title: 'Barcode Lookup',
       key: 'search',
-      url: '/search',
       icon: 'fe fe-search',
     },
     {
@@ -71,7 +72,7 @@ export async function getRolePermissions() {
         '/runs',
         '/pools',
         '/packing-slip',
-        '/search',
+        '/barcode-lookup',
         '/intake',
       ],
       default: '/runs',
@@ -84,7 +85,7 @@ export async function getRolePermissions() {
         '/runs',
         '/pools',
         '/packing-slip',
-        '/search',
+        '/barcode-lookup',
         '/intake',
       ],
       default: '/runs',
