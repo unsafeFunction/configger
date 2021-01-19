@@ -89,7 +89,7 @@ const routes = [
   },
   {
     path: '/barcode-lookup',
-    Component: loadable(() => import('pages/Search')),
+    Component: loadable(() => import('pages/search')),
   },
   {
     path: '/intake',
