@@ -31,6 +31,7 @@ const ProfileMenu = ({ dispatch, history }) => {
   const { first_name, last_name, role } = useSelector(
     state => state.user.profile,
   );
+  const hijack = useSelector(state => state.hijack);
 
   const menu = (
     <Menu selectable={false}>
@@ -38,11 +39,9 @@ const ProfileMenu = ({ dispatch, history }) => {
         <strong>Profile</strong>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item>
-        <div role="presentation" onClick={onLogout}>
-          <i className={`${styles.menuIcon} fe fe-log-out`} />
-          Sign out
-        </div>
+      <Menu.Item onClick={onLogout} disabled={hijack.isActive}>
+        <i className={`${styles.menuIcon} fe fe-log-out`} />
+        Sign out
       </Menu.Item>
     </Menu>
   );
