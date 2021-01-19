@@ -222,8 +222,7 @@ const Customers = () => {
     {
       title: 'Actions',
       key: 'action',
-      fixed: 'right',
-      width: '130px',
+      width: '190px',
       render: (_, record) => (
         <Space size="middle">
           <Switch
@@ -337,6 +336,7 @@ const Customers = () => {
               ),
             }}
             bordered
+            scroll={{ x: 1400 }}
           />
         </InfiniteScroll>
       </div>
