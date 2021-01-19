@@ -38,7 +38,11 @@ const HijackBtn = ({
 
   return (
     <Tooltip
-      title={`Login as ${userFirstName} ${userLastName}`}
+      title={
+        userIsActive
+          ? `Login as ${userFirstName} ${userLastName}`
+          : 'Account is inactive'
+      }
       placement="bottomRight"
     >
       <Button

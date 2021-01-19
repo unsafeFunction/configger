@@ -172,9 +172,7 @@ const Customers = () => {
       key: 'fullname',
       render: (_, record) => (
         <Link to={`/activity-stream/${record.id}`} className="text-blue">
-          {record.first_name} 
-{' '}
-{record.last_name}
+          {record.first_name} {record.last_name}
         </Link>
       ),
     },
@@ -228,13 +226,6 @@ const Customers = () => {
       width: '130px',
       render: (_, record) => (
         <Space size="middle">
-          <Switch
-            checkedChildren="Active"
-            unCheckedChildren="Inactive"
-            checked={record.is_active}
-            onClick={() => toggleUser(record.id, record.is_active)}
-          />
-
           <Tooltip
             title={`Reinvite ${record.first_name} ${record.last_name}`}
             placement="bottomRight"
@@ -255,6 +246,13 @@ const Customers = () => {
             userRole={record.role}
             path={history.location.pathname}
             userIsActive={record.is_active}
+          />
+
+          <Switch
+            checkedChildren="Active"
+            unCheckedChildren="Inactive"
+            checked={record.is_active}
+            onClick={() => toggleUser(record.id, record.is_active)}
           />
         </Space>
       ),
