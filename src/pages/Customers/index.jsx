@@ -225,13 +225,6 @@ const Customers = () => {
       width: '190px',
       render: (_, record) => (
         <Space size="middle">
-          <Switch
-            checkedChildren="Active"
-            unCheckedChildren="Inactive"
-            checked={record.is_active}
-            onClick={() => toggleUser(record.id, record.is_active)}
-          />
-
           <Tooltip
             title={`Reinvite ${record.first_name} ${record.last_name}`}
             placement="bottomRight"
@@ -252,6 +245,13 @@ const Customers = () => {
             userRole={record.role}
             path={history.location.pathname}
             userIsActive={record.is_active}
+          />
+
+          <Switch
+            checkedChildren="Active"
+            unCheckedChildren="Inactive"
+            checked={record.is_active}
+            onClick={() => toggleUser(record.id, record.is_active)}
           />
         </Space>
       ),

@@ -232,6 +232,7 @@ const CompanyProfile = () => {
               userLastName={user.last_name}
               userRole={user.role}
               path={history.location.pathname}
+              userIsActive={user.is_active}
             />
           </Space>
         );
