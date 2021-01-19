@@ -18,7 +18,7 @@ import {
   DatePicker,
   Empty,
   Tooltip,
-  Typography
+  Typography,
 } from 'antd';
 import Loader from 'components/layout/Loader';
 import {
@@ -31,6 +31,8 @@ import {
   MinusCircleFilled,
   PlusCircleFilled,
   ClockCircleFilled,
+  ExclamationCircleOutlined,
+  SyncOutlined,
 } from '@ant-design/icons';
 import { DownloadLogo } from 'assets';
 import TwoToneComponent from '../../assets/TwoTone';
@@ -77,27 +79,19 @@ const Timeline = () => {
     });
   }, []);
 
-  const getColor = (status) => {
+  const getColor = status => {
     switch (status) {
       case 'COVID-19 Detected': {
-        return (
-          'red'
-        )
+        return 'red';
       }
       case 'Not Detected': {
-        return (
-          'green'
-        )
+        return 'green';
       }
       case 'Inconclusive': {
-        return (
-          'orange'
-        )
+        return 'orange';
       }
       case 'In Progress': {
-        return (
-          'blue'
-        )
+        return 'blue';
       }
       // case 'Processing': {
       //   return (
@@ -110,92 +104,83 @@ const Timeline = () => {
       //   )
       // }
     }
-  }
+  };
 
-  const getIcon = (status) => {
+  const getIcon = status => {
     switch (status) {
       case 'COVID-19 Detected': {
-        return (
-          <PlusCircleFilled />
-        )
+        return <PlusCircleFilled />;
       }
       case 'Not Detected': {
-        return (
-          <MinusCircleFilled />
-        )
+        return <MinusCircleFilled />;
       }
       case 'Inconclusive': {
-        return (
-          <TwoToneComponent />
-        )
+        return <TwoToneComponent />;
       }
       case 'In Progress': {
-        return (
-          <ClockCircleFilled />
-        )
+        return <ClockCircleFilled />;
       }
-      // case 'Processing': {
-      //   return (
-      //
-      //   )
-      // }
-      // case 'Invalid': {
-      //   return (
-      //
-      //   )
-      // }
+      case 'Processing': {
+        return <SyncOutlined />;
+      }
+      case 'Invalid': {
+        return <ExclamationCircleOutlined />;
+      }
     }
-  }
+  };
 
-  const getDescription = (status) => {
+  const getDescription = status => {
     switch (status) {
       case 'COVID-19 Detected': {
         return (
           <div className={styles.hintItem}>
             <Typography.Text className={styles.hintStatus} type="danger">
-            DETECTED - &nbsp;
+              DETECTED - &nbsp;
             </Typography.Text>
             <span className={styles.hintDescription}>
-            results are indicative of the presence of SARS-CoV-2 RNA. Detected results do not rule out
-            bacterial infection or co-infection with other viruses. The agent detected may not be the definitive cause of
-            disease. Laboratories within the United States and its territories are required to report all positive results to the
-            appropriate public health authorities.
+              results are indicative of the presence of SARS-CoV-2 RNA. Detected
+              results do not rule out bacterial infection or co-infection with
+              other viruses. The agent detected may not be the definitive cause
+              of disease. Laboratories within the United States and its
+              territories are required to report all positive results to the
+              appropriate public health authorities.
             </span>
-        </div>
-        )
+          </div>
+        );
       }
       case 'Not Detected': {
         return (
           <div className={styles.hintItem}>
             <span className={styles.hintStatus}>NOT DETECTED - </span>
             <span className={styles.hintDescription}>
-             results do not preclude SARS-CoV-2 infection and should not be used as the sole basis for
-            patient management decisions.
+              results do not preclude SARS-CoV-2 infection and should not be
+              used as the sole basis for patient management decisions.
             </span>
-        </div>
-        )
+          </div>
+        );
       }
       case 'Inconclusive': {
         return (
           <div className={styles.hintItem}>
             <span className={styles.hintStatus}>INCONCLUSIVE - </span>
             <span className={styles.hintDescription}>
-            results are indicative of the presence of SARS-CoV-2 RNA that does not meet the limit of
-            detection. A confirmatory test is recommended 48-72 hours from the prior test.
+              results are indicative of the presence of SARS-CoV-2 RNA that does
+              not meet the limit of detection. A confirmatory test is
+              recommended 48-72 hours from the prior test.
             </span>
-        </div>
-        )
+          </div>
+        );
       }
       case 'In Progress': {
         return (
           <div className={styles.hintItem}>
             <span className={styles.hintStatus}>IN PROGRESS - </span>
             <span className={styles.hintDescription}>
-               Your samples were tested but need to be retested due to a
-                quality control.
+              Your samples were tested but need to be retested due to a quality
+              control.
             </span>
-        </div>
-        )
+          </div>
+        );
       }
       case 'Processing': {
         return (
@@ -205,25 +190,24 @@ const Timeline = () => {
               Your samples were received by the lab and are in queue to be
               tested
             </span>
-        </div>
-        )
+          </div>
+        );
       }
       case 'Invalid': {
         return (
           <div className={styles.hintItem}>
             <span className={styles.hintStatus}>INVALID - </span>
             <span className={styles.hintDescription}>
-              Your samples obtained no result. Either the sample quality
-              was poor or there was not sufficient sample volume for
-              testing. Samples must be resubmitted. The lab has completed
-              testing on the samples.
+              Your samples obtained no result. Either the sample quality was
+              poor or there was not sufficient sample volume for testing.
+              Samples must be resubmitted. The lab has completed testing on the
+              samples.
             </span>
-        </div>
-        )
+          </div>
+        );
       }
-
     }
-  }
+  };
 
   const onDatesChange = useCallback(
     (dates, dateStrings) => {
@@ -411,7 +395,7 @@ const Timeline = () => {
                         <Statistic
                           className={styles.locationName}
                           title="Company ID"
-                          formatter={(value) => value}
+                          formatter={value => value}
                           value={commonInfo?.stats.company_id}
                           prefix={
                             <IdcardOutlined className={styles.statisticIcon} />
