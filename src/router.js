@@ -69,7 +69,6 @@ const routes = [
   {
     path: '/runs/:id',
     Component: loadable(() => import('pages/runs/run')),
-    // exact: true,
   },
   {
     path: '/pools',
@@ -89,8 +88,8 @@ const routes = [
     Component: loadable(() => import('pages/Intake')),
   },
   {
-    path: '/search',
-    Component: loadable(() => import('pages/search')),
+    path: '/barcode-lookup',
+    Component: loadable(() => import('pages/Search')),
   },
   {
     path: '/intake',

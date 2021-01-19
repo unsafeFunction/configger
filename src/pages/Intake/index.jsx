@@ -183,7 +183,7 @@ const Intake = ({ company = {} }) => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input pool number!',
+                    message: 'Please select ship date!',
                   },
                 ]}
                 label="Ship Date"

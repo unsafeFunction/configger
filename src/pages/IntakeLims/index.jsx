@@ -22,7 +22,7 @@ const Runs = () => {
   const location = useLocation();
   const [dates, setDates] = useState([]);
 
-  const runs = useSelector(state => state.runs);
+  const intakeList = useSelector(state => state.intakeLims);
 
   const { from, to } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -48,9 +48,8 @@ const Runs = () => {
   const columns = [
     {
       title: 'Date',
-      dataIndex: 'date',
+      dataIndex: 'ship_date',
       width: 100,
-      // render: (text, record) => <span>{momment(undefined)}</span>,
     },
     {
       title: 'Company name',
@@ -64,58 +63,19 @@ const Runs = () => {
     },
     {
       title: 'Pools',
-      dataIndex: 'pool_size',
+      dataIndex: 'pool_count',
       width: 50,
     },
     {
       title: 'Samples',
-      dataIndex: 'sample_size',
+      dataIndex: 'sample_count',
       width: 50,
     },
-    {
-      title: 'Tracking number',
-      dataIndex: 'tracking_number',
-      width: 50,
-    },
-    // {
-    //   title: 'Action',
-    //   fixed: 'right',
-    //   width: 120,
-    //   render: (_, record) => (
-    //     <Popconfirm
-    //       title={`Sure to ${
-    //         record.pools_unpublished === 0 ? 'unpublished' : 'published'
-    //       }?`}
-    //       onConfirm={() =>
-    //         onPublishChange(record.unique_id, !(record.pools_unpublished === 0))
-    //       }
-    //       placement="topRight"
-    //       disabled={user.role === 'staff'}
-    //     >
-    //       <Switch
-    //         checkedChildren="Published"
-    //         unCheckedChildren="Unpublished"
-    //         checked={record.pools_unpublished === 0}
-    //         loading={record.isUpdating}
-    //         disabled={user.role === 'staff'}
-    //       />
-    //     </Popconfirm>
-    //   ),
-    // },
   ];
 
-  const data = runs?.items?.map?.(run => ({
-    ...run,
-    key: run.unique_id,
-    companies: run.companies
-      .reduce((accumulator, currentValue) => {
-        if (currentValue?.name) {
-          accumulator.push(currentValue.name.trim());
-        }
-        return accumulator;
-      }, [])
-      .join(', '),
-    date: moment(run.results_timestamp).format('YYYY-MM-DD HH:mm'),
+  const data = intakeList?.items?.map?.(intakeItem => ({
+    ...intakeItem,
+    key: intakeItem.company_id,
   }));
 
   const onDatesChange = useCallback((dates, dateStrings) => {
@@ -135,51 +95,39 @@ const Runs = () => {
             from,
             to,
             limit: constants?.runs?.itemsLoadingCount,
-            offset: runs.offset,
+            offset: intakeList.offset,
           }
-        : { limit: constants?.runs?.itemsLoadingCount, offset: runs.offset };
+        : {
+            limit: constants?.runs?.itemsLoadingCount,
+            offset: intakeList.offset,
+          };
     dispatch({
       type: actions.FETCH_INTAKE_REQUEST,
       payload: {
         ...params,
       },
     });
-  }, [dispatch, from, to, runs]);
+  }, [dispatch, from, to, intakeList]);
 
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Intake</h4>
-        <RangePicker
-          defaultValue={
-            from && to
-              ? [moment(from), moment(to)]
-              : [moment().subtract(7, 'days'), moment()]
-          }
-          format="YYYY-MM-DD"
-          ranges={{
-            Today: [moment(), moment()],
-            'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-          }}
-          onChange={onDatesChange}
-          className={styles.rangePicker}
-        />
       </div>
       <InfiniteScroll
         next={loadMore}
-        hasMore={runs.items.length < runs.total}
+        hasMore={intakeList.items.length < intakeList.total}
         loader={
           <div className={styles.spin}>
             <Spin />
           </div>
         }
-        dataLength={runs.items.length}
+        dataLength={intakeList.items.length}
       >
         <Table
           columns={columns}
-          // dataSource={data}
-          loading={runs.isLoading}
+          dataSource={data}
+          loading={intakeList.isLoading}
           pagination={false}
           scroll={{ x: 1000 }}
           bordered

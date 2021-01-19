@@ -1,11 +1,11 @@
 import React from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import find from 'lodash.find';
 import get from 'lodash.get';
 import classNames from 'classnames';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { Layout } from 'antd';
+import { Layout, Badge } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 // import { ReactComponent as Logo } from './images/logo.svg';
 import style from './style.module.scss';
@@ -252,6 +252,14 @@ class MenuLeft extends React.Component {
                 </span>
               )}
             </Link>
+          )}
+          {item.key === 'search' && (
+            <a href="/barcode-lookup" className={style.air__menuLeft__link}>
+              {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
+              <Badge offset={[15, -2]} count="Alpha">
+                <span>{title}</span>
+              </Badge>
+            </a>
           )}
           {!item.url && item.key === 'helpCenter' && (
             <a
