@@ -21,7 +21,7 @@ import styles from './styles.module.scss';
 const { Option } = Select;
 const { Text } = Typography;
 
-const PoolTable = ({ loadMore }) => {
+const PoolTable = () => {
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.user);
@@ -292,17 +292,6 @@ const PoolTable = ({ loadMore }) => {
 
   return (
     <>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={pools?.items?.length < pools.total}
-        loader={
-          // eslint-disable-next-line react/jsx-wrap-multilines
-          <div className={styles.spin}>
-            <Spin />
-          </div>
-        }
-        dataLength={pools?.items?.length}
-      >
         <Table
           columns={columns}
           dataSource={data}
@@ -311,7 +300,6 @@ const PoolTable = ({ loadMore }) => {
           scroll={{ x: 1000 }}
           bordered
         />
-      </InfiniteScroll>
     </>
   );
 };
