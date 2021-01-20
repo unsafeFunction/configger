@@ -11,9 +11,11 @@ import {
   Popover,
   Select,
   Typography,
+  Tag,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { getColor, getIcon } from 'utils/highlightingResult';
 import styles from './styles.module.scss';
 
 const { Option } = Select;
@@ -135,35 +137,49 @@ const PoolTable = ({ loadMore }) => {
         </div>
       ),
       dataIndex: 'result',
-      width: 182,
+      width: 195,
       sorter: {
         compare: (a, b) =>
           a.result < b.result ? -1 : a.result > b.result ? 1 : 0,
       },
-      render: (_, record) => (
-        <Select
-          value={
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <Text type={record.result === 'COVID-19 Detected' && 'danger'}>
-              {record.result}
-            </Text>
-          }
-          style={{ width: 165 }}
-          loading={record.resultIsUpdating}
-          onSelect={onModalToggle(record.unique_id, record.pool_id)}
-          disabled={user.role === 'staff' || record.resultIsUpdating}
-        >
-          {resutList?.items
-            ?.filter(option => option.value !== record.result)
-            .map(item => (
-              <Option key={item.key} value={item.value}>
-                <Text type={item.value === 'COVID-19 Detected' && 'danger'}>
-                  {item.value}
-                </Text>
-              </Option>
-            ))}
-        </Select>
-      ),
+      render: (_, record) =>
+        user.role === 'admin' ? (
+          <Select
+            value={
+              <Tag
+                color={getColor(record.result)}
+                icon={getIcon(record.result)}
+              >
+                {record.result === 'COVID-19 Detected'
+                  ? 'DETECTED'
+                  : record.result.toUpperCase()}
+              </Tag>
+            }
+            style={{ width: 178 }}
+            loading={record.resultIsUpdating}
+            onSelect={onModalToggle(record.unique_id, record.pool_id)}
+            disabled={record.resultIsUpdating}
+            bordered={false}
+          >
+            {resutList?.items
+              ?.filter(option => option.value !== record.result)
+              .map(item => (
+                <Option key={item.key} value={item.value}>
+                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
+                    {item.value === 'COVID-19 Detected'
+                      ? 'DETECTED'
+                      : item.value.toUpperCase()}
+                  </Tag>
+                </Option>
+              ))}
+          </Select>
+        ) : (
+          <Tag color={getColor(record.result)} icon={getIcon(record.result)}>
+            {record.result === 'COVID-19 Detected'
+              ? 'DETECTED'
+              : record.result.toUpperCase()}
+          </Tag>
+        ),
     },
     {
       title: 'Pool Size',
