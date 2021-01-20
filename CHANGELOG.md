@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/mokkapps/changelog-generator-demo/compare/v1.4.0...v1.4.1) (2021-01-20)
+
+
+### Bug Fixes
+
+* add shipping by column ([f6a6bb4](https://github.com/mokkapps/changelog-generator-demo/commits/f6a6bb464dc290a37bf97b8317b9687d57a559c2))
+* change field name ([adb5466](https://github.com/mokkapps/changelog-generator-demo/commits/adb5466ea49a88fcf5675059d87e0705d6590d0b))
+* hide hijack button in companies ([93cab9f](https://github.com/mokkapps/changelog-generator-demo/commits/93cab9f6824fa98a7bfc3af78d02aaed332b6b26))
+* remove uuid from run table ([640580c](https://github.com/mokkapps/changelog-generator-demo/commits/640580c1e58fb3eb601381796d54df8aebb7a7fd))
+
 ## [1.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.3.2...v1.4.0) (2021-01-20)
 
 
