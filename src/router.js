@@ -38,9 +38,9 @@ const routes = [
     exact: false,
   },
   {
-    path: '/account-confirm-email/:inviteKey',
+    path: '/system/account-confirm-email',
     Component: loadable(() => import('pages/system/reg-by-email')),
-    exact: true,
+    exact: false,
   },
   {
     path: '/system/terms-and-conditions',
