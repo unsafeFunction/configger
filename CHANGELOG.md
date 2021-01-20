@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/mokkapps/changelog-generator-demo/compare/v1.3.1...v1.3.2) (2021-01-20)
+
+
+### Features
+
+* highlight pool results in Pool Table ([2c9d646](https://github.com/mokkapps/changelog-generator-demo/commits/2c9d64627498e4b5a6c8b54bcd010f318fc9ba1e))
+
 ### [1.3.1](https://github.com/mokkapps/changelog-generator-demo/compare/v1.2.0...v1.3.1) (2021-01-20)
 
 
