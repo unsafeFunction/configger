@@ -28,19 +28,14 @@ import {
   FilePdfFilled,
   FileOutlined,
   IdcardOutlined,
-  MinusCircleFilled,
-  PlusCircleFilled,
-  ClockCircleFilled,
-  ExclamationCircleOutlined,
-  SyncOutlined,
 } from '@ant-design/icons';
 import { DownloadLogo } from 'assets';
-import TwoToneComponent from '../../assets/TwoTone';
 
 import actions from 'redux/timeline/actions';
 
 import styles from './styles.module.scss';
 import useWindowSize from '../../hooks/useWindowSize';
+import { getColor, getIcon } from 'utils/highlightingResult';
 
 const Timeline = () => {
   const dispatch = useDispatch();
@@ -78,56 +73,6 @@ const Timeline = () => {
       contentType: 'application/csv',
     });
   }, []);
-
-  const getColor = status => {
-    switch (status) {
-      case 'COVID-19 Detected': {
-        return 'red';
-      }
-      case 'Not Detected': {
-        return 'green';
-      }
-      case 'Inconclusive': {
-        return 'orange';
-      }
-      case 'In Progress': {
-        return 'blue';
-      }
-      // case 'Processing': {
-      //   return (
-      //
-      //   )
-      // }
-      // case 'Invalid': {
-      //   return (
-      //
-      //   )
-      // }
-    }
-  };
-
-  const getIcon = status => {
-    switch (status) {
-      case 'COVID-19 Detected': {
-        return <PlusCircleFilled />;
-      }
-      case 'Not Detected': {
-        return <MinusCircleFilled />;
-      }
-      case 'Inconclusive': {
-        return <TwoToneComponent />;
-      }
-      case 'In Progress': {
-        return <ClockCircleFilled />;
-      }
-      case 'Processing': {
-        return <SyncOutlined />;
-      }
-      case 'Invalid': {
-        return <ExclamationCircleOutlined />;
-      }
-    }
-  };
 
   const getDescription = status => {
     switch (status) {
