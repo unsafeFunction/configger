@@ -1,10 +1,9 @@
 import axiosClient from 'utils/axiosClient';
 
-export const fetchPoolsByRunId = async ({ runId, limit, offset, search }) => {
+export const fetchPoolsByRunId = async ({ runId, offset, search }) => {
   try {
-    const pools = await axiosClient.get(`/pool-batches/${runId}/pools/`, {
+    const pools = await axiosClient.get(`/pool-batches/${runId}/`, {
       params: {
-        limit,
         offset,
         search,
       },
