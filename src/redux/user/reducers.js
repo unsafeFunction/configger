@@ -1,4 +1,3 @@
-import { constants } from 'utils/constants';
 import actions from './actions';
 
 const initialState = {
@@ -9,10 +8,8 @@ const initialState = {
   isAccepting: false,
   isProfileUpdating: false,
   isPasswordChanging: false,
-
-  isVerifyingEmail: false,
+  isVerifyingEmail: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   isRegByEmail: false,
-
   error: null,
   role: null,
 };
@@ -91,17 +88,21 @@ export default function userReducer(state = initialState, action) {
       };
 
     case actions.VERIFY_EMAIL_REQUEST:
-      return { ...state, isVerifyingEmail: true };
+      return { ...state, isVerifyingEmail: 'loading', error: null };
     case actions.VERIFY_EMAIL_SUCCESS:
       return {
         ...state,
-        isVerifyingEmail: false,
+        isVerifyingEmail: 'succeeded',
       };
     case actions.VERIFY_EMAIL_FAILURE:
-      return { ...state, isVerifyingEmail: false, error: action.payload.data };
+      return {
+        ...state,
+        isVerifyingEmail: 'failed',
+        error: action.payload.data,
+      };
 
     case actions.REG_BY_EMAIL_REQUEST:
-      return { ...state, isRegByEmail: true };
+      return { ...state, isRegByEmail: true, error: null };
     case actions.REG_BY_EMAIL_SUCCESS:
       return {
         ...state,

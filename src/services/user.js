@@ -73,9 +73,7 @@ export const fetchUserById = async id => {
 export const verifyEmail = async inviteKey => {
   const verifyEmail = await axiosClient.post(
     '/rest-auth/registration/verify-email/',
-    {
-      key: inviteKey,
-    },
+    { key: inviteKey },
   );
 
   return verifyEmail;

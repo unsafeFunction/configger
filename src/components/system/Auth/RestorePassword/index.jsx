@@ -39,7 +39,7 @@ const RestorePassword = () => {
 
   return (
     <div className={style.auth}>
-      <div className={`${style.container}`}>
+      <div className={style.container}>
         <div className={style.header}>Password recovery</div>
         <Form layout="vertical" onFinish={onSubmit}>
           <Form.Item
