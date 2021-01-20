@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/mokkapps/changelog-generator-demo/compare/v1.2.0...v1.3.1) (2021-01-20)
+
+
+### Bug Fixes
+
+* hide passwords on "Registration by email" form ([a484169](https://github.com/mokkapps/changelog-generator-demo/commits/a4841696f1b8adb870b4d1b0d223e32c38efc08f))
+
 ## [1.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.2.0...v1.3.0) (2021-01-20)
 
 ## [1.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.1.0...v1.2.0) (2021-01-20)
