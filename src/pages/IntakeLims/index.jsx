@@ -57,7 +57,7 @@ const Runs = () => {
       width: 100,
     },
     {
-      title: 'Shipping by',
+      title: 'Ship By',
       dataIndex: 'shipping_by',
       width: 100,
     },

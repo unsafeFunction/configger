@@ -17,7 +17,7 @@ export const createPackingSlip = async payload => {
       sample_count: payload.sampleCount,
       pool_count: payload.poolCount,
       ship_date: payload.shipDate,
-      shipped_by: payload.shippingBy.toLowerCase(),
+      shipping_by: payload.shippingBy.toLowerCase(),
     });
   } catch (error) {
     return error;

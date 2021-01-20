@@ -223,11 +223,11 @@ const Intake = ({ company = {} }) => {
                     message: 'Please select shipping service!',
                   },
                 ]}
-                label="Shipping service"
+                label="Ship By"
                 name="shipping_by"
               >
                 <Select
-                  placeholder="Shipping service"
+                  placeholder="Ship By"
                   size="large"
                   showArrow
                   showSearch
