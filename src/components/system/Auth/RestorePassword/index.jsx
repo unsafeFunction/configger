@@ -5,6 +5,7 @@ import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
 import classNames from 'classnames';
 import style from '../style.module.scss';
+import moment from 'moment';
 import qs from 'qs';
 
 const RestorePassword = () => {
@@ -99,7 +100,9 @@ const RestorePassword = () => {
         >
           Back to login
         </Button>
-        <div className={style.copyright}>Copyright © 2020 Mirimus Inc.</div>
+        <div className={style.copyright}>
+          Copyright © {moment().year()} Mirimus Inc.
+        </div>
       </div>
     </div>
   );

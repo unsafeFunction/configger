@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button, Empty, Spin } from 'antd';
 import actions from 'redux/user/actions';
 import classNames from 'classnames';
+import moment from 'moment';
 import style from '../style.module.scss';
 
 const RegByEmail = () => {
@@ -132,7 +133,9 @@ const RegByEmail = () => {
         //     Email Support
         //   </a>
         // </div>  */}
-            <div className={style.copyright}>Copyright © 2020 Mirimus Inc.</div>
+            <div className={style.copyright}>
+              Copyright © {moment().year()} Mirimus Inc.
+            </div>
           </>
         )}
 
