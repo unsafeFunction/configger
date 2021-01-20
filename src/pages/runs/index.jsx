@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/runs/actions';
-import { Table, DatePicker, Spin, Switch, Popconfirm } from 'antd';
+import { Table, DatePicker, Spin, Switch, Popconfirm, Tooltip } from 'antd';
 import moment from 'moment-timezone';
 import classNames from 'classnames';
 import { useHistory, useLocation, Link } from 'react-router-dom';
@@ -49,10 +49,15 @@ const Runs = () => {
       title: 'Companies',
       dataIndex: 'companies',
       render: (text, record) => (
-        <Link to={`/runs/${record.unique_id}`} className="text-blue">
-          {text}
-        </Link>
-      ),
+          <Tooltip
+            title={record?.import_filename}
+            placement="right"
+          >
+          <Link to={`/runs/${record.unique_id}`} className="text-blue">
+            {text}
+          </Link>
+          </Tooltip>
+        )
     },
     {
       title: 'Pools Published',
