@@ -9,7 +9,7 @@ import styles from './style.module.scss';
 const SubBar = ({ location }) => {
   const pathArray = location.pathname.slice(1).split('/');
   const company = useSelector(state => state.companies.singleCompany);
-
+  console.log(pathArray);
   return (
     <div className={styles.subbar}>
       <ul className={`${styles.breadcrumbs} mr-4`}>
