@@ -74,7 +74,7 @@ const RegByEmail = () => {
                   },
                 ]}
               >
-                <Input size="large" placeholder="Password" />
+                <Input.Password size="large" placeholder="Password" />
               </Form.Item>
 
               <Form.Item
@@ -100,7 +100,7 @@ const RegByEmail = () => {
                   }),
                 ]}
               >
-                <Input size="large" placeholder="Confirm password" />
+                <Input.Password size="large" placeholder="Confirm password" />
               </Form.Item>
 
               <Form.Item className={style.formButton}>
