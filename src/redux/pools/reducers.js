@@ -3,6 +3,7 @@ import { constants } from 'utils/constants';
 
 const initialState = {
   items: [],
+  filename: '',
   isLoading: false,
   total: 0,
   offset: 0,
@@ -26,9 +27,9 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: action.payload.firstPage
-          ? action.payload.data.results
-          : [...state.items, ...action.payload.data.results],
-        total: action.payload.data.count,
+          ? action.payload.data
+          : [...state.items, ...action.payload.data],
+        filename: action.payload.filename,
         isLoading: false,
         // offset: action.payload.firstPage
         //   ? constants?.pools?.itemsLoadingCount

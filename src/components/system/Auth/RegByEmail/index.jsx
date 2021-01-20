@@ -11,7 +11,7 @@ import style from '../style.module.scss';
 const RegByEmail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const inviteKey = history.location.pathname.split('/')[2];
+  const inviteKey = history.location.pathname.split('/')[3];
 
   const user = useSelector(state => state.user);
 

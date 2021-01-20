@@ -25,7 +25,6 @@ const Run = () => {
         type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
         payload: {
           runId,
-          limit: constants?.poolsByRun?.itemsLoadingCount,
         },
       });
     }, [dispatch]);
@@ -39,7 +38,6 @@ const Run = () => {
         type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
         payload: {
           runId,
-          limit: constants?.poolsByRun?.itemsLoadingCount,
           search: query,
         },
       });
@@ -57,22 +55,10 @@ const Run = () => {
     delayedQuery(event.target.value);
   }, []);
 
-  const loadMore = useCallback(() => {
-    dispatch({
-      type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
-      payload: {
-        runId,
-        limit: constants?.poolsByRun?.itemsLoadingCount,
-        // offset: pools.offset,
-        search: searchName,
-      },
-    });
-  }, [dispatch, pools, searchName]);
-
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Run</h4>
+        <h4>Run {pools?.filename ? `- ${pools?.filename}` : ''}</h4>
         <Input
           size="middle"
           prefix={<SearchOutlined />}
@@ -83,7 +69,7 @@ const Run = () => {
         />
       </div>
 
-      <PoolTable loadMore={loadMore} />
+      <PoolTable />
     </>
   );
 };

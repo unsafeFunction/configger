@@ -14,11 +14,12 @@ import modalActions from 'redux/modal/actions';
 export function* callLoadPoolsByRunId({ payload }) {
   try {
     const response = yield call(fetchPoolsByRunId, payload);
-
+    console.log(response.data);
     yield put({
       type: actions.FETCH_POOLS_BY_RUN_ID_SUCCESS,
       payload: {
-        data: response.data,
+        filename: response.data.import_filename,
+        data: response.data.pools,
         firstPage: !response.data.previous,
       },
     });
