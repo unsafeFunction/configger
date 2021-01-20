@@ -5,6 +5,7 @@ import { Form, Input, Button, Empty, Spin } from 'antd';
 import actions from 'redux/user/actions';
 import classNames from 'classnames';
 import moment from 'moment';
+import { Empty as Img } from 'assets';
 import style from '../style.module.scss';
 
 const RegByEmail = () => {
@@ -44,10 +45,7 @@ const RegByEmail = () => {
       <div className={style.container}>
         {user.isVerifyingEmail === 'loading' && (
           <Empty
-            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-            imageStyle={{
-              height: 180,
-            }}
+            image={<Img />}
             description={
               <span>
                 <Spin className="mr-3" /> Email verification
@@ -76,7 +74,6 @@ const RegByEmail = () => {
                   },
                 ]}
               >
-                {/* <Input size="large" placeholder="Password" /> */}
                 <Input size="large" placeholder="Password" />
               </Form.Item>
 
@@ -118,21 +115,6 @@ const RegByEmail = () => {
                 </Button>
               </Form.Item>
             </Form>
-            {/* <div className={style.navigationWrap}>
-           <Button
-        //     type="link"
-        //     className={style.linkButton}
-        //     onClick={() => history.push('/system/forgot-password')}
-        //   >
-        //     Forgot password?
-        //   </Button>
-        //   <a
-        //     className={style.linkButton}
-        //     href="mailto:testingsupport@mirimus.com"
-        //   >
-        //     Email Support
-        //   </a>
-        // </div>  */}
             <div className={style.copyright}>
               Copyright © {moment().year()} Mirimus Inc.
             </div>
@@ -141,10 +123,7 @@ const RegByEmail = () => {
 
         {user.isVerifyingEmail === 'failed' && (
           <Empty
-            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-            imageStyle={{
-              height: 180,
-            }}
+            image={<Img />}
             description={<span className="text-danger">{user.error}</span>}
           ></Empty>
         )}
