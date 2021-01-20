@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.0.0...v1.1.0) (2021-01-20)
+
+
+### Features
+
+* add changelog generator ([04e5f03](https://github.com/mokkapps/changelog-generator-demo/commits/04e5f039fc249f6addd644826d81d3807cafdf1f))
+* registration by email ([dee6045](https://github.com/mokkapps/changelog-generator-demo/commits/dee6045b793a0ebdec5fb0f5daae4d60a2cccc02))
+* registration by email ([7c28db2](https://github.com/mokkapps/changelog-generator-demo/commits/7c28db232a4a3d8d882eaae70f33b9cf24f057e3))
+
+
+### Bug Fixes
+
+* fix copyright ([158030a](https://github.com/mokkapps/changelog-generator-demo/commits/158030a4c3631e09642e371b26c6b19c8744dc06))
+* local svg ([e2c783e](https://github.com/mokkapps/changelog-generator-demo/commits/e2c783eed2ee781f7392ddb607684dd563091242))
+
 ## 1.0.0 (2021-01-20)
 
 
