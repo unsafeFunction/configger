@@ -38,6 +38,11 @@ const routes = [
     exact: false,
   },
   {
+    path: '/account-confirm-email/:inviteKey',
+    Component: loadable(() => import('pages/system/reg-by-email')),
+    exact: true,
+  },
+  {
     path: '/system/terms-and-conditions',
     Component: loadable(() => import('pages/system/terms-and-conditions')),
     exact: false,

@@ -8,6 +8,8 @@ import {
   getProfile,
   updateProfile,
   changePassword,
+  verifyEmail,
+  regByEmail,
 } from 'services/user';
 import cookieStorage from 'utils/cookie';
 import modalActions from 'redux/modal/actions';
@@ -281,6 +283,56 @@ export function* callChangePassword({ payload }) {
   }
 }
 
+export function* callVerifyEmail({ payload }) {
+  try {
+    const response = yield call(verifyEmail, payload.inviteKey);
+
+    yield put({ type: actions.VERIFY_EMAIL_SUCCESS });
+
+    notification.success({ message: 'Email verified' });
+  } catch (error) {
+    const errorData = error.response?.data?.detail;
+
+    yield put({
+      type: actions.VERIFY_EMAIL_FAILURE,
+      payload: { data: errorData },
+    });
+
+    notification.error({
+      message: 'Something went wrong',
+      description: errorData,
+    });
+  }
+}
+
+export function* callRegByEmail({ payload }) {
+  const { password1, password2, inviteKey, redirect } = payload;
+  try {
+    const response = yield call(regByEmail, password1, password2, inviteKey);
+
+    yield put({ type: actions.REG_BY_EMAIL_SUCCESS });
+
+    notification.success({
+      message: 'Registration completed successfully',
+      description: response.data?.detail,
+    });
+
+    return yield call(redirect);
+  } catch (error) {
+    const errorData = error.response?.data?.detail;
+
+    yield put({
+      type: actions.REG_BY_EMAIL_FAILURE,
+      payload: { data: errorData },
+    });
+
+    notification.error({
+      message: 'Something went wrong',
+      description: errorData,
+    });
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.LOGIN_REQUEST, callLogin),
@@ -291,5 +343,7 @@ export default function* rootSaga() {
     takeEvery(actions.LOGOUT, callLogout),
     takeEvery(actions.UPDATE_PROFILE_REQUEST, callUpdateProfile),
     takeEvery(actions.CHANGE_PASSWORD_REQUEST, callChangePassword),
+    takeEvery(actions.VERIFY_EMAIL_REQUEST, callVerifyEmail),
+    takeEvery(actions.REG_BY_EMAIL_REQUEST, callRegByEmail),
   ]);
 }

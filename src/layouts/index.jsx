@@ -65,7 +65,10 @@ class Layout extends React.PureComponent {
       if (pathname === '/') {
         return 'public';
       }
-      if (/^\/system(?=\/|$)/i.test(pathname)) {
+      if (
+        /^\/system(?=\/|$)/i.test(pathname) ||
+        /^\/account-confirm-email(?=\/|$)/i.test(pathname)
+      ) {
         return 'auth';
       }
       return 'app';

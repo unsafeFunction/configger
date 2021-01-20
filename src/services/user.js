@@ -69,3 +69,22 @@ export const changePassword = async (
 export const fetchUserById = async id => {
   return await axiosClient.get(`/users/${id}/`);
 };
+
+export const verifyEmail = async inviteKey => {
+  const verifyEmail = await axiosClient.post(
+    '/rest-auth/registration/verify-email/',
+    { key: inviteKey },
+  );
+
+  return verifyEmail;
+};
+
+export const regByEmail = async (password1, password2, inviteKey) => {
+  const regByEmail = await axiosClient.post('/rest-auth/reg/password/change/', {
+    new_password1: password1,
+    new_password2: password2,
+    key: inviteKey,
+  });
+
+  return regByEmail;
+};
