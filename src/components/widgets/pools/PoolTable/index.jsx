@@ -11,7 +11,6 @@ import {
   Popover,
   Select,
   Typography,
-  Tooltip,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -50,6 +49,14 @@ const PoolTable = ({ loadMore }) => {
       dataIndex: 'shortCompany',
       ellipsis: {
         showTitle: false,
+      },
+      sorter: {
+        compare: (a, b) =>
+          a.shortCompany < b.shortCompany
+            ? -1
+            : a.shortCompany > b.shortCompany
+            ? 1
+            : 0,
       },
       render: (_, record) => (
         <Popover
@@ -129,6 +136,10 @@ const PoolTable = ({ loadMore }) => {
       ),
       dataIndex: 'result',
       width: 182,
+      sorter: {
+        compare: (a, b) =>
+          a.result < b.result ? -1 : a.result > b.result ? 1 : 0,
+      },
       render: (_, record) => (
         <Select
           value={

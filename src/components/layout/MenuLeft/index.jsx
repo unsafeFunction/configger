@@ -225,6 +225,25 @@ class MenuLeft extends React.Component {
           </li>
         );
       }
+      if (item.isAlpha) {
+        return (
+          <li
+            className={classNames(style.air__menuLeft__item, {
+              [style.air__menuLeft__item__active]: activeItem === key,
+              [style.helpItem]:
+                item.key === 'contactUs' || item.key === 'helpCenter',
+            })}
+            key={key}
+          >
+            <Link to="/barcode-lookup" className={style.air__menuLeft__link}>
+              {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
+              <Badge offset={[15, -2]} count="Alpha">
+                <span>{title}</span>
+              </Badge>
+            </Link>
+          </li>
+        );
+      }
       return (
         <li
           className={classNames(style.air__menuLeft__item, {
@@ -254,12 +273,12 @@ class MenuLeft extends React.Component {
             </Link>
           )}
           {item.key === 'search' && (
-            <a href="/barcode-lookup" className={style.air__menuLeft__link}>
+            <Link to="/barcode-lookup" className={style.air__menuLeft__link}>
               {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
               <Badge offset={[15, -2]} count="Alpha">
                 <span>{title}</span>
               </Badge>
-            </a>
+            </Link>
           )}
           {!item.url && item.key === 'helpCenter' && (
             <a

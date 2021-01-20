@@ -30,9 +30,9 @@ export default function poolsReducer(state = initialState, action) {
           : [...state.items, ...action.payload.data.results],
         total: action.payload.data.count,
         isLoading: false,
-        offset: action.payload.firstPage
-          ? constants?.pools?.itemsLoadingCount
-          : state.offset + constants?.pools?.itemsLoadingCount,
+        // offset: action.payload.firstPage
+        //   ? constants?.pools?.itemsLoadingCount
+        //   : state.offset + constants?.pools?.itemsLoadingCount,
       };
     }
     case actions.FETCH_POOLS_BY_RUN_ID_FAILURE: {

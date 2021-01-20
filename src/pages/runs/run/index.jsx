@@ -25,7 +25,7 @@ const Run = () => {
         type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
         payload: {
           runId,
-          limit: constants?.pools?.itemsLoadingCount,
+          limit: constants?.poolsByRun?.itemsLoadingCount,
         },
       });
     }, [dispatch]);
@@ -39,7 +39,7 @@ const Run = () => {
         type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
         payload: {
           runId,
-          limit: constants?.pools?.itemsLoadingCount,
+          limit: constants?.poolsByRun?.itemsLoadingCount,
           search: query,
         },
       });
@@ -62,8 +62,8 @@ const Run = () => {
       type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
       payload: {
         runId,
-        limit: constants?.pools?.itemsLoadingCount,
-        offset: pools.offset,
+        limit: constants?.poolsByRun?.itemsLoadingCount,
+        // offset: pools.offset,
         search: searchName,
       },
     });
