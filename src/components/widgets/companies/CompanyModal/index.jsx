@@ -38,50 +38,14 @@ const CompanyModal = ({ form }) => {
         >
           <Input placeholder="Company name" />
         </Item>
-        <Item
-          label="Short name"
-          className={styles.formItem}
-          name="name_short"
-          rules={[
-            {
-              required: true,
-              message: 'This field is required.',
-            },
-          ]}
-        >
+        <Item label="Short name" className={styles.formItem} name="name_short">
           <Input placeholder="Short name" />
         </Item>
-        {/* <Item
-          label="Code"
-          name="code"
-          className={styles.formItem}
-          rules={[
-            {
-              required: true,
-              message: 'This field is required.',
-            },
-          ]}
-        >
-          <Input placeholder="Code" />
-        </Item>
-        <Item
-          label="Company Id"
-          name="company_id"
-          className={styles.formItem}
-          rules={[
-            {
-              required: true,
-              message: 'This field is required.',
-            },
-          ]}
-        >
-          <Input placeholder="Company Id" />
-        </Item> */}
       </div>
       <div>
         <p>Location details</p>
         <List name="company_locations">
-          {(fields, { add, remove }, { errors }) => {
+          {(fields, { add, remove }, {}) => {
             return (
               <>
                 {fields.map(field => (

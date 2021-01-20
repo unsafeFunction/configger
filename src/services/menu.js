@@ -42,6 +42,8 @@ export async function getMenuData() {
       title: 'Barcode Lookup',
       key: 'search',
       icon: 'fe fe-search',
+      url: '/barcode-lookup',
+      isAlpha: true,
     },
     {
       title: 'Intake',
