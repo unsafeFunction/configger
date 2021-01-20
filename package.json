@@ -9,7 +9,11 @@
     "lint-staged": "lint-staged",
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,scss,less}\"",
     "eslint": "eslint --fix --ext .js,jsx src",
-    "stylelint": "stylelint \"src/**/*.{scss,less}\""
+    "stylelint": "stylelint \"src/**/*.{scss,less}\"",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
+    "release:major": "standard-version --release-as major"
   },
   "husky": {
     "hooks": {
@@ -85,6 +89,7 @@
     "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
     "prop-types": "^15.7.2",
+    "standard-version": "^9.1.0",
     "stylelint": "^10.1.0",
     "stylelint-config-prettier": "^5.2.0",
     "stylelint-config-standard": "^18.3.0"
