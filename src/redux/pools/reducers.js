@@ -24,7 +24,6 @@ export default function poolsReducer(state = initialState, action) {
       };
     }
     case actions.FETCH_POOLS_BY_RUN_ID_SUCCESS: {
-      console.log(action.payload);
       return {
         ...state,
         items: action.payload.firstPage
