@@ -8,6 +8,8 @@ import {
   getProfile,
   updateProfile,
   changePassword,
+  verifyEmail,
+  regByEmail,
 } from 'services/user';
 import cookieStorage from 'utils/cookie';
 import modalActions from 'redux/modal/actions';
@@ -281,6 +283,85 @@ export function* callChangePassword({ payload }) {
   }
 }
 
+export function* callVerifyEmail({ payload }) {
+  try {
+    const response = yield call(verifyEmail, payload.inviteKey);
+    console.log('VERIFY EMAIL saga response.data', response.data);
+
+    yield put({
+      type: actions.VERIFY_EMAIL_SUCCESS,
+      payload: {
+        ...response.data,
+      },
+    });
+
+    notification.success({
+      message: 'Email verified',
+    });
+  } catch (error) {
+    // const errorData = error.response.data.non_field_errors;
+    const errorData = error.response.data;
+    console.log('VERIFY EMAIL saga errorData', errorData);
+
+    yield put({
+      type: actions.VERIFY_EMAIL_FAILURE,
+      payload: {
+        data: errorData,
+      },
+    });
+
+    notification.error({
+      message: 'Something went wrong',
+      description: errorData,
+    });
+  }
+}
+
+export function* callRegByEmail({ payload }) {
+  // const { email, password, toRuns, toTimeline, acceptTerms } = payload;
+  const { password1, password2, inviteKey } = payload;
+  try {
+    const response = yield call(regByEmail, password1, password2, inviteKey);
+    console.log('REG BY EMAIL saga response.data', response.data);
+
+    yield put({
+      type: actions.REG_BY_EMAIL_SUCCESS,
+      payload: {
+        ...response.data,
+      },
+    });
+
+    notification.success({
+      message: 'Registration completed successfully',
+      // description: '',
+    });
+
+    // if (response.data.terms_accepted) {
+    //   return response.data.role === 'admin'
+    //     ? yield call(toRuns)
+    //     : yield call(toTimeline);
+    // }
+
+    // return yield call(acceptTerms);
+  } catch (error) {
+    // const errorData = error.response.data.non_field_errors;
+    const errorData = error.response.data;
+    console.log('REG BY EMAIL saga errorData', errorData);
+
+    yield put({
+      type: actions.REG_BY_EMAIL_FAILURE,
+      payload: {
+        data: errorData,
+      },
+    });
+
+    notification.error({
+      message: 'Something went wrong',
+      description: errorData,
+    });
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.LOGIN_REQUEST, callLogin),
@@ -291,5 +372,7 @@ export default function* rootSaga() {
     takeEvery(actions.LOGOUT, callLogout),
     takeEvery(actions.UPDATE_PROFILE_REQUEST, callUpdateProfile),
     takeEvery(actions.CHANGE_PASSWORD_REQUEST, callChangePassword),
+    takeEvery(actions.VERIFY_EMAIL_REQUEST, callVerifyEmail),
+    takeEvery(actions.REG_BY_EMAIL_REQUEST, callRegByEmail),
   ]);
 }

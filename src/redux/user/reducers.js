@@ -9,6 +9,10 @@ const initialState = {
   isAccepting: false,
   isProfileUpdating: false,
   isPasswordChanging: false,
+
+  isVerifyingEmail: false,
+  isRegByEmail: false,
+
   error: null,
   role: null,
 };
@@ -85,6 +89,27 @@ export default function userReducer(state = initialState, action) {
           role: action.payload.role,
         },
       };
+
+    case actions.VERIFY_EMAIL_REQUEST:
+      return { ...state, isVerifyingEmail: true };
+    case actions.VERIFY_EMAIL_SUCCESS:
+      return {
+        ...state,
+        isVerifyingEmail: false,
+      };
+    case actions.VERIFY_EMAIL_FAILURE:
+      return { ...state, isVerifyingEmail: false, error: action.payload.data };
+
+    case actions.REG_BY_EMAIL_REQUEST:
+      return { ...state, isRegByEmail: true };
+    case actions.REG_BY_EMAIL_SUCCESS:
+      return {
+        ...state,
+        isRegByEmail: false,
+      };
+    case actions.REG_BY_EMAIL_FAILURE:
+      return { ...state, isRegByEmail: false, error: action.payload.data };
+
     default:
       return state;
   }
