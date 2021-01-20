@@ -48,9 +48,7 @@ const Runs = () => {
     {
       title: 'Companies',
       dataIndex: 'companies',
-      render: (text, record) => {
-        console.log(record);
-        return (
+      render: (text, record) => (
           <Tooltip
             title={record?.import_filename}
             placement="right"
@@ -60,7 +58,6 @@ const Runs = () => {
           </Link>
           </Tooltip>
         )
-      },
     },
     {
       title: 'Pools Published',
