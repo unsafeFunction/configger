@@ -226,14 +226,14 @@ const CompanyProfile = () => {
                 })
               }
             />
-            <HijackBtn
+            {/* <HijackBtn
               userId={user.id}
               userFirstName={user.first_name}
               userLastName={user.last_name}
               userRole={user.role}
               path={history.location.pathname}
               userIsActive={user.is_active}
-            />
+            /> */}
           </Space>
         );
       },
