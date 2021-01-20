@@ -10,7 +10,7 @@ test-job2:
     - echo "After the echo commands complete, it runs the sleep command for 20 seconds"
     - echo "which simulates a test that runs 20 seconds longer than test-job1"
     - sleep 20
-    - git remote set-url --push origin "https://git.eloquentbits.com/Mirimus/pp-redesign.git"
+    - git remote set-url --push phill-origin "https://git.eloquentbits.com/Mirimus/pp-redesign.git"
 
 
 # deploy-prod:
