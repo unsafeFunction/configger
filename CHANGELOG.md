@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.4.1...v1.5.0) (2021-01-21)
+
+
+### Bug Fixes
+
+* change yaml file ([6a8a247](https://github.com/mokkapps/changelog-generator-demo/commits/6a8a2470fcbca5ed8ceaabfa2caac179c1801232))
+* fix hijack in companies ([327215e](https://github.com/mokkapps/changelog-generator-demo/commits/327215ee8b2afa5b89bcd8358d71ed4116b31728))
+* invite user error details ([0fd6e43](https://github.com/mokkapps/changelog-generator-demo/commits/0fd6e43e42df97e7914df091f496c04252402879))
+* refactor mobile users actions ([82229e9](https://github.com/mokkapps/changelog-generator-demo/commits/82229e92ff5bbbebca23b093e9a6f9da73afdb52))
+* update message for password reset ([98876e9](https://github.com/mokkapps/changelog-generator-demo/commits/98876e988f04d218f93e3d6ea46cc671ba9abd5b))
+
 ### [1.4.1](https://github.com/mokkapps/changelog-generator-demo/compare/v1.4.0...v1.4.1) (2021-01-20)
 
 
