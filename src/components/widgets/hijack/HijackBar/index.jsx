@@ -11,6 +11,7 @@ const HijackBar = () => {
   const { path, accessToken, termsAccepted, role } = useSelector(
     state => state.hijack,
   );
+  const hijack = useSelector(state => state.hijack);
   const { first_name, last_name } = useSelector(state => state.user?.profile);
 
   const handleHijackLogout = useCallback(() => {
@@ -23,7 +24,7 @@ const HijackBar = () => {
         role,
       },
     });
-  }, [dispatch]);
+  }, [dispatch, hijack]);
 
   return (
     <div className={styles.hijackBar}>
