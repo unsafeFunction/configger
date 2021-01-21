@@ -1,17 +1,14 @@
-import { all, takeEvery, put, call, select } from 'redux-saga/effects';
+import { all, takeEvery, put, call } from 'redux-saga/effects';
 import {
   fetchCompanies,
   createPackingSlip,
   downloadFile,
 } from 'services/intake';
-import { getUser } from './selector';
 import { notification } from 'antd';
 import actions from './actions';
 
 export function* callFetchCompanies({ payload }) {
   try {
-    const userInfo = yield select(getUser);
-    console.log(userInfo);
     const response = yield call(fetchCompanies, payload);
 
     yield put({

@@ -13,32 +13,40 @@ const SubBar = ({ location }) => {
   return (
     <div className={styles.subbar}>
       <ul className={`${styles.breadcrumbs} mr-4`}>
-        <li className={styles.breadcrumb}>
-          {pathArray.map((path, index) => {
-            if (index + 1 === pathArray.length && pathArray.length > 1) {
+        {pathArray[0] === 'runs' || pathArray[0] === 'users' ? (
+          <li className={styles.breadcrumb}>
+            <Link to={`/${pathArray[0]}`} className={styles.breadcrumbLink}>
+              {pathArray[0].replace('-', ' ')}
+            </Link>
+          </li>
+        ) : (
+          <li className={styles.breadcrumb}>
+            {pathArray.map((path, index) => {
+              if (index + 1 === pathArray.length && pathArray.length > 1) {
+                return (
+                  <span key={path} className={styles.breadcrumb__last}>
+                    <Switch>
+                      <Route exact path="/companies/:id">
+                        {company.name}
+                      </Route>
+                      <Route path="*">{path}</Route>
+                    </Switch>
+                  </span>
+                );
+              }
               return (
-                <span key={path} className={styles.breadcrumb__last}>
-                  <Switch>
-                    <Route exact path="/companies/:id">
-                      {company.name}
-                    </Route>
-                    <Route path="*">{path}</Route>
-                  </Switch>
-                </span>
+                <Fragment key={path}>
+                  <Link to={`/${path}`} className={styles.breadcrumbLink}>
+                    {path.replace('-', ' ')}
+                  </Link>
+                  {index + 1 !== pathArray.length && pathArray.length > 1 && (
+                    <span className={styles.breadcrumbLink__dash}>-</span>
+                  )}
+                </Fragment>
               );
-            }
-            return (
-              <Fragment key={path}>
-                <Link to={`/${path}`} className={styles.breadcrumbLink}>
-                  {path.replace('-', ' ')}
-                </Link>
-                {index + 1 !== pathArray.length && pathArray.length > 1 && (
-                  <span className={styles.breadcrumbLink__dash}>-</span>
-                )}
-              </Fragment>
-            );
-          })}
-        </li>
+            })}
+          </li>
+        )}
       </ul>
     </div>
   );

@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/mokkapps/changelog-generator-demo/compare/v1.4.0...v1.4.1) (2021-01-20)
+
+
+### Bug Fixes
+
+* add shipping by column ([f6a6bb4](https://github.com/mokkapps/changelog-generator-demo/commits/f6a6bb464dc290a37bf97b8317b9687d57a559c2))
+* change field name ([adb5466](https://github.com/mokkapps/changelog-generator-demo/commits/adb5466ea49a88fcf5675059d87e0705d6590d0b))
+* hide hijack button in companies ([93cab9f](https://github.com/mokkapps/changelog-generator-demo/commits/93cab9f6824fa98a7bfc3af78d02aaed332b6b26))
+* remove uuid from run table ([640580c](https://github.com/mokkapps/changelog-generator-demo/commits/640580c1e58fb3eb601381796d54df8aebb7a7fd))
+
+## [1.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.3.2...v1.4.0) (2021-01-20)
+
+
+### Features
+
+* add carrier field ([8d5307c](https://github.com/mokkapps/changelog-generator-demo/commits/8d5307c18d5c59b678c6cf6eb4030b7f5d0babbd))
+* runs tooltip filename ([7918ca6](https://github.com/mokkapps/changelog-generator-demo/commits/7918ca6d23ca8e6c31fbc584d2fb97d119b4b873))
+
+
+### Bug Fixes
+
+* add gitlab ci ([b4e72d0](https://github.com/mokkapps/changelog-generator-demo/commits/b4e72d089d752b02916289aa10853ce29415c960))
+* change remtote name ([3cf4330](https://github.com/mokkapps/changelog-generator-demo/commits/3cf43303017f37126fcd1c4492865756348deca6))
+* change yaml config for push ([424a93e](https://github.com/mokkapps/changelog-generator-demo/commits/424a93e360475e806ca86d2af0662e3b5690f0ec))
+* delete extra console log ([994d4fc](https://github.com/mokkapps/changelog-generator-demo/commits/994d4fca35c06682b526e7b89175743cddc009b1))
+* delete extra console log ([9daa4cf](https://github.com/mokkapps/changelog-generator-demo/commits/9daa4cf453160b04a5ef2d607990bef5976b7ee1))
+* fix paths for registration by email ([432054d](https://github.com/mokkapps/changelog-generator-demo/commits/432054d40fe5ec23e493243b3d0e10a5a135bfd9))
+* refactorr pools table ([ad3d69e](https://github.com/mokkapps/changelog-generator-demo/commits/ad3d69e9b3801d9e8d954b4e39e8dc86c48d7259))
+* update ci config ([cb52161](https://github.com/mokkapps/changelog-generator-demo/commits/cb52161a474b384d4eb905429a9e7cad1eda3676))
+* update gitlab yaml ([ae99321](https://github.com/mokkapps/changelog-generator-demo/commits/ae99321dab3deabbbe9c867905f4fbd4972ada06))
+
 ### [1.3.2](https://github.com/mokkapps/changelog-generator-demo/compare/v1.3.1...v1.3.2) (2021-01-20)
 
 

@@ -57,6 +57,11 @@ const Runs = () => {
       width: 100,
     },
     {
+      title: 'Ship By',
+      dataIndex: 'shipping_by',
+      width: 100,
+    },
+    {
       title: 'Company ID',
       dataIndex: 'company_id',
       width: 50,
@@ -92,15 +97,15 @@ const Runs = () => {
     const params =
       from && to
         ? {
-            from,
-            to,
-            limit: constants?.runs?.itemsLoadingCount,
-            offset: intakeList.offset,
-          }
+          from,
+          to,
+          limit: constants?.runs?.itemsLoadingCount,
+          offset: intakeList.offset,
+        }
         : {
-            limit: constants?.runs?.itemsLoadingCount,
-            offset: intakeList.offset,
-          };
+          limit: constants?.runs?.itemsLoadingCount,
+          offset: intakeList.offset,
+        };
     dispatch({
       type: actions.FETCH_INTAKE_REQUEST,
       payload: {

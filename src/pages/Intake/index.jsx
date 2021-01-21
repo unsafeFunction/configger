@@ -89,6 +89,20 @@ const Intake = ({ company = {} }) => {
     });
   }, []);
 
+  const handleShippingServiceChange = useCallback((_, objectValue) => {
+    componentDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'shippingBy',
+        value: objectValue.label,
+      },
+    });
+
+    form.setFieldsValue({
+      shipping_by: objectValue.value,
+    });
+  }, []);
+
   const handleInputChange = useCallback((name, value) => {
     componentDispatch({
       type: 'setValue',
@@ -201,6 +215,42 @@ const Intake = ({ company = {} }) => {
                 />
               </Form.Item>
             </Col>
+            <Col xs={12}>
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please select shipping service!',
+                  },
+                ]}
+                label="Ship By"
+                name="shipping_by"
+              >
+                <Select
+                  placeholder="Ship By"
+                  size="large"
+                  showArrow
+                  showSearch
+                  optionFilterProp="label"
+                  dropdownMatchSelectWidth={false}
+                  onChange={handleShippingServiceChange}
+                  options={[
+                    {
+                      label: 'FedEx',
+                      value: 'fedex',
+                    },
+                    {
+                      label: 'Courier',
+                      value: 'courier',
+                    },
+                    {
+                      label: 'Other',
+                      value: 'other',
+                    },
+                  ]}
+                />
+              </Form.Item>
+            </Col>
           </Row>
           <Button
             className={styles.downloadButton}
@@ -238,6 +288,10 @@ const Intake = ({ company = {} }) => {
             <li>
               <span>Date:</span>
               <span>{state.shipDate || '-'}</span>
+            </li>
+            <li>
+              <span>Shipping by:</span>
+              <span>{state.shippingBy || '-'}</span>
             </li>
           </ul>
           <QrCode className={styles.qrIcon} />
