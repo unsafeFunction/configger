@@ -82,7 +82,7 @@ const CompanyModal = ({ form }) => {
                         },
                       ]}
                     >
-                      <Input placeholder="Short name" />
+                      <Input placeholder="Street address" />
                     </Item>
                     <Item
                       {...field}
