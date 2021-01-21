@@ -100,7 +100,7 @@ export function* callInviteCustomer({ payload }) {
       description: 'The user has been invited.',
     });
   } catch (error) {
-    const errorData = error.response.data;
+    const errorData = Object.values(error?.response?.data?.field_errors);
 
     yield put({
       type: actions.INVITE_CUSTOMER_FAILURE,
@@ -111,7 +111,7 @@ export function* callInviteCustomer({ payload }) {
 
     notification.error({
       message: 'Failure!',
-      description: `The user has not been invited. Details: ${errorData}`,
+      description: `The user has not been invited. Details: ${errorData?.join(' ')}`,
     });
   }
 }

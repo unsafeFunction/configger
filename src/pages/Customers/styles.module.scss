@@ -67,3 +67,29 @@
     width: 68%;
   }
 }
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: $xs-max-width) {
+    flex-direction: column;
+  }
+}
+
+.actionsBtns {
+  display: flex;
+  justify-content: space-between;
+  width: 75px;
+  @media (max-width: $xs-max-width) {
+    margin-bottom: 5px;
+  }
+}
+
+.switchBtn {
+  width: 80px;
+  @media (max-width: $xs-max-width) {
+    width: 100%;
+  }
+}
