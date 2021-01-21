@@ -3,12 +3,12 @@
 #   script:
 #     - echo "Hello, $GITLAB_USER_LOGIN!"
 
-push-phill-origin:
-  stage: test
-  script:
-    - git remote set-url phill-origin https://git.eloquentbits.com/Mirimus/pp-redesign.git
-    - sleep 20
-    - git push phill-origin
+# push-phill-origin:
+#   stage: test
+#   script:
+#     - git remote set-url phill-origin https://git.eloquentbits.com/Mirimus/pp-redesign.git
+#     - sleep 20
+#     - git push phill-origin
 
 # deploy-prod:
 #   stage: deploy
