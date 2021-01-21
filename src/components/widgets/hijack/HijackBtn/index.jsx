@@ -6,14 +6,15 @@ import { Button, Tooltip } from 'antd';
 import { LoginOutlined } from '@ant-design/icons';
 import actions from 'redux/hijack/actions';
 
-const HijackBtn = ({
-  userId,
-  userFirstName,
-  userLastName,
-  userRole,
-  path,
-  userIsActive,
-}) => {
+const HijackBtn = props => {
+  const {
+    userId,
+    userFirstName,
+    userLastName,
+    userRole,
+    path,
+    userIsActive,
+  } = props;
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -34,7 +35,7 @@ const HijackBtn = ({
         toTerms: () => history.replace('/system/terms-and-conditions'),
       },
     });
-  }, [dispatch]);
+  }, [dispatch, props, currentRole]);
 
   return (
     <Tooltip
