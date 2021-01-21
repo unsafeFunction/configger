@@ -278,7 +278,7 @@ export function* callChangePassword({ payload }) {
 
     notification.error({
       message: 'Something went wrong',
-      description: errorData,
+      description: 'Previous password is invalid',
     });
   }
 }
@@ -328,7 +328,7 @@ export function* callRegByEmail({ payload }) {
 
     notification.error({
       message: 'Something went wrong',
-      description: errorData,
+      description: 'Previous password is invalid',
     });
   }
 }
