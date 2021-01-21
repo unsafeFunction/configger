@@ -1,5 +1,5 @@
-import actions from './actions';
 import { constants } from 'utils/constants';
+import actions from './actions';
 
 const initialState = {
   items: [],
@@ -31,16 +31,12 @@ export default function poolsReducer(state = initialState, action) {
           : [...state.items, ...action.payload.data],
         filename: action.payload.filename,
         isLoading: false,
-        // offset: action.payload.firstPage
-        //   ? constants?.pools?.itemsLoadingCount
-        //   : state.offset + constants?.pools?.itemsLoadingCount,
       };
     }
     case actions.FETCH_POOLS_BY_RUN_ID_FAILURE: {
       return {
         ...state,
         isLoading: false,
-        // error: action.payload.data,
       };
     }
 

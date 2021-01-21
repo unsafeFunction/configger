@@ -1,3 +1,4 @@
+import { constants } from 'utils/constants';
 import actions from './actions';
 
 const initialState = {
@@ -17,8 +18,13 @@ export default function intakeReducer(state = initialState, action) {
     case actions.FETCH_INTAKE_SUCCESS: {
       return {
         ...state,
-        items: action.payload.data,
+        items: action.payload.firstPage
+          ? action.payload.data
+          : [...state.items, ...action.payload.data],
         total: action.payload.total,
+        offset: action.payload.firstPage
+          ? constants?.pools?.itemsLoadingCount
+          : state.offset + constants?.pools?.itemsLoadingCount,
         isLoading: false,
       };
     }
