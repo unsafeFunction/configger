@@ -52,7 +52,7 @@ const AppLayout = props => {
         <Alert
           className={styles.phoneWarning}
           message="Informational Notes!"
-          description="Receive text message notifications for DETECTED pool results. Go to Profile in the main menu and enter your mobile phone number to begin receiving text message notifications."
+          description="Receive text message notifications for DETECTED pool results. Go to Profile and enter your mobile phone number to begin receiving text message notifications."
           type="warning"
           showIcon
           closable
