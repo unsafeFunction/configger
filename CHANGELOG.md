@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/mokkapps/changelog-generator-demo/compare/v1.5.0...v1.5.1) (2021-01-21)
+
+
+### Bug Fixes
+
+* fix lims loading, add offset to the loading function ([3182dd6](https://github.com/mokkapps/changelog-generator-demo/commits/3182dd6b04f207705650411f5dd8add7d1e573dc))
+* phone number notification text ([2a92468](https://github.com/mokkapps/changelog-generator-demo/commits/2a92468ee279ec6cbfd4664384aa797d411dbb13))
+* typo street address ([0535cf2](https://github.com/mokkapps/changelog-generator-demo/commits/0535cf2a0c29fd95ee72b5f927304c59e0fd7b38))
+
 ## [1.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.4.1...v1.5.0) (2021-01-21)
 
 
