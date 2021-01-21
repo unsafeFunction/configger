@@ -1,46 +1,31 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-closing-tag-location */
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/intakeLims/actions';
-import { Table, DatePicker, Spin } from 'antd';
+import { Table, Spin } from 'antd';
 import moment from 'moment-timezone';
 import classNames from 'classnames';
-import { useHistory, useLocation } from 'react-router-dom';
-import qs from 'qs';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
-const { RangePicker } = DatePicker;
-
-const Runs = () => {
+const IntakeList = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
-  const [dates, setDates] = useState([]);
 
   const intakeList = useSelector(state => state.intakeLims);
 
-  const { from, to } = qs.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
-
   const useFetching = () => {
     useEffect(() => {
-      const params =
-        from && to
-          ? { from, to, limit: constants?.runs?.itemsLoadingCount }
-          : { limit: constants?.runs?.itemsLoadingCount };
       dispatch({
         type: actions.FETCH_INTAKE_REQUEST,
         payload: {
-          ...params,
+          limit: constants?.runs?.itemsLoadingCount,
         },
       });
-    }, [dispatch, dates, history]);
+    }, [dispatch]);
   };
 
   useFetching();
@@ -83,36 +68,15 @@ const Runs = () => {
     key: intakeItem.company_id,
   }));
 
-  const onDatesChange = useCallback((dates, dateStrings) => {
-    if (dates) {
-      history.push({ search: `?from=${dateStrings[0]}&to=${dateStrings[1]}` });
-      setDates(dateStrings);
-    } else {
-      history.push({ search: '' });
-      setDates([]);
-    }
-  }, []);
-
   const loadMore = useCallback(() => {
-    const params =
-      from && to
-        ? {
-          from,
-          to,
-          limit: constants?.runs?.itemsLoadingCount,
-          offset: intakeList.offset,
-        }
-        : {
-          limit: constants?.runs?.itemsLoadingCount,
-          offset: intakeList.offset,
-        };
     dispatch({
       type: actions.FETCH_INTAKE_REQUEST,
       payload: {
-        ...params,
+        limit: constants?.runs?.itemsLoadingCount,
+        offset: intakeList.offset,
       },
     });
-  }, [dispatch, from, to, intakeList]);
+  }, [dispatch, intakeList]);
 
   return (
     <>
@@ -132,14 +96,14 @@ const Runs = () => {
         <Table
           columns={columns}
           dataSource={data}
-          loading={intakeList.isLoading}
           pagination={false}
           scroll={{ x: 1000 }}
           bordered
+          loading={intakeList.isLoading}
         />
       </InfiniteScroll>
     </>
   );
 };
 
-export default Runs;
+export default IntakeList;

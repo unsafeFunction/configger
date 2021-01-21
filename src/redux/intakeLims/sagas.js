@@ -6,12 +6,12 @@ import actions from './actions';
 export function* callFetchIntake({ payload }) {
   try {
     const response = yield call(fetchIntake, payload);
-
     yield put({
       type: actions.FETCH_INTAKE_SUCCESS,
       payload: {
         data: response.data.results,
         total: response.data.count,
+        firstPage: !response.data.previous,
       },
     });
   } catch (error) {
