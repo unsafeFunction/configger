@@ -1,0 +1,52 @@
+@import 'assets/styles/mixins.scss';
+
+.header {
+  text-align: center;
+  margin: 2rem 0 !important;
+}
+
+.paragraph {
+  text-indent: 50px;
+  text-align: justify;
+}
+
+.aligned {
+  text-align: justify;
+  margin: 2rem 0;
+  ol {
+    li {
+      margin-bottom: 14px;
+    }
+    ul {
+      list-style-type: square;
+      li {
+        margin-bottom: 0px;
+      }
+    }
+  }
+}
+
+.footer {
+  background-color: white !important;
+  border-top: 1px solid rgb(236, 236, 236);
+  text-align: center;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+}
+
+.checkbox {
+  margin: 2.5rem 0;
+  color: rgba(0, 0, 0, 0.85) !important;
+  font-weight: bold;
+}
+
+.plainText {
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 5%;
+
+  @media (max-width: $sm-max-width) {
+    margin: 0 10% 5%;
+  }
+}

@@ -1,0 +1,73 @@
+@import 'assets/styles/mixins.scss';
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/* AUTH */
+
+.auth {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.container {
+  max-width: rem(540);
+  width: 100%;
+  align-items: center;
+  padding: 3em;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.logo {
+  width: 40%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2.2rem;
+}
+
+.header {
+  color: $black;
+  font-size: 30px;
+  text-align: center;
+  margin: 1em 0;
+}
+
+.formInput {
+  width: 100%;
+  padding-bottom: 0.75em;
+}
+
+.linkButton {
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  color: $primary;
+}
+
+.navigationWrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.copyright {
+  color: $gray-6;
+  text-align: center;
+  font-size: 16px;
+  margin-top: 5em;
+}
+
+.submitButton {
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.formButton {
+  margin-bottom: 1rem;
+}

@@ -1,0 +1,44 @@
+@import 'assets/styles/mixins.scss';
+
+.container {
+  width: 100%;
+  box-shadow: 0 4px 38px 0 rgba(22, 21, 55, 0.06),
+    0 0 21px 0 rgba(22, 21, 55, 0.03);
+  align-items: center;
+  border-radius: 5px;
+  margin-bottom: 3em;
+  padding: 3em;
+  background-color: white;
+
+  @media (max-width: $xs-max-width) {
+    padding: 1em;
+  }
+}
+
+.header {
+  color: black;
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @media (max-width: $xs-max-width) {
+    flex-direction: column;
+  }
+}
+
+.formButton {
+  margin-top: 1rem;
+}
+
+.input {
+  width: 100%;
+
+  @media (max-width: $xs-max-width) {
+    margin-left: 0 !important;
+  }
+}

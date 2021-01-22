@@ -1,0 +1,46 @@
+@import 'assets/styles/mixins.scss';
+
+.spin {
+  text-align: center;
+  padding: 30px 50px;
+  margin: 20px 0;
+}
+.popover {
+  max-width: 290px;
+}
+
+.modalButton {
+  width: 130px;
+}
+
+.resultsStyle {
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-right: 10px;
+
+    cursor: pointer;
+  }
+}
+
+.hintTooltip {
+  width: 100%;
+  min-width: 500px;
+
+}
+
+.hintList {
+  list-style: none;
+  padding: 0;
+
+  padding: 10px;
+
+  .hintItem {
+    margin-bottom: 10px;
+
+    .hintStatus {
+      font-weight: 600;
+    }
+  }
+}
