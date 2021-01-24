@@ -4,6 +4,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 /*  ANT DESIGN TABS */
 
+.ant-tabs-left {
+  & > .ant-tabs-nav {
+    .ant-tabs-tab {
+      padding: 8px 24px 8px 0;
+    }
+  }
+}
+
 .ant-tabs-nav .ant-tabs-tab {
   padding-left: 0;
   padding-right: 0;
