@@ -1,7 +1,9 @@
-import { Badge } from 'antd';
-
 export async function getMenuData() {
   return [
+    {
+      category: true, // render category
+      title: 'Menu', // category title
+    },
     {
       title: 'Results',
       key: 'results',
@@ -52,6 +54,23 @@ export async function getMenuData() {
       icon: 'fe fe-monitor',
     },
     {
+      category: true,
+      title: 'Settings',
+    },
+    {
+      title: 'Users',
+      key: 'usersSettings',
+      icon: 'fe fe-settings',
+      children: [
+        {
+          title: 'User permission',
+          key: 'permission',
+          url: '/settings/permission',
+          icon: 'fe fe-lock',
+        },
+      ],
+    },
+    {
       title: 'Email Support',
       key: 'contactUs',
       icon: 'fe fe-mail',
@@ -76,6 +95,7 @@ export async function getRolePermissions() {
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/settings',
       ],
       default: '/runs',
     },
@@ -89,6 +109,7 @@ export async function getRolePermissions() {
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/settings',
       ],
       default: '/runs',
     },
