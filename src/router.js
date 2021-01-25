@@ -100,6 +100,10 @@ const routes = [
     path: '/intake',
     Component: loadable(() => import('pages/IntakeLims')),
   },
+  {
+    path: '/management',
+    Component: loadable(() => import('pages/Management')),
+  },
 ];
 
 const mapStateToProps = ({ settings }) => ({ settings });

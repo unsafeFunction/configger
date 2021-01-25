@@ -52,6 +52,12 @@ export async function getMenuData() {
       icon: 'fe fe-monitor',
     },
     {
+      title: 'Management',
+      key: 'management',
+      url: '/management',
+      icon: 'fe fe-bar-chart',
+    },
+    {
       title: 'Email Support',
       key: 'contactUs',
       icon: 'fe fe-mail',
@@ -76,6 +82,7 @@ export async function getRolePermissions() {
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/management',
       ],
       default: '/runs',
     },
@@ -89,6 +96,7 @@ export async function getRolePermissions() {
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/management',
       ],
       default: '/runs',
     },
