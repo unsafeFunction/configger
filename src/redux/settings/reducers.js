@@ -1,5 +1,6 @@
 import store from 'store';
 import map from 'lodash.map';
+import merge from 'lodash.merge';
 
 import actions from './actions';
 
@@ -86,19 +87,20 @@ export default function settingsReducer(state = initialState, action) {
         },
       );
 
+      // TODO: need to refactor for removing extra updates
       return {
         ...state,
         userPermission: {
           ...state.userPermission,
           [role]: isAllSelected
-            ? Object.assign({}, ...allSelectedValues)
+            ? merge({}, ...allSelectedValues)
             : {
-              ...state.userPermission[role],
-              [permissionName]: {
-                ...state.userPermission[role][permissionName],
-                [actionName]: value,
+                ...state.userPermission[role],
+                [permissionName]: {
+                  ...state.userPermission[role][permissionName],
+                  [actionName]: value,
+                },
               },
-            },
         },
       };
     }

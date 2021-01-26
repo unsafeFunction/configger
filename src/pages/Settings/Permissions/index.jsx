@@ -31,6 +31,7 @@ const columns = [
         />
       </div>
     ),
+    fixed: 'left',
     dataIndex: 'role',
     width: 50,
     render: (text, { isPermissionHeader }) => {
@@ -320,6 +321,7 @@ const UserPermissions = () => {
         dataSource={data}
         pagination={false}
         sticky
+        scroll={{ x: 850 }}
         bordered
       />
     </div>
