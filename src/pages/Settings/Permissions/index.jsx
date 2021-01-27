@@ -13,7 +13,7 @@ import {
   Spin,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import actions from 'redux/settings/actions';
+import actions from 'redux/userSettings/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 
@@ -102,7 +102,7 @@ const columns = [
 ];
 
 const UserPermissions = () => {
-  const { userPermission } = useSelector(state => state.settings);
+  const { userPermission } = useSelector(state => state.userSettings);
   const dispatch = useDispatch();
 
   const onPermissionChange = useCallback(
@@ -191,7 +191,7 @@ const UserPermissions = () => {
           ...getUserPermissionCheckbox(role, 'pre_scan'),
         },
         {
-          key: `pre_scan_${role}`,
+          key: `pool_scan_${role}`,
           role: <span>Can Pool Scan </span>,
           ...getUserPermissionCheckbox(role, 'pool_scan'),
         },
@@ -307,7 +307,7 @@ const UserPermissions = () => {
       key: 'intake',
       role: <Typography.Text strong>Intake</Typography.Text>,
       isPermissionHeader: true,
-      ...getRoleHeaderCheckbox(''),
+      ...getRoleHeaderCheckbox('intake'),
     },
     ...getRoleColumn('intake'),
   ];

@@ -13,24 +13,6 @@ const STORED_SETTINGS = storedSettings => {
   return settings;
 };
 
-const initialPermissionValues = {
-  create: false,
-  update: false,
-  read: false,
-  delete: false,
-};
-
-const initialRolePermissions = {
-  pre_scan: initialPermissionValues,
-  pool_scan: initialPermissionValues,
-  pool_rack: initialPermissionValues,
-  prepare_test: initialPermissionValues,
-  review_results: initialPermissionValues,
-  management: initialPermissionValues,
-  view_dashboard: initialPermissionValues,
-  edit_settings: initialPermissionValues,
-};
-
 const initialState = {
   ...STORED_SETTINGS({
     isSidebarOpen: false,
@@ -55,55 +37,12 @@ const initialState = {
     isBorderless: false,
     routerAnimation: 'slide-fadein-up', // none, slide-fadein-up, slide-fadein-right, fadein, zoom-fadein
   }),
-
-  userPermission: {
-    admin: initialRolePermissions,
-    lab_member: initialRolePermissions,
-    intake: initialRolePermissions,
-  },
 };
 
 export default function settingsReducer(state = initialState, action) {
   switch (action.type) {
     case actions.SET_STATE:
       return { ...state, ...action.payload };
-    case actions.SET_USER_PERMISSION: {
-      const {
-        role,
-        permissionName,
-        actionName,
-        value,
-        isAllSelected,
-      } = action.payload;
-      const allSelectedValues = map(
-        state.userPermission[role],
-        (obj, objectValue, key) => {
-          return {
-            [objectValue]: {
-              ...state.userPermission[role][objectValue],
-              [actionName]: value,
-            },
-          };
-        },
-      );
-
-      // TODO: need to refactor for removing extra updates
-      return {
-        ...state,
-        userPermission: {
-          ...state.userPermission,
-          [role]: isAllSelected
-            ? merge({}, ...allSelectedValues)
-            : {
-                ...state.userPermission[role],
-                [permissionName]: {
-                  ...state.userPermission[role][permissionName],
-                  [actionName]: value,
-                },
-              },
-        },
-      };
-    }
     default:
       return state;
   }

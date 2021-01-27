@@ -3,6 +3,7 @@ import { connectRouter } from 'connected-react-router';
 import user from './user/reducers';
 import menu from './menu/reducers';
 import settings from './settings/reducers';
+import userSettings from './userSettings/reducers';
 import modal from './modal/reducers';
 import customers from './customers/reducers';
 import companies from './companies/reducers';
@@ -21,6 +22,7 @@ export default history =>
     user,
     menu,
     settings,
+    userSettings,
     modal,
     customers,
     companies,
