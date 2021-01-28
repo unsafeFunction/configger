@@ -1,3 +1,5 @@
+import generateRequestActions from 'redux/factories/generateRequestActions';
+
 const actions = {
   SET_STATE: 'user/SET_STATE',
   LOGIN_REQUEST: 'user/LOGIN_REQUEST',
