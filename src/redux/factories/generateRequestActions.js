@@ -1,8 +1,9 @@
 const states = ['REQUEST', 'SUCCESS', 'FAILURE'];
 
 const generateRequestActions = (
-  instance,
   requestTypes = ['CREATE', 'UPDATE', 'DELETE', 'FETCH'],
+  instance,
+  actionName = instance,
 ) => {
   const actions = {};
   const methodsArray = requestTypes.map(type => ({
@@ -12,12 +13,10 @@ const generateRequestActions = (
 
   methodsArray.forEach(method => {
     method.states.forEach(state => {
+      const singleAction = `${method.type.toUpperCase()}_${actionName.toUpperCase()}_${state}`;
+
       Object.assign(actions, {
-        [`${
-          method.type
-        }_${instance.toUpperCase()}_${state}`]: `${instance.toLowerCase()}/${
-          method.type
-        }_${instance.toUpperCase()}_${state}`,
+        [singleAction]: `${instance.toLowerCase()}/${singleAction}`,
       });
     });
   });
