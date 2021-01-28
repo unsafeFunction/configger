@@ -1,5 +1,3 @@
-import generateRequestActions from 'redux/factories/generateRequestActions';
-
 const actions = {
   SET_STATE: 'user/SET_STATE',
   LOGIN_REQUEST: 'user/LOGIN_REQUEST',
@@ -33,9 +31,6 @@ const actions = {
   REG_BY_EMAIL_REQUEST: 'reg/REG_BY_EMAIL_REQUEST',
   REG_BY_EMAIL_SUCCESS: 'reg/REG_BY_EMAIL_SUCCESS',
   REG_BY_EMAIL_FAILURE: 'reg/REG_BY_EMAIL_FAILURE',
-  ...generateRequestActions(['fetch'], 'company', 'users_by_company_id'),
 };
-
-console.log(actions);
 
 export default actions;
