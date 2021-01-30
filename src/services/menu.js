@@ -52,6 +52,12 @@ export async function getMenuData() {
       icon: 'fe fe-monitor',
     },
     {
+      title: 'Scan',
+      key: 'scan',
+      url: '/scan',
+      icon: 'fe fe-maximize',
+    },
+    {
       title: 'Management',
       key: 'management',
       url: '/management',
@@ -82,6 +88,7 @@ export async function getRolePermissions() {
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/scan',
         '/management',
       ],
       default: '/runs',
@@ -96,6 +103,7 @@ export async function getRolePermissions() {
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/scan',
         '/management',
       ],
       default: '/runs',

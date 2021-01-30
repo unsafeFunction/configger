@@ -1,0 +1,63 @@
+@import 'assets/styles/mixins.scss';
+
+.letterColumn {
+  background: $gray-1;
+  width: 36px;
+}
+
+.tube {
+  width: 32px !important;
+  height: 32px !important;
+  visibility: visible !important;
+}
+
+.tubeErr {
+  background: $red;
+  border-color: $red;
+  &:hover,
+  &:active,
+  &:focus {
+    background: lighten($red, 10%);
+    border-color: lighten($red, 10%);
+  }
+}
+.tubeUpd {
+  background: $purple;
+  border-color: $purple;
+  &:hover,
+  &:active,
+  &:focus {
+    background: lighten($purple, 10%);
+    border-color: lighten($purple, 10%);
+  }
+}
+.tubePosControl {
+  background: $success;
+  border-color: $success;
+  &:hover,
+  &:active,
+  &:focus {
+    background: lighten($success, 10%);
+    border-color: lighten($success, 10%);
+  }
+}
+.tubeNegControl {
+  background: $danger;
+  border-color: $danger;
+  &:hover,
+  &:active,
+  &:focus {
+    background: lighten($danger, 10%);
+    border-color: lighten($danger, 10%);
+  }
+}
+.poolingTube {
+  background: $orange;
+  border-color: $orange;
+  &:hover,
+  &:active,
+  &:focus {
+    background: lighten($orange, 10%);
+    border-color: lighten($orange, 10%);
+  }
+}

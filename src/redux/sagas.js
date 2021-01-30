@@ -12,6 +12,7 @@ import activityStream from './activityStream/sagas';
 import intake from './intake/sagas';
 import search from './search/sagas';
 import intakeLims from './intakeLims/sagas';
+import scan from './scan/sagas';
 import management from './management/sagas';
 
 export default function* rootSaga() {
@@ -29,6 +30,7 @@ export default function* rootSaga() {
     intake(),
     search(),
     intakeLims(),
+    scan(),
     management(),
   ]);
 }

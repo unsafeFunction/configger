@@ -255,4 +255,5 @@ export const constants = {
       value: 'WY',
     },
   ],
+  A: 'A'.charCodeAt(0),
 };
