@@ -28,33 +28,21 @@ const Rackboard = ({ rackboard }) => {
       <Popover
         content={
           <>
-            <Row gutter={[16, 16]}>
-              <Col xs={24}>
-                <Input
-                  size="large"
-                  placeholder="Tube barcode"
-                  value={record[`col${i + 1}`].tube_id}
-                  // onPressEnter={}
-                  className="text-right"
-                />
-              </Col>
-              <Col xs={12}>
-                <Button className="w-100">Delete</Button>
-              </Col>
-              <Col xs={12}>
-                <Button className="w-100" type="primary">
-                  Invalidate
-                </Button>
-              </Col>
-              <Col xs={12}>
-                <Button className="w-100">Cancel</Button>
-              </Col>
-              <Col xs={12}>
-                <Button className="w-100" type="primary">
-                  Save
-                </Button>
-              </Col>
-            </Row>
+            <Input
+              size="large"
+              placeholder="Tube barcode"
+              value={record[`col${i + 1}`].tube_id}
+              // onPressEnter={}
+              className={classNames(styles.tubeInput, 'text-right mb-4')}
+            />
+            <Button className="d-block w-100 mb-3">Delete</Button>
+            <Button className="d-block w-100 mb-3" type="primary">
+              Invalidate
+            </Button>
+            <Button className="d-block w-100 mb-3">Cancel</Button>
+            <Button className="d-block w-100" type="primary">
+              Save
+            </Button>
           </>
         }
         trigger="click"
@@ -63,7 +51,8 @@ const Rackboard = ({ rackboard }) => {
           type="primary"
           shape="circle"
           className={classNames(styles.tube, {
-            // [styles.tubeScs]: record[`col${i + 1}`].status === 'sample-tube--scs',
+            // [styles.tubeScs]:
+            //   record[`col${i + 1}`].status === 'sample-tube--scs',
             [styles.tubeErr]:
               record[`col${i + 1}`].status === 'sample-tube--err',
             [styles.tubeUpd]:

@@ -19,6 +19,13 @@ const initialState = {
     isLoading: false,
     error: null,
   },
+  companies: {
+    items: [],
+    total: 0,
+    offset: 0,
+    isLoading: false,
+    error: null,
+  },
 };
 
 export default function scanReducer(state = initialState, action) {
@@ -49,6 +56,54 @@ export default function scanReducer(state = initialState, action) {
         rackboard: {
           ...state.rackboard,
           isLoading: false,
+        },
+      };
+    }
+
+    case actions.FETCH_COMPANIES_REQUEST: {
+      return {
+        ...state,
+        companies: {
+          ...state.companies,
+          isLoading: true,
+          error: null,
+        },
+      };
+    }
+    case actions.FETCH_COMPANIES_SUCCESS: {
+      const newCompanies = action.payload.data.results.map(company => {
+        return {
+          ...company,
+          key: company.company_id,
+          label: company.name,
+          value: company.company_id,
+        };
+      });
+
+      const companies = action.payload.firstPage
+        ? newCompanies
+        : [...state.companies.items, ...newCompanies];
+
+      return {
+        ...state,
+        companies: {
+          ...state.companies,
+          items: companies,
+          total: action.payload.data.count,
+          isLoading: false,
+          offset: action.payload.firstPage
+            ? constants?.pools?.itemsLoadingCount
+            : state.companies.offset + constants?.pools?.itemsLoadingCount,
+        },
+      };
+    }
+    case actions.FETCH_COMPANIES_FAILURE: {
+      return {
+        ...state,
+        companies: {
+          ...state.companies,
+          isLoading: false,
+          // error: action.payload.data,
         },
       };
     }

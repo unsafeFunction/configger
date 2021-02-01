@@ -1,35 +1,17 @@
-import { all, takeEvery, put } from 'redux-saga/effects';
+import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import actions from './actions';
+import { fetchCompanies } from 'services/scan';
 import { constants } from 'utils/constants';
+import { rackboard } from './data';
 
 export function* callFetchSamples({}) {
   try {
-    // const rackboard = [
-    //   { A1: { tube_id: 'SN12345678', status: 'sample-tube--scs' } },
-    //   { A2: { tube_id: 'SN12345678', status: 'sample-tube--scs' } },
-    //   { F8: { tube_id: 'SN12345678', status: 'pooling-tube' } },
-    // ];
-    const rackboard = [...Array(6).keys()].map(i => ({
-      letter: String.fromCharCode(constants?.A + i),
-      col1: { tube_id: 'SN12345678', status: 'sample-tube--scs' },
-      col2: { tube_id: null, status: 'sample-tube--err' },
-      col3: { tube_id: null, status: 'sample-tube--upd' },
-      col4: { tube_id: null, status: 'positive-control-tube' },
-      col5: { tube_id: null, status: 'negative-control-tube' },
-      col6: { tube_id: null, status: 'empty' },
-      col7: { tube_id: null, status: 'empty' },
-      col8: { tube_id: null, status: 'pooling-tube' },
-    }));
-
     const response = {
       data: {
         results: rackboard,
       },
     };
-
-    // const preparedData = response.data?.results?.map(position => {});
-    // console.log('PREPARED DATA', preparedData);
 
     yield put({
       type: actions.FETCH_SAMPLES_SUCCESS,
@@ -42,6 +24,26 @@ export function* callFetchSamples({}) {
   }
 }
 
+export function* callFetchCompanies({ payload }) {
+  try {
+    const response = yield call(fetchCompanies, payload);
+
+    yield put({
+      type: actions.FETCH_COMPANIES_SUCCESS,
+      payload: {
+        data: response.data,
+        total: response.data.count,
+        firstPage: !response.data.previous,
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+  }
+}
+
 export default function* rootSaga() {
-  yield all([takeEvery(actions.FETCH_SAMPLES_REQUEST, callFetchSamples)]);
+  yield all([
+    takeEvery(actions.FETCH_SAMPLES_REQUEST, callFetchSamples),
+    takeEvery(actions.FETCH_COMPANIES_REQUEST, callFetchCompanies),
+  ]);
 }
