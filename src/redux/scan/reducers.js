@@ -41,12 +41,13 @@ export default function scanReducer(state = initialState, action) {
       };
     }
     case actions.FETCH_SAMPLES_SUCCESS: {
+      console.log(action.payload.data.tubes)
       return {
         ...state,
         rackboard: {
           ...state.rackboard,
           isLoading: false,
-          items: action.payload.data.results,
+          items: action.payload.data.tubes,
         },
       };
     }

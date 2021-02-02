@@ -1,17 +1,20 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import actions from './actions';
-import { fetchCompanies } from 'services/scan';
+import { fetchCompanies, fetchSamples } from 'services/scan';
 import { constants } from 'utils/constants';
 import { rackboard } from './data';
 
 export function* callFetchSamples({}) {
   try {
-    const response = {
-      data: {
-        results: rackboard,
-      },
-    };
+    // const response = {
+    //   data: {
+    //     results: rackboard,
+    //   },
+    // };
+
+    const response = yield call(fetchSamples);
+    console.log(response);
 
     yield put({
       type: actions.FETCH_SAMPLES_SUCCESS,
@@ -20,6 +23,7 @@ export function* callFetchSamples({}) {
       },
     });
   } catch (error) {
+    console.log(error);
     notification.error(error);
   }
 }
