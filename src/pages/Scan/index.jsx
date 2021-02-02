@@ -122,6 +122,8 @@ const Scan = () => {
                 )}
                 optionFilterProp="label"
                 onSearch={onChangeSearch}
+                searchValue={searchName}
+                allowClear
               />
             </Form.Item>
           </Col>
