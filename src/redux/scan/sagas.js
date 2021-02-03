@@ -7,6 +7,7 @@ import { constants } from 'utils/constants';
 export function* callFetchSamples({}) {
   try {
     const response = yield call(fetchSamples);
+    const tubesInfo = response?.data?.tubes;
 
     const formatResponse = (response) => {
       return Object.assign(
@@ -24,9 +25,9 @@ export function* callFetchSamples({}) {
     //TODO: refactor here...
 
     const preparedResponse = [
-      formatResponse(response?.data?.tubes?.slice?.(0, 8)),
-      formatResponse(response?.data?.tubes?.slice?.(8, 16)),
-      formatResponse(response?.data?.tubes?.slice?.(16, 25)),
+      formatResponse(tubesInfo?.slice?.(0, 8)),
+      formatResponse(tubesInfo?.slice?.(8, 16)),
+      formatResponse(tubesInfo?.slice?.(16, 25)),
       ...constants.rackboardDefaultRows,
     ];
     console.log('prepared response', preparedResponse);
