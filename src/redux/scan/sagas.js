@@ -27,6 +27,7 @@ export function* callFetchSamples({}) {
       formatResponse(response?.data?.tubes?.slice?.(0, 8)),
       formatResponse(response?.data?.tubes?.slice?.(8, 16)),
       formatResponse(response?.data?.tubes?.slice?.(16, 25)),
+      ...constants.rackboardDefaultRows,
     ];
     console.log('prepared response', preparedResponse);
 
