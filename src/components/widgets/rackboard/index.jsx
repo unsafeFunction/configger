@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import { Table, Button, Popover, Input, Row, Col } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -18,6 +18,11 @@ import styles from './styles.module.scss';
  */
 
 const Rackboard = ({ rackboard }) => {
+
+  const handleSave = useCallback((record) => {
+    console.log('save', record);
+  }, []);
+
   const restColumns = [...Array(8).keys()].map(i => ({
     title: `${i + 1}`,
     dataIndex: `col${i + 1}`,
@@ -40,7 +45,7 @@ const Rackboard = ({ rackboard }) => {
                 Invalidate
               </Button>
               <Button className="d-block w-100 mb-3">Cancel</Button>
-              <Button className="d-block w-100" type="primary">
+              <Button className="d-block w-100" type="primary" onClick={() => handleSave(record?.[`col${i + 1}`])}>
                 Save
               </Button>
             </>

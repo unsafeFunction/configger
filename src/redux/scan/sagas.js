@@ -17,6 +17,9 @@ export function* callFetchSamples({}) {
           [`col${obj?.position?.[1]}`]: {
             tube_id: obj?.id,
             status: obj?.status.toLowerCase(),
+            position: obj?.position,
+            color: obj?.color,
+            metadata: obj?.metadata,
           },
         })),
       )
