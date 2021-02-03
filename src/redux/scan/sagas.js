@@ -7,19 +7,26 @@ import { constants } from 'utils/constants';
 export function* callFetchSamples({}) {
   try {
     const response = yield call(fetchSamples);
-    console.log('response', response);
 
-    const preparedResponse = [
-      Object.assign(
+    const formatResponse = (response) => {
+      return Object.assign(
         {},
-        ...response?.data?.tubes?.map?.(obj => ({
+        ...response?.map?.(obj => ({
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
             tube_id: obj?.id,
             status: obj?.status.toLowerCase(),
           },
         })),
-      ),
+      )
+    };
+
+    //TODO: refactor here...
+
+    const preparedResponse = [
+      formatResponse(response?.data?.tubes?.slice?.(0, 8)),
+      formatResponse(response?.data?.tubes?.slice?.(8, 16)),
+      formatResponse(response?.data?.tubes?.slice?.(16, 25)),
     ];
     console.log('prepared response', preparedResponse);
 
