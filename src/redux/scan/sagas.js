@@ -3,27 +3,35 @@ import { notification } from 'antd';
 import actions from './actions';
 import { fetchCompanies, fetchSamples } from 'services/scan';
 import { constants } from 'utils/constants';
-import { rackboard } from './data';
 
 export function* callFetchSamples({}) {
   try {
-    // const response = {
-    //   data: {
-    //     results: rackboard,
-    //   },
-    // };
-
     const response = yield call(fetchSamples);
-    console.log(response);
+    console.log('response', response);
+
+    const preparedResponse = [
+      Object.assign(
+        {},
+        ...response?.data?.tubes?.map?.(obj => ({
+          letter: obj?.position?.[0],
+          [`col${obj?.position?.[1]}`]: {
+            tube_id: obj?.id,
+            status: obj?.status.toLowerCase(),
+          },
+        })),
+      ),
+    ];
+    console.log('prepared response', preparedResponse);
 
     yield put({
       type: actions.FETCH_SAMPLES_SUCCESS,
       payload: {
-        data: response.data,
+        // data: response.data,
+        data: preparedResponse,
       },
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     notification.error(error);
   }
 }

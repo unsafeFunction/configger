@@ -86,10 +86,9 @@ const Scan = () => {
         <Row gutter={[40, 48]} justify="center">
           <Col xs={24} sm={20} md={16} lg={12} xl={10}>
             <Rackboard rackboard={rackboard} />
-
             <Form.Item
-              label="Companies"
-              name="companies"
+              label="Company"
+              name="company"
               className={styles.formItem}
               rules={[
                 {
@@ -99,7 +98,7 @@ const Scan = () => {
               ]}
             >
               <Select
-                placeholder="Companies"
+                placeholder="Company"
                 loading={companies?.isLoading}
                 showSearch
                 options={companies?.items}
@@ -129,7 +128,63 @@ const Scan = () => {
           </Col>
           <Col xs={24} sm={20} md={16} lg={12} xl={10}>
             <div className={styles.companyDetails}>
-              <Text>Company name</Text>
+              <Form.Item
+                label="Company"
+                name="companyConfirmation"
+                className={styles.formItem}
+                dependencies={['company']}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please select a company!',
+                  },
+                ]}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please select the company again!',
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      if (!value || getFieldValue('company') === value) {
+                        return Promise.resolve();
+                      }
+
+                      return Promise.reject(
+                        'The company that you selected does not match with the this one!',
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <Select
+                  placeholder="Company"
+                  loading={companies?.isLoading}
+                  showSearch
+                  options={companies?.items}
+                  dropdownStyle={{
+                    maxHeight: 300,
+                    overflowY: 'hidden',
+                    overflowX: 'scroll',
+                  }}
+                  listHeight={0}
+                  dropdownMatchSelectWidth={false}
+                  dropdownRender={menu => (
+                    <InfiniteScroll
+                      next={loadMore}
+                      hasMore={companies?.items?.length < companies?.total}
+                      dataLength={companies?.items?.length}
+                      height={300}
+                    >
+                      {menu}
+                    </InfiniteScroll>
+                  )}
+                  optionFilterProp="label"
+                  onSearch={onChangeSearch}
+                  searchValue={searchName}
+                  allowClear
+                />
+              </Form.Item>
               <Text>Short company name</Text>
               <Text>Company ID</Text>
               <Text>Pool name</Text>
@@ -143,12 +198,12 @@ const Scan = () => {
 
             <Form.Item className="d-inline-block mr-3 mb-3">
               <Button type="primary" size="large" htmlType="submit">
-                Ok
+                Save Scan
               </Button>
             </Form.Item>
 
             <Form.Item className="d-inline-block mr-3 mb-3">
-              <Button size="large">Cancel (Void)</Button>
+              <Button size="large">Void Scan</Button>
             </Form.Item>
           </Col>
         </Row>

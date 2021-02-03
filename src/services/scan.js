@@ -17,4 +17,4 @@ export const fetchSamples = async () => {
   const samples = await mockClient.get('/scans/byId');
 
   return samples;
-}
+};

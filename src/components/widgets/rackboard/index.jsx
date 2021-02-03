@@ -1,22 +1,19 @@
 import React from 'react';
 import { Table, Button, Popover, Input, Row, Col } from 'antd';
-import {rackboard as rackboardMock} from 'redux/scan/data';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
 /**
- * this component will be used not only in Scan
- * pls, make it reusable
- *
- * estimated rack position statuses:
- *  empty
- *  sample-tube--scs
- *  sample-tube--err
- *  sample-tube--upd
- *  positive-control-tube
- *  negative-control-tube
- *  pooling-tube
+ * estimated statuses:
+ * 1 Not Tested
+ * 2 Missing Tube
+ * 3 Failed
+ * 4 Tested
+ * 5 Positive Control
+ * 6 Negative Control
+ * 7 Empty
+ * 8 Pooling Tube
  *
  */
 
@@ -26,7 +23,7 @@ const Rackboard = ({ rackboard }) => {
     dataIndex: `col${i + 1}`,
     align: 'center',
     render: (_, record) => {
-      console.log(record);
+      // console.log('record', record);
       return (
         <Popover
           content={
@@ -54,23 +51,16 @@ const Rackboard = ({ rackboard }) => {
             type="primary"
             shape="circle"
             className={classNames(styles.tube, {
-              // [styles.tubeScs]:
-              //   record[`col${i + 1}`].status === 'sample-tube--scs',
-              // [styles.tubeErr]:
-              //   record[`col${i + 1}`].status === 'sample-tube--err',
-              // [styles.tubeUpd]:
-              //   record[`col${i + 1}`].status === 'sample-tube--upd',
-              // [styles.tubePosControl]:
-              //   record[`col${i + 1}`].status === 'positive-control-tube',
-              // [styles.tubeNegControl]:
-              //   record[`col${i + 1}`].status === 'negative-control-tube',
-              // [styles.poolingTube]:
-              //   record[`col${i + 1}`].status === 'pooling-tube',
+              [styles.notTested]:
+                record[`col${i + 1}`]?.status === 'not tested',
             })}
-            ghost={record?.metadata?.status === 'EMPTY'}
+            ghost={
+              !record[`col${i + 1}`] ||
+              record[`col${i + 1}`]?.status === 'empty'
+            }
           />
         </Popover>
-      )
+      );
     },
   }));
 
@@ -83,24 +73,12 @@ const Rackboard = ({ rackboard }) => {
     },
     ...restColumns,
   ];
-  console.log(Object.assign({}, ...rackboard?.items?.map?.((obj) => ({
-    letter: obj?.position?.[0],
-    [`col${obj?.position?.[1]}`]: {
-      tube_id: obj?.metadata?.tubeID,
-      status: obj?.metadata?.status,
-    }
-  }))));
+
   return (
     <>
       <Table
         columns={columns}
-        dataSource={[Object.assign({}, ...rackboard?.items?.map?.((obj) => ({
-          letter: obj?.position?.[0],
-          [`col${obj?.position?.[1]}`]: {
-            tube_id: obj?.metadata?.tubeID,
-            status: obj?.metadata?.status,
-          }
-        }))), ...rackboardMock]}
+        dataSource={rackboard?.items}
         loading={rackboard?.isLoading}
         pagination={false}
         scroll={{ x: 'max-content' }}
