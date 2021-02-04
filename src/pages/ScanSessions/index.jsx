@@ -1,19 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Button, Tag, Input, Form } from 'antd';
-import { CompanyModal } from 'components/widgets/companies';
+import { Table, Input } from 'antd';
 import debounce from 'lodash.debounce';
-import {
-  PlusCircleOutlined,
-  DeleteOutlined,
-  LoadingOutlined,
-  SearchOutlined,
-} from '@ant-design/icons';
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import actions from 'redux/companies/actions';
-import modalActions from 'redux/modal/actions';
+import actions from 'redux/scanSessions/actions';
 
 import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
@@ -21,11 +13,8 @@ import styles from './styles.module.scss';
 
 const ScanSessions = () => {
   const { isMobile, isTablet } = useWindowSize();
-
   const dispatch = useDispatch();
-
-  const allCompanies = useSelector(state => state.companies.all);
-  const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
+  const scanSessions = useSelector(state => state.scanSessions.sessions);
 
   const columns = [
     {
@@ -58,22 +47,13 @@ const ScanSessions = () => {
   const useFetching = () => {
     useEffect(() => {
       dispatch({
-        type: actions.FETCH_COMPANIES_REQUEST,
+        type: actions.FETCH_SCAN_SESSIONS_REQUEST,
         payload: {
           limit: constants.companies.itemsLoadingCount,
           //   search: searchName,
         },
       });
     }, []);
-  };
-
-  const onPageChange = page => {
-    dispatch({
-      type: actions.LOAD_CAMPAIGN_REQUEST,
-      payload: {
-        page,
-      },
-    });
   };
 
   useFetching();
@@ -83,10 +63,10 @@ const ScanSessions = () => {
       type: actions.FETCH_COMPANIES_REQUEST,
       payload: {
         limit: constants.companies.itemsLoadingCount,
-        offset: allCompanies.offset,
+        offset: scanSessions.offset,
       },
     });
-  }, [dispatch, allCompanies]);
+  }, [dispatch, scanSessions]);
 
   const sendQuery = useCallback(query => {
     dispatch({
@@ -147,19 +127,19 @@ const ScanSessions = () => {
       </div>
       <InfiniteScroll
         next={loadMore}
-        hasMore={allCompanies?.items?.length < allCompanies?.total}
-        loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
-        dataLength={allCompanies?.items?.length}
+        hasMore={scanSessions?.items?.length < scanSessions?.total}
+        loader={<LoadingOutlined style={{ fontSize: 36 }} spin />}
+        dataLength={scanSessions?.items?.length}
       >
         <Table
-          dataSource={allCompanies?.items}
+          dataSource={scanSessions?.items}
           columns={columns}
           scroll={{ x: 1200 }}
           bordered
-          loading={!allCompanies?.isLoading}
+          loading={!scanSessions?.isLoading}
           align="center"
           pagination={{
-            pageSize: allCompanies?.items?.length,
+            pageSize: scanSessions?.items?.length,
             hideOnSinglePage: true,
           }}
         />

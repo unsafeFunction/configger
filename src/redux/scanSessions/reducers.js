@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
 import { constants } from 'utils/constants';
@@ -16,11 +17,53 @@ const initialRackboard = [...Array(6).keys()].map(i => ({
 }));
 
 const initialState = {
-  data: [],
+  items: [],
+  isLoading: false,
+  error: null,
 };
 
 const sessionsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actions.FETCH_SCAN_SESSIONS_REQUEST: {
+      return {
+        ...state,
+        isLoading: false,
+        search: action.payload.search,
+      };
+    }
+    case actions.FETCH_SCAN_SESSIONS_SUCCESS: {
+      const scanSessionForRender = action.payload.data.map(session => {
+        return {
+          ...session,
+          action: null,
+        };
+      });
+
+      const { scanSessions } = constants;
+      const { total, firstPage } = action.payload;
+
+      return {
+        ...state,
+        items: firstPage
+          ? scanSessionForRender
+          : [
+            ...state.items,
+            ...scanSessionForRender,
+          ],
+        total,
+        isLoading: true,
+        offset: firstPage
+          ? scanSessions.itemsLoadingCount
+          : state.offset + scanSessions.itemsLoadingCount,
+      };
+    }
+    case actions.FETCH_SCAN_SESSIONS_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.error,
+      };
+    }
     default:
       return state;
   }
@@ -32,13 +75,6 @@ const initialSingleScan = {
     pool_id: null,
     company_id: null,
     items: initialRackboard,
-    isLoading: false,
-    error: null,
-  },
-  companies: {
-    items: [],
-    total: 0,
-    offset: 0,
     isLoading: false,
     error: null,
   },

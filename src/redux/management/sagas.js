@@ -1,6 +1,5 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import {
-  fetchCompanies,
   getSingleCompany,
   createCompany,
   updateUsers,

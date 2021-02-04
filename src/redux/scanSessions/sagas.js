@@ -50,8 +50,32 @@ export function* callFetchSamples({}) {
   }
 }
 
+export function* callFetchScanSessions() {
+  try {
+    // const response = yield call(fetchSamples);
+
+
+    yield put({
+      type: actions.FETCH_SCAN_SESSIONS_SUCCESS,
+      payload: {
+        data: []
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+
+    yield put({
+      type: actions.FETCH_SCAN_SESSIONS_FAILURE,
+      payload: {
+        error
+      }
+    })
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_SAMPLES_REQUEST, callFetchSamples),
+    takeEvery(actions.FETCH_SCAN_SESSIONS_REQUEST, callFetchScanSessions),
   ]);
 }
