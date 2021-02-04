@@ -1,11 +1,12 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/scan/actions';
-import { Row, Col, Form, Select, Button, Typography } from 'antd';
+import { Row, Col, Form, Select, Button, Typography, Input } from 'antd';
 import Rackboard from 'components/widgets/rackboard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { constants } from 'utils/constants';
 import debounce from 'lodash.debounce';
+import { Barcode } from 'assets';
 import styles from './styles.module.scss';
 
 const { Text } = Typography;
@@ -82,79 +83,22 @@ const Scan = () => {
 
   return (
     <>
-      <Form form={form} layout="vertical" onFinish={onSubmit}>
+      <Form form={form} onFinish={onSubmit}>
         <Row gutter={[40, 48]} justify="center">
-          <Col xs={24} sm={20} md={16} lg={12} xl={10}>
+          <Col xs={24} sm={20} md={18} lg={12} xl={10}>
             <Rackboard rackboard={rackboard} />
-            <Form.Item
-              label="Company"
-              name="company"
-              className={styles.formItem}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please select a company!',
-                },
-              ]}
-            >
-              <Select
-                placeholder="Company"
-                loading={companies?.isLoading}
-                showSearch
-                options={companies?.items}
-                dropdownStyle={{
-                  maxHeight: 300,
-                  overflowY: 'hidden',
-                  overflowX: 'scroll',
-                }}
-                listHeight={0}
-                dropdownMatchSelectWidth={false}
-                dropdownRender={menu => (
-                  <InfiniteScroll
-                    next={loadMore}
-                    hasMore={companies?.items?.length < companies?.total}
-                    dataLength={companies?.items?.length}
-                    height={300}
-                  >
-                    {menu}
-                  </InfiniteScroll>
-                )}
-                optionFilterProp="label"
-                onSearch={onChangeSearch}
-                searchValue={searchName}
-                allowClear
-              />
-            </Form.Item>
           </Col>
-          <Col xs={24} sm={20} md={16} lg={12} xl={10}>
+          <Col xs={24} sm={20} md={18} lg={12} xl={10}>
             <div className={styles.companyDetails}>
               <Form.Item
                 label="Company"
-                name="companyConfirmation"
-                className={styles.formItem}
-                dependencies={['company']}
+                name="company"
+                className="w-100"
                 rules={[
                   {
                     required: true,
-                    message: 'Please select a company!',
+                    message: 'Please select a company',
                   },
-                ]}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select the company again!',
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(rule, value) {
-                      if (!value || getFieldValue('company') === value) {
-                        return Promise.resolve();
-                      }
-
-                      return Promise.reject(
-                        'The company that you selected does not match with the this one!',
-                      );
-                    },
-                  }),
                 ]}
               >
                 <Select
@@ -185,11 +129,76 @@ const Scan = () => {
                   allowClear
                 />
               </Form.Item>
-              <Text>Short company name</Text>
-              <Text>Company ID</Text>
-              <Text>Pool name</Text>
+              <Text>Short company name: – </Text>
+              <Text>Company ID: – </Text>
+              <Form.Item
+                label="Pool name"
+                name="poolName"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input Pool name',
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
             </div>
-
+          </Col>
+        </Row>
+        <Row gutter={[40, 48]} justify="center">
+          <Col xs={24} sm={20} md={18} lg={12} xl={10}>
+            <Form.Item
+              name="companyConfirmation"
+              dependencies={['company']}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please select a company',
+                },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if (!value || getFieldValue('company') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      'Please select a company in two places',
+                    );
+                  },
+                }),
+              ]}
+            >
+              <Select
+                placeholder="Company"
+                loading={companies?.isLoading}
+                showSearch
+                options={companies?.items}
+                dropdownStyle={{
+                  maxHeight: 300,
+                  overflowY: 'hidden',
+                  overflowX: 'scroll',
+                }}
+                listHeight={0}
+                dropdownMatchSelectWidth={false}
+                dropdownRender={menu => (
+                  <InfiniteScroll
+                    next={loadMore}
+                    hasMore={companies?.items?.length < companies?.total}
+                    dataLength={companies?.items?.length}
+                    height={300}
+                  >
+                    {menu}
+                  </InfiniteScroll>
+                )}
+                optionFilterProp="label"
+                onSearch={onChangeSearch}
+                searchValue={searchName}
+                allowClear
+              />
+            </Form.Item>
+            <Barcode />
+          </Col>
+          <Col xs={24} sm={20} md={18} lg={12} xl={10}>
             <Form.Item className="d-inline-block mr-3 mb-3">
               <Button type="primary" size="large">
                 Mark Complete
