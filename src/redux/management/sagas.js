@@ -9,23 +9,6 @@ import { notification } from 'antd';
 import actions from './actions';
 import modalActions from '../modal/actions';
 
-export function* callFetchCompanies({ payload }) {
-  try {
-    const response = yield call(fetchCompanies, payload);
-
-    yield put({
-      type: actions.FETCH_COMPANIES_SUCCESS,
-      payload: {
-        data: response.data.results,
-        total: response.data.count,
-        firstPage: !response.data.previous,
-      },
-    });
-  } catch (error) {
-    notification.error(error);
-  }
-}
-
 export function* callCreateCompany({ payload }) {
   try {
     const response = yield call(createCompany, payload);
@@ -96,7 +79,6 @@ export function* callUpdateUsers({ payload }) {
 
 export default function* rootSaga() {
   yield all([
-    takeEvery(actions.FETCH_COMPANIES_REQUEST, callFetchCompanies),
     takeEvery(actions.CREATE_COMPANY_REQUEST, callCreateCompany),
     takeEvery(actions.GET_COMPANY_REQUEST, callGetCompany),
     takeEvery(actions.UPDATE_USERS_REQUEST, callUpdateUsers),

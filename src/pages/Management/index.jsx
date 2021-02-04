@@ -15,7 +15,7 @@ import {
   DownOutlined,
 } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import actions from 'redux/companies/actions';
+import companyActions from 'redux/companies/actions';
 import modalActions from 'redux/modal/actions';
 
 import styles from './styles.module.scss';
@@ -53,7 +53,7 @@ const Management = () => {
   const setCompanyId = useCallback(
     value => {
       dispatchCompaniesData({
-        type: actions.ON_COMPANY_DATA_CHANGE,
+        type: companyActions.ON_COMPANY_DATA_CHANGE,
         payload: {
           name: 'id',
           value,
@@ -79,7 +79,7 @@ const Management = () => {
   const createCompany = useCallback(async () => {
     const fieldValues = await form.validateFields();
     dispatchCompaniesData({
-      type: actions.CREATE_COMPANY_REQUEST,
+      type: companyActions.CREATE_COMPANY_REQUEST,
       payload: { ...fieldValues },
     });
   }, []);
@@ -161,7 +161,7 @@ const Management = () => {
   const useFetching = () => {
     useEffect(() => {
       dispatchCompaniesData({
-        type: actions.FETCH_COMPANIES_REQUEST,
+        type: companyActions.FETCH_COMPANIES_REQUEST,
         payload: {
           limit: constants.companies.itemsLoadingCount,
           search: searchName,
@@ -217,7 +217,7 @@ const Management = () => {
 
   const loadMore = useCallback(() => {
     dispatchCompaniesData({
-      type: actions.FETCH_COMPANIES_REQUEST,
+      type: companyActions.FETCH_COMPANIES_REQUEST,
       payload: {
         limit: constants.companies.itemsLoadingCount,
         offset: allCompanies.offset,
@@ -229,7 +229,7 @@ const Management = () => {
   const sendQuery = useCallback(
     query => {
       dispatchCompaniesData({
-        type: actions.FETCH_COMPANIES_REQUEST,
+        type: companyActions.FETCH_COMPANIES_REQUEST,
         payload: {
           limit: constants.companies.itemsLoadingCount,
           search: query,

@@ -15,39 +15,6 @@ const initialState = {
 
 const managementReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.FETCH_COMPANIES_REQUEST: {
-      return {
-        ...state,
-        isLoading: false,
-        search: action.payload.search,
-      };
-    }
-    case actions.FETCH_COMPANIES_SUCCESS: {
-      return {
-        ...state,
-        items: action.payload.firstPage
-          ? action.payload.data.map(company => {
-              return {
-                ...company,
-                action: null,
-              };
-            })
-          : [
-              ...state.items,
-              ...action.payload.data.map(company => {
-                return {
-                  ...company,
-                  action: null,
-                };
-              }),
-            ],
-        total: action.payload.total,
-        isLoading: true,
-        offset: action.payload.firstPage
-          ? constants.companies.itemsLoadingCount
-          : state.offset + constants.companies.itemsLoadingCount,
-      };
-    }
     case actions.REMOVE_CAMPAIGN_REQUEST: {
       return {
         ...state,
