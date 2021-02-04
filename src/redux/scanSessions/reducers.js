@@ -47,11 +47,7 @@ const initialSingleScan = {
 export default combineReducers({
   sessions: sessionsReducer,
   singleScan: single({
-    types: [
-      // actions.GET_COMPANY_REQUEST,
-      // actions.GET_COMPANY_SUCCESS,
-      // actions.GET_COMPANY_FAILURE,
-    ],
+    types: [],
   })((state = initialSingleScan, action = {}) => {
     switch (action.type) {
       case actions.FETCH_SAMPLES_REQUEST: {
@@ -88,55 +84,6 @@ export default combineReducers({
           },
         };
       }
-
-      // case actions.FETCH_COMPANIES_REQUEST: {
-      //   return {
-      //     ...state,
-      //     companies: {
-      //       ...state.companies,
-      //       isLoading: true,
-      //       error: null,
-      //     },
-      //   };
-      // }
-      // case actions.FETCH_COMPANIES_SUCCESS: {
-      //   const newCompanies = action.payload.data.results.map(company => {
-      //     return {
-      //       ...company,
-      //       key: company.company_id,
-      //       label: company.name,
-      //       value: company.company_id,
-      //       fullvalue: company,
-      //     };
-      //   });
-
-      //   const companies = action.payload.firstPage
-      //     ? newCompanies
-      //     : [...state.companies.items, ...newCompanies];
-
-      //   return {
-      //     ...state,
-      //     companies: {
-      //       ...state.companies,
-      //       items: companies,
-      //       total: action.payload.data.count,
-      //       isLoading: false,
-      //       offset: action.payload.firstPage
-      //         ? constants?.pools?.itemsLoadingCount
-      //         : state.companies.offset + constants?.pools?.itemsLoadingCount,
-      //     },
-      //   };
-      // }
-      // case actions.FETCH_COMPANIES_FAILURE: {
-      //   return {
-      //     ...state,
-      //     companies: {
-      //       ...state.companies,
-      //       isLoading: false,
-      //       // error: action.payload.data,
-      //     },
-      //   };
-      // }
       default: {
         return state;
       }
