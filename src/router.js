@@ -101,9 +101,14 @@ const routes = [
     Component: loadable(() => import('pages/IntakeLims')),
   },
   {
-    path: '/scan',
+    path: '/scan-sessions/:id',
     Component: loadable(() => import('pages/Scan')),
   },
+  {
+    path: '/scan-sessions',
+    Component: loadable(() => import('pages/ScanSessions')),
+  },
+
   {
     path: '/management',
     Component: loadable(() => import('pages/Management')),

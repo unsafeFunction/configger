@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/scan/actions';
+import actions from 'redux/scanSessions/actions';
+import companyActions from 'redux/companies/actions';
 import { Row, Col, Form, Select, Button, Typography, Input } from 'antd';
 import Rackboard from 'components/widgets/rackboard';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -17,8 +18,8 @@ const Scan = () => {
   const [searchName, setSearchName] = useState('');
   const [selectedCompany, setCompany] = useState(null);
 
-  const rackboard = useSelector(state => state.scan?.rackboard);
-  const companies = useSelector(state => state.scan?.companies);
+  const { rackboard } = useSelector(state => state.scanSessions?.singleScan);
+  const companies = useSelector(state => state.companies.all);
 
   const useFetching = () => {
     useEffect(() => {
@@ -26,7 +27,7 @@ const Scan = () => {
         type: actions.FETCH_SAMPLES_REQUEST,
       });
       dispatch({
-        type: actions.FETCH_COMPANIES_REQUEST,
+        type: companyActions.FETCH_COMPANIES_REQUEST,
         payload: {
           limit: constants?.companies?.itemsLoadingCount,
         },
@@ -38,19 +39,19 @@ const Scan = () => {
 
   const loadMore = useCallback(() => {
     dispatch({
-      type: actions.FETCH_COMPANIES_REQUEST,
+      type: companyActions.FETCH_COMPANIES_REQUEST,
       payload: {
         limit: constants?.companies?.itemsLoadingCount,
         offset: companies?.offset,
         search: searchName,
       },
     });
-  }, [dispatch, companies, searchName]);
+  }, [dispatch, companies.items, searchName]);
 
   const sendQuery = useCallback(
     query => {
       dispatch({
-        type: actions.FETCH_COMPANIES_REQUEST,
+        type: companyActions.FETCH_COMPANIES_REQUEST,
         payload: {
           limit: constants?.companies?.itemsLoadingCount,
           search: query,
@@ -109,9 +110,17 @@ const Scan = () => {
               >
                 <Select
                   placeholder="Company"
-                  loading={companies?.isLoading}
+                  loading={!companies?.isLoading}
                   showSearch
-                  options={companies?.items}
+                  options={companies?.items.map(company => {
+                    return {
+                      ...company,
+                      key: company.company_id,
+                      label: company.name,
+                      value: company.company_id,
+                      fullvalue: company,
+                    };
+                  })}
                   dropdownStyle={{
                     maxHeight: 300,
                     overflowY: 'hidden',
@@ -144,7 +153,8 @@ const Scan = () => {
               </Text>
               <Text>
                 <span className="mr-2">Company ID:</span>
-                {selectedCompany?.company_id || '–'}{' '}
+                {selectedCompany?.company_id || '–'}
+{' '}
               </Text>
               <Form.Item
                 label="Pool name"
