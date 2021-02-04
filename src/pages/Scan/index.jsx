@@ -20,7 +20,15 @@ const Scan = () => {
 
   const { rackboard } = useSelector(state => state.scanSessions?.singleScan);
   const companies = useSelector(state => state.companies.all);
-
+  const companiesForSelect = companies?.items.map(company => {
+    return {
+      ...company,
+      key: company.company_id,
+      label: company.name,
+      value: company.company_id,
+      fullvalue: company,
+    };
+  });
   const useFetching = () => {
     useEffect(() => {
       dispatch({
@@ -112,15 +120,7 @@ const Scan = () => {
                   placeholder="Company"
                   loading={!companies?.isLoading}
                   showSearch
-                  options={companies?.items.map(company => {
-                    return {
-                      ...company,
-                      key: company.company_id,
-                      label: company.name,
-                      value: company.company_id,
-                      fullvalue: company,
-                    };
-                  })}
+                  options={companiesForSelect}
                   dropdownStyle={{
                     maxHeight: 300,
                     overflowY: 'hidden',
@@ -195,9 +195,9 @@ const Scan = () => {
             >
               <Select
                 placeholder="Company"
-                loading={companies?.isLoading}
+                loading={!companies?.isLoading}
                 showSearch
-                options={companies?.items}
+                options={companiesForSelect}
                 dropdownStyle={{
                   maxHeight: 300,
                   overflowY: 'hidden',
