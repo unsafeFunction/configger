@@ -15,6 +15,9 @@ const initialRackboard = [...Array(6).keys()].map(i => ({
 
 const initialState = {
   rackboard: {
+    rack_id: null,
+    pool_id: null,
+    company_id: null,
     items: initialRackboard,
     isLoading: false,
     error: null,
@@ -50,7 +53,8 @@ export default function scanReducer(state = initialState, action) {
           //   ...state.rackboard.items,
           //   ...action.payload.data,
           // },
-          items: action.payload.data,
+          // items: action.payload.data,
+          ...action.payload,
         },
       };
     }
@@ -81,6 +85,7 @@ export default function scanReducer(state = initialState, action) {
           key: company.company_id,
           label: company.name,
           value: company.company_id,
+          fullvalue: company,
         };
       });
 

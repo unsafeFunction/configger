@@ -9,7 +9,7 @@ export function* callFetchSamples({}) {
     const response = yield call(fetchSamples);
     const tubesInfo = response?.data?.tubes;
 
-    const formatResponse = (response) => {
+    const formatResponse = response => {
       return Object.assign(
         {},
         ...response?.map?.(obj => ({
@@ -22,7 +22,7 @@ export function* callFetchSamples({}) {
             metadata: obj?.metadata,
           },
         })),
-      )
+      );
     };
 
     //TODO: refactor here...
@@ -38,8 +38,10 @@ export function* callFetchSamples({}) {
     yield put({
       type: actions.FETCH_SAMPLES_SUCCESS,
       payload: {
-        // data: response.data,
-        data: preparedResponse,
+        rack_id: response?.data?.rack_id,
+        pool_id: response?.data?.pool_id,
+        company_id: response?.data?.company_id,
+        items: preparedResponse,
       },
     });
   } catch (error) {

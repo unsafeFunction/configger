@@ -15,6 +15,8 @@ const Scan = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [searchName, setSearchName] = useState('');
+  const [selectedCompany, setCompany] = useState(null);
+
   const rackboard = useSelector(state => state.scan?.rackboard);
   const companies = useSelector(state => state.scan?.companies);
 
@@ -83,7 +85,11 @@ const Scan = () => {
 
   return (
     <>
-      <Form form={form} onFinish={onSubmit}>
+      <Form
+        form={form}
+        // initialValues={{ company: rackboard?.company_id }}
+        onFinish={onSubmit}
+      >
         <Row gutter={[40, 48]} justify="center">
           <Col xs={24} sm={20} md={18} lg={12} xl={10}>
             <Rackboard rackboard={rackboard} />
@@ -127,10 +133,19 @@ const Scan = () => {
                   onSearch={onChangeSearch}
                   searchValue={searchName}
                   allowClear
+                  onChange={(_, option) => {
+                    option ? setCompany(option.fullvalue) : setCompany(null);
+                  }}
                 />
               </Form.Item>
-              <Text>Short company name: – </Text>
-              <Text>Company ID: – </Text>
+              <Text>
+                <span className="mr-2">Short company name:</span>
+                {selectedCompany?.name_short || '–'}
+              </Text>
+              <Text>
+                <span className="mr-2">Company ID:</span>
+                {selectedCompany?.company_id || '–'}{' '}
+              </Text>
               <Form.Item
                 label="Pool name"
                 name="poolName"
