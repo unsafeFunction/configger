@@ -1,13 +1,33 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import actions from './actions';
-import { fetchSamples } from 'services/scan';
-import { constants } from 'utils/constants';
+import { fetchPoolScanById, updateTube } from 'services/scans';
 
-export function* callFetchSamples({}) {
+export function* callFetchScanSessions() {
   try {
-    const response = yield call(fetchSamples);
-    const tubesInfo = response?.data?.tubes;
+    yield put({
+      type: actions.FETCH_SCAN_SESSIONS_SUCCESS,
+      payload: {
+        data: [],
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+
+    yield put({
+      type: actions.FETCH_SCAN_SESSIONS_FAILURE,
+      payload: {
+        error,
+      },
+    });
+  }
+}
+
+export function* callFetchPoolScanById({ payload }) {
+  try {
+    const response = yield call(fetchPoolScanById, payload);
+
+    const tubesInfo = response?.data?.pool_scan_tubes;
 
     const formatResponse = response => {
       return Object.assign(
@@ -15,11 +35,8 @@ export function* callFetchSamples({}) {
         ...response?.map?.(obj => ({
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
-            tube_id: obj?.id,
+            ...obj,
             status: obj?.status.toLowerCase(),
-            position: obj?.position,
-            color: obj?.color,
-            metadata: obj?.metadata,
           },
         })),
       );
@@ -30,13 +47,15 @@ export function* callFetchSamples({}) {
     const preparedResponse = [
       formatResponse(tubesInfo?.slice?.(0, 8)),
       formatResponse(tubesInfo?.slice?.(8, 16)),
-      formatResponse(tubesInfo?.slice?.(16, 25)),
-      ...constants.rackboardDefaultRows,
+      formatResponse(tubesInfo?.slice?.(16, 24)),
+      formatResponse(tubesInfo?.slice?.(24, 32)),
+      formatResponse(tubesInfo?.slice?.(32, 40)),
+      formatResponse(tubesInfo?.slice?.(40, 48)),
     ];
     console.log('prepared response', preparedResponse);
 
     yield put({
-      type: actions.FETCH_SAMPLES_SUCCESS,
+      type: actions.FETCH_POOL_SCAN_BY_ID_SUCCESS,
       payload: {
         rack_id: response?.data?.rack_id,
         pool_id: response?.data?.pool_id,
@@ -50,32 +69,38 @@ export function* callFetchSamples({}) {
   }
 }
 
-export function* callFetchScanSessions() {
-  try {
-    // const response = yield call(fetchSamples);
+export function* callUpdateTube({ payload }) {
+  // const { id, tube_id } = payload;
 
+  try {
+    const response = yield call(updateTube, payload);
 
     yield put({
-      type: actions.FETCH_SCAN_SESSIONS_SUCCESS,
-      payload: {
-        data: []
-      },
+      type: actions.UPDATE_TUBE_SUCCESS,
+      // payload: {
+      //   data: response.data,
+      // },
+    });
+
+    // yield put({
+    //   type: modalActions.HIDE_MODAL,
+    // });
+
+    notification.success({
+      message: 'Tube updated',
     });
   } catch (error) {
-    notification.error(error);
-
     yield put({
-      type: actions.FETCH_SCAN_SESSIONS_FAILURE,
-      payload: {
-        error
-      }
-    })
+      type: actions.UPDATE_TUBE_FAILURE,
+    });
+    notification.error(error);
   }
 }
 
 export default function* rootSaga() {
   yield all([
-    takeEvery(actions.FETCH_SAMPLES_REQUEST, callFetchSamples),
     takeEvery(actions.FETCH_SCAN_SESSIONS_REQUEST, callFetchScanSessions),
+    takeEvery(actions.FETCH_POOL_SCAN_BY_ID_REQUEST, callFetchPoolScanById),
+    takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
   ]);
 }

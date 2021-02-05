@@ -46,10 +46,7 @@ const sessionsReducer = (state = initialState, action) => {
         ...state,
         items: firstPage
           ? scanSessionForRender
-          : [
-            ...state.items,
-            ...scanSessionForRender,
-          ],
+          : [...state.items, ...scanSessionForRender],
         total,
         isLoading: true,
         offset: firstPage
@@ -70,14 +67,12 @@ const sessionsReducer = (state = initialState, action) => {
 };
 
 const initialSingleScan = {
-  rackboard: {
-    rack_id: null,
-    pool_id: null,
-    company_id: null,
-    items: initialRackboard,
-    isLoading: false,
-    error: null,
-  },
+  rack_id: null,
+  pool_id: null,
+  company_id: null,
+  items: initialRackboard,
+  isLoading: false,
+  error: null,
 };
 
 export default combineReducers({
@@ -86,40 +81,43 @@ export default combineReducers({
     types: [],
   })((state = initialSingleScan, action = {}) => {
     switch (action.type) {
-      case actions.FETCH_SAMPLES_REQUEST: {
+      case actions.FETCH_POOL_SCAN_BY_ID_REQUEST: {
         return {
           ...state,
-          rackboard: {
-            ...state.rackboard,
-            isLoading: true,
-            error: null,
-          },
+          isLoading: true,
+          error: null,
         };
       }
-      case actions.FETCH_SAMPLES_SUCCESS: {
+      case actions.FETCH_POOL_SCAN_BY_ID_SUCCESS: {
         return {
           ...state,
-          rackboard: {
-            ...state.rackboard,
-            isLoading: false,
-            // items: {
-            //   ...state.rackboard.items,
-            //   ...action.payload.data,
-            // },
-            // items: action.payload.data,
-            ...action.payload,
-          },
+          isLoading: false,
+          ...action.payload,
         };
       }
-      case actions.FETCH_SAMPLES_FAILURE: {
+      case actions.FETCH_POOL_SCAN_BY_ID_FAILURE: {
         return {
           ...state,
-          rackboard: {
-            ...state.rackboard,
-            isLoading: false,
-          },
+          isLoading: false,
         };
       }
+
+      case actions.UPDATE_TUBE_REQUEST: {
+        return {
+          ...state,
+        };
+      }
+      case actions.UPDATE_TUBE_SUCCESS: {
+        return {
+          ...state,
+        };
+      }
+      case actions.UPDATE_TUBE_FAILURE: {
+        return {
+          ...state,
+        };
+      }
+
       default: {
         return state;
       }

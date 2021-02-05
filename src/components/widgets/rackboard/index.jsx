@@ -1,27 +1,25 @@
-import React, {useCallback} from 'react';
-import { Table, Button, Popover, Input, Row, Col } from 'antd';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import actions from 'redux/scanSessions/actions';
+import { Table, Button, Popover, Input, Popconfirm } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
-/**
- * estimated statuses:
- * 1 Not Tested
- * 2 Missing Tube
- * 3 Failed
- * 4 Tested
- * 5 Positive Control
- * 6 Negative Control
- * 7 Empty
- * 8 Pooling Tube
- *
- */
-
 const Rackboard = ({ rackboard }) => {
+  const dispatch = useDispatch();
 
-  const handleSave = useCallback((record) => {
-    console.log('save', record);
-  }, []);
+  const handleSave = useCallback(
+    record => {
+      console.log('save', record);
+
+      dispatch({
+        type: actions.UPDATE_TUBE_REQUEST,
+        payload: record,
+      });
+    },
+    [dispatch],
+  );
 
   const restColumns = [...Array(8).keys()].map(i => ({
     title: `${i + 1}`,
@@ -31,6 +29,7 @@ const Rackboard = ({ rackboard }) => {
       // console.log('record', record);
       return (
         <Popover
+          // disabled={record[`col${i + 1}`]?.status !== 'empty'}
           content={
             <>
               <Input
@@ -40,14 +39,39 @@ const Rackboard = ({ rackboard }) => {
                 // onPressEnter={}
                 className={classNames(styles.tubeInput, 'text-right mb-4')}
               />
-              <Button className="d-block w-100 mb-3">Delete</Button>
-              <Button className="d-block w-100 mb-3" type="primary">
-                Invalidate
-              </Button>
-              <Button className="d-block w-100 mb-3">Cancel</Button>
-              <Button className="d-block w-100" type="primary" onClick={() => handleSave(record?.[`col${i + 1}`])}>
-                Save
-              </Button>
+
+              <Popconfirm
+                title="Are you sure？"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={() => handleSave(record?.[`col${i + 1}`])}
+              >
+                <Button className="d-block w-100 mb-3" type="primary">
+                  Save
+                </Button>
+              </Popconfirm>
+
+              <Popconfirm
+                title="Are you sure？"
+                okText="Yes"
+                cancelText="No"
+                // onConfirm={} //TODO: send tube_id=""
+              >
+                <Button className="d-block w-100 mb-3" danger>
+                  Delete
+                </Button>
+              </Popconfirm>
+
+              <Popconfirm
+                title="Are you sure？"
+                okText="Yes"
+                cancelText="No"
+                // onConfirm={}
+              >
+                <Button className="d-block w-100 mb-3">Invalidate</Button>
+              </Popconfirm>
+
+              <Button className="d-block w-100">Cancel</Button>
             </>
           }
           trigger="click"
@@ -55,10 +79,15 @@ const Rackboard = ({ rackboard }) => {
           <Button
             type="primary"
             shape="circle"
-            className={classNames(styles.tube, {
-              [styles.notTested]:
-                record[`col${i + 1}`]?.status === 'not tested',
-            })}
+            className={styles.tube}
+            style={
+              record[`col${i + 1}`]?.status !== 'empty'
+                ? {
+                    background: record[`col${i + 1}`]?.color,
+                    borderColor: record[`col${i + 1}`]?.color,
+                  }
+                : null
+            }
             ghost={
               !record[`col${i + 1}`] ||
               record[`col${i + 1}`]?.status === 'empty'

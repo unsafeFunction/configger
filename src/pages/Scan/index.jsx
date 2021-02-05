@@ -18,17 +18,19 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { constants } from 'utils/constants';
 import debounce from 'lodash.debounce';
 import { Barcode } from 'assets';
+import { useHistory } from 'react-router-dom';
 import styles from './styles.module.scss';
 
 const { Text } = Typography;
 
 const Scan = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [form] = Form.useForm();
   const [searchName, setSearchName] = useState('');
   const [selectedCompany, setCompany] = useState(null);
 
-  const { rackboard } = useSelector(state => state.scanSessions?.singleScan);
+  const scan = useSelector(state => state.scanSessions?.singleScan);
   const companies = useSelector(state => state.companies.all);
   const companiesForSelect = companies?.items.map(company => {
     return {
@@ -42,7 +44,11 @@ const Scan = () => {
   const useFetching = () => {
     useEffect(() => {
       dispatch({
-        type: actions.FETCH_SAMPLES_REQUEST,
+        type: actions.FETCH_POOL_SCAN_BY_ID_REQUEST,
+        payload: {
+          poolScanId: history.location.pathname.split('/')[2],
+          sortBy: 'tube_position',
+        },
       });
       dispatch({
         type: companyActions.FETCH_COMPANIES_REQUEST,
@@ -111,17 +117,17 @@ const Scan = () => {
       >
         <Row gutter={[40, 48]} justify="center">
           <Col xs={24} sm={20} md={18} lg={12} xl={10}>
-            <Rackboard rackboard={rackboard} />
+            <Rackboard rackboard={scan} />
             <Space className={styles.rackDetails}>
               <Text>
                 <span className="mr-2">Rack ID:</span>
-                {rackboard?.rack_id || '–'}
+                {scan?.rack_id || '–'}
               </Text>
               <Text>
                 <span className="mr-2">Pool ID:</span>
-                {rackboard?.pool_id || '–'}
+                {scan?.pool_id || '–'}
               </Text>
-              <Text>{rackboard?.items?.length} Tubes</Text>
+              <Text>{scan?.items?.length} Tubes</Text>
             </Space>
           </Col>
           <Col xs={24} sm={20} md={18} lg={12} xl={10}>
@@ -253,6 +259,7 @@ const Scan = () => {
                     title="Are you sure?"
                     okText="Yes"
                     cancelText="No"
+                    // onConfirm={}
                   >
                     <Button size="large">Void Scan</Button>
                   </Popconfirm>
@@ -271,6 +278,7 @@ const Scan = () => {
                     okText="Yes"
                     cancelText="No"
                     disabled
+                    // onConfirm={}
                   >
                     <Button size="large" disabled>
                       Mark Complete
