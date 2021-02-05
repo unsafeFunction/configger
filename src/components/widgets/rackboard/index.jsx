@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
-import { Table, Button, Popover, Input, Popconfirm } from 'antd';
+import { Table, Button, Popover, Input, Popconfirm, Tag } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
@@ -27,74 +27,81 @@ const Rackboard = ({ rackboard }) => {
     align: 'center',
     render: (_, record) => {
       // console.log('record', record);
-      return (
-        <Popover
-          // disabled={record[`col${i + 1}`]?.status !== 'empty'}
-          content={
-            <>
-              <Input
-                size="large"
-                placeholder="Tube barcode"
-                defaultValue={record?.[`col${i + 1}`]?.tube_id}
-                className={classNames(styles.tubeInput, 'mb-4')}
-                allowClear
-              />
-
-              <Popconfirm
-                title="Are you sure？"
-                okText="Yes"
-                cancelText="No"
-                onConfirm={() => handleSave(record?.[`col${i + 1}`])}
-              >
-                <Button className="d-block w-100 mb-3" type="primary">
-                  Save
-                </Button>
-              </Popconfirm>
-
-              <Popconfirm
-                title="Are you sure？"
-                okText="Yes"
-                cancelText="No"
-                // onConfirm={} //TODO: send tube_id=""
-              >
-                <Button className="d-block w-100 mb-3" danger>
-                  Delete
-                </Button>
-              </Popconfirm>
-
-              <Popconfirm
-                title="Are you sure？"
-                okText="Yes"
-                cancelText="No"
-                // onConfirm={}
-              >
-                <Button className="d-block w-100 mb-3">Invalidate</Button>
-              </Popconfirm>
-
-              <Button className="d-block w-100">Cancel</Button>
-            </>
-          }
-          trigger="click"
-        >
-          <Button
-            type="primary"
-            shape="circle"
-            className={styles.tube}
-            style={
-              record[`col${i + 1}`]?.status !== 'empty'
-                ? {
-                    background: record[`col${i + 1}`]?.color,
-                    borderColor: record[`col${i + 1}`]?.color,
-                  }
-                : null
+      if (record[`col${i + 1}`] && record[`col${i + 1}`]?.status !== 'empty') {
+        return (
+          <Popover
+            title={
+              <>
+                <Tag color="purple">{record?.[`col${i + 1}`]?.position}</Tag>
+                <Tag color="purple">{record?.[`col${i + 1}`]?.status}</Tag>
+              </>
             }
-            ghost={
-              !record[`col${i + 1}`] ||
-              record[`col${i + 1}`]?.status === 'empty'
+            content={
+              <>
+                <Input
+                  size="large"
+                  placeholder="Tube barcode"
+                  defaultValue={record?.[`col${i + 1}`]?.tube_id}
+                  className={classNames(styles.tubeInput, 'mb-4')}
+                  allowClear
+                />
+
+                <Popconfirm
+                  title="Are you sure to update this tube?"
+                  okText="Yes"
+                  cancelText="No"
+                  onConfirm={() => handleSave(record?.[`col${i + 1}`])}
+                >
+                  <Button className="d-block w-100 mb-3" type="primary">
+                    Save
+                  </Button>
+                </Popconfirm>
+
+                <Popconfirm
+                  title="Are you sure to delete this tube?"
+                  okText="Yes"
+                  cancelText="No"
+                  // onConfirm={} //TODO: send tube_id=""
+                >
+                  <Button className="d-block w-100 mb-3" danger>
+                    Delete
+                  </Button>
+                </Popconfirm>
+
+                <Popconfirm
+                  title="Are you sure to invalidate this tube?"
+                  okText="Yes"
+                  cancelText="No"
+                  // onConfirm={}
+                >
+                  <Button className="d-block w-100 mb-3">Invalidate</Button>
+                </Popconfirm>
+
+                <Button className="d-block w-100">Cancel</Button>
+              </>
             }
-          />
-        </Popover>
-      );
+            trigger="click"
+          >
+            <Button
+              type="primary"
+              shape="circle"
+              className={styles.tube}
+              style={
+                record[`col${i + 1}`]?.status !== 'empty'
+                  ? {
+                      background: record[`col${i + 1}`]?.color,
+                      borderColor: record[`col${i + 1}`]?.color,
+                    }
+                  : null
+              }
+            />
+          </Popover>
+        );
+      } else {
+        return (
+          <Button type="primary" shape="circle" className={styles.tube} ghost />
+        );
+      }
     },
   }));
 
