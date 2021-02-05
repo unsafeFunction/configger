@@ -2,7 +2,17 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
 import companyActions from 'redux/companies/actions';
-import { Row, Col, Form, Select, Button, Typography, Input } from 'antd';
+import {
+  Row,
+  Col,
+  Form,
+  Select,
+  Button,
+  Typography,
+  Input,
+  Space,
+  Popconfirm,
+} from 'antd';
 import Rackboard from 'components/widgets/rackboard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { constants } from 'utils/constants';
@@ -102,6 +112,17 @@ const Scan = () => {
         <Row gutter={[40, 48]} justify="center">
           <Col xs={24} sm={20} md={18} lg={12} xl={10}>
             <Rackboard rackboard={rackboard} />
+            <Space className={styles.rackDetails}>
+              <Text>
+                <span className="mr-2">Rack ID:</span>
+                {rackboard?.rack_id || '–'}
+              </Text>
+              <Text>
+                <span className="mr-2">Pool ID:</span>
+                {rackboard?.pool_id || '–'}
+              </Text>
+              <Text>{rackboard?.items?.length} Tubes</Text>
+            </Space>
           </Col>
           <Col xs={24} sm={20} md={18} lg={12} xl={10}>
             <div className={styles.companyDetails}>
@@ -154,7 +175,6 @@ const Scan = () => {
               <Text>
                 <span className="mr-2">Company ID:</span>
                 {selectedCompany?.company_id || '–'}
-{' '}
               </Text>
               <Form.Item
                 label="Pool name"
@@ -171,6 +191,7 @@ const Scan = () => {
             </div>
           </Col>
         </Row>
+
         <Row gutter={[40, 48]} justify="center">
           <Col xs={24} sm={20} md={18} lg={12} xl={10}>
             <Form.Item
@@ -224,21 +245,40 @@ const Scan = () => {
             <Barcode />
           </Col>
           <Col xs={24} sm={20} md={18} lg={12} xl={10}>
-            <Form.Item className="d-inline-block mr-3 mb-3">
-              <Button type="primary" size="large">
-                Mark Complete
-              </Button>
-            </Form.Item>
+            <Text>Most recent scan</Text>
+            <div className={styles.submitBtns}>
+              <div>
+                <Form.Item className="d-inline-block mr-3 mb-4">
+                  <Popconfirm
+                    title="Are you sure?"
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <Button size="large">Void Scan</Button>
+                  </Popconfirm>
+                </Form.Item>
 
-            <Form.Item className="d-inline-block mr-3 mb-3">
-              <Button type="primary" size="large" htmlType="submit">
-                Save Scan
-              </Button>
-            </Form.Item>
-
-            <Form.Item className="d-inline-block mr-3 mb-3">
-              <Button size="large">Void Scan</Button>
-            </Form.Item>
+                <Form.Item className="d-inline-block mb-4">
+                  <Button type="primary" size="large" htmlType="submit">
+                    Accept Scan
+                  </Button>
+                </Form.Item>
+              </div>
+              <div>
+                <Form.Item className="mb-4">
+                  <Popconfirm
+                    title="Are you sure?"
+                    okText="Yes"
+                    cancelText="No"
+                    disabled
+                  >
+                    <Button size="large" disabled>
+                      Mark Complete
+                    </Button>
+                  </Popconfirm>
+                </Form.Item>
+              </div>
+            </div>
           </Col>
         </Row>
       </Form>

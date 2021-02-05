@@ -1,8 +1,18 @@
 @import 'assets/styles/mixins.scss';
 
+.rackDetails {
+  margin: 1rem 0;
+}
+
 .companyDetails {
   display: flex;
   flex-flow: column;
   justify-content: center;
   height: 100%;
+}
+
+.submitBtns {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end;
 }
