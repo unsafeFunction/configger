@@ -77,23 +77,33 @@ export function* callUpdateTube({ payload }) {
 
     yield put({
       type: actions.UPDATE_TUBE_SUCCESS,
-      // payload: {
-      //   data: response.data,
-      // },
+      payload: {
+        data: {
+          letter: response?.position?.[0],
+          [`col${response?.position?.[1]}`]: {
+            ...response,
+            status: response?.status.toLowerCase(),
+          },
+        },
+      },
     });
-
-    // yield put({
-    //   type: modalActions.HIDE_MODAL,
-    // });
 
     notification.success({
       message: 'Tube updated',
     });
   } catch (error) {
+    // is it necessary?
     yield put({
       type: actions.UPDATE_TUBE_FAILURE,
+      payload: {
+        letter: payload.position?.[0],
+      },
     });
-    notification.error(error);
+
+    notification.error({
+      message: 'Something went wrong',
+    });
+    // notification.error(error);
   }
 }
 

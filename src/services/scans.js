@@ -21,7 +21,20 @@ export const updateTube = async ({ id, tube_id }) => {
   // });
 
   // return tube;
-  return;
+
+  return {
+    id: 'ce08ac6e-1207-4332-87a3-1055ff30ea73',
+    created: '2021-02-04T11:32:20.222912-05:00',
+    modified: '2021-02-05T03:29:31.279987-05:00',
+    position: 'C3',
+    tube_id: '123',
+    status: 'TESTED',
+    color: '#f7df8c',
+    metadata: {
+      errors: [],
+    },
+    pool_scan: '2a16024c-4b82-4630-a297-9eaed6af699f',
+  };
 };
 
 // export const fetchScanSessions = async () => {

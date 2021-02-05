@@ -35,9 +35,9 @@ const Rackboard = ({ rackboard }) => {
               <Input
                 size="large"
                 placeholder="Tube barcode"
-                value={record?.[`col${i + 1}`]?.tube_id}
-                // onPressEnter={}
-                className={classNames(styles.tubeInput, 'text-right mb-4')}
+                defaultValue={record?.[`col${i + 1}`]?.tube_id}
+                className={classNames(styles.tubeInput, 'mb-4')}
+                allowClear
               />
 
               <Popconfirm

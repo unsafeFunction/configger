@@ -110,11 +110,30 @@ export default combineReducers({
       case actions.UPDATE_TUBE_SUCCESS: {
         return {
           ...state,
+          items: state.items.map(row => {
+            if (row.letter === action.payload.data.letter) {
+              return {
+                ...row,
+                ...action.payload.data,
+                // isUpdating: false,
+              };
+            }
+            return row;
+          }),
         };
       }
       case actions.UPDATE_TUBE_FAILURE: {
         return {
           ...state,
+          items: state.items.map(row => {
+            if (row.letter === action?.payload?.letter) {
+              return {
+                ...row,
+                // resultIsUpdating: false,
+              };
+            }
+            return row;
+          }),
         };
       }
 

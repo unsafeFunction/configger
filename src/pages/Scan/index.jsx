@@ -192,7 +192,7 @@ const Scan = () => {
                   },
                 ]}
               >
-                <Input />
+                <Input allowClear />
               </Form.Item>
             </div>
           </Col>
