@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Input } from 'antd';
+import { Table, Input, Button } from 'antd';
 import debounce from 'lodash.debounce';
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -15,14 +16,21 @@ const ScanSessions = () => {
   const { isMobile, isTablet } = useWindowSize();
   const dispatch = useDispatch();
   const scanSessions = useSelector(state => state.scanSessions.sessions);
+  const history = useHistory();
 
+  const navigateToScan = useCallback(
+    scanId => {
+      history.push(`/scan-sessions/${scanId}`);
+    },
+    [history],
+  );
   const columns = [
     {
-      title: 'Pool name',
+      title: 'Session name',
       dataIndex: 'pool_name',
     },
     {
-      title: 'Pool size',
+      title: 'Session size',
       dataIndex: 'pool_size',
       render: value => {
         return value || '-';
@@ -54,6 +62,16 @@ const ScanSessions = () => {
         },
       });
     }, []);
+  };
+
+  const expandedRow = pool => {
+    const columns = [
+      { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
+      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id' },
+      { title: 'Action', dataIndex: 'action', key: 'action' },
+    ];
+
+    return <Table columns={columns} dataSource={pool} pagination={false} />;
   };
 
   useFetching();
@@ -141,6 +159,25 @@ const ScanSessions = () => {
           pagination={{
             pageSize: scanSessions?.items?.length,
             hideOnSinglePage: true,
+          }}
+          expandedRowRender={record => {
+            return expandedRow(
+              record.pools.map((pool, index) => {
+                return {
+                  key: pool.pool_id,
+                  pool_id: pool.pool_id,
+                  rack_id: pool?.rack_id,
+                  action: (
+                    <Button
+                      onClick={() => navigateToScan(pool.pool_id)}
+                      type="primary"
+                    >
+                      View scan
+                    </Button>
+                  ),
+                };
+              }),
+            );
           }}
         />
       </InfiniteScroll>

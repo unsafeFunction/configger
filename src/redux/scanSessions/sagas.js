@@ -2,13 +2,16 @@ import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import actions from './actions';
 import { fetchPoolScanById, updateTube } from 'services/scans';
+import { fetchSessions } from 'services/scanSessions';
 
 export function* callFetchScanSessions() {
   try {
+    const { data } = yield call(fetchSessions);
+
     yield put({
       type: actions.FETCH_SCAN_SESSIONS_SUCCESS,
       payload: {
-        data: [],
+        data: data?.results ?? [],
       },
     });
   } catch (error) {

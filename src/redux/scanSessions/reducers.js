@@ -32,6 +32,7 @@ const sessionsReducer = (state = initialState, action) => {
       };
     }
     case actions.FETCH_SCAN_SESSIONS_SUCCESS: {
+      console.log(action.payload.data);
       const scanSessionForRender = action.payload.data.map(session => {
         return {
           ...session,
