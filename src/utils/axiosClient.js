@@ -4,7 +4,7 @@ import cookieStorage from 'utils/cookie';
 const cookie = cookieStorage();
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: process.env.REACT_APP_LIMS_API_URL,
   headers: {
     Authorization: cookie.getItem('accessToken'),
   },

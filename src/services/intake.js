@@ -3,7 +3,9 @@ import saveBlobAs from '../utils/saveAsBlob';
 
 export const fetchCompanies = async () => {
   try {
-    return await axiosClient.get('/companies-short/');
+    return await axiosClient.get('/companies-short/', {
+      baseURL: process.env.REACT_APP_API_URL,
+    });
   } catch (error) {
     return error;
   }

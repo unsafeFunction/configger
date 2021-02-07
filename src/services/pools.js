@@ -27,6 +27,7 @@ export const fetchPoolsByCompanyId = async ({
         offset,
         search,
       },
+      baseURL: process.env.REACT_APP_API_URL,
     });
     return pools;
   } catch (error) {
