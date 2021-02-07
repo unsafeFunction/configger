@@ -190,7 +190,7 @@ export function* callLoadProfile() {
       },
     });
   } catch (error) {
-    const errorData = error.response.data;
+    const errorData = error?.response?.data?.detail;
 
     yield put({
       type: actions.PROFILE_FAILURE,
