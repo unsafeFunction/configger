@@ -3,7 +3,6 @@
 .rackDetailsWrapper {
   margin: 1rem 0;
   width: 100%;
-  justify-content: space-between;
   font-size: 22px;
 
   .rackDetails {
@@ -11,6 +10,11 @@
       font-size: 18px;
     }
   }
+}
+
+.barcodeWrapper {
+  width: 100%;
+  text-align: center
 }
 
 .tubesCountWrapper {
@@ -34,23 +38,23 @@
 .companyDetails {
   display: flex;
   flex-flow: column;
-  justify-content: center;
   height: 100%;
 }
 
+.companyDetailsStat {
+  > div {
+    font-size: 18px;
+  }
+}
+
+
 .submitBtns {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-
-  & > div:first-child {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
 
   & > div:last-child {
     display: flex;
-    flex-direction: column;
     align-self: flex-end;
   }
 }

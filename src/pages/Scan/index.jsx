@@ -21,6 +21,7 @@ import debounce from 'lodash.debounce';
 import { Barcode } from 'assets';
 import { useHistory } from 'react-router-dom';
 import styles from './styles.module.scss';
+import LabeledInput from './Labeled';
 
 const { Text } = Typography;
 
@@ -117,11 +118,9 @@ const Scan = () => {
         onFinish={onSubmit}
       >
         <Row gutter={[40, 48]} justify="center">
-          <Col xs={24} sm={20} md={18} lg={16} xl={10}>
-            <Row>
-              <Col xs={21} sm={21} md={21} lg={21} xl={21}>
+          <Col xs={24} sm={20} md={18} lg={16} xl={14}>
               <Rackboard rackboard={scan} />
-              <Space className={styles.rackDetailsWrapper}>
+              <Space size={100} className={styles.rackDetailsWrapper}>
                 <Statistic
                   className={styles.rackDetails}
                   valueStyle={{fontSize: '24px'}}
@@ -134,22 +133,17 @@ const Scan = () => {
                   title="Pool ID:"
                   value={scan?.pool_id || '–'}
                 />
-              </Space>
-              </Col>
-              <Col xs={3} sm={3} md={3} lg={3} xl={3} className={styles.tubesCountWrapper}>
                 <Statistic
-                  className={styles.tubesCount}
-                  valueStyle={{fontSize: '48px'}}
+                  className={styles.rackDetails}
+                  valueStyle={{fontSize: '32px'}}
                   title="Tubes"
                   value={scan?.items?.length}
                 />
-              </Col>
-            </Row>
+              </Space>
           </Col>
-          <Col xs={24} sm={20} md={18} lg={8} xl={10}>
+          <Col xs={24} sm={20} md={18} lg={8} xl={6}>
             <div className={styles.companyDetails}>
-              <Form.Item
-                label="Company"
+              <LabeledInput title={'Company:'} node={<Form.Item
                 name="company"
                 className="w-100"
                 rules={[
@@ -189,34 +183,43 @@ const Scan = () => {
                     option ? setCompany(option.fullvalue) : setCompany(null);
                   }}
                 />
-              </Form.Item>
-              <Text>
-                <span className="mr-2">Short company name:</span>
-                {selectedCompany?.name_short || '–'}
-              </Text>
-              <Text>
-                <span className="mr-2">Company ID:</span>
-                {selectedCompany?.company_id || '–'}
-              </Text>
-              <Form.Item
-                label="Pool name"
-                name="poolName"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input Pool name',
-                  },
-                ]}
-              >
-                <Input allowClear />
-              </Form.Item>
+              </Form.Item>}/>
+              <Statistic
+                className={styles.companyDetailsStat}
+                title={'Short company name:'}
+                value={selectedCompany?.name_short || '–'}
+              />
+              <Statistic
+                className={styles.companyDetailsStat}
+                title={'Company ID:'}
+                value={selectedCompany?.company_id || '–'}
+              />
+              <LabeledInput title={'Pool name:'} node={
+                <Form.Item
+                  name="poolName"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input Pool name',
+                    },
+                  ]}
+                >
+                  <Input allowClear />
+                </Form.Item>
+              }/>
+              <Statistic
+                className={styles.companyDetailsStat}
+                valueStyle={{fontSize: '24px'}}
+                title="Most Recent Scan"
+                value="Name here"
+              />
             </div>
           </Col>
         </Row>
 
         <Row gutter={[40, 48]} justify="center">
-          <Col xs={24} sm={20} md={18} lg={12} xl={10}>
-            <Form.Item
+          <Col xs={24} sm={20} md={18} lg={16} xl={14}>
+          <Form.Item
               name="companyConfirmation"
               dependencies={['company']}
               rules={[
@@ -264,18 +267,29 @@ const Scan = () => {
                 allowClear
               />
             </Form.Item>
-            <Barcode />
+            <div className={styles.barcodeWrapper}>
+              <Barcode />
+            </div>
           </Col>
-          <Col xs={24} sm={20} md={18} lg={12} xl={10}>
-            <div className={styles.submitBtns}>
+          <Col xs={24} sm={20} md={18} lg={8} xl={7}>
+          <div className={styles.submitBtns}>
               <div>
-                <Statistic
-                  className='mb-4'
-                  valueStyle={{fontSize: '24px'}}
-                  title="Most Recent Scan"
-                  value="Most Recent Scan"
-                />
-                <Form.Item className="mb-2">
+                <Form.Item className="d-inline-block mb-2 mr-2">
+                  <Button type="primary" size="large" htmlType="submit">
+                    Next Scan
+                  </Button>
+                </Form.Item>
+                <Form.Item className="d-inline-block mb-2 mr-2">
+                  <Popconfirm
+                    title="Are you sure?"
+                    okText="Yes"
+                    cancelText="No"
+                    // onConfirm={}
+                  >
+                    <Button size="large">Void Scan</Button>
+                  </Popconfirm>
+                </Form.Item>
+                <Form.Item className="d-inline-block mb-2 mr-2">
                   <Popconfirm
                     title="Are you sure?"
                     okText="Yes"
@@ -286,23 +300,6 @@ const Scan = () => {
                     <Button size="large" disabled>
                       Mark Complete
                     </Button>
-                  </Popconfirm>
-                </Form.Item>
-              </div>
-              <div>
-                <Form.Item className="d-inline-block mb-2">
-                  <Button type="primary" size="large" htmlType="submit">
-                    Next Scan
-                  </Button>
-                </Form.Item>
-                <Form.Item className="d-inline-block mb-2">
-                  <Popconfirm
-                    title="Are you sure?"
-                    okText="Yes"
-                    cancelText="No"
-                    // onConfirm={}
-                  >
-                    <Button size="large">Void Scan</Button>
                   </Popconfirm>
                 </Form.Item>
               </div>
