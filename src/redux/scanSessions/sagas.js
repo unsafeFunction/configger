@@ -4,9 +4,9 @@ import actions from './actions';
 import { fetchPoolScanById, updateTube } from 'services/scans';
 import { fetchSessions } from 'services/scanSessions';
 
-export function* callFetchScanSessions() {
+export function* callFetchScanSessions({ payload }) {
   try {
-    const { data } = yield call(fetchSessions);
+    const { data } = yield call(fetchSessions, payload);
 
     yield put({
       type: actions.FETCH_SCAN_SESSIONS_SUCCESS,

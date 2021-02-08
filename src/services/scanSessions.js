@@ -1,8 +1,11 @@
 import axiosClient from 'utils/axiosClient';
-import mockClient from 'utils/mockClient';
 
-export const fetchSessions = async () => {
-  const sessions = await mockClient.get('/sessions');
+export const fetchSessions = async query => {
+  const sessions = await axiosClient.get('/scans/sessions', {
+    params: {
+      ...query,
+    },
+  });
 
   return sessions;
 };
