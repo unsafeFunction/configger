@@ -267,28 +267,15 @@ const Scan = () => {
             <Barcode />
           </Col>
           <Col xs={24} sm={20} md={18} lg={12} xl={10}>
-            <Text>Most recent scan</Text>
             <div className={styles.submitBtns}>
               <div>
-                <Form.Item className="d-inline-block mr-3 mb-4">
-                  <Popconfirm
-                    title="Are you sure?"
-                    okText="Yes"
-                    cancelText="No"
-                    // onConfirm={}
-                  >
-                    <Button size="large">Void Scan</Button>
-                  </Popconfirm>
-                </Form.Item>
-
-                <Form.Item className="d-inline-block mb-4">
-                  <Button type="primary" size="large" htmlType="submit">
-                    Accept Scan
-                  </Button>
-                </Form.Item>
-              </div>
-              <div>
-                <Form.Item className="mb-4">
+                <Statistic
+                  className='mb-4'
+                  valueStyle={{fontSize: '24px'}}
+                  title="Most Recent Scan"
+                  value="Most Recent Scan"
+                />
+                <Form.Item className="mb-2">
                   <Popconfirm
                     title="Are you sure?"
                     okText="Yes"
@@ -299,6 +286,23 @@ const Scan = () => {
                     <Button size="large" disabled>
                       Mark Complete
                     </Button>
+                  </Popconfirm>
+                </Form.Item>
+              </div>
+              <div>
+                <Form.Item className="d-inline-block mb-2">
+                  <Button type="primary" size="large" htmlType="submit">
+                    Next Scan
+                  </Button>
+                </Form.Item>
+                <Form.Item className="d-inline-block mb-2">
+                  <Popconfirm
+                    title="Are you sure?"
+                    okText="Yes"
+                    cancelText="No"
+                    // onConfirm={}
+                  >
+                    <Button size="large">Void Scan</Button>
                   </Popconfirm>
                 </Form.Item>
               </div>

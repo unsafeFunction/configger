@@ -40,6 +40,17 @@
 
 .submitBtns {
   display: flex;
-  flex-flow: column;
-  align-items: flex-end;
+  justify-content: space-between;
+
+  & > div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  & > div:last-child {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+  }
 }
