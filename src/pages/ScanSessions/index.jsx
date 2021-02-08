@@ -7,6 +7,7 @@ import debounce from 'lodash.debounce';
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/scanSessions/actions';
+import moment from 'moment';
 
 import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
@@ -16,6 +17,14 @@ const ScanSessions = () => {
   const { isMobile, isTablet } = useWindowSize();
   const dispatch = useDispatch();
   const scanSessions = useSelector(state => state.scanSessions.sessions);
+
+  const sessionItems = scanSessions?.items?.map(session => {
+    return {
+      ...session,
+      key: session?.company_id,
+    };
+  });
+
   const history = useHistory();
 
   const navigateToScan = useCallback(
@@ -36,15 +45,15 @@ const ScanSessions = () => {
     {
       title: 'Session size',
       dataIndex: 'pool_size',
-      render: value => {
-        return value || '-';
+      render: (_, value) => {
+        return value?.scans.length || '-';
       },
     },
     {
       title: 'Scanned on',
       dataIndex: 'scanned_on',
-      render: value => {
-        return value || '-';
+      render: (_, value) => {
+        return moment(value?.started_on_day).format('LLLL') || '-';
       },
     },
     {
@@ -61,21 +70,26 @@ const ScanSessions = () => {
       dispatch({
         type: actions.FETCH_SCAN_SESSIONS_REQUEST,
         payload: {
-          limit: constants.companies.itemsLoadingCount,
+          limit: constants.scanSessions.itemsLoadingCount,
           //   search: searchName,
         },
       });
     }, []);
   };
 
-  const expandedRow = pool => {
+  const expandedRow = scan => {
     const columns = [
       { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
-      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id' },
+      {
+        title: 'Scan time',
+        dataIndex: 'scan_time',
+        key: 'scan_time',
+      },
+      { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
       { title: 'Action', dataIndex: 'action', key: 'action' },
     ];
 
-    return <Table columns={columns} dataSource={pool} pagination={false} />;
+    return <Table columns={columns} dataSource={scan} pagination={false} />;
   };
 
   useFetching();
@@ -149,31 +163,32 @@ const ScanSessions = () => {
       </div>
       <InfiniteScroll
         next={loadMore}
-        hasMore={scanSessions?.items?.length < scanSessions?.total}
+        hasMore={sessionItems.length < scanSessions?.total}
         loader={<LoadingOutlined style={{ fontSize: 36 }} spin />}
-        dataLength={scanSessions?.items?.length}
+        dataLength={sessionItems?.length}
       >
         <Table
-          dataSource={scanSessions?.items}
+          dataSource={sessionItems}
           columns={columns}
           scroll={{ x: 1200 }}
           bordered
           loading={!scanSessions?.isLoading}
           align="center"
           pagination={{
-            pageSize: scanSessions?.items?.length,
+            pageSize: sessionItems?.length,
             hideOnSinglePage: true,
           }}
           expandedRowRender={record => {
             return expandedRow(
-              record.pools.map((pool, index) => {
+              record.scans.map(scan => {
                 return {
-                  key: pool.pool_id,
-                  pool_id: pool.pool_id,
-                  rack_id: pool?.rack_id,
+                  key: scan.pool_id,
+                  pool_id: scan.pool_id,
+                  scan_time: scan.scan_timestamp,
+                  scanner: scan.scanner,
                   action: (
                     <Button
-                      onClick={() => navigateToScan(pool.pool_id)}
+                      onClick={() => navigateToScan(scan.pool_id)}
                       type="primary"
                     >
                       View scan
