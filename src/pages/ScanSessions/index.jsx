@@ -27,7 +27,11 @@ const ScanSessions = () => {
   const columns = [
     {
       title: 'Session name',
-      dataIndex: 'pool_name',
+      dataIndex: 'scan_session_title',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
     },
     {
       title: 'Session size',
