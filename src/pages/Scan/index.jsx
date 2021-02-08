@@ -12,6 +12,7 @@ import {
   Input,
   Space,
   Popconfirm,
+  Statistic,
 } from 'antd';
 import Rackboard from 'components/widgets/rackboard';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -116,21 +117,36 @@ const Scan = () => {
         onFinish={onSubmit}
       >
         <Row gutter={[40, 48]} justify="center">
-          <Col xs={24} sm={20} md={18} lg={12} xl={10}>
-            <Rackboard rackboard={scan} />
-            <Space className={styles.rackDetails}>
-              <Text>
-                <span className="mr-2">Rack ID:</span>
-                {scan?.rack_id || '–'}
-              </Text>
-              <Text>
-                <span className="mr-2">Pool ID:</span>
-                {scan?.pool_id || '–'}
-              </Text>
-              <Text>{scan?.items?.length} Tubes</Text>
-            </Space>
+          <Col xs={24} sm={20} md={18} lg={16} xl={10}>
+            <Row>
+              <Col xs={21} sm={21} md={21} lg={21} xl={21}>
+              <Rackboard rackboard={scan} />
+              <Space className={styles.rackDetailsWrapper}>
+                <Statistic
+                  className={styles.rackDetails}
+                  valueStyle={{fontSize: '24px'}}
+                  title="Rack ID:"
+                  value={scan?.rack_id || '–'}
+                />
+                <Statistic
+                  className={styles.rackDetails}
+                  valueStyle={{fontSize: '24px'}}
+                  title="Pool ID:"
+                  value={scan?.pool_id || '–'}
+                />
+              </Space>
+              </Col>
+              <Col xs={3} sm={3} md={3} lg={3} xl={3} className={styles.tubesCountWrapper}>
+                <Statistic
+                  className={styles.tubesCount}
+                  valueStyle={{fontSize: '48px'}}
+                  title="Tubes"
+                  value={scan?.items?.length}
+                />
+              </Col>
+            </Row>
           </Col>
-          <Col xs={24} sm={20} md={18} lg={12} xl={10}>
+          <Col xs={24} sm={20} md={18} lg={8} xl={10}>
             <div className={styles.companyDetails}>
               <Form.Item
                 label="Company"

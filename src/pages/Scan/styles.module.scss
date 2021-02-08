@@ -1,7 +1,34 @@
 @import 'assets/styles/mixins.scss';
 
-.rackDetails {
+.rackDetailsWrapper {
   margin: 1rem 0;
+  width: 100%;
+  justify-content: space-between;
+  font-size: 22px;
+
+  .rackDetails {
+    > div {
+      font-size: 18px;
+    }
+  }
+}
+
+.tubesCountWrapper {
+  text-align: center;
+  padding-top: 110px;
+
+  > span {
+    font-size: 22px;
+  }
+}
+
+.tubesCount {
+  display: block;
+  text-align: center;
+
+  > div {
+    font-size: 18px;
+  }
 }
 
 .companyDetails {
