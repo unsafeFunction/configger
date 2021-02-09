@@ -115,5 +115,6 @@ export default function* rootSaga() {
     takeEvery(actions.FETCH_SCAN_SESSIONS_REQUEST, callFetchScanSessions),
     takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById),
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
+    // takeEvery(actions.DELETE_TUBE_REQUEST, callDeleteTube),
   ]);
 }
