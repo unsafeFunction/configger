@@ -67,9 +67,6 @@ const sessionsReducer = (state = initialState, action) => {
 };
 
 const initialSingleScan = {
-  rack_id: null,
-  pool_id: null,
-  company_id: null,
   items: initialRackboard,
   isLoading: false,
   error: null,
@@ -81,21 +78,21 @@ export default combineReducers({
     types: [],
   })((state = initialSingleScan, action = {}) => {
     switch (action.type) {
-      case actions.FETCH_POOL_SCAN_BY_ID_REQUEST: {
+      case actions.FETCH_SCAN_BY_ID_REQUEST: {
         return {
           ...state,
           isLoading: true,
           error: null,
         };
       }
-      case actions.FETCH_POOL_SCAN_BY_ID_SUCCESS: {
+      case actions.FETCH_SCAN_BY_ID_SUCCESS: {
         return {
           ...state,
           isLoading: false,
           ...action.payload,
         };
       }
-      case actions.FETCH_POOL_SCAN_BY_ID_FAILURE: {
+      case actions.FETCH_SCAN_BY_ID_FAILURE: {
         return {
           ...state,
           isLoading: false,

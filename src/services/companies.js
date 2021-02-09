@@ -2,13 +2,12 @@ import axiosClient from 'utils/axiosClient';
 
 export const fetchCompanies = async ({ limit, offset, search }) => {
   try {
-    return await axiosClient.get('/companies/', {
+    return await axiosClient.get('/companies-short/', {
       params: {
         limit,
         offset,
         search,
       },
-      baseURL: process.env.REACT_APP_API_URL,
     });
   } catch (error) {
     return error;
@@ -16,11 +15,15 @@ export const fetchCompanies = async ({ limit, offset, search }) => {
 };
 
 export const createCompany = async payload => {
-  const company = await axiosClient.post(`/companies/create`, {
-    ...payload,
-  },{
-    baseURL: process.env.REACT_APP_API_URL,
-  });
+  const company = await axiosClient.post(
+    `/companies/create`,
+    {
+      ...payload,
+    },
+    {
+      baseURL: process.env.REACT_APP_API_URL,
+    },
+  );
 
   return company;
 };
@@ -39,11 +42,15 @@ export const getSingleCompany = async id => {
 
 export const updateUsers = async payload => {
   try {
-    const users = await axiosClient.patch(`/companies/${payload.id}/`, {
-      results_contacts: payload.results_contacts,
-    }, {
-      baseURL: process.env.REACT_APP_API_URL,
-    });
+    const users = await axiosClient.patch(
+      `/companies/${payload.id}/`,
+      {
+        results_contacts: payload.results_contacts,
+      },
+      {
+        baseURL: process.env.REACT_APP_API_URL,
+      },
+    );
 
     return users;
   } catch (error) {

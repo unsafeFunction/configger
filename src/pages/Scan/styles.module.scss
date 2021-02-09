@@ -1,20 +1,32 @@
 @import 'assets/styles/mixins.scss';
 
-.rackDetailsWrapper {
-  margin: 1rem 0;
+.page__header {
   width: 100%;
-  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  .rackDetails {
-    > div {
+  @media (max-width: $sm-max-width) {
+    flex-direction: column;
+    align-items: baseline;
+  }
+}
+
+.rackStat {
+  div:last-child {
+    span:last-child {
       font-size: 18px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
     }
   }
 }
 
 .barcodeWrapper {
   width: 100%;
-  text-align: center
+  text-align: center;
 }
 
 .tubesCountWrapper {
@@ -47,14 +59,7 @@
   }
 }
 
-
 .submitBtns {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  & > div:last-child {
-    display: flex;
-    align-self: flex-end;
-  }
+  justify-content: flex-end;
 }

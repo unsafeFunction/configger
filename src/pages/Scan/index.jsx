@@ -9,10 +9,9 @@ import {
   Select,
   Button,
   Typography,
-  Input,
-  Space,
   Popconfirm,
   Statistic,
+  Card,
 } from 'antd';
 import Rackboard from 'components/widgets/rackboard';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -20,8 +19,12 @@ import { constants } from 'utils/constants';
 import debounce from 'lodash.debounce';
 import { Barcode } from 'assets';
 import { useHistory } from 'react-router-dom';
-import styles from './styles.module.scss';
 import LabeledInput from './Labeled';
+import classNames from 'classnames';
+import moment from 'moment-timezone';
+import styles from './styles.module.scss';
+
+moment.tz.setDefault('America/New_York');
 
 const { Text } = Typography;
 
@@ -46,10 +49,10 @@ const Scan = () => {
   const useFetching = () => {
     useEffect(() => {
       dispatch({
-        type: actions.FETCH_POOL_SCAN_BY_ID_REQUEST,
+        type: actions.FETCH_SCAN_BY_ID_REQUEST,
         payload: {
-          poolScanId: history.location.pathname.split('/')[2],
-          sortBy: 'tube_position',
+          scanId: history.location.pathname.split('/')[2],
+          // sortBy: 'tube_position',
         },
       });
       dispatch({
@@ -112,78 +115,110 @@ const Scan = () => {
 
   return (
     <>
-      <Form
-        form={form}
-        // initialValues={{ company: rackboard?.company_id }}
-        onFinish={onSubmit}
-      >
+      <div className={classNames('air__utils__heading', styles.page__header)}>
+        <h4>Some scan session name</h4>
+        {/* <Form.Item className="d-inline-block mb-2 mr-2"> */}
+        <Popconfirm
+          title="Are you sure to Mark Complete this Scan Session?"
+          okText="Yes"
+          cancelText="No"
+          disabled
+          // onConfirm={}
+        >
+          <Button disabled className="mb-2">
+            Mark Complete
+          </Button>
+        </Popconfirm>
+        {/* </Form.Item> */}
+      </div>
+
+      <Form form={form} onFinish={onSubmit}>
         <Row gutter={[40, 48]} justify="center">
           <Col xs={24} sm={20} md={18} lg={16} xl={14}>
+            <div className="mb-4">
               <Rackboard rackboard={scan} />
-              <Space size={100} className={styles.rackDetailsWrapper}>
-                <Statistic
-                  className={styles.rackDetails}
-                  valueStyle={{fontSize: '24px'}}
-                  title="Rack ID:"
-                  value={scan?.rack_id || '–'}
-                />
-                <Statistic
-                  className={styles.rackDetails}
-                  valueStyle={{fontSize: '24px'}}
-                  title="Pool ID:"
-                  value={scan?.pool_id || '–'}
-                />
-                <Statistic
-                  className={styles.rackDetails}
-                  valueStyle={{fontSize: '32px'}}
-                  title="Tubes"
-                  value={scan?.items?.length}
-                />
-              </Space>
+            </div>
+
+            <Row gutter={[24, 16]}>
+              <Col xs={24} sm={9}>
+                <Card>
+                  <Statistic
+                    title="Rack ID"
+                    value={scan?.rack_id || '–'}
+                    className={styles.rackStat}
+                  />
+                </Card>
+              </Col>
+              <Col xs={24} sm={9}>
+                <Card>
+                  <Statistic
+                    title="Pool ID"
+                    value={scan?.pool_id || '–'}
+                    className={styles.rackStat}
+                  />
+                </Card>
+              </Col>
+              <Col xs={24} sm={6}>
+                <Card>
+                  <Statistic
+                    title="Tubes"
+                    value={scan?.items?.length}
+                    className={styles.rackStat}
+                  />
+                </Card>
+              </Col>
+            </Row>
           </Col>
           <Col xs={24} sm={20} md={18} lg={8} xl={6}>
             <div className={styles.companyDetails}>
-              <LabeledInput title={'Company:'} node={<Form.Item
-                name="company"
-                className="w-100"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select a company',
-                  },
-                ]}
-              >
-                <Select
-                  placeholder="Company"
-                  loading={!companies?.isLoading}
-                  showSearch
-                  options={companiesForSelect}
-                  dropdownStyle={{
-                    maxHeight: 300,
-                    overflowY: 'hidden',
-                    overflowX: 'scroll',
-                  }}
-                  listHeight={0}
-                  dropdownMatchSelectWidth={false}
-                  dropdownRender={menu => (
-                    <InfiniteScroll
-                      next={loadMore}
-                      hasMore={companies?.items?.length < companies?.total}
-                      dataLength={companies?.items?.length}
-                      height={300}
-                    >
-                      {menu}
-                    </InfiniteScroll>
-                  )}
-                  optionFilterProp="label"
-                  onSearch={onChangeSearch}
-                  searchValue={searchName}
-                  allowClear
-                  onChange={(_, option) => {
-                    option ? setCompany(option.fullvalue) : setCompany(null);
-                  }}
-                />
-              </Form.Item>}/>
+              <LabeledInput
+                title={'Company:'}
+                node={
+                  <Form.Item
+                    name="company"
+                    className="w-100"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please select a company',
+                      },
+                    ]}
+                  >
+                    <Select
+                      placeholder="Company"
+                      loading={!companies?.isLoading}
+                      showSearch
+                      options={companiesForSelect}
+                      dropdownStyle={{
+                        maxHeight: 300,
+                        overflowY: 'hidden',
+                        overflowX: 'scroll',
+                      }}
+                      listHeight={0}
+                      dropdownMatchSelectWidth={false}
+                      dropdownRender={menu => (
+                        <InfiniteScroll
+                          next={loadMore}
+                          hasMore={companies?.items?.length < companies?.total}
+                          dataLength={companies?.items?.length}
+                          height={300}
+                        >
+                          {menu}
+                        </InfiniteScroll>
+                      )}
+                      optionFilterProp="label"
+                      onSearch={onChangeSearch}
+                      searchValue={searchName}
+                      allowClear
+                      onChange={(_, option) => {
+                        option
+                          ? setCompany(option.fullvalue)
+                          : setCompany(null);
+                      }}
+                    />
+                  </Form.Item>
+                }
+              />
               <Statistic
                 className={styles.companyDetailsStat}
                 title={'Short company name:'}
@@ -194,22 +229,16 @@ const Scan = () => {
                 title={'Company ID:'}
                 value={selectedCompany?.company_id || '–'}
               />
-              <LabeledInput title={'Pool name:'} node={
-                <Form.Item
-                  name="poolName"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input Pool name',
-                    },
-                  ]}
-                >
-                  <Input allowClear />
-                </Form.Item>
-              }/>
               <Statistic
                 className={styles.companyDetailsStat}
-                valueStyle={{fontSize: '24px'}}
+                title={'Pool name:'}
+                value={`${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
+                  scan?.scan_order
+                }`}
+              />
+              <Statistic
+                className={styles.companyDetailsStat}
+                valueStyle={{ fontSize: '24px' }}
                 title="Most Recent Scan"
                 value="Name here"
               />
@@ -219,7 +248,7 @@ const Scan = () => {
 
         <Row gutter={[40, 48]} justify="center">
           <Col xs={24} sm={20} md={18} lg={16} xl={14}>
-          <Form.Item
+            <Form.Item
               name="companyConfirmation"
               dependencies={['company']}
               rules={[
@@ -271,38 +300,37 @@ const Scan = () => {
               <Barcode />
             </div>
           </Col>
-          <Col xs={24} sm={20} md={18} lg={8} xl={7}>
-          <div className={styles.submitBtns}>
-              <div>
-                <Form.Item className="d-inline-block mb-2 mr-2">
-                  <Button type="primary" size="large" htmlType="submit">
+          <Col xs={24} sm={20} md={18} lg={8} xl={6}>
+            <div className={styles.submitBtns}>
+              <Form.Item>
+                <Popconfirm
+                  title="Are you sure to Save Scan and go to the next?"
+                  okText="Yes"
+                  cancelText="No"
+                  // onConfirm={}
+                >
+                  <Button
+                    type="primary"
+                    size="large"
+                    htmlType="submit"
+                    className="mr-2 mb-2"
+                  >
                     Next Scan
                   </Button>
-                </Form.Item>
-                <Form.Item className="d-inline-block mb-2 mr-2">
-                  <Popconfirm
-                    title="Are you sure?"
-                    okText="Yes"
-                    cancelText="No"
-                    // onConfirm={}
-                  >
-                    <Button size="large">Void Scan</Button>
-                  </Popconfirm>
-                </Form.Item>
-                <Form.Item className="d-inline-block mb-2 mr-2">
-                  <Popconfirm
-                    title="Are you sure?"
-                    okText="Yes"
-                    cancelText="No"
-                    disabled
-                    // onConfirm={}
-                  >
-                    <Button size="large" disabled>
-                      Mark Complete
-                    </Button>
-                  </Popconfirm>
-                </Form.Item>
-              </div>
+                </Popconfirm>
+              </Form.Item>
+              <Form.Item>
+                <Popconfirm
+                  title="Are you sure to Void Scan?"
+                  okText="Yes"
+                  cancelText="No"
+                  // onConfirm={}
+                >
+                  <Button size="large" danger className="mr-2 mb-2">
+                    Void Scan
+                  </Button>
+                </Popconfirm>
+              </Form.Item>
             </div>
           </Col>
         </Row>

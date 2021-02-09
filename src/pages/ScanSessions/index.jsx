@@ -188,7 +188,7 @@ const ScanSessions = () => {
                   scanner: scan.scanner,
                   action: (
                     <Button
-                      onClick={() => navigateToScan(scan.pool_id)}
+                      onClick={() => navigateToScan(scan.id)}
                       type="primary"
                     >
                       View scan

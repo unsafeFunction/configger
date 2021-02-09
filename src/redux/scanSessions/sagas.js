@@ -1,7 +1,7 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import actions from './actions';
-import { fetchPoolScanById, updateTube } from 'services/scans';
+import { fetchScanById, updateTube } from 'services/scans';
 import { fetchSessions } from 'services/scanSessions';
 
 export function* callFetchScanSessions({ payload }) {
@@ -26,11 +26,11 @@ export function* callFetchScanSessions({ payload }) {
   }
 }
 
-export function* callFetchPoolScanById({ payload }) {
+export function* callFetchScanById({ payload }) {
   try {
-    const response = yield call(fetchPoolScanById, payload);
+    const response = yield call(fetchScanById, payload);
 
-    const tubesInfo = response?.data?.pool_scan_tubes;
+    const tubesInfo = response?.data?.scan_tubes;
 
     const formatResponse = response => {
       return Object.assign(
@@ -58,11 +58,9 @@ export function* callFetchPoolScanById({ payload }) {
     console.log('prepared response', preparedResponse);
 
     yield put({
-      type: actions.FETCH_POOL_SCAN_BY_ID_SUCCESS,
+      type: actions.FETCH_SCAN_BY_ID_SUCCESS,
       payload: {
-        rack_id: response?.data?.rack_id,
-        pool_id: response?.data?.pool_id,
-        company_id: response?.data?.company_id,
+        ...response?.data,
         items: preparedResponse,
       },
     });
@@ -78,14 +76,16 @@ export function* callUpdateTube({ payload }) {
   try {
     const response = yield call(updateTube, payload);
 
+    console.log('call update tube response', response);
+
     yield put({
       type: actions.UPDATE_TUBE_SUCCESS,
       payload: {
         data: {
-          letter: response?.position?.[0],
-          [`col${response?.position?.[1]}`]: {
-            ...response,
-            status: response?.status.toLowerCase(),
+          letter: response?.data?.position?.[0],
+          [`col${response?.data?.position?.[1]}`]: {
+            ...response?.data,
+            status: response?.data?.status.toLowerCase(),
           },
         },
       },
@@ -113,7 +113,7 @@ export function* callUpdateTube({ payload }) {
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_SCAN_SESSIONS_REQUEST, callFetchScanSessions),
-    takeEvery(actions.FETCH_POOL_SCAN_BY_ID_REQUEST, callFetchPoolScanById),
+    takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById),
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
   ]);
 }
