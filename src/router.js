@@ -43,11 +43,6 @@ const routes = [
     exact: false,
   },
   {
-    path: '/system/terms-and-conditions',
-    Component: loadable(() => import('pages/system/terms-and-conditions')),
-    exact: false,
-  },
-  {
     path: '/profile',
     Component: loadable(() => import('pages/profile')),
     exact: true,

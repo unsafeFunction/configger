@@ -20,7 +20,6 @@ const Login = () => {
           ...values,
           toTimeline: () => history.push('/results'),
           toRuns: () => history.push('/runs'),
-          acceptTerms: () => history.push('/system/terms-and-conditions'),
         },
       });
     },

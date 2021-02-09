@@ -5,7 +5,6 @@ const initialState = {
   authorized: false,
   isLoggingIn: false,
   isRestoring: false,
-  isAccepting: false,
   isProfileUpdating: false,
   isPasswordChanging: false,
   isVerifyingEmail: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -40,12 +39,6 @@ export default function userReducer(state = initialState, action) {
       return { ...state, isRestoring: false, error: action.payload.data };
     case actions.LOGOUT:
       return { ...state, authorized: false };
-    case actions.ACCEPT_REQUEST:
-      return { ...state, isAccepting: true };
-    case actions.ACCEPT_SUCCESS:
-      return { ...state, isAccepting: false };
-    case actions.ACCEPT_FAILURE:
-      return { ...state, isAccepting: false, error: action.payload.data };
     case actions.PROFILE_SUCCESS:
       return {
         ...state,
