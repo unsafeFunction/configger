@@ -13,12 +13,20 @@ export const fetchScanById = async ({ scanId, sortBy }) => {
   return scan;
 };
 
-export const updateTube = async ({ id, tube_id }) => {
-  console.log('services update tube id/tube_id', id, tube_id);
+export const updateTube = async ({ record, tube_id }) => {
+  console.log('services update tube id/tube_id', record.id, tube_id);
 
-  const tube = await axiosClient.patch(`/scans/tubes/${id}/`, {
+  const tube = await axiosClient.patch(`/scans/tubes/${record.id}/`, {
     tube_id,
   });
 
   return tube;
 };
+
+export const deleteTube = async ({id, tube_id}) => {
+  const tube = await axiosClient.delete(`/scans/tubes/${id}/`, {
+    tube_id,
+  });
+
+  return tube;
+}

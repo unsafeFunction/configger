@@ -1,7 +1,7 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import actions from './actions';
-import { fetchScanById, updateTube } from 'services/scans';
+import { deleteTube, fetchScanById, updateTube } from 'services/scans';
 import { fetchSessions } from 'services/scanSessions';
 
 export function* callFetchScanSessions({ payload }) {
@@ -87,7 +87,7 @@ export function* callUpdateTube({ payload }) {
           letter: response?.data?.position?.[0],
           [`col${response?.data?.position?.[1]}`]: {
             ...response?.data,
-            status: response?.data?.status.toLowerCase(),
+            status: response?.data?.status?.toLowerCase(),
           },
         },
       },
@@ -112,10 +112,52 @@ export function* callUpdateTube({ payload }) {
   }
 }
 
+
+export function* callDeleteTube({ payload }) {
+
+  try {
+    const response = yield call(deleteTube, payload);
+
+    console.log('call delete tube response', response);
+
+    yield put({
+      type: actions.DELETE_TUBE_SUCCESS,
+      payload: {
+        data: {
+          letter: response?.data?.position?.[0],
+          [`col${response?.data?.position?.[1]}`]: {
+            ...response?.data,
+            status: response?.data?.status?.toLowerCase(),
+          },
+        },
+      },
+    });
+
+    notification.success({
+      message: 'Tube deleted',
+    });
+  } catch (error) {
+    console.log(error, payload);
+    yield put({
+      type: actions.DELETE_TUBE_FAILURE,
+      payload: {
+        letter: payload.position?.[0],
+      },
+    });
+
+    notification.error({
+      message: 'Something went wrong',
+    });
+    // notification.error(error);
+  }
+}
+
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_SCAN_SESSIONS_REQUEST, callFetchScanSessions),
     takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById),
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
+    takeEvery(actions.DELETE_TUBE_REQUEST, callDeleteTube),
   ]);
 }

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
 import { Table, Button, Popover, Input, Popconfirm, Tag } from 'antd';
@@ -8,18 +8,28 @@ import styles from './styles.module.scss';
 
 const Rackboard = ({ rackboard }) => {
   const dispatch = useDispatch();
+  const [currentTubeID, setCurrentTubeID] = useState('');
 
-  const handleSave = useCallback(
-    record => {
-      console.log('save', record);
-
+  const handleSave = useCallback((record) => {
       dispatch({
         type: actions.UPDATE_TUBE_REQUEST,
-        payload: record,
+        payload: {record, tube_id: currentTubeID},
       });
     },
-    [dispatch],
+    [dispatch, currentTubeID],
   );
+
+  const handleDelete = useCallback((record) => {
+    dispatch({
+      type: actions.DELETE_TUBE_REQUEST,
+      payload: record,
+    });
+  }, []);
+
+  const handleChangeTubeID = useCallback((e) => {
+    console.log(e.target.value);
+    setCurrentTubeID(e.target.value);
+  }, []);
 
   const restColumns = [...Array(8).keys()].map(i => ({
     title: `${i + 1}`,
@@ -43,6 +53,7 @@ const Rackboard = ({ rackboard }) => {
                   placeholder="Tube barcode"
                   defaultValue={record?.[`col${i + 1}`]?.tube_id}
                   className={classNames(styles.tubeInput, 'mb-4')}
+                  onChange={handleChangeTubeID}
                   allowClear
                 />
 
@@ -61,7 +72,7 @@ const Rackboard = ({ rackboard }) => {
                   title="Are you sure to delete this tube?"
                   okText="Yes"
                   cancelText="No"
-                  // onConfirm={} //TODO: send tube_id=""
+                  onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
                 >
                   <Button className="d-block w-100 mb-3" danger>
                     Delete
