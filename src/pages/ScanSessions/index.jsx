@@ -80,6 +80,7 @@ const ScanSessions = () => {
   const expandedRow = scan => {
     const columns = [
       { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
+      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id' },
       {
         title: 'Scan time',
         dataIndex: 'scan_time',
@@ -185,7 +186,8 @@ const ScanSessions = () => {
                   key: scan.pool_id,
                   pool_id: scan.pool_id,
                   scan_time: scan.scan_timestamp,
-                  scanner: scan.scanner,
+                  rack_id: scan.rack_id,
+                  scanner: scan.scanner ?? '-',
                   action: (
                     <Button
                       onClick={() => navigateToScan(scan.id)}
