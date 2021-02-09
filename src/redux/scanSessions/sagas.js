@@ -12,6 +12,8 @@ export function* callFetchScanSessions({ payload }) {
       type: actions.FETCH_SCAN_SESSIONS_SUCCESS,
       payload: {
         data: data?.results ?? [],
+        total: data.count,
+        firstPage: !data.previous,
       },
     });
   } catch (error) {

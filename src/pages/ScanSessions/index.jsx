@@ -2,12 +2,13 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Input, Button } from 'antd';
+import { Table, Input, Button, Tag } from 'antd';
 import debounce from 'lodash.debounce';
-import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/scanSessions/actions';
 import moment from 'moment';
+import sortBy from 'lodash.sortby';
 
 import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
@@ -41,6 +42,13 @@ const ScanSessions = () => {
     {
       title: 'Status',
       dataIndex: 'status',
+      render: text => {
+        return (
+          <Tag color="blue" className={styles.sessionStatus}>
+            {text.toLowerCase()}
+          </Tag>
+        );
+      },
     },
     {
       title: 'Session size',
@@ -71,7 +79,6 @@ const ScanSessions = () => {
         type: actions.FETCH_SCAN_SESSIONS_REQUEST,
         payload: {
           limit: constants.scanSessions.itemsLoadingCount,
-          //   search: searchName,
         },
       });
     }, []);
@@ -85,6 +92,7 @@ const ScanSessions = () => {
         title: 'Scan time',
         dataIndex: 'scan_time',
         key: 'scan_time',
+        width: 300,
       },
       { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
       { title: 'Action', dataIndex: 'action', key: 'action' },
@@ -97,9 +105,9 @@ const ScanSessions = () => {
 
   const loadMore = useCallback(() => {
     dispatch({
-      type: actions.FETCH_COMPANIES_REQUEST,
+      type: actions.FETCH_SCAN_SESSIONS_REQUEST,
       payload: {
-        limit: constants.companies.itemsLoadingCount,
+        limit: constants.scanSessions.itemsLoadingCount,
         offset: scanSessions.offset,
       },
     });
@@ -107,7 +115,7 @@ const ScanSessions = () => {
 
   const sendQuery = useCallback(query => {
     dispatch({
-      type: actions.FETCH_COMPANIES_REQUEST,
+      type: actions.FETCH_SCAN_SESSIONS_REQUEST,
       payload: {
         limit: constants.companies.itemsLoadingCount,
         search: query,
@@ -155,7 +163,6 @@ const ScanSessions = () => {
                 prefix={<SearchOutlined />}
                 className={styles.search}
                 placeholder="Search..."
-                // value={searchName}
                 onChange={onChangeSearch}
               />
             </div>
@@ -165,13 +172,12 @@ const ScanSessions = () => {
       <InfiniteScroll
         next={loadMore}
         hasMore={sessionItems.length < scanSessions?.total}
-        loader={<LoadingOutlined style={{ fontSize: 36 }} spin />}
         dataLength={sessionItems?.length}
       >
         <Table
           dataSource={sessionItems}
           columns={columns}
-          scroll={{ x: 1200 }}
+          scroll={{ x: 1000 }}
           bordered
           loading={!scanSessions?.isLoading}
           align="center"
@@ -181,11 +187,11 @@ const ScanSessions = () => {
           }}
           expandedRowRender={record => {
             return expandedRow(
-              record.scans.map(scan => {
+              sortBy(record.scans, 'scan_order').map(scan => {
                 return {
                   key: scan.pool_id,
                   pool_id: scan.pool_id,
-                  scan_time: scan.scan_timestamp,
+                  scan_time: moment(scan.scan_timestamp).format('LLLL'),
                   rack_id: scan.rack_id,
                   scanner: scan.scanner ?? '-',
                   action: (
