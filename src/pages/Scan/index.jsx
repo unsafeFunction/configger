@@ -22,11 +22,12 @@ import { useHistory } from 'react-router-dom';
 import LabeledInput from './Labeled';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
+// import qs from 'qs';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
-const { Text } = Typography;
+const { Title, Text } = Typography;
 
 const Scan = () => {
   const dispatch = useDispatch();
@@ -46,12 +47,27 @@ const Scan = () => {
       fullvalue: company,
     };
   });
+
+  const {
+    sessionId,
+    sessionTitle,
+    sessionSize,
+    companyId,
+    scanId,
+  } = history.location.state;
+
+  console.log('sessionId', sessionId);
+  console.log('sessionTitle', sessionTitle);
+  console.log('sessionSize', sessionSize);
+  console.log('companyId', companyId);
+  console.log('scanId', scanId);
+
   const useFetching = () => {
     useEffect(() => {
       dispatch({
         type: actions.FETCH_SCAN_BY_ID_REQUEST,
         payload: {
-          scanId: history.location.pathname.split('/')[2],
+          scanId,
           // sortBy: 'tube_position',
         },
       });
@@ -104,7 +120,7 @@ const Scan = () => {
     values => {
       console.log('VALUES', values);
       // dispatch({
-      //   type: ,
+      //   type: actions.UPDATE_SESSION_REQUEST,
       //   payload: {
       //     ...values,
       //   },
@@ -116,7 +132,13 @@ const Scan = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Scan on {moment(scan?.scan_timestamp)?.format('LLLL')}</h4>
+        <Title level={4} className="font-weight-normal">
+          Scan on {moment(scan?.scan_timestamp)?.format('LLLL')}
+          <Text mark className="pl-3 pr-3">
+            {scan?.scan_order + 1} / {sessionSize}
+          </Text>
+        </Title>
+
         {/* <Form.Item className="d-inline-block mb-2 mr-2"> */}
         <Popconfirm
           title="Are you sure to Mark Complete this Scan Session?"
@@ -300,21 +322,21 @@ const Scan = () => {
           <Col xs={24} sm={20} md={18} lg={8} xl={6}>
             <div className={styles.submitBtns}>
               <Form.Item>
-                <Popconfirm
+                {/* <Popconfirm
                   title="Are you sure to Save Scan and go to the next?"
                   okText="Yes"
                   cancelText="No"
                   // onConfirm={}
+                > */}
+                <Button
+                  type="primary"
+                  size="large"
+                  htmlType="submit"
+                  className="mr-2 mb-2"
                 >
-                  <Button
-                    type="primary"
-                    size="large"
-                    htmlType="submit"
-                    className="mr-2 mb-2"
-                  >
-                    Next Scan
-                  </Button>
-                </Popconfirm>
+                  Next Scan
+                </Button>
+                {/* </Popconfirm> */}
               </Form.Item>
               <Form.Item>
                 <Popconfirm

@@ -29,11 +29,15 @@ const ScanSessions = () => {
   const history = useHistory();
 
   const navigateToScan = useCallback(
-    scanId => {
-      history.push(`/scan-sessions/${scanId}`);
+    props => {
+      history.push({
+        pathname: `/scan-sessions/${props.scanId}`,
+        state: props,
+      });
     },
     [history],
   );
+
   const columns = [
     {
       title: 'Session name',
@@ -196,7 +200,15 @@ const ScanSessions = () => {
                   scanner: scan.scanner ?? '-',
                   action: (
                     <Button
-                      onClick={() => navigateToScan(scan.id)}
+                      onClick={() =>
+                        navigateToScan({
+                          sessionId: record.id,
+                          sessionTitle: record.scan_session_title,
+                          sessionSize: record.scans?.length,
+                          companyId: record.company_id,
+                          scanId: scan.id,
+                        })
+                      }
                       type="primary"
                     >
                       View scan

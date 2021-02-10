@@ -61,6 +61,23 @@ const sessionsReducer = (state = initialState, action) => {
         error: action.payload.error,
       };
     }
+
+    case actions.UPDATE_SESSION_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+    case actions.UPDATE_SESSION_SUCCESS: {
+      return {
+        ...state,
+      };
+    }
+    case actions.UPDATE_SESSION_FAILURE: {
+      return {
+        ...state,
+      };
+    }
+
     default:
       return state;
   }
