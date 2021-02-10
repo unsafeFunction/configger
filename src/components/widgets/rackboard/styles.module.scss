@@ -32,3 +32,20 @@
 .tubeInput {
   width: 250px;
 }
+
+.popoverBtn {
+  display: flex;
+  max-width: 250px;
+  width: 100% !important;
+  margin-bottom: 1rem;
+  justify-content: center;
+
+  button {
+    width: 100% !important;
+  }
+}
+
+.popoverWrapper {
+  display: flex;
+  flex-direction: column;
+}

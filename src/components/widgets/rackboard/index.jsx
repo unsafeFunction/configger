@@ -52,7 +52,7 @@ const Rackboard = ({ rackboard, scanId }) => {
             }
             visible={popoverVisible === record?.[`col${i + 1}`]?.id}
             content={
-              <>
+              <div className={styles.popoverWrapper}>
                 <Input
                   size="large"
                   placeholder="Tube barcode"
@@ -63,12 +63,13 @@ const Rackboard = ({ rackboard, scanId }) => {
                 />
 
                 <Popconfirm
+                  disabled={!currentTubeID}
                   title="Are you sure to update this tube?"
                   okText="Yes"
                   cancelText="No"
                   onConfirm={() => handleSave(record?.[`col${i + 1}`])}
                 >
-                  <Button className="d-block w-100 mb-3" type="primary">
+                  <Button disabled={!currentTubeID} className={styles.popoverBtn} type="primary">
                     Save
                   </Button>
                 </Popconfirm>
@@ -79,25 +80,29 @@ const Rackboard = ({ rackboard, scanId }) => {
                   cancelText="No"
                   onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
                 >
-                  <Button className="d-block w-100 mb-3" danger>
+                  <Button className={styles.popoverBtn}  danger>
                     Delete
                   </Button>
                 </Popconfirm>
 
                 <Popconfirm
+                  disabled
                   title="Are you sure to invalidate this tube?"
                   okText="Yes"
                   cancelText="No"
                   // onConfirm={}
                 >
-                  <Button className="d-block w-100 mb-3">Invalidate</Button>
+                  <Button className={styles.popoverBtn} disabled >Invalidate</Button>
                 </Popconfirm>
 
-                <Button onClick={handleClosePopover} className="d-block w-100">Cancel</Button>
-              </>
+                <Button onClick={handleClosePopover} className={styles.popoverBtn}>Cancel</Button>
+              </div>
             }
             trigger="click"
-            onVisibleChange={() => setPopoverVisible(record?.[`col${i + 1}`]?.id)}
+            onVisibleChange={() => {
+              setPopoverVisible(record?.[`col${i + 1}`]?.id)
+              setCurrentTubeID(record?.[`col${i + 1}`]?.tube_id);
+            }}
           >
             <Button
               type="primary"
