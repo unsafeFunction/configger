@@ -2,6 +2,7 @@
 import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
 import { constants } from 'utils/constants';
+import forEach from 'lodash.foreach';
 import actions from './actions';
 
 const initialRackboard = [...Array(6).keys()].map(i => ({
@@ -157,19 +158,20 @@ export default combineReducers({
         };
       }
       case actions.DELETE_TUBE_SUCCESS: {
-        console.log(state, action.payload);
+        const { data } = action.payload;
+        const testArray = state.items;
+
+        state.items.forEach((row, index) => {
+          forEach(row, (value, key) => {
+            if (value.id === data.tube_id) {
+              testArray[index][key].status = 'empty';
+            }
+          });
+        });
+
         return {
           ...state,
-          // items: state.items.map(row => {
-          //   if (row.letter === action.payload.data.letter) {
-          //     return {
-          //       ...row,
-          //       ...action.payload.data,
-          //       // isUpdating: false,
-          //     };
-          //   }
-          //   return row;
-          // }),
+          items: testArray,
         };
       }
       case actions.DELETE_TUBE_FAILURE: {
