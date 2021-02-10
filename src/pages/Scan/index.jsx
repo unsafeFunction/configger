@@ -116,7 +116,7 @@ const Scan = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Some scan session name</h4>
+        <h4>Scan on {moment(scan?.scan_timestamp)?.format('LLLL')}</h4>
         {/* <Form.Item className="d-inline-block mb-2 mr-2"> */}
         <Popconfirm
           title="Are you sure to Mark Complete this Scan Session?"
@@ -238,8 +238,7 @@ const Scan = () => {
               />
               <Statistic
                 className={styles.companyDetailsStat}
-                valueStyle={{ fontSize: '24px' }}
-                title="Most Recent Scan"
+                title="Most Recent Scan:"
                 value="Name here"
               />
             </div>

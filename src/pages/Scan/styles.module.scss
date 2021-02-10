@@ -14,8 +14,10 @@
 
 .rackStat {
   div:last-child {
+    font-size: 18px;
     span:last-child {
       font-size: 18px;
+      line-height: 20px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -54,8 +56,12 @@
 }
 
 .companyDetailsStat {
-  > div {
+  margin-bottom: 1.5rem;
+  div:last-child {
     font-size: 18px;
+    span:last-child {
+      font-size: 18px;
+    }
   }
 }
 
