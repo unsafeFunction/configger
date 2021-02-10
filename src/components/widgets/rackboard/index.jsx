@@ -9,6 +9,7 @@ import styles from './styles.module.scss';
 const Rackboard = ({ rackboard }) => {
   const dispatch = useDispatch();
   const [currentTubeID, setCurrentTubeID] = useState('');
+  const [popoverVisibleID, setPopoverVisibleID] = useState(0);
 
   const handleSave = useCallback((record) => {
       dispatch({
@@ -27,8 +28,11 @@ const Rackboard = ({ rackboard }) => {
   }, []);
 
   const handleChangeTubeID = useCallback((e) => {
-    console.log(e.target.value);
     setCurrentTubeID(e.target.value);
+  }, []);
+
+  const handleClosePopover = useCallback(() => {
+    setPopoverVisibleID(0);
   }, []);
 
   const restColumns = [...Array(8).keys()].map(i => ({
@@ -36,7 +40,6 @@ const Rackboard = ({ rackboard }) => {
     dataIndex: `col${i + 1}`,
     align: 'center',
     render: (_, record) => {
-      // console.log('record', record);
       if (record[`col${i + 1}`] && record[`col${i + 1}`]?.status !== 'empty') {
         return (
           <Popover
@@ -46,6 +49,7 @@ const Rackboard = ({ rackboard }) => {
                 <Tag color="purple">{record?.[`col${i + 1}`]?.status}</Tag>
               </>
             }
+            visible={popoverVisibleID === i + 1}
             content={
               <>
                 <Input
@@ -88,10 +92,11 @@ const Rackboard = ({ rackboard }) => {
                   <Button className="d-block w-100 mb-3">Invalidate</Button>
                 </Popconfirm>
 
-                <Button className="d-block w-100">Cancel</Button>
+                <Button onClick={handleClosePopover} className="d-block w-100">Cancel</Button>
               </>
             }
             trigger="click"
+            onVisibleChange={() => setPopoverVisibleID(i+1)}
           >
             <Button
               type="primary"
