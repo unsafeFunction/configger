@@ -195,7 +195,6 @@ const Scan = () => {
                         overflowX: 'scroll',
                       }}
                       listHeight={0}
-                      dropdownMatchSelectWidth={false}
                       dropdownRender={menu => (
                         <InfiniteScroll
                           next={loadMore}
@@ -261,7 +260,7 @@ const Scan = () => {
                       return Promise.resolve();
                     }
                     return Promise.reject(
-                      'Please select a company in two places',
+                      'Please select the same company in both places',
                     );
                   },
                 }),
@@ -278,7 +277,6 @@ const Scan = () => {
                   overflowX: 'scroll',
                 }}
                 listHeight={0}
-                dropdownMatchSelectWidth={false}
                 dropdownRender={menu => (
                   <InfiniteScroll
                     next={loadMore}
