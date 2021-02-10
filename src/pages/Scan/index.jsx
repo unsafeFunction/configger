@@ -56,11 +56,6 @@ const Scan = () => {
     scanId,
   } = history.location.state;
 
-  console.log('sessionId', sessionId);
-  console.log('sessionTitle', sessionTitle);
-  console.log('sessionSize', sessionSize);
-  console.log('companyId', companyId);
-  console.log('scanId', scanId);
 
   const useFetching = () => {
     useEffect(() => {
@@ -158,7 +153,7 @@ const Scan = () => {
         <Row gutter={[40, 48]} justify="center">
           <Col xs={24} sm={20} md={18} lg={16} xl={14}>
             <div className="mb-4">
-              <Rackboard rackboard={scan} />
+              <Rackboard rackboard={scan} scanId={scan?.id} />
             </div>
 
             <Row gutter={[24, 16]}>

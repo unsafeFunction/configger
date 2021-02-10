@@ -6,10 +6,10 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
-const Rackboard = ({ rackboard }) => {
+const Rackboard = ({ rackboard, scanId }) => {
   const dispatch = useDispatch();
   const [currentTubeID, setCurrentTubeID] = useState('');
-  const [popoverVisibleID, setPopoverVisibleID] = useState(0);
+  const [popoverVisible, setPopoverVisible] = useState(null);
 
   const handleSave = useCallback((record) => {
       dispatch({
@@ -23,16 +23,17 @@ const Rackboard = ({ rackboard }) => {
   const handleDelete = useCallback((record) => {
     dispatch({
       type: actions.DELETE_TUBE_REQUEST,
-      payload: record,
+      payload: {record, scanId}
     });
-  }, []);
+    setPopoverVisible(null);
+  }, [scanId]);
 
   const handleChangeTubeID = useCallback((e) => {
     setCurrentTubeID(e.target.value);
   }, []);
 
   const handleClosePopover = useCallback(() => {
-    setPopoverVisibleID(0);
+    setPopoverVisible(null);
   }, []);
 
   const restColumns = [...Array(8).keys()].map(i => ({
@@ -49,7 +50,7 @@ const Rackboard = ({ rackboard }) => {
                 <Tag color="purple">{record?.[`col${i + 1}`]?.status}</Tag>
               </>
             }
-            visible={popoverVisibleID === i + 1}
+            visible={popoverVisible === record?.[`col${i + 1}`]?.id}
             content={
               <>
                 <Input
@@ -96,7 +97,7 @@ const Rackboard = ({ rackboard }) => {
               </>
             }
             trigger="click"
-            onVisibleChange={() => setPopoverVisibleID(i+1)}
+            onVisibleChange={() => setPopoverVisible(record?.[`col${i + 1}`]?.id)}
           >
             <Button
               type="primary"

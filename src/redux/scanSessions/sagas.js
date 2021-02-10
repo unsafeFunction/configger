@@ -143,13 +143,7 @@ export function* callDeleteTube({ payload }) {
     yield put({
       type: actions.DELETE_TUBE_SUCCESS,
       payload: {
-        data: {
-          letter: response?.data?.position?.[0],
-          [`col${response?.data?.position?.[1]}`]: {
-            ...response?.data,
-            status: response?.data?.status?.toLowerCase(),
-          },
-        },
+         data: {...response.data}
       },
     });
 

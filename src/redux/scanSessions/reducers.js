@@ -151,6 +151,42 @@ export default combineReducers({
         };
       }
 
+      case actions.DELETE_TUBE_REQUEST: {
+        return {
+          ...state,
+        };
+      }
+      case actions.DELETE_TUBE_SUCCESS: {
+        console.log(state, action.payload);
+        return {
+          ...state,
+          // items: state.items.map(row => {
+          //   if (row.letter === action.payload.data.letter) {
+          //     return {
+          //       ...row,
+          //       ...action.payload.data,
+          //       // isUpdating: false,
+          //     };
+          //   }
+          //   return row;
+          // }),
+        };
+      }
+      case actions.DELETE_TUBE_FAILURE: {
+        return {
+          ...state,
+          // items: state.items.map(row => {
+          //   if (row.letter === action?.payload?.letter) {
+          //     return {
+          //       ...row,
+          //       // resultIsUpdating: false,
+          //     };
+          //   }
+          //   return row;
+          // }),
+        };
+      }
+
       default: {
         return state;
       }

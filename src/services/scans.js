@@ -23,10 +23,8 @@ export const updateTube = async ({ record, tube_id }) => {
   return tube;
 };
 
-export const deleteTube = async ({id, tube_id}) => {
-  const tube = await axiosClient.delete(`/scans/tubes/${id}/`, {
-    tube_id,
-  });
+export const deleteTube = async ({record, scanId}) => {
+  const tube = await axiosClient.delete(`/scans/tubes/${record.id}/?scan_id=${scanId}`);
 
   return tube;
 }
