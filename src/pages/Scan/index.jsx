@@ -22,6 +22,7 @@ import {
 } from '@ant-design/icons';
 import Rackboard from 'components/widgets/Rackboard';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
+import SingleScanInfo from 'components/widgets/SingleScanInfo';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
@@ -169,7 +170,7 @@ const Scan = () => {
                 <Card className={styles.card}>
                   <Statistic
                     title="Total Scans"
-                    value={scan?.items?.length}
+                    value={session?.scans?.length}
                     formatter={value => <Tag color="gold">{value}</Tag>}
                     className={classNames(styles.rackStat, styles.ellipsis)}
                   />
@@ -182,7 +183,7 @@ const Scan = () => {
               </Col>
             </Row>
           </Col>
-          <Col xs={24} sm={20} md={18} lg={8} xl={6}>
+          <Col lg={18} xl={8}>
             <div className={styles.companyDetails}>
               <Statistic
                 className={styles.companyDetailsStat}
@@ -213,6 +214,7 @@ const Scan = () => {
                 value="Name here"
               />
             </div>
+            <SingleScanInfo session={session} />
           </Col>
         </Row>
         <Row gutter={[40, 48]} justify="center">

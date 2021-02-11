@@ -43,28 +43,9 @@
   }
 }
 
-.tubesCountWrapper {
-  text-align: center;
-  padding-top: 110px;
-
-  > span {
-    font-size: 22px;
-  }
-}
-
-.tubesCount {
-  display: block;
-  text-align: center;
-
-  > div {
-    font-size: 18px;
-  }
-}
-
 .companyDetails {
   display: flex;
   flex-flow: column;
-  height: 100%;
 }
 
 .companyDetailsStat {
