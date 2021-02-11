@@ -14,11 +14,15 @@ import {
   Tag,
   Pagination,
   Tooltip,
+  Dropdown,
+  Menu,
 } from 'antd';
 import {
   LeftOutlined,
   RightOutlined,
   ArrowUpOutlined,
+  CloseOutlined,
+  DownOutlined,
 } from '@ant-design/icons';
 import Rackboard from 'components/widgets/Rackboard';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
@@ -37,11 +41,32 @@ const Scan = () => {
   const history = useHistory();
   const [form] = Form.useForm();
 
+  const [visibleActions, setVisibleActions] = useState(false);
+
   const scan = useSelector(state => state.scanSessions?.singleScan);
   const session = useSelector(state => state.scanSessions?.singleSession);
 
   const { sessionId, sessionSize, companyId, scanId } = history.location.state;
   const companyInfo = session?.company_short;
+
+  const handleVoidScan = useCallback(() => {
+    setVisibleActions(false);
+  }, []);
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="1" icon={<CloseOutlined />}>
+        <Popconfirm
+          title="Are you sure to Void Scan?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={handleVoidScan}
+        >
+          Void Scan
+        </Popconfirm>
+      </Menu.Item>
+    </Menu>
+  );
 
   const useFetching = () => {
     useEffect(() => {
@@ -57,6 +82,10 @@ const Scan = () => {
   };
 
   useFetching();
+
+  const handleSwitchVisibleActions = useCallback(() => {
+    setVisibleActions(!visibleActions);
+  }, [visibleActions]);
 
   const onSubmit = useCallback(
     values => {
@@ -112,13 +141,25 @@ const Scan = () => {
                 </Button>
                 <div>
                   <Button className="mr-2" icon={<LeftOutlined />} />
-                  <Button icon={<RightOutlined />} />
+                  <Button className="mr-2" icon={<RightOutlined />} />
+                  <Dropdown
+                    overlay={menu}
+                    overlayClassName={styles.actionsOverlay}
+                    onClick={handleSwitchVisibleActions}
+                    visible={visibleActions}
+                  >
+                    <Button type="primary">
+                      Actions 
+{' '}
+<DownOutlined />
+                    </Button>
+                  </Dropdown>
                 </div>
               </div>
               <Rackboard rackboard={scan} scanId={scan?.id} />
             </div>
             <Row gutter={[24, 16]}>
-              <Col xs={24} sm={12} md={12} lg={12} xl={6}>
+              <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={6}>
                 <Card className={styles.card}>
                   <Tooltip placement="bottom" title={scan?.rack_id}>
                     <Statistic
@@ -131,7 +172,7 @@ const Scan = () => {
                   </Tooltip>
                 </Card>
               </Col>
-              <Col xs={24} sm={12} md={12} lg={12} xl={5}>
+              <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
                 <Card className={styles.card}>
                   <Statistic
                     title="Pool ID"
@@ -142,7 +183,7 @@ const Scan = () => {
                   />
                 </Card>
               </Col>
-              <Col xs={24} sm={8} md={8} lg={8} xl={5}>
+              <Col xs={24} sm={8} md={8} lg={8} xl={8} xxl={5}>
                 <Card className={styles.card}>
                   <Statistic
                     title="Status"
@@ -156,7 +197,7 @@ const Scan = () => {
                   />
                 </Card>
               </Col>
-              <Col xs={24} sm={8} md={8} lg={8} xl={4}>
+              <Col xs={24} sm={8} md={8} lg={8} xl={8} xxl={4}>
                 <Card className={styles.card}>
                   <Statistic
                     title="Tubes"
@@ -166,7 +207,7 @@ const Scan = () => {
                   />
                 </Card>
               </Col>
-              <Col xs={24} sm={8} md={8} lg={8} xl={4}>
+              <Col xs={24} sm={8} md={8} lg={8} xl={8} xxl={4}>
                 <Card className={styles.card}>
                   <Statistic
                     title="Total Scans"
@@ -229,18 +270,6 @@ const Scan = () => {
                   // onConfirm={}
                 > */}
                 {/* </Popconfirm> */}
-              </Form.Item>
-              <Form.Item>
-                <Popconfirm
-                  title="Are you sure to Void Scan?"
-                  okText="Yes"
-                  cancelText="No"
-                  // onConfirm={}
-                >
-                  <Button size="large" danger className="mr-2 mb-2">
-                    Void Scan
-                  </Button>
-                </Popconfirm>
               </Form.Item>
             </div>
           </Col>
