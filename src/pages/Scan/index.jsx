@@ -12,8 +12,10 @@ import {
   Statistic,
   Card,
   Tag,
+  Table,
 } from 'antd';
-import Rackboard from 'components/widgets/rackboard';
+import Rackboard from 'components/widgets/Rackboard';
+import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
@@ -66,9 +68,13 @@ const Scan = () => {
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Title level={4} className="font-weight-normal">
-          Scan on {moment(scan?.scan_timestamp)?.format('LLLL')}
+          Scan on 
+{' '}
+{moment(scan?.scan_timestamp)?.format('LLLL')}
           <Text mark className="pl-3 pr-3">
-            {scan?.scan_order + 1} / {sessionSize}
+            {scan?.scan_order + 1}
+{' '}
+/{sessionSize}
           </Text>
           <Tag color="purple">{scan?.status}</Tag>
         </Title>
@@ -94,7 +100,6 @@ const Scan = () => {
             <div className="mb-4">
               <Rackboard rackboard={scan} scanId={scan?.id} />
             </div>
-
             <Row gutter={[24, 16]}>
               <Col xs={24} sm={9}>
                 <Card>
@@ -124,28 +129,33 @@ const Scan = () => {
                 </Card>
               </Col>
             </Row>
+            <Row>
+              <Col sm={24}>
+                <SingleSessionTable session={session} />
+              </Col>
+            </Row>
           </Col>
           <Col xs={24} sm={20} md={18} lg={8} xl={6}>
             <div className={styles.companyDetails}>
               <Statistic
                 className={styles.companyDetailsStat}
-                title={'Company name:'}
+                title="Company name:"
                 value={companyInfo?.name || '–'}
-                />
+              />
               <Statistic
                 className={styles.companyDetailsStat}
-                title={'Short company name:'}
+                title="Short company name:"
                 value={companyInfo?.name_short || '–'}
               />
               <Statistic
                 className={styles.companyDetailsStat}
-                title={'Company ID:'}
-                groupSeparator={''}
+                title="Company ID:"
+                groupSeparator=""
                 value={companyInfo?.company_id || '–'}
               />
               <Statistic
                 className={styles.companyDetailsStat}
-                title={'Pool name:'}
+                title="Pool name:"
                 value={`${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                   scan?.scan_order
                 }`}
@@ -158,10 +168,8 @@ const Scan = () => {
             </div>
           </Col>
         </Row>
-
         <Row gutter={[40, 48]} justify="center">
-          <Col xs={24} sm={20} md={18} lg={16} xl={14}>
-          </Col>
+          <Col xs={24} sm={20} md={18} lg={16} xl={14} />
           <Col xs={24} sm={20} md={18} lg={8} xl={6}>
             <div className={styles.submitBtns}>
               <Form.Item>
