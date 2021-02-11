@@ -24,7 +24,7 @@
   }
 }
 
-.actionsOverlay{
+.actionsOverlay {
   ul {
     li:first-child {
       color: red;
@@ -54,6 +54,8 @@
 .companyDetails {
   display: flex;
   flex-flow: column;
+
+  margin-bottom: 5px;
 }
 
 .companyDetailsStat {
