@@ -32,16 +32,15 @@ export function* callFetchScanSessions({ payload }) {
   }
 }
 
-export function* callFetchScanSessionById(payload) {
+export function* callFetchScanSessionById({ payload }) {
   try {
     const response = yield call(fetchSessionById, payload.sessionId);
-    console.log('call fetch scan session by id response', response);
 
     yield put({
       type: actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS,
-      // payload: {
-      //   ...response?.data,
-      // },
+      payload: {
+        data: response.data,
+      },
     });
   } catch (error) {
     yield put({
@@ -49,6 +48,7 @@ export function* callFetchScanSessionById(payload) {
     });
 
     notification.error(error);
+    // throw Error(error);
   }
 }
 
