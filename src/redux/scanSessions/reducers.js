@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
 import { constants } from 'utils/constants';
@@ -62,6 +61,38 @@ const sessionsReducer = (state = initialState, action) => {
         error: action.payload.error,
       };
     }
+    default:
+      return state;
+  }
+};
+
+const initialSingleSession = {
+  items: [],
+  isLoading: false,
+  error: null,
+};
+
+const singleSessionReducer = (state = initialSingleSession, action) => {
+  switch (action.type) {
+    case actions.FETCH_SCAN_SESSIONS_BY_ID_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_SCAN_SESSIONS_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case actions.FETCH_SCAN_SESSIONS_BY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        // error: action.payload.error,
+      };
+    }
 
     case actions.UPDATE_SESSION_REQUEST: {
       return {
@@ -92,6 +123,7 @@ const initialSingleScan = {
 
 export default combineReducers({
   sessions: sessionsReducer,
+  singleSession: singleSessionReducer,
   singleScan: single({
     types: [],
   })((state = initialSingleScan, action = {}) => {

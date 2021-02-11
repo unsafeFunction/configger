@@ -10,6 +10,15 @@ export const fetchSessions = async query => {
   return sessions;
 };
 
+export const fetchSessionById = async ({ sessionId }) => {
+  console.log('SERVICES PAYLOAD SESSION ID', sessionId);
+  // const session = await axiosClient.get(`/scans/sessions/${sessionId}/`);
+
+  // console.log('SERVICES SESSION', session);
+
+  // return session;
+};
+
 export const updateSession = async ({ sessionId, companyId }) => {
   console.log(
     'services update session sessionId/companyId',

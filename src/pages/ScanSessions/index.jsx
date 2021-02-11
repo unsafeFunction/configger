@@ -203,7 +203,6 @@ const ScanSessions = () => {
                       onClick={() =>
                         navigateToScan({
                           sessionId: record.id,
-                          sessionTitle: record.scan_session_title,
                           sessionSize: record.scans?.length,
                           companyId: record.company_id,
                           scanId: scan.id,

@@ -12,6 +12,7 @@ import {
   Popconfirm,
   Statistic,
   Card,
+  Tag,
 } from 'antd';
 import Rackboard from 'components/widgets/rackboard';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -48,29 +49,28 @@ const Scan = () => {
     };
   });
 
-  const {
-    sessionId,
-    sessionTitle,
-    sessionSize,
-    companyId,
-    scanId,
-  } = history.location.state;
+  const { sessionId, sessionSize, companyId, scanId } = history.location.state;
 
+  // console.log('sessionId', sessionId);
+  // console.log('sessionSize', sessionSize);
+  // console.log('companyId', companyId);
+  // console.log('scanId', scanId);
 
   const useFetching = () => {
     useEffect(() => {
       dispatch({
         type: actions.FETCH_SCAN_BY_ID_REQUEST,
-        payload: {
-          scanId,
-          // sortBy: 'tube_position',
-        },
+        payload: { scanId },
       });
       dispatch({
         type: companyActions.FETCH_COMPANIES_REQUEST,
         payload: {
           limit: constants?.companies?.itemsLoadingCount,
         },
+      });
+      dispatch({
+        type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
+        payload: { sessionId },
       });
     }, [dispatch]);
   };
@@ -132,6 +132,7 @@ const Scan = () => {
           <Text mark className="pl-3 pr-3">
             {scan?.scan_order + 1} / {sessionSize}
           </Text>
+          <Tag color="purple">{scan?.status}</Tag>
         </Title>
 
         {/* <Form.Item className="d-inline-block mb-2 mr-2"> */}
@@ -345,6 +346,24 @@ const Scan = () => {
                   </Button>
                 </Popconfirm>
               </Form.Item>
+            </div>
+            <div>
+              <Button
+                type="primary"
+                size="large"
+                htmlType="submit"
+                className="mr-2 mb-2"
+              >
+                Prev
+              </Button>
+              <Button
+                type="primary"
+                size="large"
+                htmlType="submit"
+                className="mr-2 mb-2"
+              >
+                Next
+              </Button>
             </div>
           </Col>
         </Row>

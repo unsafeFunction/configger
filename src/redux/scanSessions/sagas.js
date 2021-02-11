@@ -2,7 +2,11 @@ import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import actions from './actions';
 import { deleteTube, fetchScanById, updateTube } from 'services/scans';
-import { fetchSessions, updateSession } from 'services/scanSessions';
+import {
+  fetchSessions,
+  fetchSessionById,
+  updateSession,
+} from 'services/scanSessions';
 
 export function* callFetchScanSessions({ payload }) {
   try {
@@ -25,6 +29,26 @@ export function* callFetchScanSessions({ payload }) {
         error,
       },
     });
+  }
+}
+
+export function* callFetchScanSessionById(payload) {
+  try {
+    const response = yield call(fetchSessionById, payload.sessionId);
+    console.log('call fetch scan session by id response', response);
+
+    yield put({
+      type: actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS,
+      // payload: {
+      //   ...response?.data,
+      // },
+    });
+  } catch (error) {
+    yield put({
+      type: actions.FETCH_SCAN_SESSION_BY_ID_FAILURE,
+    });
+
+    notification.error(error);
   }
 }
 
@@ -143,7 +167,7 @@ export function* callDeleteTube({ payload }) {
     yield put({
       type: actions.DELETE_TUBE_SUCCESS,
       payload: {
-         data: {...response.data}
+        data: { ...response.data },
       },
     });
 
@@ -169,6 +193,10 @@ export function* callDeleteTube({ payload }) {
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_SCAN_SESSIONS_REQUEST, callFetchScanSessions),
+    takeEvery(
+      actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
+      callFetchScanSessionById,
+    ),
     takeEvery(actions.UPDATE_SESSION_REQUEST, callUpdateSession),
     takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById),
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
