@@ -189,53 +189,11 @@ const Scan = () => {
           </Col>
           <Col xs={24} sm={20} md={18} lg={8} xl={6}>
             <div className={styles.companyDetails}>
-              <LabeledInput
-                title={'Company:'}
-                node={
-                  <Form.Item
-                    name="company"
-                    className="w-100"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please select a company',
-                      },
-                    ]}
-                  >
-                    <Select
-                      placeholder="Company"
-                      loading={!companies?.isLoading}
-                      showSearch
-                      options={companiesForSelect}
-                      dropdownStyle={{
-                        maxHeight: 300,
-                        overflowY: 'hidden',
-                        overflowX: 'scroll',
-                      }}
-                      listHeight={0}
-                      dropdownRender={menu => (
-                        <InfiniteScroll
-                          next={loadMore}
-                          hasMore={companies?.items?.length < companies?.total}
-                          dataLength={companies?.items?.length}
-                          height={300}
-                        >
-                          {menu}
-                        </InfiniteScroll>
-                      )}
-                      optionFilterProp="label"
-                      onSearch={onChangeSearch}
-                      searchValue={searchName}
-                      allowClear
-                      onChange={(_, option) => {
-                        option
-                          ? setCompany(option.fullvalue)
-                          : setCompany(null);
-                      }}
-                    />
-                  </Form.Item>
-                }
-              />
+              <Statistic
+                className={styles.companyDetailsStat}
+                title={'Company name:'}
+                value={selectedCompany?.name_short || '–'}
+                />
               <Statistic
                 className={styles.companyDetailsStat}
                 title={'Short company name:'}
@@ -264,56 +222,6 @@ const Scan = () => {
 
         <Row gutter={[40, 48]} justify="center">
           <Col xs={24} sm={20} md={18} lg={16} xl={14}>
-            <Form.Item
-              name="companyConfirmation"
-              dependencies={['company']}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please select a company',
-                },
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    if (!value || getFieldValue('company') === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      'Please select the same company in both places',
-                    );
-                  },
-                }),
-              ]}
-            >
-              <Select
-                placeholder="Company"
-                loading={!companies?.isLoading}
-                showSearch
-                options={companiesForSelect}
-                dropdownStyle={{
-                  maxHeight: 300,
-                  overflowY: 'hidden',
-                  overflowX: 'scroll',
-                }}
-                listHeight={0}
-                dropdownRender={menu => (
-                  <InfiniteScroll
-                    next={loadMore}
-                    hasMore={companies?.items?.length < companies?.total}
-                    dataLength={companies?.items?.length}
-                    height={300}
-                  >
-                    {menu}
-                  </InfiniteScroll>
-                )}
-                optionFilterProp="label"
-                onSearch={onChangeSearch}
-                searchValue={searchName}
-                allowClear
-              />
-            </Form.Item>
-            <div className={styles.barcodeWrapper}>
-              <Barcode />
-            </div>
           </Col>
           <Col xs={24} sm={20} md={18} lg={8} xl={6}>
             <div className={styles.submitBtns}>
