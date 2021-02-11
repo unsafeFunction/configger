@@ -22,7 +22,7 @@ const ScanSessions = () => {
   const sessionItems = scanSessions?.items?.map(session => {
     return {
       ...session,
-      key: session?.company_id,
+      key: session?.id,
     };
   });
 
@@ -193,7 +193,7 @@ const ScanSessions = () => {
             return expandedRow(
               sortBy(record.scans, 'scan_order').map(scan => {
                 return {
-                  key: scan.pool_id,
+                  key: scan.id,
                   pool_id: scan.pool_id,
                   scan_time: moment(scan.scan_timestamp).format('LLLL'),
                   rack_id: scan.rack_id,
