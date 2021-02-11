@@ -12,7 +12,10 @@ import {
   Statistic,
   Card,
   Tag,
+  Pagination,
+  Tooltip,
 } from 'antd';
+import {LeftOutlined, RightOutlined, ArrowUpOutlined} from '@ant-design/icons';
 import Rackboard from 'components/widgets/rackboard';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
@@ -67,10 +70,6 @@ const Scan = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Title level={4} className="font-weight-normal">
           Scan on {moment(scan?.scan_timestamp)?.format('LLLL')}
-          <Text mark className="pl-3 pr-3">
-            {scan?.scan_order + 1} / {sessionSize}
-          </Text>
-          <Tag color="purple">{scan?.status}</Tag>
         </Title>
 
         {/* <Form.Item className="d-inline-block mb-2 mr-2"> */}
@@ -82,44 +81,90 @@ const Scan = () => {
           // onConfirm={}
         >
           <Button disabled className="mb-2">
-            Mark Complete
+            End Scanning Session
           </Button>
         </Popconfirm>
         {/* </Form.Item> */}
       </div>
 
+
       <Form form={form} onFinish={onSubmit}>
-        <Row gutter={[40, 48]} justify="center">
-          <Col xs={24} sm={20} md={18} lg={16} xl={14}>
+        <Row gutter={[40, 48]}>
+          <Col xs={24} sm={20} md={18} lg={16} xl={14} style={{padding: '30px 20px 24px'}}>
             <div className="mb-4">
+              <div className={styles.navigationWrapper}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                >
+                  Save and Scan Another
+                </Button>
+                <div>
+                <Button
+                  className="mr-2"
+                  icon={<LeftOutlined/>}
+                />
+                <Button
+                  icon={<RightOutlined/>}
+                />
+                </div>
+              </div>
               <Rackboard rackboard={scan} scanId={scan?.id} />
             </div>
 
             <Row gutter={[24, 16]}>
-              <Col xs={24} sm={9}>
-                <Card>
+              <Col xs={24} sm={12} md={12} lg={12} xl={6}>
+                <Card className={styles.card}>
+                <Tooltip placement="bottom" title={scan?.rack_id}>
                   <Statistic
                     title="Rack ID"
+                    groupSeparator={''}
                     value={scan?.rack_id || '–'}
-                    className={styles.rackStat}
+                    formatter={(value) => <Tag color="blue">{value}</Tag>}
+                    className={classNames(styles.rackStat, styles.ellipsis)}
                   />
+                  </Tooltip>
+
                 </Card>
               </Col>
-              <Col xs={24} sm={9}>
-                <Card>
+              <Col xs={24} sm={12} md={12} lg={12} xl={5}>
+                <Card className={styles.card}>
                   <Statistic
                     title="Pool ID"
+                    groupSeparator={''}
                     value={scan?.pool_id || '–'}
-                    className={styles.rackStat}
+                    formatter={(value) => <Tag color="geekblue">{value}</Tag>}
+                    className={classNames(styles.rackStat, styles.ellipsis)}
                   />
                 </Card>
               </Col>
-              <Col xs={24} sm={6}>
-                <Card>
+              <Col xs={24} sm={8} md={8} lg={8} xl={5}>
+                <Card className={styles.card}>
+                <Statistic
+                    title="Status"
+                    value={scan?.status?.toLowerCase()}
+                    formatter={(value) => <Tag icon={<ArrowUpOutlined/>} color="purple">{value}</Tag>}
+                    className={classNames(styles.rackStat, styles.ellipsis)}
+                  />
+                </Card>
+              </Col>
+              <Col xs={24} sm={8} md={8} lg={8} xl={4}>
+                <Card className={styles.card}>
                   <Statistic
                     title="Tubes"
                     value={scan?.items?.length}
-                    className={styles.rackStat}
+                    formatter={(value) => <Tag color="cyan">{value}</Tag>}
+                    className={classNames(styles.rackStat, styles.ellipsis)}
+                  />
+                </Card>
+              </Col>
+              <Col xs={24} sm={8} md={8} lg={8} xl={4}>
+                <Card className={styles.card}>
+                  <Statistic
+                    title="Total Scans"
+                    value={scan?.items?.length}
+                    formatter={(value) => <Tag color="gold">{value}</Tag>}
+                    className={classNames(styles.rackStat, styles.ellipsis)}
                   />
                 </Card>
               </Col>
@@ -171,14 +216,6 @@ const Scan = () => {
                   cancelText="No"
                   // onConfirm={}
                 > */}
-                <Button
-                  type="primary"
-                  size="large"
-                  htmlType="submit"
-                  className="mr-2 mb-2"
-                >
-                  Next Scan
-                </Button>
                 {/* </Popconfirm> */}
               </Form.Item>
               <Form.Item>
@@ -193,24 +230,6 @@ const Scan = () => {
                   </Button>
                 </Popconfirm>
               </Form.Item>
-            </div>
-            <div>
-              <Button
-                type="primary"
-                size="large"
-                htmlType="submit"
-                className="mr-2 mb-2"
-              >
-                Prev
-              </Button>
-              <Button
-                type="primary"
-                size="large"
-                htmlType="submit"
-                className="mr-2 mb-2"
-              >
-                Next
-              </Button>
             </div>
           </Col>
         </Row>

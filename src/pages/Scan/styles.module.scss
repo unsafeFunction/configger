@@ -14,21 +14,33 @@
 
 .rackStat {
   div:last-child {
-    font-size: 18px;
+    font-size: 17px;
+
     span:last-child {
-      font-size: 18px;
+      font-size: 17px;
       line-height: 20px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
+      text-transform: capitalize;
     }
   }
 }
 
-.barcodeWrapper {
-  width: 100%;
-  text-align: center;
+.card {
+  > div:first-child {
+    padding: 12px 10px;
+  }
+}
+
+.ellipsis {
+  div:last-child {
+    span:last-child {
+      font-size: 17px;
+      line-height: 20px;
+      text-overflow: ellipsis;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
 }
 
 .tubesCountWrapper {
@@ -63,6 +75,12 @@
       font-size: 18px;
     }
   }
+}
+
+.navigationWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 13px;
 }
 
 .submitBtns {
