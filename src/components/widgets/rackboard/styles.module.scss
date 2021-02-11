@@ -33,6 +33,15 @@
   width: 250px;
 }
 
+
+.row:hover > td:first-child {
+  background: #eceff1 !important;
+}
+.row:hover > td:not(:first-child) {
+  background: unset !important;
+}
+
+
 .popoverBtn {
   display: flex;
   max-width: 250px;

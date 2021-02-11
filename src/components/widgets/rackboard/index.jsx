@@ -146,6 +146,7 @@ const Rackboard = ({ rackboard, scanId }) => {
         pagination={false}
         scroll={{ x: 'max-content' }}
         bordered
+        rowClassName={styles.row}
         rowKey={record => record.letter}
         size="small"
       />
