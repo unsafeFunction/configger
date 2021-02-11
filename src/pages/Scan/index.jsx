@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
-import companyActions from 'redux/companies/actions';
 import {
   Row,
   Col,
@@ -15,15 +14,9 @@ import {
   Tag,
 } from 'antd';
 import Rackboard from 'components/widgets/rackboard';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { constants } from 'utils/constants';
-import debounce from 'lodash.debounce';
-import { Barcode } from 'assets';
 import { useHistory } from 'react-router-dom';
-import LabeledInput from './Labeled';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
-// import qs from 'qs';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -34,39 +27,18 @@ const Scan = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [form] = Form.useForm();
-  const [searchName, setSearchName] = useState('');
-  const [selectedCompany, setCompany] = useState(null);
 
   const scan = useSelector(state => state.scanSessions?.singleScan);
-  const companies = useSelector(state => state.companies.all);
-  const companiesForSelect = companies?.items.map(company => {
-    return {
-      ...company,
-      key: company.company_id,
-      label: company.name,
-      value: company.company_id,
-      fullvalue: company,
-    };
-  });
+  const session = useSelector(state => state.scanSessions?.singleSession);
 
   const { sessionId, sessionSize, companyId, scanId } = history.location.state;
-
-  // console.log('sessionId', sessionId);
-  // console.log('sessionSize', sessionSize);
-  // console.log('companyId', companyId);
-  // console.log('scanId', scanId);
+  const companyInfo = session?.company_short;
 
   const useFetching = () => {
     useEffect(() => {
       dispatch({
         type: actions.FETCH_SCAN_BY_ID_REQUEST,
         payload: { scanId },
-      });
-      dispatch({
-        type: companyActions.FETCH_COMPANIES_REQUEST,
-        payload: {
-          limit: constants?.companies?.itemsLoadingCount,
-        },
       });
       dispatch({
         type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
@@ -76,40 +48,6 @@ const Scan = () => {
   };
 
   useFetching();
-
-  const loadMore = useCallback(() => {
-    dispatch({
-      type: companyActions.FETCH_COMPANIES_REQUEST,
-      payload: {
-        limit: constants?.companies?.itemsLoadingCount,
-        offset: companies?.offset,
-        search: searchName,
-      },
-    });
-  }, [dispatch, companies.items, searchName]);
-
-  const sendQuery = useCallback(
-    query => {
-      dispatch({
-        type: companyActions.FETCH_COMPANIES_REQUEST,
-        payload: {
-          limit: constants?.companies?.itemsLoadingCount,
-          search: query,
-        },
-      });
-    },
-    [dispatch, searchName],
-  );
-
-  const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
-    [],
-  );
-
-  const onChangeSearch = useCallback(value => {
-    setSearchName(value);
-    delayedQuery(value);
-  }, []);
 
   const onSubmit = useCallback(
     values => {
@@ -192,17 +130,18 @@ const Scan = () => {
               <Statistic
                 className={styles.companyDetailsStat}
                 title={'Company name:'}
-                value={selectedCompany?.name_short || '–'}
+                value={companyInfo?.name || '–'}
                 />
               <Statistic
                 className={styles.companyDetailsStat}
                 title={'Short company name:'}
-                value={selectedCompany?.name_short || '–'}
+                value={companyInfo?.name_short || '–'}
               />
               <Statistic
                 className={styles.companyDetailsStat}
                 title={'Company ID:'}
-                value={selectedCompany?.company_id || '–'}
+                groupSeparator={''}
+                value={companyInfo?.company_id || '–'}
               />
               <Statistic
                 className={styles.companyDetailsStat}
