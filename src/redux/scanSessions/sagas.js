@@ -7,6 +7,7 @@ import {
   fetchSessionById,
   updateSession,
 } from 'services/scanSessions';
+import sortBy from 'lodash.sortby';
 
 export function* callFetchScanSessions({ payload }) {
   try {
@@ -36,10 +37,39 @@ export function* callFetchScanSessionById({ payload }) {
   try {
     const response = yield call(fetchSessionById, payload.sessionId);
 
+    const formatResponse = response => {
+      return Object.assign(
+        {},
+        ...response?.map?.(obj => ({
+          letter: obj?.position?.[0],
+          [`col${obj?.position?.[1]}`]: {
+            ...obj,
+            status: obj?.status.toLowerCase(),
+          },
+        })),
+      );
+    };
+
     yield put({
       type: actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS,
       payload: {
-        data: response.data,
+        ...response?.data,
+        scans: [
+          ...sortBy(response?.data?.scans, 'scan_order').map?.(scan => {
+            const tubesInfo = scan?.scan_tubes;
+            return {
+              ...scan,
+              items: [
+                formatResponse(tubesInfo?.slice?.(0, 8)),
+                formatResponse(tubesInfo?.slice?.(8, 16)),
+                formatResponse(tubesInfo?.slice?.(16, 24)),
+                formatResponse(tubesInfo?.slice?.(24, 32)),
+                formatResponse(tubesInfo?.slice?.(32, 40)),
+                formatResponse(tubesInfo?.slice?.(40, 48)),
+              ],
+            };
+          }),
+        ],
       },
     });
   } catch (error) {

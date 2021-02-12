@@ -82,8 +82,8 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     case actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS: {
       return {
         ...state,
-        ...action.payload.data,
         isLoading: false,
+        ...action.payload,
       };
     }
     case actions.FETCH_SCAN_SESSION_BY_ID_FAILURE: {
