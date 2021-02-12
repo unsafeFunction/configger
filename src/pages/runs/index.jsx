@@ -46,19 +46,15 @@ const Runs = () => {
 
   const columns = [
     {
-      // title: 'Companies',
-      // dataIndex: 'companies',
-      render: (text, record, index) => (
-        // <Tooltip
-        //   title={record?.import_filename}
-        //   placement="right"
-        // >
-        <Link to={`/runs/${record.id}`} className="text-blue">
-          {/* {text} */}
-          {index}
-        </Link>
+      title: 'Companies',
+      dataIndex: 'companies',
+      render: (text, record) => (
+        <Tooltip title={record?.import_filename} placement="right">
+          <Link to={`/runs/${record.id}`} className="text-blue">
+            {text}
+          </Link>
+        </Tooltip>
       ),
-      // </Tooltip>
     },
     {
       title: 'Pools Published',
@@ -105,14 +101,14 @@ const Runs = () => {
   const data = runs?.items?.map?.(run => ({
     ...run,
     key: run.id,
-    // companies: run.companies
-    //   .reduce((accumulator, currentValue) => {
-    //     if (currentValue?.name) {
-    //       accumulator.push(currentValue.name.trim());
-    //     }
-    //     return accumulator;
-    //   }, [])
-    //   .join(', '),
+    companies: run.companies
+      .reduce((accumulator, currentValue) => {
+        if (currentValue?.name) {
+          accumulator.push(currentValue.name.trim());
+        }
+        return accumulator;
+      }, [])
+      .join(', '),
     date: moment(run.results_timestamp).format('YYYY-MM-DD HH:mm'),
   }));
 
