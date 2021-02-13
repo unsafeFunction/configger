@@ -4,6 +4,7 @@ import actions from 'redux/scanSessions/actions';
 import { Table, Button, Popover, Input, Popconfirm, Tag } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const Rackboard = ({ rackboard, scanId }) => {
@@ -11,25 +12,42 @@ const Rackboard = ({ rackboard, scanId }) => {
   const [currentTubeID, setCurrentTubeID] = useState('');
   const [popoverVisible, setPopoverVisible] = useState(null);
 
-  const handleSave = useCallback((record) => {
+  const initialRackboard = [...Array(6).keys()].map(i => ({
+    letter: String.fromCharCode(constants?.A + i),
+    col1: { tube_id: null, status: 'empty' },
+    col2: { tube_id: null, status: 'empty' },
+    col3: { tube_id: null, status: 'empty' },
+    col4: { tube_id: null, status: 'empty' },
+    col5: { tube_id: null, status: 'empty' },
+    col6: { tube_id: null, status: 'empty' },
+    col7: { tube_id: null, status: 'empty' },
+    col8: { tube_id: null, status: 'empty' },
+  }));
+
+  const handleSave = useCallback(
+    record => {
       dispatch({
         type: actions.UPDATE_TUBE_REQUEST,
-        payload: {record, tube_id: currentTubeID},
+        payload: { record, tube_id: currentTubeID },
       });
     },
     [dispatch, currentTubeID],
   );
 
-  const handleDelete = useCallback((record) => {
-    dispatch({
-      type: actions.DELETE_TUBE_REQUEST,
-      payload: {record, scanId}
-    });
-    setPopoverVisible(null);
-  }, [scanId]);
+  const handleDelete = useCallback(
+    record => {
+      dispatch({
+        type: actions.DELETE_TUBE_REQUEST,
+        payload: { record, scanId },
+      });
+      setPopoverVisible(null);
+    },
+    [dispatch, scanId],
+  );
 
-  const handleChangeTubeID = useCallback((e) => {
-    setCurrentTubeID(e.target.value);
+  const handleChangeTubeID = useCallback(e => {
+    const { target } = e;
+    setCurrentTubeID(target.value);
   }, []);
 
   const handleClosePopover = useCallback(() => {
@@ -69,7 +87,11 @@ const Rackboard = ({ rackboard, scanId }) => {
                   cancelText="No"
                   onConfirm={() => handleSave(record?.[`col${i + 1}`])}
                 >
-                  <Button disabled={!currentTubeID} className={styles.popoverBtn} type="primary">
+                  <Button
+                    disabled={!currentTubeID}
+                    className={styles.popoverBtn}
+                    type="primary"
+                  >
                     Save
                   </Button>
                 </Popconfirm>
@@ -80,7 +102,7 @@ const Rackboard = ({ rackboard, scanId }) => {
                   cancelText="No"
                   onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
                 >
-                  <Button className={styles.popoverBtn}  danger>
+                  <Button className={styles.popoverBtn} danger>
                     Delete
                   </Button>
                 </Popconfirm>
@@ -92,15 +114,22 @@ const Rackboard = ({ rackboard, scanId }) => {
                   cancelText="No"
                   // onConfirm={}
                 >
-                  <Button className={styles.popoverBtn} disabled >Invalidate</Button>
+                  <Button className={styles.popoverBtn} disabled>
+                    Invalidate
+                  </Button>
                 </Popconfirm>
 
-                <Button onClick={handleClosePopover} className={styles.popoverBtn}>Cancel</Button>
+                <Button
+                  onClick={handleClosePopover}
+                  className={styles.popoverBtn}
+                >
+                  Cancel
+                </Button>
               </div>
             }
             trigger="click"
             onVisibleChange={() => {
-              setPopoverVisible(record?.[`col${i + 1}`]?.id)
+              setPopoverVisible(record?.[`col${i + 1}`]?.id);
               setCurrentTubeID(record?.[`col${i + 1}`]?.tube_id);
             }}
           >
@@ -141,7 +170,7 @@ const Rackboard = ({ rackboard, scanId }) => {
     <>
       <Table
         columns={columns}
-        dataSource={rackboard?.items}
+        dataSource={rackboard?.items ?? initialRackboard}
         loading={rackboard?.isLoading}
         pagination={false}
         scroll={{ x: 'max-content' }}

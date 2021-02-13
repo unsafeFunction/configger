@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
-const SingleSessionTable = ({ session }) => {
+const SingleSessionTable = ({ session, handleNavigateToScan }) => {
   const columns = [
     { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
     { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id' },
@@ -20,15 +20,15 @@ const SingleSessionTable = ({ session }) => {
 
   const history = useHistory();
 
-  const navigateToScan = useCallback(
-    scan => {
-      history.push({
-        pathname: `/scan-sessions/${scan.scanId}`,
-        state: scan,
-      });
-    },
-    [history],
-  );
+  // const navigateToScan = useCallback(
+  //   ({ sessionId, scanOrder }) => {
+  //     history.push({
+  //       pathname: `/scan-sessions/${sessionId}`,
+  //       search: `?scanOrder=${scanOrder}`,
+  //     });
+  //   },
+  //   [history],
+  // );
 
   const dataForTable = session?.scans?.map(scan => {
     return {
@@ -39,12 +39,15 @@ const SingleSessionTable = ({ session }) => {
       scanner: scan.scanner ?? '-',
       action: (
         <Button
+          // onClick={() =>
+          //   navigateToScan({
+          //     sessionId: session.id,
+          //     scanOrder: scan.scan_order,
+          //   })
+          // }
           onClick={() =>
-            navigateToScan({
-              sessionId: session.id,
-              sessionSize: session.scans?.length,
-              companyId: session.company_id,
-              scanId: scan.id,
+            handleNavigateToScan({
+              scanOrder: scan.scan_order,
             })
           }
           type="primary"
@@ -70,6 +73,7 @@ const SingleSessionTable = ({ session }) => {
 
 SingleSessionTable.propTypes = {
   session: PropTypes.shape({}).isRequired,
+  handleNavigateToScan: PropTypes.func.isRequired,
 };
 
 export default SingleSessionTable;

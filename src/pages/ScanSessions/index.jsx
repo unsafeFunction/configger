@@ -29,10 +29,10 @@ const ScanSessions = () => {
   const history = useHistory();
 
   const navigateToScan = useCallback(
-    props => {
+    ({ sessionId, scanOrder }) => {
       history.push({
-        pathname: `/scan-sessions/${props.scanId}`,
-        state: props,
+        pathname: `/scan-sessions/${sessionId}`,
+        search: `?scanOrder=${scanOrder}`,
       });
     },
     [history],
@@ -203,9 +203,7 @@ const ScanSessions = () => {
                       onClick={() =>
                         navigateToScan({
                           sessionId: record.id,
-                          sessionSize: record.scans?.length,
-                          companyId: record.company_id,
-                          scanId: scan.id,
+                          scanOrder: scan.scan_order,
                         })
                       }
                       type="primary"
