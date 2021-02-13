@@ -42,11 +42,12 @@ const Rackboard = ({ rackboard, scanId }) => {
       });
       setPopoverVisible(null);
     },
-    [scanId],
+    [dispatch, scanId],
   );
 
   const handleChangeTubeID = useCallback(e => {
-    setCurrentTubeID(e.target.value);
+    const { target } = e;
+    setCurrentTubeID(target.value);
   }, []);
 
   const handleClosePopover = useCallback(() => {
@@ -169,7 +170,7 @@ const Rackboard = ({ rackboard, scanId }) => {
     <>
       <Table
         columns={columns}
-        dataSource={rackboard?.items || initialRackboard}
+        dataSource={rackboard?.items ?? initialRackboard}
         loading={rackboard?.isLoading}
         pagination={false}
         scroll={{ x: 'max-content' }}

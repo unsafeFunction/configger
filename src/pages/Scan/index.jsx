@@ -38,7 +38,6 @@ const Scan = () => {
 
   const [visibleActions, setVisibleActions] = useState(false);
   const [currentScanOrder, setCurrentScanOrder] = useState(0);
-  console.log('currentScanOrder', currentScanOrder);
 
   const sessionId = history.location.pathname.split('/')[2];
 
