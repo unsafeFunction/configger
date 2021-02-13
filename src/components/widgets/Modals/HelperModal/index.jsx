@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from 'antd';
 import DefaultModal from 'components/widgets/DefaultModal';
@@ -14,12 +15,23 @@ const HelperModal = React.memo(props => {
     dispatch({ type: actions.HIDE_MODAL });
   }, [dispatch]);
 
+  const onOk = useCallback(() => {
+    props.onOk();
+
+    dispatch({ type: actions.HIDE_MODAL });
+  }, [dispatch]);
+
   const { message } = props;
 
   switch (modal.modalType) {
     case 'COMPLIANCE_MODAL': {
       return (
-        <DefaultModal {...props} onCancel={onCancel} isOpen={modal.isOpen}>
+        <DefaultModal
+          {...props}
+          onOk={onOk}
+          onCancel={onCancel}
+          isOpen={modal.isOpen}
+        >
           {message()}
         </DefaultModal>
       );
@@ -37,5 +49,14 @@ const HelperModal = React.memo(props => {
       return null;
   }
 });
+
+HelperModal.propTypes = {
+  onOk: PropTypes.func,
+  message: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.element,
+  ]).isRequired,
+};
 
 export default HelperModal;

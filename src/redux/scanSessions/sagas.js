@@ -89,7 +89,7 @@ export function* callUpdateSession({ payload }) {
     yield put({
       type: actions.UPDATE_SESSION_SUCCESS,
       payload: {
-        // data: {},
+        data: response.data,
       },
     });
 
@@ -97,10 +97,14 @@ export function* callUpdateSession({ payload }) {
       message: 'Session updated',
     });
   } catch (error) {
-    notification.error({
-      message: 'Something went wrong',
+    yield put({
+      type: actions.UPDATE_SESSION_FAILURE,
+      payload: {
+        error,
+      },
     });
-    // notification.error(error);
+
+    throw Error(error);
   }
 }
 

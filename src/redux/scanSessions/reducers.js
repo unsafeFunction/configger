@@ -90,7 +90,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
-        // error: action.payload.error,
       };
     }
 
