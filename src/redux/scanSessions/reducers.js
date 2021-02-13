@@ -97,133 +97,106 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     case actions.UPDATE_SESSION_REQUEST: {
       return {
         ...state,
+        isLoading: true,
       };
     }
     case actions.UPDATE_SESSION_SUCCESS: {
       return {
         ...state,
+        isLoading: false,
       };
     }
     case actions.UPDATE_SESSION_FAILURE: {
       return {
         ...state,
+        isLoading: false,
       };
     }
 
+    case actions.UPDATE_TUBE_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.UPDATE_TUBE_SUCCESS: {
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        items: state.items.map(row => {
+          if (row.letter === action.payload.data.letter) {
+            return {
+              ...row,
+              ...action.payload.data,
+              // isUpdating: false,
+            };
+          }
+          return row;
+        }),
+      };
+    }
+    case actions.UPDATE_TUBE_FAILURE: {
+      return {
+        ...state,
+        // items: state.items.map(row => {
+        //   if (row.letter === action?.payload?.letter) {
+        //     return {
+        //       ...row,
+        //       // resultIsUpdating: false,
+        //     };
+        //   }
+        //   return row;
+        // }),
+      };
+    }
+    case actions.DELETE_TUBE_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+    case actions.DELETE_TUBE_SUCCESS: {
+      const { data } = action.payload;
+      const testArray = state.scans;
+
+      state.scans.forEach((row, index) => {
+        if (row.id === data?.scan_id) {
+          row.items.forEach((value, key) => {
+            forEach(value, (rowValue, rowKey) => {
+              if (rowValue.id === data.tube_id) {
+                testArray[index].items[key][rowKey].status = 'empty';
+              }
+            })
+          });
+        }
+      });
+      console.log(testArray)
+
+      return {
+        ...state,
+        // items: testArray,
+      };
+    }
+    case actions.DELETE_TUBE_FAILURE: {
+      return {
+        ...state,
+        // items: state.items.map(row => {
+        //   if (row.letter === action?.payload?.letter) {
+        //     return {
+        //       ...row,
+        //       // resultIsUpdating: false,
+        //     };
+        //   }
+        //   return row;
+        // }),
+      };
+    }
     default:
       return state;
   }
 };
 
-const initialSingleScan = {
-  items: initialRackboard,
-  isLoading: false,
-  error: null,
-};
-
 export default combineReducers({
   sessions: sessionsReducer,
   singleSession: singleSessionReducer,
-  singleScan: single({
-    types: [],
-  })((state = initialSingleScan, action = {}) => {
-    switch (action.type) {
-      case actions.FETCH_SCAN_BY_ID_REQUEST: {
-        return {
-          ...state,
-          isLoading: true,
-          error: null,
-        };
-      }
-      case actions.FETCH_SCAN_BY_ID_SUCCESS: {
-        return {
-          ...state,
-          isLoading: false,
-          ...action.payload,
-        };
-      }
-      case actions.FETCH_SCAN_BY_ID_FAILURE: {
-        return {
-          ...state,
-          isLoading: false,
-        };
-      }
-
-      case actions.UPDATE_TUBE_REQUEST: {
-        return {
-          ...state,
-        };
-      }
-      case actions.UPDATE_TUBE_SUCCESS: {
-        return {
-          ...state,
-          items: state.items.map(row => {
-            if (row.letter === action.payload.data.letter) {
-              return {
-                ...row,
-                ...action.payload.data,
-                // isUpdating: false,
-              };
-            }
-            return row;
-          }),
-        };
-      }
-      case actions.UPDATE_TUBE_FAILURE: {
-        return {
-          ...state,
-          items: state.items.map(row => {
-            if (row.letter === action?.payload?.letter) {
-              return {
-                ...row,
-                // resultIsUpdating: false,
-              };
-            }
-            return row;
-          }),
-        };
-      }
-
-      case actions.DELETE_TUBE_REQUEST: {
-        return {
-          ...state,
-        };
-      }
-      case actions.DELETE_TUBE_SUCCESS: {
-        const { data } = action.payload;
-        const testArray = state.items;
-
-        state.items.forEach((row, index) => {
-          forEach(row, (value, key) => {
-            if (value.id === data.tube_id) {
-              testArray[index][key].status = 'empty';
-            }
-          });
-        });
-
-        return {
-          ...state,
-          items: testArray,
-        };
-      }
-      case actions.DELETE_TUBE_FAILURE: {
-        return {
-          ...state,
-          // items: state.items.map(row => {
-          //   if (row.letter === action?.payload?.letter) {
-          //     return {
-          //       ...row,
-          //       // resultIsUpdating: false,
-          //     };
-          //   }
-          //   return row;
-          // }),
-        };
-      }
-
-      default: {
-        return state;
-      }
-    }
-  }),
 });

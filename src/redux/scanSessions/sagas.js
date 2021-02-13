@@ -150,6 +150,7 @@ export function* callFetchScanById({ payload }) {
 
 export function* callUpdateTube({ payload }) {
   // const { id, tube_id } = payload;
+  console.log('here');
 
   try {
     const response = yield call(updateTube, payload);
