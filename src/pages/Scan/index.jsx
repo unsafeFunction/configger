@@ -1,6 +1,8 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
+import modalActions from 'redux/modal/actions';
+import { constants } from 'utils/constants';
 import {
   Row,
   Col,
@@ -43,6 +45,12 @@ const Scan = () => {
 
   const session = useSelector(state => state.scanSessions?.singleSession);
   const scan = session?.scans?.[currentScanOrder];
+  const isEndSessionDisabled = session?.scans?.find(
+    scan => scan.status === constants.scanSessions.voided,
+  );
+  const countOfStartedScans = session?.scans?.find(
+    scan => scan.status === constants.scanSessions.started,
+  )?.length;
 
   const companyInfo = session?.company_short;
 
@@ -81,6 +89,23 @@ const Scan = () => {
 
   useFetching();
 
+  const updateSession = useCallback(
+    data => {
+      dispatch({
+        type: actions.UPDATE_SESSION_REQUEST,
+        payload: { ...data },
+      });
+    },
+    [dispatch],
+  );
+
+  const markCompleteSession = useCallback(() => {
+    updateSession({
+      status: 'COMPLETED',
+      id: sessionId,
+    });
+  }, [dispatch]);
+
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
   }, [visibleActions]);
@@ -107,26 +132,55 @@ const Scan = () => {
     [currentScanOrder],
   );
 
+  const onSaveScanModalToggle = useCallback(() => {
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'COMPLIANCE_MODAL',
+      modalProps: {
+        title: 'Save scan',
+        onOk: () => {},
+        bodyStyle: {
+          maxHeight: '70vh',
+          overflow: 'scroll',
+        },
+        okText: 'Save',
+        message: () => <span>Are you cure to save scan?</span>,
+      },
+    });
+  }, [dispatch]);
+
+  const onSaveSessionModalToggle = useCallback(() => {
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'COMPLIANCE_MODAL',
+      modalProps: {
+        title: 'Save session',
+        onOk: markCompleteSession,
+        bodyStyle: {
+          maxHeight: '70vh',
+          overflow: 'scroll',
+        },
+        okText: 'Save',
+        message: () => <span>Are you cure to save session?</span>,
+      },
+    });
+  }, [dispatch]);
+
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Typography.Title level={4} className="font-weight-normal">
-          Scan on {moment(scan?.scan_timestamp)?.format('LLLL')}
+          Scan on
+          {moment(scan?.scan_timestamp)?.format('LLLL')}
         </Typography.Title>
-
-        <Popconfirm
-          title="Are you sure to End Scanning Session?"
-          okText="Yes"
-          cancelText="No"
-          disabled
-          // onConfirm={}
+        <Button
+          disabled={isEndSessionDisabled || countOfStartedScans > 1}
+          onClick={onSaveSessionModalToggle}
+          className="mb-2"
         >
-          <Button disabled className="mb-2">
-            End Scanning Session
-          </Button>
-        </Popconfirm>
+          End Scanning Session
+        </Button>
       </div>
-
       <Row gutter={[40, 48]}>
         <Col
           xs={24}
@@ -138,7 +192,11 @@ const Scan = () => {
         >
           <div className="mb-4">
             <div className={styles.navigationWrapper}>
-              <Button type="primary" htmlType="submit">
+              <Button
+                onClick={onSaveScanModalToggle}
+                type="primary"
+                htmlType="submit"
+              >
                 Save and Scan Another
               </Button>
               <div>
@@ -171,7 +229,8 @@ const Scan = () => {
                   visible={visibleActions}
                 >
                   <Button type="primary">
-                    Actions <DownOutlined />
+                    Actions
+                    <DownOutlined />
                   </Button>
                 </Dropdown>
               </div>

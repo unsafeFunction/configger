@@ -13,6 +13,11 @@ export const constants = {
   },
   scanSessions: {
     itemsLoadingCount: 25,
+    scanStatuses: {
+      voided: 'VOIDED',
+      started: 'STARTED',
+      completed: 'COMPLETED',
+    },
   },
   poolsByRun: {
     itemsLoadingCount: 100,

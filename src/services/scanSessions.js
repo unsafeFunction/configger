@@ -15,16 +15,10 @@ export const fetchSessionById = async sessionId => {
   return session;
 };
 
-export const updateSession = async ({ sessionId, companyId }) => {
-  console.log(
-    'services update session sessionId/companyId',
-    sessionId,
-    companyId,
-  );
+export const updateSession = async data => {
+  const session = await axiosClient.patch(`/scans/sessions/${data.id}/`, {
+    ...data,
+  });
 
-  // const session = await axiosClient.patch(`/scans​/sessions​/${sessionId}/`, {
-  //   company_id: companyId,
-  // });
-
-  // return session;
+  return session;
 };
