@@ -119,7 +119,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
     case actions.UPDATE_TUBE_SUCCESS: {
-      console.log(action.payload);
       return {
         ...state,
         isLoading: false,
@@ -169,7 +168,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
           });
         }
       });
-      console.log(testArray)
 
       return {
         ...state,
