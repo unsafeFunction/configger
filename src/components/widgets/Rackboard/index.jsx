@@ -130,8 +130,12 @@ const Rackboard = ({ rackboard, scanId, session }) => {
               </div>
             }
             trigger="click"
-            onVisibleChange={() => {
-              setPopoverVisible(record?.[`col${i + 1}`]?.id);
+            onVisibleChange={(value) => {
+              if (value) {
+                setPopoverVisible(record?.[`col${i + 1}`]?.id);
+              } else {
+                setPopoverVisible(null);
+              }
               setCurrentTubeID(record?.[`col${i + 1}`]?.tube_id);
             }}
           >
