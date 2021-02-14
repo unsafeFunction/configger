@@ -154,22 +154,21 @@ export function* callFetchScanById({ payload }) {
 
 export function* callUpdateTube({ payload }) {
   // const { id, tube_id } = payload;
-  console.log('here');
-
   try {
     const response = yield call(updateTube, payload);
-
-    console.log('call update tube response', response);
 
     yield put({
       type: actions.UPDATE_TUBE_SUCCESS,
       payload: {
         data: {
-          letter: response?.data?.position?.[0],
-          [`col${response?.data?.position?.[1]}`]: {
-            ...response?.data,
-            status: response?.data?.status?.toLowerCase(),
+          row: {
+            letter: response?.data?.position?.[0],
+            [`col${response?.data?.position?.[1]}`]: {
+              ...response?.data,
+              status: response?.data?.status?.toLowerCase(),
+            },
           },
+          scanId: payload.scanId,
         },
       },
     });

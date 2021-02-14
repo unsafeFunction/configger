@@ -28,10 +28,10 @@ const Rackboard = ({ rackboard, scanId }) => {
     record => {
       dispatch({
         type: actions.UPDATE_TUBE_REQUEST,
-        payload: { record, tube_id: currentTubeID },
+        payload: { record, tube_id: currentTubeID, scanId: rackboard?.id },
       });
     },
-    [dispatch, currentTubeID],
+    [dispatch, currentTubeID, rackboard],
   );
 
   const handleDelete = useCallback(

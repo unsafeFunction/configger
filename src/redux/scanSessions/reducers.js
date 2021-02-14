@@ -122,15 +122,19 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
-        items: state.items.map(row => {
-          if (row.letter === action.payload.data.letter) {
-            return {
-              ...row,
-              ...action.payload.data,
-              // isUpdating: false,
-            };
+        scans: state.scans.map(scan => {
+          if (scan.id === action.payload.data.scanId) {
+            scan.items.map(row => {
+              if (row.letter === action.payload.data.row.letter) {
+                return {
+                  ...row,
+                  ...action.payload.data.row,
+                };
+              }
+              return row;
+            })
           }
-          return row;
+          return scan;
         }),
       };
     }
@@ -154,6 +158,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
     case actions.DELETE_TUBE_SUCCESS: {
+      console.log(state);
       const { data } = action.payload;
       const testArray = state.scans;
 
