@@ -30,6 +30,7 @@ const Rackboard = ({ rackboard, scanId, session }) => {
         type: actions.UPDATE_TUBE_REQUEST,
         payload: { record, tube_id: currentTubeID, scanId: rackboard?.id },
       });
+      setPopoverVisible(null);
     },
     [dispatch, currentTubeID, rackboard],
   );
@@ -171,9 +172,7 @@ const Rackboard = ({ rackboard, scanId, session }) => {
       <Table
         columns={columns}
         dataSource={rackboard?.items ?? initialRackboard}
-        loading={
-          session?.isLoading && (session?.scans?.length === 0 || !session.scans)
-        }
+        loading={session?.isLoading}
         pagination={false}
         scroll={{ x: 'max-content' }}
         bordered
