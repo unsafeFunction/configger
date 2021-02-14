@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
-const Rackboard = ({ rackboard, scanId }) => {
+const Rackboard = ({ rackboard, scanId, session }) => {
   const dispatch = useDispatch();
   const [currentTubeID, setCurrentTubeID] = useState('');
   const [popoverVisible, setPopoverVisible] = useState(null);
@@ -74,6 +74,7 @@ const Rackboard = ({ rackboard, scanId }) => {
                 <Input
                   size="large"
                   placeholder="Tube barcode"
+                  value={currentTubeID}
                   defaultValue={record?.[`col${i + 1}`]?.tube_id}
                   className={classNames(styles.tubeInput, 'mb-4')}
                   onChange={handleChangeTubeID}
@@ -165,13 +166,14 @@ const Rackboard = ({ rackboard, scanId }) => {
     },
     ...restColumns,
   ];
-
   return (
     <>
       <Table
         columns={columns}
         dataSource={rackboard?.items ?? initialRackboard}
-        loading={rackboard?.isLoading}
+        loading={
+          session?.isLoading && (session?.scans?.length === 0 || !session.scans)
+        }
         pagination={false}
         scroll={{ x: 'max-content' }}
         bordered
