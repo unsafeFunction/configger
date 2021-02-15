@@ -69,6 +69,13 @@ const sessionsReducer = (state = initialState, action) => {
 const initialSingleSession = {
   isLoading: false,
   error: null,
+  status: null,
+  id: null,
+  scan_session_title: null,
+  company_short: {},
+  scanned_by: null,
+  scans: [],
+  started_on_day: null,
 };
 
 const singleSessionReducer = (state = initialSingleSession, action) => {
@@ -164,7 +171,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
               if (rowValue.id === data.tube_id) {
                 testArray[index].items[key][rowKey].status = 'empty';
               }
-            })
+            });
           });
         }
       });
@@ -186,6 +193,26 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         //   }
         //   return row;
         // }),
+      };
+    }
+
+    case actions.UPDATE_SCAN_BY_ID_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.UPDATE_SCAN_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        ...action.payload.data,
+      };
+    }
+    case actions.UPDATE_SCAN_BY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
       };
     }
     default:

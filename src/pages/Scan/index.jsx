@@ -54,7 +54,19 @@ const Scan = () => {
 
   const companyInfo = session?.company_short;
 
+  const updateScan = useCallback(
+    data => {
+      dispatch({
+        type: actions.UPDATE_SCAN_BY_ID_REQUEST,
+        payload: { ...data },
+      });
+    },
+    [dispatch],
+  );
+
   const handleVoidScan = useCallback(() => {
+    updateScan({ id: scan.id, status: 'VOIDED' });
+
     setVisibleActions(false);
   }, []);
 
@@ -161,7 +173,7 @@ const Scan = () => {
           overflow: 'scroll',
         },
         okText: 'Save',
-        message: () => <span>Are you cure to save session?</span>,
+        message: () => <span>Are you sure to save session?</span>,
       },
     });
   }, [dispatch]);

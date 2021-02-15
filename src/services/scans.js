@@ -23,8 +23,22 @@ export const updateTube = async ({ record, tube_id }) => {
   return tube;
 };
 
-export const deleteTube = async ({record, scanId}) => {
-  const tube = await axiosClient.delete(`/scans/tubes/${record.id}/?scan_id=${scanId}`);
+export const deleteTube = async ({ record, scanId }) => {
+  const tube = await axiosClient.delete(
+    `/scans/tubes/${record.id}/?scan_id=${scanId}`,
+  );
 
   return tube;
-}
+};
+
+export const updateScan = async data => {
+  try {
+    const scan = await axiosClient.patch(`/scans/${data.id}}`, {
+      ...data,
+    });
+
+    return scan;
+  } catch (error) {
+    throw new Error(error);
+  }
+};

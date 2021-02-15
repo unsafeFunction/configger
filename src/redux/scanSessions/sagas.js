@@ -1,7 +1,12 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
 import actions from './actions';
-import { deleteTube, fetchScanById, updateTube } from 'services/scans';
+import {
+  deleteTube,
+  fetchScanById,
+  updateTube,
+  updateScan,
+} from 'services/scans';
 import {
   fetchSessions,
   fetchSessionById,
@@ -99,6 +104,32 @@ export function* callUpdateSession({ payload }) {
   } catch (error) {
     yield put({
       type: actions.UPDATE_SESSION_FAILURE,
+      payload: {
+        error,
+      },
+    });
+
+    throw Error(error);
+  }
+}
+
+export function* callUpdateScan({ payload }) {
+  try {
+    const response = yield call(updateScan, payload);
+
+    yield put({
+      type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+
+    notification.success({
+      message: 'Scan was updated',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.UPDATE_SCAN_BY_ID_FAILURE,
       payload: {
         error,
       },
@@ -233,6 +264,7 @@ export default function* rootSaga() {
       callFetchScanSessionById,
     ),
     takeEvery(actions.UPDATE_SESSION_REQUEST, callUpdateSession),
+    takeEvery(actions.UPDATE_SCAN_BY_ID_REQUEST, callUpdateScan),
     takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById),
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
     takeEvery(actions.DELETE_TUBE_REQUEST, callDeleteTube),
