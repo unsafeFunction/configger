@@ -5,6 +5,7 @@ import {
   deleteTube,
   fetchScanById,
   updateTube,
+  deleteScan,
   updateScan,
 } from 'services/scans';
 import {
@@ -104,32 +105,6 @@ export function* callUpdateSession({ payload }) {
   } catch (error) {
     yield put({
       type: actions.UPDATE_SESSION_FAILURE,
-      payload: {
-        error,
-      },
-    });
-
-    throw Error(error);
-  }
-}
-
-export function* callUpdateScan({ payload }) {
-  try {
-    const response = yield call(updateScan, payload);
-
-    yield put({
-      type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
-      payload: {
-        data: response.data,
-      },
-    });
-
-    notification.success({
-      message: 'Scan was updated',
-    });
-  } catch (error) {
-    yield put({
-      type: actions.UPDATE_SCAN_BY_ID_FAILURE,
       payload: {
         error,
       },
@@ -251,7 +226,60 @@ export function* callDeleteTube({ payload }) {
     notification.error({
       message: 'Something went wrong',
     });
-    // notification.error(error);
+  }
+}
+
+export function* callVoidScan({ payload }) {
+  try {
+    const response = yield call(deleteScan, payload);
+
+    yield put({
+      type: actions.VOID_SCAN_BY_ID_SUCCESS,
+      payload: {
+        data: {
+          id: payload.id,
+        },
+      },
+    });
+
+    notification.success({
+      message: 'Scan was voided',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.VOID_SCAN_BY_ID_FAILURE,
+      payload: {
+        error,
+      },
+    });
+
+    throw Error(error);
+  }
+}
+
+export function* callUpdateScan({ payload }) {
+  try {
+    const response = yield call(updateScan, payload);
+
+    yield put({
+      type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+
+    notification.success({
+      message: 'Scan updated',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
+      payload: {
+        error,
+      },
+    });
+
+    throw Error(error);
   }
 }
 
@@ -263,6 +291,7 @@ export default function* rootSaga() {
       callFetchScanSessionById,
     ),
     takeEvery(actions.UPDATE_SESSION_REQUEST, callUpdateSession),
+    takeEvery(actions.VOID_SCAN_BY_ID_REQUEST, callVoidScan),
     takeEvery(actions.UPDATE_SCAN_BY_ID_REQUEST, callUpdateScan),
     takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById),
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),

@@ -141,8 +141,8 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
                   };
                 }
                 return row;
-              })
-            }
+              }),
+            };
           }
           return scan;
         }),
@@ -212,13 +212,42 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         isLoading: true,
       };
     }
+
     case actions.UPDATE_SCAN_BY_ID_SUCCESS: {
+      const { data } = action.payload;
+
       return {
         ...state,
         isLoading: false,
-        ...action.payload.data,
+        scans: state.scans.map(scan => {
+          if (scan.id === data.id) {
+            return {
+              ...data,
+            };
+          }
+          return scan;
+        }),
       };
     }
+
+    case actions.VOID_SCAN_BY_ID_SUCCESS: {
+      const { data } = action.payload;
+
+      return {
+        ...state,
+        isLoading: false,
+        scans: state.scans.map(scan => {
+          if (scan.id === data.id) {
+            return {
+              ...scan,
+              status: 'VOIDED',
+            };
+          }
+          return scan;
+        }),
+      };
+    }
+
     case actions.UPDATE_SCAN_BY_ID_FAILURE: {
       return {
         ...state,

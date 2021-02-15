@@ -46,26 +46,38 @@ const Scan = () => {
   const session = useSelector(state => state.scanSessions?.singleSession);
   const scan = session?.scans?.[currentScanOrder];
   const isEndSessionDisabled = session?.scans?.find(
-    scan => scan.status === constants.scanSessions.voided,
+    scan => scan.status === constants.scanSessions.scanStatuses.voided,
   );
   const countOfStartedScans = session?.scans?.find(
-    scan => scan.status === constants.scanSessions.started,
+    scan => scan.status === constants.scanSessions.scanStatuses.started,
   )?.length;
 
   const companyInfo = session?.company_short;
-
-  const updateScan = useCallback(
+  const deleteScan = useCallback(
     data => {
       dispatch({
-        type: actions.UPDATE_SCAN_BY_ID_REQUEST,
+        type: actions.VOID_SCAN_BY_ID_REQUEST,
         payload: { ...data },
       });
     },
     [dispatch],
   );
 
+  const updateScan = useCallback(
+    data => {
+      dispatch({
+        type: actions.UPDATE_SCAN_BY_ID_REQUEST,
+        payload: {
+          data,
+          id: scan?.id,
+        },
+      });
+    },
+    [dispatch, scan],
+  );
+
   const handleVoidScan = useCallback(() => {
-    updateScan({ id: scan.id });
+    deleteScan({ id: scan.id });
 
     setVisibleActions(false);
   }, [scan]);
@@ -150,7 +162,7 @@ const Scan = () => {
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Save scan',
-        onOk: () => {},
+        onOk: () => updateScan(),
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
@@ -159,7 +171,7 @@ const Scan = () => {
         message: () => <span>Are you cure to save scan?</span>,
       },
     });
-  }, [dispatch]);
+  }, [dispatch, scan]);
 
   const onSaveSessionModalToggle = useCallback(() => {
     dispatch({
@@ -182,11 +194,14 @@ const Scan = () => {
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Typography.Title level={4} className="font-weight-normal">
-          Scan on
-          {moment(scan?.scan_timestamp)?.format('LLLL')}
+          {`Scan on ${moment(scan?.scan_timestamp)?.format('LLLL') ?? ''}`}
         </Typography.Title>
         <Button
-          disabled={isEndSessionDisabled || countOfStartedScans > 1}
+          disabled={
+            isEndSessionDisabled ||
+            countOfStartedScans > 1 ||
+            session?.isLoading
+          }
           onClick={onSaveSessionModalToggle}
           className="mb-2"
         >
@@ -208,6 +223,7 @@ const Scan = () => {
                 onClick={onSaveScanModalToggle}
                 type="primary"
                 htmlType="submit"
+                disabled={session?.isLoading}
               >
                 Save and Scan Another
               </Button>
@@ -239,6 +255,7 @@ const Scan = () => {
                   overlayClassName={styles.actionsOverlay}
                   onClick={handleSwitchVisibleActions}
                   visible={visibleActions}
+                  disabled={session?.isLoading}
                 >
                   <Button type="primary">
                     Actions
@@ -248,7 +265,7 @@ const Scan = () => {
               </div>
             </div>
             {/* TODO: why is using separately scanId */}
-            <Rackboard rackboard={scan} scanId={scan?.id} session={session}/>
+            <Rackboard rackboard={scan} scanId={scan?.id} session={session} />
           </div>
           <Row gutter={[24, 16]}>
             <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={6}>
