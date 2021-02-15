@@ -7,7 +7,7 @@ const actions = {
   ...generateRequestActions(['fetch', 'update', 'void'], 'scan', 'scan_by_id'),
   ...generateRequestActions(['update', 'invalidate'], 'scan', 'tube'),
   ...generateRequestActions(['delete'], 'scan', 'tube'),
-  ...generateRequestActions(['update'], 'scan','selected_code')
+  ...generateRequestActions(['update'], 'scan', 'selected_code'),
 };
 
 export default actions;

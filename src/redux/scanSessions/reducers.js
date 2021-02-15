@@ -82,16 +82,16 @@ const initialSingleSession = {
 const singleSessionReducer = (state = initialSingleSession, action) => {
   switch (action.type) {
     case actions.UPDATE_SELECTED_CODE_REQUEST: {
-     return {
-       ...state,
-       selectedCode: action.payload,
-     }
+      return {
+        ...state,
+        selectedCode: action.payload,
+      };
     }
     case actions.UPDATE_SELECTED_CODE_SUCCESS: {
       return {
         ...state,
         selectedCode: {},
-      }
+      };
     }
     case actions.FETCH_SCAN_SESSION_BY_ID_REQUEST: {
       return {

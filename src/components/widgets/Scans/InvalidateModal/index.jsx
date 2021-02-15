@@ -24,7 +24,7 @@ const InvalidateModal = ({ form, tube }) => {
         payload: constants.invalidateCodes.find(code => code.id === Number(e)),
       });
     },
-    [constants, dispatch],
+    [dispatch],
   );
 
   return (
@@ -39,7 +39,6 @@ const InvalidateModal = ({ form, tube }) => {
         title="Invalidation code"
         node={
           <Item
-            name="code"
             className={style.formItem}
             rules={[
               {
