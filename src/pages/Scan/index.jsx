@@ -68,7 +68,7 @@ const Scan = () => {
     updateScan({ id: scan.id, status: 'VOIDED' });
 
     setVisibleActions(false);
-  }, []);
+  }, [scan]);
 
   const menu = (
     <Menu>

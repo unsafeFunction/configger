@@ -33,7 +33,7 @@ export const deleteTube = async ({ record, scanId }) => {
 
 export const updateScan = async data => {
   try {
-    const scan = await axiosClient.patch(`/scans/${data.id}}`, {
+    const scan = await axiosClient.patch(`/scans/${data.id}/`, {
       ...data,
     });
 
