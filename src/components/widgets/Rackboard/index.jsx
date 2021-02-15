@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { Table, Button, Popover, Input, Popconfirm, Tag, Form } from 'antd';
@@ -13,6 +13,8 @@ const Rackboard = ({ rackboard, scanId, session }) => {
   const dispatch = useDispatch();
   const [currentTubeID, setCurrentTubeID] = useState('');
   const [popoverVisible, setPopoverVisible] = useState(null);
+  const { selectedCode } = useSelector(state => state.scanSessions?.singleSession);
+
   const [form] = Form.useForm();
 
   const initialRackboard = [...Array(6).keys()].map(i => ({
@@ -31,7 +33,7 @@ const Rackboard = ({ rackboard, scanId, session }) => {
     record => {
       dispatch({
         type: actions.UPDATE_TUBE_REQUEST,
-        payload: { record, tube_id: currentTubeID, scanId: rackboard?.id },
+        payload: { id: record.id, data: { tube_id: currentTubeID, scanId: rackboard?.id} },
       });
       setPopoverVisible(null);
     },
@@ -58,16 +60,22 @@ const Rackboard = ({ rackboard, scanId, session }) => {
     setPopoverVisible(null);
   }, []);
 
-  const onInvalidate = useCallback(() => {
-    // dispatch({
-      // type: action
-    // })
-    console.log('here');
-  }, []);
+  const onInvalidate = useCallback((record) => {
+    console.log(selectedCode);
+    dispatch({
+      type: actions.INVALIDATE_TUBE_REQUEST,
+      payload: {
+        id: record.id,
+      }
+    });
+    dispatch({
+      type: actions.UPDATE_SELECTED_CODE_SUCCESS,
+    });
+  }, [selectedCode]);
 
   console.log(rackboard, session);
 
-  const handleInvalidateAction = useCallback(() => {
+  const handleInvalidateAction = useCallback((record) => {
     setPopoverVisible(null);
     dispatch({
       type: modalActions.SHOW_MODAL,
@@ -84,13 +92,16 @@ const Rackboard = ({ rackboard, scanId, session }) => {
           // loading: customers?.isInviting,
         },
         okText: 'Save',
-        onOk: onInvalidate,
+        onOk: () => onInvalidate(record),
         message: () => (
-          <InvalidateModal form={form} tube={popoverVisible}/>
+          <InvalidateModal
+            form={form}
+            tube={popoverVisible}
+          />
         ),
       },
     });
-  }, [dispatch, popoverVisible]);
+  }, [dispatch, popoverVisible, selectedCode]);
 
   const restColumns = [...Array(8).keys()].map(i => ({
     title: `${i + 1}`,
@@ -146,7 +157,7 @@ const Rackboard = ({ rackboard, scanId, session }) => {
                   </Button>
                 </Popconfirm>
 
-                <Button className={styles.popoverBtn} onClick={handleInvalidateAction}>
+                <Button className={styles.popoverBtn} onClick={() => handleInvalidateAction(record?.[`col${i + 1}`])}>
                   Invalidate
                 </Button>
 

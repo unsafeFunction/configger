@@ -1,21 +1,12 @@
-import mockClient from 'utils/mockClient';
 import axiosClient from 'utils/axiosClient';
 
-export const fetchScanById = async ({ scanId, sortBy }) => {
-  // const scan = await mockClient.get('/scans/byId');
-
-  const scan = await axiosClient.get(`/scans/${scanId}/`, {
-    // params: {
-    //   sort_by: sortBy,
-    // },
-  });
+export const fetchScanById = async ({ scanId }) => {
+  const scan = await axiosClient.get(`/scans/${scanId}/`);
 
   return scan;
 };
 
 export const updateTube = async ({ id, data }) => {
-  console.log('services update tube id/tube_id', id, data);
-
   const tube = await axiosClient.patch(`/scans/tubes/${id}/`, {
     ...data,
   });
@@ -31,10 +22,29 @@ export const deleteTube = async ({ record, scanId }) => {
   return tube;
 };
 
-export const updateScan = async data => {
-  const { id, status } = data;
+export const invalidateTube = async ({ id, data }) => {
+  return await axiosClient.patch(`/scans/tubes/${id}/`, {
+    ...data,
+  })
+}
+
+export const deleteScan = async data => {
   try {
+    const { id } = data;
+
     const scan = await axiosClient.delete(`/scans/${id}/`);
+
+    return scan;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const updateScan = async ({ data, id }) => {
+  try {
+    const scan = await axiosClient.patch(`/scans/${id}/`, {
+      ...data,
+    });
 
     return scan;
   } catch (error) {

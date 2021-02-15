@@ -1,17 +1,20 @@
-import { all, takeEvery, put, call } from 'redux-saga/effects';
+import { all, takeEvery, put, call, select } from 'redux-saga/effects';
 import { notification } from 'antd';
 import actions from './actions';
 import {
   deleteTube,
   fetchScanById,
   updateTube,
+  deleteScan,
   updateScan,
+  invalidateTube,
 } from 'services/scans';
 import {
   fetchSessions,
   fetchSessionById,
   updateSession,
 } from 'services/scanSessions';
+import {getSelectedCode} from './selectors';
 import sortBy from 'lodash.sortby';
 
 export function* callFetchScanSessions({ payload }) {
@@ -113,32 +116,6 @@ export function* callUpdateSession({ payload }) {
   }
 }
 
-export function* callUpdateScan({ payload }) {
-  try {
-    const response = yield call(updateScan, payload);
-
-    yield put({
-      type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
-      payload: {
-        data: response.data,
-      },
-    });
-
-    notification.success({
-      message: 'Scan was updated',
-    });
-  } catch (error) {
-    yield put({
-      type: actions.UPDATE_SCAN_BY_ID_FAILURE,
-      payload: {
-        error,
-      },
-    });
-
-    throw Error(error);
-  }
-}
-
 export function* callFetchScanById({ payload }) {
   try {
     const response = yield call(fetchScanById, payload);
@@ -168,7 +145,6 @@ export function* callFetchScanById({ payload }) {
       formatResponse(tubesInfo?.slice?.(32, 40)),
       formatResponse(tubesInfo?.slice?.(40, 48)),
     ];
-    console.log('prepared response', preparedResponse);
 
     yield put({
       type: actions.FETCH_SCAN_BY_ID_SUCCESS,
@@ -178,13 +154,11 @@ export function* callFetchScanById({ payload }) {
       },
     });
   } catch (error) {
-    // console.log(error);
     notification.error(error);
   }
 }
 
 export function* callUpdateTube({ payload }) {
-  // const { id, tube_id } = payload;
   try {
     const response = yield call(updateTube, payload);
 
@@ -223,11 +197,43 @@ export function* callUpdateTube({ payload }) {
   }
 }
 
+export function* callInvalidateTube({ payload }) {
+  try {
+    const selectedCode = yield select(getSelectedCode);
+    const response = yield call(invalidateTube, {...payload,
+      data: {
+        status: selectedCode.status,
+        color: selectedCode.color,
+      }
+    });
+
+    yield put({
+      type: actions.INVALIDATE_TUBE_SUCCESS,
+      payload: {
+        data: {
+          row: {
+            letter: response?.data?.position?.[0],
+            [`col${response?.data?.position?.[1]}`]: {
+              ...response?.data,
+              status: response?.data?.status?.toLowerCase(),
+            },
+          },
+          scanId: payload.scanId,
+        },
+      },
+    });
+  } catch (error) {
+    notification.error({
+      message: 'Something went wrong',
+    });
+
+    throw Error(error);
+  }
+}
+
 export function* callDeleteTube({ payload }) {
   try {
     const response = yield call(deleteTube, payload);
-
-    console.log('call delete tube response', response);
 
     yield put({
       type: actions.DELETE_TUBE_SUCCESS,
@@ -240,7 +246,6 @@ export function* callDeleteTube({ payload }) {
       message: 'Tube deleted',
     });
   } catch (error) {
-    console.log(error, payload);
     yield put({
       type: actions.DELETE_TUBE_FAILURE,
       payload: {
@@ -251,7 +256,60 @@ export function* callDeleteTube({ payload }) {
     notification.error({
       message: 'Something went wrong',
     });
-    // notification.error(error);
+  }
+}
+
+export function* callVoidScan({ payload }) {
+  try {
+    const response = yield call(deleteScan, payload);
+
+    yield put({
+      type: actions.VOID_SCAN_BY_ID_SUCCESS,
+      payload: {
+        data: {
+          id: payload.id,
+        },
+      },
+    });
+
+    notification.success({
+      message: 'Scan was voided',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.VOID_SCAN_BY_ID_FAILURE,
+      payload: {
+        error,
+      },
+    });
+
+    throw Error(error);
+  }
+}
+
+export function* callUpdateScan({ payload }) {
+  try {
+    const response = yield call(updateScan, payload);
+
+    yield put({
+      type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+
+    notification.success({
+      message: 'Scan updated',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
+      payload: {
+        error,
+      },
+    });
+
+    throw Error(error);
   }
 }
 
@@ -263,9 +321,11 @@ export default function* rootSaga() {
       callFetchScanSessionById,
     ),
     takeEvery(actions.UPDATE_SESSION_REQUEST, callUpdateSession),
+    takeEvery(actions.VOID_SCAN_BY_ID_REQUEST, callVoidScan),
     takeEvery(actions.UPDATE_SCAN_BY_ID_REQUEST, callUpdateScan),
     takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById),
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
     takeEvery(actions.DELETE_TUBE_REQUEST, callDeleteTube),
+    takeEvery(actions.INVALIDATE_TUBE_REQUEST, callInvalidateTube),
   ]);
 }

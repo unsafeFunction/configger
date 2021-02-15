@@ -76,10 +76,23 @@ const initialSingleSession = {
   scanned_by: null,
   scans: [],
   started_on_day: null,
+  selectedCode: {},
 };
 
 const singleSessionReducer = (state = initialSingleSession, action) => {
   switch (action.type) {
+    case actions.UPDATE_SELECTED_CODE_REQUEST: {
+     return {
+       ...state,
+       selectedCode: action.payload,
+     }
+    }
+    case actions.UPDATE_SELECTED_CODE_SUCCESS: {
+      return {
+        ...state,
+        selectedCode: {},
+      }
+    }
     case actions.FETCH_SCAN_SESSION_BY_ID_REQUEST: {
       return {
         ...state,
@@ -141,8 +154,8 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
                   };
                 }
                 return row;
-              })
-            }
+              }),
+            };
           }
           return scan;
         }),
@@ -212,13 +225,42 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         isLoading: true,
       };
     }
+
     case actions.UPDATE_SCAN_BY_ID_SUCCESS: {
+      const { data } = action.payload;
+
       return {
         ...state,
         isLoading: false,
-        ...action.payload.data,
+        scans: state.scans.map(scan => {
+          if (scan.id === data.id) {
+            return {
+              ...data,
+            };
+          }
+          return scan;
+        }),
       };
     }
+
+    case actions.VOID_SCAN_BY_ID_SUCCESS: {
+      const { data } = action.payload;
+
+      return {
+        ...state,
+        isLoading: false,
+        scans: state.scans.map(scan => {
+          if (scan.id === data.id) {
+            return {
+              ...scan,
+              status: 'VOIDED',
+            };
+          }
+          return scan;
+        }),
+      };
+    }
+
     case actions.UPDATE_SCAN_BY_ID_FAILURE: {
       return {
         ...state,

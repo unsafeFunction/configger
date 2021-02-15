@@ -1,19 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Card, Form, Input, Select, Statistic, Tag } from 'antd';
-import InfiniteScroll from 'react-infinite-scroller';
+import { constants } from 'utils/constants';
 import style from './style.module.scss';
 import classNames from 'classnames';
-import styles from '../../../../pages/Scan/styles.module.scss';
-import LabeledInput from '../../../../pages/Scan/Labeled';
+import styles from 'pages/Scan/styles.module.scss';
+import LabeledInput from 'pages/Scan/Labeled';
+import actions from 'redux/scanSessions/actions';
 
 const InvalidateModal = ({ form, tube }) => {
+  const dispatch = useDispatch();
   const { Item } = Form;
-  const { companies, companiesCount, areCompaniesLoading } = useSelector(
-    state => state.customers,
-  );
+  const { Option } = Select;
+  const { selectedCode } = useSelector(state => state.scanSessions?.singleSession);
 
-  console.log(tube);
+
+  const handleCodeChange = useCallback((e) => {
+    dispatch({
+      type: actions.UPDATE_SELECTED_CODE_REQUEST,
+      payload: constants.invalidateCodes.find((code) => code.id === Number(e)),
+    });
+  }, [constants, dispatch]);
 
   return (
     <Form form={form} layout="vertical">
@@ -39,25 +46,25 @@ const InvalidateModal = ({ form, tube }) => {
             <Select
               placeholder="Invalidation code"
               size="middle"
-              options={companies}
-              loading={areCompaniesLoading}
               dropdownStyle={{
                 maxHeight: 200,
                 overflowY: 'hidden',
                 overflowX: 'scroll',
               }}
               showArrow
-              showSearch
-              optionFilterProp="label"
-              listHeight={0}
-              dropdownMatchSelectWidth={false}
-            />
+              onChange={handleCodeChange}
+              optionFilterProp="reason"
+            >
+              {constants.invalidateCodes.map((codeObj) => (
+                <Option key={codeObj.id}>{codeObj.code}</Option>
+              ))}
+            </Select>
           </Item>
         }
       />
       <Statistic
         title="Reason"
-        value={tube?.tube_id || '–'}
+        value={selectedCode.reason || '–'}
         className={classNames(styles.rackStat, styles.ellipsis)}
       />
     </Form>

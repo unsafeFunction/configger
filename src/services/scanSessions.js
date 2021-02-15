@@ -12,6 +12,7 @@ export const fetchSessions = async query => {
 
 export const fetchSessionById = async sessionId => {
   const session = await axiosClient.get(`/scans/sessions/${sessionId}/`);
+
   return session;
 };
 

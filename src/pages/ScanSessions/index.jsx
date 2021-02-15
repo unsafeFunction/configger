@@ -62,7 +62,7 @@ const ScanSessions = () => {
       },
     },
     {
-      title: 'Scanned on',
+      title: `Scanned on`,
       dataIndex: 'scanned_on',
       render: (_, value) => {
         return moment(value?.started_on_day).format('LLLL') || '-';
