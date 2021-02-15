@@ -222,6 +222,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         scans: state.scans.map(scan => {
           if (scan.id === data.id) {
             return {
+              ...scan,
               ...data,
             };
           }

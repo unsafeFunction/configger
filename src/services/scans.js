@@ -30,7 +30,7 @@ export const deleteScan = async data => {
 
     return scan;
   } catch (error) {
-    throw Error(error);
+    throw new Error(error);
   }
 };
 
@@ -42,6 +42,6 @@ export const updateScan = async ({ data, id }) => {
 
     return scan;
   } catch (error) {
-    throw Error(error);
+    throw new Error(error);
   }
 };
