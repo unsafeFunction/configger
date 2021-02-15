@@ -65,7 +65,7 @@ const Scan = () => {
   );
 
   const handleVoidScan = useCallback(() => {
-    updateScan({ id: scan.id, status: 'VOIDED' });
+    updateScan({ id: scan.id });
 
     setVisibleActions(false);
   }, [scan]);

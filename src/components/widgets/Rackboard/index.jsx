@@ -1,16 +1,19 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
-import { Table, Button, Popover, Input, Popconfirm, Tag } from 'antd';
+import { Table, Button, Popover, Input, Popconfirm, Tag, Form } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
+import InvalidateModal from 'components/widgets/Scans/InvalidateModal';
 
 const Rackboard = ({ rackboard, scanId, session }) => {
   const dispatch = useDispatch();
   const [currentTubeID, setCurrentTubeID] = useState('');
   const [popoverVisible, setPopoverVisible] = useState(null);
+  const [form] = Form.useForm();
 
   const initialRackboard = [...Array(6).keys()].map(i => ({
     letter: String.fromCharCode(constants?.A + i),
@@ -55,6 +58,40 @@ const Rackboard = ({ rackboard, scanId, session }) => {
     setPopoverVisible(null);
   }, []);
 
+  const onInvalidate = useCallback(() => {
+    // dispatch({
+      // type: action
+    // })
+    console.log('here');
+  }, []);
+
+  console.log(rackboard, session);
+
+  const handleInvalidateAction = useCallback(() => {
+    setPopoverVisible(null);
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'COMPLIANCE_MODAL',
+      modalProps: {
+        title: 'Invalidate',
+        bodyStyle: {
+          maxHeight: '70vh',
+          overflow: 'scroll',
+        },
+        cancelButtonProps: { className: styles.modalButton },
+        okButtonProps: {
+          className: styles.modalButton,
+          // loading: customers?.isInviting,
+        },
+        okText: 'Save',
+        onOk: onInvalidate,
+        message: () => (
+          <InvalidateModal form={form} tube={popoverVisible}/>
+        ),
+      },
+    });
+  }, [dispatch, popoverVisible]);
+
   const restColumns = [...Array(8).keys()].map(i => ({
     title: `${i + 1}`,
     dataIndex: `col${i + 1}`,
@@ -69,7 +106,7 @@ const Rackboard = ({ rackboard, scanId, session }) => {
                 <Tag color="purple">{record?.[`col${i + 1}`]?.status}</Tag>
               </>
             }
-            visible={popoverVisible === record?.[`col${i + 1}`]?.id}
+            visible={popoverVisible?.id === record?.[`col${i + 1}`]?.id}
             content={
               <div className={styles.popoverWrapper}>
                 <Input
@@ -109,17 +146,9 @@ const Rackboard = ({ rackboard, scanId, session }) => {
                   </Button>
                 </Popconfirm>
 
-                <Popconfirm
-                  disabled
-                  title="Are you sure to invalidate this tube?"
-                  okText="Yes"
-                  cancelText="No"
-                  // onConfirm={}
-                >
-                  <Button className={styles.popoverBtn} disabled>
-                    Invalidate
-                  </Button>
-                </Popconfirm>
+                <Button className={styles.popoverBtn} onClick={handleInvalidateAction}>
+                  Invalidate
+                </Button>
 
                 <Button
                   onClick={handleClosePopover}
@@ -132,7 +161,7 @@ const Rackboard = ({ rackboard, scanId, session }) => {
             trigger="click"
             onVisibleChange={(value) => {
               if (value) {
-                setPopoverVisible(record?.[`col${i + 1}`]?.id);
+                setPopoverVisible(record?.[`col${i + 1}`]);
               } else {
                 setPopoverVisible(null);
               }
