@@ -129,15 +129,22 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
-        items: state.items.map(row => {
-          if (row.letter === action.payload.data.letter) {
+        scans: state.scans.map(scan => {
+          if (scan.id === action.payload.data.scanId) {
             return {
-              ...row,
-              ...action.payload.data,
-              // isUpdating: false,
-            };
+              ...scan,
+              items: scan.items.map(row => {
+                if (row.letter === action.payload.data.row.letter) {
+                  return {
+                    ...row,
+                    ...action.payload.data.row,
+                  };
+                }
+                return row;
+              })
+            }
           }
-          return row;
+          return scan;
         }),
       };
     }
@@ -158,6 +165,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     case actions.DELETE_TUBE_REQUEST: {
       return {
         ...state,
+        isLoading: true,
       };
     }
     case actions.DELETE_TUBE_SUCCESS: {
@@ -178,12 +186,14 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
 
       return {
         ...state,
+        isLoading: false,
         // items: testArray,
       };
     }
     case actions.DELETE_TUBE_FAILURE: {
       return {
         ...state,
+        isLoading: false,
         // items: state.items.map(row => {
         //   if (row.letter === action?.payload?.letter) {
         //     return {

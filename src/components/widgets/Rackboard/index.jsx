@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
-const Rackboard = ({ rackboard, scanId }) => {
+const Rackboard = ({ rackboard, scanId, session }) => {
   const dispatch = useDispatch();
   const [currentTubeID, setCurrentTubeID] = useState('');
   const [popoverVisible, setPopoverVisible] = useState(null);
@@ -28,10 +28,11 @@ const Rackboard = ({ rackboard, scanId }) => {
     record => {
       dispatch({
         type: actions.UPDATE_TUBE_REQUEST,
-        payload: { record, tube_id: currentTubeID },
+        payload: { record, tube_id: currentTubeID, scanId: rackboard?.id },
       });
+      setPopoverVisible(null);
     },
-    [dispatch, currentTubeID],
+    [dispatch, currentTubeID, rackboard],
   );
 
   const handleDelete = useCallback(
@@ -74,6 +75,7 @@ const Rackboard = ({ rackboard, scanId }) => {
                 <Input
                   size="large"
                   placeholder="Tube barcode"
+                  value={currentTubeID}
                   defaultValue={record?.[`col${i + 1}`]?.tube_id}
                   className={classNames(styles.tubeInput, 'mb-4')}
                   onChange={handleChangeTubeID}
@@ -128,8 +130,12 @@ const Rackboard = ({ rackboard, scanId }) => {
               </div>
             }
             trigger="click"
-            onVisibleChange={() => {
-              setPopoverVisible(record?.[`col${i + 1}`]?.id);
+            onVisibleChange={(value) => {
+              if (value) {
+                setPopoverVisible(record?.[`col${i + 1}`]?.id);
+              } else {
+                setPopoverVisible(null);
+              }
               setCurrentTubeID(record?.[`col${i + 1}`]?.tube_id);
             }}
           >
@@ -165,13 +171,12 @@ const Rackboard = ({ rackboard, scanId }) => {
     },
     ...restColumns,
   ];
-
   return (
     <>
       <Table
         columns={columns}
         dataSource={rackboard?.items ?? initialRackboard}
-        loading={rackboard?.isLoading}
+        loading={session?.isLoading}
         pagination={false}
         scroll={{ x: 'max-content' }}
         bordered
