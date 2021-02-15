@@ -108,7 +108,7 @@ const Scan = () => {
         type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
         payload: { sessionId },
       });
-    }, [dispatch, sessionId]);
+    }, []);
   };
 
   useFetching();
@@ -128,7 +128,7 @@ const Scan = () => {
       status: 'COMPLETED',
       id: sessionId,
     });
-  }, [dispatch]);
+  }, [updateSession, sessionId]);
 
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
@@ -145,7 +145,7 @@ const Scan = () => {
       history.push({ search: `?scanOrder=${order}` });
       setCurrentScanOrder(order);
     },
-    [currentScanOrder],
+    [currentScanOrder, history],
   );
 
   const handleNavigateToScan = useCallback(
@@ -153,7 +153,7 @@ const Scan = () => {
       history.push({ search: `?scanOrder=${scanOrder}` });
       setCurrentScanOrder(scanOrder);
     },
-    [currentScanOrder],
+    [currentScanOrder, history],
   );
 
   const onSaveScanModalToggle = useCallback(() => {

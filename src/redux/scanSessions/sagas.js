@@ -86,7 +86,7 @@ export function* callFetchScanSessionById({ payload }) {
     });
 
     notification.error(error);
-    // throw Error(error);
+    throw new Error(error);
   }
 }
 
@@ -112,7 +112,7 @@ export function* callUpdateSession({ payload }) {
       },
     });
 
-    throw Error(error);
+    throw new Error(error);
   }
 }
 
@@ -283,7 +283,7 @@ export function* callVoidScan({ payload }) {
       },
     });
 
-    throw Error(error);
+    throw new Error(error);
   }
 }
 
@@ -309,7 +309,7 @@ export function* callUpdateScan({ payload }) {
       },
     });
 
-    throw Error(error);
+    throw new Error(error);
   }
 }
 
