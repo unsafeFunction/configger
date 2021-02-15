@@ -25,7 +25,7 @@ function reducer(state, action) {
         [action.payload.name]: action.payload.value,
       };
     default:
-      throw new Error();
+      throw Error();
   }
 }
 
