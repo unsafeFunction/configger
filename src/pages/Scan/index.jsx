@@ -52,6 +52,14 @@ const Scan = () => {
     scan => scan.status === constants.scanSessions.scanStatuses.started,
   )?.length;
 
+  const tubesTotal = scan?.scan_tubes?.filter(
+    tube =>
+      tube.status !== constants.tubeStatuses.empty &&
+      tube.status !== constants.tubeStatuses.pooling,
+  )?.length;
+
+  const scansTotal = session?.scans?.length;
+
   const companyInfo = session?.company_short;
   const deleteScan = useCallback(
     data => {
@@ -228,28 +236,33 @@ const Scan = () => {
                 Save and Scan Another
               </Button>
               <div>
-                <Button
-                  className="mr-2"
-                  icon={<LeftOutlined />}
-                  onClick={() =>
-                    handleNavigation({
-                      direction: 'prev',
-                      total: session?.scans?.length - 1,
-                    })
-                  }
-                  disabled={session?.isLoading}
-                />
-                <Button
-                  className="mr-2"
-                  icon={<RightOutlined />}
-                  onClick={() =>
-                    handleNavigation({
-                      direction: 'next',
-                      total: session?.scans?.length - 1,
-                    })
-                  }
-                  disabled={session?.isLoading}
-                />
+                {scansTotal > 1 && (
+                  <>
+                    <Button
+                      className="mr-2"
+                      icon={<LeftOutlined />}
+                      onClick={() =>
+                        handleNavigation({
+                          direction: 'prev',
+                          total: scansTotal - 1,
+                        })
+                      }
+                      disabled={session?.isLoading}
+                    />
+                    <Button
+                      className="mr-2"
+                      icon={<RightOutlined />}
+                      onClick={() =>
+                        handleNavigation({
+                          direction: 'next',
+                          total: scansTotal - 1,
+                        })
+                      }
+                      disabled={session?.isLoading}
+                    />
+                  </>
+                )}
+
                 <Dropdown
                   overlay={menu}
                   overlayClassName={styles.actionsOverlay}
@@ -310,7 +323,7 @@ const Scan = () => {
               <Card className={styles.card}>
                 <Statistic
                   title="Tubes"
-                  value={scan?.items?.length}
+                  value={tubesTotal}
                   formatter={value => <Tag color="cyan">{value}</Tag>}
                   className={classNames(styles.rackStat, styles.ellipsis)}
                 />
@@ -320,7 +333,7 @@ const Scan = () => {
               <Card className={styles.card}>
                 <Statistic
                   title="Total Scans"
-                  value={session?.scans?.length}
+                  value={scansTotal}
                   formatter={value => <Tag color="gold">{value}</Tag>}
                   className={classNames(styles.rackStat, styles.ellipsis)}
                 />
