@@ -12,41 +12,10 @@
   }
 }
 
-.rackStat {
-  div:last-child {
-    font-size: 17px;
-
-    span:last-child {
-      font-size: 17px;
-      line-height: 20px;
-      text-transform: capitalize;
-    }
-  }
-}
-
 .actionsOverlay {
   ul {
     li:first-child {
       color: red;
-    }
-  }
-}
-
-.card {
-  > div:first-child {
-    padding: 12px 10px;
-  }
-}
-
-.ellipsis {
-  div:last-child {
-    span:last-child {
-      font-size: 17px;
-      line-height: 20px;
-      text-overflow: ellipsis;
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
     }
   }
 }
@@ -59,7 +28,7 @@
 }
 
 .companyDetailsStat {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.42rem;
   div:last-child {
     font-size: 18px;
     span:last-child {

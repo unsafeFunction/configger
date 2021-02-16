@@ -1,0 +1,32 @@
+@import 'assets/styles/mixins.scss';
+
+.card {
+  > div:first-child {
+    padding: 12px 10px;
+  }
+}
+
+.statistic {
+  div:last-child {
+    font-size: 17px;
+
+    span:last-child {
+      font-size: 17px;
+      line-height: 20px;
+      text-transform: capitalize;
+    }
+  }
+}
+
+.ellipsis {
+  div:last-child {
+    span:last-child {
+      font-size: 17px;
+      line-height: 20px;
+      text-overflow: ellipsis;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+}
