@@ -61,19 +61,17 @@ const Rackboard = ({ rackboard, scanId, session }) => {
   }, []);
 
   const onInvalidate = useCallback((record) => {
-    console.log(selectedCode);
     dispatch({
       type: actions.INVALIDATE_TUBE_REQUEST,
       payload: {
         id: record.id,
+        scanId: rackboard?.id,
       }
     });
     dispatch({
       type: actions.UPDATE_SELECTED_CODE_SUCCESS,
     });
-  }, [selectedCode]);
-
-  console.log(rackboard, session);
+  }, [selectedCode, rackboard]);
 
   const handleInvalidateAction = useCallback((record) => {
     setPopoverVisible(null);
