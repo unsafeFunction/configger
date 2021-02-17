@@ -265,8 +265,33 @@ export const constants = {
   ],
   A: 'A'.charCodeAt(0),
   invalidateCodes: [
-      { id: 1, code: 'QNS', reason: 'Insufficient', color: '#cacaca', status: 'INSUFFICIENT' },
-      { id: 2, code: 'EMT', reason: 'Empty', color: '#ffffff', status: 'EMPTY' },
-      { id: 3, code: 'IND', reason: 'Invalid', color: '#ff0000', status: 'INVALID' },
-    ],
+    {
+      id: 1,
+      code: 'A',
+      reason: 'Empty',
+      color: '#ffffff',
+      status: 'EMPTY',
+    },
+    {
+      id: 2,
+      code: 'B',
+      reason: 'Quantity Not Sufficient',
+      color: '#cacaca',
+      status: 'INSUFFICIENT',
+    },
+    {
+      id: 3,
+      code: 'C',
+      reason: 'Improper Sample Collection',
+      color: '#ff0000',
+      status: 'IMPROPER_COLLECTION',
+    },
+    {
+      id: 4,
+      code: 'D',
+      reason: 'Contamination',
+      color: '#ff0000',
+      status: 'CONTAMINATION',
+    },
+  ],
 };
