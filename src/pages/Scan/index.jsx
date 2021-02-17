@@ -250,8 +250,14 @@ const Scan = () => {
                 <Dropdown
                   overlay={menu}
                   overlayClassName={styles.actionsOverlay}
+                  trigger="click"
                   onClick={handleSwitchVisibleActions}
                   visible={visibleActions}
+                  onVisibleChange={value => {
+                    if (!value) {
+                      setVisibleActions(false);
+                    }
+                  }}
                   disabled={session?.isLoading}
                 >
                   <Button type="primary">
