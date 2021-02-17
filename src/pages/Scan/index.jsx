@@ -10,22 +10,19 @@ import {
   Typography,
   Popconfirm,
   Statistic,
-  Card,
-  Tag,
-  Tooltip,
   Dropdown,
   Menu,
 } from 'antd';
 import {
   LeftOutlined,
   RightOutlined,
-  ArrowUpOutlined,
   CloseOutlined,
   DownOutlined,
 } from '@ant-design/icons';
 import Rackboard from 'components/widgets/Rackboard';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
-import SingleScanInfo from 'components/widgets/SingleScanInfo';
+import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
+import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
@@ -51,6 +48,8 @@ const Scan = () => {
   const countOfStartedScans = session?.scans?.find(
     scan => scan.status === constants.scanSessions.scanStatuses.started,
   )?.length;
+
+  const scansTotal = session?.scans?.length;
 
   const companyInfo = session?.company_short;
   const deleteScan = useCallback(
@@ -208,15 +207,8 @@ const Scan = () => {
           End Scanning Session
         </Button>
       </div>
-      <Row gutter={[40, 48]}>
-        <Col
-          xs={24}
-          sm={20}
-          md={18}
-          lg={16}
-          xl={14}
-          style={{ padding: '30px 20px 24px' }}
-        >
+      <Row gutter={[48, 40]} justify="center">
+        <Col xs={24} md={18} lg={16} xl={14}>
           <div className="mb-4">
             <div className={styles.navigationWrapper}>
               <Button
@@ -228,28 +220,33 @@ const Scan = () => {
                 Save and Scan Another
               </Button>
               <div>
-                <Button
-                  className="mr-2"
-                  icon={<LeftOutlined />}
-                  onClick={() =>
-                    handleNavigation({
-                      direction: 'prev',
-                      total: session?.scans?.length - 1,
-                    })
-                  }
-                  disabled={session?.isLoading}
-                />
-                <Button
-                  className="mr-2"
-                  icon={<RightOutlined />}
-                  onClick={() =>
-                    handleNavigation({
-                      direction: 'next',
-                      total: session?.scans?.length - 1,
-                    })
-                  }
-                  disabled={session?.isLoading}
-                />
+                {scansTotal > 1 && (
+                  <>
+                    <Button
+                      className="mr-2"
+                      icon={<LeftOutlined />}
+                      onClick={() =>
+                        handleNavigation({
+                          direction: 'prev',
+                          total: scansTotal - 1,
+                        })
+                      }
+                      disabled={session?.isLoading}
+                    />
+                    <Button
+                      className="mr-2"
+                      icon={<RightOutlined />}
+                      onClick={() =>
+                        handleNavigation({
+                          direction: 'next',
+                          total: scansTotal - 1,
+                        })
+                      }
+                      disabled={session?.isLoading}
+                    />
+                  </>
+                )}
+
                 <Dropdown
                   overlay={menu}
                   overlayClassName={styles.actionsOverlay}
@@ -267,66 +264,7 @@ const Scan = () => {
             {/* TODO: why is using separately scanId */}
             <Rackboard rackboard={scan} scanId={scan?.id} session={session} />
           </div>
-          <Row gutter={[24, 16]}>
-            <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={6}>
-              <Card className={styles.card}>
-                <Tooltip placement="bottom" title={scan?.rack_id}>
-                  <Statistic
-                    title="Rack ID"
-                    groupSeparator=""
-                    value={scan?.rack_id || '–'}
-                    formatter={value => <Tag color="blue">{value}</Tag>}
-                    className={classNames(styles.rackStat, styles.ellipsis)}
-                  />
-                </Tooltip>
-              </Card>
-            </Col>
-            <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
-              <Card className={styles.card}>
-                <Statistic
-                  title="Pool ID"
-                  groupSeparator=""
-                  value={scan?.pool_id || '–'}
-                  formatter={value => <Tag color="geekblue">{value}</Tag>}
-                  className={classNames(styles.rackStat, styles.ellipsis)}
-                />
-              </Card>
-            </Col>
-            <Col xs={24} sm={8} md={8} lg={8} xl={8} xxl={5}>
-              <Card className={styles.card}>
-                <Statistic
-                  title="Status"
-                  value={scan?.status?.toLowerCase()}
-                  formatter={value => (
-                    <Tag icon={<ArrowUpOutlined />} color="purple">
-                      {value}
-                    </Tag>
-                  )}
-                  className={classNames(styles.rackStat, styles.ellipsis)}
-                />
-              </Card>
-            </Col>
-            <Col xs={24} sm={8} md={8} lg={8} xl={8} xxl={4}>
-              <Card className={styles.card}>
-                <Statistic
-                  title="Tubes"
-                  value={scan?.items?.length}
-                  formatter={value => <Tag color="cyan">{value}</Tag>}
-                  className={classNames(styles.rackStat, styles.ellipsis)}
-                />
-              </Card>
-            </Col>
-            <Col xs={24} sm={8} md={8} lg={8} xl={8} xxl={4}>
-              <Card className={styles.card}>
-                <Statistic
-                  title="Total Scans"
-                  value={session?.scans?.length}
-                  formatter={value => <Tag color="gold">{value}</Tag>}
-                  className={classNames(styles.rackStat, styles.ellipsis)}
-                />
-              </Card>
-            </Col>
-          </Row>
+          <ScanStatistic scan={scan} scansTotal={scansTotal} />
           <Row>
             <Col sm={24}>
               <SingleSessionTable
@@ -336,7 +274,7 @@ const Scan = () => {
             </Col>
           </Row>
         </Col>
-        <Col lg={18} xl={8}>
+        <Col xs={24} md={18} lg={8} xl={10}>
           <div className={styles.companyDetails}>
             <Statistic
               className={styles.companyDetailsStat}
@@ -367,7 +305,7 @@ const Scan = () => {
               value="Name here"
             />
           </div>
-          <SingleScanInfo session={session} />
+          <SessionStatistic session={session} />
         </Col>
       </Row>
     </>

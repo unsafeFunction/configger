@@ -19,6 +19,11 @@ export const constants = {
       completed: 'COMPLETED',
     },
   },
+  tubeStatuses: {
+    scanned: 'SCANNED',
+    pooling: 'POOLING',
+    empty: 'EMPTY',
+  },
   poolsByRun: {
     itemsLoadingCount: 100,
   },
