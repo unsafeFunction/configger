@@ -135,6 +135,7 @@ const Scan = () => {
       status: 'COMPLETED',
       id: sessionId,
     });
+    history.push('/scan-sessions');
   }, [updateSession, sessionId]);
 
   const handleSwitchVisibleActions = useCallback(() => {
