@@ -1,23 +1,54 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Input, Button, Tag } from 'antd';
+import { Table, Input, Button, Tag, DatePicker, Row, Col } from 'antd';
 import debounce from 'lodash.debounce';
 import { SearchOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/scanSessions/actions';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import sortBy from 'lodash.sortby';
-
 import { constants } from 'utils/constants';
-import useWindowSize from 'hooks/useWindowSize';
 import styles from './styles.module.scss';
 
+moment.tz.setDefault('America/New_York');
+
+const { RangePicker } = DatePicker;
+
 const ScanSessions = () => {
-  const { isMobile, isTablet } = useWindowSize();
   const dispatch = useDispatch();
+  const history = useHistory();
+  const [searchName, setSearchName] = useState('');
+  const [dates, setDates] = useState([]);
+  const stateRef = useRef();
+  stateRef.current = dates;
+
   const scanSessions = useSelector(state => state.scanSessions.sessions);
+
+  const useFetching = () => {
+    useEffect(() => {
+      const params = dates.length
+        ? {
+            date_from: dates[0],
+            date_to: dates[1],
+            limit: constants.scanSessions.itemsLoadingCount,
+            search: searchName,
+          }
+        : {
+            limit: constants.scanSessions.itemsLoadingCount,
+            search: searchName,
+          };
+      dispatch({
+        type: actions.FETCH_SCAN_SESSIONS_REQUEST,
+        payload: {
+          ...params,
+        },
+      });
+    }, [dates]);
+  };
+
+  useFetching();
 
   const sessionItems = scanSessions?.items?.map(session => {
     return {
@@ -25,8 +56,6 @@ const ScanSessions = () => {
       key: session?.id,
     };
   });
-
-  const history = useHistory();
 
   const navigateToScan = useCallback(
     ({ sessionId, scanOrder }) => {
@@ -77,17 +106,6 @@ const ScanSessions = () => {
     },
   ];
 
-  const useFetching = () => {
-    useEffect(() => {
-      dispatch({
-        type: actions.FETCH_SCAN_SESSIONS_REQUEST,
-        payload: {
-          limit: constants.scanSessions.itemsLoadingCount,
-        },
-      });
-    }, []);
-  };
-
   const expandedRow = scan => {
     const columns = [
       { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
@@ -105,74 +123,72 @@ const ScanSessions = () => {
     return <Table columns={columns} dataSource={scan} pagination={false} />;
   };
 
-  useFetching();
-
   const loadMore = useCallback(() => {
+    const params = dates.length
+      ? {
+          date_from: dates[0],
+          date_to: dates[1],
+          limit: constants.scanSessions.itemsLoadingCount,
+          offset: scanSessions.offset,
+          search: searchName,
+        }
+      : {
+          limit: constants.scanSessions.itemsLoadingCount,
+          offset: scanSessions.offset,
+          search: searchName,
+        };
     dispatch({
       type: actions.FETCH_SCAN_SESSIONS_REQUEST,
       payload: {
-        limit: constants.scanSessions.itemsLoadingCount,
-        offset: scanSessions.offset,
+        ...params,
       },
     });
   }, [dispatch, scanSessions]);
 
-  const sendQuery = useCallback(query => {
-    dispatch({
-      type: actions.FETCH_SCAN_SESSIONS_REQUEST,
-      payload: {
-        limit: constants.companies.itemsLoadingCount,
-        search: query,
-      },
-    });
-  }, []);
+  const sendQuery = useCallback(
+    query => {
+      const params = stateRef.current.length
+        ? {
+            date_from: stateRef.current[0],
+            date_to: stateRef.current[1],
+            limit: constants.scanSessions.itemsLoadingCount,
+            search: query,
+          }
+        : {
+            limit: constants.scanSessions.itemsLoadingCount,
+            search: query,
+          };
+      dispatch({
+        type: actions.FETCH_SCAN_SESSIONS_REQUEST,
+        payload: {
+          ...params,
+        },
+      });
+    },
+    [searchName],
+  );
 
   const delayedQuery = useCallback(
     debounce(q => sendQuery(q), 500),
     [],
   );
 
-  const onChangeSearch = useCallback(event => {
-    // setSearchName(event.target.value);
-    delayedQuery(event.target.value);
+  const onChangeSearch = useCallback(e => {
+    const { target } = e;
+    setSearchName(target.value);
+    delayedQuery(target.value);
+  }, []);
+
+  const onDatesChange = useCallback((dates, dateStrings) => {
+    dates ? setDates(dateStrings) : setDates([]);
   }, []);
 
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        {isMobile ? (
-          <div className={styles.mobileTableHeaderWrapper}>
-            <div className={styles.mobileTableHeaderRow}>
-              <h4>Scan Sessions</h4>
-            </div>
-            <Input
-              size="middle"
-              prefix={<SearchOutlined />}
-              className={styles.search}
-              placeholder="Search..."
-              //   value={searchName}
-              onChange={onChangeSearch}
-            />
-          </div>
-        ) : (
-          <>
-            <h4>Scan Sessions</h4>
-            <div
-              className={classNames(styles.tableActionsWrapper, {
-                [styles.tabletActionsWrapper]: isTablet,
-              })}
-            >
-              <Input
-                size="middle"
-                prefix={<SearchOutlined />}
-                className={styles.search}
-                placeholder="Search..."
-                onChange={onChangeSearch}
-              />
-            </div>
-          </>
-        )}
+        <h4>Scan Sessions</h4>
       </div>
+
       <InfiniteScroll
         next={loadMore}
         hasMore={sessionItems.length < scanSessions?.total}
@@ -215,6 +231,51 @@ const ScanSessions = () => {
               }),
             );
           }}
+          title={() => (
+            <Row gutter={16}>
+              <Col
+                xs={{ span: 24 }}
+                sm={{ span: 12 }}
+                md={{ span: 9, offset: 6 }}
+                lg={{ span: 7, offset: 10 }}
+                xl={{ span: 6, offset: 12 }}
+                xxl={{ span: 7, offset: 12 }}
+              >
+                <Input
+                  prefix={<SearchOutlined />}
+                  placeholder="Search..."
+                  value={searchName}
+                  onChange={onChangeSearch}
+                  className={classNames(styles.tableHeaderItem, styles.search)}
+                />
+              </Col>
+              <Col
+                xs={{ span: 24 }}
+                sm={{ span: 12 }}
+                md={{ span: 9 }}
+                lg={{ span: 7 }}
+                xl={{ span: 6 }}
+                xxl={{ span: 5 }}
+              >
+                <RangePicker
+                  format="YYYY-MM-DD"
+                  ranges={{
+                    Today: [moment(), moment()],
+                    'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                    'This Month': [
+                      moment().startOf('month'),
+                      moment().endOf('month'),
+                    ],
+                  }}
+                  onChange={onDatesChange}
+                  className={classNames(
+                    styles.tableHeaderItem,
+                    styles.rangePicker,
+                  )}
+                />
+              </Col>
+            </Row>
+          )}
         />
       </InfiniteScroll>
     </>

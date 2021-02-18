@@ -6,58 +6,19 @@
   align-items: center;
   justify-content: space-between;
 }
-.tableHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 12px;
-}
-
-.infiniteLoadingIcon {
-  height: 60px;
-  text-align: center;
-  padding-top: 10px;
-}
-
-.tableActionsWrapper {
-  display: flex;
-  justify-content: space-between;
-  width: 30%;
-
-  .search {
-    width: 100%;
-    margin-bottom: 1em;
-  }
-}
-
-.mobileTableHeaderWrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  .mobileTableHeaderRow {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1em;
-    align-items: center;
-
-    .search {
-      width: 100%;
-    }
-  }
-}
-
-.tabletActionsWrapper {
-  width: 60%;
-  .search {
-    width: 68%;
-  }
-}
-
-.modalButton {
-  width: 100px;
-}
 
 .sessionStatus {
   text-transform: capitalize;
+}
+
+.tableHeaderItem {
+  margin-bottom: 0.5rem;
+}
+
+.search {
+  height: 32px;
+}
+
+.rangePicker {
+  width: 100%;
 }
