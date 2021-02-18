@@ -8,6 +8,7 @@ const actions = {
   ...generateRequestActions(['update', 'invalidate'], 'scan', 'tube'),
   ...generateRequestActions(['delete'], 'scan', 'tube'),
   ...generateRequestActions(['update'], 'scan', 'selected_code'),
+  ...generateRequestActions(['fetch'], 'scan', 'session_id'),
 };
 
 export default actions;

@@ -8,6 +8,7 @@ import {
   deleteScan,
   updateScan,
   invalidateTube,
+  fetchSessionId,
 } from 'services/scans';
 import {
   fetchSessions,
@@ -230,6 +231,25 @@ export function* callInvalidateTube({ payload }) {
   }
 }
 
+export function* callFetchSessionId() {
+  try {
+    const response = yield call(fetchSessionId);
+
+    yield put({
+      type: actions.FETCH_SESSION_ID_SUCCESS,
+      payload: {
+        sessionId: response?.data?.sessionId,
+      },
+    });
+  } catch (error) {
+    notification.error({
+      message: 'Something went wrong',
+    });
+
+    throw Error(error);
+  }
+}
+
 export function* callDeleteTube({ payload }) {
   try {
     const response = yield call(deleteTube, payload);
@@ -326,5 +346,6 @@ export default function* rootSaga() {
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
     takeEvery(actions.DELETE_TUBE_REQUEST, callDeleteTube),
     takeEvery(actions.INVALIDATE_TUBE_REQUEST, callInvalidateTube),
+    takeEvery(actions.FETCH_SESSION_ID_REQUEST, callFetchSessionId),
   ]);
 }

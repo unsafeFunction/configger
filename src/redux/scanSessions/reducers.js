@@ -77,6 +77,7 @@ const initialSingleSession = {
   scans: [],
   started_on_day: null,
   selectedCode: {},
+  activeSessionId: null,
 };
 
 const singleSessionReducer = (state = initialSingleSession, action) => {
@@ -207,15 +208,26 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     case actions.INVALIDATE_TUBE_FAILURE: {
       return {
         ...state,
-        // items: state.items.map(row => {
-        //   if (row.letter === action?.payload?.letter) {
-        //     return {
-        //       ...row,
-        //       // resultIsUpdating: false,
-        //     };
-        //   }
-        //   return row;
-        // }),
+        isLoading: false,
+      };
+    }
+    case actions.FETCH_SESSION_ID_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_SESSION_ID_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        activeSessionId: action.payload.sessionId,
+      };
+    }
+    case actions.FETCH_SESSION_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
       };
     }
     case actions.DELETE_TUBE_REQUEST: {

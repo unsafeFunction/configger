@@ -25,16 +25,22 @@ export const deleteTube = async ({ record, scanId }) => {
 export const invalidateTube = async ({ id, data }) => {
   return await axiosClient.patch(`/scans/tubes/${id}/`, {
     ...data,
-  })
-}
+  });
+};
+
+export const fetchSessionId = async () => {
+  try {
+    return await axiosClient.get(`/scans/sessions/active/`);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
 export const deleteScan = async data => {
   try {
     const { id } = data;
 
-    const scan = await axiosClient.delete(`/scans/${id}/`);
-
-    return scan;
+    return await axiosClient.delete(`/scans/${id}/`);
   } catch (error) {
     throw new Error(error);
   }
