@@ -175,6 +175,49 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         // }),
       };
     }
+    case actions.INVALIDATE_TUBE_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.INVALIDATE_TUBE_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        scans: state.scans.map(scan => {
+          if (scan.id === action.payload.data.scanId) {
+            return {
+              ...scan,
+              items: scan.items.map(row => {
+                if (row.letter === action.payload.data.row.letter) {
+                  return {
+                    ...row,
+                    ...action.payload.data.row,
+                  };
+                }
+                return row;
+              }),
+            };
+          }
+          return scan;
+        }),
+      };
+    }
+    case actions.INVALIDATE_TUBE_FAILURE: {
+      return {
+        ...state,
+        // items: state.items.map(row => {
+        //   if (row.letter === action?.payload?.letter) {
+        //     return {
+        //       ...row,
+        //       // resultIsUpdating: false,
+        //     };
+        //   }
+        //   return row;
+        // }),
+      };
+    }
     case actions.DELETE_TUBE_REQUEST: {
       return {
         ...state,

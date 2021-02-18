@@ -71,8 +71,16 @@ const Scan = () => {
           id: scan?.id,
         },
       });
+
+      if (currentScanOrder >= scansTotal - 1) {
+        history.push({ search: `?scanOrder=0` });
+        setCurrentScanOrder(0);
+      } else {
+        history.push({ search: `?scanOrder=${currentScanOrder + 1}` });
+        setCurrentScanOrder(currentScanOrder + 1);
+      }
     },
-    [dispatch, scan],
+    [dispatch, scan, scansTotal, currentScanOrder],
   );
 
   const handleVoidScan = useCallback(() => {
@@ -127,6 +135,7 @@ const Scan = () => {
       status: 'COMPLETED',
       id: sessionId,
     });
+    history.push('/scan-sessions');
   }, [updateSession, sessionId]);
 
   const handleSwitchVisibleActions = useCallback(() => {
@@ -250,8 +259,14 @@ const Scan = () => {
                 <Dropdown
                   overlay={menu}
                   overlayClassName={styles.actionsOverlay}
+                  trigger="click"
                   onClick={handleSwitchVisibleActions}
                   visible={visibleActions}
+                  onVisibleChange={value => {
+                    if (!value) {
+                      setVisibleActions(false);
+                    }
+                  }}
                   disabled={session?.isLoading}
                 >
                   <Button type="primary">

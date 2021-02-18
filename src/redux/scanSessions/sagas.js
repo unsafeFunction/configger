@@ -203,7 +203,6 @@ export function* callInvalidateTube({ payload }) {
     const response = yield call(invalidateTube, {...payload,
       data: {
         status: selectedCode.status,
-        color: selectedCode.color,
       }
     });
 
