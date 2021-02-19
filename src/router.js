@@ -103,7 +103,10 @@ const routes = [
     path: '/scan-sessions',
     Component: loadable(() => import('pages/ScanSessions')),
   },
-
+  {
+    path: '/session',
+    Component: loadable(() => import('pages/ScanSession')),
+  },
   {
     path: '/management',
     Component: loadable(() => import('pages/Management')),

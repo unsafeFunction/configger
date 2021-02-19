@@ -58,6 +58,12 @@ export async function getMenuData() {
       icon: 'fe fe-maximize',
     },
     {
+      title: 'Session',
+      key: 'session',
+      url: '/session',
+      icon: 'fe fe-maximize',
+    },
+    {
       title: 'Management',
       key: 'management',
       url: '/management',
@@ -90,6 +96,7 @@ export async function getRolePermissions() {
         '/intake',
         '/scan-sessions',
         '/management',
+        '/session'
       ],
       default: '/runs',
     },
@@ -105,6 +112,7 @@ export async function getRolePermissions() {
         '/intake',
         '/scan-sessions',
         '/management',
+        '/session'
       ],
       default: '/runs',
     },
