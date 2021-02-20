@@ -55,12 +55,7 @@ const ScanSessions = () => {
 
   useFetching();
 
-  const sessionItems = scanSessions?.items?.map(session => {
-    return {
-      ...session,
-      key: session?.id,
-    };
-  });
+  const sessionItems = scanSessions?.items;
 
   const navigateToScan = useCallback(
     ({ sessionId, scanOrder }) => {
@@ -160,7 +155,7 @@ const ScanSessions = () => {
         ? {
             date_from: stateRef.current[0],
             date_to: stateRef.current[1],
-          ...filteringParams,
+            ...filteringParams,
           }
         : filteringParams;
 
@@ -215,6 +210,7 @@ const ScanSessions = () => {
             pageSize: sessionItems?.length,
             hideOnSinglePage: true,
           }}
+          rowKey={record => record.id}
           expandedRowRender={record => {
             return expandedRow(
               sortBy(record.scans, 'scan_order').map(scan => {

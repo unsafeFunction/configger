@@ -47,7 +47,7 @@ export default function intakeReceiptLogReducer(state = initialState, action) {
     case actions.CREATE_INTAKE_SUCCESS:
       return {
         ...state,
-        items: [...state.items, action.payload.data],
+        items: [action.payload.data, ...state.items],
         isCreating: false,
       };
     case actions.CREATE_INTAKE_FAILURE: {
