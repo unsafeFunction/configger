@@ -73,7 +73,7 @@ const ScanSession = () => {
   }, []);
 
   if (!isSessionLoading && activeSessionId) {
-    return <Redirect to={`/scan-sessions/${activeSessionId}`} />;
+    return <Redirect to={`/session/${activeSessionId}`} />;
   }
 
   return (
@@ -93,7 +93,6 @@ const ScanSession = () => {
             }}
             showArrow
             showSearch
-            // defaultValue={value ?? preparedData[0]}
             onChange={onChange}
             dropdownMatchSelectWidth={false}
             dropdownRender={menu => {

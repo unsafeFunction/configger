@@ -65,7 +65,7 @@ const ScanSessions = () => {
   const navigateToScan = useCallback(
     ({ sessionId, scanOrder }) => {
       history.push({
-        pathname: `/scan-sessions/${sessionId}`,
+        pathname: `/session-pools/${sessionId}`,
         search: `?scanOrder=${scanOrder}`,
       });
     },
@@ -129,41 +129,42 @@ const ScanSessions = () => {
   };
 
   const loadMore = useCallback(() => {
+    const filteringParams = {
+      limit: constants.scanSessions.itemsLoadingCount,
+      offset: scanSessions.offset,
+      search: searchName,
+    };
     const params = dates.length
       ? {
-          date_from: dates[0],
           date_to: dates[1],
-          limit: constants.scanSessions.itemsLoadingCount,
-          offset: scanSessions.offset,
-          search: searchName,
+          date_from: dates[0],
+          ...filteringParams,
         }
-      : {
-          limit: constants.scanSessions.itemsLoadingCount,
-          offset: scanSessions.offset,
-          search: searchName,
-        };
-    dispatch({
+      : filteringParams;
+
+    return dispatch({
       type: actions.FETCH_SCAN_SESSIONS_REQUEST,
       payload: {
         ...params,
       },
     });
-  }, [dispatch, scanSessions]);
+  }, [dispatch, scanSessions, searchName, dates]);
 
   const sendQuery = useCallback(
     query => {
+      const filteringParams = {
+        limit: constants.scanSessions.itemsLoadingCount,
+        search: query,
+      };
       const params = stateRef.current.length
         ? {
             date_from: stateRef.current[0],
             date_to: stateRef.current[1],
-            limit: constants.scanSessions.itemsLoadingCount,
-            search: query,
+          ...filteringParams,
           }
-        : {
-            limit: constants.scanSessions.itemsLoadingCount,
-            search: query,
-          };
-      dispatch({
+        : filteringParams;
+
+      return dispatch({
         type: actions.FETCH_SCAN_SESSIONS_REQUEST,
         payload: {
           ...params,
@@ -173,19 +174,23 @@ const ScanSessions = () => {
     [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
-    [],
+  const delayedQuery = useCallback(() => {
+    return debounce(q => sendQuery(q), 500);
+  }, [sendQuery]);
+
+  const onChangeSearch = useCallback(
+    e => {
+      const { target } = e;
+
+      setSearchName(target.value);
+
+      return delayedQuery(target.value);
+    },
+    [delayedQuery],
   );
 
-  const onChangeSearch = useCallback(e => {
-    const { target } = e;
-    setSearchName(target.value);
-    delayedQuery(target.value);
-  }, []);
-
   const onDatesChange = useCallback((dates, dateStrings) => {
-    dates ? setDates(dateStrings) : setDates([]);
+    return dates ? setDates(dateStrings) : setDates([]);
   }, []);
 
   return (

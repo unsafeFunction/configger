@@ -1,37 +1,5 @@
-import { Badge } from 'antd';
-
 export async function getMenuData() {
   return [
-    {
-      title: 'Results',
-      key: 'results',
-      url: '/results',
-      icon: 'fe fe-compass',
-    },
-    {
-      title: 'Users',
-      key: 'users',
-      url: '/users',
-      icon: 'fe fe-user',
-    },
-    {
-      title: 'Companies',
-      key: 'companies',
-      icon: 'fe fe-briefcase',
-      url: '/companies',
-    },
-    {
-      title: 'Runs',
-      key: 'runs',
-      url: '/runs',
-      icon: 'fe fe-box',
-    },
-    {
-      title: 'Pools',
-      key: 'pools',
-      url: '/pools',
-      icon: 'fe fe-folder',
-    },
     {
       title: 'Packing Slip',
       key: 'packingSlip',
@@ -58,9 +26,9 @@ export async function getMenuData() {
       icon: 'fe fe-list',
     },
     {
-      title: 'Scan Sessions',
-      key: 'scan-sessions',
-      url: '/scan-sessions',
+      title: 'Scanned pools',
+      key: 'scanned-pools',
+      url: '/session-pools',
       icon: 'fe fe-maximize',
     },
     {
@@ -93,36 +61,28 @@ export async function getRolePermissions() {
     admin: {
       permitted: [
         '/profile',
-        '/users',
-        '/companies',
-        '/runs',
-        '/pools',
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
         '/intake-receipt-log',
-        '/scan-sessions',
+        '/session-pools',
+        '/session',
         '/management',
-        '/session'
       ],
-      default: '/runs',
+      default: '/session',
     },
     staff: {
       permitted: [
         '/profile',
-        '/users',
-        '/companies',
-        '/runs',
-        '/pools',
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
         '/intake-receipt-log',
-        '/scan-sessions',
+        '/session-pools',
+        '/session',
         '/management',
-        '/session'
       ],
-      default: '/runs',
+      default: '/session',
     },
     'company-admin': {
       permitted: ['/profile', '/results', '/packing-slip'],

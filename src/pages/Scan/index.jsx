@@ -18,6 +18,7 @@ import {
   RightOutlined,
   CloseOutlined,
   DownOutlined,
+  ReloadOutlined,
 } from '@ant-design/icons';
 import Rackboard from 'components/widgets/Rackboard';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
@@ -104,6 +105,13 @@ const Scan = () => {
     </Menu>
   );
 
+  const loadSession = useCallback(() => {
+    dispatch({
+      type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
+      payload: { sessionId },
+    });
+  }, [dispatch, sessionId]);
+
   const useFetching = () => {
     useEffect(() => {
       const { scanOrder = 0 } = qs.parse(history.location.search, {
@@ -111,10 +119,7 @@ const Scan = () => {
       });
       setCurrentScanOrder(+scanOrder);
 
-      dispatch({
-        type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
-        payload: { sessionId },
-      });
+      loadSession();
     }, []);
   };
 
@@ -179,7 +184,7 @@ const Scan = () => {
         message: () => <span>Are you cure to save scan?</span>,
       },
     });
-  }, [dispatch, scan]);
+  }, [dispatch, scan, updateScan]);
 
   const onSaveSessionModalToggle = useCallback(() => {
     dispatch({
@@ -204,17 +209,28 @@ const Scan = () => {
         <Typography.Title level={4} className="font-weight-normal">
           {`Scan on ${moment(scan?.scan_timestamp)?.format('LLLL') ?? ''}`}
         </Typography.Title>
-        <Button
-          disabled={
-            isEndSessionDisabled ||
-            countOfStartedScans > 1 ||
-            session?.isLoading
-          }
-          onClick={onSaveSessionModalToggle}
-          className="mb-2"
-        >
-          End Scanning Session
-        </Button>
+        <Row>
+          <Button
+            onClick={loadSession}
+            icon={<ReloadOutlined />}
+            className="mb-2 mr-2"
+            type="primary"
+            outline
+          >
+            Refresh
+          </Button>
+          <Button
+            disabled={
+              isEndSessionDisabled ||
+              countOfStartedScans > 1 ||
+              session?.isLoading
+            }
+            onClick={onSaveSessionModalToggle}
+            className="mb-2"
+          >
+            End Scanning Session
+          </Button>
+        </Row>
       </div>
       <Row gutter={[48, 40]} justify="center">
         <Col xs={24} md={18} lg={16} xl={14}>
@@ -255,7 +271,6 @@ const Scan = () => {
                     />
                   </>
                 )}
-
                 <Dropdown
                   overlay={menu}
                   overlayClassName={styles.actionsOverlay}
@@ -294,18 +309,18 @@ const Scan = () => {
             <Statistic
               className={styles.companyDetailsStat}
               title="Company name:"
-              value={companyInfo?.name || '–'}
+              value={companyInfo?.name ?? '–'}
             />
             <Statistic
               className={styles.companyDetailsStat}
               title="Short company name:"
-              value={companyInfo?.name_short || '–'}
+              value={companyInfo?.name_short ?? '–'}
             />
             <Statistic
               className={styles.companyDetailsStat}
               title="Company ID:"
               groupSeparator=""
-              value={companyInfo?.company_id || '–'}
+              value={companyInfo?.company_id ?? '–'}
             />
             <Statistic
               className={styles.companyDetailsStat}
