@@ -18,11 +18,6 @@ const loadable = loader =>
 
 const routes = [
   {
-    path: '/results',
-    Component: loadable(() => import('pages/timeline')),
-    exact: true,
-  },
-  {
     path: '/system/login',
     Component: loadable(() => import('pages/system/login')),
     exact: true,
@@ -51,37 +46,6 @@ const routes = [
     path: '/system/404',
     Component: loadable(() => import('pages/system/404')),
     exact: true,
-  },
-  {
-    path: '/users',
-    Component: loadable(() => import('pages/Customers')),
-    exact: true,
-  },
-  {
-    path: '/users/:userId',
-    Component: loadable(() => import('pages/activityStream')),
-  },
-  {
-    path: '/runs',
-    Component: loadable(() => import('pages/runs')),
-    exact: true,
-  },
-  {
-    path: '/runs/:id',
-    Component: loadable(() => import('pages/runs/run')),
-  },
-  {
-    path: '/pools',
-    Component: loadable(() => import('pages/Pools')),
-  },
-  {
-    path: '/companies',
-    Component: loadable(() => import('pages/Companies')),
-    exact: true,
-  },
-  {
-    path: '/companies/:id',
-    Component: loadable(() => import('pages/Companies/Company')),
   },
   {
     path: '/packing-slip',

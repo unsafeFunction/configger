@@ -1,7 +1,6 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Table, Button } from 'antd';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
 const SingleSessionTable = ({ session, handleNavigateToScan }) => {
@@ -18,45 +17,29 @@ const SingleSessionTable = ({ session, handleNavigateToScan }) => {
     { title: 'Action', dataIndex: 'action', key: 'action' },
   ];
 
-  const history = useHistory();
-
-  // const navigateToScan = useCallback(
-  //   ({ sessionId, scanOrder }) => {
-  //     history.push({
-  //       pathname: `/scan-sessions/${sessionId}`,
-  //       search: `?scanOrder=${scanOrder}`,
-  //     });
-  //   },
-  //   [history],
-  // );
-
-  const dataForTable = session?.scans?.map(scan => {
-    return {
-      key: scan.id,
-      pool_id: scan.pool_id,
-      scan_time: moment(scan.scan_timestamp).format('LLLL'),
-      rack_id: scan.rack_id,
-      scanner: scan.scanner ?? '-',
-      action: (
-        <Button
-          // onClick={() =>
-          //   navigateToScan({
-          //     sessionId: session.id,
-          //     scanOrder: scan.scan_order,
-          //   })
-          // }
-          onClick={() =>
-            handleNavigateToScan({
-              scanOrder: scan.scan_order,
-            })
-          }
-          type="primary"
-        >
-          View scan
-        </Button>
-      ),
-    };
-  });
+  const dataForTable = session?.scans
+    ?.filter(scan => scan.status === 'COMPLETED')
+    .map(scan => {
+      return {
+        key: scan.id,
+        pool_id: scan.pool_id,
+        scan_time: moment(scan.scan_timestamp).format('LLLL'),
+        rack_id: scan.rack_id,
+        scanner: scan.scanner ?? '-',
+        action: (
+          <Button
+            onClick={() =>
+              handleNavigateToScan({
+                scanOrder: scan.scan_order,
+              })
+            }
+            type="primary"
+          >
+            View scan
+          </Button>
+        ),
+      };
+    });
 
   return (
     <Table
