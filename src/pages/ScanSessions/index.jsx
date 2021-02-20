@@ -229,7 +229,7 @@ const ScanSessions = () => {
                       }
                       type="primary"
                     >
-                      View scan
+                      View pool
                     </Button>
                   ),
                 };
