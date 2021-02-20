@@ -97,7 +97,7 @@ const routes = [
   },
   {
     path: '/scan-sessions/:id',
-    Component: loadable(() => import('pages/Scan')),
+    Component: loadable(() => import('pages/ScanPool')),
   },
   {
     path: '/scan-sessions',

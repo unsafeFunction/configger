@@ -16,13 +16,15 @@ moment.tz.setDefault('America/New_York');
 
 const { RangePicker } = DatePicker;
 
-const ScanSessions = () => {
+const ScanSessionsTable = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [searchName, setSearchName] = useState('');
   const [dates, setDates] = useState([]);
   const stateRef = useRef();
   stateRef.current = dates;
+
+  const url = history.location.pathname.split('/')[1];
 
   const scanSessions = useSelector(state => state.scanSessions.sessions);
 
@@ -39,11 +41,6 @@ const ScanSessions = () => {
             limit: constants.scanSessions.itemsLoadingCount,
             search: searchName,
           };
-
-      dispatch({
-        type: actions.FETCH_SESSION_ID_REQUEST,
-      });
-
       dispatch({
         type: actions.FETCH_SCAN_SESSIONS_REQUEST,
         payload: {
@@ -63,9 +60,10 @@ const ScanSessions = () => {
   });
 
   const navigateToScan = useCallback(
-    ({ sessionId, scanOrder }) => {
+    ({ sessionId, scanOrder, url }) => {
+      console.log('url', url);
       history.push({
-        pathname: `/scan-sessions/${sessionId}`,
+        pathname: `/${url}/${sessionId}`,
         search: `?scanOrder=${scanOrder}`,
       });
     },
@@ -170,7 +168,7 @@ const ScanSessions = () => {
         },
       });
     },
-    [dispatch],
+    [searchName],
   );
 
   const delayedQuery = useCallback(
@@ -190,10 +188,6 @@ const ScanSessions = () => {
 
   return (
     <>
-      <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Scan Sessions</h4>
-      </div>
-
       <InfiniteScroll
         next={loadMore}
         hasMore={sessionItems.length < scanSessions?.total}
@@ -225,11 +219,12 @@ const ScanSessions = () => {
                         navigateToScan({
                           sessionId: record.id,
                           scanOrder: scan.scan_order,
+                          url,
                         })
                       }
                       type="primary"
                     >
-                      View pool
+                      {url === 'scan-pools' ? 'View pool' : 'View scan'}
                     </Button>
                   ),
                 };
@@ -287,4 +282,4 @@ const ScanSessions = () => {
   );
 };
 
-export default ScanSessions;
+export default ScanSessionsTable;
