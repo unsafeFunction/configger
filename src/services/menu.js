@@ -26,9 +26,9 @@ export async function getMenuData() {
       icon: 'fe fe-list',
     },
     {
-      title: 'Scan Sessions',
-      key: 'scan-sessions',
-      url: '/scan-sessions',
+      title: 'Scanned pools',
+      key: 'scanned-pools',
+      url: '/session-pools',
       icon: 'fe fe-maximize',
     },
     {
@@ -65,11 +65,11 @@ export async function getRolePermissions() {
         '/barcode-lookup',
         '/intake',
         '/intake-receipt-log',
-        '/scan-sessions',
-        '/management',
+        '/session-pools',
         '/session',
+        '/management',
       ],
-      default: '/runs',
+      default: '/session',
     },
     staff: {
       permitted: [
@@ -78,11 +78,11 @@ export async function getRolePermissions() {
         '/barcode-lookup',
         '/intake',
         '/intake-receipt-log',
-        '/scan-sessions',
-        '/management',
+        '/session-pools',
         '/session',
+        '/management',
       ],
-      default: '/runs',
+      default: '/session',
     },
     'company-admin': {
       permitted: ['/profile', '/results', '/packing-slip'],

@@ -60,12 +60,16 @@ const routes = [
     Component: loadable(() => import('pages/IntakeLims')),
   },
   {
-    path: '/scan-sessions/:id',
+    path: '/session-pools/:id',
     Component: loadable(() => import('pages/ScanPool')),
   },
   {
-    path: '/scan-sessions',
+    path: '/session-pools',
     Component: loadable(() => import('pages/ScanSessions')),
+  },
+  {
+    path: '/session/:id',
+    Component: loadable(() => import('pages/Scan')),
   },
   {
     path: '/session',

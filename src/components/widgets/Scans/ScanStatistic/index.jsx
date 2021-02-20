@@ -21,7 +21,7 @@ const ScanStatistic = ({ scan, scansTotal }) => {
             <Statistic
               title="Rack ID"
               groupSeparator=""
-              value={scan?.rack_id || '–'}
+              value={scan?.rack_id ?? '–'}
               formatter={value => <Tag color="blue">{value}</Tag>}
               className={classNames(styles.statistic, styles.ellipsis)}
             />
@@ -33,7 +33,7 @@ const ScanStatistic = ({ scan, scansTotal }) => {
           <Statistic
             title="Pool ID"
             groupSeparator=""
-            value={scan?.pool_id || '–'}
+            value={scan?.pool_id ?? '–'}
             formatter={value => <Tag color="geekblue">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
@@ -43,7 +43,7 @@ const ScanStatistic = ({ scan, scansTotal }) => {
         <Card className={styles.card}>
           <Statistic
             title="Status"
-            value={scan?.status?.toLowerCase()}
+            value={scan?.status?.toLowerCase() ?? '-'}
             formatter={value => (
               <Tag icon={<ArrowUpOutlined />} color="purple">
                 {value}
@@ -56,7 +56,7 @@ const ScanStatistic = ({ scan, scansTotal }) => {
       <Col xs={24} sm={8} md={8} lg={8} xl={8} xxl={4}>
         <Card className={styles.card}>
           <Statistic
-            title="Tubes"
+            title="Total Tubes"
             value={tubesTotal}
             formatter={value => <Tag color="cyan">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}

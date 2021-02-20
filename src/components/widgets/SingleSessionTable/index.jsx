@@ -1,7 +1,9 @@
 import React from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, Tag } from 'antd';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+
+import styles from './styles.module.scss';
 
 const SingleSessionTable = ({ session, handleNavigateToScan }) => {
   const columns = [
@@ -11,18 +13,31 @@ const SingleSessionTable = ({ session, handleNavigateToScan }) => {
       title: 'Scan time',
       dataIndex: 'scan_time',
       key: 'scan_time',
-      width: 250,
+      width: 100,
     },
-    { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: text => {
+        return (
+          <Tag color="blue" className={styles.sessionStatus}>
+            {text.toLowerCase()}
+          </Tag>
+        );
+      },
+    },
+    { title: 'Scanned by', dataIndex: 'scanned_by', key: 'scanned_by' },
     { title: 'Action', dataIndex: 'action', key: 'action' },
   ];
 
   const dataForTable = session?.scans
-    ?.filter(scan => scan.status === 'COMPLETED')
+    ?.filter(scan => scan.status === 'VOIDED')
     .map(scan => {
       return {
         key: scan.id,
         pool_id: scan.pool_id,
+        status: scan.status,
         scan_time: moment(scan.scan_timestamp).format('LLLL'),
         rack_id: scan.rack_id,
         scanner: scan.scanner ?? '-',

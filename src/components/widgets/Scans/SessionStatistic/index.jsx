@@ -15,7 +15,7 @@ const SessionStatistic = ({ session }) => {
       >
         <Card className={styles.card}>
           <Statistic
-            title="Reference pool"
+            title="Reference pools"
             value={session?.scans?.length}
             formatter={value => <Tag color="geekblue">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
@@ -30,7 +30,7 @@ const SessionStatistic = ({ session }) => {
       >
         <Card className={styles.card}>
           <Statistic
-            title="Actual pool"
+            title="Actual pools"
             value={session?.scans?.length}
             formatter={value => <Tag color="geekblue">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
