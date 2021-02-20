@@ -14,8 +14,9 @@ import {
   fetchSessions,
   fetchSessionById,
   updateSession,
+  createSession,
 } from 'services/scanSessions';
-import {getSelectedCode} from './selectors';
+import { getSelectedCode } from './selectors';
 import sortBy from 'lodash.sortby';
 
 export function* callFetchScanSessions({ payload }) {
@@ -101,6 +102,17 @@ export function* callUpdateSession({ payload }) {
         data: response.data,
       },
     });
+
+    if (payload.callback) {
+      yield put({
+        type: actions.FETCH_SESSION_ID_SUCCESS,
+        payload: {
+          sessionId: null,
+        },
+      });
+
+      payload.callback();
+    }
 
     notification.success({
       message: 'Session updated',
@@ -201,10 +213,11 @@ export function* callUpdateTube({ payload }) {
 export function* callInvalidateTube({ payload }) {
   try {
     const selectedCode = yield select(getSelectedCode);
-    const response = yield call(invalidateTube, {...payload,
+    const response = yield call(invalidateTube, {
+      ...payload,
       data: {
         status: selectedCode.status,
-      }
+      },
     });
 
     yield put({
@@ -238,12 +251,35 @@ export function* callFetchSessionId() {
     yield put({
       type: actions.FETCH_SESSION_ID_SUCCESS,
       payload: {
-        sessionId: response?.data?.sessionId,
+        sessionId: response?.data?.session_id,
       },
     });
   } catch (error) {
     notification.error({
       message: 'Something went wrong',
+    });
+
+    throw Error(error);
+  }
+}
+
+export function* callCreateSession({ payload }) {
+  try {
+    const response = yield call(createSession, payload);
+
+    yield put({
+      type: actions.CREATE_SESSION_SUCCESS,
+      payload: {
+        sessionId: response?.data?.id,
+      },
+    });
+
+    notification.success({
+      message: 'Session was created.',
+    });
+  } catch (error) {
+    notification.error({
+      message: 'Something was wrong',
     });
 
     throw Error(error);
@@ -346,6 +382,7 @@ export default function* rootSaga() {
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
     takeEvery(actions.DELETE_TUBE_REQUEST, callDeleteTube),
     takeEvery(actions.INVALIDATE_TUBE_REQUEST, callInvalidateTube),
+    takeEvery(actions.CREATE_SESSION_REQUEST, callCreateSession),
     takeEvery(actions.FETCH_SESSION_ID_REQUEST, callFetchSessionId),
   ]);
 }

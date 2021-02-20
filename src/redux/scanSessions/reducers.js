@@ -211,12 +211,14 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         isLoading: false,
       };
     }
+    case actions.CREATE_SESSION_REQUEST:
     case actions.FETCH_SESSION_ID_REQUEST: {
       return {
         ...state,
         isLoading: true,
       };
     }
+    case actions.CREATE_SESSION_SUCCESS:
     case actions.FETCH_SESSION_ID_SUCCESS: {
       return {
         ...state,
@@ -224,6 +226,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         activeSessionId: action.payload.sessionId,
       };
     }
+    case actions.CREATE_SESSION_FAILURE:
     case actions.FETCH_SESSION_ID_FAILURE: {
       return {
         ...state,

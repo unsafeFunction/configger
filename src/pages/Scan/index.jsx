@@ -134,9 +134,9 @@ const Scan = () => {
     updateSession({
       status: 'COMPLETED',
       id: sessionId,
+      callback: () => history.push('/session'),
     });
-    history.push('/scan-sessions');
-  }, [updateSession, sessionId]);
+  }, [updateSession, sessionId, history]);
 
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
@@ -196,7 +196,7 @@ const Scan = () => {
         message: () => <span>Are you sure to save session?</span>,
       },
     });
-  }, [dispatch]);
+  }, [dispatch, markCompleteSession]);
 
   return (
     <>
@@ -224,7 +224,7 @@ const Scan = () => {
                 onClick={onSaveScanModalToggle}
                 type="primary"
                 htmlType="submit"
-                disabled={session?.isLoading}
+                disabled={session?.isLoading || session.scans.length === 0}
               >
                 Save and Scan Another
               </Button>
@@ -267,7 +267,7 @@ const Scan = () => {
                       setVisibleActions(false);
                     }
                   }}
-                  disabled={session?.isLoading}
+                  disabled={session?.isLoading || session.scans.length === 0}
                 >
                   <Button type="primary">
                     Actions

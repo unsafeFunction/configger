@@ -1,1 +1,2 @@
-export const getSelectedCode = state => state.scanSessions?.singleSession.selectedCode;
+export const getSelectedCode = state =>
+  state.scanSessions?.singleSession.selectedCode;

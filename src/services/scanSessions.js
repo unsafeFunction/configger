@@ -1,25 +1,49 @@
 import axiosClient from 'utils/axiosClient';
 
 export const fetchSessions = async query => {
-  const sessions = await axiosClient.get('/scans/sessions/', {
-    params: {
-      ...query,
-    },
-  });
+  try {
+    const sessions = await axiosClient.get('/scans/sessions/', {
+      params: {
+        ...query,
+      },
+    });
 
-  return sessions;
+    return sessions;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export const fetchSessionById = async sessionId => {
-  const session = await axiosClient.get(`/scans/sessions/${sessionId}/`);
+  try {
+    const session = await axiosClient.get(`/scans/sessions/${sessionId}/`);
 
-  return session;
+    return session;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export const updateSession = async data => {
-  const session = await axiosClient.patch(`/scans/sessions/${data.id}/`, {
-    ...data,
-  });
+  try {
+    const session = await axiosClient.patch(`/scans/sessions/${data.id}/`, {
+      ...data,
+    });
 
-  return session;
+    return session;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const createSession = async ({ companyId }) => {
+  try {
+    const session = await axiosClient.post(`/scans/sessions/open/`, {
+      company_id: companyId,
+    });
+
+    return session;
+  } catch (error) {
+    throw new Error(error);
+  }
 };

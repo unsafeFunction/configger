@@ -30,15 +30,15 @@ const ScanSessions = () => {
     useEffect(() => {
       const params = dates.length
         ? {
-          date_from: dates[0],
-          date_to: dates[1],
-          limit: constants.scanSessions.itemsLoadingCount,
-          search: searchName,
-        }
+            date_from: dates[0],
+            date_to: dates[1],
+            limit: constants.scanSessions.itemsLoadingCount,
+            search: searchName,
+          }
         : {
-          limit: constants.scanSessions.itemsLoadingCount,
-          search: searchName,
-        };
+            limit: constants.scanSessions.itemsLoadingCount,
+            search: searchName,
+          };
 
       dispatch({
         type: actions.FETCH_SESSION_ID_REQUEST,
@@ -50,7 +50,7 @@ const ScanSessions = () => {
           ...params,
         },
       });
-    }, []);
+    }, [dates]);
   };
 
   useFetching();
@@ -131,17 +131,17 @@ const ScanSessions = () => {
   const loadMore = useCallback(() => {
     const params = dates.length
       ? {
-        date_from: dates[0],
-        date_to: dates[1],
-        limit: constants.scanSessions.itemsLoadingCount,
-        offset: scanSessions.offset,
-        search: searchName,
-      }
+          date_from: dates[0],
+          date_to: dates[1],
+          limit: constants.scanSessions.itemsLoadingCount,
+          offset: scanSessions.offset,
+          search: searchName,
+        }
       : {
-        limit: constants.scanSessions.itemsLoadingCount,
-        offset: scanSessions.offset,
-        search: searchName,
-      };
+          limit: constants.scanSessions.itemsLoadingCount,
+          offset: scanSessions.offset,
+          search: searchName,
+        };
     dispatch({
       type: actions.FETCH_SCAN_SESSIONS_REQUEST,
       payload: {
@@ -154,15 +154,15 @@ const ScanSessions = () => {
     query => {
       const params = stateRef.current.length
         ? {
-          date_from: stateRef.current[0],
-          date_to: stateRef.current[1],
-          limit: constants.scanSessions.itemsLoadingCount,
-          search: query,
-        }
+            date_from: stateRef.current[0],
+            date_to: stateRef.current[1],
+            limit: constants.scanSessions.itemsLoadingCount,
+            search: query,
+          }
         : {
-          limit: constants.scanSessions.itemsLoadingCount,
-          search: query,
-        };
+            limit: constants.scanSessions.itemsLoadingCount,
+            search: query,
+          };
       dispatch({
         type: actions.FETCH_SCAN_SESSIONS_REQUEST,
         payload: {

@@ -1,27 +1,25 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
-import { Form, Input, Select, Tag, DatePicker, Row, Col } from 'antd';
-import debounce from 'lodash.debounce';
-import { SearchOutlined } from '@ant-design/icons';
+import { Redirect } from 'react-router-dom';
+import { Select, Row, Col, Button } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import actions from 'redux/scanSessions/actions';
 import companyActions from 'redux/companies/actions';
-import moment from 'moment-timezone';
-import sortBy from 'lodash.sortby';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const ScanSession = () => {
   const dispatch = useDispatch();
   const { items, total, isLoading } = useSelector(state => state.companies.all);
+  const { activeSessionId, isLoading: isSessionLoading } = useSelector(
+    state => state.scanSessions.singleSession,
+  );
   const [page, setPage] = useState(0);
   const [value, onValueChange] = useState(null);
 
   const preparedData = items.map(item => {
     return {
-      value: item.unique_id,
+      value: item.company_id,
       label: item.name,
     };
   });
@@ -56,6 +54,15 @@ const ScanSession = () => {
     });
   };
 
+  const startSession = useCallback(() => {
+    dispatch({
+      type: actions.CREATE_SESSION_REQUEST,
+      payload: {
+        companyId: value,
+      },
+    });
+  }, [dispatch, value]);
+
   const loadPage = page => {
     loadCompanies(page);
     setPage(page + 1);
@@ -65,18 +72,20 @@ const ScanSession = () => {
     onValueChange(value);
   }, []);
 
+  if (!isSessionLoading && activeSessionId) {
+    return <Redirect to={`/scan-sessions/${activeSessionId}`} />;
+  }
+
   return (
     <div>
-      <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Session</h4>
-      </div>
-      <Row>
-        <Col>
+      <Row className="ml-auto">
+        <Col xs={24} className="mb-4">
           <Select
             placeholder="Companies"
             size="middle"
             options={preparedData}
             loading={!isLoading}
+            style={{ width: 400 }}
             dropdownStyle={{
               maxHeight: 200,
               overflowY: 'hidden',
@@ -84,7 +93,7 @@ const ScanSession = () => {
             }}
             showArrow
             showSearch
-            defaultValue={value ?? preparedData[0]}
+            // defaultValue={value ?? preparedData[0]}
             onChange={onChange}
             dropdownMatchSelectWidth={false}
             dropdownRender={menu => {
@@ -103,6 +112,11 @@ const ScanSession = () => {
               );
             }}
           />
+        </Col>
+        <Col>
+          <Button onClick={startSession} type="primary">
+            Start session
+          </Button>
         </Col>
       </Row>
     </div>
