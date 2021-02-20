@@ -1,20 +1,7 @@
 import { combineReducers } from 'redux';
-import single from 'redux/factories/single';
 import { constants } from 'utils/constants';
 import forEach from 'lodash.foreach';
 import actions from './actions';
-
-const initialRackboard = [...Array(6).keys()].map(i => ({
-  letter: String.fromCharCode(constants?.A + i),
-  col1: { tube_id: null, status: 'empty' },
-  col2: { tube_id: null, status: 'empty' },
-  col3: { tube_id: null, status: 'empty' },
-  col4: { tube_id: null, status: 'empty' },
-  col5: { tube_id: null, status: 'empty' },
-  col6: { tube_id: null, status: 'empty' },
-  col7: { tube_id: null, status: 'empty' },
-  col8: { tube_id: null, status: 'empty' },
-}));
 
 const initialState = {
   items: [],
@@ -258,22 +245,12 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
-        // items: testArray,
       };
     }
     case actions.DELETE_TUBE_FAILURE: {
       return {
         ...state,
         isLoading: false,
-        // items: state.items.map(row => {
-        //   if (row.letter === action?.payload?.letter) {
-        //     return {
-        //       ...row,
-        //       // resultIsUpdating: false,
-        //     };
-        //   }
-        //   return row;
-        // }),
       };
     }
 

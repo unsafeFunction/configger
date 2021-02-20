@@ -89,8 +89,11 @@ const companiesReducer = (state = initialState, action) => {
 
 const initialSingleCompany = {
   unique_id: '',
-  results_contacts: [],
+  company_id: '',
   name: '',
+  name_short: '',
+  results_contacts: [],
+  isLoadingCompany: false,
 };
 
 export default combineReducers({
@@ -100,6 +103,9 @@ export default combineReducers({
       actions.GET_COMPANY_REQUEST,
       actions.GET_COMPANY_SUCCESS,
       actions.GET_COMPANY_FAILURE,
+      actions.FETCH_COMPANY_SHORT_REQUEST,
+      actions.FETCH_COMPANY_SHORT_SUCCESS,
+      actions.FETCH_COMPANY_SHORT_FAILURE,
     ],
   })((state = initialSingleCompany, action = {}) => {
     switch (action.type) {
@@ -108,6 +114,22 @@ export default combineReducers({
       //     ...initialState,
       //   };
       // }
+      case actions.FETCH_COMPANY_SHORT_REQUEST:
+        return {
+          ...state,
+          isLoadingCompany: true,
+        };
+      case actions.FETCH_COMPANY_SHORT_SUCCESS:
+        return {
+          ...state,
+          isLoadingCompany: false,
+          ...action.payload.data,
+        };
+      case actions.FETCH_COMPANY_SHORT_FAILURE:
+        return {
+          ...state,
+          isLoadingCompany: false,
+        };
       case actions.START_CAMPAIGN_REQUEST:
         return {
           ...state,

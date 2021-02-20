@@ -1,6 +1,7 @@
 import { all, takeEvery, put, call, select } from 'redux-saga/effects';
 import { notification } from 'antd';
 import actions from './actions';
+import modalActions from 'redux/modal/actions';
 import {
   deleteTube,
   fetchScanById,
@@ -113,6 +114,9 @@ export function* callUpdateSession({ payload }) {
 
       payload.callback();
     }
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
 
     notification.success({
       message: 'Session updated',
@@ -147,8 +151,6 @@ export function* callFetchScanById({ payload }) {
         })),
       );
     };
-
-    //TODO: refactor here...
 
     const preparedResponse = [
       formatResponse(tubesInfo?.slice?.(0, 8)),
@@ -234,6 +236,10 @@ export function* callInvalidateTube({ payload }) {
           scanId: payload.scanId,
         },
       },
+    });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
     });
   } catch (error) {
     notification.error({

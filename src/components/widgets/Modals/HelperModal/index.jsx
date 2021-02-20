@@ -15,23 +15,12 @@ const HelperModal = React.memo(props => {
     dispatch({ type: actions.HIDE_MODAL });
   }, [dispatch]);
 
-  const onOk = useCallback(() => {
-    props.onOk();
-
-    dispatch({ type: actions.HIDE_MODAL });
-  }, [dispatch]);
-
   const { message } = props;
 
   switch (modal.modalType) {
     case 'COMPLIANCE_MODAL': {
       return (
-        <DefaultModal
-          {...props}
-          onOk={onOk}
-          onCancel={onCancel}
-          isOpen={modal.isOpen}
-        >
+        <DefaultModal {...props} onCancel={onCancel} isOpen={modal.isOpen}>
           {message()}
         </DefaultModal>
       );
@@ -51,7 +40,6 @@ const HelperModal = React.memo(props => {
 });
 
 HelperModal.propTypes = {
-  onOk: PropTypes.func,
   message: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,

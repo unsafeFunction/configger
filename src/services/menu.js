@@ -52,6 +52,12 @@ export async function getMenuData() {
       icon: 'fe fe-monitor',
     },
     {
+      title: 'Intake Receipt Log',
+      key: 'intake-receipt-log',
+      url: '/intake-receipt-log',
+      icon: 'fe fe-list',
+    },
+    {
       title: 'Scan Sessions',
       key: 'scan-sessions',
       url: '/scan-sessions',
@@ -94,6 +100,7 @@ export async function getRolePermissions() {
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/intake-receipt-log',
         '/scan-sessions',
         '/management',
         '/session'
@@ -110,6 +117,7 @@ export async function getRolePermissions() {
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/intake-receipt-log',
         '/scan-sessions',
         '/management',
         '/session'

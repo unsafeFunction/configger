@@ -1,3 +1,5 @@
+import generateRequestActions from 'redux/factories/generateRequestActions';
+
 const actions = {
   ON_COMPANY_DATA_CHANGE: 'campaign/ON_COMPANY_DATA_CHANGE',
   ADD_SMILE_TO_SMS_BODY: 'campaign/ADD_SMILE_TO_SMS_BODY',
@@ -32,6 +34,8 @@ const actions = {
   FETCH_COMPANIES_REQUEST: 'companies/FETCH_COMPANIES_REQUEST',
   FETCH_COMPANIES_SUCCESS: 'companies/FETCH_COMPANIES_SUCCESS',
   FETCH_COMPANIES_FAILURE: 'companies/FETCH_COMPANIES_FAILURE',
+
+  ...generateRequestActions(['fetch'], 'companies', 'company_short'),
 };
 
 export default actions;
