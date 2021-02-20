@@ -30,6 +30,9 @@ export const constants = {
   activityStream: {
     itemsLoadingCount: 25,
   },
+  intakeLog: {
+    itemsLoadingCount: 25,
+  },
   USstates: [
     {
       label: 'Alabama',

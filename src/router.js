@@ -108,6 +108,10 @@ const routes = [
     Component: loadable(() => import('pages/ScanSession')),
   },
   {
+    path: '/intake-receipt-log',
+    Component: loadable(() => import('pages/IntakeReceiptLog')),
+  },
+  {
     path: '/management',
     Component: loadable(() => import('pages/Management')),
   },

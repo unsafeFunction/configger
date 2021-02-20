@@ -40,6 +40,15 @@ export const getSingleCompany = async id => {
   }
 };
 
+export const fetchCompanyShort = async id => {
+  try {
+    const company = await axiosClient.get(`/companies-short/${id}/`);
+    return company;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 export const updateUsers = async payload => {
   try {
     const users = await axiosClient.patch(
