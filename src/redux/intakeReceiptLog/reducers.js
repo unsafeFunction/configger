@@ -7,6 +7,7 @@ const initialState = {
   total: 0,
   offset: 0,
   error: null,
+  isCreating: false,
 };
 
 export default function intakeReceiptLogReducer(state = initialState, action) {
@@ -41,18 +42,18 @@ export default function intakeReceiptLogReducer(state = initialState, action) {
     case actions.CREATE_INTAKE_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        isCreating: true,
       };
     case actions.CREATE_INTAKE_SUCCESS:
       return {
         ...state,
         items: [...state.items, action.payload.data],
-        isLoading: false,
+        isCreating: false,
       };
     case actions.CREATE_INTAKE_FAILURE: {
       return {
         ...state,
-        isLoading: false,
+        isCreating: false,
         error: action.payload.data,
       };
     }

@@ -44,6 +44,8 @@ const IntakeReceiptLog = () => {
         },
         okText: 'Add intake',
         message: () => <IntakeRecepientLogModal form={form} />,
+        maskClosable: false,
+        onCancel: handleReset,
       },
     });
   }, [dispatch]);
@@ -52,8 +54,15 @@ const IntakeReceiptLog = () => {
     const fieldValues = await form.validateFields();
     dispatch({
       type: actions.CREATE_INTAKE_REQUEST,
-      payload: fieldValues,
+      payload: {
+        intake: fieldValues,
+        resetForm: handleReset,
+      },
     });
+  }, []);
+
+  const handleReset = useCallback(() => {
+    form.resetFields();
   }, []);
 
   const columns = [
@@ -85,11 +94,11 @@ const IntakeReceiptLog = () => {
       dataIndex: 'reference_pools_count',
     },
     {
-      title: 'Logged by',
+      title: 'Logged By',
       dataIndex: 'logged_by',
     },
     {
-      title: 'Shipment',
+      title: 'Shipping By',
       dataIndex: 'shipment',
     },
     {

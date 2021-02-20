@@ -22,22 +22,21 @@ export function* callFetchIntakeReceiptLog({ payload }) {
 }
 
 export function* callCreateIntake({ payload }) {
+  const { intake, resetForm } = payload;
+
   try {
-    const response = yield call(createIntake, payload);
+    const response = yield call(createIntake, intake);
 
     yield put({
       type: actions.CREATE_INTAKE_SUCCESS,
       payload: response,
     });
 
-    yield put({
-      type: modalActions.HIDE_MODAL,
+    notification.success({
+      message: 'Intake added',
     });
 
-    notification.success({
-      message: 'New Intake',
-      description: 'You have successfully added intake',
-    });
+    return yield call(resetForm);
   } catch (error) {
     const errorData = error.response?.data?.field_errors;
     yield put({
