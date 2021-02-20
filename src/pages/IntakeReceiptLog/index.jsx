@@ -46,16 +46,19 @@ const IntakeReceiptLog = () => {
         message: () => <IntakeRecepientLogModal form={form} />,
         maskClosable: false,
         onCancel: handleReset,
+        confirmLoading: intakeLog.isCreating,
       },
     });
   }, [dispatch]);
 
   const createIntake = useCallback(async () => {
     const fieldValues = await form.validateFields();
+    const { company_name, company_short, ...rest } = fieldValues;
+
     dispatch({
       type: actions.CREATE_INTAKE_REQUEST,
       payload: {
-        intake: fieldValues,
+        intake: rest,
         resetForm: handleReset,
       },
     });
