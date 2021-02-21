@@ -119,9 +119,25 @@ const Scan = () => {
       });
       setCurrentScanOrder(+scanOrder);
 
-      loadSession();
+      if (!session?.activeSessionId) {
+        dispatch({
+          type: actions.FETCH_SESSION_ID_REQUEST,
+        });
+      }
     }, []);
   };
+
+  useEffect(() => {
+    if (session?.activeSessionId && sessionId) {
+      if (session?.activeSessionId === sessionId) {
+        loadSession();
+      } else if (session?.activeSessionId) {
+        history.push(`/session/${session?.activeSessionId}`);
+      }
+    } else if (session?.activeSessionId === undefined) {
+      history.push('/session');
+    }
+  }, [session.activeSessionId, sessionId]);
 
   useFetching();
 

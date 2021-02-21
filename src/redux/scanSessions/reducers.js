@@ -65,6 +65,7 @@ const initialSingleSession = {
   started_on_day: null,
   selectedCode: {},
   activeSessionId: null,
+  activeSessionLoading: false,
 };
 
 const singleSessionReducer = (state = initialSingleSession, action) => {
@@ -205,15 +206,22 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         isLoading: true,
       };
     }
-    case actions.CREATE_SESSION_SUCCESS:
-    case actions.FETCH_SESSION_ID_SUCCESS: {
+    case actions.CREATE_SESSION_SUCCESS: {
       return {
         ...state,
         isLoading: false,
         activeSessionId: action.payload.sessionId,
       };
     }
-    case actions.CREATE_SESSION_FAILURE:
+    case actions.FETCH_SESSION_ID_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        activeSessionId: action.payload.sessionId
+          ? action.payload.sessionId
+          : undefined,
+      };
+    }
     case actions.FETCH_SESSION_ID_FAILURE: {
       return {
         ...state,
