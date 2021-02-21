@@ -113,7 +113,7 @@ const ScanSession = () => {
           />
         </Col>
         <Col>
-          <Button onClick={startSession} type="primary">
+          <Button onClick={startSession} disabled={!value} type="primary">
             Start session
           </Button>
         </Col>
