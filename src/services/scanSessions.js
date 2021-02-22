@@ -2,11 +2,14 @@ import axiosClient from 'utils/axiosClient';
 
 export const fetchSessions = async query => {
   try {
-    const sessions = await axiosClient.get('/scans/sessions/', {
-      params: {
-        ...query,
+    const sessions = await axiosClient.get(
+      '/scans/sessions/?status=COMPLETED',
+      {
+        params: {
+          ...query,
+        },
       },
-    });
+    );
 
     return sessions;
   } catch (error) {

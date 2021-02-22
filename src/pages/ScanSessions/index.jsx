@@ -41,10 +41,6 @@ const ScanSessions = () => {
           };
 
       dispatch({
-        type: actions.FETCH_SESSION_ID_REQUEST,
-      });
-
-      dispatch({
         type: actions.FETCH_SCAN_SESSIONS_REQUEST,
         payload: {
           ...params,
