@@ -56,18 +56,18 @@ const Pool = () => {
             <Statistic
               className={styles.companyDetailsStat}
               title="Company name:"
-              value={companyInfo?.name || '–'}
+              value={companyInfo?.name ?? '–'}
             />
             <Statistic
               className={styles.companyDetailsStat}
               title="Short company name:"
-              value={companyInfo?.name_short || '–'}
+              value={companyInfo?.name_short ?? '–'}
             />
             <Statistic
               className={styles.companyDetailsStat}
               title="Company ID:"
               groupSeparator=""
-              value={companyInfo?.company_id || '–'}
+              value={companyInfo?.company_id ?? '–'}
             />
             <Statistic
               className={styles.companyDetailsStat}
@@ -82,22 +82,17 @@ const Pool = () => {
           <Statistic
             className={styles.scanStat}
             title="Scanned on:"
-            value={moment(scan?.scan_timestamp).format('LLLL') || '–'}
+            value={moment(scan?.scan_timestamp).format('llll') ?? '–'}
           />
           <Statistic
             className={styles.scanStat}
             title="Scanned by:"
-            value={scan?.scanner || '–'}
+            value={scan?.scanner ?? '–'}
           />
           <Statistic
             className={styles.scanStat}
             title="Last modified on:"
-            value="–"
-          />
-          <Statistic
-            className={styles.scanStat}
-            title="Last modified by:"
-            value="–"
+            value={moment(scan?.modified).format('llll') ?? '–'}
           />
         </Col>
       </Row>
