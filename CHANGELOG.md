@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.6.0...v1.7.0) (2021-02-22)
+
+
+### Features
+
+* implement intake ([e4ac5ff](https://github.com/mokkapps/changelog-generator-demo/commits/e4ac5ff6f5fd434cf09d26e9679caecc918acbd6))
+
 ## [1.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.5.1...v1.6.0) (2021-02-22)
 
 
