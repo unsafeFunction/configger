@@ -12,7 +12,11 @@ const HelperModal = React.memo(props => {
   const dispatch = useDispatch();
 
   const onCancel = useCallback(() => {
-    props.onCancel();
+    const { onCancel } = props;
+
+    if (onCancel) {
+      onCancel();
+    }
 
     dispatch({ type: actions.HIDE_MODAL });
   }, [dispatch]);
