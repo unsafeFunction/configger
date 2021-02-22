@@ -109,11 +109,11 @@ export default combineReducers({
     ],
   })((state = initialSingleCompany, action = {}) => {
     switch (action.type) {
-      // case 'modal/HIDE_MODAL': {
-      //   return {
-      //     ...initialState,
-      //   };
-      // }
+      case 'modal/HIDE_MODAL': {
+        return {
+          ...initialSingleCompany,
+        };
+      }
       case actions.FETCH_COMPANY_SHORT_REQUEST:
         return {
           ...state,

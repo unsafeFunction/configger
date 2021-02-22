@@ -71,7 +71,7 @@ const IntakeReceiptLog = () => {
   const columns = [
     {
       title: 'Log DateTime',
-      dataIndex: 'created',
+      dataIndex: 'modified',
       render: (_, value) => {
         return moment(value).format('lll');
       },

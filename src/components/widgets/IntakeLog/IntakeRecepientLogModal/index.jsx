@@ -151,6 +151,12 @@ const IntakeRecepientLogModal = ({ form }) => {
         label="Tracking number"
         name="tracking_number"
         className={styles.formItem}
+        rules={[
+          {
+            required: true,
+            message: 'This field is required',
+          },
+        ]}
       >
         <Input placeholder="Tracking Number" />
       </Item>
