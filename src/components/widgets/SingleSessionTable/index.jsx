@@ -11,8 +11,8 @@ const SingleSessionTable = ({
   handleCancelScan,
 }) => {
   const columns = [
-    { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
-    { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id' },
+    { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id', width: 100 },
+    { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
     {
       title: 'Scan time',
       dataIndex: 'scan_time',
@@ -23,6 +23,7 @@ const SingleSessionTable = ({
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      width: 100,
       render: text => {
         return (
           <Tag color="blue" className={styles.sessionStatus}>
@@ -31,8 +32,7 @@ const SingleSessionTable = ({
         );
       },
     },
-    { title: 'Scanned by', dataIndex: 'scanned_by', key: 'scanned_by' },
-    { title: 'Actions', dataIndex: 'action', key: 'action' },
+    { title: 'Actions', dataIndex: 'action', key: 'action', width: 200 },
   ];
 
   const dataForTable = session?.scans
@@ -75,7 +75,7 @@ const SingleSessionTable = ({
       columns={columns}
       pagination={false}
       dataSource={dataForTable}
-      scroll={{ y: 'calc(30vh - 4em)' }}
+      scroll={{ y: 200, x: 600 }}
     />
   );
 };

@@ -39,7 +39,7 @@ const ScanStatistic = ({ scan, scansTotal }) => {
           />
         </Card>
       </Col>
-      <Col xs={24} sm={8} md={8} lg={8} xl={8} xxl={5}>
+      <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
         <Card className={styles.card}>
           <Statistic
             title="Status"
@@ -53,22 +53,12 @@ const ScanStatistic = ({ scan, scansTotal }) => {
           />
         </Card>
       </Col>
-      <Col xs={24} sm={8} md={8} lg={8} xl={8} xxl={4}>
+      <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
         <Card className={styles.card}>
           <Statistic
             title="Total Tubes"
             value={tubesTotal}
-            formatter={value => <Tag color="cyan">{value}</Tag>}
-            className={classNames(styles.statistic, styles.ellipsis)}
-          />
-        </Card>
-      </Col>
-      <Col xs={24} sm={8} md={8} lg={8} xl={8} xxl={4}>
-        <Card className={styles.card}>
-          <Statistic
-            title="Total Scans"
-            value={scansTotal}
-            formatter={value => <Tag color="gold">{value}</Tag>}
+            formatter={value => <Tag color="cyan">{value || '-'}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
         </Card>
