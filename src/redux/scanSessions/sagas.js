@@ -360,6 +360,10 @@ export function* callUpdateScan({ payload }) {
       },
     });
 
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
     notification.success({
       message: 'Scan updated',
     });

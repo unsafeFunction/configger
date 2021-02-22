@@ -215,7 +215,7 @@ const Scan = () => {
         message: () => <span>Are you sure to save scan?</span>,
       },
     });
-  }, [dispatch, scan, updateScan]);
+  }, [dispatch, updateScan]);
 
   const onSaveSessionModalToggle = useCallback(() => {
     dispatch({
@@ -360,11 +360,6 @@ const Scan = () => {
               value={`${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                 scan?.scan_order
               }`}
-            />
-            <Statistic
-              className={styles.companyDetailsStat}
-              title="Most Recent Scan:"
-              value="Name here"
             />
           </div>
           <SessionStatistic session={session} />
