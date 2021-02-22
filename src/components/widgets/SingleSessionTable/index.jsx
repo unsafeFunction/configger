@@ -32,7 +32,7 @@ const SingleSessionTable = ({
       },
     },
     { title: 'Scanned by', dataIndex: 'scanned_by', key: 'scanned_by' },
-    { title: 'Action', dataIndex: 'action', key: 'action' },
+    { title: 'Actions', dataIndex: 'action', key: 'action' },
   ];
 
   const dataForTable = session?.scans
@@ -46,7 +46,7 @@ const SingleSessionTable = ({
         rack_id: scan.rack_id,
         scanner: scan.scanner ?? '-',
         action: (
-          <>
+          <div className={styles.actions}>
             <Button
               onClick={() =>
                 handleNavigateToScan({
@@ -62,7 +62,7 @@ const SingleSessionTable = ({
                 Cancel
               </Button>
             )}
-          </>
+          </div>
         ),
       };
     });
