@@ -165,9 +165,10 @@ const ScanSessions = () => {
     [dispatch],
   );
 
-  const delayedQuery = useCallback(() => {
-    return debounce(q => sendQuery(q), 500);
-  }, [sendQuery]);
+  const delayedQuery = useCallback(
+    debounce(q => sendQuery(q), 500),
+    [],
+  );
 
   const onChangeSearch = useCallback(
     e => {
