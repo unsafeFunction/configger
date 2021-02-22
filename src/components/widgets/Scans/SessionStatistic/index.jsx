@@ -5,6 +5,13 @@ import classNames from 'classnames';
 import styles from '../styles.module.scss';
 
 const SessionStatistic = ({ session }) => {
+  const actualSamples = session?.scans?.map?.(
+    scan =>
+      scan?.scan_tubes?.filter?.(
+        tube => tube?.status !== 'EMPTY' && tube?.status !== 'VOIDED',
+      )?.length,
+  );
+
   return (
     <Row gutter={[24, 16]}>
       <Col
@@ -16,7 +23,7 @@ const SessionStatistic = ({ session }) => {
         <Card className={styles.card}>
           <Statistic
             title="Reference pools"
-            value={session?.scans?.length}
+            value={session?.reference_pools_count || '-'}
             formatter={value => <Tag color="geekblue">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
@@ -46,7 +53,7 @@ const SessionStatistic = ({ session }) => {
         <Card className={styles.card}>
           <Statistic
             title="Reference samples"
-            value={session?.scans?.length}
+            value={session?.reference_samples_count || '-'}
             formatter={value => <Tag color="cyan">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
@@ -61,7 +68,11 @@ const SessionStatistic = ({ session }) => {
         <Card className={styles.card}>
           <Statistic
             title="Actual samples"
-            value={session?.scans?.length}
+            value={
+              actualSamples?.length > 0
+                ? actualSamples.reduce((acc, curr) => acc + curr)
+                : '-'
+            }
             formatter={value => <Tag color="cyan">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />

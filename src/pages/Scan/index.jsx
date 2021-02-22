@@ -197,7 +197,7 @@ const Scan = () => {
           overflow: 'scroll',
         },
         okText: 'Save',
-        message: () => <span>Are you cure to save scan?</span>,
+        message: () => <span>Are you sure to save scan?</span>,
       },
     });
   }, [dispatch, scan, updateScan]);
