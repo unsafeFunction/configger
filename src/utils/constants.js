@@ -11,10 +11,26 @@ export const constants = {
   pools: {
     itemsLoadingCount: 25,
   },
+  scanSessions: {
+    itemsLoadingCount: 25,
+    scanStatuses: {
+      voided: 'VOIDED',
+      started: 'STARTED',
+      completed: 'COMPLETED',
+    },
+  },
+  tubeStatuses: {
+    scanned: 'SCANNED',
+    pooling: 'POOLING',
+    empty: 'EMPTY',
+  },
   poolsByRun: {
     itemsLoadingCount: 100,
   },
   activityStream: {
+    itemsLoadingCount: 25,
+  },
+  intakeLog: {
     itemsLoadingCount: 25,
   },
   USstates: [
@@ -253,6 +269,37 @@ export const constants = {
     {
       label: 'Wyoming',
       value: 'WY',
+    },
+  ],
+  A: 'A'.charCodeAt(0),
+  invalidateCodes: [
+    {
+      id: 1,
+      code: 'A',
+      reason: 'Empty',
+      color: '#ffffff',
+      status: 'EMPTY',
+    },
+    {
+      id: 2,
+      code: 'B',
+      reason: 'Quantity Not Sufficient',
+      color: '#cacaca',
+      status: 'INSUFFICIENT',
+    },
+    {
+      id: 3,
+      code: 'C',
+      reason: 'Improper Sample Collection',
+      color: '#ff0000',
+      status: 'IMPROPER_COLLECTION',
+    },
+    {
+      id: 4,
+      code: 'D',
+      reason: 'Contamination',
+      color: '#ff0000',
+      status: 'CONTAMINATION',
     },
   ],
 };

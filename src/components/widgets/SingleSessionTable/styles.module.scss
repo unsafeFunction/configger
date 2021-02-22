@@ -1,0 +1,11 @@
+.sessionStatus {
+  text-transform: capitalize;
+}
+
+.actions {
+  display: flex;
+
+  button:first-child {
+    margin-right: 10px;
+  }
+}

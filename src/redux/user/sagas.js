@@ -4,7 +4,6 @@ import {
   login,
   forgotPassword,
   restore,
-  accept,
   getProfile,
   updateProfile,
   changePassword,
@@ -18,12 +17,11 @@ import actions from './actions';
 const cookie = cookieStorage();
 
 export function* callLogin({ payload }) {
-  const { email, password, toRuns, toTimeline, acceptTerms } = payload;
+  const { email, password, toRuns, toTimeline } = payload;
   try {
     const response = yield call(login, email, password);
 
     cookie.setItem('accessToken', response.data.key);
-    cookie.setItem('termsAccepted', response.data.terms_accepted);
 
     yield put({
       type: actions.LOGIN_SUCCESS,
@@ -37,13 +35,7 @@ export function* callLogin({ payload }) {
       description: 'You have successfully logged in!',
     });
 
-    if (response.data.terms_accepted) {
-      return response.data.role === 'admin'
-        ? yield call(toRuns)
-        : yield call(toTimeline);
-    }
-
-    return yield call(acceptTerms);
+    return yield call(toRuns);
   } catch (error) {
     const errorData = error.response.data.non_field_errors;
 
@@ -128,41 +120,9 @@ export function* callRestore({ payload }) {
   }
 }
 
-export function* callAccept({ payload }) {
-  const { redirect } = payload;
-  try {
-    yield call(accept);
-
-    yield put({
-      type: actions.ACCEPT_SUCCESS,
-    });
-
-    yield call(redirect);
-
-    notification.success({
-      message: 'Terms have been accepted!',
-    });
-  } catch (error) {
-    const errorData = error.response.data.non_field_errors;
-
-    yield put({
-      type: actions.ACCEPT_FAILURE,
-      payload: {
-        data: errorData,
-      },
-    });
-
-    notification.error({
-      message: 'Something went wrong',
-      description: errorData,
-    });
-  }
-}
-
 export function* callLogout({ payload }) {
   try {
     cookie.removeItem('accessToken');
-    cookie.removeItem('termsAccepted');
 
     yield call(payload.redirect);
     return true;
@@ -190,7 +150,7 @@ export function* callLoadProfile() {
       },
     });
   } catch (error) {
-    const errorData = error.response.data;
+    const errorData = error?.response?.data?.detail;
 
     yield put({
       type: actions.PROFILE_FAILURE,
@@ -338,7 +298,6 @@ export default function* rootSaga() {
     takeEvery(actions.LOGIN_REQUEST, callLogin),
     takeEvery(actions.FORGOT_REQUEST, callForgotPassword),
     takeEvery(actions.RESTORE_REQUEST, callRestore),
-    takeEvery(actions.ACCEPT_REQUEST, callAccept),
     takeEvery(actions.PROFILE_REQUEST, callLoadProfile),
     takeEvery(actions.LOGOUT, callLogout),
     takeEvery(actions.UPDATE_PROFILE_REQUEST, callUpdateProfile),

@@ -13,11 +13,7 @@ const generateRequestActions = (
 
   methodsArray.forEach(method => {
     method.states.forEach(state => {
-      const singleAction = `${method.type.toUpperCase()}_${(method.type.toUpperCase() ===
-      'FETCH'
-        ? `${actionName}s`
-        : actionName
-      ).toUpperCase()}_${state}`;
+      const singleAction = `${method.type.toUpperCase()}_${actionName.toUpperCase()}_${state}`;
 
       Object.assign(actions, {
         [singleAction]: `${instance.toLowerCase()}/${singleAction}`,

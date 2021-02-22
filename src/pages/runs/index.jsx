@@ -49,15 +49,12 @@ const Runs = () => {
       title: 'Companies',
       dataIndex: 'companies',
       render: (text, record) => (
-          <Tooltip
-            title={record?.import_filename}
-            placement="right"
-          >
-          <Link to={`/runs/${record.unique_id}`} className="text-blue">
+        <Tooltip title={record?.import_filename} placement="right">
+          <Link to={`/runs/${record.id}`} className="text-blue">
             {text}
           </Link>
-          </Tooltip>
-        )
+        </Tooltip>
+      ),
     },
     {
       title: 'Pools Published',
@@ -84,7 +81,7 @@ const Runs = () => {
             record.pools_unpublished === 0 ? 'unpublished' : 'published'
           }?`}
           onConfirm={() =>
-            onPublishChange(record.unique_id, !(record.pools_unpublished === 0))
+            onPublishChange(record.id, !(record.pools_unpublished === 0))
           }
           placement="topRight"
           disabled={user.role === 'staff'}
@@ -103,7 +100,7 @@ const Runs = () => {
 
   const data = runs?.items?.map?.(run => ({
     ...run,
-    key: run.unique_id,
+    key: run.id,
     companies: run.companies
       .reduce((accumulator, currentValue) => {
         if (currentValue?.name) {
@@ -142,11 +139,11 @@ const Runs = () => {
     const params =
       from && to
         ? {
-          from,
-          to,
-          limit: constants?.runs?.itemsLoadingCount,
-          offset: runs.offset,
-        }
+            from,
+            to,
+            limit: constants?.runs?.itemsLoadingCount,
+            offset: runs.offset,
+          }
         : { limit: constants?.runs?.itemsLoadingCount, offset: runs.offset };
     dispatch({
       type: actions.FETCH_RUNS_REQUEST,

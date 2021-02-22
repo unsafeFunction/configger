@@ -1,37 +1,5 @@
-import { Badge } from 'antd';
-
 export async function getMenuData() {
   return [
-    {
-      title: 'Results',
-      key: 'results',
-      url: '/results',
-      icon: 'fe fe-compass',
-    },
-    {
-      title: 'Users',
-      key: 'users',
-      url: '/users',
-      icon: 'fe fe-user',
-    },
-    {
-      title: 'Companies',
-      key: 'companies',
-      icon: 'fe fe-briefcase',
-      url: '/companies',
-    },
-    {
-      title: 'Runs',
-      key: 'runs',
-      url: '/runs',
-      icon: 'fe fe-box',
-    },
-    {
-      title: 'Pools',
-      key: 'pools',
-      url: '/pools',
-      icon: 'fe fe-folder',
-    },
     {
       title: 'Packing Slip',
       key: 'packingSlip',
@@ -50,6 +18,24 @@ export async function getMenuData() {
       key: 'intake',
       url: '/intake',
       icon: 'fe fe-monitor',
+    },
+    {
+      title: 'Intake Receipt Log',
+      key: 'intake-receipt-log',
+      url: '/intake-receipt-log',
+      icon: 'fe fe-list',
+    },
+    {
+      title: 'Scanned pools',
+      key: 'scanned-pools',
+      url: '/session-pools',
+      icon: 'fe fe-maximize',
+    },
+    {
+      title: 'Session',
+      key: 'session',
+      url: '/session',
+      icon: 'fe fe-maximize',
     },
     {
       title: 'Management',
@@ -75,30 +61,28 @@ export async function getRolePermissions() {
     admin: {
       permitted: [
         '/profile',
-        '/users',
-        '/companies',
-        '/runs',
-        '/pools',
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/intake-receipt-log',
+        '/session-pools',
+        '/session',
         '/management',
       ],
-      default: '/runs',
+      default: '/session',
     },
     staff: {
       permitted: [
         '/profile',
-        '/users',
-        '/companies',
-        '/runs',
-        '/pools',
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/intake-receipt-log',
+        '/session-pools',
+        '/session',
         '/management',
       ],
-      default: '/runs',
+      default: '/session',
     },
     'company-admin': {
       permitted: ['/profile', '/results', '/packing-slip'],

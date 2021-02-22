@@ -46,7 +46,7 @@ const Pools = () => {
       dispatch({
         type: actions.FETCH_ALL_POOLS_REQUEST,
         payload: {
-          limit: constants.companies.itemsLoadingCount,
+          limit: constants.pools.itemsLoadingCount,
           search: query,
         },
       });

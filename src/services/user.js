@@ -28,14 +28,6 @@ export const restore = async (new_password1, new_password2, uid, token) => {
   return restore;
 };
 
-export const accept = async () => {
-  const accept = await axiosClient.patch('/me/', {
-    terms_accepted: true,
-  });
-
-  return accept;
-};
-
 export const getProfile = async () => {
   const profile = await axiosClient.get('/me/');
 
@@ -67,7 +59,9 @@ export const changePassword = async (
 };
 
 export const fetchUserById = async id => {
-  return await axiosClient.get(`/users/${id}/`);
+  return await axiosClient.get(`/users/${id}/`, {
+    baseURL: process.env.REACT_APP_API_URL,
+  });
 };
 
 export const verifyEmail = async inviteKey => {

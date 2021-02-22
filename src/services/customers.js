@@ -7,6 +7,7 @@ export const fetchCustomers = async ({ limit, offset, search }) => {
       offset,
       search,
     },
+    baseURL: process.env.REACT_APP_API_URL,
   });
   return users;
 };
@@ -19,6 +20,7 @@ export const fetchCompanies = async (page, search) => {
       offset: limit * (page - 1),
       search,
     },
+    baseURL: process.env.REACT_APP_API_URL,
   });
 
   return companies;
@@ -27,13 +29,17 @@ export const fetchCompanies = async (page, search) => {
 export const toggleUser = async (id, is_active) => {
   const status = await axiosClient.patch(`/users/${id}/`, {
     is_active,
+  }, {
+    baseURL: process.env.REACT_APP_API_URL,
   });
 
   return status;
 };
 
 export const reinviteUser = async id => {
-  const invite = await axiosClient.post(`/users/${id}/reinvite/`);
+  const invite = await axiosClient.post(`/users/${id}/reinvite/`, {}, {
+    baseURL: process.env.REACT_APP_API_URL,
+  });
 
   return invite;
 };

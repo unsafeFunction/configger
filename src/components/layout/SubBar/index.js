@@ -37,7 +37,7 @@ const SubBar = ({ location }) => {
               return (
                 <Fragment key={path}>
                   <Link to={`/${path}`} className={styles.breadcrumbLink}>
-                    {path.replace('-', ' ')}
+                    {path.replaceAll('-', ' ')}
                   </Link>
                   {index + 1 !== pathArray.length && pathArray.length > 1 && (
                     <span className={styles.breadcrumbLink__dash}>-</span>
