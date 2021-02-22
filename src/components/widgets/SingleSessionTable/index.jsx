@@ -5,7 +5,11 @@ import moment from 'moment';
 
 import styles from './styles.module.scss';
 
-const SingleSessionTable = ({ session, handleNavigateToScan }) => {
+const SingleSessionTable = ({
+  session,
+  handleNavigateToScan,
+  handleCancelScan,
+}) => {
   const columns = [
     { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
     { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id' },
@@ -32,7 +36,7 @@ const SingleSessionTable = ({ session, handleNavigateToScan }) => {
   ];
 
   const dataForTable = session?.scans
-    ?.filter(scan => scan.status === 'VOIDED')
+    ?.filter(scan => scan.status !== 'VOIDED')
     .map(scan => {
       return {
         key: scan.id,
@@ -42,16 +46,23 @@ const SingleSessionTable = ({ session, handleNavigateToScan }) => {
         rack_id: scan.rack_id,
         scanner: scan.scanner ?? '-',
         action: (
-          <Button
-            onClick={() =>
-              handleNavigateToScan({
-                scanOrder: scan.scan_order,
-              })
-            }
-            type="primary"
-          >
-            View scan
-          </Button>
+          <>
+            <Button
+              onClick={() =>
+                handleNavigateToScan({
+                  scanOrder: scan.scan_order,
+                })
+              }
+              type="primary"
+            >
+              View scan
+            </Button>
+            {scan.status === 'COMPLETED' && (
+              <Button onClick={() => handleCancelScan(scan)} type="primary">
+                Cancel
+              </Button>
+            )}
+          </>
         ),
       };
     });
@@ -72,6 +83,7 @@ const SingleSessionTable = ({ session, handleNavigateToScan }) => {
 SingleSessionTable.propTypes = {
   session: PropTypes.shape({}).isRequired,
   handleNavigateToScan: PropTypes.func.isRequired,
+  handleCancelScan: PropTypes.func.isRequired,
 };
 
 export default SingleSessionTable;

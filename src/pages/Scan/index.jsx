@@ -185,6 +185,21 @@ const Scan = () => {
     [currentScanOrder, history],
   );
 
+  const handleCancelScan = useCallback(
+    scan => {
+      dispatch({
+        type: actions.CANCEL_SCAN_BY_ID_REQUEST,
+        payload: {
+          data: {
+            status: 'STARTED',
+          },
+          id: scan?.id,
+        },
+      });
+    },
+    [dispatch],
+  );
+
   const onSaveScanModalToggle = useCallback(() => {
     dispatch({
       type: modalActions.SHOW_MODAL,
@@ -316,6 +331,7 @@ const Scan = () => {
               <SingleSessionTable
                 session={session}
                 handleNavigateToScan={handleNavigateToScan}
+                handleCancelScan={handleCancelScan}
               />
             </Col>
           </Row>

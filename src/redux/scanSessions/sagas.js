@@ -10,6 +10,7 @@ import {
   updateScan,
   invalidateTube,
   fetchSessionId,
+  cancelScan,
 } from 'services/scans';
 import {
   fetchSessions,
@@ -374,6 +375,32 @@ export function* callUpdateScan({ payload }) {
   }
 }
 
+export function* callCancelScan({ payload }) {
+  try {
+    const response = yield call(cancelScan, payload);
+
+    yield put({
+      type: actions.CANCEL_SCAN_BY_ID_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+
+    notification.success({
+      message: 'Scan updated',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.CANCEL_SCAN_BY_ID_FAILURE,
+      payload: {
+        error,
+      },
+    });
+
+    throw new Error(error);
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_SCAN_SESSIONS_REQUEST, callFetchScanSessions),
@@ -390,5 +417,6 @@ export default function* rootSaga() {
     takeEvery(actions.INVALIDATE_TUBE_REQUEST, callInvalidateTube),
     takeEvery(actions.CREATE_SESSION_REQUEST, callCreateSession),
     takeEvery(actions.FETCH_SESSION_ID_REQUEST, callFetchSessionId),
+    takeEvery(actions.CANCEL_SCAN_BY_ID_REQUEST, callCancelScan),
   ]);
 }

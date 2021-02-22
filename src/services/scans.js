@@ -46,6 +46,18 @@ export const deleteScan = async data => {
   }
 };
 
+export const cancelScan = async ({ data, id }) => {
+  try {
+    const scan = await axiosClient.put(`/scans/${id}/`, {
+      ...data,
+    });
+
+    return scan;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 export const updateScan = async ({ data, id }) => {
   try {
     const scan = await axiosClient.patch(`/scans/${id}/`, {
