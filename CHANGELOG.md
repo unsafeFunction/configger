@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://github.com/mokkapps/changelog-generator-demo/compare/v1.7.0...v1.7.1) (2021-02-23)
+
+
+### Bug Fixes
+
+* fix tube update ([899ead5](https://github.com/mokkapps/changelog-generator-demo/commits/899ead5789c83e0b7b93057379f87bd4f9247913))
+
 ## [1.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.6.0...v1.7.0) (2021-02-22)
 
 
