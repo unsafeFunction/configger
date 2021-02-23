@@ -153,15 +153,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     case actions.UPDATE_TUBE_FAILURE: {
       return {
         ...state,
-        // items: state.items.map(row => {
-        //   if (row.letter === action?.payload?.letter) {
-        //     return {
-        //       ...row,
-        //       // resultIsUpdating: false,
-        //     };
-        //   }
-        //   return row;
-        // }),
+        isLoading: false,
       };
     }
     case actions.INVALIDATE_TUBE_REQUEST: {
