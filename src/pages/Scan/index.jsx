@@ -43,9 +43,7 @@ const Scan = () => {
 
   const session = useSelector(state => state.scanSessions?.singleSession);
   const scan = session?.scans?.[currentScanOrder];
-  const isEndSessionDisabled = session?.scans?.find(
-    scan => scan.status === constants.scanSessions.scanStatuses.voided,
-  );
+
   const countOfStartedScans = session?.scans?.find(
     scan => scan.status === constants.scanSessions.scanStatuses.started,
   )?.length;
@@ -251,11 +249,7 @@ const Scan = () => {
             Refresh
           </Button>
           <Button
-            disabled={
-              isEndSessionDisabled ||
-              countOfStartedScans > 1 ||
-              session?.isLoading
-            }
+            disabled={countOfStartedScans > 1 || session?.isLoading}
             onClick={onSaveSessionModalToggle}
             className="mb-2"
           >
