@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.7.1...v1.8.0) (2021-02-24)
+
+
+### Bug Fixes
+
+* add capability to end session with voided scan ([a6e54dd](https://github.com/mokkapps/changelog-generator-demo/commits/a6e54dde48221cf7a1aee0e5f835edbad410cce3))
+
 ### [1.7.1](https://github.com/mokkapps/changelog-generator-demo/compare/v1.7.0...v1.7.1) (2021-02-23)
 
 
