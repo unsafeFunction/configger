@@ -42,7 +42,9 @@ const Scan = () => {
   const sessionId = history.location.pathname.split('/')[2];
 
   const session = useSelector(state => state.scanSessions?.singleSession);
-  const scan = session?.scans?.[currentScanOrder];
+  const scan = session?.scans?.find(
+    scan => scan.scan_order === currentScanOrder,
+  );
   const isEndSessionDisabled = session?.scans?.find(
     scan => scan.status === constants.scanSessions.scanStatuses.voided,
   );
