@@ -244,7 +244,7 @@ const Scan = () => {
         message: () => <span>Are you sure to save scan?</span>,
       },
     });
-  }, [dispatch, scan, updateScan]);
+  }, [dispatch, updateScan]);
 
   const onSaveSessionModalToggle = useCallback(() => {
     dispatch({
@@ -280,11 +280,7 @@ const Scan = () => {
             Refresh
           </Button>
           <Button
-            disabled={
-              isEndSessionDisabled ||
-              countOfStartedScans > 1 ||
-              session?.isLoading
-            }
+            disabled={countOfStartedScans > 1 || session?.isLoading}
             onClick={onSaveSessionModalToggle}
             className="mb-2"
           >

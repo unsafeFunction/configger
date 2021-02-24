@@ -1,18 +1,14 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
-import {
-  fetchCompanies,
-  createPackingSlip,
-  downloadFile,
-} from 'services/intake';
+import { fetchIntake } from 'services/intake';
 import { notification } from 'antd';
 import actions from './actions';
 
-export function* callFetchCompanies({ payload }) {
+export function* callFetchIntake({ payload }) {
   try {
-    const response = yield call(fetchCompanies, payload);
+    const response = yield call(fetchIntake, payload);
 
     yield put({
-      type: actions.FETCH_COMPANIES_SUCCESS,
+      type: actions.FETCH_INTAKE_SUCCESS,
       payload: {
         data: response.data.results,
         total: response.data.count,
@@ -23,28 +19,6 @@ export function* callFetchCompanies({ payload }) {
   }
 }
 
-export function* callCreatePackingSlip({ payload }) {
-  try {
-    const response = yield call(createPackingSlip, payload);
-    yield put({
-      type: actions.CREATE_PACKING_SUCCESS,
-      payload: {
-        data: response.data['packing-slip-url'],
-      },
-    });
-    yield call(downloadFile, {
-      link: response.data['packing-slip-url'],
-      name: response.data['packing-slip-filename'],
-      contentType: 'application/pdf',
-    });
-  } catch (error) {
-    notification.error(error);
-  }
-}
-
 export default function* rootSaga() {
-  yield all([
-    takeEvery(actions.FETCH_COMPANIES_REQUEST, callFetchCompanies),
-    takeEvery(actions.CREATE_PACKING_REQUEST, callCreatePackingSlip),
-  ]);
+  yield all([takeEvery(actions.FETCH_INTAKE_REQUEST, callFetchIntake)]);
 }

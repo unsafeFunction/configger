@@ -189,7 +189,7 @@ export function* callUpdateTube({ payload }) {
               status: response?.data?.status?.toLowerCase(),
             },
           },
-          scanId: payload.scanId,
+          scanId: payload.data.scanId,
         },
       },
     });
@@ -198,18 +198,11 @@ export function* callUpdateTube({ payload }) {
       message: 'Tube updated',
     });
   } catch (error) {
-    // is it necessary?
-    yield put({
-      type: actions.UPDATE_TUBE_FAILURE,
-      payload: {
-        letter: payload.position?.[0],
-      },
-    });
-
     notification.error({
       message: 'Something went wrong',
     });
-    // notification.error(error);
+
+    throw Error(error);
   }
 }
 
@@ -358,6 +351,10 @@ export function* callUpdateScan({ payload }) {
       payload: {
         data: response.data,
       },
+    });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
     });
 
     notification.success({
