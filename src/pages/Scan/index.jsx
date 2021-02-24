@@ -166,15 +166,42 @@ const Scan = () => {
   }, [visibleActions]);
 
   const handleNavigation = useCallback(
-    ({ direction, total }) => {
-      let order = +currentScanOrder;
-      if (direction === 'prev') {
-        order <= 0 ? (order = total) : order--;
-      } else if (direction === 'next') {
-        order >= total ? (order = 0) : order++;
+    ({ direction, scans }) => {
+      const reversedScans = scans?.slice?.().reverse?.();
+
+      if (direction === 'next') {
+        const nextScanOrder = scans?.find(
+          scan =>
+            scan.scan_order > currentScanOrder && scan.status !== 'VOIDED',
+        )?.scan_order;
+
+        if (nextScanOrder) {
+          setCurrentScanOrder(nextScanOrder);
+          history.push({ search: `?scanOrder=${nextScanOrder}` });
+        } else {
+          const firstScanOrder = session?.scans?.find(
+            scan => scan.status !== 'VOIDED',
+          )?.scan_order;
+          setCurrentScanOrder(firstScanOrder);
+          history.push({ search: `?scanOrder=${firstScanOrder}` });
+        }
+      } else {
+        const prevScanOrder = reversedScans?.find(
+          scan =>
+            scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
+        )?.scan_order;
+
+        if (prevScanOrder) {
+          setCurrentScanOrder(prevScanOrder);
+          history.push({ search: `?scanOrder=${prevScanOrder}` });
+        } else {
+          const lastScanOrder = reversedScans?.find(
+            scan => scan.status !== 'VOIDED',
+          )?.scan_order;
+          setCurrentScanOrder(lastScanOrder);
+          history.push({ search: `?scanOrder=${lastScanOrder}` });
+        }
       }
-      history.push({ search: `?scanOrder=${order}` });
-      setCurrentScanOrder(order);
     },
     [currentScanOrder, history],
   );
@@ -286,7 +313,7 @@ const Scan = () => {
                       onClick={() =>
                         handleNavigation({
                           direction: 'prev',
-                          total: scansTotal - 1,
+                          scans: session.scans,
                         })
                       }
                       disabled={session?.isLoading}
@@ -297,7 +324,7 @@ const Scan = () => {
                       onClick={() =>
                         handleNavigation({
                           direction: 'next',
-                          total: scansTotal - 1,
+                          scans: session.scans,
                         })
                       }
                       disabled={session?.isLoading}
