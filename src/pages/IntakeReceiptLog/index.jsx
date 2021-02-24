@@ -72,8 +72,8 @@ const IntakeReceiptLog = () => {
     {
       title: 'Log DateTime',
       dataIndex: 'modified',
-      render: (_, value) => {
-        return moment(value).format('lll');
+      render: (_, record) => {
+        return moment(record.modified).format('lll');
       },
     },
     {
