@@ -120,7 +120,7 @@ const Scan = () => {
     deleteScan({ id: scan.id });
 
     setVisibleActions(false);
-  }, [scan, session]);
+  }, [scan, goToNextScan, deleteScan]);
 
   const menu = (
     <Menu>
@@ -196,14 +196,14 @@ const Scan = () => {
   }, [visibleActions]);
 
   const handleNavigation = useCallback(
-    ({ direction, scans }) => {
+    ({ direction }) => {
       if (direction === 'next') {
         goToNextScan();
       } else {
         goToPrevScan();
       }
     },
-    [currentScanOrder, history, goToNextScan, goToPrevScan],
+    [goToNextScan, goToPrevScan],
   );
 
   const handleNavigateToScan = useCallback(
@@ -211,7 +211,7 @@ const Scan = () => {
       history.push({ search: `?scanOrder=${scanOrder}` });
       setCurrentScanOrder(scanOrder);
     },
-    [currentScanOrder, history],
+    [history],
   );
 
   const handleCancelScan = useCallback(
@@ -313,7 +313,6 @@ const Scan = () => {
                       onClick={() =>
                         handleNavigation({
                           direction: 'prev',
-                          scans: session.scans,
                         })
                       }
                       disabled={session?.isLoading}
@@ -324,7 +323,6 @@ const Scan = () => {
                       onClick={() =>
                         handleNavigation({
                           direction: 'next',
-                          scans: session.scans,
                         })
                       }
                       disabled={session?.isLoading}
