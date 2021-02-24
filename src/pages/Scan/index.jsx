@@ -42,6 +42,7 @@ const Scan = () => {
   const sessionId = history.location.pathname.split('/')[2];
 
   const session = useSelector(state => state.scanSessions?.singleSession);
+  const scans = session?.scans;
   const scan = session?.scans?.find(
     scan => scan.scan_order === currentScanOrder,
   );
@@ -51,6 +52,40 @@ const Scan = () => {
   const countOfStartedScans = session?.scans?.find(
     scan => scan.status === constants.scanSessions.scanStatuses.started,
   )?.length;
+
+  const goToNextScan = useCallback(() => {
+    const nextScanOrder = scans?.find(
+      scan => scan.scan_order > currentScanOrder && scan.status !== 'VOIDED',
+    )?.scan_order;
+
+    if (nextScanOrder) {
+      setCurrentScanOrder(nextScanOrder);
+      history.push({ search: `?scanOrder=${nextScanOrder}` });
+    } else {
+      const firstScanOrder = scans.find(scan => scan.status !== 'VOIDED')
+        ?.scan_order;
+      setCurrentScanOrder(firstScanOrder);
+      history.push({ search: `?scanOrder=${firstScanOrder}` });
+    }
+  }, [history, scans, currentScanOrder]);
+
+  const goToPrevScan = useCallback(() => {
+    const reversedScans = scans?.slice?.().reverse?.();
+    const prevScanOrder = reversedScans?.find(
+      scan => scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
+    )?.scan_order;
+
+    if (prevScanOrder) {
+      setCurrentScanOrder(prevScanOrder);
+      history.push({ search: `?scanOrder=${prevScanOrder}` });
+    } else {
+      const lastScanOrder = reversedScans?.find(
+        scan => scan.status !== 'VOIDED',
+      )?.scan_order;
+      setCurrentScanOrder(lastScanOrder);
+      history.push({ search: `?scanOrder=${lastScanOrder}` });
+    }
+  }, [scans, history, currentScanOrder]);
 
   const scansTotal = session?.scans?.length;
 
@@ -75,22 +110,17 @@ const Scan = () => {
         },
       });
 
-      if (currentScanOrder >= scansTotal - 1) {
-        history.push({ search: `?scanOrder=0` });
-        setCurrentScanOrder(0);
-      } else {
-        history.push({ search: `?scanOrder=${currentScanOrder + 1}` });
-        setCurrentScanOrder(currentScanOrder + 1);
-      }
+      goToNextScan();
     },
     [dispatch, scan, scansTotal, currentScanOrder],
   );
 
   const handleVoidScan = useCallback(() => {
+    goToNextScan();
     deleteScan({ id: scan.id });
 
     setVisibleActions(false);
-  }, [scan]);
+  }, [scan, session]);
 
   const menu = (
     <Menu>
@@ -167,43 +197,13 @@ const Scan = () => {
 
   const handleNavigation = useCallback(
     ({ direction, scans }) => {
-      const reversedScans = scans?.slice?.().reverse?.();
-
       if (direction === 'next') {
-        const nextScanOrder = scans?.find(
-          scan =>
-            scan.scan_order > currentScanOrder && scan.status !== 'VOIDED',
-        )?.scan_order;
-
-        if (nextScanOrder) {
-          setCurrentScanOrder(nextScanOrder);
-          history.push({ search: `?scanOrder=${nextScanOrder}` });
-        } else {
-          const firstScanOrder = session?.scans?.find(
-            scan => scan.status !== 'VOIDED',
-          )?.scan_order;
-          setCurrentScanOrder(firstScanOrder);
-          history.push({ search: `?scanOrder=${firstScanOrder}` });
-        }
+        goToNextScan();
       } else {
-        const prevScanOrder = reversedScans?.find(
-          scan =>
-            scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
-        )?.scan_order;
-
-        if (prevScanOrder) {
-          setCurrentScanOrder(prevScanOrder);
-          history.push({ search: `?scanOrder=${prevScanOrder}` });
-        } else {
-          const lastScanOrder = reversedScans?.find(
-            scan => scan.status !== 'VOIDED',
-          )?.scan_order;
-          setCurrentScanOrder(lastScanOrder);
-          history.push({ search: `?scanOrder=${lastScanOrder}` });
-        }
+        goToPrevScan();
       }
     },
-    [currentScanOrder, history],
+    [currentScanOrder, history, goToNextScan, goToPrevScan],
   );
 
   const handleNavigateToScan = useCallback(
