@@ -42,11 +42,50 @@ const Scan = () => {
   const sessionId = history.location.pathname.split('/')[2];
 
   const session = useSelector(state => state.scanSessions?.singleSession);
-  const scan = session?.scans?.[currentScanOrder];
-
+  const scans = session?.scans;
+  const scan = session?.scans?.find(
+    scan => scan.scan_order === currentScanOrder,
+  );
+  const isEndSessionDisabled = session?.scans?.find(
+    scan => scan.status === constants.scanSessions.scanStatuses.voided,
+  );
   const countOfStartedScans = session?.scans?.find(
     scan => scan.status === constants.scanSessions.scanStatuses.started,
   )?.length;
+
+  const goToNextScan = useCallback(() => {
+    const nextScanOrder = scans?.find(
+      scan => scan.scan_order > currentScanOrder && scan.status !== 'VOIDED',
+    )?.scan_order;
+
+    if (nextScanOrder) {
+      setCurrentScanOrder(nextScanOrder);
+      history.push({ search: `?scanOrder=${nextScanOrder}` });
+    } else {
+      const firstScanOrder = scans.find(scan => scan.status !== 'VOIDED')
+        ?.scan_order;
+      setCurrentScanOrder(firstScanOrder);
+      history.push({ search: `?scanOrder=${firstScanOrder}` });
+    }
+  }, [history, scans, currentScanOrder]);
+
+  const goToPrevScan = useCallback(() => {
+    const reversedScans = scans?.slice?.().reverse?.();
+    const prevScanOrder = reversedScans?.find(
+      scan => scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
+    )?.scan_order;
+
+    if (prevScanOrder) {
+      setCurrentScanOrder(prevScanOrder);
+      history.push({ search: `?scanOrder=${prevScanOrder}` });
+    } else {
+      const lastScanOrder = reversedScans?.find(
+        scan => scan.status !== 'VOIDED',
+      )?.scan_order;
+      setCurrentScanOrder(lastScanOrder);
+      history.push({ search: `?scanOrder=${lastScanOrder}` });
+    }
+  }, [scans, history, currentScanOrder]);
 
   const scansTotal = session?.scans?.length;
 
@@ -71,22 +110,17 @@ const Scan = () => {
         },
       });
 
-      if (currentScanOrder >= scansTotal - 1) {
-        history.push({ search: `?scanOrder=0` });
-        setCurrentScanOrder(0);
-      } else {
-        history.push({ search: `?scanOrder=${currentScanOrder + 1}` });
-        setCurrentScanOrder(currentScanOrder + 1);
-      }
+      goToNextScan();
     },
     [dispatch, scan, scansTotal, currentScanOrder],
   );
 
   const handleVoidScan = useCallback(() => {
+    goToNextScan();
     deleteScan({ id: scan.id });
 
     setVisibleActions(false);
-  }, [scan]);
+  }, [scan, goToNextScan, deleteScan]);
 
   const menu = (
     <Menu>
@@ -162,17 +196,14 @@ const Scan = () => {
   }, [visibleActions]);
 
   const handleNavigation = useCallback(
-    ({ direction, total }) => {
-      let order = +currentScanOrder;
-      if (direction === 'prev') {
-        order <= 0 ? (order = total) : order--;
-      } else if (direction === 'next') {
-        order >= total ? (order = 0) : order++;
+    ({ direction }) => {
+      if (direction === 'next') {
+        goToNextScan();
+      } else {
+        goToPrevScan();
       }
-      history.push({ search: `?scanOrder=${order}` });
-      setCurrentScanOrder(order);
     },
-    [currentScanOrder, history],
+    [goToNextScan, goToPrevScan],
   );
 
   const handleNavigateToScan = useCallback(
@@ -180,7 +211,7 @@ const Scan = () => {
       history.push({ search: `?scanOrder=${scanOrder}` });
       setCurrentScanOrder(scanOrder);
     },
-    [currentScanOrder, history],
+    [history],
   );
 
   const handleCancelScan = useCallback(
@@ -278,7 +309,6 @@ const Scan = () => {
                       onClick={() =>
                         handleNavigation({
                           direction: 'prev',
-                          total: scansTotal - 1,
                         })
                       }
                       disabled={session?.isLoading}
@@ -289,7 +319,6 @@ const Scan = () => {
                       onClick={() =>
                         handleNavigation({
                           direction: 'next',
-                          total: scansTotal - 1,
                         })
                       }
                       disabled={session?.isLoading}
@@ -351,9 +380,18 @@ const Scan = () => {
             <Statistic
               className={styles.companyDetailsStat}
               title="Pool name:"
-              value={`${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
+              value={
                 scan?.scan_order
-              }`}
+                  ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
+                      scan?.scan_order
+                  }`
+                  : '-'
+              }
+            />
+            <Statistic
+              className={styles.companyDetailsStat}
+              title="Most Recent Scan:"
+              value="-"
             />
           </div>
           <SessionStatistic session={session} />

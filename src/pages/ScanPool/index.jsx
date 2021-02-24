@@ -21,7 +21,9 @@ const Pool = () => {
   const sessionId = history.location.pathname.split('/')[2];
 
   const session = useSelector(state => state.scanSessions?.singleSession);
-  const scan = session?.scans?.[currentScanOrder];
+  const scan = session?.scans?.find(
+    scan => scan.scan_order === currentScanOrder,
+  );
 
   const companyInfo = session?.company_short;
 
@@ -72,9 +74,13 @@ const Pool = () => {
             <Statistic
               className={styles.companyDetailsStat}
               title="Pool name:"
-              value={`${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
+              value={
                 scan?.scan_order
-              }`}
+                  ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
+                      scan?.scan_order
+                  }`
+                  : '-'
+              }
             />
           </div>
         </Col>
