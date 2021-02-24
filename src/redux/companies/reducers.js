@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
 import actions from './actions';
 import { constants } from '../../utils/constants';
+import isEmpty from 'lodash.isempty';
 
 const initialState = {
   items: [],
@@ -120,10 +121,13 @@ export default combineReducers({
           isLoadingCompany: true,
         };
       case actions.FETCH_COMPANY_SHORT_SUCCESS:
+        const company = !isEmpty(action.payload.data)
+          ? action.payload.data
+          : initialSingleCompany;
         return {
           ...state,
           isLoadingCompany: false,
-          ...action.payload.data,
+          ...company,
         };
       case actions.FETCH_COMPANY_SHORT_FAILURE:
         return {

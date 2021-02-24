@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import actions from 'redux/companies/actions';
 import debounce from 'lodash.debounce';
 import { Form, Input, Select } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
 const IntakeRecepientLogModal = ({ form }) => {
@@ -72,7 +73,11 @@ const IntakeRecepientLogModal = ({ form }) => {
           },
         ]}
       >
-        <Input disabled placeholder="Company name" />
+        <Input
+          disabled
+          placeholder="Company name"
+          suffix={company.isLoadingCompany && <LoadingOutlined />}
+        />
       </Item>
 
       <Item
@@ -80,7 +85,11 @@ const IntakeRecepientLogModal = ({ form }) => {
         name="company_short"
         className={styles.formItem}
       >
-        <Input disabled placeholder="Company short" />
+        <Input
+          disabled
+          placeholder="Company short"
+          suffix={company.isLoadingCompany && <LoadingOutlined />}
+        />
       </Item>
 
       <Item
