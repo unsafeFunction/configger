@@ -13,3 +13,13 @@ export const fetchRackScans = async query => {
     throw new Error(error);
   }
 };
+
+export const fetchRackScan = async id => {
+  try {
+    const rackScan = await axiosClient.get(`/scans/rack/${id}`);
+
+    return rackScan;
+  } catch (error) {
+    throw new Error(error);
+  }
+};

@@ -55,10 +55,9 @@ const RackScans = () => {
   const racksItems = racks?.items;
 
   const navigateToScan = useCallback(
-    ({ sessionId, scanOrder }) => {
+    rackId => {
       history.push({
-        pathname: `/session-pools/${sessionId}`,
-        search: `?scanOrder=${scanOrder}`,
+        pathname: `/rack-scans/${rackId}`,
       });
     },
     [history],
@@ -76,6 +75,7 @@ const RackScans = () => {
     {
       title: 'Status',
       dataIndex: 'status',
+      width: 90,
       render: text => {
         return (
           <Tag color="blue" className={styles.sessionStatus}>
@@ -103,24 +103,23 @@ const RackScans = () => {
         return value || '-';
       },
     },
+    {
+      title: 'Actions',
+      fixed: 'right',
+      key: 'action',
+      width: 150,
+      render: (_, record) => {
+        console.log(record);
+        return (
+          <div className={styles.actions}>
+            <Button onClick={() => navigateToScan(record.id)} type="primary">
+              View rack
+            </Button>
+          </div>
+        );
+      },
+    },
   ];
-
-  // const expandedRow = scan => {
-  //   const columns = [
-  //     { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
-  //     { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id' },
-  //     {
-  //       title: 'Scan time',
-  //       dataIndex: 'scan_time',
-  //       key: 'scan_time',
-  //       width: 300,
-  //     },
-  //     { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
-  //     { title: 'Action', dataIndex: 'action', key: 'action' },
-  //   ];
-  //
-  //   return <Table columns={columns} dataSource={scan} pagination={false} />;
-  // };
 
   const loadMore = useCallback(() => {
     const filteringParams = {
@@ -211,32 +210,6 @@ const RackScans = () => {
             hideOnSinglePage: true,
           }}
           rowKey={record => record.id}
-          // expandedRowRender={record => {
-          //   return expandedRow(
-          //     sortBy(record.scans, 'scan_order').map(scan => {
-          //       return {
-          //         key: scan.id,
-          //         pool_id: scan.pool_id,
-          //         scan_time: moment(scan.scan_timestamp).format('LLLL'),
-          //         rack_id: scan.rack_id,
-          //         scanner: scan.scanner ?? '-',
-          //         action: (
-          //           <Button
-          //             onClick={() =>
-          //               navigateToScan({
-          //                 sessionId: record.id,
-          //                 scanOrder: scan.scan_order,
-          //               })
-          //             }
-          //             type="primary"
-          //           >
-          //             View pool
-          //           </Button>
-          //         ),
-          //       };
-          //     }),
-          //   );
-          // }}
           title={() => (
             <Row gutter={16}>
               <Col

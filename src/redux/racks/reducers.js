@@ -53,6 +53,34 @@ const racksReducer = (state = initialState, action) => {
   }
 };
 
+const rack = (state = initialState, action) => {
+  switch (action.type) {
+    case actions.FETCH_RACK_ID_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+        search: action.payload.search,
+      };
+    }
+    case actions.FETCH_RACK_ID_SUCCESS: {
+      return {
+        isLoading: true,
+        ...action.payload,
+      };
+    }
+    case actions.FETCH_RACK_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.error,
+      };
+    }
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   racks: racksReducer,
+  singleRack: rack,
 });

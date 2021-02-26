@@ -172,7 +172,9 @@ const Customers = () => {
       key: 'fullname',
       render: (_, record) => (
         <Link to={`/users/${record.id}`} className="text-blue">
-          {record.first_name} {record.last_name}
+          {record.first_name} 
+{' '}
+{record.last_name}
         </Link>
       ),
     },
@@ -226,37 +228,36 @@ const Customers = () => {
       width: isMobile ? 100 : 180,
       render: (_, record) => (
         <div className={styles.actions}>
-            <div className={styles.actionsBtns}>
-                <Tooltip
-                  title={`Reinvite ${record.first_name} ${record.last_name}`}
-                  placement="bottomRight"
-                >
-                  <Button
-                    type="primary"
-                    ghost
-                    icon={<SendOutlined />}
-                    disabled={record.id === customers?.reinvitingUser}
-                    onClick={() => reinviteUser(record.id)}
-                  />
-                </Tooltip>
-
-                <HijackBtn
-                  userId={record.id}
-                  userFirstName={record.first_name}
-                  userLastName={record.last_name}
-                  userRole={record.role}
-                  path={history.location.pathname}
-                  userIsActive={record.is_active}
-                />
-            </div>
-
-            <Switch
-              className={styles.switchBtn}
-              checkedChildren="Active"
-              unCheckedChildren="Inactive"
-              checked={record.is_active}
-              onClick={() => toggleUser(record.id, record.is_active)}
+          <div className={styles.actionsBtns}>
+            <Tooltip
+              title={`Reinvite ${record.first_name} ${record.last_name}`}
+              placement="bottomRight"
+            >
+              <Button
+                type="primary"
+                ghost
+                icon={<SendOutlined />}
+                disabled={record.id === customers?.reinvitingUser}
+                onClick={() => reinviteUser(record.id)}
+              />
+            </Tooltip>
+            <HijackBtn
+              userId={record.id}
+              userFirstName={record.first_name}
+              userLastName={record.last_name}
+              userRole={record.role}
+              path={history.location.pathname}
+              userIsActive={record.is_active}
             />
+          </div>
+
+          <Switch
+            className={styles.switchBtn}
+            checkedChildren="Active"
+            unCheckedChildren="Inactive"
+            checked={record.is_active}
+            onClick={() => toggleUser(record.id, record.is_active)}
+          />
         </div>
       ),
     },
