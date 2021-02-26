@@ -19,7 +19,7 @@ const Login = () => {
         payload: {
           ...values,
           toTimeline: () => history.push('/results'),
-          toRuns: () => history.push('/runs'),
+          toScanSession: () => history.push('/session'),
         },
       });
     },
