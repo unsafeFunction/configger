@@ -1,7 +1,7 @@
 import axiosClient from 'utils/axiosClient';
 
 export const fetchScanById = async ({ scanId }) => {
-  const scan = await axiosClient.get(`/scans/${scanId}/`);
+  const scan = await axiosClient.get(`/scans/pool/${scanId}/`);
 
   return scan;
 };
@@ -40,7 +40,7 @@ export const deleteScan = async data => {
   try {
     const { id } = data;
 
-    return await axiosClient.delete(`/scans/${id}/`);
+    return await axiosClient.delete(`/scans/pool/${id}/`);
   } catch (error) {
     throw new Error(error);
   }
@@ -48,7 +48,7 @@ export const deleteScan = async data => {
 
 export const cancelScan = async ({ data, id }) => {
   try {
-    const scan = await axiosClient.put(`/scans/${id}/`, {
+    const scan = await axiosClient.put(`/scans/pool/${id}/`, {
       ...data,
     });
 
@@ -60,7 +60,7 @@ export const cancelScan = async ({ data, id }) => {
 
 export const updateScan = async ({ data, id }) => {
   try {
-    const scan = await axiosClient.patch(`/scans/${id}/`, {
+    const scan = await axiosClient.patch(`/scans/pool/${id}/`, {
       ...data,
     });
 
