@@ -75,10 +75,10 @@ const Pool = () => {
               className={styles.companyDetailsStat}
               title="Pool name:"
               value={
-                scan?.scan_order
+                scan?.scan_order >= 0
                   ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                       scan?.scan_order
-                  }`
+                    }`
                   : '-'
               }
             />

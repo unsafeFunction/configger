@@ -46,12 +46,13 @@ const Scan = () => {
   const scan = session?.scans?.find(
     scan => scan.scan_order === currentScanOrder,
   );
+  const recentScan = scans?.[scan?.scan_order - 1];
   const isEndSessionDisabled = session?.scans?.find(
     scan => scan.status === constants.scanSessions.scanStatuses.voided,
   );
-  const countOfStartedScans = session?.scans?.find(
-    scan => scan.status === constants.scanSessions.scanStatuses.started,
-  )?.length;
+  const countOfCompletedScans = scans?.filter(
+    scan => scan.status === constants.scanSessions.scanStatuses.completed,
+  ).length;
 
   const goToNextScan = useCallback(() => {
     const nextScanOrder = scans?.find(
@@ -75,7 +76,7 @@ const Scan = () => {
       scan => scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
     )?.scan_order;
 
-    if (prevScanOrder) {
+    if (prevScanOrder >= 0) {
       setCurrentScanOrder(prevScanOrder);
       history.push({ search: `?scanOrder=${prevScanOrder}` });
     } else {
@@ -280,7 +281,10 @@ const Scan = () => {
             Refresh
           </Button>
           <Button
-            disabled={countOfStartedScans > 1 || session?.isLoading}
+            disabled={
+              session?.isLoading ||
+              countOfCompletedScans !== session?.reference_pools_count
+            }
             onClick={onSaveSessionModalToggle}
             className="mb-2"
           >
@@ -381,17 +385,25 @@ const Scan = () => {
               className={styles.companyDetailsStat}
               title="Pool name:"
               value={
-                scan?.scan_order
+                scan?.scan_order >= 0
                   ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                       scan?.scan_order
-                  }`
+                    }`
                   : '-'
               }
             />
             <Statistic
               className={styles.companyDetailsStat}
               title="Most Recent Scan:"
-              value="-"
+              value={
+                scan?.scan_order > 0
+                  ? `${session?.company_short?.name_short} ${
+                      moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
+                    }${recentScan?.scan_order} on ${moment(
+                      recentScan?.scan_timestamp,
+                    )?.format('lll')}`
+                  : '-'
+              }
             />
           </div>
           <SessionStatistic session={session} />
