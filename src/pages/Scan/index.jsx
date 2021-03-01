@@ -46,6 +46,7 @@ const Scan = () => {
   const scan = session?.scans?.find(
     scan => scan.scan_order === currentScanOrder,
   );
+  const recentScan = scans?.[scan?.scan_order - 1];
   const isEndSessionDisabled = session?.scans?.find(
     scan => scan.status === constants.scanSessions.scanStatuses.voided,
   );
@@ -394,11 +395,9 @@ const Scan = () => {
               value={
                 scan?.scan_order > 0
                   ? `${session?.company_short?.name_short} ${
-                      moment(
-                        scans[scan.scan_order - 1]?.scan_timestamp,
-                      )?.format('dddd')?.[0]
-                    }${scans[scan.scan_order - 1]?.scan_order} on ${moment(
-                      scans[scan.scan_order - 1]?.scan_timestamp,
+                      moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
+                    }${recentScan?.scan_order} on ${moment(
+                      recentScan?.scan_timestamp,
                     )?.format('lll')}`
                   : '-'
               }
