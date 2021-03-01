@@ -136,7 +136,7 @@ const RackScans = () => {
       : filteringParams;
 
     return dispatch({
-      type: actions.FETCH_SCAN_SESSIONS_REQUEST,
+      type: actions.FETCH_RACKS_REQUEST,
       payload: {
         ...params,
       },
@@ -158,7 +158,7 @@ const RackScans = () => {
         : filteringParams;
 
       return dispatch({
-        type: actions.FETCH_SCAN_SESSIONS_REQUEST,
+        type: actions.FETCH_RACKS_REQUEST,
         payload: {
           ...params,
         },
@@ -192,7 +192,6 @@ const RackScans = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Rack Scans</h4>
       </div>
-
       <InfiniteScroll
         next={loadMore}
         hasMore={racksItems.length < racks?.total}
@@ -206,7 +205,7 @@ const RackScans = () => {
           loading={!racks?.isLoading}
           align="center"
           pagination={{
-            pageSize: racks?.length,
+            pageSize: racksItems?.length,
             hideOnSinglePage: true,
           }}
           rowKey={record => record.id}
