@@ -381,17 +381,27 @@ const Scan = () => {
               className={styles.companyDetailsStat}
               title="Pool name:"
               value={
-                scan?.scan_order
+                scan?.scan_order !== undefined
                   ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                       scan?.scan_order
-                  }`
+                    }`
                   : '-'
               }
             />
             <Statistic
               className={styles.companyDetailsStat}
               title="Most Recent Scan:"
-              value="-"
+              value={
+                scan?.scan_order > 0
+                  ? `${session?.company_short?.name_short} ${
+                      moment(
+                        scans[scan.scan_order - 1]?.scan_timestamp,
+                      )?.format('dddd')?.[0]
+                    }${scans[scan.scan_order - 1]?.scan_order} on ${moment(
+                      scans[scan.scan_order - 1]?.scan_timestamp,
+                    )?.format('lll')}`
+                  : '-'
+              }
             />
           </div>
           <SessionStatistic session={session} />
