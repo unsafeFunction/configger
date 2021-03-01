@@ -50,9 +50,9 @@ const Scan = () => {
   const isEndSessionDisabled = session?.scans?.find(
     scan => scan.status === constants.scanSessions.scanStatuses.voided,
   );
-  const countOfStartedScans = session?.scans?.find(
-    scan => scan.status === constants.scanSessions.scanStatuses.started,
-  )?.length;
+  const countOfCompletedScans = scans?.filter(
+    scan => scan.status === constants.scanSessions.scanStatuses.completed,
+  ).length;
 
   const goToNextScan = useCallback(() => {
     const nextScanOrder = scans?.find(
@@ -281,7 +281,10 @@ const Scan = () => {
             Refresh
           </Button>
           <Button
-            disabled={countOfStartedScans > 1 || session?.isLoading}
+            disabled={
+              session?.isLoading ||
+              countOfCompletedScans !== session?.reference_pools_count
+            }
             onClick={onSaveSessionModalToggle}
             className="mb-2"
           >
