@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { constants } from 'utils/constants';
-import forEach from 'lodash.foreach';
 import actions from './actions';
 
 const initialState = {
@@ -55,24 +54,30 @@ const racksReducer = (state = initialState, action) => {
 
 const rack = (state = initialState, action) => {
   switch (action.type) {
-    case actions.FETCH_RACK_ID_REQUEST: {
+    case actions.GET_RACK_REQUEST: {
       return {
         ...state,
         isLoading: true,
         search: action.payload.search,
       };
     }
-    case actions.FETCH_RACK_ID_SUCCESS: {
+    case actions.GET_RACK_SUCCESS: {
       return {
         isLoading: true,
         ...action.payload,
       };
     }
-    case actions.FETCH_RACK_ID_FAILURE: {
+    case actions.GET_RACK_FAILURE: {
       return {
         ...state,
         isLoading: false,
         error: action.payload.error,
+      };
+    }
+    case actions.RACK_DATA_CHANGE: {
+      return {
+        ...state,
+        [action.payload.name]: action.payload.value,
       };
     }
     default:

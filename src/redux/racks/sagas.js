@@ -33,11 +33,7 @@ export function* callFetchRack({ payload }) {
 
     yield put({
       type: actions.GET_RACK_SUCCESS,
-      payload: {
-        data: data?.results ?? [],
-        total: data.count,
-        firstPage: !data.previous,
-      },
+      payload: data,
     });
   } catch (error) {
     notification.error(error);

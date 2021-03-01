@@ -17,36 +17,23 @@ const RackScan = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [currentScanOrder, setCurrentScanOrder] = useState(0);
-
   const rackId = history.location.pathname.split('/')[2];
 
-  const session = useSelector(state => state.scanSessions?.singleSession);
-  const scan = session?.scans?.find(
-    scan => scan.scan_order === currentScanOrder,
-  );
+  const rack = useSelector(state => state.racks?.singleRack);
 
-  const scansTotal = session?.scans?.length;
-
-  const updateScan = useCallback(
-    data => {
+  const onDataChange = useCallback(
+    event => {
+      const { name, value } = event.target;
       dispatch({
-        type: actions.UPDATE_SCAN_BY_ID_REQUEST,
+        type: actions.RACK_DATA_CHANGE,
         payload: {
-          data,
-          id: scan?.id,
+          name,
+          value,
         },
       });
     },
-    [dispatch, scan],
+    [dispatch],
   );
-
-  const loadRack = useCallback(() => {
-    dispatch({
-      type: actions.FETCH_RACK_ID_REQUEST,
-      payload: { rackId },
-    });
-  }, [dispatch, rackId]);
 
   const useFetching = () => {
     useEffect(() => {
@@ -65,7 +52,7 @@ const RackScan = () => {
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Save pool rack',
-        onOk: () => updateScan(),
+        // onOk: () => updateScan(),
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
@@ -74,13 +61,13 @@ const RackScan = () => {
         message: () => <span>Are you sure to save pool rack?</span>,
       },
     });
-  }, [dispatch, updateScan]);
+  }, [dispatch]);
 
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Typography.Title level={4} className="font-weight-normal">
-          {`Scan on ${moment(scan?.scan_timestamp)?.format('LLLL') ?? ''}`}
+          {`Scan on ${moment(rack?.scan_timestamp)?.format('LLLL') ?? ''}`}
         </Typography.Title>
       </div>
       <Row gutter={[48, 40]} justify="center">
@@ -91,24 +78,32 @@ const RackScan = () => {
                 onClick={onSaveScanModalToggle}
                 type="primary"
                 htmlType="submit"
-                disabled={session?.isLoading}
+                disabled={rack?.isLoading}
               >
                 Submit
               </Button>
             </div>
             {/* TODO: why is using separately scanId */}
-            <Rackboard rackboard={scan} scanId={scan?.id} session={session} />
+            <Rackboard rackboard={rack} scanId={rack.id} session={{}} />
           </div>
-          <ScanStatistic scan={scan} scansTotal={scansTotal} />
+          {/* <ScanStatistic scan={rack} scansTotal={scansTotal} /> */}
         </Col>
         <Col xs={24} md={18} lg={8} xl={10}>
           <Row className="mb-3 mt-5">
             <Typography.Text>Rack name</Typography.Text>
-            <Input placeholder="Pool rack name" />
+            <Input
+              onChange={onDataChange}
+              name="rack_name"
+              placeholder="Pool rack name"
+            />
           </Row>
           <Row>
             <Typography.Text>Orientation sign off</Typography.Text>
-            <Input placeholder="Orientation sign off" />
+            <Input
+              onChange={onDataChange}
+              name="orientation"
+              placeholder="Orientation sign off"
+            />
           </Row>
         </Col>
       </Row>
