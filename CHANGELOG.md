@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://github.com/mokkapps/changelog-generator-demo/compare/v1.9.0...v1.9.1) (2021-03-01)
+
+
+### Features
+
+* session statistical data ([ae04061](https://github.com/mokkapps/changelog-generator-demo/commits/ae04061c5894c4220ac6563e02434ffb83a8d9a5))
+
+
+### Bug Fixes
+
+* fix recent scan ([a24c810](https://github.com/mokkapps/changelog-generator-demo/commits/a24c8102061b289061a00b9cc229c6e7c731cdf4))
+* fix scan navigation ([c02f4ec](https://github.com/mokkapps/changelog-generator-demo/commits/c02f4ec587834116d840b3ce29d2a67a0799b4af))
+* fix undefined value in scans ([ee092d3](https://github.com/mokkapps/changelog-generator-demo/commits/ee092d3a3b425238ef31c930ef584915a4aacf3a))
+* pool name and most recent scan ([828e017](https://github.com/mokkapps/changelog-generator-demo/commits/828e0178fea1f6bec2a472892be61f9f80131192))
+* update scan requests ([6b4009a](https://github.com/mokkapps/changelog-generator-demo/commits/6b4009a191751df3c31e2c663a946540a20190cb))
+
 ## [1.9.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.8.0...v1.9.0) (2021-03-01)
 
 
