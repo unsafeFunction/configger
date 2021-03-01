@@ -75,7 +75,7 @@ const Scan = () => {
       scan => scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
     )?.scan_order;
 
-    if (prevScanOrder !== undefined) {
+    if (prevScanOrder >= 0) {
       setCurrentScanOrder(prevScanOrder);
       history.push({ search: `?scanOrder=${prevScanOrder}` });
     } else {
@@ -381,7 +381,7 @@ const Scan = () => {
               className={styles.companyDetailsStat}
               title="Pool name:"
               value={
-                scan?.scan_order !== undefined
+                scan?.scan_order >= 0
                   ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                       scan?.scan_order
                     }`
