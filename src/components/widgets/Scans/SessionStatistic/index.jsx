@@ -15,9 +15,7 @@ const SessionStatistic = ({ session }) => {
   const actualSamples = actualPools?.map?.(
     scan =>
       scan?.scan_tubes?.filter?.(
-        tube =>
-          tube.status !== constants.tubeStatuses.blank &&
-          tube.status !== constants.tubeStatuses.voided,
+        tube => tube.status !== constants.tubeStatuses.blank,
       )?.length,
   );
 
