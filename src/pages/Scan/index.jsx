@@ -75,7 +75,7 @@ const Scan = () => {
       scan => scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
     )?.scan_order;
 
-    if (prevScanOrder) {
+    if (prevScanOrder !== undefined) {
       setCurrentScanOrder(prevScanOrder);
       history.push({ search: `?scanOrder=${prevScanOrder}` });
     } else {
