@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.8.0...v1.9.0) (2021-03-01)
+
+
+### Bug Fixes
+
+* change default path after login ([fa6266a](https://github.com/mokkapps/changelog-generator-demo/commits/fa6266a08b902447c3fee8c5cd7f41d89f6bf64a))
+* clean out theme colors ([b4b3876](https://github.com/mokkapps/changelog-generator-demo/commits/b4b38767ae338aa613b66f7ff00c75c95e9b57d2))
+* navigation scans ([d95bab8](https://github.com/mokkapps/changelog-generator-demo/commits/d95bab89db97c3fe4085c11a1280964a0f9c713c))
+* refactor scan navigation ([c984ff0](https://github.com/mokkapps/changelog-generator-demo/commits/c984ff0b66896bf1c70c79fca8239eac12858375))
+* render modified date and company loading for intake log ([c117421](https://github.com/mokkapps/changelog-generator-demo/commits/c117421925ef952e8d7e80334c44cdf5ac4ca25f))
+* resolve merge conflicts from dev ([6c9d84c](https://github.com/mokkapps/changelog-generator-demo/commits/6c9d84c8b1acaea591bc9e427f02324292727d3d))
+* scan navigation ([e0b4adc](https://github.com/mokkapps/changelog-generator-demo/commits/e0b4adc2dedcea19957b2400c706bc0948d73cbf))
+* scan order current scan ([7fd3681](https://github.com/mokkapps/changelog-generator-demo/commits/7fd36812213201a4186dc1e186baf55bcc6e0795))
+* scan pool order ([9abd91d](https://github.com/mokkapps/changelog-generator-demo/commits/9abd91d9ef10d0afe37633c73ff9ad32331870e4))
+* update gitignore ([46e3e01](https://github.com/mokkapps/changelog-generator-demo/commits/46e3e01130e9de61ffb2bb845b4dbe96c0296a79))
+
 ## [1.8.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.7.1...v1.8.0) (2021-02-24)
 
 
