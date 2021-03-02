@@ -5,7 +5,6 @@ export const loadTimeline = async query => {
   try {
     const timeline = await axiosClient.get('/timeline/', {
       params: { ...query },
-      baseURL: process.env.REACT_APP_API_URL,
     });
     return timeline;
   } catch (error) {

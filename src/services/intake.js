@@ -2,9 +2,7 @@ import axiosClient from 'utils/axiosClient';
 
 export const fetchIntake = async () => {
   try {
-    return await axiosClient.get('/companies-short/', {
-      baseURL: process.env.REACT_APP_API_URL,
-    });
+    return await axiosClient.get('/companies-short/');
   } catch (error) {
     return error;
   }
