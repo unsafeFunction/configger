@@ -71,7 +71,7 @@ const RackScan = () => {
       },
     });
   }, [dispatch, saveRack]);
-
+  console.log(rack);
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
@@ -102,7 +102,7 @@ const RackScan = () => {
             <Typography.Text>Rack name</Typography.Text>
             <Input
               onChange={onDataChange}
-              name="rack_name"
+              name="rack_id"
               placeholder="Pool rack name"
               value={rack.rack_id}
             />
@@ -111,7 +111,7 @@ const RackScan = () => {
             <Typography.Text>Orientation sign off</Typography.Text>
             <Input
               onChange={onDataChange}
-              name="orientation"
+              name="orientation_sign_off"
               placeholder="Orientation sign off"
               value={rack.orientation_sign_off}
             />
