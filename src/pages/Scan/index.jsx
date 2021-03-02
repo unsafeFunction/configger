@@ -64,8 +64,9 @@ const Scan = () => {
       )?.length,
   );
   const countOfCompletedSamples =
-    completedSamples?.length > 0 &&
-    completedSamples?.reduce((acc, curr) => acc + curr);
+    completedSamples?.length > 0
+      ? completedSamples?.reduce((acc, curr) => acc + curr)
+      : 0;
 
   const goToNextScan = useCallback(() => {
     const nextScanOrder = scans?.find(
@@ -329,7 +330,6 @@ const Scan = () => {
             icon={<ReloadOutlined />}
             className="mb-2 mr-2"
             type="primary"
-            outline
           >
             Refresh
           </Button>

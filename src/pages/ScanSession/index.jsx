@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Select, Row, Col, Button } from 'antd';
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import debounce from 'lodash.debounce';
 import actions from 'redux/scanSessions/actions';
 import companyActions from 'redux/companies/actions';
 import { constants } from 'utils/constants';
@@ -10,12 +11,15 @@ import styles from './styles.module.scss';
 
 const ScanSession = () => {
   const dispatch = useDispatch();
-  const { items, total, isLoading } = useSelector(state => state.companies.all);
+  const { items, total, offset, isLoading } = useSelector(
+    state => state.companies.all,
+  );
   const { activeSessionId, isLoading: isSessionLoading } = useSelector(
     state => state.scanSessions.singleSession,
   );
-  const [page, setPage] = useState(0);
   const [value, onValueChange] = useState(null);
+
+  const [searchName, setSearchName] = useState('');
 
   const preparedData = items.map(item => {
     return {
@@ -33,8 +37,6 @@ const ScanSession = () => {
       dispatch({
         type: companyActions.FETCH_COMPANIES_REQUEST,
         payload: {
-          page,
-          search: null,
           limit: constants.companies.itemsLoadingCount,
         },
       });
@@ -42,17 +44,6 @@ const ScanSession = () => {
   };
 
   useFetching();
-
-  const loadCompanies = page => {
-    dispatch({
-      type: companyActions.FETCH_COMPANIES_REQUEST,
-      payload: {
-        page,
-        search: null,
-        limit: constants.companies.itemsLoadingCount,
-      },
-    });
-  };
 
   const startSession = useCallback(() => {
     dispatch({
@@ -63,14 +54,46 @@ const ScanSession = () => {
     });
   }, [dispatch, value]);
 
-  const loadPage = page => {
-    loadCompanies(page);
-    setPage(page + 1);
-  };
-
   const onChange = useCallback(value => {
     onValueChange(value);
   }, []);
+
+  const loadMore = useCallback(() => {
+    dispatch({
+      type: companyActions.FETCH_COMPANIES_REQUEST,
+      payload: {
+        limit: constants.companies.itemsLoadingCount,
+        offset: offset,
+        search: searchName,
+      },
+    });
+  }, [dispatch, items, searchName]);
+
+  const sendQuery = useCallback(
+    query => {
+      dispatch({
+        type: companyActions.FETCH_COMPANIES_REQUEST,
+        payload: {
+          limit: constants?.companies?.itemsLoadingCount,
+          search: query,
+        },
+      });
+    },
+    [dispatch, searchName],
+  );
+
+  const delayedQuery = useCallback(
+    debounce(q => sendQuery(q), 500),
+    [],
+  );
+
+  const onChangeSearch = useCallback(
+    value => {
+      setSearchName(value);
+      return delayedQuery(value);
+    },
+    [delayedQuery],
+  );
 
   if (!isSessionLoading && activeSessionId) {
     return <Redirect to={`/session/${activeSessionId}`} />;
@@ -81,35 +104,32 @@ const ScanSession = () => {
       <Row className="ml-auto">
         <Col xs={24} className="mb-4">
           <Select
-            placeholder="Companies"
-            size="middle"
-            options={preparedData}
+            placeholder="Company"
             loading={!isLoading}
+            showSearch
+            options={preparedData}
             style={{ width: 400 }}
             dropdownStyle={{
-              maxHeight: 200,
+              maxHeight: 300,
               overflowY: 'hidden',
               overflowX: 'scroll',
             }}
-            showArrow
-            showSearch
+            listHeight={0}
+            dropdownRender={menu => (
+              <InfiniteScroll
+                next={loadMore}
+                hasMore={items.length < total}
+                dataLength={items.length}
+                height={300}
+              >
+                {menu}
+              </InfiniteScroll>
+            )}
+            optionFilterProp="label"
+            onSearch={onChangeSearch}
+            searchValue={searchName}
+            allowClear
             onChange={onChange}
-            dropdownMatchSelectWidth={false}
-            dropdownRender={menu => {
-              return (
-                <div className={styles.dropDown}>
-                  <InfiniteScroll
-                    pageStart={page}
-                    loadMore={() => loadPage(page)}
-                    hasMore={!isLoading && items?.length < total}
-                    threshold={200}
-                    useWindow={false}
-                  >
-                    {menu}
-                  </InfiniteScroll>
-                </div>
-              );
-            }}
           />
         </Col>
         <Col>
