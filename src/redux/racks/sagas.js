@@ -1,6 +1,8 @@
 import { all, takeEvery, put, call, select } from 'redux-saga/effects';
 import { notification } from 'antd';
-import { fetchRackScans, fetchRackScan } from 'services/racks';
+import { fetchRackScans, fetchRackScan, updateRackScan } from 'services/racks';
+import modalActions from 'redux/modal/actions';
+import { getRackScan } from './selectors';
 import actions from './actions';
 
 export function* callFetchRacks({ payload }) {
@@ -47,9 +49,35 @@ export function* callFetchRack({ payload }) {
   }
 }
 
+export function* callUpdateRack({ payload }) {
+  try {
+    const rack = yield select(getRackScan);
+    const { data } = yield call(updateRackScan, rack);
+
+    yield put({
+      type: actions.UPDATE_RACK_SUCCESS,
+      payload: data,
+    });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+  } catch (error) {
+    notification.error(error);
+
+    yield put({
+      type: actions.UPDATE_RACK_FAILURE,
+      payload: {
+        error,
+      },
+    });
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_RACKS_REQUEST, callFetchRacks),
     takeEvery(actions.GET_RACK_REQUEST, callFetchRack),
+    takeEvery(actions.UPDATE_RACK_REQUEST, callUpdateRack),
   ]);
 }

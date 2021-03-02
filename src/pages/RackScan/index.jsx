@@ -35,6 +35,15 @@ const RackScan = () => {
     [dispatch],
   );
 
+  const saveRack = useCallback(() => {
+    dispatch({
+      type: actions.UPDATE_RACK_REQUEST,
+      payload: {
+        id: rackId,
+      },
+    });
+  }, [dispatch, rackId]);
+
   const useFetching = () => {
     useEffect(() => {
       dispatch({
@@ -52,7 +61,7 @@ const RackScan = () => {
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Save pool rack',
-        // onOk: () => updateScan(),
+        onOk: saveRack,
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
@@ -61,7 +70,7 @@ const RackScan = () => {
         message: () => <span>Are you sure to save pool rack?</span>,
       },
     });
-  }, [dispatch]);
+  }, [dispatch, saveRack]);
 
   return (
     <>
@@ -78,7 +87,7 @@ const RackScan = () => {
                 onClick={onSaveScanModalToggle}
                 type="primary"
                 htmlType="submit"
-                disabled={rack?.isLoading}
+                disabled={!rack?.isLoading}
               >
                 Submit
               </Button>
@@ -95,6 +104,7 @@ const RackScan = () => {
               onChange={onDataChange}
               name="rack_name"
               placeholder="Pool rack name"
+              value={rack.rack_id}
             />
           </Row>
           <Row>
@@ -103,6 +113,7 @@ const RackScan = () => {
               onChange={onDataChange}
               name="orientation"
               placeholder="Orientation sign off"
+              value={rack.orientation_sign_off}
             />
           </Row>
         </Col>

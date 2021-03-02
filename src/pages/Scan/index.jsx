@@ -384,7 +384,7 @@ const Scan = () => {
                 scan?.scan_order
                   ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                       scan?.scan_order
-                  }`
+                    }`
                   : '-'
               }
             />

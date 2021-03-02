@@ -42,7 +42,7 @@ const Pool = () => {
   };
 
   useFetching();
-
+  console.log(scan);
   return (
     <>
       <Row gutter={[48, 40]} justify="center">
@@ -78,7 +78,7 @@ const Pool = () => {
                 scan?.scan_order
                   ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                       scan?.scan_order
-                  }`
+                    }`
                   : '-'
               }
             />

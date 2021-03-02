@@ -23,3 +23,15 @@ export const fetchRackScan = async id => {
     throw new Error(error);
   }
 };
+
+export const updateRackScan = async ({ id, orientation_sign_off: signOff }) => {
+  try {
+    const rackScan = await axiosClient.patch(`/scans/rack/${id}/`, {
+      orientation_sign_off: signOff,
+    });
+
+    return rackScan;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
