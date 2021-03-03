@@ -15,24 +15,16 @@ export const fetchCompanies = async ({ limit, offset, search }) => {
 };
 
 export const createCompany = async payload => {
-  const company = await axiosClient.post(
-    `/companies/create`,
-    {
-      ...payload,
-    },
-    {
-      baseURL: process.env.REACT_APP_API_URL,
-    },
-  );
+  const company = await axiosClient.post(`/companies/create`, {
+    ...payload,
+  });
 
   return company;
 };
 
 export const getSingleCompany = async id => {
   try {
-    const company = await axiosClient.get(`/companies/${id}/`, {
-      baseURL: process.env.REACT_APP_API_URL,
-    });
+    const company = await axiosClient.get(`/companies/${id}/`);
 
     return company;
   } catch (error) {
@@ -51,15 +43,9 @@ export const fetchCompanyShort = async id => {
 
 export const updateUsers = async payload => {
   try {
-    const users = await axiosClient.patch(
-      `/companies/${payload.id}/`,
-      {
-        results_contacts: payload.results_contacts,
-      },
-      {
-        baseURL: process.env.REACT_APP_API_URL,
-      },
-    );
+    const users = await axiosClient.patch(`/companies/${payload.id}/`, {
+      results_contacts: payload.results_contacts,
+    });
 
     return users;
   } catch (error) {

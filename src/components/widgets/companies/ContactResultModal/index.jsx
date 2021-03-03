@@ -21,7 +21,6 @@ import {
   PlusOutlined,
   CloseOutlined,
 } from '@ant-design/icons';
-import InfiniteScroll from 'react-infinite-scroller';
 import debounce from 'lodash.debounce';
 import styles from './styles.module.scss';
 import { constants } from 'utils/constants';
@@ -128,16 +127,16 @@ const ContactResultModal = ({ form, existUsers }) => {
           dropdownRender={menu => {
             return searchName ? (
               <div className={styles.dropDown}>
-                <InfiniteScroll
+                {/* <InfiniteScroll
                   pageStart={1}
                   loadMore={loadPage}
                   dataLength={users.length}
                   hasMore={!isLoading && users.length < total}
                   threshold={50}
                   useWindow={false}
-                >
-                  {menu}
-                </InfiniteScroll>
+                > */}
+                {menu}
+                {/* </InfiniteScroll> */}
               </div>
             ) : null;
           }}

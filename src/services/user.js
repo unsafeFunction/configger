@@ -59,9 +59,7 @@ export const changePassword = async (
 };
 
 export const fetchUserById = async id => {
-  return await axiosClient.get(`/users/${id}/`, {
-    baseURL: process.env.REACT_APP_API_URL,
-  });
+  return await axiosClient.get(`/users/${id}/`);
 };
 
 export const verifyEmail = async inviteKey => {
