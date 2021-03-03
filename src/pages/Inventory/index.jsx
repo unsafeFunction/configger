@@ -2,7 +2,18 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Button, Tag, Input, Form, Tooltip, Switch, Dropdown, Menu, Tabs} from 'antd';
+import {
+  Table,
+  Button,
+  Tag,
+  Input,
+  Form,
+  Tooltip,
+  Switch,
+  Dropdown,
+  Menu,
+  Tabs,
+} from 'antd';
 import { CompanyModal } from 'components/widgets/companies';
 import debounce from 'lodash.debounce';
 import {
@@ -13,11 +24,12 @@ import {
 } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import companyActions from 'redux/companies/actions';
+import actions from 'redux/inventory/actions';
 import modalActions from 'redux/modal/actions';
 
-import styles from './styles.module.scss';
 import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
+import styles from './styles.module.scss';
 
 const Inventory = () => {
   const { isMobile, isTablet } = useWindowSize();
@@ -26,21 +38,8 @@ const Inventory = () => {
   const [searchName, setSearchName] = useState('');
   const [form] = Form.useForm();
 
-  const allCompanies = useSelector(state => state.companies.all);
+  const inventory = useSelector(state => state.inventory);
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
-
-  useEffect(() => {
-    if (allCompanies.error) {
-      form.setFields([
-        ...Object.keys(allCompanies?.error)?.map?.(field => {
-          return {
-            name: field,
-            errors: [`${allCompanies?.error?.[field]}`],
-          };
-        }),
-      ]);
-    }
-  }, [allCompanies.error]);
 
   const createCompany = useCallback(async () => {
     const fieldValues = await form.validateFields();
@@ -49,7 +48,6 @@ const Inventory = () => {
       payload: { ...fieldValues },
     });
   }, []);
-
 
   const columns = [
     {
@@ -79,13 +77,13 @@ const Inventory = () => {
       render: value => {
         return value || '-';
       },
-    }
+    },
   ];
 
   const useFetching = () => {
     useEffect(() => {
       dispatchCompaniesData({
-        type: companyActions.FETCH_COMPANIES_REQUEST,
+        type: actions.FETCH_INVENTORY_REQUEST,
         payload: {
           limit: constants.companies.itemsLoadingCount,
           search: searchName,
@@ -122,11 +120,11 @@ const Inventory = () => {
       type: companyActions.FETCH_COMPANIES_REQUEST,
       payload: {
         limit: constants.companies.itemsLoadingCount,
-        offset: allCompanies.offset,
+        offset: inventory.offset,
         search: searchName,
       },
     });
-  }, [dispatchCompaniesData, allCompanies]);
+  }, [dispatchCompaniesData, inventory]);
 
   const sendQuery = useCallback(
     query => {
@@ -204,25 +202,25 @@ const Inventory = () => {
           </>
         )}
       </div>
-        <InfiniteScroll
-          next={loadMore}
-          hasMore={allCompanies?.items?.length < allCompanies?.total}
-          loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
-          dataLength={allCompanies?.items?.length}
-        >
-          <Table
-            dataSource={allCompanies?.items}
-            columns={columns}
-            scroll={{ x: 1200 }}
-            bordered
-            loading={!allCompanies?.isLoading}
-            align="center"
-            pagination={{
-              pageSize: allCompanies?.items?.length,
-              hideOnSinglePage: true,
-            }}
-          />
-        </InfiniteScroll>
+      <InfiniteScroll
+        next={loadMore}
+        hasMore={inventory?.items?.length < inventory?.total}
+        loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
+        dataLength={inventory?.items?.length}
+      >
+        <Table
+          dataSource={inventory?.items}
+          columns={columns}
+          scroll={{ x: 1200 }}
+          bordered
+          loading={!inventory?.isLoading}
+          align="center"
+          pagination={{
+            pageSize: inventory?.items?.length,
+            hideOnSinglePage: true,
+          }}
+        />
+      </InfiniteScroll>
     </>
   );
 };

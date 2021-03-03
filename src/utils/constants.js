@@ -19,6 +19,9 @@ export const constants = {
       completed: 'COMPLETED',
     },
   },
+  inventory: {
+    itemsLoadingCount: 25,
+  },
   tubeStatuses: {
     blank: 'BLANK',
     missing: 'MISSING',
