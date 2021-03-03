@@ -6,13 +6,10 @@ import { Table, Button, Tag, Input, Form, Tooltip, Switch, Dropdown, Menu, Tabs}
 import { CompanyModal } from 'components/widgets/companies';
 import debounce from 'lodash.debounce';
 import {
-  PlusCircleOutlined,
-  DeleteOutlined,
   LoadingOutlined,
-  SearchOutlined, SendOutlined,
+  SearchOutlined,
   BankOutlined,
   FileOutlined,
-  DownOutlined,
 } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import companyActions from 'redux/companies/actions';
@@ -21,7 +18,6 @@ import modalActions from 'redux/modal/actions';
 import styles from './styles.module.scss';
 import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
-const {TabPane} = Tabs;
 
 const Inventory = () => {
   const { isMobile, isTablet } = useWindowSize();
@@ -32,36 +28,6 @@ const Inventory = () => {
 
   const allCompanies = useSelector(state => state.companies.all);
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
-
-  const getStatus = status => {
-    switch (status) {
-      case 'COMPLETED':
-        return <Tag color="#32CD32">{status}</Tag>;
-      case 'SCHEDULED':
-        return <Tag color="#1B55e3">{status}</Tag>;
-      case 'DRAFT':
-        return <Tag color="#6c757d">{status}</Tag>;
-      case 'DELIVERED':
-        return <Tag color="#28a745">{status}</Tag>;
-      case 'FAILED':
-        return <Tag color="#dc3545">{status}</Tag>;
-      default:
-        return <Tag color="#fd7e14">{status}</Tag>;
-    }
-  };
-
-  const setCompanyId = useCallback(
-    value => {
-      dispatchCompaniesData({
-        type: companyActions.ON_COMPANY_DATA_CHANGE,
-        payload: {
-          name: 'id',
-          value,
-        },
-      });
-    },
-    [dispatchCompaniesData],
-  );
 
   useEffect(() => {
     if (allCompanies.error) {
@@ -87,75 +53,33 @@ const Inventory = () => {
 
   const columns = [
     {
-      title: 'Company ID',
-      dataIndex: 'company_id',
-      render: (name, company) => {
-        return (
-          <Link
-            onClick={() => {
-              setCompanyId(company?.unique_id);
-            }}
-            to={`/companies/${company?.unique_id}`}
-            className="text-blue"
-          >
-            {`${company?.company_id || '-'}`}
-          </Link>
-        );
-      },
-    },
-    {
-      title: 'Company Name',
-      dataIndex: 'name',
-      render: (name, company) => {
-        return (
-          <Link
-            onClick={() => {
-              setCompanyId(company?.unique_id);
-            }}
-            to={`/companies/${company?.unique_id}`}
-            className="text-blue"
-          >
-            {`${name || '-'}`}
-          </Link>
-        );
-      },
-    },
-    {
-      title: 'Short Name',
-      dataIndex: 'name_short',
+      title: 'Tube ID',
+      dataIndex: 'tube_id',
       render: value => {
         return value || '-';
       },
     },
     {
-      title: 'Locations',
-      dataIndex: 'company_locations',
+      title: 'Control',
+      dataIndex: 'control',
       render: value => {
-        return value?.map?.((location) => location?.title) || '-';
+        return value || '-';
       },
     },
     {
-      title: 'Actions',
-      fixed: 'right',
-      key: 'action',
-      width: isMobile ? 100 : 190,
-      render: (_, record) => (
-        <div className={styles.actions}>
-          <div className={styles.actionsBtns}>
-              <Dropdown overlay={menu}>
-                <Button>
-                  Edit <DownOutlined />
-                </Button>
-              </Dropdown>
-            <Dropdown overlay={menuDelete}>
-              <Button>
-                Delete <DownOutlined />
-              </Button>
-            </Dropdown>
-          </div>
-        </div>
-      ),
+      title: 'Created On',
+      dataIndex: 'created_on',
+      render: value => {
+        return value || '-';
+      },
     },
+    {
+      title: 'User',
+      dataIndex: 'user',
+      render: value => {
+        return value || '-';
+      },
+    }
   ];
 
   const useFetching = () => {
@@ -255,24 +179,14 @@ const Inventory = () => {
         {isTablet ? (
           <div className={styles.mobileTableHeaderWrapper}>
             <div className={styles.mobileTableHeaderRow}>
-              <h4>Management</h4>
+              <h4>Inventory</h4>
               <Button
                 onClick={onModalToggle}
                 size="large"
                 type="primary"
                 className={!isTablet && 'ml-3'}
-                icon={<BankOutlined/>}
               >
-                Add Company
-              </Button>
-              <Button
-                onClick={onModalToggle}
-                size="large"
-                type="primary"
-                className={!isTablet && 'ml-3'}
-                icon={<FileOutlined />}
-              >
-                New Site
+                Add Control Tube
               </Button>
             </div>
             <Input
@@ -286,7 +200,7 @@ const Inventory = () => {
           </div>
         ) : (
           <>
-            <h4>Management</h4>
+            <h4>Inventory</h4>
             <div
               className={classNames(styles.tableActionsWrapper, {
                 [styles.tabletActionsWrapper]: isTablet,
@@ -305,49 +219,32 @@ const Inventory = () => {
                 size="large"
                 type="primary"
                 className={!isMobile && 'ml-3'}
-                icon={<BankOutlined/>}
               >
-                Add Company
-              </Button>
-              <Button
-                onClick={onModalToggle}
-                size="large"
-                type="primary"
-                className={!isMobile && 'ml-3'}
-                icon={<FileOutlined />}
-              >
-                New Site
+                Add Control Tube
               </Button>
             </div>
           </>
         )}
       </div>
-      <Tabs tabPosition={'left'} className={styles.tabs}>
-        <TabPane tab="Client" key="client">
-          <InfiniteScroll
-            next={loadMore}
-            hasMore={allCompanies?.items?.length < allCompanies?.total}
-            loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
-            dataLength={allCompanies?.items?.length}
-          >
-            <Table
-              dataSource={allCompanies?.items}
-              columns={columns}
-              scroll={{ x: 1200 }}
-              bordered
-              loading={!allCompanies?.isLoading}
-              align="center"
-              pagination={{
-                pageSize: allCompanies?.items?.length,
-                hideOnSinglePage: true,
-              }}
-            />
-          </InfiniteScroll>
-        </TabPane>
-        <TabPane tab="Control Tube" key="control">
-          Content of Tab 2
-        </TabPane>
-      </Tabs>
+        <InfiniteScroll
+          next={loadMore}
+          hasMore={allCompanies?.items?.length < allCompanies?.total}
+          loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
+          dataLength={allCompanies?.items?.length}
+        >
+          <Table
+            dataSource={allCompanies?.items}
+            columns={columns}
+            scroll={{ x: 1200 }}
+            bordered
+            loading={!allCompanies?.isLoading}
+            align="center"
+            pagination={{
+              pageSize: allCompanies?.items?.length,
+              hideOnSinglePage: true,
+            }}
+          />
+        </InfiniteScroll>
     </>
   );
 };
