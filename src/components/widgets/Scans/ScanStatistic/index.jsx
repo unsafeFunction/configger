@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { constants } from 'utils/constants';
 import styles from '../styles.module.scss';
 
-const ScanStatistic = ({ scan, scansTotal }) => {
+const ScanStatistic = ({ scan, isRack }) => {
   const tubesTotal = scan?.scan_tubes?.filter(
     tube =>
       tube.status !== constants.tubeStatuses.empty &&
@@ -28,17 +28,19 @@ const ScanStatistic = ({ scan, scansTotal }) => {
           </Tooltip>
         </Card>
       </Col>
-      <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
-        <Card className={styles.card}>
-          <Statistic
-            title="Pool ID"
-            groupSeparator=""
-            value={scan?.pool_id ?? '–'}
-            formatter={value => <Tag color="geekblue">{value}</Tag>}
-            className={classNames(styles.statistic, styles.ellipsis)}
-          />
-        </Card>
-      </Col>
+      {!isRack && (
+        <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
+          <Card className={styles.card}>
+            <Statistic
+              title="Pool ID"
+              groupSeparator=""
+              value={scan?.pool_id ?? '–'}
+              formatter={value => <Tag color="geekblue">{value}</Tag>}
+              className={classNames(styles.statistic, styles.ellipsis)}
+            />
+          </Card>
+        </Col>
+      )}
       <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
         <Card className={styles.card}>
           <Statistic
@@ -53,23 +55,25 @@ const ScanStatistic = ({ scan, scansTotal }) => {
           />
         </Card>
       </Col>
-      <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
-        <Card className={styles.card}>
-          <Statistic
-            title="Total Tubes"
-            value={tubesTotal}
-            formatter={value => <Tag color="cyan">{value || '-'}</Tag>}
-            className={classNames(styles.statistic, styles.ellipsis)}
-          />
-        </Card>
-      </Col>
+      {!isRack && (
+        <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
+          <Card className={styles.card}>
+            <Statistic
+              title="Total Tubes"
+              value={tubesTotal}
+              formatter={value => <Tag color="cyan">{value || '-'}</Tag>}
+              className={classNames(styles.statistic, styles.ellipsis)}
+            />
+          </Card>
+        </Col>
+      )}
     </Row>
   );
 };
 
 ScanStatistic.propTypes = {
   scan: PropTypes.shape({}),
-  scansTotal: PropTypes.number,
+  isRack: PropTypes.bool,
 };
 
 export default ScanStatistic;

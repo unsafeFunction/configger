@@ -10,6 +10,7 @@ import styles from './styles.module.scss';
 import InvalidateModal from 'components/widgets/Scans/InvalidateModal';
 
 const Rackboard = ({ rackboard, scanId, session, isRack=false }) => {
+  console.log(rackboard)
   const dispatch = useDispatch();
   const [currentTubeID, setCurrentTubeID] = useState('');
   const [popoverVisible, setPopoverVisible] = useState(null);
@@ -87,7 +88,6 @@ const Rackboard = ({ rackboard, scanId, session, isRack=false }) => {
         cancelButtonProps: { className: styles.modalButton },
         okButtonProps: {
           className: styles.modalButton,
-          // loading: customers?.isInviting,
         },
         okText: 'Save',
         onOk: () => onInvalidate(record),
