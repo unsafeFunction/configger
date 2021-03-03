@@ -93,7 +93,7 @@ const RackScan = () => {
               </Button>
             </div>
             {/* TODO: why is using separately scanId */}
-            <Rackboard rackboard={rack} scanId={rack.id} session={{}} />
+            <Rackboard isRack rackboard={rack} scanId={rack.id} session={{}} />
           </div>
           {/* <ScanStatistic scan={rack} scansTotal={scansTotal} /> */}
         </Col>

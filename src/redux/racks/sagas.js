@@ -33,9 +33,33 @@ export function* callFetchRack({ payload }) {
   try {
     const { data } = yield call(fetchRackScan, payload);
 
+    const formatResponse = response => {
+      return Object.assign(
+        {},
+        ...response?.map?.(obj => ({
+          letter: obj?.position?.[0],
+          [`col${obj?.position?.[1]}`]: {
+            ...obj,
+            status: obj?.status.toLowerCase(),
+          },
+        })),
+      );
+    };
+
+    const tubesInfo = data?.pools;
+
+    const preparedResponse = [
+      formatResponse(tubesInfo?.slice?.(0, 8)),
+      formatResponse(tubesInfo?.slice?.(8, 16)),
+      formatResponse(tubesInfo?.slice?.(16, 24)),
+      formatResponse(tubesInfo?.slice?.(24, 32)),
+      formatResponse(tubesInfo?.slice?.(32, 40)),
+      formatResponse(tubesInfo?.slice?.(40, 48)),
+    ];
+
     yield put({
       type: actions.GET_RACK_SUCCESS,
-      payload: data,
+      payload: { ...data, items: preparedResponse },
     });
   } catch (error) {
     notification.error(error);
