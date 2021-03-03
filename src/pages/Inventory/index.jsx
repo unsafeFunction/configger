@@ -96,28 +96,6 @@ const Inventory = () => {
 
   useFetching();
 
-  const handleMenuClick = useCallback((e) => {
-    console.log(e);
-  }, []);
-
-  const menu = useMemo(() => <Menu onClick={handleMenuClick}>
-    <Menu.Item key="1" icon={<BankOutlined />}>
-      Edit Company
-    </Menu.Item>
-    <Menu.Item key="2" icon={<FileOutlined />}>
-      Edit Site
-    </Menu.Item>
-  </Menu>, []);
-
-  const menuDelete = useMemo(() => <Menu onClick={handleMenuClick}>
-    <Menu.Item key="1" icon={<BankOutlined />}>
-      Delete Company
-    </Menu.Item>
-    <Menu.Item key="2" icon={<FileOutlined />}>
-      Delete Site
-    </Menu.Item>
-  </Menu>, []);
-
   const onModalToggle = useCallback(() => {
     dispatchCompaniesData({
       type: modalActions.SHOW_MODAL,
