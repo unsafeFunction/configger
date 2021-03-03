@@ -38,6 +38,12 @@ export async function getMenuData() {
       icon: 'fe fe-maximize',
     },
     {
+      title: 'Inventory',
+      key: 'inventory',
+      url: '/inventory',
+      icon: 'fe fe-bar-chart',
+    },
+    {
       title: 'Management',
       key: 'management',
       url: '/management',
@@ -68,6 +74,7 @@ export async function getRolePermissions() {
         '/session-pools',
         '/session',
         '/management',
+        '/inventory',
       ],
       default: '/session',
     },
@@ -81,6 +88,7 @@ export async function getRolePermissions() {
         '/session-pools',
         '/session',
         '/management',
+        '/inventory',
       ],
       default: '/session',
     },
