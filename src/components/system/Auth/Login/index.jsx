@@ -18,7 +18,6 @@ const Login = () => {
         type: actions.LOGIN_REQUEST,
         payload: {
           ...values,
-          toTimeline: () => history.push('/results'),
           toScanSession: () => history.push('/session'),
         },
       });

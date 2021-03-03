@@ -119,7 +119,7 @@ class Router extends React.Component {
               exact
               path="/"
               render={() => {
-                return <Redirect to="/results" />;
+                return <Redirect to="/session" />;
               }}
             />
             {routes.map(({ path, Component, exact = false }) => (
