@@ -85,8 +85,8 @@ export async function getRolePermissions() {
       default: '/session',
     },
     'company-admin': {
-      permitted: ['/profile', '/results', '/packing-slip'],
-      default: '/results',
+      permitted: ['/profile', '/session', '/intake-receipt-log'],
+      default: '/session',
     },
   };
 }
