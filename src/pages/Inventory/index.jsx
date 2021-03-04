@@ -213,7 +213,7 @@ const Inventory = () => {
           columns={columns}
           scroll={{ x: 1200 }}
           bordered
-          loading={!inventory?.isLoading}
+          loading={inventory?.isLoading}
           align="center"
           pagination={{
             pageSize: inventory?.items?.length,

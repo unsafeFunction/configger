@@ -21,9 +21,9 @@ export default function inventoryReducer(state = initialState, action) {
         isLoading: true,
       };
     case actions.FETCH_INVENTORY_SUCCESS: {
-      const inventoryItemsForRender = action.payload.data.map(session => {
+      const inventoryItemsForRender = action.payload.data.map(item => {
         return {
-          ...session,
+          ...item,
           action: null,
         };
       });
