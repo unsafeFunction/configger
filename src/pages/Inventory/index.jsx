@@ -14,7 +14,7 @@ import {
   Menu,
   Tabs,
 } from 'antd';
-import { CompanyModal } from 'components/widgets/companies';
+import { ControlTubeModal } from 'components/widgets/Inventory';
 import debounce from 'lodash.debounce';
 import {
   LoadingOutlined,
@@ -44,7 +44,7 @@ const Inventory = () => {
   const createCompany = useCallback(async () => {
     const fieldValues = await form.validateFields();
     dispatchCompaniesData({
-      type: companyActions.CREATE_COMPANY_REQUEST,
+      type: actions.CREATE_INVENTORY_ITEM_REQUEST,
       payload: { ...fieldValues },
     });
   }, []);
@@ -99,7 +99,7 @@ const Inventory = () => {
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
-        title: 'Add company',
+        title: 'Add Control Tube',
         onOk: createCompany,
         cancelButtonProps: { className: styles.modalButton },
         okButtonProps: {
@@ -110,7 +110,7 @@ const Inventory = () => {
           overflow: 'scroll',
         },
         okText: 'Create',
-        message: () => <CompanyModal form={form} />,
+        message: () => <ControlTubeModal form={form} />,
       },
     });
   }, [dispatchCompaniesData]);

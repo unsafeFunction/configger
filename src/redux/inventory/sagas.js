@@ -1,5 +1,5 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
-import { fetchInventory } from 'services/inventory';
+import { fetchInventory, createInventoryItem } from 'services/inventory';
 import { notification } from 'antd';
 import actions from './actions';
 import modalActions from '../modal/actions';
@@ -26,9 +26,35 @@ export function* callFetchInventory({ payload }) {
       },
     });
   }
-  console.log('here');
+}
+
+export function* callCreateInventoryItem({ payload }) {
+  try {
+    const { data } = yield call(createInventoryItem, payload);
+
+    yield put({
+      type: actions.CREATE_INVENTORY_ITEM_SUCCESS,
+      payload: {
+        data: data?.results ?? [],
+        total: data.count,
+        firstPage: !data.previous,
+      },
+    });
+  } catch (error) {
+    notification.error(error);
+
+    yield put({
+      type: actions.CREATE_INVENTORY_ITEM_FAILURE,
+      payload: {
+        error,
+      },
+    });
+  }
 }
 
 export default function* rootSaga() {
-  yield all([takeEvery(actions.FETCH_INVENTORY_REQUEST, callFetchInventory)]);
+  yield all([
+    takeEvery(actions.FETCH_INVENTORY_REQUEST, callFetchInventory),
+    takeEvery(actions.CREATE_INVENTORY_ITEM_REQUEST, callCreateInventoryItem),
+  ]);
 }

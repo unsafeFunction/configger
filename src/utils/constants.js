@@ -313,4 +313,14 @@ export const constants = {
       status: 'CONTAMINATION',
     },
   ],
+  controlTypes: [
+    {
+      label: 'Positive',
+      value: 'POSITIVE_CONTROL',
+    },
+    {
+      label: 'Negative',
+      value: 'NEGATIVE_CONTROL',
+    },
+  ],
 };
