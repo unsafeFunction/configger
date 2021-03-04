@@ -60,7 +60,9 @@ const Scan = () => {
   const completedSamples = completedPools?.map?.(
     scan =>
       scan?.scan_tubes?.filter?.(
-        tube => tube.status !== constants.tubeStatuses.blank,
+        tube =>
+          tube.status !== constants.tubeStatuses.blank &&
+          tube.status !== constants.tubeStatuses.missing,
       )?.length,
   );
   const countOfCompletedSamples =
@@ -445,7 +447,7 @@ const Scan = () => {
                 scan?.scan_order >= 0
                   ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                       scan?.scan_order
-                  }`
+                    }`
                   : '-'
               }
             />
@@ -456,9 +458,9 @@ const Scan = () => {
                 scan?.scan_order > 0
                   ? `${session?.company_short?.name_short} ${
                       moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
-                  }${recentScan?.scan_order} on ${moment(
+                    }${recentScan?.scan_order} on ${moment(
                       recentScan?.scan_timestamp,
-                  )?.format('lll')}`
+                    )?.format('lll')}`
                   : '-'
               }
             />
