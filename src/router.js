@@ -64,6 +64,14 @@ const routes = [
     Component: loadable(() => import('pages/ScanPool')),
   },
   {
+    path: '/rack-scans/:id',
+    Component: loadable(() => import('pages/RackScan')),
+  },
+  {
+    path: '/rack-scans',
+    Component: loadable(() => import('pages/RackScans')),
+  },
+  {
     path: '/session-pools',
     Component: loadable(() => import('pages/ScanSessions')),
   },

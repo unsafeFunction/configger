@@ -38,6 +38,12 @@ export async function getMenuData() {
       icon: 'fe fe-maximize',
     },
     {
+      title: 'Rack Scans',
+      key: 'rack-scans',
+      url: '/rack-scans',
+      icon: 'fe fe-box',
+    },
+    {
       title: 'Management',
       key: 'management',
       url: '/management',
@@ -67,6 +73,7 @@ export async function getRolePermissions() {
         '/intake-receipt-log',
         '/session-pools',
         '/session',
+        '/rack-scans',
         '/management',
       ],
       default: '/session',
@@ -80,6 +87,7 @@ export async function getRolePermissions() {
         '/intake-receipt-log',
         '/session-pools',
         '/session',
+        '/rack-scans',
         '/management',
       ],
       default: '/session',
