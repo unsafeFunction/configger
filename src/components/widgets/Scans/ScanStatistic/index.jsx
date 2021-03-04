@@ -9,7 +9,7 @@ import styles from '../styles.module.scss';
 const ScanStatistic = ({ scan, isRack }) => {
   const tubesTotal = scan?.scan_tubes?.filter(
     tube =>
-      tube.status !== constants.tubeStatuses.empty &&
+      tube.status !== constants.tubeStatuses.blank &&
       tube.status !== constants.tubeStatuses.pooling,
   )?.length;
 

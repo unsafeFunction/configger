@@ -17,7 +17,7 @@ import actions from './actions';
 const cookie = cookieStorage();
 
 export function* callLogin({ payload }) {
-  const { email, password, toScanSession, toTimeline } = payload;
+  const { email, password, toScanSession } = payload;
   try {
     const response = yield call(login, email, password);
 

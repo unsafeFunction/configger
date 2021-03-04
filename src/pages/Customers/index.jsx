@@ -23,7 +23,6 @@ import modalActions from 'redux/modal/actions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
-import CustomerModal from 'components/widgets/Customer/CustomerModal';
 import HijackBtn from 'components/widgets/hijack/HijackBtn';
 import { useHistory, Link } from 'react-router-dom';
 import { constants } from 'utils/constants';
@@ -133,30 +132,6 @@ const Customers = () => {
       payload: { ...fieldValues },
     });
   };
-
-  const showInviteModal = useCallback(() => {
-    dispatch({
-      type: modalActions.SHOW_MODAL,
-      modalType: 'COMPLIANCE_MODAL',
-      modalProps: {
-        title: 'Invite user',
-        bodyStyle: {
-          maxHeight: '70vh',
-          overflow: 'scroll',
-        },
-        cancelButtonProps: { className: styles.modalButton },
-        okButtonProps: {
-          className: styles.modalButton,
-          loading: customers?.isInviting,
-        },
-        okText: 'Invite',
-        onOk: onInvite,
-        message: () => (
-          <CustomerModal form={form} loadCompanies={loadCompanies} />
-        ),
-      },
-    });
-  });
 
   const convertDateTime = rawDate => {
     const date = new Date(rawDate);
@@ -275,15 +250,6 @@ const Customers = () => {
           <div className={styles.mobileTableHeaderWrapper}>
             <div className={styles.mobileTableHeaderRow}>
               <h4>Users</h4>
-              <Button
-                type="primary"
-                size="large"
-                htmlType="submit"
-                onClick={showInviteModal}
-                className="ml-3"
-              >
-                Invite User
-              </Button>
             </div>
             <Input
               size="middle"
@@ -310,15 +276,6 @@ const Customers = () => {
                 value={searchName}
                 onChange={onChangeSearch}
               />
-              <Button
-                type="primary"
-                size="large"
-                htmlType="submit"
-                onClick={showInviteModal}
-                className="ml-3"
-              >
-                Invite User
-              </Button>
             </div>
           </>
         )}

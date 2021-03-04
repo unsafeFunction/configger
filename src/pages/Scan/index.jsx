@@ -12,6 +12,7 @@ import {
   Statistic,
   Dropdown,
   Menu,
+  Alert,
 } from 'antd';
 import {
   LeftOutlined,
@@ -32,6 +33,8 @@ import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
+const { Paragraph } = Typography;
+
 const Scan = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -46,12 +49,26 @@ const Scan = () => {
   const scan = session?.scans?.find(
     scan => scan.scan_order === currentScanOrder,
   );
-  const isEndSessionDisabled = session?.scans?.find(
-    scan => scan.status === constants.scanSessions.scanStatuses.voided,
+  const recentScan = scans?.[scan?.scan_order - 1];
+
+  const countOfReferencePools = session?.reference_pools_count;
+  const countOfReferenceSamples = session?.reference_samples_count;
+  const completedPools = scans?.filter(
+    scan => scan.status === constants.scanSessions.scanStatuses.completed,
   );
-  const countOfStartedScans = session?.scans?.find(
-    scan => scan.status === constants.scanSessions.scanStatuses.started,
-  )?.length;
+  const countOfCompletedPools = completedPools.length;
+  const completedSamples = completedPools?.map?.(
+    scan =>
+      scan?.scan_tubes?.filter?.(
+        tube =>
+          tube.status !== constants.tubeStatuses.blank &&
+          tube.status !== constants.tubeStatuses.missing,
+      )?.length,
+  );
+  const countOfCompletedSamples =
+    completedSamples?.length > 0
+      ? completedSamples?.reduce((acc, curr) => acc + curr)
+      : 0;
 
   const goToNextScan = useCallback(() => {
     const nextScanOrder = scans?.find(
@@ -75,7 +92,7 @@ const Scan = () => {
       scan => scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
     )?.scan_order;
 
-    if (prevScanOrder) {
+    if (prevScanOrder >= 0) {
       setCurrentScanOrder(prevScanOrder);
       history.push({ search: `?scanOrder=${prevScanOrder}` });
     } else {
@@ -246,22 +263,62 @@ const Scan = () => {
     });
   }, [dispatch, updateScan]);
 
-  const onSaveSessionModalToggle = useCallback(() => {
-    dispatch({
-      type: modalActions.SHOW_MODAL,
-      modalType: 'COMPLIANCE_MODAL',
-      modalProps: {
-        title: 'Save session',
-        onOk: markCompleteSession,
-        bodyStyle: {
-          maxHeight: '70vh',
-          overflow: 'scroll',
+  const onSaveSessionModalToggle = useCallback(
+    (
+      countOfReferencePools,
+      countOfReferenceSamples,
+      countOfCompletedPools,
+      countOfCompletedSamples,
+    ) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Save session',
+          onOk: markCompleteSession,
+          bodyStyle: {
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          },
+          okText: 'Save',
+          message: () => {
+            if (
+              countOfReferencePools === countOfCompletedPools &&
+              countOfReferenceSamples === countOfCompletedSamples
+            ) {
+              return <span>Are you sure to save session?</span>;
+            } else {
+              return (
+                <Alert
+                  showIcon
+                  type="warning"
+                  message="Warning"
+                  description={
+                    <>
+                      <Paragraph>Are you sure to save session?</Paragraph>
+                      {countOfReferencePools !== countOfCompletedPools && (
+                        <Paragraph>
+                          Reference pools ({countOfReferencePools}) don't match
+                          completed scans ({countOfCompletedPools})
+                        </Paragraph>
+                      )}
+                      {countOfReferenceSamples !== countOfCompletedSamples && (
+                        <Paragraph>
+                          Reference samples({countOfReferenceSamples}) don't
+                          match completed samples({countOfCompletedSamples})
+                        </Paragraph>
+                      )}
+                    </>
+                  }
+                />
+              );
+            }
+          },
         },
-        okText: 'Save',
-        message: () => <span>Are you sure to save session?</span>,
-      },
-    });
-  }, [dispatch, markCompleteSession]);
+      });
+    },
+    [dispatch, markCompleteSession],
+  );
 
   return (
     <>
@@ -275,13 +332,19 @@ const Scan = () => {
             icon={<ReloadOutlined />}
             className="mb-2 mr-2"
             type="primary"
-            outline
           >
             Refresh
           </Button>
           <Button
-            disabled={countOfStartedScans > 1 || session?.isLoading}
-            onClick={onSaveSessionModalToggle}
+            disabled={session?.isLoading || countOfCompletedPools < 1}
+            onClick={() =>
+              onSaveSessionModalToggle(
+                countOfReferencePools,
+                countOfReferenceSamples,
+                countOfCompletedPools,
+                countOfCompletedSamples,
+              )
+            }
             className="mb-2"
           >
             End Scanning Session
@@ -298,7 +361,7 @@ const Scan = () => {
                 htmlType="submit"
                 disabled={session?.isLoading || session.scans.length === 0}
               >
-                Save and Scan Another
+                Save Scan
               </Button>
               <div>
                 {scansTotal > 1 && (
@@ -381,7 +444,7 @@ const Scan = () => {
               className={styles.companyDetailsStat}
               title="Pool name:"
               value={
-                scan?.scan_order
+                scan?.scan_order >= 0
                   ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                       scan?.scan_order
                     }`
@@ -391,7 +454,15 @@ const Scan = () => {
             <Statistic
               className={styles.companyDetailsStat}
               title="Most Recent Scan:"
-              value="-"
+              value={
+                scan?.scan_order > 0
+                  ? `${session?.company_short?.name_short} ${
+                      moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
+                    }${recentScan?.scan_order} on ${moment(
+                      recentScan?.scan_timestamp,
+                    )?.format('lll')}`
+                  : '-'
+              }
             />
           </div>
           <SessionStatistic session={session} />

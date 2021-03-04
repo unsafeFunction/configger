@@ -2,13 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Tag, Statistic, Col, Row } from 'antd';
 import classNames from 'classnames';
+import { constants } from 'utils/constants';
 import styles from '../styles.module.scss';
 
 const SessionStatistic = ({ session }) => {
-  const actualSamples = session?.scans?.map?.(
+  const actualPools = session?.scans?.filter(
+    scan => scan.status !== constants.scanSessions.scanStatuses.voided,
+  );
+
+  const countOfActualPools = actualPools.length;
+
+  const actualSamples = actualPools?.map?.(
     scan =>
       scan?.scan_tubes?.filter?.(
-        tube => tube?.status !== 'EMPTY' && tube?.status !== 'VOIDED',
+        tube =>
+          tube.status !== constants.tubeStatuses.blank &&
+          tube.status !== constants.tubeStatuses.missing,
       )?.length,
   );
 
@@ -38,7 +47,7 @@ const SessionStatistic = ({ session }) => {
         <Card className={styles.card}>
           <Statistic
             title="Actual pools"
-            value={session?.scans?.length}
+            value={countOfActualPools}
             formatter={value => <Tag color="geekblue">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />

@@ -20,9 +20,17 @@ export const constants = {
     },
   },
   tubeStatuses: {
+    blank: 'BLANK',
+    missing: 'MISSING',
     scanned: 'SCANNED',
+    positiveControl: 'POSITIVE_CONTROL',
+    negativeControl: 'NEGATIVE_CONTROL',
     pooling: 'POOLING',
+    invalid: 'INVALID',
     empty: 'EMPTY',
+    insufficient: 'INSUFFICIENT',
+    improperCollection: 'IMPROPER_COLLECTION',
+    contamination: 'CONTAMINATION',
   },
   poolsByRun: {
     itemsLoadingCount: 100,
