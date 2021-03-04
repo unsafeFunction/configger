@@ -31,7 +31,7 @@ export function* callFetchInventory({ payload }) {
 export function* callCreateInventoryItem({ payload }) {
   try {
     const { data } = yield call(createInventoryItem, payload);
-
+    // TODO: refactor for inventory item response
     yield put({
       type: actions.CREATE_INVENTORY_ITEM_SUCCESS,
       payload: {
