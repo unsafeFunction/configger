@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import 'emoji-mart/css/emoji-mart.css';
 import { Input, Row, Col, Select, Typography, Switch, Form } from 'antd';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
-import { constants } from '../../../../utils/constants';
 
 const ControlTubeModal = ({ form }) => {
   const { Item, List } = Form;

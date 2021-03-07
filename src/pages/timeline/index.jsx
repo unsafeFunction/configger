@@ -34,7 +34,7 @@ import { DownloadLogo } from 'assets';
 import actions from 'redux/timeline/actions';
 
 import styles from './styles.module.scss';
-import useWindowSize from '../../hooks/useWindowSize';
+import useWindowSize from 'hooks/useWindowSize';
 import { getColor, getIcon } from 'utils/highlightingResult';
 
 const Timeline = () => {

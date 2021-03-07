@@ -6,9 +6,9 @@ import debounce from 'lodash.debounce';
 import { SearchOutlined } from '@ant-design/icons';
 import actions from 'redux/pools/actions';
 
+import { constants } from 'utils/constants';
+import PoolTable from 'components/widgets/pools/PoolTable';
 import styles from './styles.module.scss';
-import { constants } from '../../utils/constants';
-import PoolTable from '../../components/widgets/pools/PoolTable';
 
 const Pools = () => {
   const dispatch = useDispatch();
