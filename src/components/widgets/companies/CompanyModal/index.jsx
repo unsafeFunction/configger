@@ -16,8 +16,8 @@ import {
   Button,
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
-import { constants } from '../../../../utils/constants';
 
 const CompanyModal = ({ form }) => {
   const { Item, List } = Form;

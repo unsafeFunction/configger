@@ -104,6 +104,10 @@ const routes = [
     path: '/management',
     Component: loadable(() => import('pages/Management')),
   },
+  {
+    path: '/inventory',
+    Component: loadable(() => import('pages/Inventory')),
+  },
 ];
 
 const mapStateToProps = ({ settings }) => ({ settings });

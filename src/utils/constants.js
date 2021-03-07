@@ -19,6 +19,9 @@ export const constants = {
       completed: 'COMPLETED',
     },
   },
+  inventory: {
+    itemsLoadingCount: 25,
+  },
   tubeStatuses: {
     blank: 'BLANK',
     missing: 'MISSING',
@@ -308,6 +311,16 @@ export const constants = {
       reason: 'Contamination',
       color: '#ff0000',
       status: 'CONTAMINATION',
+    },
+  ],
+  controlTypes: [
+    {
+      label: 'Positive',
+      value: 'POSITIVE_CONTROL',
+    },
+    {
+      label: 'Negative',
+      value: 'NEGATIVE_CONTROL',
     },
   ],
 };
