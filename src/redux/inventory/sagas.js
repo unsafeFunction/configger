@@ -43,6 +43,7 @@ export function* callCreateInventoryItem({ payload }) {
   } catch (error) {
     notification.error({
       message: 'Something went wrong',
+      description: error.message,
     });
 
     yield put({
