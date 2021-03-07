@@ -16,9 +16,9 @@ export const fetchInventory = async query => {
 
 export const createInventoryItem = async data => {
   try {
-    const inventoryItem = await axiosClient.post('/inventory/', data);
+    const inventoryItem = await axiosClient.post('/inventory/', { ...data });
     return inventoryItem;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.response.data.detail);
   }
 };

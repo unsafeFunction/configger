@@ -29,6 +29,7 @@ import modalActions from 'redux/modal/actions';
 
 import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
+import moment from 'moment-timezone';
 import styles from './styles.module.scss';
 
 const Inventory = () => {
@@ -61,14 +62,16 @@ const Inventory = () => {
       title: 'Control',
       dataIndex: 'control',
       render: value => {
-        return value || '-';
+        return (
+          constants.controlTypes.find(type => type.value === value).label || '-'
+        );
       },
     },
     {
       title: 'Created On',
       dataIndex: 'created_on',
       render: value => {
-        return value || '-';
+        return moment(value?.started_on_day).format('LLLL') || '-';
       },
     },
     {
