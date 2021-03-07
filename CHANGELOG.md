@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.9.1...v2.0.0) (2021-03-04)
+
+
+### Features
+
+* add rack screen. add redux to rack. add requests to rack by id ([f8023b0](https://github.com/mokkapps/changelog-generator-demo/commits/f8023b0fb6b38e370846b21b7920979a4f8dbffc))
+* add redux to rack. add data change to rack ([037ca15](https://github.com/mokkapps/changelog-generator-demo/commits/037ca15ba0da0751a84ab8824f577bbba21f20e1))
+* add save scan function ([da0a47d](https://github.com/mokkapps/changelog-generator-demo/commits/da0a47d9fbc507845f5b66f7903148aacf3281d2))
+* add statistic to rack ([45ba59d](https://github.com/mokkapps/changelog-generator-demo/commits/45ba59dbf2207e72995c4556ad797d5a6500f54f))
+* add update tube in rack. ad tubes loading ([56fbb40](https://github.com/mokkapps/changelog-generator-demo/commits/56fbb40f7853814a4a1d7142c56adeaaf8625133))
+* check on reference pools and samples ([21c2a37](https://github.com/mokkapps/changelog-generator-demo/commits/21c2a370162db597675e32bc9c78287764a53e58))
+* rack scans template ([15f8b8f](https://github.com/mokkapps/changelog-generator-demo/commits/15f8b8fa7420f4f268aa9fc738e7cebeea539825))
+* tube statuses ([520f43f](https://github.com/mokkapps/changelog-generator-demo/commits/520f43f4b1550ec1c81dda2c0921c95a13add2a2))
+* update  ui in pool scan. fix intake log request ([345f569](https://github.com/mokkapps/changelog-generator-demo/commits/345f5695a2a0f469272412ee712b099acf816f88))
+* update input name ([9079234](https://github.com/mokkapps/changelog-generator-demo/commits/9079234a9240efb15115ff54192dca915ed1cb27))
+
+
+### Bug Fixes
+
+* company select with actual scroll component ([7169eb6](https://github.com/mokkapps/changelog-generator-demo/commits/7169eb6838a47ae70ac28661508cb043989842c0))
+* exclude blank and missing tubes from reference/actual samples ([5e12603](https://github.com/mokkapps/changelog-generator-demo/commits/5e12603d424f8cd0b93ce76b9ab8081c1383d142))
+* fix routers ([f9aedff](https://github.com/mokkapps/changelog-generator-demo/commits/f9aedff527a6e12968899f0e01a0e3f9a6d71536))
+* infinite scroll ([705711d](https://github.com/mokkapps/changelog-generator-demo/commits/705711dcd76533a1dcb3a07ea188a481071e2c91))
+* remove irrelevant scroller ([044ce21](https://github.com/mokkapps/changelog-generator-demo/commits/044ce21568d90b4329eda4a8d46a51eeb3a92890))
+* remove npm install from build ([b341488](https://github.com/mokkapps/changelog-generator-demo/commits/b34148840e5e8c47e0fe024433c913e6ecd12810))
+* remove unused env var ([48e5c3c](https://github.com/mokkapps/changelog-generator-demo/commits/48e5c3c1578d25527a955c4843f4a60f8d2bf15a))
+
 ### [1.9.1](https://github.com/mokkapps/changelog-generator-demo/compare/v1.9.0...v1.9.1) (2021-03-01)
 
 

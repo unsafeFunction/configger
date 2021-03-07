@@ -9,7 +9,8 @@ import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 import InvalidateModal from 'components/widgets/Scans/InvalidateModal';
 
-const Rackboard = ({ rackboard, scanId, session }) => {
+const Rackboard = ({ rackboard, scanId, session, isRack=false }) => {
+  console.log(rackboard)
   const dispatch = useDispatch();
   const [currentTubeID, setCurrentTubeID] = useState('');
   const [popoverVisible, setPopoverVisible] = useState(null);
@@ -87,7 +88,6 @@ const Rackboard = ({ rackboard, scanId, session }) => {
         cancelButtonProps: { className: styles.modalButton },
         okButtonProps: {
           className: styles.modalButton,
-          // loading: customers?.isInviting,
         },
         okText: 'Save',
         onOk: () => onInvalidate(record),
@@ -143,22 +143,26 @@ const Rackboard = ({ rackboard, scanId, session }) => {
                     Save
                   </Button>
                 </Popconfirm>
+                {
+                  !isRack && (
+                    <>
+                      <Popconfirm
+                        title="Are you sure to delete this tube?"
+                        okText="Yes"
+                        cancelText="No"
+                        onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
+                      >
+                        <Button className={styles.popoverBtn} danger>
+                          Delete
+                        </Button>
+                      </Popconfirm>
 
-                <Popconfirm
-                  title="Are you sure to delete this tube?"
-                  okText="Yes"
-                  cancelText="No"
-                  onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
-                >
-                  <Button className={styles.popoverBtn} danger>
-                    Delete
-                  </Button>
-                </Popconfirm>
-
-                <Button className={styles.popoverBtn} onClick={() => handleInvalidateAction(record?.[`col${i + 1}`])}>
-                  Invalidate
-                </Button>
-
+                      <Button className={styles.popoverBtn} onClick={() => handleInvalidateAction(record?.[`col${i + 1}`])}>
+                        Invalidate
+                      </Button>
+                    </>
+                  )
+                }
                 <Button
                   onClick={handleClosePopover}
                   className={styles.popoverBtn}

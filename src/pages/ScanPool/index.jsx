@@ -42,7 +42,7 @@ const Pool = () => {
   };
 
   useFetching();
-
+  console.log(scan);
   return (
     <>
       <Row gutter={[48, 40]} justify="center">

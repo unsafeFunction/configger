@@ -16,6 +16,7 @@ import intakeReceiptLog from './intakeReceiptLog/sagas';
 import scan from './scanSessions/sagas';
 import management from './management/sagas';
 import inventory from './inventory/sagas';
+import racks from './racks/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -36,5 +37,6 @@ export default function* rootSaga() {
     scan(),
     management(),
     inventory(),
+    racks(),
   ]);
 }

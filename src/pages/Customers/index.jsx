@@ -147,7 +147,9 @@ const Customers = () => {
       key: 'fullname',
       render: (_, record) => (
         <Link to={`/users/${record.id}`} className="text-blue">
-          {record.first_name} {record.last_name}
+          {record.first_name} 
+{' '}
+{record.last_name}
         </Link>
       ),
     },
@@ -214,7 +216,6 @@ const Customers = () => {
                 onClick={() => reinviteUser(record.id)}
               />
             </Tooltip>
-
             <HijackBtn
               userId={record.id}
               userFirstName={record.first_name}
