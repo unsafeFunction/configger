@@ -120,6 +120,7 @@ export default combineReducers({
         return {
           ...state,
           isLoadingCompany: true,
+          error: null,
         };
       case actions.FETCH_COMPANY_SHORT_SUCCESS:
         const company = !isEmpty(action.payload.data)
