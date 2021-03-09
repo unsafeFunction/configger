@@ -6,17 +6,19 @@ import { Form, Input, Select, InputNumber } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
-const IntakeRecepientLogModal = ({ form }) => {
+const IntakeRecepientLogModal = ({ form, edit }) => {
   const dispatch = useDispatch();
   const { Item } = Form;
 
   const company = useSelector(state => state.companies.singleCompany);
 
   useEffect(() => {
-    form.setFieldsValue({
-      company_name: company.name,
-      company_short: company.name_short,
-    });
+    if (company.name) {
+      form.setFieldsValue({
+        company_name: company.name,
+        company_short: company.name_short,
+      });
+    }
   }, [company]);
 
   const sendQuery = useCallback(query => {
@@ -38,12 +40,12 @@ const IntakeRecepientLogModal = ({ form }) => {
 
     if (target.value) {
       delayedQuery(target.value);
-    } else {
-      form.setFieldsValue({
-        company_name: '',
-        company_short: '',
-      });
     }
+
+    form.setFieldsValue({
+      company_name: '',
+      company_short: '',
+    });
   }, []);
 
   return (
@@ -58,7 +60,11 @@ const IntakeRecepientLogModal = ({ form }) => {
           },
         ]}
       >
-        <Input placeholder="Company ID" onChange={handleChangeCompany} />
+        <Input
+          disabled={edit}
+          placeholder="Company ID"
+          onChange={handleChangeCompany}
+        />
       </Item>
 
       <Item
