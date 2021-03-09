@@ -336,7 +336,7 @@ const Scan = () => {
             Refresh
           </Button>
           <Button
-            disabled={session?.isLoading || countOfCompletedPools < 1}
+            disabled={session?.isLoading}
             onClick={() =>
               onSaveSessionModalToggle(
                 countOfReferencePools,

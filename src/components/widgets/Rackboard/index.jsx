@@ -187,11 +187,11 @@ const Rackboard = ({ rackboard, scanId, session, isRack=false }) => {
                           </Button>
                         </Popconfirm>
 
-                        ) : (
+                        ) : recordStatus !== 'blank' || recordStatus !== 'missing' ? (
                           <Button className={styles.popoverBtn} onClick={() => handleInvalidateAction(record?.[`col${i + 1}`])}>
                           Invalidate
                         </Button>
-                        )
+                        ) : null
                       }
                     </>
                   )
