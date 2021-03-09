@@ -13,10 +13,12 @@ const IntakeRecepientLogModal = ({ form }) => {
   const company = useSelector(state => state.companies.singleCompany);
 
   useEffect(() => {
-    form.setFieldsValue({
-      company_name: company.name,
-      company_short: company.name_short,
-    });
+    if (company.name) {
+      form.setFieldsValue({
+        company_name: company.name,
+        company_short: company.name_short,
+      });
+    }
   }, [company]);
 
   const sendQuery = useCallback(query => {
@@ -38,12 +40,12 @@ const IntakeRecepientLogModal = ({ form }) => {
 
     if (target.value) {
       delayedQuery(target.value);
-    } else {
-      form.setFieldsValue({
-        company_name: '',
-        company_short: '',
-      });
     }
+
+    form.setFieldsValue({
+      company_name: '',
+      company_short: '',
+    });
   }, []);
 
   return (
