@@ -301,15 +301,17 @@ export function* callDeleteTube({ payload }) {
       message: 'Tube deleted',
     });
   } catch (error) {
+    const errorData = error.response?.data?.detail ?? null;
+
     yield put({
       type: actions.DELETE_TUBE_FAILURE,
       payload: {
-        letter: payload.position?.[0],
+        data: errorData,
       },
     });
 
     notification.error({
-      message: 'Something went wrong',
+      message: errorData ?? 'Failure!',
     });
   }
 }
