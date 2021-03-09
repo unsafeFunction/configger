@@ -7,6 +7,7 @@ const initialState = {
   error: '',
   isDisabled: false,
   isLoadFile: true,
+  isLoading: false,
 };
 export default function modal(state = initialState, action) {
   switch (action.type) {
@@ -18,13 +19,22 @@ export default function modal(state = initialState, action) {
       });
     }
     case actions.HIDE_MODAL: {
-      return initialState;
+      return {
+        ...initialState,
+        isLoading: false,
+      };
     }
     case actions.SET_ERROR: {
       return Object.assign({}, state, {
         error: action.payload,
         isDisabled: !!action.payload,
       });
+    }
+    case actions.PATCH_INTAKE_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
     }
     default:
       return state;
