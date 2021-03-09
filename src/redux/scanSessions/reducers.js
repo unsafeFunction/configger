@@ -224,6 +224,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: true,
+        error: null,
       };
     }
     case actions.DELETE_TUBE_SUCCESS: {
@@ -251,6 +252,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
+        error: action.payload.data,
       };
     }
 

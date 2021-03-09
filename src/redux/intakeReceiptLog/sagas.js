@@ -2,6 +2,7 @@ import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { fetchIntakeReceiptLog, createIntake } from 'services/intakeReceiptLog';
 import { notification } from 'antd';
 import actions from './actions';
+import modalActions from 'redux/modal/actions';
 
 export function* callFetchIntakeReceiptLog({ payload }) {
   try {
@@ -31,13 +32,18 @@ export function* callCreateIntake({ payload }) {
       payload: response,
     });
 
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
     notification.success({
       message: 'Intake added',
     });
 
     return yield call(resetForm);
   } catch (error) {
-    const errorData = error.response?.data?.field_errors;
+    const errorData = error.response?.data?.field_errors ?? null;
+
     yield put({
       type: actions.CREATE_INTAKE_FAILURE,
       payload: {
@@ -46,7 +52,9 @@ export function* callCreateIntake({ payload }) {
     });
     notification.error({
       message: 'Failure!',
-      description: `Intake not added`,
+      description: errorData
+        ? JSON.stringify(errorData, null, 2).replace(/{|}|"|,/g, '')
+        : 'Intake not added.',
     });
   }
 }

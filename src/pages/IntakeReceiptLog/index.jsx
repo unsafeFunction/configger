@@ -110,6 +110,9 @@ const IntakeReceiptLog = () => {
     {
       title: 'Logged By',
       dataIndex: 'logged_by',
+      render: (_, record) => {
+        return record.logged_by ?? '-';
+      },
     },
     {
       title: 'Shipping By',
@@ -138,6 +141,7 @@ const IntakeReceiptLog = () => {
     ...intakeItem,
     company_name: intakeItem.company?.name,
     company_short: intakeItem.company?.name_short,
+    company_id: intakeItem.company?.company_id,
   }));
 
   const loadMore = useCallback(() => {

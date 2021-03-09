@@ -43,6 +43,7 @@ export default function intakeReceiptLogReducer(state = initialState, action) {
       return {
         ...state,
         isCreating: true,
+        error: null,
       };
     case actions.CREATE_INTAKE_SUCCESS:
       return {
