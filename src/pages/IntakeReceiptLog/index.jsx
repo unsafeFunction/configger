@@ -83,7 +83,6 @@ const IntakeReceiptLog = () => {
           ),
           maskClosable: false,
           onCancel: handleReset,
-          confirmLoading: intakeLog.isCreating,
         },
       });
     },
