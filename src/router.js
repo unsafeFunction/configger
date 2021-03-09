@@ -100,10 +100,10 @@ const routes = [
     path: '/intake-receipt-log',
     Component: loadable(() => import('pages/IntakeReceiptLog')),
   },
-  {
-    path: '/management',
-    Component: loadable(() => import('pages/Management')),
-  },
+  // {
+  //   path: '/management',
+  //   Component: loadable(() => import('pages/Management')),
+  // },
   {
     path: '/inventory',
     Component: loadable(() => import('pages/Inventory')),

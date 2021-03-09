@@ -10,24 +10,22 @@ import styles from './styles.module.scss';
 import InvalidateModal from 'components/widgets/Scans/InvalidateModal';
 
 const Rackboard = ({ rackboard, scanId, session, isRack=false }) => {
-  console.log(rackboard)
   const dispatch = useDispatch();
   const [currentTubeID, setCurrentTubeID] = useState('');
   const [popoverVisible, setPopoverVisible] = useState(null);
   const { selectedCode } = useSelector(state => state.scanSessions?.singleSession);
-
   const [form] = Form.useForm();
 
   const initialRackboard = [...Array(6).keys()].map(i => ({
     letter: String.fromCharCode(constants?.A + i),
-    col1: { tube_id: null, status: 'empty' },
-    col2: { tube_id: null, status: 'empty' },
-    col3: { tube_id: null, status: 'empty' },
-    col4: { tube_id: null, status: 'empty' },
-    col5: { tube_id: null, status: 'empty' },
-    col6: { tube_id: null, status: 'empty' },
-    col7: { tube_id: null, status: 'empty' },
-    col8: { tube_id: null, status: 'empty' },
+    col1: { tube_id: null, status: 'blank' },
+    col2: { tube_id: null, status: 'blank' },
+    col3: { tube_id: null, status: 'blank' },
+    col4: { tube_id: null, status: 'blank' },
+    col5: { tube_id: null, status: 'blank' },
+    col6: { tube_id: null, status: 'blank' },
+    col7: { tube_id: null, status: 'blank' },
+    col8: { tube_id: null, status: 'blank' },
   }));
 
   const handleSave = useCallback(
@@ -35,6 +33,17 @@ const Rackboard = ({ rackboard, scanId, session, isRack=false }) => {
       dispatch({
         type: actions.UPDATE_TUBE_REQUEST,
         payload: { id: record.id, data: { tube_id: currentTubeID, scanId: rackboard?.id} },
+      });
+      setPopoverVisible(null);
+    },
+    [dispatch, currentTubeID, rackboard],
+  );
+
+  const makeScanned = useCallback(
+    record => {
+      dispatch({
+        type: actions.UPDATE_TUBE_REQUEST,
+        payload: { id: record.id, data: { status: constants.tubeStatuses.scanned,  scanId: rackboard?.id} },
       });
       setPopoverVisible(null);
     },
@@ -106,7 +115,12 @@ const Rackboard = ({ rackboard, scanId, session, isRack=false }) => {
     dataIndex: `col${i + 1}`,
     align: 'center',
     render: (_, record) => {
-      if (record[`col${i + 1}`] && record[`col${i + 1}`]?.status !== 'empty') {
+      const recordStatus = record?.[`col${i + 1}`]?.status;
+      const isCanMakeScanned =  recordStatus === 'empty' || recordStatus === 'insufficient'
+      || recordStatus === 'improper_collection' || recordStatus === 'contamination'
+      || recordStatus === 'invalid'
+
+      if (record[`col${i + 1}`] && record[`col${i + 1}`]?.status !== 'blank') {
         return (
           <Popover
             title={
@@ -156,10 +170,29 @@ const Rackboard = ({ rackboard, scanId, session, isRack=false }) => {
                           Delete
                         </Button>
                       </Popconfirm>
+                      {
+                        isCanMakeScanned ? (
+                        <Popconfirm
+                          disabled={!currentTubeID}
+                          title="Are you sure to make scanned this pool?"
+                          okText="Yes"
+                          cancelText="No"
+                          onConfirm={() => makeScanned(record?.[`col${i + 1}`])}
+                          >
+                            <Button
+                              type="primary"
+                              className={styles.popoverBtn}
+                            >
+                            Make scanned
+                          </Button>
+                        </Popconfirm>
 
-                      <Button className={styles.popoverBtn} onClick={() => handleInvalidateAction(record?.[`col${i + 1}`])}>
-                        Invalidate
-                      </Button>
+                        ) : (
+                          <Button className={styles.popoverBtn} onClick={() => handleInvalidateAction(record?.[`col${i + 1}`])}>
+                          Invalidate
+                        </Button>
+                        )
+                      }
                     </>
                   )
                 }
@@ -186,7 +219,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack=false }) => {
               shape="circle"
               className={styles.tube}
               style={
-                record[`col${i + 1}`]?.status !== 'empty'
+                record[`col${i + 1}`]?.status !== 'blank'
                   ? {
                       background: record[`col${i + 1}`]?.color,
                       borderColor: record[`col${i + 1}`]?.color,

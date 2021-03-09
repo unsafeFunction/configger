@@ -1,27 +1,10 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import {
-  Table,
-  Button,
-  Tag,
-  Input,
-  Form,
-  Tooltip,
-  Switch,
-  Dropdown,
-  Menu,
-  Tabs,
-} from 'antd';
+import { Table, Button, Input, Form } from 'antd';
 import { ControlTubeModal } from 'components/widgets/Inventory';
 import debounce from 'lodash.debounce';
-import {
-  LoadingOutlined,
-  SearchOutlined,
-  BankOutlined,
-  FileOutlined,
-} from '@ant-design/icons';
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import companyActions from 'redux/companies/actions';
 import actions from 'redux/inventory/actions';
@@ -48,7 +31,7 @@ const Inventory = () => {
       type: actions.CREATE_INVENTORY_ITEM_REQUEST,
       payload: { ...fieldValues },
     });
-  }, []);
+  }, [form, dispatchCompaniesData]);
 
   const columns = [
     {
@@ -147,10 +130,13 @@ const Inventory = () => {
     [],
   );
 
-  const onChangeSearch = useCallback(event => {
-    setSearchName(event.target.value);
-    delayedQuery(event.target.value);
-  }, []);
+  const onChangeSearch = useCallback(
+    event => {
+      setSearchName(event.target.value);
+      delayedQuery(event.target.value);
+    },
+    [delayedQuery],
+  );
 
   return (
     <>
