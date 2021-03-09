@@ -14,6 +14,10 @@ export const fetchIntakeReceiptLog = async ({ limit, offset }) => {
 };
 
 export const createIntake = async payload => {
-  const intake = await axiosClient.post('/intake-logs/', { ...payload });
-  return intake;
+  try {
+    const intake = await axiosClient.post('/intake-logs/', { ...payload });
+    return intake;
+  } catch (error) {
+    throw error;
+  }
 };
