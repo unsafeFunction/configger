@@ -179,11 +179,6 @@ const IntakeReceiptLog = () => {
       <InfiniteScroll
         next={loadMore}
         hasMore={intakeLog.items.length < intakeLog.total}
-        // loader={
-        //   <div className={styles.spin}>
-        //     <Spin />
-        //   </div>
-        // }
         dataLength={intakeLog.items.length}
       >
         <Table
