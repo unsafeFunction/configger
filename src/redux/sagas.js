@@ -15,6 +15,7 @@ import intakeLims from './intakeLims/sagas';
 import intakeReceiptLog from './intakeReceiptLog/sagas';
 import scan from './scanSessions/sagas';
 import management from './management/sagas';
+import inventory from './inventory/sagas';
 import racks from './racks/sagas';
 
 export default function* rootSaga() {
@@ -35,6 +36,7 @@ export default function* rootSaga() {
     intakeReceiptLog(),
     scan(),
     management(),
+    inventory(),
     racks(),
   ]);
 }

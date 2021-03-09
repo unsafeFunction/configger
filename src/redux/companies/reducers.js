@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
-import actions from './actions';
-import { constants } from '../../utils/constants';
+import { constants } from 'utils/constants';
 import isEmpty from 'lodash.isempty';
+import actions from './actions';
 
 const initialState = {
   items: [],

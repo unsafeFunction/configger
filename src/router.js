@@ -60,6 +60,19 @@ const routes = [
     Component: loadable(() => import('pages/IntakeLims')),
   },
   {
+    path: '/pools',
+    Component: loadable(() => import('pages/Pools')),
+  },
+  {
+    path: '/runs',
+    Component: loadable(() => import('pages/runs')),
+    exact: true,
+  },
+  {
+    path: '/runs/:id',
+    Component: loadable(() => import('pages/runs/run')),
+  },
+  {
     path: '/session-pools/:id',
     Component: loadable(() => import('pages/ScanPool')),
   },
@@ -90,6 +103,10 @@ const routes = [
   {
     path: '/management',
     Component: loadable(() => import('pages/Management')),
+  },
+  {
+    path: '/inventory',
+    Component: loadable(() => import('pages/Inventory')),
   },
 ];
 

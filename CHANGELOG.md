@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v2.0.0...v3.0.0) (2021-03-07)
+
+
+### Features
+
+* inventory redux template ([73df669](https://github.com/mokkapps/changelog-generator-demo/commits/73df66932fd99113f9ae5f345dcc2bc48cefc4ff))
+* inventory template ([b0fcebd](https://github.com/mokkapps/changelog-generator-demo/commits/b0fcebd20c3919b89b38e1d2679a5fc0b3ff03fa))
+
+
+### Bug Fixes
+
+* create inventory item redux ([93418f8](https://github.com/mokkapps/changelog-generator-demo/commits/93418f8d78fb1eb019215bb538d644c293c84e64))
+* error message inventory ([aea6665](https://github.com/mokkapps/changelog-generator-demo/commits/aea66650e6d7d51875e4745fc5a7644f54e14a7c))
+* fetch inventory redux ([a5d7021](https://github.com/mokkapps/changelog-generator-demo/commits/a5d7021db5ea1c2f4d16770229347a2a5179143f))
+* inventory table issues ([6642b76](https://github.com/mokkapps/changelog-generator-demo/commits/6642b768367858bf5c426fba76797401de54ecba))
+* refactor extra code ([c1afd57](https://github.com/mokkapps/changelog-generator-demo/commits/c1afd57ee977682619bbd3cfab58235b8c3df8e9))
+* refactor paths ([a4eceea](https://github.com/mokkapps/changelog-generator-demo/commits/a4eceea05c225a5f0d1931634f86e81715d29f90))
+* return pools and runs ([46cc037](https://github.com/mokkapps/changelog-generator-demo/commits/46cc0373d38b37c3e19f03fd86966640127d6068))
+* table template ([3a5ac32](https://github.com/mokkapps/changelog-generator-demo/commits/3a5ac3258c42783b34b05eef7703f68a13120338))
+* todo list ([4b7118c](https://github.com/mokkapps/changelog-generator-demo/commits/4b7118c05855268794514a64662ca869ccea9805))
+
 ## [2.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.9.1...v2.0.0) (2021-03-04)
 
 

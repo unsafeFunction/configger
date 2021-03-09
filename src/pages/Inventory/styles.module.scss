@@ -1,0 +1,64 @@
+@import 'assets/styles/mixins.scss';
+
+.page__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+.infiniteLoadingIcon {
+  height: 60px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.tableActionsWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 55%;
+
+  .search {
+    width: 65%;
+    margin-bottom: 1em;
+  }
+}
+
+.mobileTableHeaderWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .mobileTableHeaderRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+    align-items: center;
+
+    .search {
+      width: 100%;
+    }
+  }
+}
+
+.tabletActionsWrapper {
+  width: 55%;
+  .search {
+    width: 68%;
+  }
+}
+
+.modalButton {
+  width: 100px;
+}
+
+.actionsBtns {
+  display: flex;
+  justify-content: space-between;
+}
