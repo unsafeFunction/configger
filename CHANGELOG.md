@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v3.0.0...v3.1.0) (2021-03-09)
+
+
+### Features
+
+* add capability to invalid scan scanned ([9744ad6](https://github.com/mokkapps/changelog-generator-demo/commits/9744ad6bd0820033147cdd07fc434a753728dfd6))
+* edit intake template modal ([df9a34b](https://github.com/mokkapps/changelog-generator-demo/commits/df9a34b9f1c390337dba446e97b06e54a6b49e94))
+* tube errors handle ([86a0ad4](https://github.com/mokkapps/changelog-generator-demo/commits/86a0ad4c851d69feeee61120515f71139fa133ce))
+
+
+### Bug Fixes
+
+* add company id to intake log table ([e896da9](https://github.com/mokkapps/changelog-generator-demo/commits/e896da9bd51c92d7b14b3b7e2ed38cddb37eb6da))
+* change tube delete request ([cd828a0](https://github.com/mokkapps/changelog-generator-demo/commits/cd828a0667e93c7d4767fa265bfae104aef6bdde))
+* delete extra console log ([e18c8ea](https://github.com/mokkapps/changelog-generator-demo/commits/e18c8ea1d55921965aa5644a5d3c713ff3c3ac46))
+* delete loader ([602921b](https://github.com/mokkapps/changelog-generator-demo/commits/602921bdc2bd53bf36534a1da926274316860614))
+* edit intake ([9c36387](https://github.com/mokkapps/changelog-generator-demo/commits/9c36387af4fdbc0ebff9e877ea3f1b58e678a95c))
+* intake log errors handle ([5b0242f](https://github.com/mokkapps/changelog-generator-demo/commits/5b0242f6b3a369d6ac1e2abe2e87adb06e4ea26c))
+* intake log issues ([fa7e9d0](https://github.com/mokkapps/changelog-generator-demo/commits/fa7e9d0f282fd351ca9a2198b60776b02b07fe09))
+* refactor modal ([1e8e5e7](https://github.com/mokkapps/changelog-generator-demo/commits/1e8e5e727699c45d4a732c8f90132c8067c2d75b))
+* remove try/catch blocks for intake log ([6fa0d9c](https://github.com/mokkapps/changelog-generator-demo/commits/6fa0d9cf315b7de2bede265203d617fd9bf269bc))
+
 ## [3.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v2.0.0...v3.0.0) (2021-03-07)
 
 
