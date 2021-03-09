@@ -35,22 +35,31 @@ const IntakeReceiptLog = () => {
     form.resetFields();
   }, []);
 
-  const createIntake = useCallback(async () => {
+  const handleChangeIntake = useCallback(async record => {
     const fieldValues = await form.validateFields();
     const { company_name, company_short, ...rest } = fieldValues;
 
-    dispatch({
-      type: actions.CREATE_INTAKE_REQUEST,
-      payload: {
-        intake: rest,
-        resetForm: handleReset,
-      },
-    });
+    if (record) {
+      dispatch({
+        type: actions.PATCH_INTAKE_REQUEST,
+        payload: {
+          intake: { ...rest, id: record.id },
+          resetForm: handleReset,
+        },
+      });
+    } else {
+      dispatch({
+        type: actions.CREATE_INTAKE_REQUEST,
+        payload: {
+          intake: rest,
+          resetForm: handleReset,
+        },
+      });
+    }
   }, []);
 
   const handleModalToggle = useCallback(
     record => {
-      console.log(record);
       if (record) {
         form.setFieldsValue({
           ...record.company,
@@ -62,14 +71,16 @@ const IntakeReceiptLog = () => {
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
-          title: record ? 'Edit intake' : 'New intake',
-          onOk: createIntake,
+          title: `${record ? 'Edit' : 'New'} intake`,
+          onOk: () => handleChangeIntake(record),
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
           },
-          okText: record ? 'Edit intake' : 'Add intake',
-          message: () => <IntakeRecepientLogModal form={form} />,
+          okText: `${record ? 'Edit' : 'New'} intake`,
+          message: () => (
+            <IntakeRecepientLogModal form={form} edit={!!record} />
+          ),
           maskClosable: false,
           onCancel: handleReset,
           confirmLoading: intakeLog.isCreating,

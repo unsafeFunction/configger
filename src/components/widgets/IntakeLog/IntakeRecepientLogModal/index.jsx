@@ -6,7 +6,7 @@ import { Form, Input, Select, InputNumber } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
-const IntakeRecepientLogModal = ({ form }) => {
+const IntakeRecepientLogModal = ({ form, edit }) => {
   const dispatch = useDispatch();
   const { Item } = Form;
 
@@ -60,7 +60,11 @@ const IntakeRecepientLogModal = ({ form }) => {
           },
         ]}
       >
-        <Input placeholder="Company ID" onChange={handleChangeCompany} />
+        <Input
+          disabled={edit}
+          placeholder="Company ID"
+          onChange={handleChangeCompany}
+        />
       </Item>
 
       <Item

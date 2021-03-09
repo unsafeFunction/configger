@@ -21,3 +21,15 @@ export const createIntake = async payload => {
     throw error;
   }
 };
+
+export const updateIntake = async payload => {
+  try {
+    console.log(payload);
+    const intake = await axiosClient.patch(`/intake-logs/${payload.id}`, {
+      ...payload,
+    });
+    return intake;
+  } catch (error) {
+    throw error;
+  }
+};
