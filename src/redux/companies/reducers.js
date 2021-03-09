@@ -95,6 +95,7 @@ const initialSingleCompany = {
   name_short: '',
   results_contacts: [],
   isLoadingCompany: false,
+  error: null,
 };
 
 export default combineReducers({
@@ -132,7 +133,8 @@ export default combineReducers({
       case actions.FETCH_COMPANY_SHORT_FAILURE:
         return {
           ...state,
-          isLoadingCompany: false,
+          ...initialSingleCompany,
+          error: action.payload.data,
         };
       case actions.START_CAMPAIGN_REQUEST:
         return {
