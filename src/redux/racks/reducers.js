@@ -5,6 +5,8 @@ import actions from './actions';
 const initialState = {
   items: [],
   isLoading: false,
+  total: 0,
+  offset: 0,
   error: null,
 };
 

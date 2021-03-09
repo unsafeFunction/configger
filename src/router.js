@@ -91,6 +91,10 @@ const routes = [
     path: '/management',
     Component: loadable(() => import('pages/Management')),
   },
+  {
+    path: '/run-creation',
+    Component: loadable(() => import('pages/RunCreation')),
+  },
 ];
 
 const mapStateToProps = ({ settings }) => ({ settings });

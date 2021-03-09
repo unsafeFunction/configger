@@ -50,6 +50,12 @@ export async function getMenuData() {
       icon: 'fe fe-bar-chart',
     },
     {
+      title: 'Generate Run',
+      key: 'runCreation',
+      url: '/run-creation',
+      icon: 'fe fe-droplet',
+    },
+    {
       title: 'Email Support',
       key: 'contactUs',
       icon: 'fe fe-mail',
@@ -75,6 +81,7 @@ export async function getRolePermissions() {
         '/session',
         '/rack-scans',
         '/management',
+        '/run-creation',
       ],
       default: '/session',
     },
@@ -89,6 +96,7 @@ export async function getRolePermissions() {
         '/session',
         '/rack-scans',
         '/management',
+        '/run-creation',
       ],
       default: '/session',
     },

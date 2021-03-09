@@ -1,0 +1,8 @@
+@import 'assets/styles/mixins.scss';
+
+.stages {
+  margin-bottom: 6rem;
+  @media (max-width: $xs-max-width) {
+    margin-bottom: 4.5rem;
+  }
+}
