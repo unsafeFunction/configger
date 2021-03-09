@@ -24,7 +24,6 @@ export const createIntake = async payload => {
 
 export const updateIntake = async payload => {
   try {
-    console.log(payload);
     const intake = await axiosClient.patch(`/intake-logs/${payload.id}`, {
       ...payload,
     });
