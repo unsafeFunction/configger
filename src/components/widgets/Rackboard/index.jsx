@@ -173,15 +173,15 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                   </Button>
                 </Popconfirm>
                 <Popconfirm
-                      title="Are you sure to delete this tube?"
-                      okText="Yes"
-                      cancelText="No"
-                      onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
-                    >
-                      <Button className={styles.popoverBtn} danger>
-                        Delete
-                      </Button>
-                    </Popconfirm>
+                  title="Are you sure to delete this tube?"
+                  okText="Yes"
+                  cancelText="No"
+                  onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
+                >
+                  <Button className={styles.popoverBtn} danger>
+                    Delete
+                  </Button>
+                </Popconfirm>
                 {!isRack && (
                   <>
                     {isCanMakeScanned ? (
@@ -200,7 +200,8 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                           Make scanned
                         </Button>
                       </Popconfirm>
-                    ) : recordStatus !== 'missing' ? (
+                    ) : recordStatus !== 'missing' &&
+                      recordStatus !== 'pooling' ? (
                       <Button
                         className={styles.popoverBtn}
                         onClick={() =>
