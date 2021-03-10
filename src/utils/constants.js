@@ -23,17 +23,18 @@ export const constants = {
     completed: 'COMPLETED',
   },
   tubeStatuses: {
-    blank: 'BLANK',
+    blank: 'BLANK', // default
     missing: 'MISSING',
     scanned: 'SCANNED',
     positiveControl: 'POSITIVE_CONTROL',
     negativeControl: 'NEGATIVE_CONTROL',
     pooling: 'POOLING',
+    // invalid statuses
     invalid: 'INVALID',
-    empty: 'EMPTY',
-    insufficient: 'INSUFFICIENT',
-    improperCollection: 'IMPROPER_COLLECTION',
-    contamination: 'CONTAMINATION',
+    empty: 'EMPTY', // A
+    insufficient: 'INSUFFICIENT', // B
+    improperCollection: 'IMPROPER_COLLECTION', // C
+    contamination: 'CONTAMINATION', // D
   },
   poolsByRun: {
     itemsLoadingCount: 100,
