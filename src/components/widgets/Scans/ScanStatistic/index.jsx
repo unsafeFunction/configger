@@ -11,6 +11,7 @@ const ScanStatistic = ({ scan, isRack }) => {
     (tube) =>
       tube.status !== constants.tubeStatuses.blank &&
       tube.status !== constants.tubeStatuses.missing &&
+      tube.status !== constants.tubeStatuses.empty &&
       tube.status !== constants.tubeStatuses.pooling,
   )?.length;
 
