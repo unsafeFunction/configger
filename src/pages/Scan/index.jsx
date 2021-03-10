@@ -54,7 +54,7 @@ const Scan = () => {
   const countOfReferencePools = session?.reference_pools_count;
   const countOfReferenceSamples = session?.reference_samples_count;
   const completedPools = scans?.filter(
-    scan => scan.status === constants.scanSessions.scanStatuses.completed,
+    scan => scan.status === constants.scanStatuses.completed,
   );
   const countOfCompletedPools = completedPools.length;
   const completedSamples = completedPools?.map?.(
