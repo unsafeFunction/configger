@@ -16,8 +16,8 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
   const { selectedCode } = useSelector(
     (state) => state.scanSessions?.singleSession,
   );
-  const [form] = Form.useForm();
 
+  const [form] = Form.useForm();
   const initialRackboard = [...Array(6).keys()].map((i) => ({
     letter: String.fromCharCode(constants?.A + i),
     col1: { tube_id: null, status: 'blank' },
@@ -172,18 +172,18 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                     Save
                   </Button>
                 </Popconfirm>
+                <Popconfirm
+                  title="Are you sure to delete this tube?"
+                  okText="Yes"
+                  cancelText="No"
+                  onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
+                >
+                  <Button className={styles.popoverBtn} danger>
+                    Delete
+                  </Button>
+                </Popconfirm>
                 {!isRack && (
                   <>
-                    <Popconfirm
-                      title="Are you sure to delete this tube?"
-                      okText="Yes"
-                      cancelText="No"
-                      onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
-                    >
-                      <Button className={styles.popoverBtn} danger>
-                        Delete
-                      </Button>
-                    </Popconfirm>
                     {isCanMakeScanned ? (
                       <Popconfirm
                         disabled={!currentTubeID}
@@ -200,7 +200,8 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                           Make scanned
                         </Button>
                       </Popconfirm>
-                    ) : recordStatus !== 'missing' ? (
+                    ) : recordStatus !== 'missing' &&
+                      recordStatus !== 'pooling' ? (
                       <Button
                         className={styles.popoverBtn}
                         onClick={() =>

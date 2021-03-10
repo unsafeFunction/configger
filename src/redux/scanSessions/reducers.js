@@ -19,7 +19,7 @@ const sessionsReducer = (state = initialState, action) => {
       };
     }
     case actions.FETCH_SCAN_SESSIONS_SUCCESS: {
-      const scanSessionForRender = action.payload.data.map(session => {
+      const scanSessionForRender = action.payload.data.map((session) => {
         return {
           ...session,
           action: null,
@@ -128,14 +128,16 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
     case actions.UPDATE_TUBE_SUCCESS: {
+      const { pool_id } = action.payload.data;
+
       return {
         ...state,
         isLoading: false,
-        scans: state.scans.map(scan => {
+        scans: state.scans.map((scan) => {
           if (scan.id === action.payload.data.scanId) {
             return {
               ...scan,
-              items: scan.items.map(row => {
+              items: scan.items.map((row) => {
                 if (row.letter === action.payload.data.row.letter) {
                   return {
                     ...row,
@@ -144,6 +146,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
                 }
                 return row;
               }),
+              ...(pool_id ? { pool_id } : {}),
             };
           }
           return scan;
@@ -166,11 +169,11 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
-        scans: state.scans.map(scan => {
+        scans: state.scans.map((scan) => {
           if (scan.id === action.payload.data.scanId) {
             return {
               ...scan,
-              items: scan.items.map(row => {
+              items: scan.items.map((row) => {
                 if (row.letter === action.payload.data.row.letter) {
                   return {
                     ...row,
@@ -237,6 +240,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
             forEach(value, (rowValue, rowKey) => {
               if (rowValue.id === data.tube_id) {
                 testArray[index].items[key][rowKey].status = 'empty';
+                testArray[index].items[key][rowKey].color = data.color;
               }
             });
           });
@@ -270,7 +274,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
-        scans: state.scans.map(scan => {
+        scans: state.scans.map((scan) => {
           if (scan.id === data.id) {
             return {
               ...scan,
@@ -288,7 +292,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
-        scans: state.scans.map(scan => {
+        scans: state.scans.map((scan) => {
           if (scan.id === data.id) {
             return {
               ...scan,
