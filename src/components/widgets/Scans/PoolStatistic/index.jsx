@@ -7,8 +7,9 @@ import styles from '../styles.module.scss';
 
 const ScanStatistic = ({ scan }) => {
   const tubesTotal = scan?.scan_tubes?.filter(
-    tube =>
+    (tube) =>
       tube.status !== constants.tubeStatuses.blank &&
+      tube.status !== constants.tubeStatuses.missing &&
       tube.status !== constants.tubeStatuses.pooling,
   )?.length;
 
@@ -21,7 +22,7 @@ const ScanStatistic = ({ scan }) => {
               title="Rack ID"
               groupSeparator=""
               value={scan?.rack_id || '–'}
-              formatter={value => <Tag color="blue">{value}</Tag>}
+              formatter={(value) => <Tag color="blue">{value}</Tag>}
               className={classNames(styles.statistic, styles.ellipsis)}
             />
           </Tooltip>
@@ -33,7 +34,7 @@ const ScanStatistic = ({ scan }) => {
             title="Pool ID"
             groupSeparator=""
             value={scan?.pool_id || '–'}
-            formatter={value => <Tag color="geekblue">{value}</Tag>}
+            formatter={(value) => <Tag color="geekblue">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
         </Card>
@@ -43,7 +44,7 @@ const ScanStatistic = ({ scan }) => {
           <Statistic
             title="Tubes"
             value={tubesTotal}
-            formatter={value => <Tag color="cyan">{value}</Tag>}
+            formatter={(value) => <Tag color="cyan">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
         </Card>
