@@ -7,7 +7,7 @@ import styles from '../styles.module.scss';
 
 const SessionStatistic = ({ session }) => {
   const actualPools = session?.scans?.filter(
-    scan => scan.status !== constants.scanSessions.scanStatuses.voided,
+    scan => scan.status !== constants.scanStatuses.voided,
   );
 
   const countOfActualPools = actualPools.length;

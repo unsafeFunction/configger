@@ -13,14 +13,14 @@ export const constants = {
   },
   scanSessions: {
     itemsLoadingCount: 25,
-    scanStatuses: {
-      voided: 'VOIDED',
-      started: 'STARTED',
-      completed: 'COMPLETED',
-    },
   },
   inventory: {
     itemsLoadingCount: 25,
+  },
+  scanStatuses: {
+    voided: 'VOIDED',
+    started: 'STARTED',
+    completed: 'COMPLETED',
   },
   tubeStatuses: {
     blank: 'BLANK',
