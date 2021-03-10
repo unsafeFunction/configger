@@ -39,7 +39,7 @@ export const fetchSessionId = async () => {
   }
 };
 
-export const deleteScan = async data => {
+export const deleteScan = async (data) => {
   try {
     const { id } = data;
 
