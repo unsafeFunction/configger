@@ -65,12 +65,19 @@ const RackScans = () => {
 
   const columns = [
     {
+      title: 'PoolRack Name',
+      dataIndex: 'rack_name',
+    },
+    {
       title: 'Rack ID',
       dataIndex: 'rack_id',
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
+      title: 'Scan Pools Count',
+      dataIndex: 'scan_pools_count',
+      render: (value) => {
+        return value || '-';
+      },
     },
     {
       title: 'Status',
@@ -85,22 +92,10 @@ const RackScans = () => {
       },
     },
     {
-      title: 'Scanner',
-      dataIndex: 'scanner',
-    },
-
-    {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
       render: (_, value) => {
         return moment(value?.started_on_day).format('LLLL') || '-';
-      },
-    },
-    {
-      title: 'Scan Pools Count',
-      dataIndex: 'scan_pools_count',
-      render: (value) => {
-        return value || '-';
       },
     },
     {
