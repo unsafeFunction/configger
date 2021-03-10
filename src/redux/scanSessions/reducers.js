@@ -128,6 +128,8 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
     case actions.UPDATE_TUBE_SUCCESS: {
+      const { pool_id } = action.payload.data;
+
       return {
         ...state,
         isLoading: false,
@@ -144,6 +146,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
                 }
                 return row;
               }),
+              ...(pool_id ? { pool_id } : {}),
             };
           }
           return scan;

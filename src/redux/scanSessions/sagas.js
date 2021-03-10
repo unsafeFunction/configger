@@ -20,6 +20,7 @@ import {
 } from 'services/scanSessions';
 import { getSelectedCode } from './selectors';
 import sortBy from 'lodash.sortby';
+import { constants } from 'utils/constants';
 
 export function* callFetchScanSessions({ payload }) {
   try {
@@ -178,6 +179,9 @@ export function* callUpdateTube({ payload }) {
   try {
     const response = yield call(updateTube, payload);
 
+    const poolingTube =
+      response?.data?.status === constants.tubeStatuses.pooling ? true : false;
+
     yield put({
       type: actions.UPDATE_TUBE_SUCCESS,
       payload: {
@@ -190,6 +194,7 @@ export function* callUpdateTube({ payload }) {
             },
           },
           scanId: payload.data.scanId,
+          ...(poolingTube ? { pool_id: response?.data?.tube_id } : {}),
         },
       },
     });
