@@ -24,8 +24,8 @@ const RackScans = () => {
   const stateRef = useRef();
   stateRef.current = dates;
 
-  const scanSessions = useSelector(state => state.scanSessions.sessions);
-  const racks = useSelector(state => state.racks.racks);
+  const scanSessions = useSelector((state) => state.scanSessions.sessions);
+  const racks = useSelector((state) => state.racks.racks);
 
   const useFetching = () => {
     useEffect(() => {
@@ -55,7 +55,7 @@ const RackScans = () => {
   const racksItems = racks?.items;
 
   const navigateToScan = useCallback(
-    rackId => {
+    (rackId) => {
       history.push({
         pathname: `/rack-scans/${rackId}`,
       });
@@ -76,7 +76,7 @@ const RackScans = () => {
       title: 'Status',
       dataIndex: 'status',
       width: 90,
-      render: text => {
+      render: (text) => {
         return (
           <Tag color="blue" className={styles.sessionStatus}>
             {text.toLowerCase()}
@@ -99,7 +99,7 @@ const RackScans = () => {
     {
       title: 'Scan Pools Count',
       dataIndex: 'scan_pools_count',
-      render: value => {
+      render: (value) => {
         return value || '-';
       },
     },
@@ -144,7 +144,7 @@ const RackScans = () => {
   }, [dispatch, racks, searchName, dates]);
 
   const sendQuery = useCallback(
-    query => {
+    (query) => {
       const filteringParams = {
         limit: constants.scanSessions.itemsLoadingCount,
         search: query,
@@ -168,12 +168,12 @@ const RackScans = () => {
   );
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
   const onChangeSearch = useCallback(
-    e => {
+    (e) => {
       const { target } = e;
 
       setSearchName(target.value);
@@ -190,7 +190,7 @@ const RackScans = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Rack Scans</h4>
+        <h4>PoolRack Scans</h4>
       </div>
       <InfiniteScroll
         next={loadMore}
@@ -208,7 +208,7 @@ const RackScans = () => {
             pageSize: racksItems?.length,
             hideOnSinglePage: true,
           }}
-          rowKey={record => record.id}
+          rowKey={(record) => record.id}
           title={() => (
             <Row gutter={16}>
               <Col
