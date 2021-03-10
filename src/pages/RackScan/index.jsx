@@ -19,10 +19,10 @@ const RackScan = () => {
 
   const rackId = history.location.pathname.split('/')[2];
 
-  const rack = useSelector(state => state.racks?.singleRack);
+  const rack = useSelector((state) => state.racks?.singleRack);
 
   const onDataChange = useCallback(
-    event => {
+    (event) => {
       const { name, value } = event.target;
       dispatch({
         type: actions.RACK_DATA_CHANGE,
@@ -71,7 +71,7 @@ const RackScan = () => {
       },
     });
   }, [dispatch, saveRack]);
-  console.log(rack);
+
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
@@ -82,23 +82,12 @@ const RackScan = () => {
       <Row gutter={[48, 40]} justify="center">
         <Col xs={24} md={18} lg={16} xl={14}>
           <div className="mb-4">
-            <div className={styles.navigationWrapper}>
-              <Button
-                onClick={onSaveScanModalToggle}
-                type="primary"
-                htmlType="submit"
-                disabled={!rack?.isLoading}
-              >
-                Submit
-              </Button>
-            </div>
-            {/* TODO: why is using separately scanId */}
             <Rackboard isRack rackboard={rack} scanId={rack.id} />
           </div>
           <ScanStatistic isRack scan={rack} scansTotal={10} />
         </Col>
         <Col xs={24} md={18} lg={8} xl={10}>
-          <Row className="mb-3 mt-5">
+          <Row className="mb-3">
             <Typography.Text>Rack name</Typography.Text>
             <Input
               onChange={onDataChange}
@@ -107,7 +96,7 @@ const RackScan = () => {
               value={rack.rack_id}
             />
           </Row>
-          <Row>
+          <Row className="mb-3">
             <Typography.Text>Orientation sign off</Typography.Text>
             <Input
               onChange={onDataChange}
@@ -115,6 +104,16 @@ const RackScan = () => {
               placeholder="Orientation sign off"
               value={rack.orientation_sign_off}
             />
+          </Row>
+          <Row>
+            <Button
+              onClick={onSaveScanModalToggle}
+              type="primary"
+              htmlType="submit"
+              disabled={!rack?.isLoading}
+            >
+              Submit
+            </Button>
           </Row>
         </Col>
       </Row>

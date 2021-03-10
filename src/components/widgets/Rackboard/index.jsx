@@ -16,8 +16,8 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
   const { selectedCode } = useSelector(
     (state) => state.scanSessions?.singleSession,
   );
-  const [form] = Form.useForm();
 
+  const [form] = Form.useForm();
   const initialRackboard = [...Array(6).keys()].map((i) => ({
     letter: String.fromCharCode(constants?.A + i),
     col1: { tube_id: null, status: 'blank' },
@@ -172,9 +172,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                     Save
                   </Button>
                 </Popconfirm>
-                {!isRack && (
-                  <>
-                    <Popconfirm
+                <Popconfirm
                       title="Are you sure to delete this tube?"
                       okText="Yes"
                       cancelText="No"
@@ -184,6 +182,8 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                         Delete
                       </Button>
                     </Popconfirm>
+                {!isRack && (
+                  <>
                     {isCanMakeScanned ? (
                       <Popconfirm
                         disabled={!currentTubeID}

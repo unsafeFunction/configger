@@ -49,10 +49,10 @@ export function* callFetchScanSessionById({ payload }) {
   try {
     const response = yield call(fetchSessionById, payload.sessionId);
 
-    const formatResponse = response => {
+    const formatResponse = (response) => {
       return Object.assign(
         {},
-        ...response?.map?.(obj => ({
+        ...response?.map?.((obj) => ({
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
             ...obj,
@@ -67,7 +67,7 @@ export function* callFetchScanSessionById({ payload }) {
       payload: {
         ...response?.data,
         scans: [
-          ...sortBy(response?.data?.scans, 'scan_order').map?.(scan => {
+          ...sortBy(response?.data?.scans, 'scan_order').map?.((scan) => {
             const tubesInfo = scan?.scan_tubes;
             return {
               ...scan,
@@ -140,10 +140,10 @@ export function* callFetchScanById({ payload }) {
 
     const tubesInfo = response?.data?.scan_tubes;
 
-    const formatResponse = response => {
+    const formatResponse = (response) => {
       return Object.assign(
         {},
-        ...response?.map?.(obj => ({
+        ...response?.map?.((obj) => ({
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
             ...obj,
@@ -225,6 +225,7 @@ export function* callInvalidateTube({ payload }) {
             [`col${response?.data?.position?.[1]}`]: {
               ...response?.data,
               status: response?.data?.status?.toLowerCase(),
+              color: response?.data?.color,
             },
           },
           scanId: payload.scanId,
