@@ -104,7 +104,6 @@ const RackScans = () => {
       key: 'action',
       width: 150,
       render: (_, record) => {
-        console.log(record);
         return (
           <div className={styles.actions}>
             <Button onClick={() => navigateToScan(record.id)} type="primary">
