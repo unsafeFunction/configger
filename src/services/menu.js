@@ -56,7 +56,7 @@ export async function getMenuData() {
       icon: 'fe fe-bar-chart',
     },
     {
-      title: 'Rack Scans',
+      title: 'PoolRack Scans',
       key: 'rack-scans',
       url: '/rack-scans',
       icon: 'fe fe-box',

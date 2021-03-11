@@ -24,8 +24,8 @@ const RackScans = () => {
   const stateRef = useRef();
   stateRef.current = dates;
 
-  const scanSessions = useSelector(state => state.scanSessions.sessions);
-  const racks = useSelector(state => state.racks.racks);
+  const scanSessions = useSelector((state) => state.scanSessions.sessions);
+  const racks = useSelector((state) => state.racks.racks);
 
   const useFetching = () => {
     useEffect(() => {
@@ -55,7 +55,7 @@ const RackScans = () => {
   const racksItems = racks?.items;
 
   const navigateToScan = useCallback(
-    rackId => {
+    (rackId) => {
       history.push({
         pathname: `/rack-scans/${rackId}`,
       });
@@ -65,18 +65,25 @@ const RackScans = () => {
 
   const columns = [
     {
+      title: 'PoolRack Name',
+      dataIndex: 'rack_name',
+    },
+    {
       title: 'Rack ID',
       dataIndex: 'rack_id',
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
+      title: 'Scan Pools Count',
+      dataIndex: 'scan_pools_count',
+      render: (value) => {
+        return value || '-';
+      },
     },
     {
       title: 'Status',
       dataIndex: 'status',
       width: 90,
-      render: text => {
+      render: (text) => {
         return (
           <Tag color="blue" className={styles.sessionStatus}>
             {text.toLowerCase()}
@@ -85,22 +92,10 @@ const RackScans = () => {
       },
     },
     {
-      title: 'Scanner',
-      dataIndex: 'scanner',
-    },
-
-    {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
       render: (_, value) => {
         return moment(value?.started_on_day).format('LLLL') || '-';
-      },
-    },
-    {
-      title: 'Scan Pools Count',
-      dataIndex: 'scan_pools_count',
-      render: value => {
-        return value || '-';
       },
     },
     {
@@ -109,7 +104,6 @@ const RackScans = () => {
       key: 'action',
       width: 150,
       render: (_, record) => {
-        console.log(record);
         return (
           <div className={styles.actions}>
             <Button onClick={() => navigateToScan(record.id)} type="primary">
@@ -144,7 +138,7 @@ const RackScans = () => {
   }, [dispatch, racks, searchName, dates]);
 
   const sendQuery = useCallback(
-    query => {
+    (query) => {
       const filteringParams = {
         limit: constants.scanSessions.itemsLoadingCount,
         search: query,
@@ -168,12 +162,12 @@ const RackScans = () => {
   );
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
   const onChangeSearch = useCallback(
-    e => {
+    (e) => {
       const { target } = e;
 
       setSearchName(target.value);
@@ -190,7 +184,7 @@ const RackScans = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Rack Scans</h4>
+        <h4>PoolRack Scans</h4>
       </div>
       <InfiniteScroll
         next={loadMore}
@@ -208,7 +202,7 @@ const RackScans = () => {
             pageSize: racksItems?.length,
             hideOnSinglePage: true,
           }}
-          rowKey={record => record.id}
+          rowKey={(record) => record.id}
           title={() => (
             <Row gutter={16}>
               <Col
