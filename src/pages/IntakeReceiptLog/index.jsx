@@ -16,7 +16,7 @@ const IntakeReceiptLog = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
-  const intakeLog = useSelector(state => state.intakeReceiptLog);
+  const intakeLog = useSelector((state) => state.intakeReceiptLog);
 
   const useFetching = () => {
     useEffect(() => {
@@ -35,7 +35,7 @@ const IntakeReceiptLog = () => {
     form.resetFields();
   }, []);
 
-  const handleChangeIntake = useCallback(async record => {
+  const handleChangeIntake = useCallback(async (record) => {
     const fieldValues = await form.validateFields();
     const { company_name, company_short, ...rest } = fieldValues;
 
@@ -59,7 +59,7 @@ const IntakeReceiptLog = () => {
   }, []);
 
   const handleModalToggle = useCallback(
-    record => {
+    (record) => {
       if (record) {
         form.setFieldsValue({
           ...record.company,
@@ -71,13 +71,13 @@ const IntakeReceiptLog = () => {
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
-          title: `${record ? 'Edit' : 'New'} intake`,
+          title: `${record ? 'Edit' : 'New'} Log`,
           onOk: () => handleChangeIntake(record),
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
           },
-          okText: `${record ? 'Edit' : 'New'} intake`,
+          okText: `${record ? 'Edit' : 'New'} Log`,
           message: () => (
             <IntakeRecepientLogModal form={form} edit={!!record} />
           ),
@@ -147,7 +147,7 @@ const IntakeReceiptLog = () => {
     },
   ];
 
-  const data = intakeLog.items.map?.(intakeItem => ({
+  const data = intakeLog.items.map?.((intakeItem) => ({
     ...intakeItem,
     company_name: intakeItem.company?.name,
     company_short: intakeItem.company?.name_short,
@@ -188,7 +188,7 @@ const IntakeReceiptLog = () => {
           scroll={{ x: 'max-content' }}
           bordered
           loading={intakeLog.isLoading}
-          rowKey={record => record.id}
+          rowKey={(record) => record.id}
         />
       </InfiniteScroll>
     </>
