@@ -20,9 +20,9 @@ const Pool = () => {
 
   const sessionId = history.location.pathname.split('/')[2];
 
-  const session = useSelector(state => state.scanSessions?.singleSession);
+  const session = useSelector((state) => state.scanSessions?.singleSession);
   const scan = session?.scans?.find(
-    scan => scan.scan_order === currentScanOrder,
+    (scan) => scan.scan_order === currentScanOrder,
   );
 
   const companyInfo = session?.company_short;
@@ -42,7 +42,7 @@ const Pool = () => {
   };
 
   useFetching();
-  console.log(scan);
+
   return (
     <>
       <Row gutter={[48, 40]} justify="center">
@@ -78,7 +78,7 @@ const Pool = () => {
                 scan?.scan_order >= 0
                   ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
                       scan?.scan_order
-                    }`
+                  }`
                   : '-'
               }
             />

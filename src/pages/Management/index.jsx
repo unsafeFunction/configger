@@ -173,7 +173,6 @@ const Management = () => {
   useFetching();
 
   const handleMenuClick = useCallback((e) => {
-    console.log(e);
   }, []);
 
   const menu = useMemo(() => <Menu onClick={handleMenuClick}>
