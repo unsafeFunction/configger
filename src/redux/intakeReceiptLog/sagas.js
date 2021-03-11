@@ -46,27 +46,15 @@ export function* callCreateIntake({ payload }) {
 
     return yield call(resetForm);
   } catch (error) {
-    const { detail, field_errors } = error.response?.data;
-
-    let errorMsg = '';
-    if (detail) {
-      errorMsg = detail;
-    } else if (field_errors) {
-      errorMsg = JSON.stringify(field_errors, null, 2).replace(/{|}|"|,/g, '');
-    } else {
-      errorMsg = 'Intake not added';
-    }
-
     yield put({
       type: actions.CREATE_INTAKE_FAILURE,
       payload: {
-        data: errorMsg,
+        data: error.message ?? null,
       },
     });
 
     notification.error({
-      message: 'Failure!',
-      description: errorMsg,
+      message: error.message ?? 'Intake not added',
     });
   }
 }
@@ -87,32 +75,20 @@ export function* callUpdateIntake({ payload }) {
     });
 
     notification.success({
-      message: 'Intake changed',
+      message: 'Intake updated',
     });
 
     return yield call(resetForm);
   } catch (error) {
-    const { detail, field_errors } = error.response?.data;
-
-    let errorMsg = '';
-    if (detail) {
-      errorMsg = detail;
-    } else if (field_errors) {
-      errorMsg = JSON.stringify(field_errors, null, 2).replace(/{|}|"|,/g, '');
-    } else {
-      errorMsg = 'Intake not added';
-    }
-
     yield put({
       type: actions.PATCH_INTAKE_FAILURE,
       payload: {
-        data: errorMsg,
+        data: error.message ?? null,
       },
     });
 
     notification.error({
-      message: 'Failure!',
-      description: errorMsg,
+      message: error.message ?? 'Intake not updated',
     });
   }
 }
