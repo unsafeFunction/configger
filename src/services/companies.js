@@ -37,7 +37,7 @@ export const fetchCompanyShort = async (id) => {
     const company = await axiosClient.get(`/companies-short/${id}/`);
     return company;
   } catch (error) {
-    throw new Error(error.response.data.detail);
+    throw new Error(error?.response?.data.detail);
   }
 };
 
