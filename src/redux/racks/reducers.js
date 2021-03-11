@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { constants } from 'utils/constants';
-import forEach from 'lodash.foreach';
 import actions from './actions';
 
 const initialState = {
@@ -35,7 +34,7 @@ const racksReducer = (state = initialState, action) => {
           ? scanSessionForRender
           : [...state.items, ...scanSessionForRender],
         total,
-        isLoading: true,
+        isLoading: false,
         offset: firstPage
           ? scanSessions.itemsLoadingCount
           : state.offset + scanSessions.itemsLoadingCount,
@@ -64,8 +63,26 @@ const rack = (state = initialState, action) => {
     }
     case actions.GET_RACK_SUCCESS: {
       return {
-        isLoading: true,
+        isLoading: false,
         ...action.payload,
+      };
+    }
+    case actions.UPDATE_RACK_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.UPDATE_RACK_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case actions.UPDATE_RACK_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
       };
     }
     case actions.DELETE_TUBE_SUCCESS: {

@@ -91,9 +91,9 @@ const RackScan = () => {
             <Typography.Text>Rack name</Typography.Text>
             <Input
               onChange={onDataChange}
-              name="rack_id"
+              name="rack_name"
               placeholder="Pool rack name"
-              value={rack.rack_id}
+              value={rack.rack_name}
             />
           </Row>
           <Row className="mb-3">
@@ -110,7 +110,8 @@ const RackScan = () => {
               onClick={onSaveScanModalToggle}
               type="primary"
               htmlType="submit"
-              disabled={!rack?.isLoading}
+              disabled={rack?.isLoading}
+              loading={rack?.isLoading}
             >
               Submit
             </Button>
