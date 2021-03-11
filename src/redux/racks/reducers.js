@@ -13,7 +13,7 @@ const racksReducer = (state = initialState, action) => {
     case actions.FETCH_RACKS_REQUEST: {
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
         search: action.payload.search,
       };
     }
