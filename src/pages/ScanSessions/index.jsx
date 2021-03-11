@@ -105,7 +105,7 @@ const ScanSessions = () => {
   const expandedRow = (scan) => {
     const columns = [
       { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
-      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id' },
+      { title: 'Pool Name', dataIndex: 'pool_name', key: 'pool_name' },
       {
         title: 'Scan time',
         dataIndex: 'scan_time',
@@ -215,7 +215,7 @@ const ScanSessions = () => {
                   key: scan.id,
                   pool_id: scan.pool_id,
                   scan_time: moment(scan.scan_timestamp).format('LLLL'),
-                  rack_id: scan.rack_id,
+                  pool_name: scan.pool_name,
                   scanner: scan.scanner ?? '-',
                   action: (
                     <Button
