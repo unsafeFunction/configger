@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from 'redux/companies/actions';
-import debounce from 'lodash.debounce';
 import { Form, Input, Select, InputNumber } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
@@ -13,7 +12,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
   const company = useSelector((state) => state.companies.singleCompany);
 
   useEffect(() => {
-    if (company.name) {
+    if (!edit) {
       form.setFieldsValue({
         company_name: company.name,
         company_short: company.name_short,
@@ -21,31 +20,16 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
     }
   }, [company]);
 
-  const sendQuery = useCallback((query) => {
-    dispatch({
-      type: actions.FETCH_COMPANY_SHORT_REQUEST,
-      payload: {
-        id: query,
-      },
-    });
-  }, []);
-
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
-
-  const handleChangeCompany = useCallback((e) => {
+  const handleBlurCompany = useCallback((e) => {
     const { target } = e;
 
-    if (target.value) {
-      delayedQuery(target.value);
-    }
-
-    form.setFieldsValue({
-      company_name: '',
-      company_short: '',
-    });
+    target.value &&
+      dispatch({
+        type: actions.FETCH_COMPANY_SHORT_REQUEST,
+        payload: {
+          id: target.value,
+        },
+      });
   }, []);
 
   return (
@@ -63,7 +47,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
         <Input
           disabled={edit}
           placeholder="Company ID"
-          onChange={handleChangeCompany}
+          onBlur={handleBlurCompany}
         />
       </Item>
 

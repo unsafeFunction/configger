@@ -92,19 +92,27 @@ export function* callUpdateIntake({ payload }) {
 
     return yield call(resetForm);
   } catch (error) {
-    const errorData = error.response?.data?.field_errors ?? null;
+    const { detail, field_errors } = error.response?.data;
+
+    let errorMsg = '';
+    if (detail) {
+      errorMsg = detail;
+    } else if (field_errors) {
+      errorMsg = JSON.stringify(field_errors, null, 2).replace(/{|}|"|,/g, '');
+    } else {
+      errorMsg = 'Intake not added';
+    }
 
     yield put({
       type: actions.PATCH_INTAKE_FAILURE,
       payload: {
-        data: errorData,
+        data: errorMsg,
       },
     });
+
     notification.error({
       message: 'Failure!',
-      description: errorData
-        ? JSON.stringify(errorData, null, 2).replace(/{|}|"|,/g, '')
-        : 'Intake not added.',
+      description: errorMsg,
     });
   }
 }
