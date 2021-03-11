@@ -29,16 +29,18 @@ export function* callFetchInventory({ payload }) {
 }
 
 export function* callCreateInventoryItem({ payload }) {
+  const { item, resetForm } = payload;
   try {
-    const { data } = yield call(createInventoryItem, payload);
-    // TODO: refactor for inventory item response
+    const { data } = yield call(createInventoryItem, item);
+
     yield put({
       type: actions.CREATE_INVENTORY_ITEM_SUCCESS,
       payload: {
-        data: data?.results ?? [],
-        total: data.count,
-        firstPage: !data.previous,
+        data,
       },
+    });
+    yield put({
+      type: modalActions.HIDE_MODAL,
     });
   } catch (error) {
     notification.error({
@@ -53,6 +55,7 @@ export function* callCreateInventoryItem({ payload }) {
       },
     });
   }
+  return yield call(resetForm);
 }
 
 export default function* rootSaga() {

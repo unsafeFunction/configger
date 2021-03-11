@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux';
-import single from 'redux/factories/single';
 import { constants } from 'utils/constants';
 import actions from './actions';
 
@@ -21,7 +19,7 @@ export default function inventoryReducer(state = initialState, action) {
         isLoading: true,
       };
     case actions.FETCH_INVENTORY_SUCCESS: {
-      const inventoryItemsForRender = action.payload.data.map(item => {
+      const inventoryItemsForRender = action.payload.data.map((item) => {
         return {
           ...item,
           action: null,
@@ -44,6 +42,25 @@ export default function inventoryReducer(state = initialState, action) {
       };
     }
     case actions.FETCH_INVENTORY_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.data,
+      };
+    }
+    case actions.CREATE_INVENTORY_ITEM_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
+    case actions.CREATE_INVENTORY_ITEM_SUCCESS:
+      return {
+        ...state,
+        items: [action.payload.data, ...state.items],
+        isLoading: false,
+      };
+    case actions.CREATE_INVENTORY_ITEM_FAILURE: {
       return {
         ...state,
         isLoading: false,
