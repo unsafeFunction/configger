@@ -22,14 +22,21 @@ const Inventory = () => {
   const [searchName, setSearchName] = useState('');
   const [form] = Form.useForm();
 
-  const inventory = useSelector(state => state.inventory);
+  const inventory = useSelector((state) => state.inventory);
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
-  const createCompany = useCallback(async () => {
+  const handleReset = useCallback(() => {
+    form.resetFields();
+  }, [form]);
+
+  const createControlTube = useCallback(async () => {
     const fieldValues = await form.validateFields();
     dispatchCompaniesData({
       type: actions.CREATE_INVENTORY_ITEM_REQUEST,
-      payload: { ...fieldValues },
+      payload: {
+        item: fieldValues,
+        resetForm: handleReset,
+      },
     });
   }, [form, dispatchCompaniesData]);
 
@@ -37,30 +44,31 @@ const Inventory = () => {
     {
       title: 'Tube ID',
       dataIndex: 'tube_id',
-      render: value => {
+      render: (value) => {
         return value || '-';
       },
     },
     {
       title: 'Control',
       dataIndex: 'control',
-      render: value => {
+      render: (value) => {
         return (
-          constants.controlTypes.find(type => type.value === value).label || '-'
+          constants.controlTypes.find((type) => type.value === value)?.label ||
+          '-'
         );
       },
     },
     {
       title: 'Created On',
       dataIndex: 'created_on',
-      render: value => {
+      render: (value) => {
         return moment(value?.started_on_day).format('LLLL') || '-';
       },
     },
     {
       title: 'User',
       dataIndex: 'user',
-      render: value => {
+      render: (value) => {
         return value || '-';
       },
     },
@@ -86,7 +94,7 @@ const Inventory = () => {
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Add Control Tube',
-        onOk: createCompany,
+        onOk: createControlTube,
         cancelButtonProps: { className: styles.modalButton },
         okButtonProps: {
           className: styles.modalButton,
@@ -113,7 +121,7 @@ const Inventory = () => {
   }, [dispatchCompaniesData, inventory]);
 
   const sendQuery = useCallback(
-    query => {
+    (query) => {
       dispatchCompaniesData({
         type: companyActions.FETCH_COMPANIES_REQUEST,
         payload: {
@@ -126,12 +134,12 @@ const Inventory = () => {
   );
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
   const onChangeSearch = useCallback(
-    event => {
+    (event) => {
       setSearchName(event.target.value);
       delayedQuery(event.target.value);
     },
