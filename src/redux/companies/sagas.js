@@ -94,7 +94,8 @@ export function* callFetchCompanyShort({ payload }) {
     });
 
     notification.error({
-      message: errorData ?? 'Failure!',
+      message: 'Something went wrong',
+      description: error.message,
     });
   }
 }
