@@ -10,7 +10,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
   const dispatch = useDispatch();
   const { Item } = Form;
 
-  const company = useSelector(state => state.companies.singleCompany);
+  const company = useSelector((state) => state.companies.singleCompany);
 
   useEffect(() => {
     if (company.name) {
@@ -21,7 +21,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
     }
   }, [company]);
 
-  const sendQuery = useCallback(query => {
+  const sendQuery = useCallback((query) => {
     dispatch({
       type: actions.FETCH_COMPANY_SHORT_REQUEST,
       payload: {
@@ -31,11 +31,11 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
   }, []);
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
-  const handleChangeCompany = useCallback(e => {
+  const handleChangeCompany = useCallback((e) => {
     const { target } = e;
 
     if (target.value) {
@@ -167,10 +167,6 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
             {
               label: 'Dropoff',
               value: 'Dropoff',
-            },
-            {
-              label: 'Other',
-              value: 'other',
             },
           ]}
         />
