@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/pools/actions';
@@ -16,12 +15,13 @@ import {
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getColor, getIcon } from 'utils/highlightingResult';
+import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
 const { Option } = Select;
 const { Text } = Typography;
 
-const PoolTable = () => {
+const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.user);
@@ -291,17 +291,30 @@ const PoolTable = () => {
   );
 
   return (
-    <>
-        <Table
-          columns={columns}
-          dataSource={data}
-          loading={pools.isLoading}
-          pagination={false}
-          scroll={{ x: 1000 }}
-          bordered
-        />
-    </>
+    <InfiniteScroll
+      next={loadMore}
+      hasMore={pools.items.length < pools.total}
+      loader={
+        <div className={styles.spin}>
+          <Spin />
+        </div>
+      }
+      dataLength={pools.items.length}
+    >
+      <Table
+        columns={columns}
+        dataSource={data}
+        loading={pools.isLoading}
+        pagination={false}
+        scroll={{ x: 1000 }}
+        bordered
+      />
+    </InfiniteScroll>
   );
+};
+
+PoolTable.propTypes = {
+  loadMore: PropTypes.func.isRequired,
 };
 
 export default PoolTable;
