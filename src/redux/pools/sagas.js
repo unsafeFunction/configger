@@ -18,7 +18,7 @@ export function* callLoadPoolsByRunId({ payload }) {
       type: actions.FETCH_POOLS_BY_RUN_ID_SUCCESS,
       payload: {
         filename: response.data.import_filename,
-        data: response.data.pools,
+        data: response.data,
         firstPage: !response.data.previous,
       },
     });
