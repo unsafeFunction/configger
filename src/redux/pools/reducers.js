@@ -101,7 +101,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.PUBLISH_POOL_REQUEST: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action.payload.poolId) {
             return {
               ...pool,
@@ -115,7 +115,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.PUBLISH_POOL_SUCCESS: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action.payload.data.unique_id) {
             return {
               ...pool,
@@ -130,7 +130,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.PUBLISH_POOL_FAILURE: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action?.payload?.poolId) {
             return {
               ...pool,
@@ -178,7 +178,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.UPDATE_POOL_RESULT_REQUEST: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action.payload.poolId) {
             return {
               ...pool,
@@ -192,7 +192,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.UPDATE_POOL_RESULT_SUCCESS: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action.payload.data.unique_id) {
             return {
               ...pool,
@@ -207,7 +207,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.UPDATE_POOL_RESULT_FAILURE: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action?.payload?.poolId) {
             return {
               ...pool,

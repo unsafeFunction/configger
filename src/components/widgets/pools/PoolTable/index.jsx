@@ -24,9 +24,9 @@ const { Text } = Typography;
 const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.user);
-  const pools = useSelector(state => state.pools);
-  const resutList = useSelector(state => state.pools.resultList);
+  const user = useSelector((state) => state.user);
+  const pools = useSelector((state) => state.pools);
+  const resutList = useSelector((state) => state.pools.resultList);
 
   const useFetching = () => {
     useEffect(() => {
@@ -162,8 +162,8 @@ const PoolTable = ({ loadMore }) => {
             bordered={false}
           >
             {resutList?.items
-              ?.filter(option => option.value !== record.result)
-              .map(item => (
+              ?.filter((option) => option.value !== record.result)
+              .map((item) => (
                 <Option key={item.key} value={item.value}>
                   <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
                     {item.value === 'COVID-19 Detected'
@@ -231,7 +231,7 @@ const PoolTable = ({ loadMore }) => {
     },
   ];
 
-  const data = pools?.items?.map?.(pool => ({
+  const data = pools?.items?.map?.((pool) => ({
     ...pool,
     key: pool.unique_id,
     tubes: pool.tube_ids.join(', '),
