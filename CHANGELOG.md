@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/mokkapps/changelog-generator-demo/compare/v3.1.0...v3.1.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* add capability to end session with 0 scan. Remove invalidate button for empty and blank tubes ([8dd3232](https://github.com/mokkapps/changelog-generator-demo/commits/8dd3232112953f563a52cc19ae47e45a6a882c54))
+* change pool id when pooling tube is changed ([b91bcec](https://github.com/mokkapps/changelog-generator-demo/commits/b91bcece576d204a9d12da224cb5b06228cba09c))
+* delete extra console log ([d43f340](https://github.com/mokkapps/changelog-generator-demo/commits/d43f3403b383034963a4fae3b9165dafb1636875))
+* empty not count ([7c88693](https://github.com/mokkapps/changelog-generator-demo/commits/7c88693d89b52c8fe8f8e581a9e0272abb43dbaa))
+* fetch company in intake log on blur ([629fed5](https://github.com/mokkapps/changelog-generator-demo/commits/629fed5ec859256a19408af731e1665471027786))
+* fix issues accroding gil presentation ([62148b8](https://github.com/mokkapps/changelog-generator-demo/commits/62148b86cc36780b709827c01fb698dafd193a89))
+* fix scanStatuses constant ([f140da5](https://github.com/mokkapps/changelog-generator-demo/commits/f140da5f35ee69dd8a63826e5ec90e3cd6a0d15b))
+* fix tube statuses in Rackboard, "arrow function parentheses" prettier option ([e2f57a0](https://github.com/mokkapps/changelog-generator-demo/commits/e2f57a01d7aa98f589bef3eb721b562b27eec9fd))
+* intake error company id ([729420a](https://github.com/mokkapps/changelog-generator-demo/commits/729420a549db0027ac4b0fb57f91ebdda91e8000))
+* intake log and companies errors handle ([552a67a](https://github.com/mokkapps/changelog-generator-demo/commits/552a67ae27b015b900cf1c3716395d0415403ba9))
+* intake log errors handle ([3652c8b](https://github.com/mokkapps/changelog-generator-demo/commits/3652c8bdfd0fc42e2be48b446f736c19010c1014))
+* missing tubs not include ([d8fa30c](https://github.com/mokkapps/changelog-generator-demo/commits/d8fa30c6ae736877ca89dfca2564e19d54b477c5))
+* remove console.log ([41ebafb](https://github.com/mokkapps/changelog-generator-demo/commits/41ebafbf3ba663a5f70385dde6e7f1af2b53be59))
+* remove invalid option for pooling tube ([49f2459](https://github.com/mokkapps/changelog-generator-demo/commits/49f2459c8e4e0e61759398bdb7973b960ebebf88))
+* rename intake log elements ([340e943](https://github.com/mokkapps/changelog-generator-demo/commits/340e943f85b6dbf9982a3dbbc60e054da191bd29))
+* rename pool count ([627171b](https://github.com/mokkapps/changelog-generator-demo/commits/627171bad7e8ce5c098ab2e59278a4c384d21997))
+* rename pool rack scans ([c87a20c](https://github.com/mokkapps/changelog-generator-demo/commits/c87a20c89200be6a40a4fa2c22a933ab9c14b768))
+* rename Rack ID to Pool Name ([aed7c54](https://github.com/mokkapps/changelog-generator-demo/commits/aed7c54f3686cb7db3b6844066e79028027cc32b))
+* reorder poolrack scans ([377adff](https://github.com/mokkapps/changelog-generator-demo/commits/377adff23ed18a30191cf88d331c5baac1a653ce))
+
 ## [3.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v3.0.0...v3.1.0) (2021-03-09)
 
 

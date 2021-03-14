@@ -88,11 +88,11 @@ const RackScan = () => {
         </Col>
         <Col xs={24} md={18} lg={8} xl={10}>
           <Row className="mb-3">
-            <Typography.Text>Rack name</Typography.Text>
+            <Typography.Text>PoolRack Name</Typography.Text>
             <Input
               onChange={onDataChange}
               name="rack_name"
-              placeholder="Pool rack name"
+              placeholder="PoolRack name"
               value={rack.rack_name}
             />
           </Row>

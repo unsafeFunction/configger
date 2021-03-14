@@ -135,7 +135,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
         recordStatus === 'contamination' ||
         recordStatus === 'invalid';
 
-      if (record[`col${i + 1}`] && record[`col${i + 1}`]?.status !== 'blank') {
+        if (record[`col${i + 1}`] && record[`col${i + 1}`]?.status !== 'blank') {
         return (
           <Popover
             title={
@@ -172,16 +172,20 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                     Save
                   </Button>
                 </Popconfirm>
-                <Popconfirm
-                  title="Are you sure to delete this tube?"
-                  okText="Yes"
-                  cancelText="No"
-                  onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
-                >
-                  <Button className={styles.popoverBtn} danger>
-                    Delete
-                  </Button>
-                </Popconfirm>
+                {
+                  record[`col${i + 1}`]?.position !== 'F8' && (
+                    <Popconfirm
+                      title="Are you sure to delete this tube?"
+                      okText="Yes"
+                      cancelText="No"
+                      onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
+                    >
+                      <Button className={styles.popoverBtn} danger>
+                        Delete
+                      </Button>
+                    </Popconfirm>
+                  )
+                }
                 {!isRack && (
                   <>
                     {isCanMakeScanned ? (

@@ -17,7 +17,7 @@ const Run = () => {
 
   const runId = history.location.pathname.split('/')[2];
 
-  const pools = useSelector(state => state.pools);
+  const pools = useSelector((state) => state.pools);
 
   const useFetching = () => {
     useEffect(() => {
@@ -34,7 +34,7 @@ const Run = () => {
   useFetching();
 
   const sendQuery = useCallback(
-    query => {
+    (query) => {
       dispatch({
         type: actions.FETCH_POOLS_BY_RUN_ID_REQUEST,
         payload: {
@@ -48,11 +48,11 @@ const Run = () => {
   );
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
-  const onChangeSearch = useCallback(event => {
+  const onChangeSearch = useCallback((event) => {
     setSearchName(event.target.value);
     delayedQuery(event.target.value);
   }, []);
