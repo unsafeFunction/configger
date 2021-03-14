@@ -76,7 +76,6 @@ export function* callFetchRack({ payload }) {
 export function* callUpdateRack({ payload }) {
   try {
     const rack = yield select(getRackScan);
-    console.log(rack);
     const { data } = yield call(updateRackScan, rack);
 
     yield put({
