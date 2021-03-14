@@ -24,7 +24,6 @@ const RackScans = () => {
   const stateRef = useRef();
   stateRef.current = dates;
 
-  const scanSessions = useSelector((state) => state.scanSessions.sessions);
   const racks = useSelector((state) => state.racks.racks);
 
   const useFetching = () => {
@@ -196,7 +195,7 @@ const RackScans = () => {
           columns={columns}
           scroll={{ x: 1000 }}
           bordered
-          loading={!racks?.isLoading}
+          loading={racks?.isLoading}
           align="center"
           pagination={{
             pageSize: racksItems?.length,
