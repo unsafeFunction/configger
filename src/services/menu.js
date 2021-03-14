@@ -38,7 +38,7 @@ export async function getMenuData() {
       icon: 'fe fe-list',
     },
     {
-      title: 'Scanned pools',
+      title: 'Pool Scans',
       key: 'scanned-pools',
       url: '/session-pools',
       icon: 'fe fe-maximize',

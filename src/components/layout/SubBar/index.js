@@ -8,12 +8,15 @@ import styles from './style.module.scss';
 
 const SubBar = ({ location }) => {
   const pathArray = location.pathname.slice(1).split('/');
-  const company = useSelector(state => state.companies.singleCompany);
+  const company = useSelector((state) => state.companies.singleCompany);
 
   return (
     <div className={styles.subbar}>
       <ul className={`${styles.breadcrumbs} mr-4`}>
-        {pathArray[0] === 'runs' || pathArray[0] === 'users' ? (
+        {pathArray[0] === 'runs' ||
+        pathArray[0] === 'users' ||
+        pathArray[0] === 'session' ||
+        pathArray[0] === 'rack-scans' ? (
           <li className={styles.breadcrumb}>
             <Link to={`/${pathArray[0]}`} className={styles.breadcrumbLink}>
               {pathArray[0].replace('-', ' ')}
