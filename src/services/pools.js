@@ -1,9 +1,10 @@
 import axiosClient from 'utils/axiosClient';
 
-export const fetchPoolsByRunId = async ({ runId, offset, search }) => {
+export const fetchPoolsByRunId = async ({ runId, limit, offset, search }) => {
   try {
     const pools = await axiosClient.get(`/pool-batches/${runId}/`, {
       params: {
+        limit,
         offset,
         search,
       },
@@ -34,7 +35,7 @@ export const fetchPoolsByCompanyId = async ({
   }
 };
 
-export const publishPool = async payload => {
+export const publishPool = async (payload) => {
   try {
     const pool = await axiosClient.patch(`/pools/${payload.poolId}/`, {
       is_published: payload.isPublished,
@@ -54,7 +55,7 @@ export const fetchResultList = async () => {
   }
 };
 
-export const updatePoolResult = async payload => {
+export const updatePoolResult = async (payload) => {
   try {
     const pool = await axiosClient.patch(`/pools/${payload.poolId}/`, {
       result: payload.result,

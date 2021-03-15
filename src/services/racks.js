@@ -1,6 +1,6 @@
 import axiosClient from 'utils/axiosClient';
 
-export const fetchRackScans = async query => {
+export const fetchRackScans = async (query) => {
   try {
     const rackScans = await axiosClient.get('/scans/rack/', {
       params: {
@@ -14,7 +14,7 @@ export const fetchRackScans = async query => {
   }
 };
 
-export const fetchRackScan = async id => {
+export const fetchRackScan = async (id) => {
   try {
     const rackScan = await axiosClient.get(`/scans/rack/${id}`);
 
@@ -24,10 +24,15 @@ export const fetchRackScan = async id => {
   }
 };
 
-export const updateRackScan = async ({ id, orientation_sign_off: signOff }) => {
+export const updateRackScan = async ({
+  id,
+  orientation_sign_off: signOff,
+  rack_name,
+}) => {
   try {
     const rackScan = await axiosClient.patch(`/scans/rack/${id}/`, {
       orientation_sign_off: signOff,
+      rack_name,
     });
 
     return rackScan;

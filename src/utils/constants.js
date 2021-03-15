@@ -13,24 +13,28 @@ export const constants = {
   },
   scanSessions: {
     itemsLoadingCount: 25,
-    scanStatuses: {
-      voided: 'VOIDED',
-      started: 'STARTED',
-      completed: 'COMPLETED',
-    },
+  },
+  inventory: {
+    itemsLoadingCount: 25,
+  },
+  scanStatuses: {
+    voided: 'VOIDED',
+    started: 'STARTED',
+    completed: 'COMPLETED',
   },
   tubeStatuses: {
-    blank: 'BLANK',
+    blank: 'BLANK', // default
     missing: 'MISSING',
     scanned: 'SCANNED',
     positiveControl: 'POSITIVE_CONTROL',
     negativeControl: 'NEGATIVE_CONTROL',
     pooling: 'POOLING',
+    // invalid statuses
     invalid: 'INVALID',
-    empty: 'EMPTY',
-    insufficient: 'INSUFFICIENT',
-    improperCollection: 'IMPROPER_COLLECTION',
-    contamination: 'CONTAMINATION',
+    empty: 'EMPTY', // A
+    insufficient: 'INSUFFICIENT', // B
+    improperCollection: 'IMPROPER_COLLECTION', // C
+    contamination: 'CONTAMINATION', // D
   },
   poolsByRun: {
     itemsLoadingCount: 100,
@@ -311,6 +315,16 @@ export const constants = {
       reason: 'Contamination',
       color: '#ff0000',
       status: 'CONTAMINATION',
+    },
+  ],
+  controlTypes: [
+    {
+      label: 'Positive',
+      value: 'POSITIVE_CONTROL',
+    },
+    {
+      label: 'Negative',
+      value: 'NEGATIVE_CONTROL',
     },
   ],
 };

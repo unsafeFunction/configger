@@ -2,6 +2,74 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/mokkapps/changelog-generator-demo/compare/v3.1.0...v3.1.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* add capability to end session with 0 scan. Remove invalidate button for empty and blank tubes ([8dd3232](https://github.com/mokkapps/changelog-generator-demo/commits/8dd3232112953f563a52cc19ae47e45a6a882c54))
+* change pool id when pooling tube is changed ([b91bcec](https://github.com/mokkapps/changelog-generator-demo/commits/b91bcece576d204a9d12da224cb5b06228cba09c))
+* delete extra console log ([d43f340](https://github.com/mokkapps/changelog-generator-demo/commits/d43f3403b383034963a4fae3b9165dafb1636875))
+* empty not count ([7c88693](https://github.com/mokkapps/changelog-generator-demo/commits/7c88693d89b52c8fe8f8e581a9e0272abb43dbaa))
+* fetch company in intake log on blur ([629fed5](https://github.com/mokkapps/changelog-generator-demo/commits/629fed5ec859256a19408af731e1665471027786))
+* fix issues accroding gil presentation ([62148b8](https://github.com/mokkapps/changelog-generator-demo/commits/62148b86cc36780b709827c01fb698dafd193a89))
+* fix scanStatuses constant ([f140da5](https://github.com/mokkapps/changelog-generator-demo/commits/f140da5f35ee69dd8a63826e5ec90e3cd6a0d15b))
+* fix tube statuses in Rackboard, "arrow function parentheses" prettier option ([e2f57a0](https://github.com/mokkapps/changelog-generator-demo/commits/e2f57a01d7aa98f589bef3eb721b562b27eec9fd))
+* intake error company id ([729420a](https://github.com/mokkapps/changelog-generator-demo/commits/729420a549db0027ac4b0fb57f91ebdda91e8000))
+* intake log and companies errors handle ([552a67a](https://github.com/mokkapps/changelog-generator-demo/commits/552a67ae27b015b900cf1c3716395d0415403ba9))
+* intake log errors handle ([3652c8b](https://github.com/mokkapps/changelog-generator-demo/commits/3652c8bdfd0fc42e2be48b446f736c19010c1014))
+* missing tubs not include ([d8fa30c](https://github.com/mokkapps/changelog-generator-demo/commits/d8fa30c6ae736877ca89dfca2564e19d54b477c5))
+* remove console.log ([41ebafb](https://github.com/mokkapps/changelog-generator-demo/commits/41ebafbf3ba663a5f70385dde6e7f1af2b53be59))
+* remove invalid option for pooling tube ([49f2459](https://github.com/mokkapps/changelog-generator-demo/commits/49f2459c8e4e0e61759398bdb7973b960ebebf88))
+* rename intake log elements ([340e943](https://github.com/mokkapps/changelog-generator-demo/commits/340e943f85b6dbf9982a3dbbc60e054da191bd29))
+* rename pool count ([627171b](https://github.com/mokkapps/changelog-generator-demo/commits/627171bad7e8ce5c098ab2e59278a4c384d21997))
+* rename pool rack scans ([c87a20c](https://github.com/mokkapps/changelog-generator-demo/commits/c87a20c89200be6a40a4fa2c22a933ab9c14b768))
+* rename Rack ID to Pool Name ([aed7c54](https://github.com/mokkapps/changelog-generator-demo/commits/aed7c54f3686cb7db3b6844066e79028027cc32b))
+* reorder poolrack scans ([377adff](https://github.com/mokkapps/changelog-generator-demo/commits/377adff23ed18a30191cf88d331c5baac1a653ce))
+
+## [3.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v3.0.0...v3.1.0) (2021-03-09)
+
+
+### Features
+
+* add capability to invalid scan scanned ([9744ad6](https://github.com/mokkapps/changelog-generator-demo/commits/9744ad6bd0820033147cdd07fc434a753728dfd6))
+* edit intake template modal ([df9a34b](https://github.com/mokkapps/changelog-generator-demo/commits/df9a34b9f1c390337dba446e97b06e54a6b49e94))
+* tube errors handle ([86a0ad4](https://github.com/mokkapps/changelog-generator-demo/commits/86a0ad4c851d69feeee61120515f71139fa133ce))
+
+
+### Bug Fixes
+
+* add company id to intake log table ([e896da9](https://github.com/mokkapps/changelog-generator-demo/commits/e896da9bd51c92d7b14b3b7e2ed38cddb37eb6da))
+* change tube delete request ([cd828a0](https://github.com/mokkapps/changelog-generator-demo/commits/cd828a0667e93c7d4767fa265bfae104aef6bdde))
+* delete extra console log ([e18c8ea](https://github.com/mokkapps/changelog-generator-demo/commits/e18c8ea1d55921965aa5644a5d3c713ff3c3ac46))
+* delete loader ([602921b](https://github.com/mokkapps/changelog-generator-demo/commits/602921bdc2bd53bf36534a1da926274316860614))
+* edit intake ([9c36387](https://github.com/mokkapps/changelog-generator-demo/commits/9c36387af4fdbc0ebff9e877ea3f1b58e678a95c))
+* intake log errors handle ([5b0242f](https://github.com/mokkapps/changelog-generator-demo/commits/5b0242f6b3a369d6ac1e2abe2e87adb06e4ea26c))
+* intake log issues ([fa7e9d0](https://github.com/mokkapps/changelog-generator-demo/commits/fa7e9d0f282fd351ca9a2198b60776b02b07fe09))
+* refactor modal ([1e8e5e7](https://github.com/mokkapps/changelog-generator-demo/commits/1e8e5e727699c45d4a732c8f90132c8067c2d75b))
+* remove try/catch blocks for intake log ([6fa0d9c](https://github.com/mokkapps/changelog-generator-demo/commits/6fa0d9cf315b7de2bede265203d617fd9bf269bc))
+
+## [3.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v2.0.0...v3.0.0) (2021-03-07)
+
+
+### Features
+
+* inventory redux template ([73df669](https://github.com/mokkapps/changelog-generator-demo/commits/73df66932fd99113f9ae5f345dcc2bc48cefc4ff))
+* inventory template ([b0fcebd](https://github.com/mokkapps/changelog-generator-demo/commits/b0fcebd20c3919b89b38e1d2679a5fc0b3ff03fa))
+
+
+### Bug Fixes
+
+* create inventory item redux ([93418f8](https://github.com/mokkapps/changelog-generator-demo/commits/93418f8d78fb1eb019215bb538d644c293c84e64))
+* error message inventory ([aea6665](https://github.com/mokkapps/changelog-generator-demo/commits/aea66650e6d7d51875e4745fc5a7644f54e14a7c))
+* fetch inventory redux ([a5d7021](https://github.com/mokkapps/changelog-generator-demo/commits/a5d7021db5ea1c2f4d16770229347a2a5179143f))
+* inventory table issues ([6642b76](https://github.com/mokkapps/changelog-generator-demo/commits/6642b768367858bf5c426fba76797401de54ecba))
+* refactor extra code ([c1afd57](https://github.com/mokkapps/changelog-generator-demo/commits/c1afd57ee977682619bbd3cfab58235b8c3df8e9))
+* refactor paths ([a4eceea](https://github.com/mokkapps/changelog-generator-demo/commits/a4eceea05c225a5f0d1931634f86e81715d29f90))
+* return pools and runs ([46cc037](https://github.com/mokkapps/changelog-generator-demo/commits/46cc0373d38b37c3e19f03fd86966640127d6068))
+* table template ([3a5ac32](https://github.com/mokkapps/changelog-generator-demo/commits/3a5ac3258c42783b34b05eef7703f68a13120338))
+* todo list ([4b7118c](https://github.com/mokkapps/changelog-generator-demo/commits/4b7118c05855268794514a64662ca869ccea9805))
+
 ## [2.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v1.9.1...v2.0.0) (2021-03-04)
 
 

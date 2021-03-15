@@ -15,11 +15,14 @@ export const updateTube = async ({ id, data }) => {
 };
 
 export const deleteTube = async ({ record, scanId }) => {
-  const tube = await axiosClient.delete(
-    `/scans/tubes/${record.id}/?scan_id=${scanId}`,
-  );
-
-  return tube;
+  try {
+    const tube = await axiosClient.delete(
+      `/scans/tubes/${record.id}/from/${scanId}/`,
+    );
+    return tube;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const invalidateTube = async ({ id, data }) => {
@@ -36,7 +39,7 @@ export const fetchSessionId = async () => {
   }
 };
 
-export const deleteScan = async data => {
+export const deleteScan = async (data) => {
   try {
     const { id } = data;
 

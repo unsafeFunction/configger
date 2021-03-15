@@ -15,12 +15,12 @@ const racksReducer = (state = initialState, action) => {
     case actions.FETCH_RACKS_REQUEST: {
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
         search: action.payload.search,
       };
     }
     case actions.FETCH_RACKS_SUCCESS: {
-      const scanSessionForRender = action.payload.data.map(session => {
+      const scanSessionForRender = action.payload.data.map((session) => {
         return {
           ...session,
           action: null,
@@ -36,7 +36,7 @@ const racksReducer = (state = initialState, action) => {
           ? scanSessionForRender
           : [...state.items, ...scanSessionForRender],
         total,
-        isLoading: true,
+        isLoading: false,
         offset: firstPage
           ? scanSessions.itemsLoadingCount
           : state.offset + scanSessions.itemsLoadingCount,
@@ -65,8 +65,61 @@ const rack = (state = initialState, action) => {
     }
     case actions.GET_RACK_SUCCESS: {
       return {
-        isLoading: true,
+        isLoading: false,
         ...action.payload,
+      };
+    }
+    case actions.UPDATE_RACK_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.UPDATE_RACK_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case actions.UPDATE_RACK_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case actions.DELETE_TUBE_SUCCESS: {
+      const { data } = action.payload;
+
+      return Object.assign({}, state, {
+        items: state.items.map((item) => {
+          if (item.letter === data.position[0]) {
+            return {
+              ...item,
+              [`col${data?.position[1]}`]: {
+                ...item[`col${data?.position[1]}`],
+                status: 'empty',
+                color: data.color,
+              },
+            };
+          }
+          return item;
+        }),
+        isLoading: false,
+      });
+    }
+    case actions.UPDATE_TUBE_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        items: state.items.map((item) => {
+          if (item.letter === action.payload.data.row.letter) {
+            return {
+              ...item,
+              ...action.payload.data.row,
+            };
+          }
+          return item;
+        }),
       };
     }
     case actions.GET_RACK_FAILURE: {

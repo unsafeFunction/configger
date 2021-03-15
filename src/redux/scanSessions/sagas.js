@@ -20,6 +20,7 @@ import {
 } from 'services/scanSessions';
 import { getSelectedCode } from './selectors';
 import sortBy from 'lodash.sortby';
+import { constants } from 'utils/constants';
 
 export function* callFetchScanSessions({ payload }) {
   try {
@@ -49,10 +50,10 @@ export function* callFetchScanSessionById({ payload }) {
   try {
     const response = yield call(fetchSessionById, payload.sessionId);
 
-    const formatResponse = response => {
+    const formatResponse = (response) => {
       return Object.assign(
         {},
-        ...response?.map?.(obj => ({
+        ...response?.map?.((obj) => ({
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
             ...obj,
@@ -67,7 +68,7 @@ export function* callFetchScanSessionById({ payload }) {
       payload: {
         ...response?.data,
         scans: [
-          ...sortBy(response?.data?.scans, 'scan_order').map?.(scan => {
+          ...sortBy(response?.data?.scans, 'scan_order').map?.((scan) => {
             const tubesInfo = scan?.scan_tubes;
             return {
               ...scan,
@@ -140,10 +141,10 @@ export function* callFetchScanById({ payload }) {
 
     const tubesInfo = response?.data?.scan_tubes;
 
-    const formatResponse = response => {
+    const formatResponse = (response) => {
       return Object.assign(
         {},
-        ...response?.map?.(obj => ({
+        ...response?.map?.((obj) => ({
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
             ...obj,
@@ -178,6 +179,9 @@ export function* callUpdateTube({ payload }) {
   try {
     const response = yield call(updateTube, payload);
 
+    const poolingTube =
+      response?.data?.status === constants.tubeStatuses.pooling ? true : false;
+
     yield put({
       type: actions.UPDATE_TUBE_SUCCESS,
       payload: {
@@ -190,6 +194,7 @@ export function* callUpdateTube({ payload }) {
             },
           },
           scanId: payload.data.scanId,
+          ...(poolingTube ? { pool_id: response?.data?.tube_id } : {}),
         },
       },
     });
@@ -225,6 +230,7 @@ export function* callInvalidateTube({ payload }) {
             [`col${response?.data?.position?.[1]}`]: {
               ...response?.data,
               status: response?.data?.status?.toLowerCase(),
+              color: response?.data?.color,
             },
           },
           scanId: payload.scanId,
@@ -301,15 +307,17 @@ export function* callDeleteTube({ payload }) {
       message: 'Tube deleted',
     });
   } catch (error) {
+    const errorData = error.response?.data?.detail ?? null;
+
     yield put({
       type: actions.DELETE_TUBE_FAILURE,
       payload: {
-        letter: payload.position?.[0],
+        data: errorData,
       },
     });
 
     notification.error({
-      message: 'Something went wrong',
+      message: errorData ?? 'Failure!',
     });
   }
 }

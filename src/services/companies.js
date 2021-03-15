@@ -14,7 +14,7 @@ export const fetchCompanies = async ({ limit, offset, search }) => {
   }
 };
 
-export const createCompany = async payload => {
+export const createCompany = async (payload) => {
   const company = await axiosClient.post(`/companies/create`, {
     ...payload,
   });
@@ -22,7 +22,7 @@ export const createCompany = async payload => {
   return company;
 };
 
-export const getSingleCompany = async id => {
+export const getSingleCompany = async (id) => {
   try {
     const company = await axiosClient.get(`/companies/${id}/`);
 
@@ -32,16 +32,16 @@ export const getSingleCompany = async id => {
   }
 };
 
-export const fetchCompanyShort = async id => {
+export const fetchCompanyShort = async (id) => {
   try {
     const company = await axiosClient.get(`/companies-short/${id}/`);
     return company;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error?.response?.data.detail);
   }
 };
 
-export const updateUsers = async payload => {
+export const updateUsers = async (payload) => {
   try {
     const users = await axiosClient.patch(`/companies/${payload.id}/`, {
       results_contacts: payload.results_contacts,

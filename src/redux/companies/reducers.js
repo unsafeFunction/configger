@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
-import actions from './actions';
-import { constants } from '../../utils/constants';
+import { constants } from 'utils/constants';
 import isEmpty from 'lodash.isempty';
+import actions from './actions';
 
 const initialState = {
   items: [],
@@ -95,6 +95,7 @@ const initialSingleCompany = {
   name_short: '',
   results_contacts: [],
   isLoadingCompany: false,
+  error: null,
 };
 
 export default combineReducers({
@@ -119,6 +120,7 @@ export default combineReducers({
         return {
           ...state,
           isLoadingCompany: true,
+          error: null,
         };
       case actions.FETCH_COMPANY_SHORT_SUCCESS:
         const company = !isEmpty(action.payload.data)
@@ -132,7 +134,8 @@ export default combineReducers({
       case actions.FETCH_COMPANY_SHORT_FAILURE:
         return {
           ...state,
-          isLoadingCompany: false,
+          ...initialSingleCompany,
+          error: action.payload.data,
         };
       case actions.START_CAMPAIGN_REQUEST:
         return {

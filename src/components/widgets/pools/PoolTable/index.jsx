@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/pools/actions';
@@ -16,17 +15,18 @@ import {
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getColor, getIcon } from 'utils/highlightingResult';
+import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
 const { Option } = Select;
 const { Text } = Typography;
 
-const PoolTable = () => {
+const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.user);
-  const pools = useSelector(state => state.pools);
-  const resutList = useSelector(state => state.pools.resultList);
+  const user = useSelector((state) => state.user);
+  const pools = useSelector((state) => state.pools);
+  const resutList = useSelector((state) => state.pools.resultList);
 
   const useFetching = () => {
     useEffect(() => {
@@ -162,8 +162,8 @@ const PoolTable = () => {
             bordered={false}
           >
             {resutList?.items
-              ?.filter(option => option.value !== record.result)
-              .map(item => (
+              ?.filter((option) => option.value !== record.result)
+              .map((item) => (
                 <Option key={item.key} value={item.value}>
                   <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
                     {item.value === 'COVID-19 Detected'
@@ -231,7 +231,7 @@ const PoolTable = () => {
     },
   ];
 
-  const data = pools?.items?.map?.(pool => ({
+  const data = pools?.items?.map?.((pool) => ({
     ...pool,
     key: pool.unique_id,
     tubes: pool.tube_ids.join(', '),
@@ -291,17 +291,30 @@ const PoolTable = () => {
   );
 
   return (
-    <>
-        <Table
-          columns={columns}
-          dataSource={data}
-          loading={pools.isLoading}
-          pagination={false}
-          scroll={{ x: 1000 }}
-          bordered
-        />
-    </>
+    <InfiniteScroll
+      next={loadMore}
+      hasMore={pools.items.length < pools.total}
+      loader={
+        <div className={styles.spin}>
+          <Spin />
+        </div>
+      }
+      dataLength={pools.items.length}
+    >
+      <Table
+        columns={columns}
+        dataSource={data}
+        loading={pools.isLoading}
+        pagination={false}
+        scroll={{ x: 1000 }}
+        bordered
+      />
+    </InfiniteScroll>
   );
+};
+
+PoolTable.propTypes = {
+  loadMore: PropTypes.func.isRequired,
 };
 
 export default PoolTable;

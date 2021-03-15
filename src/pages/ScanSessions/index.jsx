@@ -24,7 +24,7 @@ const ScanSessions = () => {
   const stateRef = useRef();
   stateRef.current = dates;
 
-  const scanSessions = useSelector(state => state.scanSessions.sessions);
+  const scanSessions = useSelector((state) => state.scanSessions.sessions);
 
   const useFetching = () => {
     useEffect(() => {
@@ -71,7 +71,7 @@ const ScanSessions = () => {
     {
       title: 'Status',
       dataIndex: 'status',
-      render: text => {
+      render: (text) => {
         return (
           <Tag color="blue" className={styles.sessionStatus}>
             {text.toLowerCase()}
@@ -80,7 +80,7 @@ const ScanSessions = () => {
       },
     },
     {
-      title: 'Session size',
+      title: 'Pool Count',
       dataIndex: 'pool_size',
       render: (_, value) => {
         return value?.scans.length || '-';
@@ -96,16 +96,16 @@ const ScanSessions = () => {
     {
       title: 'Scanned by',
       dataIndex: 'scanned_by',
-      render: value => {
+      render: (value) => {
         return value || '-';
       },
     },
   ];
 
-  const expandedRow = scan => {
+  const expandedRow = (scan) => {
     const columns = [
       { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
-      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id' },
+      { title: 'Pool Name', dataIndex: 'pool_name', key: 'pool_name' },
       {
         title: 'Scan time',
         dataIndex: 'scan_time',
@@ -142,7 +142,7 @@ const ScanSessions = () => {
   }, [dispatch, scanSessions, searchName, dates]);
 
   const sendQuery = useCallback(
-    query => {
+    (query) => {
       const filteringParams = {
         limit: constants.scanSessions.itemsLoadingCount,
         search: query,
@@ -166,12 +166,12 @@ const ScanSessions = () => {
   );
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
   const onChangeSearch = useCallback(
-    e => {
+    (e) => {
       const { target } = e;
 
       setSearchName(target.value);
@@ -207,15 +207,15 @@ const ScanSessions = () => {
             pageSize: sessionItems?.length,
             hideOnSinglePage: true,
           }}
-          rowKey={record => record.id}
-          expandedRowRender={record => {
+          rowKey={(record) => record.id}
+          expandedRowRender={(record) => {
             return expandedRow(
-              sortBy(record.scans, 'scan_order').map(scan => {
+              sortBy(record.scans, 'scan_order').map((scan) => {
                 return {
                   key: scan.id,
                   pool_id: scan.pool_id,
                   scan_time: moment(scan.scan_timestamp).format('LLLL'),
-                  rack_id: scan.rack_id,
+                  pool_name: scan.pool_name,
                   scanner: scan.scanner ?? '-',
                   action: (
                     <Button

@@ -16,7 +16,7 @@ const IntakeReceiptLog = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
-  const intakeLog = useSelector(state => state.intakeReceiptLog);
+  const intakeLog = useSelector((state) => state.intakeReceiptLog);
 
   const useFetching = () => {
     useEffect(() => {
@@ -31,42 +31,63 @@ const IntakeReceiptLog = () => {
 
   useFetching();
 
-  const handleModalToggle = useCallback(() => {
-    dispatch({
-      type: modalActions.SHOW_MODAL,
-      modalType: 'COMPLIANCE_MODAL',
-      modalProps: {
-        title: 'New intake',
-        onOk: createIntake,
-        bodyStyle: {
-          maxHeight: '70vh',
-          overflow: 'scroll',
-        },
-        okText: 'Add intake',
-        message: () => <IntakeRecepientLogModal form={form} />,
-        maskClosable: false,
-        onCancel: handleReset,
-        confirmLoading: intakeLog.isCreating,
-      },
-    });
-  }, [dispatch]);
-
-  const createIntake = useCallback(async () => {
-    const fieldValues = await form.validateFields();
-    const { company_name, company_short, ...rest } = fieldValues;
-
-    dispatch({
-      type: actions.CREATE_INTAKE_REQUEST,
-      payload: {
-        intake: rest,
-        resetForm: handleReset,
-      },
-    });
-  }, []);
-
   const handleReset = useCallback(() => {
     form.resetFields();
   }, []);
+
+  const handleChangeIntake = useCallback(async (record) => {
+    const fieldValues = await form.validateFields();
+    const { company_name, company_short, ...rest } = fieldValues;
+
+    if (record) {
+      dispatch({
+        type: actions.PATCH_INTAKE_REQUEST,
+        payload: {
+          intake: { ...rest, id: record.id },
+          resetForm: handleReset,
+        },
+      });
+    } else {
+      dispatch({
+        type: actions.CREATE_INTAKE_REQUEST,
+        payload: {
+          intake: rest,
+          resetForm: handleReset,
+        },
+      });
+    }
+  }, []);
+
+  const handleModalToggle = useCallback(
+    (record) => {
+      if (record) {
+        form.setFieldsValue({
+          ...record.company,
+          ...record,
+        });
+      }
+
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: `${record ? 'Edit' : 'New'} Log`,
+          onOk: () => handleChangeIntake(record),
+          bodyStyle: {
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          },
+          okText: `${record ? 'Edit' : 'New'} Log`,
+          message: () => (
+            <IntakeRecepientLogModal form={form} edit={!!record} />
+          ),
+          maskClosable: false,
+          onCancel: handleReset,
+        },
+      });
+    },
+    [dispatch],
+  );
 
   const columns = [
     {
@@ -99,6 +120,9 @@ const IntakeReceiptLog = () => {
     {
       title: 'Logged By',
       dataIndex: 'logged_by',
+      render: (_, record) => {
+        return record.logged_by ?? '-';
+      },
     },
     {
       title: 'Shipping By',
@@ -108,12 +132,26 @@ const IntakeReceiptLog = () => {
       title: 'Tracking Number',
       dataIndex: 'tracking_number',
     },
+    {
+      title: 'Edit',
+      dataIndex: 'edit',
+      fixed: 'right',
+      width: 70,
+      render: (_, record) => {
+        return (
+          <Button type="primary" onClick={() => handleModalToggle(record)}>
+            Edit
+          </Button>
+        );
+      },
+    },
   ];
 
-  const data = intakeLog.items.map?.(intakeItem => ({
+  const data = intakeLog.items.map?.((intakeItem) => ({
     ...intakeItem,
     company_name: intakeItem.company?.name,
     company_short: intakeItem.company?.name_short,
+    company_id: intakeItem.company?.company_id,
   }));
 
   const loadMore = useCallback(() => {
@@ -130,18 +168,17 @@ const IntakeReceiptLog = () => {
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Intake Receipt Log</h4>
-        <Button type="primary" onClick={handleModalToggle} className="mb-2">
+        <Button
+          type="primary"
+          onClick={() => handleModalToggle(null)}
+          className="mb-2"
+        >
           Add New Log
         </Button>
       </div>
       <InfiniteScroll
         next={loadMore}
         hasMore={intakeLog.items.length < intakeLog.total}
-        loader={
-          <div className={styles.spin}>
-            <Spin />
-          </div>
-        }
         dataLength={intakeLog.items.length}
       >
         <Table
@@ -151,7 +188,7 @@ const IntakeReceiptLog = () => {
           scroll={{ x: 'max-content' }}
           bordered
           loading={intakeLog.isLoading}
-          rowKey={record => record.id}
+          rowKey={(record) => record.id}
         />
       </InfiniteScroll>
     </>

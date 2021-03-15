@@ -84,7 +84,16 @@ export function* callFetchCompanyShort({ payload }) {
       },
     });
   } catch (error) {
-    notification.error(error);
+    yield put({
+      type: actions.FETCH_COMPANY_SHORT_FAILURE,
+      payload: {
+        data: error.message ?? null,
+      },
+    });
+
+    notification.error({
+      message: error.message ?? 'Something went wrong',
+    });
   }
 }
 

@@ -1,49 +1,35 @@
 import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from 'redux/companies/actions';
-import debounce from 'lodash.debounce';
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Select, InputNumber } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
-const IntakeRecepientLogModal = ({ form }) => {
+const IntakeRecepientLogModal = ({ form, edit }) => {
   const dispatch = useDispatch();
   const { Item } = Form;
 
-  const company = useSelector(state => state.companies.singleCompany);
+  const company = useSelector((state) => state.companies.singleCompany);
 
   useEffect(() => {
-    form.setFieldsValue({
-      company_name: company.name,
-      company_short: company.name_short,
-    });
-  }, [company]);
-
-  const sendQuery = useCallback(query => {
-    dispatch({
-      type: actions.FETCH_COMPANY_SHORT_REQUEST,
-      payload: {
-        id: query,
-      },
-    });
-  }, []);
-
-  const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
-    [],
-  );
-
-  const handleChangeCompany = useCallback(e => {
-    const { target } = e;
-
-    if (target.value) {
-      delayedQuery(target.value);
-    } else {
+    if (!edit) {
       form.setFieldsValue({
-        company_name: '',
-        company_short: '',
+        company_name: company.name,
+        company_short: company.name_short,
       });
     }
+  }, [company]);
+
+  const handleBlurCompany = useCallback((e) => {
+    const { target } = e;
+
+    target.value &&
+      dispatch({
+        type: actions.FETCH_COMPANY_SHORT_REQUEST,
+        payload: {
+          id: target.value,
+        },
+      });
   }, []);
 
   return (
@@ -51,7 +37,6 @@ const IntakeRecepientLogModal = ({ form }) => {
       <Item
         label="Company ID"
         name="company_id"
-        className={styles.formItem}
         rules={[
           {
             required: true,
@@ -59,13 +44,16 @@ const IntakeRecepientLogModal = ({ form }) => {
           },
         ]}
       >
-        <Input placeholder="Company ID" onChange={handleChangeCompany} />
+        <Input
+          disabled={edit}
+          placeholder="Company ID"
+          onBlur={handleBlurCompany}
+        />
       </Item>
 
       <Item
         label="Company name"
         name="company_name"
-        className={styles.formItem}
         rules={[
           {
             required: true,
@@ -80,11 +68,7 @@ const IntakeRecepientLogModal = ({ form }) => {
         />
       </Item>
 
-      <Item
-        label="Company short"
-        name="company_short"
-        className={styles.formItem}
-      >
+      <Item label="Company short" name="company_short">
         <Input
           disabled
           placeholder="Company short"
@@ -103,21 +87,41 @@ const IntakeRecepientLogModal = ({ form }) => {
           },
         ]}
       >
-        <Input type="number" placeholder="Reference pools count" />
+        <InputNumber
+          placeholder="Reference pools count"
+          className="w-100"
+          min={1}
+        />
       </Item>
 
       <Item
         label="Reference samples count"
         name="reference_samples_count"
         className={styles.formItem}
+        dependencies={['reference_pools_count']}
         rules={[
           {
             required: true,
             message: 'This field is required',
           },
+          ({ getFieldValue }) => ({
+            validator(rule, value) {
+              if (getFieldValue('reference_pools_count') <= value) {
+                return Promise.resolve();
+              }
+
+              return Promise.reject(
+                'The number of pools must be less than or equal to the number of samples',
+              );
+            },
+          }),
         ]}
       >
-        <Input type="number" placeholder="Reference samples count" />
+        <InputNumber
+          placeholder="Reference samples count"
+          className="w-100"
+          min={1}
+        />
       </Item>
 
       <Item
@@ -148,25 +152,11 @@ const IntakeRecepientLogModal = ({ form }) => {
               label: 'Dropoff',
               value: 'Dropoff',
             },
-            {
-              label: 'Other',
-              value: 'other',
-            },
           ]}
         />
       </Item>
 
-      <Item
-        label="Tracking number"
-        name="tracking_number"
-        className={styles.formItem}
-        rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
-        ]}
-      >
+      <Item label="Tracking number" name="tracking_number">
         <Input placeholder="Tracking Number" />
       </Item>
     </Form>

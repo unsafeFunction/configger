@@ -1,6 +1,11 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
-import { fetchIntakeReceiptLog, createIntake } from 'services/intakeReceiptLog';
+import {
+  fetchIntakeReceiptLog,
+  createIntake,
+  updateIntake,
+} from 'services/intakeReceiptLog';
 import { notification } from 'antd';
+import modalActions from 'redux/modal/actions';
 import actions from './actions';
 
 export function* callFetchIntakeReceiptLog({ payload }) {
@@ -31,22 +36,59 @@ export function* callCreateIntake({ payload }) {
       payload: response,
     });
 
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
     notification.success({
       message: 'Intake added',
     });
 
     return yield call(resetForm);
   } catch (error) {
-    const errorData = error.response?.data?.field_errors;
     yield put({
       type: actions.CREATE_INTAKE_FAILURE,
       payload: {
-        data: errorData,
+        data: error.message ?? null,
       },
     });
+
     notification.error({
-      message: 'Failure!',
-      description: `Intake not added`,
+      message: error.message ?? 'Intake not added',
+    });
+  }
+}
+
+export function* callUpdateIntake({ payload }) {
+  const { intake, resetForm } = payload;
+
+  try {
+    const response = yield call(updateIntake, intake);
+
+    yield put({
+      type: actions.PATCH_INTAKE_SUCCESS,
+      payload: response,
+    });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
+    notification.success({
+      message: 'Intake updated',
+    });
+
+    return yield call(resetForm);
+  } catch (error) {
+    yield put({
+      type: actions.PATCH_INTAKE_FAILURE,
+      payload: {
+        data: error.message ?? null,
+      },
+    });
+
+    notification.error({
+      message: error.message ?? 'Intake not updated',
     });
   }
 }
@@ -55,5 +97,6 @@ export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_INTAKE_LOG_REQUEST, callFetchIntakeReceiptLog),
     takeEvery(actions.CREATE_INTAKE_REQUEST, callCreateIntake),
+    takeEvery(actions.PATCH_INTAKE_REQUEST, callUpdateIntake),
   ]);
 }

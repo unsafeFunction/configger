@@ -43,6 +43,7 @@ export default function intakeReceiptLogReducer(state = initialState, action) {
       return {
         ...state,
         isCreating: true,
+        error: null,
       };
     case actions.CREATE_INTAKE_SUCCESS:
       return {
@@ -54,6 +55,27 @@ export default function intakeReceiptLogReducer(state = initialState, action) {
       return {
         ...state,
         isCreating: false,
+        error: action.payload.data,
+      };
+    }
+    case actions.PATCH_INTAKE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
+    case actions.PATCH_INTAKE_SUCCESS:
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === action.payload.data.id ? action.payload.data : item,
+        ),
+        isLoading: false,
+      };
+    case actions.PATCH_INTAKE_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
         error: action.payload.data,
       };
     }

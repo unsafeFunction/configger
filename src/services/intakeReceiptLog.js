@@ -13,15 +13,22 @@ export const fetchIntakeReceiptLog = async ({ limit, offset }) => {
   }
 };
 
-export const createIntake = async payload => {
+export const createIntake = async (payload) => {
   try {
-    const intake = await axiosClient.post('/intake-logs/', {
+    const intake = await axiosClient.post('/intake-logs/', { ...payload });
+    return intake;
+  } catch (error) {
+    throw new Error(error?.response?.data.detail);
+  }
+};
+
+export const updateIntake = async (payload) => {
+  try {
+    const intake = await axiosClient.patch(`/intake-logs/${payload.id}`, {
       ...payload,
-      reference_pools_count: parseInt(payload.reference_pools_count, 10),
-      reference_samples_count: parseInt(payload.reference_samples_count, 10),
     });
     return intake;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error?.response?.data.detail);
   }
 };

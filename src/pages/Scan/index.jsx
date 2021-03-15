@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
@@ -30,7 +31,6 @@ import classNames from 'classnames';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import styles from './styles.module.scss';
-
 moment.tz.setDefault('America/New_York');
 
 const { Paragraph } = Typography;
@@ -44,24 +44,25 @@ const Scan = () => {
 
   const sessionId = history.location.pathname.split('/')[2];
 
-  const session = useSelector(state => state.scanSessions?.singleSession);
+  const session = useSelector((state) => state.scanSessions?.singleSession);
   const scans = session?.scans;
   const scan = session?.scans?.find(
-    scan => scan.scan_order === currentScanOrder,
+    (scan) => scan.scan_order === currentScanOrder,
   );
   const recentScan = scans?.[scan?.scan_order - 1];
 
   const countOfReferencePools = session?.reference_pools_count;
   const countOfReferenceSamples = session?.reference_samples_count;
   const completedPools = scans?.filter(
-    scan => scan.status === constants.scanSessions.scanStatuses.completed,
+    (scan) => scan.status === constants.scanStatuses.completed,
   );
   const countOfCompletedPools = completedPools.length;
   const completedSamples = completedPools?.map?.(
-    scan =>
+    (scan) =>
       scan?.scan_tubes?.filter?.(
-        tube =>
+        (tube) =>
           tube.status !== constants.tubeStatuses.blank &&
+          tube.status !== constants.tubeStatuses.empty &&
           tube.status !== constants.tubeStatuses.missing,
       )?.length,
   );
@@ -72,14 +73,14 @@ const Scan = () => {
 
   const goToNextScan = useCallback(() => {
     const nextScanOrder = scans?.find(
-      scan => scan.scan_order > currentScanOrder && scan.status !== 'VOIDED',
+      (scan) => scan.scan_order > currentScanOrder && scan.status !== 'VOIDED',
     )?.scan_order;
 
     if (nextScanOrder) {
       setCurrentScanOrder(nextScanOrder);
       history.push({ search: `?scanOrder=${nextScanOrder}` });
     } else {
-      const firstScanOrder = scans.find(scan => scan.status !== 'VOIDED')
+      const firstScanOrder = scans.find((scan) => scan.status !== 'VOIDED')
         ?.scan_order;
       setCurrentScanOrder(firstScanOrder);
       history.push({ search: `?scanOrder=${firstScanOrder}` });
@@ -89,7 +90,7 @@ const Scan = () => {
   const goToPrevScan = useCallback(() => {
     const reversedScans = scans?.slice?.().reverse?.();
     const prevScanOrder = reversedScans?.find(
-      scan => scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
+      (scan) => scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
     )?.scan_order;
 
     if (prevScanOrder >= 0) {
@@ -97,7 +98,7 @@ const Scan = () => {
       history.push({ search: `?scanOrder=${prevScanOrder}` });
     } else {
       const lastScanOrder = reversedScans?.find(
-        scan => scan.status !== 'VOIDED',
+        (scan) => scan.status !== 'VOIDED',
       )?.scan_order;
       setCurrentScanOrder(lastScanOrder);
       history.push({ search: `?scanOrder=${lastScanOrder}` });
@@ -108,7 +109,7 @@ const Scan = () => {
 
   const companyInfo = session?.company_short;
   const deleteScan = useCallback(
-    data => {
+    (data) => {
       dispatch({
         type: actions.VOID_SCAN_BY_ID_REQUEST,
         payload: { ...data },
@@ -118,7 +119,7 @@ const Scan = () => {
   );
 
   const updateScan = useCallback(
-    data => {
+    (data) => {
       dispatch({
         type: actions.UPDATE_SCAN_BY_ID_REQUEST,
         payload: {
@@ -191,7 +192,7 @@ const Scan = () => {
   useFetching();
 
   const updateSession = useCallback(
-    data => {
+    (data) => {
       dispatch({
         type: actions.UPDATE_SESSION_REQUEST,
         payload: { ...data },
@@ -232,7 +233,7 @@ const Scan = () => {
   );
 
   const handleCancelScan = useCallback(
-    scan => {
+    (scan) => {
       dispatch({
         type: actions.CANCEL_SCAN_BY_ID_REQUEST,
         payload: {
@@ -287,32 +288,33 @@ const Scan = () => {
               countOfReferenceSamples === countOfCompletedSamples
             ) {
               return <span>Are you sure to save session?</span>;
-            } else {
-              return (
-                <Alert
-                  showIcon
-                  type="warning"
-                  message="Warning"
-                  description={
-                    <>
-                      <Paragraph>Are you sure to save session?</Paragraph>
-                      {countOfReferencePools !== countOfCompletedPools && (
-                        <Paragraph>
-                          Reference pools ({countOfReferencePools}) don't match
-                          completed scans ({countOfCompletedPools})
-                        </Paragraph>
-                      )}
-                      {countOfReferenceSamples !== countOfCompletedSamples && (
-                        <Paragraph>
-                          Reference samples({countOfReferenceSamples}) don't
-                          match completed samples({countOfCompletedSamples})
-                        </Paragraph>
-                      )}
-                    </>
-                  }
-                />
-              );
             }
+            return (
+              <Alert
+                showIcon
+                type="warning"
+                message="Warning"
+                description={
+                  <>
+                    <Paragraph>Are you sure to save session?</Paragraph>
+                    {countOfReferencePools !== countOfCompletedPools && (
+                      <Paragraph>
+                        Reference pools ({countOfReferencePools}) don't match
+                        completed scans ({countOfCompletedPools})
+                      </Paragraph>
+                    )}
+                    {countOfReferenceSamples !== countOfCompletedSamples && (
+                      <Paragraph>
+                        Reference samples(
+                        {countOfReferenceSamples}) don't match completed
+                        samples(
+                        {countOfCompletedSamples})
+                      </Paragraph>
+                    )}
+                  </>
+                }
+              />
+            );
           },
         },
       });
@@ -336,7 +338,7 @@ const Scan = () => {
             Refresh
           </Button>
           <Button
-            disabled={session?.isLoading || countOfCompletedPools < 1}
+            disabled={session?.isLoading}
             onClick={() =>
               onSaveSessionModalToggle(
                 countOfReferencePools,
@@ -394,7 +396,7 @@ const Scan = () => {
                   trigger="click"
                   onClick={handleSwitchVisibleActions}
                   visible={visibleActions}
-                  onVisibleChange={value => {
+                  onVisibleChange={(value) => {
                     if (!value) {
                       setVisibleActions(false);
                     }
