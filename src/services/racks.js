@@ -3,9 +3,7 @@ import axiosClient from 'utils/axiosClient';
 export const fetchRackScans = async (query) => {
   try {
     const rackScans = await axiosClient.get('/scans/rack/', {
-      params: {
-        ...query,
-      },
+      params: { ...query },
     });
 
     return rackScans;

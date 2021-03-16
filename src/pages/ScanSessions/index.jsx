@@ -28,17 +28,18 @@ const ScanSessions = () => {
 
   const useFetching = () => {
     useEffect(() => {
+      const filteringParams = {
+        limit: constants.scanSessions.itemsLoadingCount,
+        search: searchName,
+      };
+
       const params = dates.length
         ? {
-            date_from: dates[0],
-            date_to: dates[1],
-            limit: constants.scanSessions.itemsLoadingCount,
-            search: searchName,
+            started_on_day_after: dates[0],
+            started_on_day_before: dates[1],
+            ...filteringParams,
           }
-        : {
-            limit: constants.scanSessions.itemsLoadingCount,
-            search: searchName,
-          };
+        : filteringParams;
 
       dispatch({
         type: actions.FETCH_SCAN_SESSIONS_REQUEST,
@@ -88,9 +89,9 @@ const ScanSessions = () => {
     },
     {
       title: `Scanned on`,
-      dataIndex: 'scanned_on',
+      dataIndex: 'started_on_day',
       render: (_, value) => {
-        return moment(value?.started_on_day).format('LLLL') || '-';
+        return moment(value?.started_on_day).format('llll') || '-';
       },
     },
     {
@@ -125,10 +126,11 @@ const ScanSessions = () => {
       offset: scanSessions.offset,
       search: searchName,
     };
+
     const params = dates.length
       ? {
-          date_to: dates[1],
-          date_from: dates[0],
+          started_on_day_after: dates[0],
+          started_on_day_before: dates[1],
           ...filteringParams,
         }
       : filteringParams;
@@ -147,10 +149,11 @@ const ScanSessions = () => {
         limit: constants.scanSessions.itemsLoadingCount,
         search: query,
       };
+
       const params = stateRef.current.length
         ? {
-            date_from: stateRef.current[0],
-            date_to: stateRef.current[1],
+            started_on_day_after: stateRef.current[0],
+            started_on_day_before: stateRef.current[1],
             ...filteringParams,
           }
         : filteringParams;
