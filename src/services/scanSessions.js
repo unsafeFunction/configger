@@ -1,13 +1,11 @@
 import axiosClient from 'utils/axiosClient';
 
-export const fetchSessions = async query => {
+export const fetchSessions = async (query) => {
   try {
     const sessions = await axiosClient.get(
       '/scans/sessions/?status=COMPLETED',
       {
-        params: {
-          ...query,
-        },
+        params: { ...query },
       },
     );
 
@@ -17,7 +15,7 @@ export const fetchSessions = async query => {
   }
 };
 
-export const fetchSessionById = async sessionId => {
+export const fetchSessionById = async (sessionId) => {
   try {
     const session = await axiosClient.get(`/scans/sessions/${sessionId}/`);
 
@@ -27,7 +25,7 @@ export const fetchSessionById = async sessionId => {
   }
 };
 
-export const updateSession = async data => {
+export const updateSession = async (data) => {
   try {
     const session = await axiosClient.patch(`/scans/sessions/${data.id}/`, {
       ...data,

@@ -14,6 +14,9 @@ export const constants = {
   scanSessions: {
     itemsLoadingCount: 25,
   },
+  poolRacks: {
+    itemsLoadingCount: 25,
+  },
   inventory: {
     itemsLoadingCount: 25,
   },
