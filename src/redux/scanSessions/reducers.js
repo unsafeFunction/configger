@@ -231,16 +231,15 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
     case actions.DELETE_TUBE_SUCCESS: {
-      const { data } = action.payload;
-      const testArray = state.scans;
+      const { tube, scanId, tubeId } = action.payload.data;
+      const scansArray = state.scans;
 
       state.scans.forEach((row, index) => {
-        if (row.id === data?.scan_id) {
+        if (row.id === scanId) {
           row.items.forEach((value, key) => {
             forEach(value, (rowValue, rowKey) => {
-              if (rowValue.id === data.tube_id) {
-                testArray[index].items[key][rowKey].status = 'empty';
-                testArray[index].items[key][rowKey].color = data.color;
+              if (rowValue.id === tubeId) {
+                scansArray[index].items[key][rowKey] = tube;
               }
             });
           });

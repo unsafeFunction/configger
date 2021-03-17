@@ -14,14 +14,14 @@ export const updateTube = async ({ id, data }) => {
   return tube;
 };
 
-export const deleteTube = async ({ record, scanId }) => {
+export const deleteTube = async ({ tubeId, scanId }) => {
   try {
     const tube = await axiosClient.delete(
-      `/scans/tubes/${record.id}/from/${scanId}/`,
+      `/scans/tubes/${tubeId}/from/${scanId}/`,
     );
     return tube;
   } catch (error) {
-    throw error;
+    throw new Error(error?.response?.data.detail);
   }
 };
 

@@ -57,7 +57,7 @@ export function* callFetchScanSessionById({ payload }) {
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
             ...obj,
-            status: obj?.status.toLowerCase(),
+            status: obj?.status,
           },
         })),
       );
@@ -148,7 +148,7 @@ export function* callFetchScanById({ payload }) {
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
             ...obj,
-            status: obj?.status.toLowerCase(),
+            status: obj?.status,
           },
         })),
       );
@@ -190,7 +190,7 @@ export function* callUpdateTube({ payload }) {
             letter: response?.data?.position?.[0],
             [`col${response?.data?.position?.[1]}`]: {
               ...response?.data,
-              status: response?.data?.status?.toLowerCase(),
+              status: response?.data?.status,
             },
           },
           scanId: payload.data.scanId,
@@ -229,7 +229,7 @@ export function* callInvalidateTube({ payload }) {
             letter: response?.data?.position?.[0],
             [`col${response?.data?.position?.[1]}`]: {
               ...response?.data,
-              status: response?.data?.status?.toLowerCase(),
+              status: response?.data?.status,
               color: response?.data?.color,
             },
           },
@@ -299,7 +299,11 @@ export function* callDeleteTube({ payload }) {
     yield put({
       type: actions.DELETE_TUBE_SUCCESS,
       payload: {
-        data: { ...response.data },
+        data: {
+          tube: response.data,
+          scanId: payload.scanId,
+          tubeId: payload.tubeId,
+        },
       },
     });
 
@@ -307,17 +311,15 @@ export function* callDeleteTube({ payload }) {
       message: 'Tube deleted',
     });
   } catch (error) {
-    const errorData = error.response?.data?.detail ?? null;
-
     yield put({
       type: actions.DELETE_TUBE_FAILURE,
       payload: {
-        data: errorData,
+        data: error.message ?? null,
       },
     });
 
     notification.error({
-      message: errorData ?? 'Failure!',
+      message: error.message ?? 'Failure!',
     });
   }
 }

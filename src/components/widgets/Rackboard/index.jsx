@@ -18,16 +18,17 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
   );
 
   const [form] = Form.useForm();
+
   const initialRackboard = [...Array(6).keys()].map((i) => ({
     letter: String.fromCharCode(constants?.A + i),
-    col1: { tube_id: null, status: 'blank' },
-    col2: { tube_id: null, status: 'blank' },
-    col3: { tube_id: null, status: 'blank' },
-    col4: { tube_id: null, status: 'blank' },
-    col5: { tube_id: null, status: 'blank' },
-    col6: { tube_id: null, status: 'blank' },
-    col7: { tube_id: null, status: 'blank' },
-    col8: { tube_id: null, status: 'blank' },
+    col1: { tube_id: null, status: constants.tubeStatuses.blank },
+    col2: { tube_id: null, status: constants.tubeStatuses.blank },
+    col3: { tube_id: null, status: constants.tubeStatuses.blank },
+    col4: { tube_id: null, status: constants.tubeStatuses.blank },
+    col5: { tube_id: null, status: constants.tubeStatuses.blank },
+    col6: { tube_id: null, status: constants.tubeStatuses.blank },
+    col7: { tube_id: null, status: constants.tubeStatuses.blank },
+    col8: { tube_id: null, status: constants.tubeStatuses.blank },
   }));
 
   const handleSave = useCallback(
@@ -44,14 +45,14 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
     [dispatch, currentTubeID, rackboard],
   );
 
-  const makeScanned = useCallback(
+  const validate = useCallback(
     (record) => {
       dispatch({
         type: actions.UPDATE_TUBE_REQUEST,
         payload: {
           id: record.id,
           data: {
-            status: constants.tubeStatuses.scanned,
+            status: constants.tubeStatuses.valid,
             scanId: rackboard?.id,
           },
         },
@@ -62,10 +63,10 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
   );
 
   const handleDelete = useCallback(
-    (record) => {
+    (tube) => {
       dispatch({
         type: actions.DELETE_TUBE_REQUEST,
-        payload: { record, scanId },
+        payload: { tubeId: tube.id, scanId },
       });
       setPopoverVisible(null);
     },
@@ -128,20 +129,23 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
     align: 'center',
     render: (_, record) => {
       const recordStatus = record?.[`col${i + 1}`]?.status;
-      const isCanMakeScanned =
-        recordStatus === 'empty' ||
-        recordStatus === 'insufficient' ||
-        recordStatus === 'improper_collection' ||
-        recordStatus === 'contamination' ||
-        recordStatus === 'invalid';
+      const isCanValidate =
+        recordStatus === constants.tubeStatuses.empty ||
+        recordStatus === constants.tubeStatuses.insufficient ||
+        recordStatus === constants.tubeStatuses.improperCollection ||
+        recordStatus === constants.tubeStatuses.contamination ||
+        recordStatus === constants.tubeStatuses.invalid;
 
-        if (record[`col${i + 1}`] && record[`col${i + 1}`]?.status !== 'blank') {
+      if (
+        record[`col${i + 1}`] &&
+        recordStatus !== constants.tubeStatuses.blank
+      ) {
         return (
           <Popover
             title={
               <>
                 <Tag color="purple">{record?.[`col${i + 1}`]?.position}</Tag>
-                <Tag color="purple">{record?.[`col${i + 1}`]?.status}</Tag>
+                <Tag color="purple">{recordStatus}</Tag>
               </>
             }
             visible={popoverVisible?.id === record?.[`col${i + 1}`]?.id}
@@ -172,8 +176,8 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                     Save
                   </Button>
                 </Popconfirm>
-                {
-                  record[`col${i + 1}`]?.position !== 'F8' && (
+                {recordStatus !== constants.tubeStatuses.pooling &&
+                  recordStatus !== constants.tubeStatuses.null && (
                     <Popconfirm
                       title="Are you sure to delete this tube?"
                       okText="Yes"
@@ -184,37 +188,39 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                         Delete
                       </Button>
                     </Popconfirm>
-                  )
-                }
+                  )}
                 {!isRack && (
                   <>
-                    {isCanMakeScanned ? (
+                    {isCanValidate ? (
                       <Popconfirm
                         disabled={!currentTubeID}
-                        title="Are you sure to make scanned this tube?"
+                        title="Are you sure to validate this tube?"
                         okText="Yes"
                         cancelText="No"
-                        onConfirm={() => makeScanned(record?.[`col${i + 1}`])}
+                        onConfirm={() => validate(record?.[`col${i + 1}`])}
                       >
                         <Button
                           disabled={!currentTubeID}
                           type="primary"
                           className={styles.popoverBtn}
                         >
-                          Make scanned
+                          Validate
                         </Button>
                       </Popconfirm>
-                    ) : recordStatus !== 'missing' &&
-                      recordStatus !== 'pooling' ? (
-                      <Button
-                        className={styles.popoverBtn}
-                        onClick={() =>
-                          handleInvalidateAction(record?.[`col${i + 1}`])
-                        }
-                      >
-                        Invalidate
-                      </Button>
-                    ) : null}
+                    ) : (
+                      recordStatus !== constants.tubeStatuses.missing &&
+                      recordStatus !== constants.tubeStatuses.pooling &&
+                      recordStatus !== constants.tubeStatuses.null && (
+                        <Button
+                          className={styles.popoverBtn}
+                          onClick={() =>
+                            handleInvalidateAction(record?.[`col${i + 1}`])
+                          }
+                        >
+                          Invalidate
+                        </Button>
+                      )
+                    )}
                   </>
                 )}
                 <Button
@@ -239,14 +245,11 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
               type="primary"
               shape="circle"
               className={styles.tube}
-              style={
-                record[`col${i + 1}`]?.status !== 'blank'
-                  ? {
-                      background: record[`col${i + 1}`]?.color,
-                      borderColor: record[`col${i + 1}`]?.color,
-                    }
-                  : null
-              }
+              style={{
+                background: record[`col${i + 1}`]?.color,
+                borderColor: record[`col${i + 1}`]?.color,
+              }}
+              ghost={recordStatus === constants.tubeStatuses.null}
             />
           </Popover>
         );
