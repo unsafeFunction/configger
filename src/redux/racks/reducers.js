@@ -95,7 +95,7 @@ const rack = (state = initialState, action) => {
               ...item,
               [`col${data?.position[1]}`]: {
                 ...item[`col${data?.position[1]}`],
-                status: 'empty',
+                status: constants.tubeStatuses.empty,
                 color: data.color,
               },
             };

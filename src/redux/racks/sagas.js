@@ -40,7 +40,7 @@ export function* callFetchRack({ payload }) {
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
             ...obj,
-            status: obj?.status.toLowerCase(),
+            status: obj?.status,
           },
         })),
       );
