@@ -29,7 +29,7 @@ export const constants = {
     blank: 'BLANK', // default
     missing: 'MISSING',
     valid: 'VALID',
-    null: 'NULL',
+    deleted: 'NULL',
     positiveControl: 'POSITIVE_CONTROL',
     negativeControl: 'NEGATIVE_CONTROL',
     pooling: 'POOLING',

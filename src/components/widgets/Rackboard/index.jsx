@@ -177,7 +177,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                   </Button>
                 </Popconfirm>
                 {recordStatus !== constants.tubeStatuses.pooling &&
-                  recordStatus !== constants.tubeStatuses.null && (
+                  recordStatus !== constants.tubeStatuses.deleted && (
                     <Popconfirm
                       title="Are you sure to delete this tube?"
                       okText="Yes"
@@ -210,7 +210,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                     ) : (
                       recordStatus !== constants.tubeStatuses.missing &&
                       recordStatus !== constants.tubeStatuses.pooling &&
-                      recordStatus !== constants.tubeStatuses.null && (
+                      recordStatus !== constants.tubeStatuses.deleted && (
                         <Button
                           className={styles.popoverBtn}
                           onClick={() =>
@@ -249,7 +249,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                 background: record[`col${i + 1}`]?.color,
                 borderColor: record[`col${i + 1}`]?.color,
               }}
-              ghost={recordStatus === constants.tubeStatuses.null}
+              ghost={recordStatus === constants.tubeStatuses.deleted}
             />
           </Popover>
         );
