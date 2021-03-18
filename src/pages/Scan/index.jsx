@@ -21,6 +21,7 @@ import {
   CloseOutlined,
   DownOutlined,
   ReloadOutlined,
+CheckOutlined
 } from '@ant-design/icons';
 import Rackboard from 'components/widgets/Rackboard';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
@@ -40,6 +41,7 @@ const Scan = () => {
   const history = useHistory();
 
   const [visibleActions, setVisibleActions] = useState(false);
+  const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
   const [currentScanOrder, setCurrentScanOrder] = useState(0);
 
   const sessionId = history.location.pathname.split('/')[2];
@@ -140,6 +142,34 @@ const Scan = () => {
     setVisibleActions(false);
   }, [scan, goToNextScan, deleteScan]);
 
+  const updateSession = useCallback(
+    (data) => {
+      dispatch({
+        type: actions.UPDATE_SESSION_REQUEST,
+        payload: { ...data },
+      });
+    },
+    [dispatch],
+  );
+
+  const closeSession = useCallback(() => {
+    updateSession({
+      id: sessionId,
+      isSaveSession: false,
+      callback: () => history.push('/session'),
+    });
+  }, [updateSession, sessionId, history]);
+
+  const markCompleteSession = useCallback(() => {
+    updateSession({
+      status: 'COMPLETED',
+      id: sessionId,
+      isSaveSession: true,
+      callback: () => history.push('/session'),
+    });
+  }, [updateSession, sessionId, history]);
+
+
   const menu = (
     <Menu>
       <Menu.Item key="1" icon={<CloseOutlined />}>
@@ -154,6 +184,30 @@ const Scan = () => {
       </Menu.Item>
     </Menu>
   );
+
+  const sessionMenu = (
+    <Menu>
+      <Menu.Item  key="1" icon={<CloseOutlined />}>
+        <Popconfirm
+          title="Are you sure to cancel session?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={closeSession}
+        >
+          Cancel session
+        </Popconfirm>
+      </Menu.Item>
+      <Menu.Item onClick={() =>
+        onSaveSessionModalToggle(
+          countOfReferencePools,
+          countOfReferenceSamples,
+          countOfCompletedPools,
+          countOfCompletedSamples,
+        )} key="2" icon={<CheckOutlined />}>
+          Save session
+      </Menu.Item>
+    </Menu>
+  )
 
   const loadSession = useCallback(() => {
     dispatch({
@@ -191,27 +245,14 @@ const Scan = () => {
 
   useFetching();
 
-  const updateSession = useCallback(
-    (data) => {
-      dispatch({
-        type: actions.UPDATE_SESSION_REQUEST,
-        payload: { ...data },
-      });
-    },
-    [dispatch],
-  );
-
-  const markCompleteSession = useCallback(() => {
-    updateSession({
-      status: 'COMPLETED',
-      id: sessionId,
-      callback: () => history.push('/session'),
-    });
-  }, [updateSession, sessionId, history]);
-
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
   }, [visibleActions]);
+
+  const handleSessionActionVisible = useCallback(() => {
+    setSessionActionVisible(!isSessionActionsVisible);
+  }, [setSessionActionVisible]);
+
 
   const handleNavigation = useCallback(
     ({ direction }) => {
@@ -337,20 +378,24 @@ const Scan = () => {
           >
             Refresh
           </Button>
-          <Button
+          <Dropdown
+            overlay={sessionMenu}
+            overlayClassName={styles.actionsOverlay}
+            trigger="click"
+            onClick={handleSessionActionVisible}
+            visible={isSessionActionsVisible}
+            onVisibleChange={(value) => {
+              if (!value) {
+                setSessionActionVisible(false);
+              }
+            }}
             disabled={session?.isLoading}
-            onClick={() =>
-              onSaveSessionModalToggle(
-                countOfReferencePools,
-                countOfReferenceSamples,
-                countOfCompletedPools,
-                countOfCompletedSamples,
-              )
-            }
-            className="mb-2"
           >
-            End Scanning Session
-          </Button>
+            <Button type="primary">
+              Session Actions
+              <DownOutlined />
+            </Button>
+          </Dropdown>
         </Row>
       </div>
       <Row gutter={[48, 40]} justify="center">

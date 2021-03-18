@@ -48,3 +48,13 @@ export const createSession = async ({ companyId }) => {
     throw new Error(error);
   }
 };
+
+export const closeSession = async ({ companyId }) => {
+  try {
+    const session = await axiosClient.delete('/scans/sessions/active');
+
+    return session;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
