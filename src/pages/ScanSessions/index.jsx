@@ -206,10 +206,7 @@ const ScanSessions = () => {
           bordered
           loading={!scanSessions?.isLoading}
           align="center"
-          pagination={{
-            pageSize: sessionItems?.length,
-            hideOnSinglePage: true,
-          }}
+          pagination={false}
           rowKey={(record) => record.id}
           expandedRowRender={(record) => {
             return expandedRow(

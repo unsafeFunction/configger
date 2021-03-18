@@ -212,10 +212,7 @@ const Inventory = () => {
           bordered
           loading={inventory?.isLoading}
           align="center"
-          pagination={{
-            pageSize: inventory?.items?.length,
-            hideOnSinglePage: true,
-          }}
+          pagination={false}
         />
       </InfiniteScroll>
     </>
