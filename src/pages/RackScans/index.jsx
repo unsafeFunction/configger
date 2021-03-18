@@ -199,10 +199,7 @@ const RackScans = () => {
           bordered
           loading={racks?.isLoading}
           align="center"
-          pagination={{
-            pageSize: racksItems?.length,
-            hideOnSinglePage: true,
-          }}
+          pagination={false}
           rowKey={(record) => record.id}
           title={() => (
             <Row gutter={16}>

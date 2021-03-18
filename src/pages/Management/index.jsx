@@ -2,14 +2,26 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Button, Tag, Input, Form, Tooltip, Switch, Dropdown, Menu, Tabs} from 'antd';
+import {
+  Table,
+  Button,
+  Tag,
+  Input,
+  Form,
+  Tooltip,
+  Switch,
+  Dropdown,
+  Menu,
+  Tabs,
+} from 'antd';
 import { CompanyModal } from 'components/widgets/companies';
 import debounce from 'lodash.debounce';
 import {
   PlusCircleOutlined,
   DeleteOutlined,
   LoadingOutlined,
-  SearchOutlined, SendOutlined,
+  SearchOutlined,
+  SendOutlined,
   BankOutlined,
   FileOutlined,
   DownOutlined,
@@ -21,7 +33,7 @@ import modalActions from 'redux/modal/actions';
 import styles from './styles.module.scss';
 import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
-const {TabPane} = Tabs;
+const { TabPane } = Tabs;
 
 const Management = () => {
   const { isMobile, isTablet } = useWindowSize();
@@ -30,10 +42,10 @@ const Management = () => {
   const [searchName, setSearchName] = useState('');
   const [form] = Form.useForm();
 
-  const allCompanies = useSelector(state => state.companies.all);
+  const allCompanies = useSelector((state) => state.companies.all);
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
-  const getStatus = status => {
+  const getStatus = (status) => {
     switch (status) {
       case 'COMPLETED':
         return <Tag color="#32CD32">{status}</Tag>;
@@ -51,7 +63,7 @@ const Management = () => {
   };
 
   const setCompanyId = useCallback(
-    value => {
+    (value) => {
       dispatchCompaniesData({
         type: companyActions.ON_COMPANY_DATA_CHANGE,
         payload: {
@@ -66,7 +78,7 @@ const Management = () => {
   useEffect(() => {
     if (allCompanies.error) {
       form.setFields([
-        ...Object.keys(allCompanies?.error)?.map?.(field => {
+        ...Object.keys(allCompanies?.error)?.map?.((field) => {
           return {
             name: field,
             errors: [`${allCompanies?.error?.[field]}`],
@@ -83,7 +95,6 @@ const Management = () => {
       payload: { ...fieldValues },
     });
   }, []);
-
 
   const columns = [
     {
@@ -123,14 +134,14 @@ const Management = () => {
     {
       title: 'Short Name',
       dataIndex: 'name_short',
-      render: value => {
+      render: (value) => {
         return value || '-';
       },
     },
     {
       title: 'Locations',
       dataIndex: 'company_locations',
-      render: value => {
+      render: (value) => {
         return value?.map?.((location) => location?.title) || '-';
       },
     },
@@ -142,11 +153,11 @@ const Management = () => {
       render: (_, record) => (
         <div className={styles.actions}>
           <div className={styles.actionsBtns}>
-              <Dropdown overlay={menu}>
-                <Button>
-                  Edit <DownOutlined />
-                </Button>
-              </Dropdown>
+            <Dropdown overlay={menu}>
+              <Button>
+                Edit <DownOutlined />
+              </Button>
+            </Dropdown>
             <Dropdown overlay={menuDelete}>
               <Button>
                 Delete <DownOutlined />
@@ -172,26 +183,35 @@ const Management = () => {
 
   useFetching();
 
-  const handleMenuClick = useCallback((e) => {
-  }, []);
+  const handleMenuClick = useCallback((e) => {}, []);
 
-  const menu = useMemo(() => <Menu onClick={handleMenuClick}>
-    <Menu.Item key="1" icon={<BankOutlined />}>
-      Edit Company
-    </Menu.Item>
-    <Menu.Item key="2" icon={<FileOutlined />}>
-      Edit Site
-    </Menu.Item>
-  </Menu>, []);
+  const menu = useMemo(
+    () => (
+      <Menu onClick={handleMenuClick}>
+        <Menu.Item key="1" icon={<BankOutlined />}>
+          Edit Company
+        </Menu.Item>
+        <Menu.Item key="2" icon={<FileOutlined />}>
+          Edit Site
+        </Menu.Item>
+      </Menu>
+    ),
+    [],
+  );
 
-  const menuDelete = useMemo(() => <Menu onClick={handleMenuClick}>
-    <Menu.Item key="1" icon={<BankOutlined />}>
-      Delete Company
-    </Menu.Item>
-    <Menu.Item key="2" icon={<FileOutlined />}>
-      Delete Site
-    </Menu.Item>
-  </Menu>, []);
+  const menuDelete = useMemo(
+    () => (
+      <Menu onClick={handleMenuClick}>
+        <Menu.Item key="1" icon={<BankOutlined />}>
+          Delete Company
+        </Menu.Item>
+        <Menu.Item key="2" icon={<FileOutlined />}>
+          Delete Site
+        </Menu.Item>
+      </Menu>
+    ),
+    [],
+  );
 
   const onModalToggle = useCallback(() => {
     dispatchCompaniesData({
@@ -226,7 +246,7 @@ const Management = () => {
   }, [dispatchCompaniesData, allCompanies]);
 
   const sendQuery = useCallback(
-    query => {
+    (query) => {
       dispatchCompaniesData({
         type: companyActions.FETCH_COMPANIES_REQUEST,
         payload: {
@@ -239,11 +259,11 @@ const Management = () => {
   );
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
-  const onChangeSearch = useCallback(event => {
+  const onChangeSearch = useCallback((event) => {
     setSearchName(event.target.value);
     delayedQuery(event.target.value);
   }, []);
@@ -260,7 +280,7 @@ const Management = () => {
                 size="large"
                 type="primary"
                 className={!isTablet && 'ml-3'}
-                icon={<BankOutlined/>}
+                icon={<BankOutlined />}
               >
                 Add Company
               </Button>
@@ -304,7 +324,7 @@ const Management = () => {
                 size="large"
                 type="primary"
                 className={!isMobile && 'ml-3'}
-                icon={<BankOutlined/>}
+                icon={<BankOutlined />}
               >
                 Add Company
               </Button>
@@ -326,7 +346,9 @@ const Management = () => {
           <InfiniteScroll
             next={loadMore}
             hasMore={allCompanies?.items?.length < allCompanies?.total}
-            loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
+            loader={
+              <div className={styles.infiniteLoadingIcon}>{spinIcon}</div>
+            }
             dataLength={allCompanies?.items?.length}
           >
             <Table
@@ -336,10 +358,7 @@ const Management = () => {
               bordered
               loading={!allCompanies?.isLoading}
               align="center"
-              pagination={{
-                pageSize: allCompanies?.items?.length,
-                hideOnSinglePage: true,
-              }}
+              pagination={false}
             />
           </InfiniteScroll>
         </TabPane>
