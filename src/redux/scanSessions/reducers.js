@@ -128,13 +128,13 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
     case actions.UPDATE_TUBE_SUCCESS: {
-      const { pool_id } = action.payload.data;
+      const { pool_id, tube, scanId } = action.payload.data;
 
       return {
         ...state,
         isLoading: false,
         scans: state.scans.map((scan) => {
-          if (scan.id === action.payload.data.scanId) {
+          if (scan.id === scanId) {
             return {
               ...scan,
               items: scan.items.map((row) => {
@@ -146,6 +146,10 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
                 }
                 return row;
               }),
+              scan_tubes: scan.scan_tubes.map((tubeItem) => {
+                return tubeItem.id === tube.id ? tube : tubeItem;
+              }),
+
               ...(pool_id ? { pool_id } : {}),
             };
           }
@@ -248,16 +252,16 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
 
       return {
         ...state,
-        scans: state.scans.map((row) => {
-          if (row.id === scanId) {
+        scans: state.scans.map((scan) => {
+          if (scan.id === scanId) {
             return {
-              ...row,
-              scan_tubes: row.scan_tubes.map((tubeItem) => {
+              ...scan,
+              scan_tubes: scan.scan_tubes.map((tubeItem) => {
                 return tubeItem.id === tubeId ? tube : tubeItem;
               }),
             };
           }
-          return row;
+          return scan;
         }),
         isLoading: false,
       };
