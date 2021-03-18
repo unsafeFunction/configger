@@ -170,6 +170,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
     case actions.INVALIDATE_TUBE_SUCCESS: {
+      const { tube } = action.payload.data;
       return {
         ...state,
         isLoading: false,
@@ -185,6 +186,9 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
                   };
                 }
                 return row;
+              }),
+              scan_tubes: scan.scan_tubes.map((tubeItem) => {
+                return tubeItem.id === tube.id ? tube : tubeItem;
               }),
             };
           }

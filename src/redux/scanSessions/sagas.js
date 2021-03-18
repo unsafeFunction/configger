@@ -182,8 +182,6 @@ export function* callUpdateTube({ payload }) {
     const poolingTube =
       response?.data?.status === constants.tubeStatuses.pooling ? true : false;
 
-    console.log(response, payload);
-
     yield put({
       type: actions.UPDATE_TUBE_SUCCESS,
       payload: {
@@ -237,6 +235,7 @@ export function* callInvalidateTube({ payload }) {
             },
           },
           scanId: payload.scanId,
+          tube: response.data,
         },
       },
     });
