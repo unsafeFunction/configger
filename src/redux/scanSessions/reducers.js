@@ -248,6 +248,17 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
 
       return {
         ...state,
+        scans: state.scans.map((row) => {
+          if (row.id === scanId) {
+            return {
+              ...row,
+              scan_tubes: row.scan_tubes.map((tubeItem) => {
+                return tubeItem.id === tubeId ? tube : tubeItem;
+              }),
+            };
+          }
+          return row;
+        }),
         isLoading: false,
       };
     }
