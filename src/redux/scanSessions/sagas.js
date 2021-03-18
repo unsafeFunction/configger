@@ -17,6 +17,7 @@ import {
   fetchSessionById,
   updateSession,
   createSession,
+  closeSession
 } from 'services/scanSessions';
 import { getSelectedCode } from './selectors';
 import sortBy from 'lodash.sortby';
@@ -97,7 +98,13 @@ export function* callFetchScanSessionById({ payload }) {
 
 export function* callUpdateSession({ payload }) {
   try {
-    const response = yield call(updateSession, payload);
+    let response = null;
+
+    if (payload.isSaveSession) {
+      response = yield call(updateSession, payload);
+    } else {
+      response = yield call(closeSession, payload);
+    }
 
     yield put({
       type: actions.UPDATE_SESSION_SUCCESS,
@@ -120,9 +127,16 @@ export function* callUpdateSession({ payload }) {
       type: modalActions.HIDE_MODAL,
     });
 
-    notification.success({
-      message: 'Session updated',
-    });
+    if (payload.isSaveSession) {
+      notification.success({
+        message: 'Session updated',
+      });
+    } else {
+      notification.success({
+        message: 'Session canceled',
+      });
+    }
+
   } catch (error) {
     yield put({
       type: actions.UPDATE_SESSION_FAILURE,
@@ -180,7 +194,7 @@ export function* callUpdateTube({ payload }) {
     const response = yield call(updateTube, payload);
 
     const poolingTube =
-      response?.data?.status === constants.tubeStatuses.pooling ? true : false;
+      response?.data?.status === constants.tubeStatuses.pooling;
 
     yield put({
       type: actions.UPDATE_TUBE_SUCCESS,
