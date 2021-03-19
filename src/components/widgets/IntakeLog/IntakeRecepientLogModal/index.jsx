@@ -156,6 +156,38 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
         />
       </Item>
 
+      <Item
+        label="Sample condition"
+        name="condition"
+        rules={[
+          {
+            required: true,
+            message: 'This field is required',
+          },
+        ]}
+      >
+        <Select
+          placeholder="Sample condition"
+          showArrow
+          showSearch
+          optionFilterProp="label"
+          options={[
+            {
+              label: 'Acceptable',
+              value: 'Acceptable',
+            },
+            {
+              label: 'Unacceptable',
+              value: 'Unacceptable',
+            },
+            {
+              label: 'Other (see Comments)',
+              value: 'Other',
+            },
+          ]}
+        />
+      </Item>
+
       <Item label="Tracking number" name="tracking_number">
         <Input placeholder="Tracking Number" />
       </Item>
