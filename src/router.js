@@ -9,7 +9,7 @@ import Layout from 'layouts';
 import Loader from 'components/layout/Loader';
 import NotFoundPage from 'pages/system/404';
 
-const loadable = loader =>
+const loadable = (loader) =>
   Loadable({
     loader,
     delay: false,
@@ -73,7 +73,7 @@ const routes = [
     Component: loadable(() => import('pages/runs/run')),
   },
   {
-    path: '/session-pools/:id',
+    path: '/pool-scans/:id',
     Component: loadable(() => import('pages/ScanPool')),
   },
   {
@@ -85,7 +85,7 @@ const routes = [
     Component: loadable(() => import('pages/RackScans')),
   },
   {
-    path: '/session-pools',
+    path: '/pool-scans',
     Component: loadable(() => import('pages/ScanSessions')),
   },
   {
@@ -122,7 +122,7 @@ class Router extends React.Component {
       <BrowserRouter>
         <Layout>
           <Switch
-            render={props => {
+            render={(props) => {
               const {
                 children,
                 location: { pathname },

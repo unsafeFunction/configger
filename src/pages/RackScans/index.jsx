@@ -68,11 +68,11 @@ const RackScans = () => {
       dataIndex: 'rack_name',
     },
     {
-      title: 'Rack ID',
+      title: 'PoolRack ID',
       dataIndex: 'rack_id',
     },
     {
-      title: 'Scan Pools Count',
+      title: 'Tubes Count',
       dataIndex: 'scan_pools_count',
       render: (value) => {
         return value || '-';
