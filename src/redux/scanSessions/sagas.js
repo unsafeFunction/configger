@@ -206,6 +206,7 @@ export function* callUpdateTube({ payload }) {
               status: response?.data?.status,
             },
           },
+          tube: response.data,
           scanId: payload.data.scanId,
           ...(poolingTube ? { pool_id: response?.data?.tube_id } : {}),
         },
@@ -247,6 +248,7 @@ export function* callInvalidateTube({ payload }) {
             },
           },
           scanId: payload.scanId,
+          tube: response.data,
         },
       },
     });

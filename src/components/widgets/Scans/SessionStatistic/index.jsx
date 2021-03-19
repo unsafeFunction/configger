@@ -18,7 +18,8 @@ const SessionStatistic = ({ session }) => {
         (tube) =>
           tube.status !== constants.tubeStatuses.blank &&
           tube.status !== constants.tubeStatuses.empty &&
-          tube.status !== constants.tubeStatuses.missing,
+          tube.status !== constants.tubeStatuses.missing &&
+          tube.status !== constants.tubeStatuses.deleted,
       )?.length,
   );
 
