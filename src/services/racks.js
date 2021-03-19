@@ -24,17 +24,17 @@ export const fetchRackScan = async (id) => {
 
 export const updateRackScan = async ({
   id,
-  orientation_sign_off: signOff,
+  orientation_sign_off,
   rack_name,
 }) => {
   try {
     const rackScan = await axiosClient.patch(`/scans/rack/${id}/`, {
-      orientation_sign_off: signOff,
+      orientation_sign_off,
       rack_name,
     });
 
     return rackScan;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error?.response?.data.non_field_errors);
   }
 };
