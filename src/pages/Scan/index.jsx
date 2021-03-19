@@ -21,7 +21,7 @@ import {
   CloseOutlined,
   DownOutlined,
   ReloadOutlined,
-CheckOutlined
+  CheckOutlined,
 } from '@ant-design/icons';
 import Rackboard from 'components/widgets/Rackboard';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
@@ -169,7 +169,6 @@ const Scan = () => {
     });
   }, [updateSession, sessionId, history]);
 
-
   const menu = (
     <Menu>
       <Menu.Item key="1" icon={<CloseOutlined />}>
@@ -187,7 +186,7 @@ const Scan = () => {
 
   const sessionMenu = (
     <Menu>
-      <Menu.Item  key="1" icon={<CloseOutlined />}>
+      <Menu.Item key="1" icon={<CloseOutlined />}>
         <Popconfirm
           title="Are you sure to cancel session?"
           okText="Yes"
@@ -197,17 +196,22 @@ const Scan = () => {
           Cancel session
         </Popconfirm>
       </Menu.Item>
-      <Menu.Item onClick={() =>
-        onSaveSessionModalToggle(
-          countOfReferencePools,
-          countOfReferenceSamples,
-          countOfCompletedPools,
-          countOfCompletedSamples,
-        )} key="2" icon={<CheckOutlined />}>
-          Save session
+      <Menu.Item
+        onClick={() =>
+          onSaveSessionModalToggle(
+            countOfReferencePools,
+            countOfReferenceSamples,
+            countOfCompletedPools,
+            countOfCompletedSamples,
+          )
+        }
+        key="2"
+        icon={<CheckOutlined />}
+      >
+        Save session
       </Menu.Item>
     </Menu>
-  )
+  );
 
   const loadSession = useCallback(() => {
     dispatch({
@@ -252,7 +256,6 @@ const Scan = () => {
   const handleSessionActionVisible = useCallback(() => {
     setSessionActionVisible(!isSessionActionsVisible);
   }, [setSessionActionVisible]);
-
 
   const handleNavigation = useCallback(
     ({ direction }) => {

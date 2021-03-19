@@ -57,7 +57,7 @@ const ScanSessions = () => {
   const navigateToScan = useCallback(
     ({ sessionId, scanOrder }) => {
       history.push({
-        pathname: `/session-pools/${sessionId}`,
+        pathname: `/pool-scans/${sessionId}`,
         search: `?scanOrder=${scanOrder}`,
       });
     },
@@ -81,7 +81,7 @@ const ScanSessions = () => {
       },
     },
     {
-      title: 'Pool Count',
+      title: 'Pools Count',
       dataIndex: 'pool_size',
       render: (_, value) => {
         return value?.scans.length || '-';
@@ -191,7 +191,7 @@ const ScanSessions = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Scan Sessions</h4>
+        <h4>Pool Scans</h4>
       </div>
 
       <InfiniteScroll

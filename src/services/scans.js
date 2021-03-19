@@ -57,7 +57,7 @@ export const cancelScan = async ({ data, id }) => {
 
     return scan;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error?.response?.data.non_field_errors);
   }
 };
 
@@ -69,6 +69,6 @@ export const updateScan = async ({ data, id }) => {
 
     return scan;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error?.response?.data.non_field_errors);
   }
 };
