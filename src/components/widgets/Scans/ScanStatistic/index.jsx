@@ -21,7 +21,7 @@ const ScanStatistic = ({ scan, isRack }) => {
         <Card className={styles.card}>
           <Tooltip placement="bottom" title={scan?.rack_id}>
             <Statistic
-              title="Rack ID"
+              title={isRack ? 'PoolRack ID' : 'Rack ID'}
               groupSeparator=""
               value={scan?.rack_id ?? '–'}
               formatter={(value) => <Tag color="blue">{value}</Tag>}

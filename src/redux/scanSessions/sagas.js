@@ -17,7 +17,7 @@ import {
   fetchSessionById,
   updateSession,
   createSession,
-  closeSession
+  closeSession,
 } from 'services/scanSessions';
 import { getSelectedCode } from './selectors';
 import sortBy from 'lodash.sortby';
@@ -136,7 +136,6 @@ export function* callUpdateSession({ payload }) {
         message: 'Session canceled',
       });
     }
-
   } catch (error) {
     yield put({
       type: actions.UPDATE_SESSION_FAILURE,
@@ -388,13 +387,16 @@ export function* callUpdateScan({ payload }) {
     });
   } catch (error) {
     yield put({
-      type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
-      payload: {
-        error,
-      },
+      type: actions.UPDATE_SCAN_BY_ID_FAILURE,
     });
 
-    throw new Error(error);
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
+    notification.error({
+      message: error.message ?? 'Scan not updated',
+    });
   }
 }
 
@@ -415,12 +417,11 @@ export function* callCancelScan({ payload }) {
   } catch (error) {
     yield put({
       type: actions.CANCEL_SCAN_BY_ID_FAILURE,
-      payload: {
-        error,
-      },
     });
 
-    throw new Error(error);
+    notification.error({
+      message: error.message ?? 'Scan not updated',
+    });
   }
 }
 

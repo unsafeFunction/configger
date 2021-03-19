@@ -86,14 +86,21 @@ export function* callUpdateRack({ payload }) {
     yield put({
       type: modalActions.HIDE_MODAL,
     });
-  } catch (error) {
-    notification.error(error);
 
+    notification.success({
+      message: 'PoolRack updated',
+    });
+  } catch (error) {
     yield put({
       type: actions.UPDATE_RACK_FAILURE,
-      payload: {
-        error,
-      },
+    });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
+    notification.error({
+      message: error.message ?? 'PoolRack not updated',
     });
   }
 }
