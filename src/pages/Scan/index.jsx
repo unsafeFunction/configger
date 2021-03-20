@@ -127,10 +127,9 @@ const Scan = () => {
         payload: {
           data,
           id: scan?.id,
+          callback:  goToNextScan
         },
       });
-
-      goToNextScan();
     },
     [dispatch, scan, scansTotal, currentScanOrder],
   );

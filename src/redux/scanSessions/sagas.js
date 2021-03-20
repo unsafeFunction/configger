@@ -378,6 +378,10 @@ export function* callUpdateScan({ payload }) {
       },
     });
 
+    if (payload.callback) {
+      payload.callback();
+    }
+
     yield put({
       type: modalActions.HIDE_MODAL,
     });
