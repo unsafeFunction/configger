@@ -218,10 +218,10 @@ export function* callUpdateTube({ payload }) {
     });
   } catch (error) {
     notification.error({
-      message: 'Something went wrong',
+      message: error?.message ?? 'Something went wrong',
     });
 
-    throw Error(error);
+    return error;
   }
 }
 

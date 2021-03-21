@@ -7,11 +7,15 @@ export const fetchScanById = async ({ scanId }) => {
 };
 
 export const updateTube = async ({ id, data }) => {
-  const tube = await axiosClient.patch(`/scans/tubes/${id}/`, {
-    ...data,
-  });
+  try {
+    const tube = await axiosClient.patch(`/scans/tubes/${id}/`, {
+      ...data,
+    });
 
-  return tube;
+    return tube;
+  } catch (error) {
+    throw new Error(error?.response.data);
+  }
 };
 
 export const deleteTube = async ({ tubeId, scanId }) => {
