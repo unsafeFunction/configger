@@ -90,13 +90,12 @@ const rack = (state = initialState, action) => {
 
       return Object.assign({}, state, {
         items: state.items.map((item) => {
-          if (item.letter === data.position[0]) {
+          if (item.letter === data?.position?.[0]) {
             return {
               ...item,
               [`col${data?.position[1]}`]: {
                 ...item[`col${data?.position[1]}`],
-                status: constants.tubeStatuses.empty,
-                color: data.color,
+                ...data.tube,
               },
             };
           }

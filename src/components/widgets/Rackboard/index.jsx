@@ -176,8 +176,11 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                     Save
                   </Button>
                 </Popconfirm>
-                {recordStatus !== constants.tubeStatuses.pooling &&
-                  recordStatus !== constants.tubeStatuses.deleted && (
+                {(isRack &&  recordStatus !== constants.tubeStatuses.deleted  &&
+                  recordStatus !== constants.tubeStatuses.negativeControl &&
+                  recordStatus !== constants.tubeStatuses.positiveControl)
+                  || (!isRack && recordStatus !== constants.tubeStatuses.pooling &&
+                  recordStatus !== constants.tubeStatuses.deleted) ? (
                     <Popconfirm
                       title="Are you sure to delete this tube?"
                       okText="Yes"
@@ -188,7 +191,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                         Delete
                       </Button>
                     </Popconfirm>
-                  )}
+                  ) : null}
                 {!isRack && (
                   <>
                     {isCanValidate ? (

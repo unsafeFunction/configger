@@ -316,6 +316,7 @@ export function* callDeleteTube({ payload }) {
       payload: {
         data: {
           tube: response.data,
+          position: response.data.position,
           scanId: payload.scanId,
           tubeId: payload.tubeId,
         },
