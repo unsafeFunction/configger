@@ -167,7 +167,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
 
       <Item
         label="Sample condition"
-        name="condition"
+        name="sample_condition"
         className={styles.formItem}
         rules={[
           {

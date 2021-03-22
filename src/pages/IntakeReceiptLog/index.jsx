@@ -130,7 +130,10 @@ const IntakeReceiptLog = () => {
     },
     {
       title: 'Tracking Number',
-      dataIndex: 'tracking_number',
+      dataIndex: 'tracking_numbers',
+      render: (_, record) => {
+        return record.tracking_numbers?.join(', ') || '-';
+      },
     },
     {
       title: 'Edit',
