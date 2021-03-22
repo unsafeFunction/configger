@@ -14,6 +14,9 @@ export const constants = {
   scanSessions: {
     itemsLoadingCount: 25,
   },
+  poolRacks: {
+    itemsLoadingCount: 25,
+  },
   inventory: {
     itemsLoadingCount: 25,
   },
@@ -25,7 +28,8 @@ export const constants = {
   tubeStatuses: {
     blank: 'BLANK', // default
     missing: 'MISSING',
-    scanned: 'SCANNED',
+    valid: 'VALID',
+    deleted: 'NULL',
     positiveControl: 'POSITIVE_CONTROL',
     negativeControl: 'NEGATIVE_CONTROL',
     pooling: 'POOLING',

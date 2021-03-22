@@ -17,6 +17,7 @@ import {
   fetchSessionById,
   updateSession,
   createSession,
+  closeSession,
 } from 'services/scanSessions';
 import { getSelectedCode } from './selectors';
 import sortBy from 'lodash.sortby';
@@ -57,7 +58,7 @@ export function* callFetchScanSessionById({ payload }) {
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
             ...obj,
-            status: obj?.status.toLowerCase(),
+            status: obj?.status,
           },
         })),
       );
@@ -97,7 +98,13 @@ export function* callFetchScanSessionById({ payload }) {
 
 export function* callUpdateSession({ payload }) {
   try {
-    const response = yield call(updateSession, payload);
+    let response = null;
+
+    if (payload.isSaveSession) {
+      response = yield call(updateSession, payload);
+    } else {
+      response = yield call(closeSession, payload);
+    }
 
     yield put({
       type: actions.UPDATE_SESSION_SUCCESS,
@@ -120,9 +127,15 @@ export function* callUpdateSession({ payload }) {
       type: modalActions.HIDE_MODAL,
     });
 
-    notification.success({
-      message: 'Session updated',
-    });
+    if (payload.isSaveSession) {
+      notification.success({
+        message: 'Session updated',
+      });
+    } else {
+      notification.success({
+        message: 'Session canceled',
+      });
+    }
   } catch (error) {
     yield put({
       type: actions.UPDATE_SESSION_FAILURE,
@@ -148,7 +161,7 @@ export function* callFetchScanById({ payload }) {
           letter: obj?.position?.[0],
           [`col${obj?.position?.[1]}`]: {
             ...obj,
-            status: obj?.status.toLowerCase(),
+            status: obj?.status,
           },
         })),
       );
@@ -180,7 +193,7 @@ export function* callUpdateTube({ payload }) {
     const response = yield call(updateTube, payload);
 
     const poolingTube =
-      response?.data?.status === constants.tubeStatuses.pooling ? true : false;
+      response?.data?.status === constants.tubeStatuses.pooling;
 
     yield put({
       type: actions.UPDATE_TUBE_SUCCESS,
@@ -190,9 +203,10 @@ export function* callUpdateTube({ payload }) {
             letter: response?.data?.position?.[0],
             [`col${response?.data?.position?.[1]}`]: {
               ...response?.data,
-              status: response?.data?.status?.toLowerCase(),
+              status: response?.data?.status,
             },
           },
+          tube: response.data,
           scanId: payload.data.scanId,
           ...(poolingTube ? { pool_id: response?.data?.tube_id } : {}),
         },
@@ -204,10 +218,10 @@ export function* callUpdateTube({ payload }) {
     });
   } catch (error) {
     notification.error({
-      message: 'Something went wrong',
+      message: error?.message ?? 'Something went wrong',
     });
 
-    throw Error(error);
+    return error;
   }
 }
 
@@ -229,11 +243,12 @@ export function* callInvalidateTube({ payload }) {
             letter: response?.data?.position?.[0],
             [`col${response?.data?.position?.[1]}`]: {
               ...response?.data,
-              status: response?.data?.status?.toLowerCase(),
+              status: response?.data?.status,
               color: response?.data?.color,
             },
           },
           scanId: payload.scanId,
+          tube: response.data,
         },
       },
     });
@@ -299,7 +314,12 @@ export function* callDeleteTube({ payload }) {
     yield put({
       type: actions.DELETE_TUBE_SUCCESS,
       payload: {
-        data: { ...response.data },
+        data: {
+          tube: response.data,
+          position: response.data.position,
+          scanId: payload.scanId,
+          tubeId: payload.tubeId,
+        },
       },
     });
 
@@ -307,17 +327,15 @@ export function* callDeleteTube({ payload }) {
       message: 'Tube deleted',
     });
   } catch (error) {
-    const errorData = error.response?.data?.detail ?? null;
-
     yield put({
       type: actions.DELETE_TUBE_FAILURE,
       payload: {
-        data: errorData,
+        data: error.message ?? null,
       },
     });
 
     notification.error({
-      message: errorData ?? 'Failure!',
+      message: error.message ?? 'Failure!',
     });
   }
 }
@@ -361,6 +379,10 @@ export function* callUpdateScan({ payload }) {
       },
     });
 
+    if (payload.callback) {
+      payload.callback();
+    }
+
     yield put({
       type: modalActions.HIDE_MODAL,
     });
@@ -370,13 +392,16 @@ export function* callUpdateScan({ payload }) {
     });
   } catch (error) {
     yield put({
-      type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
-      payload: {
-        error,
-      },
+      type: actions.UPDATE_SCAN_BY_ID_FAILURE,
     });
 
-    throw new Error(error);
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
+    notification.error({
+      message: error.message ?? 'Scan not updated',
+    });
   }
 }
 
@@ -397,12 +422,11 @@ export function* callCancelScan({ payload }) {
   } catch (error) {
     yield put({
       type: actions.CANCEL_SCAN_BY_ID_FAILURE,
-      payload: {
-        error,
-      },
     });
 
-    throw new Error(error);
+    notification.error({
+      message: error.message ?? 'Scan not updated',
+    });
   }
 }
 

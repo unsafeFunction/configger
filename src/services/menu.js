@@ -39,8 +39,8 @@ export async function getMenuData() {
     },
     {
       title: 'Pool Scans',
-      key: 'scanned-pools',
-      url: '/session-pools',
+      key: 'pool-scans',
+      url: '/pool-scans',
       icon: 'fe fe-maximize',
     },
     {
@@ -95,7 +95,7 @@ export async function getRolePermissions() {
         '/barcode-lookup',
         '/intake',
         '/intake-receipt-log',
-        '/session-pools',
+        '/pool-scans',
         '/session',
         '/runs',
         '/pools',
@@ -113,7 +113,7 @@ export async function getRolePermissions() {
         '/barcode-lookup',
         '/intake',
         '/intake-receipt-log',
-        '/session-pools',
+        '/pool-scans',
         '/session',
         '/runs',
         '/pools',

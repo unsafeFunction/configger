@@ -1,11 +1,9 @@
 import axiosClient from 'utils/axiosClient';
 
-export const fetchInventory = async query => {
+export const fetchInventory = async (query) => {
   try {
     const inventory = await axiosClient.get('/inventory/', {
-      params: {
-        ...query,
-      },
+      params: { ...query },
     });
 
     return inventory;
@@ -14,7 +12,7 @@ export const fetchInventory = async query => {
   }
 };
 
-export const createInventoryItem = async data => {
+export const createInventoryItem = async (data) => {
   try {
     const inventoryItem = await axiosClient.post('/inventory/', { ...data });
     return inventoryItem;

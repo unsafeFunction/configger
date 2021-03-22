@@ -28,17 +28,18 @@ const ScanSessions = () => {
 
   const useFetching = () => {
     useEffect(() => {
+      const filteringParams = {
+        limit: constants.scanSessions.itemsLoadingCount,
+        search: searchName,
+      };
+
       const params = dates.length
         ? {
-            date_from: dates[0],
-            date_to: dates[1],
-            limit: constants.scanSessions.itemsLoadingCount,
-            search: searchName,
+            started_on_day_after: dates[0],
+            started_on_day_before: dates[1],
+            ...filteringParams,
           }
-        : {
-            limit: constants.scanSessions.itemsLoadingCount,
-            search: searchName,
-          };
+        : filteringParams;
 
       dispatch({
         type: actions.FETCH_SCAN_SESSIONS_REQUEST,
@@ -56,7 +57,7 @@ const ScanSessions = () => {
   const navigateToScan = useCallback(
     ({ sessionId, scanOrder }) => {
       history.push({
-        pathname: `/session-pools/${sessionId}`,
+        pathname: `/pool-scans/${sessionId}`,
         search: `?scanOrder=${scanOrder}`,
       });
     },
@@ -80,7 +81,7 @@ const ScanSessions = () => {
       },
     },
     {
-      title: 'Pool Count',
+      title: 'Pools Count',
       dataIndex: 'pool_size',
       render: (_, value) => {
         return value?.scans.length || '-';
@@ -88,9 +89,9 @@ const ScanSessions = () => {
     },
     {
       title: `Scanned on`,
-      dataIndex: 'scanned_on',
+      dataIndex: 'started_on_day',
       render: (_, value) => {
-        return moment(value?.started_on_day).format('LLLL') || '-';
+        return moment(value?.started_on_day).format('llll') || '-';
       },
     },
     {
@@ -125,10 +126,11 @@ const ScanSessions = () => {
       offset: scanSessions.offset,
       search: searchName,
     };
+
     const params = dates.length
       ? {
-          date_to: dates[1],
-          date_from: dates[0],
+          started_on_day_after: dates[0],
+          started_on_day_before: dates[1],
           ...filteringParams,
         }
       : filteringParams;
@@ -147,10 +149,11 @@ const ScanSessions = () => {
         limit: constants.scanSessions.itemsLoadingCount,
         search: query,
       };
+
       const params = stateRef.current.length
         ? {
-            date_from: stateRef.current[0],
-            date_to: stateRef.current[1],
+            started_on_day_after: stateRef.current[0],
+            started_on_day_before: stateRef.current[1],
             ...filteringParams,
           }
         : filteringParams;
@@ -188,7 +191,7 @@ const ScanSessions = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Scan Sessions</h4>
+        <h4>Pool Scans</h4>
       </div>
 
       <InfiniteScroll
@@ -203,10 +206,7 @@ const ScanSessions = () => {
           bordered
           loading={!scanSessions?.isLoading}
           align="center"
-          pagination={{
-            pageSize: sessionItems?.length,
-            hideOnSinglePage: true,
-          }}
+          pagination={false}
           rowKey={(record) => record.id}
           expandedRowRender={(record) => {
             return expandedRow(

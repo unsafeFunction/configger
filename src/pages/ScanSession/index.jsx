@@ -12,16 +12,16 @@ import styles from './styles.module.scss';
 const ScanSession = () => {
   const dispatch = useDispatch();
   const { items, total, offset, isLoading } = useSelector(
-    state => state.companies.all,
+    (state) => state.companies.all,
   );
   const { activeSessionId, isLoading: isSessionLoading } = useSelector(
-    state => state.scanSessions.singleSession,
+    (state) => state.scanSessions.singleSession,
   );
   const [value, onValueChange] = useState(null);
 
   const [searchName, setSearchName] = useState('');
 
-  const preparedData = items.map(item => {
+  const preparedData = items.map((item) => {
     return {
       value: item.company_id,
       label: item.name,
@@ -54,7 +54,7 @@ const ScanSession = () => {
     });
   }, [dispatch, value]);
 
-  const onChange = useCallback(value => {
+  const onChange = useCallback((value) => {
     onValueChange(value);
   }, []);
 
@@ -63,14 +63,14 @@ const ScanSession = () => {
       type: companyActions.FETCH_COMPANIES_REQUEST,
       payload: {
         limit: constants.companies.itemsLoadingCount,
-        offset: offset,
+        offset,
         search: searchName,
       },
     });
   }, [dispatch, items, searchName]);
 
   const sendQuery = useCallback(
-    query => {
+    (query) => {
       dispatch({
         type: companyActions.FETCH_COMPANIES_REQUEST,
         payload: {
@@ -83,12 +83,12 @@ const ScanSession = () => {
   );
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
   const onChangeSearch = useCallback(
-    value => {
+    (value) => {
       setSearchName(value);
       return delayedQuery(value);
     },
@@ -115,7 +115,7 @@ const ScanSession = () => {
               overflowX: 'scroll',
             }}
             listHeight={0}
-            dropdownRender={menu => (
+            dropdownRender={(menu) => (
               <InfiniteScroll
                 next={loadMore}
                 hasMore={items.length < total}
@@ -133,7 +133,12 @@ const ScanSession = () => {
           />
         </Col>
         <Col>
-          <Button onClick={startSession} disabled={!value} type="primary">
+          <Button
+            onClick={startSession}
+            disabled={!value}
+            loading={isSessionLoading}
+            type="primary"
+          >
             Start session
           </Button>
         </Col>

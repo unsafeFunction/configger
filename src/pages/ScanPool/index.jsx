@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
-import { Row, Col, Typography, Statistic } from 'antd';
+import { Row, Col, Statistic } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import PoolStatistic from 'components/widgets/Scans/PoolStatistic';
 import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import styles from './styles.module.scss';

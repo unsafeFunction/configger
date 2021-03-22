@@ -60,9 +60,9 @@ const Inventory = () => {
     },
     {
       title: 'Created On',
-      dataIndex: 'created_on',
-      render: (value) => {
-        return moment(value?.started_on_day).format('LLLL') || '-';
+      dataIndex: 'created',
+      render: (_, value) => {
+        return moment(value?.created).format('llll') || '-';
       },
     },
     {
@@ -212,10 +212,7 @@ const Inventory = () => {
           bordered
           loading={inventory?.isLoading}
           align="center"
-          pagination={{
-            pageSize: inventory?.items?.length,
-            hideOnSinglePage: true,
-          }}
+          pagination={false}
         />
       </InfiniteScroll>
     </>

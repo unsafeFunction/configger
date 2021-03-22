@@ -8,7 +8,6 @@ import { SearchOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/racks/actions';
 import moment from 'moment-timezone';
-import sortBy from 'lodash.sortby';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -28,17 +27,18 @@ const RackScans = () => {
 
   const useFetching = () => {
     useEffect(() => {
+      const filteringParams = {
+        limit: constants.poolRacks.itemsLoadingCount,
+        search: searchName,
+      };
+
       const params = dates.length
         ? {
-            date_from: dates[0],
-            date_to: dates[1],
-            limit: constants.scanSessions.itemsLoadingCount,
-            search: searchName,
+            scan_timestamp_after: dates[0],
+            scan_timestamp_before: dates[1],
+            ...filteringParams,
           }
-        : {
-            limit: constants.scanSessions.itemsLoadingCount,
-            search: searchName,
-          };
+        : filteringParams;
 
       dispatch({
         type: actions.FETCH_RACKS_REQUEST,
@@ -68,11 +68,11 @@ const RackScans = () => {
       dataIndex: 'rack_name',
     },
     {
-      title: 'Rack ID',
+      title: 'PoolRack ID',
       dataIndex: 'rack_id',
     },
     {
-      title: 'Scan Pools Count',
+      title: 'Tubes Count',
       dataIndex: 'scan_pools_count',
       render: (value) => {
         return value || '-';
@@ -94,7 +94,7 @@ const RackScans = () => {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
       render: (_, value) => {
-        return moment(value?.started_on_day).format('LLLL') || '-';
+        return moment(value?.scan_timestamp).format('llll') || '-';
       },
     },
     {
@@ -116,14 +116,15 @@ const RackScans = () => {
 
   const loadMore = useCallback(() => {
     const filteringParams = {
-      limit: constants.scanSessions.itemsLoadingCount,
+      limit: constants.poolRacks.itemsLoadingCount,
       offset: racks.offset,
       search: searchName,
     };
+
     const params = dates.length
       ? {
-          date_to: dates[1],
-          date_from: dates[0],
+          scan_timestamp_after: dates[0],
+          scan_timestamp_before: dates[1],
           ...filteringParams,
         }
       : filteringParams;
@@ -139,13 +140,14 @@ const RackScans = () => {
   const sendQuery = useCallback(
     (query) => {
       const filteringParams = {
-        limit: constants.scanSessions.itemsLoadingCount,
+        limit: constants.poolRacks.itemsLoadingCount,
         search: query,
       };
+
       const params = stateRef.current.length
         ? {
-            date_from: stateRef.current[0],
-            date_to: stateRef.current[1],
+            scan_timestamp_after: stateRef.current[0],
+            scan_timestamp_before: stateRef.current[1],
             ...filteringParams,
           }
         : filteringParams;
@@ -197,10 +199,7 @@ const RackScans = () => {
           bordered
           loading={racks?.isLoading}
           align="center"
-          pagination={{
-            pageSize: racksItems?.length,
-            hideOnSinglePage: true,
-          }}
+          pagination={false}
           rowKey={(record) => record.id}
           title={() => (
             <Row gutter={16}>
@@ -212,13 +211,14 @@ const RackScans = () => {
                 xl={{ span: 6, offset: 12 }}
                 xxl={{ span: 7, offset: 12 }}
               >
-                <Input
+                {/* TODO: leave here */}
+                {/* <Input
                   prefix={<SearchOutlined />}
                   placeholder="Search..."
                   value={searchName}
                   onChange={onChangeSearch}
                   className={classNames(styles.tableHeaderItem, styles.search)}
-                />
+                /> */}
               </Col>
               <Col
                 xs={{ span: 24 }}

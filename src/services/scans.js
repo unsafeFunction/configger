@@ -7,21 +7,25 @@ export const fetchScanById = async ({ scanId }) => {
 };
 
 export const updateTube = async ({ id, data }) => {
-  const tube = await axiosClient.patch(`/scans/tubes/${id}/`, {
-    ...data,
-  });
+  try {
+    const tube = await axiosClient.patch(`/scans/tubes/${id}/`, {
+      ...data,
+    });
 
-  return tube;
+    return tube;
+  } catch (error) {
+    throw new Error(error?.response.data);
+  }
 };
 
-export const deleteTube = async ({ record, scanId }) => {
+export const deleteTube = async ({ tubeId, scanId }) => {
   try {
     const tube = await axiosClient.delete(
-      `/scans/tubes/${record.id}/from/${scanId}/`,
+      `/scans/tubes/${tubeId}/from/${scanId}/`,
     );
     return tube;
   } catch (error) {
-    throw error;
+    throw new Error(error?.response?.data.detail);
   }
 };
 
@@ -57,7 +61,7 @@ export const cancelScan = async ({ data, id }) => {
 
     return scan;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error?.response?.data.non_field_errors);
   }
 };
 
@@ -69,6 +73,6 @@ export const updateScan = async ({ data, id }) => {
 
     return scan;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error?.response?.data.non_field_errors);
   }
 };
