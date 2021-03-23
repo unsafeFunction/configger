@@ -15,13 +15,12 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
   const { Item } = Form;
   const { TextArea } = Input;
 
+  const isSampleConditionValueOther =
+    form.getFieldValue('sample_condition') === 'Other';
+
   const handleChangeCommentsVisibility = useCallback(
     (value) => {
-      if (value === 'Other') {
-        setCommentsSelected(true);
-      } else {
-        setCommentsSelected(false);
-      }
+      return setCommentsSelected(value === 'Other');
     },
     [setCommentsSelected],
   );
@@ -37,12 +36,8 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
   }, [company]);
 
   useEffect(() => {
-    if (form.getFieldValue('sample_condition') === 'Other') {
-      setCommentsSelected(true);
-    } else {
-      setCommentsSelected(false);
-    }
-  }, [form]);
+    setCommentsSelected(isSampleConditionValueOther);
+  }, [setCommentsSelected, isSampleConditionValueOther]);
 
   const handleBlurCompany = useCallback((e) => {
     const { target } = e;
