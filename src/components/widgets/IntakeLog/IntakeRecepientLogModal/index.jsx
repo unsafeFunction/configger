@@ -1,14 +1,30 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from 'redux/companies/actions';
-import { Form, Input, Select, InputNumber } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Form, Input, Select, InputNumber, Button } from 'antd';
+import {
+  LoadingOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 import styles from './styles.module.scss';
 
 const IntakeRecepientLogModal = ({ form, edit }) => {
+  const [isCommentsSelected, setCommentsSelected] = useState(false);
   const dispatch = useDispatch();
   const { Item } = Form;
+  const { TextArea } = Input;
 
+  const handleChangeCommentsVisibility = useCallback(
+    (value) => {
+      if (value === 'Other') {
+        setCommentsSelected(true);
+      } else {
+        setCommentsSelected(false);
+      }
+    },
+    [setCommentsSelected],
+  );
   const company = useSelector((state) => state.companies.singleCompany);
 
   useEffect(() => {
@@ -19,6 +35,14 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
       });
     }
   }, [company]);
+
+  useEffect(() => {
+    if (form.getFieldValue('sample_condition') === 'Other') {
+      setCommentsSelected(true);
+    } else {
+      setCommentsSelected(false);
+    }
+  }, [form]);
 
   const handleBlurCompany = useCallback((e) => {
     const { target } = e;
@@ -33,7 +57,11 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
   }, []);
 
   return (
-    <Form form={form} layout="vertical">
+    <Form
+      form={form}
+      layout="vertical"
+      initialValues={{ tracking_numbers: [''] }}
+    >
       <Item
         label="Company ID"
         name="company_id"
@@ -127,6 +155,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
       <Item
         label="Shipping by"
         name="shipment"
+        className={styles.formItem}
         rules={[
           {
             required: true,
@@ -156,9 +185,95 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
         />
       </Item>
 
-      <Item label="Tracking number" name="tracking_number">
-        <Input placeholder="Tracking Number" />
+      <Item
+        label="Sample condition"
+        name="sample_condition"
+        className={styles.formItem}
+        rules={[
+          {
+            required: true,
+            message: 'This field is required',
+          },
+        ]}
+      >
+        <Select
+          placeholder="Sample condition"
+          showArrow
+          onChange={handleChangeCommentsVisibility}
+          showSearch
+          optionFilterProp="label"
+          options={[
+            {
+              label: 'Acceptable',
+              value: 'Acceptable',
+            },
+            {
+              label: 'Unacceptable',
+              value: 'Unacceptable',
+            },
+            {
+              label: 'Other (see Comments)',
+              value: 'Other',
+            },
+          ]}
+        />
       </Item>
+      {isCommentsSelected && (
+        <Item label="Comments" name="comments" className={styles.formItem}>
+          <TextArea placeholder="Comments" />
+        </Item>
+      )}
+
+      <Form.List name="tracking_numbers" className={styles.formItem}>
+        {(fields, { add, remove }, { errors }) => (
+          <>
+            {fields.map((field, index) => (
+              <Item
+                label={index === 0 ? 'Tracking Numbers' : ''}
+                required={false}
+                key={field.key}
+                className={styles.trackingWrapper}
+              >
+                <Item
+                  {...field}
+                  validateTrigger={['onChange', 'onBlur']}
+                  rules={[
+                    {
+                      required: fields.length > 1,
+                      whitespace: true,
+                      message:
+                        'Please input tracking number or delete this field.',
+                    },
+                  ]}
+                  noStyle
+                >
+                  <Input
+                    placeholder="Tracking Number"
+                    style={{ width: fields.length > 1 ? '91%' : '100%' }}
+                  />
+                </Item>
+                {fields.length > 1 ? (
+                  <MinusCircleOutlined
+                    className={styles.dynamicDeleteButton}
+                    onClick={() => remove(field.name)}
+                  />
+                ) : null}
+              </Item>
+            ))}
+            <Item>
+              <Button
+                type="dashed"
+                onClick={() => add()}
+                style={{ width: '100%' }}
+                icon={<PlusOutlined />}
+              >
+                Add tracking number
+              </Button>
+              <Form.ErrorList errors={errors} />
+            </Item>
+          </>
+        )}
+      </Form.List>
     </Form>
   );
 };
