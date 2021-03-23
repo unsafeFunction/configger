@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/intakeReceiptLog/actions';
 import modalActions from 'redux/modal/actions';
-import { Table, Spin, Button, Form } from 'antd';
+import { Table, Button, Form } from 'antd';
 import moment from 'moment-timezone';
 import classNames from 'classnames';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -129,8 +129,25 @@ const IntakeReceiptLog = () => {
       dataIndex: 'shipment',
     },
     {
+      title: 'Sample Condition',
+      dataIndex: 'sample_condition',
+    },
+    {
+      title: 'Comments',
+      dataIndex: 'comments',
+      width: '350px',
+      wordWrap: 'break-word',
+      wordBreak: 'break-word',
+      render: (_, record) => {
+        return record.comments || '-';
+      },
+    },
+    {
       title: 'Tracking Number',
       dataIndex: 'tracking_numbers',
+      wordWrap: 'break-word',
+      wordBreak: 'break-word',
+      width: '150px',
       render: (_, record) => {
         return record.tracking_numbers?.join(', ') || '-';
       },

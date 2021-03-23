@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from 'redux/companies/actions';
 import { Form, Input, Select, InputNumber, Button } from 'antd';
@@ -10,9 +10,21 @@ import {
 import styles from './styles.module.scss';
 
 const IntakeRecepientLogModal = ({ form, edit }) => {
+  const [isCommentsSelected, setCommentsSelected] = useState(false);
   const dispatch = useDispatch();
   const { Item } = Form;
+  const { TextArea } = Input;
 
+  const handleChangeCommentsVisibility = useCallback(
+    (value) => {
+      if (value === 'Other') {
+        setCommentsSelected(true);
+      } else {
+        setCommentsSelected(false);
+      }
+    },
+    [setCommentsSelected],
+  );
   const company = useSelector((state) => state.companies.singleCompany);
 
   useEffect(() => {
@@ -23,6 +35,14 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
       });
     }
   }, [company]);
+
+  useEffect(() => {
+    if (form.getFieldValue('sample_condition') === 'Other') {
+      setCommentsSelected(true);
+    } else {
+      setCommentsSelected(false);
+    }
+  }, [form]);
 
   const handleBlurCompany = useCallback((e) => {
     const { target } = e;
@@ -179,6 +199,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
         <Select
           placeholder="Sample condition"
           showArrow
+          onChange={handleChangeCommentsVisibility}
           showSearch
           optionFilterProp="label"
           options={[
@@ -197,6 +218,11 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
           ]}
         />
       </Item>
+      {isCommentsSelected && (
+        <Item label="Comments" name="comments" className={styles.formItem}>
+          <TextArea placeholder="Comments" />
+        </Item>
+      )}
 
       <Form.List name="tracking_numbers" className={styles.formItem}>
         {(fields, { add, remove }, { errors }) => (
