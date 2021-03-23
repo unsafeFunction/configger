@@ -299,11 +299,18 @@ export function* callCreateSession({ payload }) {
       message: 'Session was created.',
     });
   } catch (error) {
-    notification.error({
-      message: 'Something was wrong',
+    yield put({
+      type: actions.CREATE_SESSION_FAILURE,
+      payload: {
+        poolId: payload.poolId,
+      },
     });
 
-    throw Error(error);
+    notification.error({
+      message: error.message,
+    });
+
+    return error;
   }
 }
 

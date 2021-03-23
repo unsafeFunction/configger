@@ -14,7 +14,7 @@ export const updateTube = async ({ id, data }) => {
 
     return tube;
   } catch (error) {
-    throw new Error(error?.response.data);
+    throw new Error(error?.response?.data.detail);
   }
 };
 

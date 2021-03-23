@@ -8,8 +8,8 @@ import {
   updatePoolResult,
   fetchPools,
 } from 'services/pools';
-import actions from './actions';
 import modalActions from 'redux/modal/actions';
+import actions from './actions';
 
 export function* callLoadPoolsByRunId({ payload }) {
   try {

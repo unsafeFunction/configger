@@ -7,13 +7,15 @@ import { constants } from 'utils/constants';
 import styles from '../styles.module.scss';
 
 const ScanStatistic = ({ scan, isRack }) => {
-  const tubesTotal = scan?.scan_tubes?.filter(
-    (tube) =>
+  const tubesTotal = scan?.scan_tubes?.filter((tube) => {
+    return (
       tube.status !== constants.tubeStatuses.blank &&
       tube.status !== constants.tubeStatuses.missing &&
       tube.status !== constants.tubeStatuses.empty &&
-      tube.status !== constants.tubeStatuses.pooling,
-  )?.length;
+      tube.status !== constants.tubeStatuses.pooling &&
+      tube.status !== constants.tubeStatuses.null
+    );
+  });
 
   return (
     <Row gutter={[24, 16]}>
@@ -62,7 +64,7 @@ const ScanStatistic = ({ scan, isRack }) => {
           <Card className={styles.card}>
             <Statistic
               title="Total Tubes"
-              value={tubesTotal}
+              value={tubesTotal?.length}
               formatter={(value) => <Tag color="cyan">{value || '-'}</Tag>}
               className={classNames(styles.statistic, styles.ellipsis)}
             />

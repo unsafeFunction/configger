@@ -45,7 +45,7 @@ export const createSession = async ({ companyId }) => {
 
     return session;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error?.response?.data.detail);
   }
 };
 
