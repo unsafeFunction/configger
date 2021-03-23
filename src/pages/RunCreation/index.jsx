@@ -11,30 +11,19 @@ moment.tz.setDefault('America/New_York');
 const { Step } = Steps;
 
 const RunCreation = () => {
-  const initialState = {
+  const initialRunState = {
     currentStage: 0,
     // currentStage: 1,
     param1: '1-kingfisher',
     param2: 'duplicate',
-    poolRacks: [
-      {
-        id: '0f6c47ae-c8ca-4b78-bbc0-c2b01582dde0',
-        rack_id: '104803200100179',
-        scan_timestamp: '2021-02-06T20:36:17-05:00',
-      },
-      {
-        id: '94b95603-e613-4655-8e33-2016a93e9662',
-        rack_id: 'ER00030272',
-        scan_timestamp: '2021-02-06T19:51:48-05:00',
-      },
-    ],
+    poolRacks: Array(4).fill({}),
   };
 
-  const reducer = (state, action) => {
+  const reducer = (runState, action) => {
     switch (action.type) {
       case 'setValue':
         return {
-          ...state,
+          ...runState,
           [action.payload.name]: action.payload.value,
         };
       default:
@@ -42,8 +31,8 @@ const RunCreation = () => {
     }
   };
 
-  const [state, componentDispatch] = useReducer(reducer, initialState);
-  // console.log('state', state);
+  const [runState, componentDispatch] = useReducer(reducer, initialRunState);
+  console.log('runState', runState);
 
   const stages = {
     items: [
@@ -66,29 +55,27 @@ const RunCreation = () => {
           // }
         ],
         component: (
-          <Stage1
-            state={state}
-            componentDispatch={componentDispatch}
-            initialValues={initialState}
-          />
+          <Stage1 runState={runState} componentDispatch={componentDispatch} />
         ),
       },
       {
         title: 'PoolRacks',
         data: [],
         component: (
-          <Stage2 state={state} componentDispatch={componentDispatch} />
+          <Stage2 runState={runState} componentDispatch={componentDispatch} />
         ),
       },
       {
         title: 'Download',
         data: [],
-        component: <Stage3 />,
+        component: (
+          <Stage3 runState={runState} componentDispatch={componentDispatch} />
+        ),
       },
     ],
   };
 
-  const handleStageChange = current => {
+  const handleStageChange = (current) => {
     componentDispatch({
       type: 'setValue',
       payload: {
@@ -106,11 +93,11 @@ const RunCreation = () => {
 
       <div className={styles.stages}>
         <Steps
-          current={state.currentStage}
+          current={runState.currentStage}
           size="small"
           onChange={handleStageChange}
+          // direction="vertical"
         >
-          {/* <Steps current={state.currentStage} onChange={handleStageChange} direction="vertical"> */}
           {stages.items.map((stage, stageIdx) => (
             <Step
               title={stage.title}
@@ -132,7 +119,7 @@ const RunCreation = () => {
         <Divider />
       </div>
 
-      {stages.items[state.currentStage].component}
+      {stages.items[runState.currentStage].component}
     </>
   );
 };

@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { Form, Button, Radio, Typography } from 'antd';
+import { Form, Button, Radio } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
-const Stage1 = ({ state, componentDispatch, initialValues }) => {
+const Stage1 = ({ runState, componentDispatch }) => {
   const [form] = Form.useForm();
 
   const layout = {
@@ -14,32 +14,56 @@ const Stage1 = ({ state, componentDispatch, initialValues }) => {
     xxl: { span: 8, offset: 8 },
   };
 
-  const handleChange = useCallback(e => {
+  const handleChange = useCallback((e) => {
+    const { target } = e;
+
     componentDispatch({
       type: 'setValue',
       payload: {
-        name: e.target.name,
-        value: e.target.value,
+        name: target.name,
+        value: target.value,
       },
     });
 
-    if (e.target.name === 'param1' && e.target.value === '2-kingfisher') {
-      form.setFieldsValue({
-        param2: 'duplicate',
-      });
+    if (target.name === 'param1') {
+      if (target.value === '1-kingfisher') {
+        componentDispatch({
+          type: 'setValue',
+          payload: {
+            name: 'poolRacks',
+            value: Array(2).fill({}),
+          },
+        });
+      } else if (target.value === '2-kingfisher') {
+        componentDispatch({
+          type: 'setValue',
+          payload: {
+            name: 'poolRacks',
+            value: Array(4).fill({}),
+          },
+        });
 
-      componentDispatch({
-        type: 'setValue',
-        payload: {
-          name: 'param2',
-          value: 'duplicate',
-        },
-      });
+        form.setFieldsValue({ param2: 'duplicate' });
+
+        componentDispatch({
+          type: 'setValue',
+          payload: {
+            name: 'param2',
+            value: 'duplicate',
+          },
+        });
+      }
     }
   }, []);
 
-  const onSubmit = useCallback(values => {
-    // console.log('Stage 1 values', values);
+  const onSubmit = useCallback((values) => {
+    componentDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'currentStage',
+        value: 1,
+      },
+    });
   }, []);
 
   return (
@@ -48,8 +72,8 @@ const Stage1 = ({ state, componentDispatch, initialValues }) => {
         form={form}
         layout="vertical"
         initialValues={{
-          param1: initialValues.param1,
-          param2: initialValues.param2,
+          param1: runState.param1,
+          param2: runState.param2,
         }}
         size="large"
         onFinish={onSubmit}
@@ -69,6 +93,7 @@ const Stage1 = ({ state, componentDispatch, initialValues }) => {
             name="param1"
             onChange={handleChange}
             className={styles.radioGroup}
+            buttonStyle="solid"
           >
             <Radio.Button value="1-kingfisher" className={styles.radio}>
               1 KingFisher Plate
@@ -91,6 +116,7 @@ const Stage1 = ({ state, componentDispatch, initialValues }) => {
             name="param2"
             onChange={handleChange}
             className={styles.radioGroup}
+            buttonStyle="solid"
           >
             <Radio.Button value="duplicate" className={styles.radio}>
               Duplicate
@@ -98,7 +124,7 @@ const Stage1 = ({ state, componentDispatch, initialValues }) => {
             <Radio.Button
               value="tri-plicate"
               className={styles.radio}
-              disabled={state.param1 === '2-kingfisher' ? true : false}
+              disabled={runState.param1 === '2-kingfisher' ? true : false}
             >
               Triplicate
             </Radio.Button>
@@ -110,7 +136,6 @@ const Stage1 = ({ state, componentDispatch, initialValues }) => {
             type="primary"
             size="large"
             htmlType="submit"
-            // loading={}
             className="w-100"
           >
             Сontinue
@@ -122,9 +147,8 @@ const Stage1 = ({ state, componentDispatch, initialValues }) => {
 };
 
 Stage1.propTypes = {
-  state: PropTypes.object.isRequired,
+  runState: PropTypes.object.isRequired,
   componentDispatch: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired,
 };
 
 export default Stage1;

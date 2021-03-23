@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Checkbox, Button } from 'antd';
+import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
-const Stage3 = () => {
+const Stage3 = ({ runState, componentDispatch }) => {
   const { Item } = Form;
 
   const layout = {
@@ -47,6 +48,11 @@ const Stage3 = () => {
       </Item>
     </Form>
   );
+};
+
+Stage3.propTypes = {
+  runState: PropTypes.object.isRequired,
+  componentDispatch: PropTypes.func.isRequired,
 };
 
 export default Stage3;

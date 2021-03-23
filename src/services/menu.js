@@ -71,7 +71,7 @@ export async function getMenuData() {
       title: 'Generate Run',
       key: 'runCreation',
       url: '/run-creation',
-      icon: 'fe fe-droplet',
+      icon: 'fe fe-layers',
     },
     {
       title: 'Email Support',
