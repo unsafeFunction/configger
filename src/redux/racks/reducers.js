@@ -57,14 +57,21 @@ const rack = (state = initialState, action) => {
     case actions.GET_RACK_REQUEST: {
       return {
         ...state,
+        items: [],
         isLoading: true,
-        search: action.payload.search,
       };
     }
     case actions.GET_RACK_SUCCESS: {
       return {
         isLoading: false,
         ...action.payload,
+      };
+    }
+    case actions.GET_RACK_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.error,
       };
     }
     case actions.UPDATE_RACK_REQUEST: {
@@ -117,13 +124,6 @@ const rack = (state = initialState, action) => {
           }
           return item;
         }),
-      };
-    }
-    case actions.GET_RACK_FAILURE: {
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload.error,
       };
     }
     case actions.RACK_DATA_CHANGE: {
