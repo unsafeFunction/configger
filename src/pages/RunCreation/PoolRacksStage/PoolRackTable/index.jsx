@@ -20,11 +20,12 @@ const PoolRackTable = ({ setPoolRack, runState }) => {
   const [searchName, setSearchName] = useState('');
   const [dates, setDates] = useState([]);
 
-  useEffect(() => {
-    setPoolRack({});
-  }, []);
-
   const poolRacks = useSelector((state) => state.racks.racks);
+
+  const dateParams = {
+    scan_timestamp_after: dates[0],
+    scan_timestamp_before: dates[1],
+  };
 
   const useFetching = () => {
     useEffect(() => {
@@ -35,8 +36,7 @@ const PoolRackTable = ({ setPoolRack, runState }) => {
 
       const params = dates.length
         ? {
-            scan_timestamp_after: dates[0],
-            scan_timestamp_before: dates[1],
+            ...dateParams,
             ...filteringParams,
           }
         : filteringParams;
@@ -61,8 +61,7 @@ const PoolRackTable = ({ setPoolRack, runState }) => {
 
     const params = dates.length
       ? {
-          scan_timestamp_after: dates[0],
-          scan_timestamp_before: dates[1],
+          ...dateParams,
           ...filteringParams,
         }
       : filteringParams;
@@ -117,9 +116,12 @@ const PoolRackTable = ({ setPoolRack, runState }) => {
   //   [delayedQuery],
   // );
 
-  const onDatesChange = useCallback((dates, dateStrings) => {
-    return dates ? setDates(dateStrings) : setDates([]);
-  }, []);
+  const onDatesChange = useCallback(
+    (dates, dateStrings) => {
+      return setDates(dates ? dateStrings : []);
+    },
+    [setDates],
+  );
 
   const columns = [
     {
@@ -138,7 +140,7 @@ const PoolRackTable = ({ setPoolRack, runState }) => {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
       render: (_, value) => {
-        return moment(value?.scan_timestamp).format('llll') || '-';
+        return moment(value?.scan_timestamp).format('llll') ?? '-';
       },
     },
     {
@@ -245,7 +247,7 @@ const PoolRackTable = ({ setPoolRack, runState }) => {
 
 PoolRackTable.propTypes = {
   setPoolRack: PropTypes.func.isRequired,
-  runState: PropTypes.object.isRequired,
+  runState: PropTypes.shape({}).isRequired,
 };
 
 export default PoolRackTable;

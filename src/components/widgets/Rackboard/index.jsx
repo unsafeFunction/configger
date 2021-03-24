@@ -291,7 +291,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
 };
 
 Rackboard.propTypes = {
-  rackboard: PropTypes.object,
+  rackboard: PropTypes.shape({}),
 };
 
 export default Rackboard;

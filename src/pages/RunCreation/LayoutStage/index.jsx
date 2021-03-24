@@ -1,33 +1,25 @@
 import React, { useCallback } from 'react';
 import { Form, Button, Radio } from 'antd';
 import PropTypes from 'prop-types';
+import { layout } from './utils';
+import { rules } from 'utils/rules';
 import styles from './styles.module.scss';
 
-const Stage1 = ({ runState, componentDispatch }) => {
+const LayoutStage = ({ runState, componentDispatch }) => {
+  const { kfpParam, qntParam } = runState;
+
   const [form] = Form.useForm();
 
-  const layout = {
-    xs: { span: 24 },
-    sm: { span: 16, offset: 4 },
-    md: { span: 18, offset: 2 },
-    lg: { span: 14, offset: 5 },
-    xl: { span: 10, offset: 7 },
-    xxl: { span: 8, offset: 8 },
-  };
-
   const handleChange = useCallback((e) => {
-    const { target } = e;
+    const { value, name } = e.target;
 
     componentDispatch({
       type: 'setValue',
-      payload: {
-        name: target.name,
-        value: target.value,
-      },
+      payload: { name, value },
     });
 
-    if (target.name === 'param1') {
-      if (target.value === '1-kingfisher') {
+    if (name === 'kfpParam') {
+      if (value === '1-kingfisher') {
         componentDispatch({
           type: 'setValue',
           payload: {
@@ -35,7 +27,7 @@ const Stage1 = ({ runState, componentDispatch }) => {
             value: Array(2).fill({}),
           },
         });
-      } else if (target.value === '2-kingfisher') {
+      } else if (value === '2-kingfisher') {
         componentDispatch({
           type: 'setValue',
           payload: {
@@ -44,12 +36,12 @@ const Stage1 = ({ runState, componentDispatch }) => {
           },
         });
 
-        form.setFieldsValue({ param2: 'duplicate' });
+        form.setFieldsValue({ qntParam: 'duplicate' });
 
         componentDispatch({
           type: 'setValue',
           payload: {
-            name: 'param2',
+            name: 'qntParam',
             value: 'duplicate',
           },
         });
@@ -72,26 +64,15 @@ const Stage1 = ({ runState, componentDispatch }) => {
       <Form
         form={form}
         layout="vertical"
-        initialValues={{
-          param1: runState.param1,
-          param2: runState.param2,
-        }}
+        initialValues={{ kfpParam, qntParam }}
         size="large"
         onFinish={onSubmit}
         labelCol={layout}
         wrapperCol={layout}
       >
-        <Form.Item
-          name="param1"
-          rules={[
-            {
-              required: true,
-              message: 'Required',
-            },
-          ]}
-        >
+        <Form.Item name="kfpParam" rules={[rules.required]}>
           <Radio.Group
-            name="param1"
+            name="kfpParam"
             onChange={handleChange}
             className={styles.radioGroup}
             buttonStyle="solid"
@@ -104,17 +85,9 @@ const Stage1 = ({ runState, componentDispatch }) => {
             </Radio.Button>
           </Radio.Group>
         </Form.Item>
-        <Form.Item
-          name="param2"
-          rules={[
-            {
-              required: true,
-              message: 'Required',
-            },
-          ]}
-        >
+        <Form.Item name="qntParam" rules={[rules.required]}>
           <Radio.Group
-            name="param2"
+            name="qntParam"
             onChange={handleChange}
             className={styles.radioGroup}
             buttonStyle="solid"
@@ -125,7 +98,7 @@ const Stage1 = ({ runState, componentDispatch }) => {
             <Radio.Button
               value="tri-plicate"
               className={styles.radio}
-              disabled={runState.param1 === '2-kingfisher' ? true : false}
+              disabled={kfpParam === '2-kingfisher'}
             >
               Triplicate
             </Radio.Button>
@@ -147,9 +120,9 @@ const Stage1 = ({ runState, componentDispatch }) => {
   );
 };
 
-Stage1.propTypes = {
-  runState: PropTypes.object.isRequired,
+LayoutStage.propTypes = {
+  runState: PropTypes.shape({}).isRequired,
   componentDispatch: PropTypes.func.isRequired,
 };
 
-export default Stage1;
+export default LayoutStage;

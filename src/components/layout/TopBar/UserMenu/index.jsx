@@ -29,9 +29,9 @@ const ProfileMenu = ({ dispatch, history }) => {
   };
 
   const { first_name, last_name, role } = useSelector(
-    state => state.user.profile,
+    (state) => state.user.profile,
   );
-  const hijack = useSelector(state => state.hijack);
+  const hijack = useSelector((state) => state.hijack);
 
   const menu = (
     <Menu selectable={false}>
@@ -58,7 +58,7 @@ const ProfileMenu = ({ dispatch, history }) => {
 
 ProfileMenu.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 
 export default ProfileMenu;

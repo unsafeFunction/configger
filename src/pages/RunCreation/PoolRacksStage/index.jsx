@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import { Row, Col, Card, Typography } from 'antd';
@@ -6,14 +7,13 @@ import { EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment-timezone';
 import PoolRackTable from './PoolRackTable';
 import PoolRack from './PoolRack';
-import isEmpty from 'lodash.isempty';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
 const { Text } = Typography;
 
-const Stage2 = ({ runState, componentDispatch }) => {
+const PoolRacksStage = ({ runState, componentDispatch }) => {
   const dispatch = useDispatch();
 
   const [selectedPoolRack, setPoolRack] = useState({});
@@ -36,6 +36,8 @@ const Stage2 = ({ runState, componentDispatch }) => {
     });
 
     dispatch({ type: modalActions.HIDE_MODAL });
+
+    setPoolRack({});
   }, []);
 
   const removePoolRack = useCallback((poolRackPosition, runState) => {
@@ -51,6 +53,10 @@ const Stage2 = ({ runState, componentDispatch }) => {
     });
   }, []);
 
+  const handleReset = useCallback(() => {
+    setPoolRack({});
+  }, []);
+
   const handleModalTable = useCallback(
     (poolRackPosition, runState) => {
       dispatch({
@@ -63,14 +69,12 @@ const Stage2 = ({ runState, componentDispatch }) => {
             overflow: 'scroll',
           },
           okText: 'Continue',
-          // okButtonProps: {
-          //   disabled: isEmpty(stateRef.current),
-          // },
           onOk: () => addPoolRack(stateRef.current, poolRackPosition, runState),
           message: () => (
             <PoolRackTable setPoolRack={setPoolRack} runState={runState} />
           ),
           width: '100%',
+          onCancel: handleReset,
         },
       });
     },
@@ -116,17 +120,15 @@ const Stage2 = ({ runState, componentDispatch }) => {
                 <EyeOutlined
                   key="view"
                   onClick={() =>
-                    !isEmpty(poolRack) && handleModalPoolRack(poolRack.id)
+                    poolRack.id && handleModalPoolRack(poolRack.id)
                   }
                 />,
                 <DeleteOutlined
                   key="remove"
-                  onClick={() =>
-                    !isEmpty(poolRack) && removePoolRack(index, runState)
-                  }
+                  onClick={() => poolRack.id && removePoolRack(index, runState)}
                 />,
               ]}
-              className={!isEmpty(poolRack) && styles.filled}
+              className={poolRack.id && styles.filled}
             >
               <p>
                 <Text type="secondary">PoolRack ID: </Text>
@@ -149,4 +151,9 @@ const Stage2 = ({ runState, componentDispatch }) => {
   );
 };
 
-export default Stage2;
+PoolRacksStage.propTypes = {
+  runState: PropTypes.shape({}).isRequired,
+  componentDispatch: PropTypes.func.isRequired,
+};
+
+export default PoolRacksStage;

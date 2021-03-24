@@ -56,7 +56,7 @@ const SubBar = ({ location }) => {
 };
 
 SubBar.propTypes = {
-  location: PropTypes.object.isRequired,
+  location: PropTypes.shape({}).isRequired,
 };
 
 export default SubBar;
