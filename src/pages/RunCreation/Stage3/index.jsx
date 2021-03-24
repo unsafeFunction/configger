@@ -10,8 +10,7 @@ const Stage3 = ({ runState, componentDispatch }) => {
   const layout = {
     xs: { span: 24 },
     sm: { span: 14, offset: 5 },
-    md: { span: 12, offset: 6 },
-    lg: { span: 10, offset: 7 },
+    lg: { span: 12, offset: 6 },
     xxl: { span: 8, offset: 8 },
   };
 
