@@ -44,36 +44,18 @@ const RunCreation = () => {
     items: [
       {
         title: 'Layout',
-        // data: [
-        //   {
-        //     title: 'Company',
-        //     value: 'Some Name',
-        //   },
-        //   {
-        //     title: 'Company ID',
-        //     value: '123456789',
-        //     id: 'text',
-        //   },
-        //   {
-        //     title: 'Scan Date & Time',
-        //     value: 2020-12-12,
-        //     id: 'company_date',
-        //   }
-        // ],
         component: (
           <Stage1 runState={runState} componentDispatch={componentDispatch} />
         ),
       },
       {
         title: 'PoolRacks',
-        // data: [],
         component: (
           <Stage2 runState={runState} componentDispatch={componentDispatch} />
         ),
       },
       {
         title: 'Download',
-        // data: [],
         component: (
           <Stage3 runState={runState} componentDispatch={componentDispatch} />
         ),
@@ -115,31 +97,8 @@ const RunCreation = () => {
           onChange={handleStageChange}
           // direction="vertical"
         >
-          {stages.items.map((stage, stageIdx) => (
-            <Step
-              title={stage.title}
-              key={stage.title}
-              // description={
-              //   <div>
-              //     {step.data.map((info) => (
-              //       <p>
-              //         {info.title}
-              //         <span
-              //           className={`ml-3 ${
-              //             stepIdx !== searchMock.current
-              //               ? 'text-muted'
-              //               : 'text-primary'
-              //           }`}
-              //         >
-              //           {info.id === 'company_date'
-              //             ? moment(info.value).format('YYYY-MM-DD')
-              //             : info.value}
-              //         </span>
-              //       </p>
-              //     ))}
-              //   </div>
-              // }
-            />
+          {stages.items.map((stage) => (
+            <Step title={stage.title} key={stage.title} />
           ))}
         </Steps>
         <Divider />
