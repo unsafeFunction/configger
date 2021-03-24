@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
-import { Steps, Divider } from 'antd';
+import { Steps, Divider, Button } from 'antd';
 import moment from 'moment-timezone';
+import classNames from 'classnames';
 import Stage1 from './Stage1';
 import Stage2 from './Stage2';
 import Stage3 from './Stage3';
@@ -16,7 +17,7 @@ const RunCreation = () => {
     // currentStage: 1,
     param1: '1-kingfisher',
     param2: 'duplicate',
-    poolRacks: Array(4).fill({}),
+    poolRacks: Array(2).fill({}),
   };
 
   const reducer = (runState, action) => {
@@ -25,6 +26,11 @@ const RunCreation = () => {
         return {
           ...runState,
           [action.payload.name]: action.payload.value,
+        };
+      case 'reset':
+        return {
+          ...runState,
+          ...initialRunState,
         };
       default:
         throw new Error();
@@ -38,36 +44,36 @@ const RunCreation = () => {
     items: [
       {
         title: 'Layout',
-        data: [
-          // {
-          //   title: 'Company',
-          //   value: 'Some Name',
-          // },
-          // {
-          //   title: 'Company ID',
-          //   value: '123456789',
-          //   id: 'text',
-          // },
-          // {
-          //   title: 'Scan Date & Time',
-          //   value: 2020-12-12,
-          //   id: 'company_date',
-          // }
-        ],
+        // data: [
+        //   {
+        //     title: 'Company',
+        //     value: 'Some Name',
+        //   },
+        //   {
+        //     title: 'Company ID',
+        //     value: '123456789',
+        //     id: 'text',
+        //   },
+        //   {
+        //     title: 'Scan Date & Time',
+        //     value: 2020-12-12,
+        //     id: 'company_date',
+        //   }
+        // ],
         component: (
           <Stage1 runState={runState} componentDispatch={componentDispatch} />
         ),
       },
       {
         title: 'PoolRacks',
-        data: [],
+        // data: [],
         component: (
           <Stage2 runState={runState} componentDispatch={componentDispatch} />
         ),
       },
       {
         title: 'Download',
-        data: [],
+        // data: [],
         component: (
           <Stage3 runState={runState} componentDispatch={componentDispatch} />
         ),
@@ -87,8 +93,19 @@ const RunCreation = () => {
 
   return (
     <>
-      <div className="air__utils__heading">
+      <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Generate Run</h4>
+        <Button
+          type="primary"
+          onClick={() =>
+            componentDispatch({
+              type: 'reset',
+            })
+          }
+          className="mb-2"
+        >
+          New Run
+        </Button>
       </div>
 
       <div className={styles.stages}>
@@ -102,17 +119,26 @@ const RunCreation = () => {
             <Step
               title={stage.title}
               key={stage.title}
-              // description={(
+              // description={
               //   <div>
               //     {step.data.map((info) => (
               //       <p>
-              //       {info.title}<span className={`ml-3 ${stepIdx !== searchMock.current ? 'text-muted' : 'text-primary' }`}>
-              //         {info.id === 'company_date' ? moment(info.value).format('YYYY-MM-DD') : info.value}
-              //       </span>
+              //         {info.title}
+              //         <span
+              //           className={`ml-3 ${
+              //             stepIdx !== searchMock.current
+              //               ? 'text-muted'
+              //               : 'text-primary'
+              //           }`}
+              //         >
+              //           {info.id === 'company_date'
+              //             ? moment(info.value).format('YYYY-MM-DD')
+              //             : info.value}
+              //         </span>
               //       </p>
               //     ))}
               //   </div>
-              // )}
+              // }
             />
           ))}
         </Steps>

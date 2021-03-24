@@ -57,11 +57,11 @@ const PoolRackTable = ({ loadMore, onDatesChange, setPoolRack, runState }) => {
     },
     getCheckboxProps: (record) => ({
       // TODO: rewrite
-      // disabled:
-      //   record.id === runState.poolRacks[0].id ||
-      //   record.id === runState.poolRacks[1].id ||
-      //   record.id === runState.poolRacks[2].id ||
-      //   record.id === runState.poolRacks[3].id,
+      disabled:
+        record.id === runState.poolRacks?.[0]?.id ||
+        record.id === runState.poolRacks?.[1]?.id ||
+        record.id === runState.poolRacks?.[2]?.id ||
+        record.id === runState.poolRacks?.[3]?.id,
     }),
   };
 
