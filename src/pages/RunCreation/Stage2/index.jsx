@@ -1,11 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import poolRackActions from 'redux/racks/actions';
 import modalActions from 'redux/modal/actions';
 import { Row, Col, Card, Typography } from 'antd';
 import { EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment-timezone';
-import { constants } from 'utils/constants';
 import PoolRackTable from './PoolRackTable';
 import PoolRack from './PoolRack';
 import isEmpty from 'lodash.isempty';
@@ -18,150 +16,14 @@ const { Text } = Typography;
 const Stage2 = ({ runState, componentDispatch }) => {
   const dispatch = useDispatch();
 
-  const [searchName, setSearchName] = useState('');
-  const [dates, setDates] = useState([]);
   const [selectedPoolRack, setPoolRack] = useState({});
-  // console.log('SELECTED POOLRACK', selectedPoolRack);
   // TODO: leave ref here
   const stateRef = useRef();
   stateRef.current = selectedPoolRack;
 
   const poolRacks = useSelector((state) => state.racks.racks);
 
-  const useFetching = () => {
-    useEffect(() => {
-      const filteringParams = {
-        limit: constants.poolRacks.itemsLoadingCount,
-        search: searchName,
-      };
-
-      const params = dates.length
-        ? {
-            scan_timestamp_after: dates[0],
-            scan_timestamp_before: dates[1],
-            ...filteringParams,
-          }
-        : filteringParams;
-
-      dispatch({
-        type: poolRackActions.FETCH_RACKS_REQUEST,
-        payload: {
-          ...params,
-        },
-      });
-    }, [dates]);
-  };
-
-  useFetching();
-
-  const loadMore = useCallback(() => {
-    const filteringParams = {
-      limit: constants.poolRacks.itemsLoadingCount,
-      offset: poolRacks.offset,
-      search: searchName,
-    };
-
-    const params = dates.length
-      ? {
-          scan_timestamp_after: dates[0],
-          scan_timestamp_before: dates[1],
-          ...filteringParams,
-        }
-      : filteringParams;
-
-    return dispatch({
-      type: poolRackActions.FETCH_RACKS_REQUEST,
-      payload: {
-        ...params,
-      },
-    });
-  }, [dispatch, poolRacks, searchName, dates]);
-
-  // TODO: leave here
-  // const sendQuery = useCallback(
-  //   (query) => {
-  //     const filteringParams = {
-  //       limit: constants.poolRacks.itemsLoadingCount,
-  //       search: query,
-  //     };
-
-  //     const params = stateRef.current.length
-  //       ? {
-  //           scan_timestamp_after: stateRef.current[0],
-  //           scan_timestamp_before: stateRef.current[1],
-  //           ...filteringParams,
-  //         }
-  //       : filteringParams;
-
-  //     return dispatch({
-  //       type: actions.FETCH_RACKS_REQUEST,
-  //       payload: {
-  //         ...params,
-  //       },
-  //     });
-  //   },
-  //   [dispatch],
-  // );
-
-  // const delayedQuery = useCallback(
-  //   debounce((q) => sendQuery(q), 500),
-  //   [],
-  // );
-
-  // const onChangeSearch = useCallback(
-  //   (e) => {
-  //     const { target } = e;
-
-  //     setSearchName(target.value);
-
-  //     return delayedQuery(target.value);
-  //   },
-  //   [delayedQuery],
-  // );
-
-  const onDatesChange = useCallback((dates, dateStrings) => {
-    return dates ? setDates(dateStrings) : setDates([]);
-  }, []);
-
-  const handleModalTable = useCallback(
-    (poolRackPosition, runState) => {
-      dispatch({
-        type: modalActions.SHOW_MODAL,
-        modalType: 'COMPLIANCE_MODAL',
-        modalProps: {
-          title: 'Select PoolRack',
-          bodyStyle: {
-            maxHeight: '70vh',
-            overflow: 'scroll',
-          },
-          okText: 'Continue',
-          // okButtonProps: {
-          //   disabled: isEmpty(stateRef.current),
-          // },
-          onOk: () => addPoolRack(stateRef.current, poolRackPosition, runState),
-          message: () => (
-            <PoolRackTable
-              loadMore={loadMore}
-              onDatesChange={onDatesChange}
-              setPoolRack={setPoolRack}
-              runState={runState}
-            />
-          ),
-          width: '100%',
-        },
-      });
-    },
-    [dispatch, poolRacks, selectedPoolRack],
-  );
-
   const addPoolRack = useCallback((poolRack, poolRackPosition, runState) => {
-    // console.log(
-    //   'HERE ADD POOL RACK / SELECTED POOL RACK AND POSITION AND RUN STATE',
-    //   poolRack,
-    //   poolRackPosition,
-    //   runState,
-    // );
-
     const poolRacks = [...runState.poolRacks];
     poolRacks.splice(poolRackPosition, 1, poolRack);
 
@@ -188,6 +50,32 @@ const Stage2 = ({ runState, componentDispatch }) => {
       },
     });
   }, []);
+
+  const handleModalTable = useCallback(
+    (poolRackPosition, runState) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Select PoolRack',
+          bodyStyle: {
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          },
+          okText: 'Continue',
+          // okButtonProps: {
+          //   disabled: isEmpty(stateRef.current),
+          // },
+          onOk: () => addPoolRack(stateRef.current, poolRackPosition, runState),
+          message: () => (
+            <PoolRackTable setPoolRack={setPoolRack} runState={runState} />
+          ),
+          width: '100%',
+        },
+      });
+    },
+    [dispatch, poolRacks, selectedPoolRack, addPoolRack],
+  );
 
   const handleModalPoolRack = useCallback(
     (poolRackId) => {

@@ -1,25 +1,125 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import poolRackActions from 'redux/racks/actions';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Row, Col, Table, Spin, Tag, Button, Input, DatePicker } from 'antd';
 import { EyeOutlined, SearchOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import moment from 'moment-timezone';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
 const { RangePicker } = DatePicker;
 
-const PoolRackTable = ({ loadMore, onDatesChange, setPoolRack, runState }) => {
+const PoolRackTable = ({ setPoolRack, runState }) => {
   const dispatch = useDispatch();
+
+  const [searchName, setSearchName] = useState('');
+  const [dates, setDates] = useState([]);
 
   useEffect(() => {
     setPoolRack({});
   }, []);
 
   const poolRacks = useSelector((state) => state.racks.racks);
+
+  const useFetching = () => {
+    useEffect(() => {
+      const filteringParams = {
+        limit: constants.poolRacks.itemsLoadingCount,
+        search: searchName,
+      };
+
+      const params = dates.length
+        ? {
+            scan_timestamp_after: dates[0],
+            scan_timestamp_before: dates[1],
+            ...filteringParams,
+          }
+        : filteringParams;
+
+      dispatch({
+        type: poolRackActions.FETCH_RACKS_REQUEST,
+        payload: {
+          ...params,
+        },
+      });
+    }, [dates]);
+  };
+
+  useFetching();
+
+  const loadMore = useCallback(() => {
+    const filteringParams = {
+      limit: constants.poolRacks.itemsLoadingCount,
+      offset: poolRacks.offset,
+      search: searchName,
+    };
+
+    const params = dates.length
+      ? {
+          scan_timestamp_after: dates[0],
+          scan_timestamp_before: dates[1],
+          ...filteringParams,
+        }
+      : filteringParams;
+
+    return dispatch({
+      type: poolRackActions.FETCH_RACKS_REQUEST,
+      payload: {
+        ...params,
+      },
+    });
+  }, [dispatch, poolRacks, searchName, dates]);
+
+  // TODO: leave here
+  // const sendQuery = useCallback(
+  //   (query) => {
+  //     const filteringParams = {
+  //       limit: constants.poolRacks.itemsLoadingCount,
+  //       search: query,
+  //     };
+
+  //     const params = stateRef.current.length
+  //       ? {
+  //           scan_timestamp_after: stateRef.current[0],
+  //           scan_timestamp_before: stateRef.current[1],
+  //           ...filteringParams,
+  //         }
+  //       : filteringParams;
+
+  //     return dispatch({
+  //       type: actions.FETCH_RACKS_REQUEST,
+  //       payload: {
+  //         ...params,
+  //       },
+  //     });
+  //   },
+  //   [dispatch],
+  // );
+
+  // const delayedQuery = useCallback(
+  //   debounce((q) => sendQuery(q), 500),
+  //   [],
+  // );
+
+  // const onChangeSearch = useCallback(
+  //   (e) => {
+  //     const { target } = e;
+
+  //     setSearchName(target.value);
+
+  //     return delayedQuery(target.value);
+  //   },
+  //   [delayedQuery],
+  // );
+
+  const onDatesChange = useCallback((dates, dateStrings) => {
+    return dates ? setDates(dateStrings) : setDates([]);
+  }, []);
 
   const columns = [
     {
@@ -47,7 +147,8 @@ const PoolRackTable = ({ loadMore, onDatesChange, setPoolRack, runState }) => {
     },
     {
       title: 'Actions',
-      render: (_, record) => <Button type="link">View plate</Button>,
+      // TODO: leave here
+      // render: (_, record) => <Button type="link">View plate</Button>,
     },
   ];
 
@@ -84,18 +185,12 @@ const PoolRackTable = ({ loadMore, onDatesChange, setPoolRack, runState }) => {
             ...rowSelection,
           }}
           columns={columns}
-          // TODO: leave here
-          // dataSource={poolRacks.items}
-          dataSource={poolRacks.items.map?.((poolRack, index) => ({
-            ...poolRack,
-            key: poolRack.id + index,
-          }))}
-          // loading={poolRacks.isLoading}
+          dataSource={poolRacks.items}
+          loading={poolRacks.isLoading}
           pagination={false}
           scroll={{ x: 'max-content' }}
           bordered
-          // TODO: leave here
-          // rowKey={(record) => record.id}
+          rowKey={(record) => record.id}
           title={() => (
             <Row gutter={16}>
               <Col
@@ -149,8 +244,6 @@ const PoolRackTable = ({ loadMore, onDatesChange, setPoolRack, runState }) => {
 };
 
 PoolRackTable.propTypes = {
-  loadMore: PropTypes.func.isRequired,
-  onDatesChange: PropTypes.func.isRequired,
   setPoolRack: PropTypes.func.isRequired,
   runState: PropTypes.object.isRequired,
 };

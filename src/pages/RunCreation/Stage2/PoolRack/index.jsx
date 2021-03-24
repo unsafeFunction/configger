@@ -13,7 +13,7 @@ const { Text } = Typography;
 const PoolRack = ({ poolRackId }) => {
   const dispatch = useDispatch();
 
-  const poolRack = useSelector(state => state.racks.singleRack);
+  const poolRack = useSelector((state) => state.racks.singleRack);
 
   const useFetching = () => {
     useEffect(() => {
@@ -66,10 +66,10 @@ const PoolRack = ({ poolRackId }) => {
     <>
       <Row gutter={[40, 56]} justify="center">
         <Col xs={24} lg={12}>
-          <Typography.Title level={5}>
+          {/* <Typography.Title level={5}>
             PoolRack ID: ER00009784
           </Typography.Title>
-          <Typography.Title level={5}>Test Tubes: 3 </Typography.Title>
+          <Typography.Title level={5}>Test Tubes: 3 </Typography.Title> */}
           <Rackboard isRack rackboard={poolRack} scanId={poolRack.id} />
         </Col>
         <Col xs={24} lg={12}>

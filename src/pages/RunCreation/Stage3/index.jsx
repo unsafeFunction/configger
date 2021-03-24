@@ -42,7 +42,7 @@ const Stage3 = ({ runState, componentDispatch }) => {
           // loading={}
           className="w-100"
         >
-          Download
+          Submit
         </Button>
       </Item>
     </Form>

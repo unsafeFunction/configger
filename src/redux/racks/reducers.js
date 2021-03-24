@@ -27,7 +27,7 @@ const racksReducer = (state = initialState, action) => {
         };
       });
 
-      const { scanSessions } = constants;
+      const { poolRacks } = constants;
       const { total, firstPage } = action.payload;
 
       return {
@@ -38,8 +38,8 @@ const racksReducer = (state = initialState, action) => {
         total,
         isLoading: false,
         offset: firstPage
-          ? scanSessions.itemsLoadingCount
-          : state.offset + scanSessions.itemsLoadingCount,
+          ? poolRacks.itemsLoadingCount
+          : state.offset + poolRacks.itemsLoadingCount,
       };
     }
     case actions.FETCH_RACKS_FAILURE: {

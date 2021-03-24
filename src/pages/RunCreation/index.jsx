@@ -14,7 +14,6 @@ const { Step } = Steps;
 const RunCreation = () => {
   const initialRunState = {
     currentStage: 0,
-    // currentStage: 1,
     param1: '1-kingfisher',
     param2: 'duplicate',
     poolRacks: Array(2).fill({}),
@@ -55,7 +54,7 @@ const RunCreation = () => {
         ),
       },
       {
-        title: 'Download',
+        title: 'Run',
         component: (
           <Stage3 runState={runState} componentDispatch={componentDispatch} />
         ),
