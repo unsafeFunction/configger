@@ -19,6 +19,7 @@ import scanSessions from './scanSessions/reducers';
 import management from './management/reducers';
 import inventory from './inventory/reducers';
 import racks from './racks/reducers';
+import runCreation from './runCreation/reducers';
 
 export default history =>
   combineReducers({
@@ -42,4 +43,5 @@ export default history =>
     management,
     inventory,
     racks,
+    runCreation,
   });

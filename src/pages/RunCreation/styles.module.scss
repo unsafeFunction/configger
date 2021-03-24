@@ -11,8 +11,9 @@
   }
 }
 
-.spin {
-  text-align: center;
-  padding: 30px 50px;
-  margin: 20px 0;
+.stages {
+  margin-bottom: 6rem;
+  @media (max-width: $xs-max-width) {
+    margin-bottom: 4.5rem;
+  }
 }

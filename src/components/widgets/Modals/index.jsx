@@ -1,32 +1,30 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable import/no-extraneous-dependencies */
-import PropTypes from 'prop-types'
-import React from 'react'
-import { connect } from 'react-redux'
-import Confirm from './Confirm'
-import HelperModal from './HelperModal'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import Confirm from './Confirm';
+import HelperModal from './HelperModal';
 
 const MODALS_COMPONENTS = {
   ERROR_MODAL: HelperModal,
   WARNING_MODAL: HelperModal,
   CONFIRM_MODAL: Confirm,
   COMPLIANCE_MODAL: HelperModal,
-}
+};
 
 const Modals = ({ modalType, modalProps }) => {
   if (!modalType) {
-    return <span />
+    return <span />;
   }
-  const SelectedModal = MODALS_COMPONENTS[modalType]
+  const SelectedModal = MODALS_COMPONENTS[modalType];
 
-  return <SelectedModal {...modalProps} />
-}
+  return <SelectedModal {...modalProps} />;
+};
 
 Modals.propTypes = {
   modalType: PropTypes.string,
-  modalProps: PropTypes.object,
-}
+  modalProps: PropTypes.shape({}),
+};
 
-export default connect(state => {
-  return state.modal
-})(Modals)
+export default connect((state) => {
+  return state.modal;
+})(Modals);

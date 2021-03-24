@@ -108,6 +108,10 @@ const routes = [
     path: '/inventory',
     Component: loadable(() => import('pages/Inventory')),
   },
+  {
+    path: '/run-creation',
+    Component: loadable(() => import('pages/RunCreation')),
+  },
 ];
 
 const mapStateToProps = ({ settings }) => ({ settings });
