@@ -139,7 +139,7 @@ const IntakeReceiptLog = () => {
       wordWrap: 'break-word',
       wordBreak: 'break-word',
       render: (_, record) => {
-        return record.comments || '-';
+        return record.comments ?? '-';
       },
     },
     {
@@ -149,7 +149,7 @@ const IntakeReceiptLog = () => {
       wordBreak: 'break-word',
       width: '150px',
       render: (_, record) => {
-        return record.tracking_numbers?.join(', ') || '-';
+        return record.tracking_numbers?.join(', ') ?? '-';
       },
     },
     {

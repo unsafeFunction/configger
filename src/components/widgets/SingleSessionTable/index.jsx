@@ -24,7 +24,7 @@ const SingleSessionTable = ({
       dataIndex: 'status',
       key: 'status',
       width: 100,
-      render: text => {
+      render: (text) => {
         return (
           <Tag color="blue" className={styles.sessionStatus}>
             {text.toLowerCase()}
@@ -36,13 +36,13 @@ const SingleSessionTable = ({
   ];
 
   const dataForTable = session?.scans
-    ?.filter(scan => scan.status !== 'VOIDED')
-    .map(scan => {
+    ?.filter((scan) => scan.status !== 'VOIDED')
+    .map((scan) => {
       return {
         key: scan.id,
         pool_id: scan.pool_id,
         status: scan.status,
-        scan_time: moment(scan.scan_timestamp).format('LLLL'),
+        scan_time: moment(scan.scan_timestamp).format('llll'),
         rack_id: scan.rack_id,
         scanner: scan.scanner ?? '-',
         action: (

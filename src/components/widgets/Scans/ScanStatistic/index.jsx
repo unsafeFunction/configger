@@ -3,17 +3,12 @@ import PropTypes from 'prop-types';
 import { Card, Tag, Statistic, Col, Row, Tooltip } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { constants } from 'utils/constants';
+import { countedPoolTubes } from 'utils/tubesRules';
 import styles from '../styles.module.scss';
 
 const ScanStatistic = ({ scan, isRack }) => {
   const tubesTotal = scan?.scan_tubes?.filter((tube) => {
-    return (
-      tube.status !== constants.tubeStatuses.blank &&
-      tube.status !== constants.tubeStatuses.missing &&
-      tube.status !== constants.tubeStatuses.pooling &&
-      tube.status !== constants.tubeStatuses.deleted
-    );
+    return countedPoolTubes.find((t) => t.status === tube.status);
   });
 
   return (

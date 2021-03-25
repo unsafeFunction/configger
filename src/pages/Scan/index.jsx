@@ -1,9 +1,9 @@
-/* eslint-disable */
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
+import { countedPoolTubes } from 'utils/tubesRules';
 import {
   Row,
   Col,
@@ -32,6 +32,7 @@ import classNames from 'classnames';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import styles from './styles.module.scss';
+
 moment.tz.setDefault('America/New_York');
 
 const { Paragraph } = Typography;
@@ -61,12 +62,9 @@ const Scan = () => {
   const countOfCompletedPools = completedPools.length;
   const completedSamples = completedPools?.map?.(
     (scan) =>
-      scan?.scan_tubes?.filter?.(
-        (tube) =>
-          tube.status !== constants.tubeStatuses.blank &&
-          tube.status !== constants.tubeStatuses.empty &&
-          tube.status !== constants.tubeStatuses.missing,
-      )?.length,
+      scan?.scan_tubes?.filter?.((tube) => {
+        return countedPoolTubes.find((t) => t.status === tube.status);
+      })?.length,
   );
   const countOfCompletedSamples =
     completedSamples?.length > 0
@@ -460,7 +458,7 @@ const Scan = () => {
             {/* TODO: why is using separately scanId */}
             <Rackboard rackboard={scan} scanId={scan?.id} session={session} />
           </div>
-          <ScanStatistic scan={scan} scansTotal={scansTotal} />
+          <ScanStatistic scan={scan} />
           <Row>
             <Col sm={24}>
               <SingleSessionTable

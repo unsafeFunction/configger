@@ -25,20 +25,69 @@ export const constants = {
     started: 'STARTED',
     completed: 'COMPLETED',
   },
-  tubeStatuses: {
-    blank: 'BLANK', // default
-    missing: 'MISSING',
-    valid: 'VALID',
-    deleted: 'NULL',
-    positiveControl: 'POSITIVE_CONTROL',
-    negativeControl: 'NEGATIVE_CONTROL',
-    pooling: 'POOLING',
+  tubes: {
+    // default
+    blank: {
+      status: 'BLANK',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    missing: {
+      status: 'MISSING',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    valid: {
+      status: 'VALID',
+      countedForPool: true,
+      countedForPoolRack: true,
+    },
+    deleted: {
+      status: 'NULL',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    positiveControl: {
+      status: 'POSITIVE_CONTROL',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    negativeControl: {
+      status: 'NEGATIVE_CONTROL',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    pooling: {
+      status: 'POOLING',
+      countedForPool: false,
+      countedForPoolRack: true,
+    },
     // invalid statuses
-    invalid: 'INVALID',
-    empty: 'EMPTY', // A
-    insufficient: 'INSUFFICIENT', // B
-    improperCollection: 'IMPROPER_COLLECTION', // C
-    contamination: 'CONTAMINATION', // D
+    invalid: {
+      status: 'INVALID',
+      countedForPool: true,
+      countedForPoolRack: true,
+    },
+    empty: {
+      status: 'EMPTY',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // A
+    insufficient: {
+      status: 'INSUFFICIENT',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // B
+    improperCollection: {
+      status: 'IMPROPER_COLLECTION',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // C
+    contamination: {
+      status: 'CONTAMINATION',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // D
   },
   poolsByRun: {
     itemsLoadingCount: 100,

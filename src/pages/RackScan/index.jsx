@@ -84,7 +84,7 @@ const RackScan = () => {
           <div className="mb-4">
             <Rackboard isRack rackboard={rack} scanId={rack.id} />
           </div>
-          <ScanStatistic isRack scan={rack} scansTotal={10} />
+          <ScanStatistic isRack scan={rack} />
         </Col>
         <Col xs={24} md={18} lg={8} xl={10}>
           <Row className="mb-3">

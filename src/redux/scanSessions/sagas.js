@@ -189,11 +189,12 @@ export function* callFetchScanById({ payload }) {
 }
 
 export function* callUpdateTube({ payload }) {
+  const { pooling } = constants.tubes;
+
   try {
     const response = yield call(updateTube, payload);
 
-    const poolingTube =
-      response?.data?.status === constants.tubeStatuses.pooling;
+    const poolingTube = response?.data?.status === pooling.status;
 
     yield put({
       type: actions.UPDATE_TUBE_SUCCESS,

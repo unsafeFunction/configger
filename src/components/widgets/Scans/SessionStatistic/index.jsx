@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, Tag, Statistic, Col, Row } from 'antd';
 import classNames from 'classnames';
 import { constants } from 'utils/constants';
+import { countedPoolTubes } from 'utils/tubesRules';
 import styles from '../styles.module.scss';
 
 const SessionStatistic = ({ session }) => {
@@ -14,13 +15,9 @@ const SessionStatistic = ({ session }) => {
 
   const actualSamples = actualPools?.map?.(
     (scan) =>
-      scan?.scan_tubes?.filter?.(
-        (tube) =>
-          tube.status !== constants.tubeStatuses.blank &&
-          tube.status !== constants.tubeStatuses.empty &&
-          tube.status !== constants.tubeStatuses.missing &&
-          tube.status !== constants.tubeStatuses.deleted,
-      )?.length,
+      scan?.scan_tubes?.filter?.((tube) => {
+        return countedPoolTubes.find((t) => t.status === tube.status);
+      })?.length,
   );
 
   return (
@@ -34,7 +31,7 @@ const SessionStatistic = ({ session }) => {
         <Card className={styles.card}>
           <Statistic
             title="Reference pools"
-            value={session?.reference_pools_count || '-'}
+            value={session?.reference_pools_count ?? '-'}
             formatter={(value) => <Tag color="geekblue">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
@@ -64,7 +61,7 @@ const SessionStatistic = ({ session }) => {
         <Card className={styles.card}>
           <Statistic
             title="Reference samples"
-            value={session?.reference_samples_count || '-'}
+            value={session?.reference_samples_count ?? '-'}
             formatter={(value) => <Tag color="cyan">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />

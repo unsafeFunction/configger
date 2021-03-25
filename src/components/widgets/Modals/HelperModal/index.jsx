@@ -6,8 +6,8 @@ import DefaultModal from 'components/widgets/DefaultModal';
 import actions from 'redux/modal/actions';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
-const HelperModal = React.memo(props => {
-  const modal = useSelector(state => state.modal);
+const HelperModal = React.memo((props) => {
+  const modal = useSelector((state) => state.modal);
 
   const dispatch = useDispatch();
 
