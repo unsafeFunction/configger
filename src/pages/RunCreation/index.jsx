@@ -39,7 +39,6 @@ const RunCreation = () => {
   };
 
   const [runState, componentDispatch] = useReducer(reducer, initialRunState);
-  console.log('runState', runState);
 
   const stages = {
     items: [

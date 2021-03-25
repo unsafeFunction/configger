@@ -25,21 +25,6 @@ export const constants = {
     started: 'STARTED',
     completed: 'COMPLETED',
   },
-  tubeStatuses: {
-    blank: 'BLANK', // default
-    missing: 'MISSING',
-    valid: 'VALID',
-    deleted: 'NULL',
-    positiveControl: 'POSITIVE_CONTROL',
-    negativeControl: 'NEGATIVE_CONTROL',
-    pooling: 'POOLING',
-    // invalid statuses
-    invalid: 'INVALID',
-    empty: 'EMPTY', // A
-    insufficient: 'INSUFFICIENT', // B
-    improperCollection: 'IMPROPER_COLLECTION', // C
-    contamination: 'CONTAMINATION', // D
-  },
   tubes: {
     // default
     blank: {
