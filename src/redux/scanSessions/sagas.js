@@ -217,8 +217,13 @@ export function* callUpdateTube({ payload }) {
       message: 'Tube updated',
     });
   } catch (error) {
+    yield put({
+      type: actions.UPDATE_TUBE_FAILURE,
+      error: error,
+    });
+
     notification.error({
-      message: error?.message ?? 'Something went wrong',
+      message: error.message ?? 'Something went wrong',
     });
 
     return error;

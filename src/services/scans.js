@@ -10,11 +10,12 @@ export const updateTube = async ({ id, data }) => {
   try {
     const tube = await axiosClient.patch(`/scans/tubes/${id}/`, {
       ...data,
+      scan_id: data.scanId,
     });
 
     return tube;
   } catch (error) {
-    throw new Error(error?.response?.data.detail);
+    throw new Error(error.response.data.field_errors.tube_id);
   }
 };
 
