@@ -40,6 +40,70 @@ export const constants = {
     improperCollection: 'IMPROPER_COLLECTION', // C
     contamination: 'CONTAMINATION', // D
   },
+  tubes: {
+    // default
+    blank: {
+      status: 'BLANK',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    missing: {
+      status: 'MISSING',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    valid: {
+      status: 'VALID',
+      countedForPool: true,
+      countedForPoolRack: true,
+    },
+    deleted: {
+      status: 'NULL',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    positiveControl: {
+      status: 'POSITIVE_CONTROL',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    negativeControl: {
+      status: 'NEGATIVE_CONTROL',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    pooling: {
+      status: 'POOLING',
+      countedForPool: false,
+      countedForPoolRack: true,
+    },
+    // invalid statuses
+    invalid: {
+      status: 'INVALID',
+      countedForPool: true,
+      countedForPoolRack: true,
+    },
+    empty: {
+      status: 'EMPTY',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // A
+    insufficient: {
+      status: 'INSUFFICIENT',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // B
+    improperCollection: {
+      status: 'IMPROPER_COLLECTION',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // C
+    contamination: {
+      status: 'CONTAMINATION',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // D
+  },
   poolsByRun: {
     itemsLoadingCount: 100,
   },

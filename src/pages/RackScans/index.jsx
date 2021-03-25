@@ -75,7 +75,7 @@ const RackScans = () => {
       title: 'Tubes Count',
       dataIndex: 'scan_pools_count',
       render: (value) => {
-        return value || '-';
+        return value ?? '-';
       },
     },
     {
@@ -94,7 +94,7 @@ const RackScans = () => {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
       render: (_, value) => {
-        return moment(value?.scan_timestamp).format('llll') || '-';
+        return moment(value?.scan_timestamp).format('llll') ?? '-';
       },
     },
     {

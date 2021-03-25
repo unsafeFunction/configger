@@ -2,17 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Tag, Statistic, Col, Row, Tooltip } from 'antd';
 import classNames from 'classnames';
-import { constants } from 'utils/constants';
+import { countedPoolTubes } from 'utils/tubesRules';
 import styles from '../styles.module.scss';
 
-const ScanStatistic = ({ scan }) => {
-  const tubesTotal = scan?.scan_tubes?.filter(
-    (tube) =>
-      tube.status !== constants.tubeStatuses.blank &&
-      tube.status !== constants.tubeStatuses.missing &&
-      tube.status !== constants.tubeStatuses.empty &&
-      tube.status !== constants.tubeStatuses.pooling,
-  )?.length;
+const PoolStatistic = ({ scan }) => {
+  const tubesTotal = scan?.scan_tubes?.filter((tube) => {
+    return countedPoolTubes.find((t) => t.status === tube.status);
+  })?.length;
 
   return (
     <Row gutter={[24, 16]}>
@@ -54,8 +50,8 @@ const ScanStatistic = ({ scan }) => {
   );
 };
 
-ScanStatistic.propTypes = {
+PoolStatistic.propTypes = {
   scan: PropTypes.shape({}),
 };
 
-export default ScanStatistic;
+export default PoolStatistic;
