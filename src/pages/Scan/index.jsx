@@ -127,7 +127,7 @@ const Scan = () => {
         payload: {
           data,
           id: scan?.id,
-          callback:  goToNextScan
+          callback: goToNextScan,
         },
       });
     },
@@ -494,9 +494,9 @@ const Scan = () => {
               title="Pool name:"
               value={
                 scan?.scan_order >= 0
-                  ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
-                      scan?.scan_order
-                    }`
+                  ? `${
+                      moment(scan?.scan_timestamp)?.format('dddd')?.[0]
+                    }${scan?.scan_order + 1}`
                   : '-'
               }
             />
