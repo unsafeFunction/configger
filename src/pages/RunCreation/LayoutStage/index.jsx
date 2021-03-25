@@ -5,10 +5,8 @@ import { layout } from './utils';
 import { rules } from 'utils/rules';
 import styles from './styles.module.scss';
 
-const LayoutStage = ({ runState, componentDispatch }) => {
-  const { kfpParam, qntParam } = runState;
-
-  const [form] = Form.useForm();
+const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
+  const { kfpParam, qntParam } = initialValues;
 
   const handleChange = useCallback((e) => {
     const { value, name } = e.target;
@@ -98,7 +96,7 @@ const LayoutStage = ({ runState, componentDispatch }) => {
             <Radio.Button
               value="tri-plicate"
               className={styles.radio}
-              disabled={kfpParam === '2-kingfisher'}
+              disabled={runState.kfpParam === '2-kingfisher'}
             >
               Triplicate
             </Radio.Button>
@@ -123,6 +121,8 @@ const LayoutStage = ({ runState, componentDispatch }) => {
 LayoutStage.propTypes = {
   runState: PropTypes.shape({}).isRequired,
   componentDispatch: PropTypes.func.isRequired,
+  form: PropTypes.shape({}).isRequired,
+  initialValues: PropTypes.shape({}).isRequired,
 };
 
 export default LayoutStage;

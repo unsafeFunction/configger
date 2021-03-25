@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { Steps, Divider, Button } from 'antd';
+import { Steps, Divider, Button, Form } from 'antd';
 import moment from 'moment-timezone';
 import classNames from 'classnames';
 import LayoutStage from './LayoutStage';
@@ -12,6 +12,8 @@ moment.tz.setDefault('America/New_York');
 const { Step } = Steps;
 
 const RunCreation = () => {
+  const [layoutForm] = Form.useForm();
+
   const initialRunState = {
     currentStage: 0,
     kfpParam: '1-kingfisher',
@@ -47,6 +49,8 @@ const RunCreation = () => {
           <LayoutStage
             runState={runState}
             componentDispatch={componentDispatch}
+            form={layoutForm}
+            initialValues={initialRunState}
           />
         ),
       },
@@ -84,11 +88,10 @@ const RunCreation = () => {
         <h4>Generate Run</h4>
         <Button
           type="primary"
-          onClick={() =>
-            componentDispatch({
-              type: 'reset',
-            })
-          }
+          onClick={() => {
+            componentDispatch({ type: 'reset' });
+            layoutForm.resetFields();
+          }}
           className="mb-2"
         >
           New Run
