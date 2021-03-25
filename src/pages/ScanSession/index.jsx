@@ -40,7 +40,7 @@ const ScanSession = () => {
           limit: constants.companies.itemsLoadingCount,
         },
       });
-    }, []);
+    }, [activeSessionId]);
   };
 
   useFetching();

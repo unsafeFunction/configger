@@ -92,7 +92,7 @@ const Pool = () => {
           <Statistic
             className={styles.scanStat}
             title="Scanned by:"
-            value={scan?.scanner ?? '–'}
+            value={session?.scanned_by ?? '–'}
           />
           <Statistic
             className={styles.scanStat}
