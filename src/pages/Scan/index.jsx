@@ -505,7 +505,7 @@ const Scan = () => {
                 scan?.scan_order > 0
                   ? `${session?.company_short?.name_short} ${
                       moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
-                    }${recentScan?.scan_order} on ${moment(
+                    }${recentScan?.scan_order + 1} on ${moment(
                       recentScan?.scan_timestamp,
                     )?.format('lll')}`
                   : '-'
