@@ -112,6 +112,10 @@ const routes = [
     path: '/run-creation',
     Component: loadable(() => import('pages/RunCreation')),
   },
+  {
+    path: '/settings/permission',
+    Component: loadable(() => import('pages/Settings/Permissions')),
+  },
 ];
 
 const mapStateToProps = ({ settings }) => ({ settings });

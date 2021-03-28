@@ -90,7 +90,9 @@ const Login = () => {
           </a>
         </div>
         <div className={style.copyright}>
-          Copyright © {moment().year()} Mirimus Inc.
+          Copyright © 
+{' '}
+{moment().year()} Mirimus Inc.
         </div>
       </div>
     </div>

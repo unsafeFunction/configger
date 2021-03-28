@@ -2,6 +2,7 @@ import { all } from 'redux-saga/effects';
 import user from './user/sagas';
 import menu from './menu/sagas';
 import settings from './settings/sagas';
+import userSettings from './userSettings/sagas';
 import customers from './customers/sagas';
 import companies from './companies/sagas';
 import runs from './runs/sagas';
@@ -24,6 +25,7 @@ export default function* rootSaga() {
     user(),
     menu(),
     settings(),
+    userSettings(),
     runs(),
     timeline(),
     customers(),

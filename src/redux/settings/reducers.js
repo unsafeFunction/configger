@@ -1,14 +1,17 @@
-import store from 'store'
-import actions from './actions'
+import store from 'store';
+import map from 'lodash.map';
+import merge from 'lodash.merge';
+
+import actions from './actions';
 
 const STORED_SETTINGS = storedSettings => {
-  const settings = {}
+  const settings = {};
   Object.keys(storedSettings).forEach(key => {
-    const item = store.get(`app.settings.${key}`)
-    settings[key] = typeof item !== 'undefined' ? item : storedSettings[key]
-  })
-  return settings
-}
+    const item = store.get(`app.settings.${key}`);
+    settings[key] = typeof item !== 'undefined' ? item : storedSettings[key];
+  });
+  return settings;
+};
 
 const initialState = {
   ...STORED_SETTINGS({
@@ -34,13 +37,13 @@ const initialState = {
     isBorderless: false,
     routerAnimation: 'slide-fadein-up', // none, slide-fadein-up, slide-fadein-right, fadein, zoom-fadein
   }),
-}
+};
 
 export default function settingsReducer(state = initialState, action) {
   switch (action.type) {
     case actions.SET_STATE:
-      return { ...state, ...action.payload }
+      return { ...state, ...action.payload };
     default:
-      return state
+      return state;
   }
 }

@@ -1,6 +1,73 @@
 export async function getMenuData() {
   return [
     {
+      category: true, // render category
+      title: 'Menu', // category title
+    },
+    {
+      title: 'Intake section',
+      key: 'intakeSection',
+      icon: 'fe fe-monitor',
+      children: [
+        {
+          title: 'Intake',
+          key: 'intake',
+          url: '/intake',
+          icon: 'fe fe-monitor',
+        },
+        {
+          title: 'Intake Receipt Log',
+          key: 'intake-receipt-log',
+          url: '/intake-receipt-log',
+          icon: 'fe fe-list',
+        },
+      ],
+    },
+    {
+      title: 'Pools section',
+      key: 'poolSection',
+      icon: 'fe fe-folder',
+      children: [
+        {
+          title: 'Pools',
+          key: 'pools',
+          url: '/pools',
+          icon: 'fe fe-folder',
+        },
+        {
+          title: 'Pool Scans',
+          key: 'pool-scans',
+          url: '/pool-scans',
+          icon: 'fe fe-maximize',
+        },
+        {
+          title: 'PoolRack Scans',
+          key: 'rack-scans',
+          url: '/rack-scans',
+          icon: 'fe fe-box',
+        },
+      ],
+    },
+    {
+      title: 'Runs section',
+      key: 'runsSection',
+      icon: 'fe fe-box',
+      children: [
+        {
+          title: 'Runs',
+          key: 'runs',
+          url: '/runs',
+          icon: 'fe fe-box',
+        },
+        {
+          title: 'Generate Run',
+          key: 'runCreation',
+          url: '/run-creation',
+          icon: 'fe fe-layers',
+        },
+      ],
+    },
+    {
       title: 'Packing Slip',
       key: 'packingSlip',
       url: '/packing-slip',
@@ -14,52 +81,10 @@ export async function getMenuData() {
       isAlpha: true,
     },
     {
-      title: 'Intake',
-      key: 'intake',
-      url: '/intake',
-      icon: 'fe fe-monitor',
-    },
-    {
-      title: 'Runs',
-      key: 'runs',
-      url: '/runs',
-      icon: 'fe fe-box',
-    },
-    {
-      title: 'Pools',
-      key: 'pools',
-      url: '/pools',
-      icon: 'fe fe-folder',
-    },
-    {
-      title: 'Intake Receipt Log',
-      key: 'intake-receipt-log',
-      url: '/intake-receipt-log',
-      icon: 'fe fe-list',
-    },
-    {
-      title: 'Pool Scans',
-      key: 'pool-scans',
-      url: '/pool-scans',
-      icon: 'fe fe-maximize',
-    },
-    {
       title: 'Session',
       key: 'session',
       url: '/session',
       icon: 'fe fe-minimize',
-    },
-    {
-      title: 'Inventory',
-      key: 'inventory',
-      url: '/inventory',
-      icon: 'fe fe-bar-chart',
-    },
-    {
-      title: 'PoolRack Scans',
-      key: 'rack-scans',
-      url: '/rack-scans',
-      icon: 'fe fe-box',
     },
     // {
     //   title: 'Management',
@@ -67,12 +92,23 @@ export async function getMenuData() {
     //   url: '/management',
     //   icon: 'fe fe-bar-chart',
     // },
-    {
-      title: 'Generate Run',
-      key: 'runCreation',
-      url: '/run-creation',
-      icon: 'fe fe-layers',
-    },
+    // {
+    //   category: true,
+    //   title: 'Settings',
+    // },
+    // {
+    //   title: 'Users',
+    //   key: 'usersSettings',
+    //   icon: 'fe fe-settings',
+    //   children: [
+    //     {
+    //       title: 'User permission',
+    //       key: 'permission',
+    //       url: '/settings/permission',
+    //       icon: 'fe fe-lock',
+    //     },
+    //   ],
+    // },
     {
       title: 'Email Support',
       key: 'contactUs',
@@ -94,6 +130,7 @@ export async function getRolePermissions() {
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/settings',
         '/intake-receipt-log',
         '/pool-scans',
         '/session',
@@ -112,6 +149,7 @@ export async function getRolePermissions() {
         '/packing-slip',
         '/barcode-lookup',
         '/intake',
+        '/settings',
         '/intake-receipt-log',
         '/pool-scans',
         '/session',
