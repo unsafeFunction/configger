@@ -71,6 +71,12 @@ export async function getMenuData() {
           url: '/run-creation',
           icon: 'fe fe-layers',
         },
+        {
+          title: 'Analysis Runs',
+          key: 'analysisRuns',
+          url: '/analysis-runs',
+          icon: 'fe fe-bar-chart-2',
+        },
       ],
     },
     {
@@ -115,12 +121,6 @@ export async function getMenuData() {
     //     },
     //   ],
     // },
-    {
-      title: 'Analysis Runs',
-      key: 'analysisRuns',
-      url: '/analysis-runs',
-      icon: 'fe fe-bar-chart-2',
-    },
     {
       title: 'Email Support',
       key: 'contactUs',
