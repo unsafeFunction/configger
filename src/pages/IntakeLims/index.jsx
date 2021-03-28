@@ -15,7 +15,7 @@ moment.tz.setDefault('America/New_York');
 const IntakeList = () => {
   const dispatch = useDispatch();
 
-  const intakeList = useSelector(state => state.intakeLims);
+  const intakeList = useSelector((state) => state.intakeLims);
 
   const useFetching = () => {
     useEffect(() => {
@@ -63,7 +63,7 @@ const IntakeList = () => {
     },
   ];
 
-  const data = intakeList?.items?.map?.(intakeItem => ({
+  const data = intakeList?.items?.map?.((intakeItem) => ({
     ...intakeItem,
     key: intakeItem.company_id,
   }));

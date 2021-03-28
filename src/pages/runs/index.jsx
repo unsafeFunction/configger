@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/runs/actions';
-import { Table, DatePicker, Spin, Switch, Popconfirm, Tooltip } from 'antd';
-import moment from 'moment-timezone';
+import { DatePicker, Popconfirm, Spin, Switch, Table, Tooltip } from 'antd';
 import classNames from 'classnames';
-import { useHistory, useLocation, Link } from 'react-router-dom';
+import moment from 'moment-timezone';
 import qs from 'qs';
+import React, { useCallback, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import actions from 'redux/runs/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -20,8 +20,8 @@ const Runs = () => {
   const location = useLocation();
   const [dates, setDates] = useState([]);
 
-  const user = useSelector(state => state.user);
-  const runs = useSelector(state => state.runs);
+  const user = useSelector((state) => state.user);
+  const runs = useSelector((state) => state.runs);
 
   const { from, to } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -98,7 +98,7 @@ const Runs = () => {
     },
   ];
 
-  const data = runs?.items?.map?.(run => ({
+  const data = runs?.items?.map?.((run) => ({
     ...run,
     key: run.id,
     companies: run.companies

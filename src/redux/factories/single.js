@@ -1,6 +1,6 @@
 export default function single({ types }) {
   const [requestType, successType, failureType] = types;
-  return reducer => {
+  return (reducer) => {
     const initialState = {
       ...reducer(undefined, {}),
     };

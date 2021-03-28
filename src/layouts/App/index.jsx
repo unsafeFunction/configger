@@ -6,18 +6,15 @@ import classNames from 'classnames';
 import TopBar from 'components/layout/TopBar';
 import MenuLeft from 'components/layout/MenuLeft';
 import SubBar from 'components/layout/SubBar';
-import MenuTop from 'components/layout/MenuTop';
 import Modal from 'components/widgets/Modals';
 import actions from 'redux/user/actions';
 import { Alert } from 'antd';
-import HijackBar from 'components/widgets/hijack/HijackBar';
 import styles from './styles.module.scss';
 
-const AppLayout = props => {
+const AppLayout = (props) => {
   const dispatch = useDispatch();
-  const settings = useSelector(state => state.settings);
-  const { role, profile } = useSelector(state => state.user);
-  const hijack = useSelector(state => state.hijack);
+  const settings = useSelector((state) => state.settings);
+  const { role, profile } = useSelector((state) => state.user);
   const {
     menuLayoutType,
     isContentNoMaxWidth,
@@ -58,11 +55,7 @@ const AppLayout = props => {
           closable
         />
       )}
-
-      {hijack.isActive && <HijackBar />}
-
       {menuLayoutType === 'left' && <MenuLeft />}
-      {menuLayoutType === 'top' && <MenuTop />}
       <Layout>
         <Layout.Header
           className={classNames('air__layout__header', {

@@ -1,6 +1,6 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import Error500 from 'components/system/Errors/500'
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import Error500 from 'components/system/Errors/500';
 
 class System500 extends React.Component {
   render() {
@@ -9,8 +9,8 @@ class System500 extends React.Component {
         <Helmet title="Page 500" />
         <Error500 />
       </div>
-    )
+    );
   }
 }
 
-export default System500
+export default System500;

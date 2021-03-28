@@ -1,20 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React from 'react';
 import 'emoji-mart/css/emoji-mart.css';
-import {
-  Input,
-  Row,
-  Col,
-  Select,
-  Typography,
-  Switch,
-  Form,
-  Space,
-  Button,
-} from 'antd';
+import { Input, Select, Form, Space, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
@@ -48,7 +35,7 @@ const CompanyModal = ({ form }) => {
           {(fields, { add, remove }, {}) => {
             return (
               <>
-                {fields.map(field => (
+                {fields.map((field) => (
                   <Space
                     key={field.key}
                     style={{ display: 'flex', marginBottom: 8 }}

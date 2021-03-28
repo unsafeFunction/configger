@@ -1,0 +1,15 @@
+@import 'assets/styles/mixins.scss';
+
+.roleHeader {
+    background-color: $primary;
+}
+
+.searchInput {
+    color: $black;
+}
+
+.permissionTable {
+    th:first-child {
+        background-color: white !important;
+    }
+}

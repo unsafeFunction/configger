@@ -1,13 +1,13 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/pools/actions';
-import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
 import classNames from 'classnames';
-import { useHistory } from 'react-router-dom';
-import PoolTable from 'components/widgets/pools/PoolTable';
-import { constants } from 'utils/constants';
+import PoolTable from 'components/widgets/Pools/PoolTable';
 import debounce from 'lodash.debounce';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import actions from 'redux/pools/actions';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const Run = () => {
@@ -72,7 +72,10 @@ const Run = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Run {pools?.filename ? `- ${pools?.filename}` : ''}</h4>
+        <h4>
+          Run
+          {pools?.filename ? `- ${pools?.filename}` : ''}
+        </h4>
         <Input
           size="middle"
           prefix={<SearchOutlined />}

@@ -10,10 +10,10 @@ import style from '../style.module.scss';
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
 
   const onSubmit = useCallback(
-    values => {
+    (values) => {
       dispatch({
         type: actions.LOGIN_REQUEST,
         payload: {
