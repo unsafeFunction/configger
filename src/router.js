@@ -1,13 +1,12 @@
+import Loader from 'components/layout/Loader';
+import Layout from 'layouts';
+import NotFoundPage from 'pages/system/404';
 import React from 'react';
-import { Route, Redirect, BrowserRouter } from 'react-router-dom';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
-import Switch from 'react-router-transition-switch';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
-
-import Layout from 'layouts';
-import Loader from 'components/layout/Loader';
-import NotFoundPage from 'pages/system/404';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+import Switch from 'react-router-transition-switch';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const loadable = (loader) =>
   Loadable({
@@ -38,13 +37,13 @@ const routes = [
     exact: false,
   },
   {
-    path: '/profile',
-    Component: loadable(() => import('pages/Profile')),
+    path: '/system/404',
+    Component: loadable(() => import('pages/system/404')),
     exact: true,
   },
   {
-    path: '/system/404',
-    Component: loadable(() => import('pages/system/404')),
+    path: '/profile',
+    Component: loadable(() => import('pages/Profile')),
     exact: true,
   },
   {
