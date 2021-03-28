@@ -29,6 +29,12 @@ export async function getMenuData() {
       icon: 'fe fe-folder',
       children: [
         {
+          title: 'Session',
+          key: 'session',
+          url: '/session',
+          icon: 'fe fe-minimize',
+        },
+        {
           title: 'Pools',
           key: 'pools',
           url: '/pools',
@@ -81,10 +87,10 @@ export async function getMenuData() {
       isAlpha: true,
     },
     {
-      title: 'Session',
-      key: 'session',
-      url: '/session',
-      icon: 'fe fe-minimize',
+      title: 'Inventory',
+      key: 'inventory',
+      url: '/inventory',
+      icon: 'fe fe-bar-chart',
     },
     // {
     //   title: 'Management',
