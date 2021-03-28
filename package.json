@@ -19,7 +19,8 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "lint-staged": {
@@ -53,9 +54,9 @@
     "lodash.find": "^4.6.0",
     "lodash.foreach": "^4.5.0",
     "lodash.get": "^4.4.2",
+    "lodash.isempty": "^4.4.0",
     "lodash.map": "^4.6.0",
     "lodash.merge": "^4.6.2",
-    "lodash.isempty": "^4.4.0",
     "lodash.orderby": "^4.6.0",
     "lodash.sortby": "^4.7.0",
     "moment": "^2.24.0",
@@ -97,6 +98,7 @@
     "lint-staged": "^8.2.1",
     "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
+    "pretty-quick": "^3.1.0",
     "prop-types": "^15.7.2",
     "standard-version": "^9.1.0",
     "stylelint": "^10.1.0",
