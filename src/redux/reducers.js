@@ -17,6 +17,7 @@ import management from './management/reducers';
 import inventory from './inventory/reducers';
 import racks from './racks/reducers';
 import runCreation from './runCreation/reducers';
+import analysisRuns from './analysisRuns/reducers';
 
 export default (history) =>
   combineReducers({
@@ -38,4 +39,5 @@ export default (history) =>
     inventory,
     racks,
     runCreation,
+    analysisRuns,
   });
