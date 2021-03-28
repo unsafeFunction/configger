@@ -23,7 +23,6 @@ import modalActions from 'redux/modal/actions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
-import CustomerModal from 'components/widgets/Customer/CustomerModal';
 import HijackBtn from 'components/widgets/hijack/HijackBtn';
 import { useHistory, Link } from 'react-router-dom';
 import { constants } from 'utils/constants';
@@ -134,30 +133,6 @@ const Customers = () => {
     });
   };
 
-  const showInviteModal = useCallback(() => {
-    dispatch({
-      type: modalActions.SHOW_MODAL,
-      modalType: 'COMPLIANCE_MODAL',
-      modalProps: {
-        title: 'Invite user',
-        bodyStyle: {
-          maxHeight: '70vh',
-          overflow: 'scroll',
-        },
-        cancelButtonProps: { className: styles.modalButton },
-        okButtonProps: {
-          className: styles.modalButton,
-          loading: customers?.isInviting,
-        },
-        okText: 'Invite',
-        onOk: onInvite,
-        message: () => (
-          <CustomerModal form={form} loadCompanies={loadCompanies} />
-        ),
-      },
-    });
-  });
-
   const convertDateTime = rawDate => {
     const date = new Date(rawDate);
     return `${date.toLocaleDateString(
@@ -172,7 +147,9 @@ const Customers = () => {
       key: 'fullname',
       render: (_, record) => (
         <Link to={`/users/${record.id}`} className="text-blue">
-          {record.first_name} {record.last_name}
+          {record.first_name} 
+{' '}
+{record.last_name}
         </Link>
       ),
     },
@@ -226,37 +203,36 @@ const Customers = () => {
       width: isMobile ? 100 : 180,
       render: (_, record) => (
         <div className={styles.actions}>
-            <div className={styles.actionsBtns}>
-                <Tooltip
-                  title={`Reinvite ${record.first_name} ${record.last_name}`}
-                  placement="bottomRight"
-                >
-                  <Button
-                    type="primary"
-                    ghost
-                    icon={<SendOutlined />}
-                    disabled={record.id === customers?.reinvitingUser}
-                    onClick={() => reinviteUser(record.id)}
-                  />
-                </Tooltip>
-
-                <HijackBtn
-                  userId={record.id}
-                  userFirstName={record.first_name}
-                  userLastName={record.last_name}
-                  userRole={record.role}
-                  path={history.location.pathname}
-                  userIsActive={record.is_active}
-                />
-            </div>
-
-            <Switch
-              className={styles.switchBtn}
-              checkedChildren="Active"
-              unCheckedChildren="Inactive"
-              checked={record.is_active}
-              onClick={() => toggleUser(record.id, record.is_active)}
+          <div className={styles.actionsBtns}>
+            <Tooltip
+              title={`Reinvite ${record.first_name} ${record.last_name}`}
+              placement="bottomRight"
+            >
+              <Button
+                type="primary"
+                ghost
+                icon={<SendOutlined />}
+                disabled={record.id === customers?.reinvitingUser}
+                onClick={() => reinviteUser(record.id)}
+              />
+            </Tooltip>
+            <HijackBtn
+              userId={record.id}
+              userFirstName={record.first_name}
+              userLastName={record.last_name}
+              userRole={record.role}
+              path={history.location.pathname}
+              userIsActive={record.is_active}
             />
+          </div>
+
+          <Switch
+            className={styles.switchBtn}
+            checkedChildren="Active"
+            unCheckedChildren="Inactive"
+            checked={record.is_active}
+            onClick={() => toggleUser(record.id, record.is_active)}
+          />
         </div>
       ),
     },
@@ -274,15 +250,6 @@ const Customers = () => {
           <div className={styles.mobileTableHeaderWrapper}>
             <div className={styles.mobileTableHeaderRow}>
               <h4>Users</h4>
-              <Button
-                type="primary"
-                size="large"
-                htmlType="submit"
-                onClick={showInviteModal}
-                className="ml-3"
-              >
-                Invite User
-              </Button>
             </div>
             <Input
               size="middle"
@@ -309,15 +276,6 @@ const Customers = () => {
                 value={searchName}
                 onChange={onChangeSearch}
               />
-              <Button
-                type="primary"
-                size="large"
-                htmlType="submit"
-                onClick={showInviteModal}
-                className="ml-3"
-              >
-                Invite User
-              </Button>
             </div>
           </>
         )}

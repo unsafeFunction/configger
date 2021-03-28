@@ -1,0 +1,44 @@
+@import 'assets/styles/mixins.scss';
+
+.companyDetails {
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 5px;
+}
+
+.companyDetailsStat {
+  margin-bottom: 1.42rem;
+  @media (min-width: $xs-min-width) and (max-width: $md-max-width) {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    div:first-child {
+      margin-right: 1rem;
+    }
+  }
+  div:last-child {
+    font-size: 18px;
+    span:last-child {
+      font-size: 18px;
+    }
+  }
+}
+
+.scanStat {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 1rem;
+  @media (max-width: $xs-max-width) {
+    flex-direction: column;
+    margin-bottom: 1.42rem;
+  }
+  div:first-child {
+    margin-right: 1rem;
+  }
+  div:last-child {
+    font-size: 18px;
+    span:last-child {
+      font-size: 18px;
+    }
+  }
+}

@@ -13,7 +13,6 @@ import actions from './actions';
 export function* callLoadCustomers({ payload }) {
   try {
     const response = yield call(fetchCustomers, payload);
-    console.log('RESPONSE DATA', response.data);
 
     yield put({
       type: actions.FETCH_CUSTOMERS_SUCCESS,

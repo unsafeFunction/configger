@@ -33,7 +33,7 @@ export const toggleUser = async (id, is_active) => {
 };
 
 export const reinviteUser = async id => {
-  const invite = await axiosClient.post(`/users/${id}/reinvite/`);
+  const invite = await axiosClient.post(`/users/${id}/reinvite/`, {});
 
   return invite;
 };

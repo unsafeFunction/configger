@@ -1,4 +1,4 @@
-import actions from './actions'
+import actions from './actions';
 
 const initialState = {
   modalType: null,
@@ -7,7 +7,8 @@ const initialState = {
   error: '',
   isDisabled: false,
   isLoadFile: true,
-}
+  isLoading: false,
+};
 export default function modal(state = initialState, action) {
   switch (action.type) {
     case actions.SHOW_MODAL: {
@@ -15,18 +16,27 @@ export default function modal(state = initialState, action) {
         modalType: action.modalType,
         modalProps: action.modalProps,
         isOpen: true,
-      })
+      });
     }
     case actions.HIDE_MODAL: {
-      return initialState
+      return {
+        ...initialState,
+        isLoading: false,
+      };
     }
     case actions.SET_ERROR: {
       return Object.assign({}, state, {
         error: action.payload,
         isDisabled: !!action.payload,
-      })
+      });
+    }
+    case actions.PATCH_INTAKE_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
     }
     default:
-      return state
+      return state;
   }
 }

@@ -1,27 +1,26 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/require-default-props */
-import React, { Component } from 'react'
-import { Modal } from 'antd'
+import React, { Component } from 'react';
+import { Modal } from 'antd';
+import { useSelector } from 'react-redux';
 
-class DefaultModal extends Component {
-  render() {
-    const { type, isOpen, title, children, onOk, onCancel, width } = this.props
+const DefaultModal = props => {
+  const isLoading = useSelector(state => state.modal.isLoading);
 
-    return (
-      <Modal
-        title={title}
-        visible={isOpen}
-        type={type}
-        onOk={onOk}
-        onCancel={onCancel}
-        width={width}
-        {...this.props}
-      >
-        {children}
-      </Modal>
-    )
-  }
-}
+  const { type, isOpen, title, children, onOk, onCancel, width } = props;
 
-export default DefaultModal
+  return (
+    <Modal
+      title={title}
+      visible={isOpen}
+      type={type}
+      onOk={onOk}
+      onCancel={onCancel}
+      width={width}
+      okButtonProps={{ loading: isLoading }}
+      {...props}
+    >
+      {children}
+    </Modal>
+  );
+};
+
+export default DefaultModal;

@@ -24,15 +24,19 @@ export default function poolsReducer(state = initialState, action) {
       };
     }
     case actions.FETCH_POOLS_BY_RUN_ID_SUCCESS: {
+      const { data, firstPage, filename } = action.payload;
       return {
         ...state,
-        items: action.payload.firstPage
-          ? action.payload.data
-          : [...state.items, ...action.payload.data],
-        filename: action.payload.filename,
+        items: firstPage ? data.pools : [...state.items, ...data.pools],
+        total: data.pools_published + data.pools_unpublished,
+        filename,
         isLoading: false,
+        offset: firstPage
+          ? constants.poolsByRun.itemsLoadingCount
+          : state.offset + constants.poolsByRun.itemsLoadingCount,
       };
     }
+
     case actions.FETCH_POOLS_BY_RUN_ID_FAILURE: {
       return {
         ...state,
@@ -97,7 +101,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.PUBLISH_POOL_REQUEST: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action.payload.poolId) {
             return {
               ...pool,
@@ -111,7 +115,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.PUBLISH_POOL_SUCCESS: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action.payload.data.unique_id) {
             return {
               ...pool,
@@ -126,7 +130,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.PUBLISH_POOL_FAILURE: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action?.payload?.poolId) {
             return {
               ...pool,
@@ -174,7 +178,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.UPDATE_POOL_RESULT_REQUEST: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action.payload.poolId) {
             return {
               ...pool,
@@ -188,7 +192,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.UPDATE_POOL_RESULT_SUCCESS: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action.payload.data.unique_id) {
             return {
               ...pool,
@@ -203,7 +207,7 @@ export default function poolsReducer(state = initialState, action) {
     case actions.UPDATE_POOL_RESULT_FAILURE: {
       return {
         ...state,
-        items: state.items.map(pool => {
+        items: state.items.map((pool) => {
           if (pool.unique_id === action?.payload?.poolId) {
             return {
               ...pool,

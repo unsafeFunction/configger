@@ -26,10 +26,10 @@ const Companies = () => {
   const [searchName, setSearchName] = useState('');
   const [form] = Form.useForm();
 
-  const allCompanies = useSelector(state => state.companies.all);
+  const allCompanies = useSelector((state) => state.companies.all);
   const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
-  const getStatus = status => {
+  const getStatus = (status) => {
     switch (status) {
       case 'COMPLETED':
         return <Tag color="#32CD32">{status}</Tag>;
@@ -47,7 +47,7 @@ const Companies = () => {
   };
 
   const setCompanyId = useCallback(
-    value => {
+    (value) => {
       dispatchCompaniesData({
         type: actions.ON_COMPANY_DATA_CHANGE,
         payload: {
@@ -62,7 +62,7 @@ const Companies = () => {
   useEffect(() => {
     if (allCompanies.error) {
       form.setFields([
-        ...Object.keys(allCompanies?.error)?.map?.(field => {
+        ...Object.keys(allCompanies?.error)?.map?.((field) => {
           return {
             name: field,
             errors: [`${allCompanies?.error?.[field]}`],
@@ -101,21 +101,21 @@ const Companies = () => {
     {
       title: 'Short Name',
       dataIndex: 'name_short',
-      render: value => {
+      render: (value) => {
         return value || '-';
       },
     },
     {
       title: 'Code',
       dataIndex: 'code',
-      render: value => {
+      render: (value) => {
         return value || '-';
       },
     },
     {
       title: 'Company Id',
       dataIndex: 'company_id',
-      render: value => {
+      render: (value) => {
         return value || '-';
       },
     },
@@ -133,7 +133,7 @@ const Companies = () => {
     }, []);
   };
 
-  const onPageChange = page => {
+  const onPageChange = (page) => {
     dispatchCompaniesData({
       type: actions.LOAD_CAMPAIGN_REQUEST,
       payload: {
@@ -177,7 +177,7 @@ const Companies = () => {
   }, [dispatchCompaniesData, allCompanies]);
 
   const sendQuery = useCallback(
-    query => {
+    (query) => {
       dispatchCompaniesData({
         type: actions.FETCH_COMPANIES_REQUEST,
         payload: {
@@ -190,11 +190,11 @@ const Companies = () => {
   );
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
-  const onChangeSearch = useCallback(event => {
+  const onChangeSearch = useCallback((event) => {
     setSearchName(event.target.value);
     delayedQuery(event.target.value);
   }, []);
@@ -265,10 +265,7 @@ const Companies = () => {
           bordered
           loading={!allCompanies?.isLoading}
           align="center"
-          pagination={{
-            pageSize: allCompanies?.items?.length,
-            hideOnSinglePage: true,
-          }}
+          pagination={false}
         />
       </InfiniteScroll>
     </>

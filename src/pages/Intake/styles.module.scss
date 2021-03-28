@@ -1,68 +1,22 @@
-.email {
-    padding: 40px;
-    border: 1px solid black;
+@import 'assets/styles/mixins.scss';
 
-    h2 {
-        text-align: center;
-    }
+.page__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    .titleDescription {
-       display: flex;
-       justify-content: center;
-
-       margin-bottom: 20px;
-    }
-
-    ul {
-        list-style: none;
-
-        li {
-            margin-bottom: 12px;
-
-            font-size: 18px;
-
-            span {
-                &:first-child {
-                    margin-right: 15px;
-                }
-            }
-        }
-    }
-
-    .qrIcon {
-        display: block;
-        margin: 0 auto;
-    }
-}
-
-.numericInput, .downloadButton {
-    width: 100%;
-}
-
-.shipmentInfo {
-    display: flex;
+  @media (max-width: $sm-max-width) {
     flex-direction: column;
-
-    margin-top: 30px;
-
-    .labDetails {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .labAddresses {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-
-            margin-left: 30px;
-            margin-right: 60px;
-
-            span {
-                &:first-child {
-                    font-weight: 600;
-                }
-            }
-        }
-    }
+    align-items: baseline;
+  }
+}
+.spin {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 30px 50px;
+  margin: 20px 0;
+}
+.rangePicker {
+  margin-bottom: 1rem;
 }

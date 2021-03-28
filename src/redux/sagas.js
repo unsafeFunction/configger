@@ -13,6 +13,12 @@ import activityStream from './activityStream/sagas';
 import intake from './intake/sagas';
 import search from './search/sagas';
 import intakeLims from './intakeLims/sagas';
+import intakeReceiptLog from './intakeReceiptLog/sagas';
+import scan from './scanSessions/sagas';
+import management from './management/sagas';
+import inventory from './inventory/sagas';
+import racks from './racks/sagas';
+import runCreation from './runCreation/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -30,5 +36,11 @@ export default function* rootSaga() {
     intake(),
     search(),
     intakeLims(),
+    intakeReceiptLog(),
+    scan(),
+    management(),
+    inventory(),
+    racks(),
+    runCreation(),
   ]);
 }

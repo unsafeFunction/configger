@@ -15,6 +15,12 @@ import activityStream from './activityStream/reducers';
 import intake from './intake/reducers';
 import search from './search/reducers';
 import intakeLims from './intakeLims/reducers';
+import intakeReceiptLog from './intakeReceiptLog/reducers';
+import scanSessions from './scanSessions/reducers';
+import management from './management/reducers';
+import inventory from './inventory/reducers';
+import racks from './racks/reducers';
+import runCreation from './runCreation/reducers';
 
 export default history =>
   combineReducers({
@@ -34,4 +40,10 @@ export default history =>
     intake,
     search,
     intakeLims,
+    intakeReceiptLog,
+    scanSessions,
+    management,
+    inventory,
+    racks,
+    runCreation,
   });

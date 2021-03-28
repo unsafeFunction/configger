@@ -8,18 +8,17 @@ import {
   updatePoolResult,
   fetchPools,
 } from 'services/pools';
-import actions from './actions';
 import modalActions from 'redux/modal/actions';
+import actions from './actions';
 
 export function* callLoadPoolsByRunId({ payload }) {
   try {
     const response = yield call(fetchPoolsByRunId, payload);
-    console.log(response.data);
     yield put({
       type: actions.FETCH_POOLS_BY_RUN_ID_SUCCESS,
       payload: {
         filename: response.data.import_filename,
-        data: response.data.pools,
+        data: response.data,
         firstPage: !response.data.previous,
       },
     });

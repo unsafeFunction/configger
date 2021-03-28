@@ -1,7 +1,6 @@
 import axiosClient from 'utils/axiosClient';
-import saveBlobAs from '../utils/saveAsBlob';
 
-export const fetchCompanies = async () => {
+export const fetchIntake = async () => {
   try {
     return await axiosClient.get('/companies-short/');
   } catch (error) {
@@ -35,7 +34,6 @@ export const downloadFile = async ({ link, name, contentType }) => {
 
     const blobData = new Blob([response.data], { type: contentType });
 
-    saveBlobAs(blobData, name);
     return response;
   } catch (error) {
     return error;

@@ -9,7 +9,7 @@ import Layout from 'layouts';
 import Loader from 'components/layout/Loader';
 import NotFoundPage from 'pages/system/404';
 
-const loadable = loader =>
+const loadable = (loader) =>
   Loadable({
     loader,
     delay: false,
@@ -17,11 +17,6 @@ const loadable = loader =>
   });
 
 const routes = [
-  {
-    path: '/results',
-    Component: loadable(() => import('pages/timeline')),
-    exact: true,
-  },
   {
     path: '/system/login',
     Component: loadable(() => import('pages/system/login')),
@@ -43,11 +38,6 @@ const routes = [
     exact: false,
   },
   {
-    path: '/system/terms-and-conditions',
-    Component: loadable(() => import('pages/system/terms-and-conditions')),
-    exact: false,
-  },
-  {
     path: '/profile',
     Component: loadable(() => import('pages/profile')),
     exact: true,
@@ -56,37 +46,6 @@ const routes = [
     path: '/system/404',
     Component: loadable(() => import('pages/system/404')),
     exact: true,
-  },
-  {
-    path: '/users',
-    Component: loadable(() => import('pages/Customers')),
-    exact: true,
-  },
-  {
-    path: '/users/:userId',
-    Component: loadable(() => import('pages/activityStream')),
-  },
-  {
-    path: '/runs',
-    Component: loadable(() => import('pages/runs')),
-    exact: true,
-  },
-  {
-    path: '/runs/:id',
-    Component: loadable(() => import('pages/runs/run')),
-  },
-  {
-    path: '/pools',
-    Component: loadable(() => import('pages/Pools')),
-  },
-  {
-    path: '/companies',
-    Component: loadable(() => import('pages/Companies')),
-    exact: true,
-  },
-  {
-    path: '/companies/:id',
-    Component: loadable(() => import('pages/Companies/Company')),
   },
   {
     path: '/packing-slip',
@@ -99,6 +58,59 @@ const routes = [
   {
     path: '/intake',
     Component: loadable(() => import('pages/IntakeLims')),
+  },
+  {
+    path: '/pools',
+    Component: loadable(() => import('pages/Pools')),
+  },
+  {
+    path: '/runs',
+    Component: loadable(() => import('pages/runs')),
+    exact: true,
+  },
+  {
+    path: '/runs/:id',
+    Component: loadable(() => import('pages/runs/run')),
+  },
+  {
+    path: '/pool-scans/:id',
+    Component: loadable(() => import('pages/ScanPool')),
+  },
+  {
+    path: '/rack-scans/:id',
+    Component: loadable(() => import('pages/RackScan')),
+  },
+  {
+    path: '/rack-scans',
+    Component: loadable(() => import('pages/RackScans')),
+  },
+  {
+    path: '/pool-scans',
+    Component: loadable(() => import('pages/ScanSessions')),
+  },
+  {
+    path: '/session/:id',
+    Component: loadable(() => import('pages/Scan')),
+  },
+  {
+    path: '/session',
+    Component: loadable(() => import('pages/ScanSession')),
+  },
+  {
+    path: '/intake-receipt-log',
+    Component: loadable(() => import('pages/IntakeReceiptLog')),
+  },
+  // {
+  //   path: '/management',
+  //   Component: loadable(() => import('pages/Management')),
+  // },
+  {
+    path: '/inventory',
+    Component: loadable(() => import('pages/Inventory')),
+  },
+  {
+    path: '/run-creation',
+    Component: loadable(() => import('pages/RunCreation')),
   },
   {
     path: '/settings/permission',
@@ -118,7 +130,7 @@ class Router extends React.Component {
       <BrowserRouter>
         <Layout>
           <Switch
-            render={props => {
+            render={(props) => {
               const {
                 children,
                 location: { pathname },
@@ -140,7 +152,7 @@ class Router extends React.Component {
               exact
               path="/"
               render={() => {
-                return <Redirect to="/results" />;
+                return <Redirect to="/session" />;
               }}
             />
             {routes.map(({ path, Component, exact = false }) => (

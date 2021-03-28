@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import styles from './styles.module.scss';
 import moment from 'moment-timezone';
-import Loader from '../../components/layout/Loader';
+import Loader from 'components/layout/Loader';
 
 moment.tz.setDefault('America/New_York');
 

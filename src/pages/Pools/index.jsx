@@ -6,9 +6,9 @@ import debounce from 'lodash.debounce';
 import { SearchOutlined } from '@ant-design/icons';
 import actions from 'redux/pools/actions';
 
+import { constants } from 'utils/constants';
+import PoolTable from 'components/widgets/pools/PoolTable';
 import styles from './styles.module.scss';
-import { constants } from '../../utils/constants';
-import PoolTable from '../../components/widgets/pools/PoolTable';
 
 const Pools = () => {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const Pools = () => {
       dispatch({
         type: actions.FETCH_ALL_POOLS_REQUEST,
         payload: {
-          limit: constants.companies.itemsLoadingCount,
+          limit: constants.pools.itemsLoadingCount,
           search: query,
         },
       });

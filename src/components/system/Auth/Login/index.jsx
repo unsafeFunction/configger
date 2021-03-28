@@ -18,9 +18,7 @@ const Login = () => {
         type: actions.LOGIN_REQUEST,
         payload: {
           ...values,
-          toTimeline: () => history.push('/results'),
-          toRuns: () => history.push('/runs'),
-          acceptTerms: () => history.push('/system/terms-and-conditions'),
+          toScanSession: () => history.push('/session'),
         },
       });
     },

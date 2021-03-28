@@ -1,6 +1,7 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import {
   fetchCompanies,
+  fetchCompanyShort,
   getSingleCompany,
   createCompany,
   updateUsers,
@@ -72,6 +73,30 @@ export function* callGetCompany({ payload }) {
   }
 }
 
+export function* callFetchCompanyShort({ payload }) {
+  try {
+    const response = yield call(fetchCompanyShort, payload.id);
+
+    yield put({
+      type: actions.FETCH_COMPANY_SHORT_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+  } catch (error) {
+    yield put({
+      type: actions.FETCH_COMPANY_SHORT_FAILURE,
+      payload: {
+        data: error.message ?? null,
+      },
+    });
+
+    notification.error({
+      message: error.message ?? 'Something went wrong',
+    });
+  }
+}
+
 export function* callUpdateUsers({ payload }) {
   try {
     const response = yield call(updateUsers, payload);
@@ -97,6 +122,7 @@ export function* callUpdateUsers({ payload }) {
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_COMPANIES_REQUEST, callFetchCompanies),
+    takeEvery(actions.FETCH_COMPANY_SHORT_REQUEST, callFetchCompanyShort),
     takeEvery(actions.CREATE_COMPANY_REQUEST, callCreateCompany),
     takeEvery(actions.GET_COMPANY_REQUEST, callGetCompany),
     takeEvery(actions.UPDATE_USERS_REQUEST, callUpdateUsers),
