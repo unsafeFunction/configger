@@ -25,7 +25,7 @@ const managementReducer = (state = initialState, action) => {
       return {
         items:
           action.payload.status === 204 &&
-          state.items.filter(campaign => {
+          state.items.filter((campaign) => {
             return campaign.id !== action.payload.id;
           }),
         isLoading: true,

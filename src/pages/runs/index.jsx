@@ -20,8 +20,8 @@ const Runs = () => {
   const location = useLocation();
   const [dates, setDates] = useState([]);
 
-  const user = useSelector(state => state.user);
-  const runs = useSelector(state => state.runs);
+  const user = useSelector((state) => state.user);
+  const runs = useSelector((state) => state.runs);
 
   const { from, to } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -98,7 +98,7 @@ const Runs = () => {
     },
   ];
 
-  const data = runs?.items?.map?.(run => ({
+  const data = runs?.items?.map?.((run) => ({
     ...run,
     key: run.id,
     companies: run.companies

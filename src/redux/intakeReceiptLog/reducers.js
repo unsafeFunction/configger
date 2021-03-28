@@ -67,7 +67,7 @@ export default function intakeReceiptLogReducer(state = initialState, action) {
     case actions.PATCH_INTAKE_SUCCESS:
       return {
         ...state,
-        items: state.items.map(item =>
+        items: state.items.map((item) =>
           item.id === action.payload.data.id ? action.payload.data : item,
         ),
         isLoading: false,

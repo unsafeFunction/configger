@@ -42,7 +42,7 @@ export default function runsReducer(state = initialState, action) {
     case actions.PUBLISH_RUN_REQUEST: {
       return {
         ...state,
-        items: state.items.map(run => {
+        items: state.items.map((run) => {
           if (run.unique_id === action.payload.runId) {
             return {
               ...run,
@@ -56,7 +56,7 @@ export default function runsReducer(state = initialState, action) {
     case actions.PUBLISH_RUN_SUCCESS: {
       return {
         ...state,
-        items: state.items.map(run => {
+        items: state.items.map((run) => {
           if (run.unique_id === action.payload.data.unique_id) {
             return {
               ...run,
@@ -71,7 +71,7 @@ export default function runsReducer(state = initialState, action) {
     case actions.PUBLISH_RUN_FAILURE: {
       return {
         ...state,
-        items: state.items.map(run => {
+        items: state.items.map((run) => {
           if (run.unique_id === action?.payload?.runId) {
             return {
               ...run,

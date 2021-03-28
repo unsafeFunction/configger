@@ -13,14 +13,16 @@ const InvalidateModal = ({ form, tube }) => {
   const { Item } = Form;
   const { Option } = Select;
   const { selectedCode } = useSelector(
-    state => state.scanSessions?.singleSession,
+    (state) => state.scanSessions?.singleSession,
   );
 
   const handleCodeChange = useCallback(
-    e => {
+    (e) => {
       dispatch({
         type: actions.UPDATE_SELECTED_CODE_REQUEST,
-        payload: constants.invalidateCodes.find(code => code.id === Number(e)),
+        payload: constants.invalidateCodes.find(
+          (code) => code.id === Number(e),
+        ),
       });
     },
     [dispatch],
@@ -58,7 +60,7 @@ const InvalidateModal = ({ form, tube }) => {
               onChange={handleCodeChange}
               optionFilterProp="reason"
             >
-              {constants.invalidateCodes.map(codeObj => (
+              {constants.invalidateCodes.map((codeObj) => (
                 <Option key={codeObj.id}>{codeObj.code}</Option>
               ))}
             </Select>

@@ -1,49 +1,28 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import 'emoji-mart/css/emoji-mart.css';
-import {
-  Input,
-  Row,
-  Col,
-  Select,
-  Typography,
-  Switch,
-  Form,
-  Space,
-  Button,
-  Spin,
-} from 'antd';
-import {
-  MinusCircleOutlined,
-  PlusOutlined,
-  CloseOutlined,
-} from '@ant-design/icons';
+import { Select, Form } from 'antd';
 import debounce from 'lodash.debounce';
-import styles from './styles.module.scss';
-import { constants } from 'utils/constants';
 import customersActions from 'redux/customers/actions';
-import actions from 'redux/companies/actions';
+import styles from './styles.module.scss';
 import { LoadingNode, NotFoundNode } from './components';
 
-const ContactResultModal = ({ form, existUsers }) => {
+const ContactResultModal = ({}) => {
   const { Item } = Form;
   const [page, setPage] = useState(1);
   const [formattedUsers, setFormattedUsers] = useState([]);
   const [searchName, setSearchName] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { items: users, total, areUsersLoading } = useSelector(
-    state => state.customers,
-  );
+  const { items: users } = useSelector((state) => state.customers);
 
   useEffect(() => {
     setFormattedUsers(
       users
-        .filter(user => !existUsers.find(({ id }) => id === user.id))
-        .map(user => {
+        .filter((user) => !existUsers.find(({ id }) => id === user.id))
+        .map((user) => {
           return {
             label: `${user.first_name} ${user.last_name}`,
             value: user.id,
@@ -63,13 +42,7 @@ const ContactResultModal = ({ form, existUsers }) => {
     });
   }, []);
 
-  const loadPage = useCallback(() => {
-    setLoading(true);
-    setPage(page + 1);
-    loadUsers({ page: page + 1, search: searchName });
-  }, [searchName, page]);
-
-  const sendQuery = useCallback(query => {
+  const sendQuery = useCallback((query) => {
     if (query) {
       loadUsers({ page: 1, search: query });
       setPage(1);
@@ -77,11 +50,11 @@ const ContactResultModal = ({ form, existUsers }) => {
   }, []);
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
-  const onChangeSearch = useCallback(value => {
+  const onChangeSearch = useCallback((value) => {
     setLoading(true);
     setFormattedUsers([]);
     setSearchName(value);
@@ -124,7 +97,7 @@ const ContactResultModal = ({ form, existUsers }) => {
           listHeight={0}
           open
           dropdownClassName={classNames({ [styles.hide]: !searchName })}
-          dropdownRender={menu => {
+          dropdownRender={(menu) => {
             return searchName ? (
               <div className={styles.dropDown}>
                 {/* <InfiniteScroll

@@ -10,7 +10,7 @@ const Password = () => {
   const [form] = Form.useForm();
 
   const onSubmit = useCallback(
-    values => {
+    (values) => {
       dispatch({
         type: actions.CHANGE_PASSWORD_REQUEST,
         payload: {
@@ -21,7 +21,7 @@ const Password = () => {
     [dispatch],
   );
 
-  const { isPasswordChanging, error } = useSelector(state => state.user);
+  const { isPasswordChanging, error } = useSelector((state) => state.user);
 
   useEffect(() => {
     const isInitializing = form.getFieldValue('currentPassword') === undefined;

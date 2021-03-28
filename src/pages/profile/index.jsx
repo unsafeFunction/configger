@@ -1,5 +1,5 @@
 import React from 'react';
-import ProfileInfo from '../profileInfo';
+import ProfileInfo from '../ProfileInfo';
 import Password from '../password';
 
 const Profile = () => {

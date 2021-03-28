@@ -8,7 +8,7 @@ export const fetchIntake = async () => {
   }
 };
 
-export const createPackingSlip = async payload => {
+export const createPackingSlip = async (payload) => {
   try {
     return await axiosClient.post('/packing-slip/create', {
       company_name: payload.companyName,

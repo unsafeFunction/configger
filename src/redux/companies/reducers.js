@@ -27,7 +27,7 @@ const companiesReducer = (state = initialState, action) => {
       return {
         ...state,
         items: action.payload.firstPage
-          ? action.payload.data.map(company => {
+          ? action.payload.data.map((company) => {
               return {
                 ...company,
                 action: null,
@@ -35,7 +35,7 @@ const companiesReducer = (state = initialState, action) => {
             })
           : [
               ...state.items,
-              ...action.payload.data.map(company => {
+              ...action.payload.data.map((company) => {
                 return {
                   ...company,
                   action: null,
@@ -59,7 +59,7 @@ const companiesReducer = (state = initialState, action) => {
       return {
         items:
           action.payload.status === 204 &&
-          state.items.filter(campaign => {
+          state.items.filter((campaign) => {
             return campaign.id !== action.payload.id;
           }),
         isLoading: true,

@@ -19,10 +19,10 @@ const Search = () => {
   const history = useHistory();
   const [searchName, setSearchName] = useState('');
 
-  const search = useSelector(state => state.search);
+  const search = useSelector((state) => state.search);
 
   const sendQuery = useCallback(
-    query => {
+    (query) => {
       if (query) {
         dispatch({
           type: actions.FETCH_INFO_REQUEST,
@@ -36,11 +36,11 @@ const Search = () => {
   );
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
-  const onChangeSearch = useCallback(event => {
+  const onChangeSearch = useCallback((event) => {
     setSearchName(event.target.value);
     delayedQuery(event.target.value);
   }, []);
@@ -57,32 +57,47 @@ const Search = () => {
       />
       {!searchName && (
         <div className={styles.emptyPlaceholder}>
-          <p>Start typing for search <SearchOutlined /></p>
+          <p>
+            Start typing for search <SearchOutlined />
+          </p>
         </div>
       )}
       {searchName && search?.items?.length > 0 && !search.isLoading && (
-        <Steps direction="vertical" current={search.current} className={styles.stages}>
+        <Steps
+          direction="vertical"
+          current={search.current}
+          className={styles.stages}
+        >
           {search?.items?.map((step, stepIdx) => (
             <Step
               title={step.title}
               key={step.title}
-              description={(
+              description={
                 <div>
                   {step.data.map((info) => (
                     <p>
-                      {info.title}<span className={`ml-3 ${stepIdx !== search.current ? 'text-muted' : 'text-primary' }`}>
-                    {info.id === 'company_date' ? moment(info.value).format('YYYY-MM-DD') : info.value}
-                  </span>
+                      {info.title}
+                      <span
+                        className={`ml-3 ${
+                          stepIdx !== search.current
+                            ? 'text-muted'
+                            : 'text-primary'
+                        }`}
+                      >
+                        {info.id === 'company_date'
+                          ? moment(info.value).format('YYYY-MM-DD')
+                          : info.value}
+                      </span>
                     </p>
                   ))}
                 </div>
-              )}
+              }
             />
           ))}
         </Steps>
       )}
-      {searchName && search.isLoading && (<Loader />)}
-      {searchName && !search?.items?.length  && !search.isLoading && (
+      {searchName && search.isLoading && <Loader />}
+      {searchName && !search?.items?.length && !search.isLoading && (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
       )}
     </>

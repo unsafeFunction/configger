@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button, Empty, Spin } from 'antd';
 import actions from 'redux/user/actions';
-import classNames from 'classnames';
 import moment from 'moment';
 import { Empty as Img } from 'assets';
 import style from '../style.module.scss';
@@ -13,7 +12,7 @@ const RegByEmail = () => {
   const history = useHistory();
   const inviteKey = history.location.pathname.split('/')[3];
 
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
 
   const useFetching = () => {
     useEffect(() => {
@@ -27,7 +26,7 @@ const RegByEmail = () => {
   useFetching();
 
   const onSubmit = useCallback(
-    values => {
+    (values) => {
       dispatch({
         type: actions.REG_BY_EMAIL_REQUEST,
         payload: {

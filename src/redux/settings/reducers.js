@@ -4,9 +4,9 @@ import merge from 'lodash.merge';
 
 import actions from './actions';
 
-const STORED_SETTINGS = storedSettings => {
+const STORED_SETTINGS = (storedSettings) => {
   const settings = {};
-  Object.keys(storedSettings).forEach(key => {
+  Object.keys(storedSettings).forEach((key) => {
     const item = store.get(`app.settings.${key}`);
     settings[key] = typeof item !== 'undefined' ? item : storedSettings[key];
   });

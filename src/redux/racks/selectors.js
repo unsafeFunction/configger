@@ -1,1 +1,1 @@
-export const getRackScan = state => state.racks?.singleRack;
+export const getRackScan = (state) => state.racks?.singleRack;
