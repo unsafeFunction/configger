@@ -8,6 +8,7 @@ import actions from 'redux/analysisRuns/actions';
 import moment from 'moment-timezone';
 import { constants } from 'utils/constants';
 import qs from 'qs';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -87,10 +88,12 @@ const ScanSessions = () => {
     {
       title: 'Reflex Run',
       dataIndex: 'reflexed',
+      render: (_, value) => (value ? <CheckOutlined /> : <CloseOutlined />),
     },
     {
       title: 'Validation Run',
       dataIndex: 'validated',
+      render: (_, value) => (value ? <CheckOutlined /> : <CloseOutlined />),
     },
   ];
 
