@@ -40,7 +40,7 @@ const ScanSessions = () => {
           ...params,
         },
       });
-    }, [dispatch, dates, history]);
+    }, [dispatch, from, to, history]);
   };
 
   useFetching();
