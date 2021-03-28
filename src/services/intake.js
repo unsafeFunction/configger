@@ -23,7 +23,7 @@ export const createPackingSlip = async (payload) => {
   }
 };
 
-export const downloadFile = async ({ link, name, contentType }) => {
+export const downloadFile = async ({ link }) => {
   try {
     const response = await axiosClient.get(link, {
       headers: {
@@ -31,8 +31,6 @@ export const downloadFile = async ({ link, name, contentType }) => {
       },
       responseType: 'blob',
     });
-
-    const blobData = new Blob([response.data], { type: contentType });
 
     return response;
   } catch (error) {
