@@ -1,30 +1,28 @@
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined, DeleteOutlined, SearchOutlined
+} from '@ant-design/icons';
+import { Button, Form, Input, Space, Table, Tabs, Tag } from 'antd';
+import { ContactResultModal } from 'components/widgets/companies';
+import HijackBtn from 'components/widgets/hijack/HijackBtn';
+import PoolTable from 'components/widgets/Pools/PoolTable';
+import useWindowSize from 'hooks/useWindowSize';
+import debounce from 'lodash.debounce';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { Tabs, Table, Tag, Button, Form, Input, Space } from 'antd';
-import {
-  DeleteOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  SearchOutlined,
-} from '@ant-design/icons';
-import { ContactResultModal } from 'components/widgets/companies';
+import actions from 'redux/companies/actions';
 import modalActions from 'redux/modal/actions';
-import PoolTable from 'components/widgets/pools/PoolTable';
 import { default as poolsActions } from 'redux/pools/actions';
 import { constants } from 'utils/constants';
-import actions from 'redux/companies/actions';
-import debounce from 'lodash.debounce';
-import HijackBtn from 'components/widgets/hijack/HijackBtn';
-import useWindowSize from 'hooks/useWindowSize';
 import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
 
 const CompanyProfile = () => {
   const [searchName, setSearchName] = useState('');
-  const singleCompany = useSelector(state => state.companies.singleCompany);
-  const pools = useSelector(state => state.pools);
+  const singleCompany = useSelector((state) => state.companies.singleCompany);
+  const pools = useSelector((state) => state.pools);
   const dispatch = useDispatch();
   const history = useHistory();
   const idFromUrl = history.location.pathname.split('/')[2];
@@ -55,7 +53,7 @@ const CompanyProfile = () => {
   useFetching();
 
   const sendQuery = useCallback(
-    query => {
+    (query) => {
       dispatch({
         type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
         payload: {
@@ -69,11 +67,11 @@ const CompanyProfile = () => {
   );
 
   const delayedQuery = useCallback(
-    debounce(q => sendQuery(q), 500),
+    debounce((q) => sendQuery(q), 500),
     [],
   );
 
-  const onChangeSearch = useCallback(event => {
+  const onChangeSearch = useCallback((event) => {
     setSearchName(event.target.value);
     delayedQuery(event.target.value);
   }, []);
@@ -86,7 +84,7 @@ const CompanyProfile = () => {
         id: singleCompany?.unique_id,
         results_contacts: [
           ...modalResultContacts,
-          ...singleCompany?.results_contacts?.map(user => user.id),
+          ...singleCompany?.results_contacts?.map((user) => user.id),
         ],
       },
     });
@@ -115,14 +113,14 @@ const CompanyProfile = () => {
   }, [handleSubmit, dispatch]);
 
   const removeUser = useCallback(
-    userId => {
+    (userId) => {
       dispatch({
         type: actions.UPDATE_USERS_REQUEST,
         payload: {
           id: singleCompany?.unique_id,
           results_contacts: singleCompany?.results_contacts
             ?.filter(({ id }) => id !== userId)
-            .map(user => user.id),
+            .map((user) => user.id),
         },
       });
     },
@@ -148,7 +146,9 @@ const CompanyProfile = () => {
       dataIndex: 'fullname',
       render: (_, record) => (
         <Link to={`/users/${record.id}`} className="text-blue">
-          {record.first_name} {record.last_name}
+          {record.first_name} 
+{' '}
+{record.last_name}
         </Link>
       ),
     },
@@ -211,10 +211,15 @@ const CompanyProfile = () => {
                     message: () => (
                       <>
                         <p className={styles.modalWarningMessage}>
-                          You try to delete <span>{user.first_name}</span>{' '}
-                          <span>{user.last_name}</span> from{' '}
-                          <span>{singleCompany?.name}</span>.
-                        </p>
+                          You try to delete 
+{' '}
+<span>{user.first_name}</span>{' '}
+                          <span>{user.last_name}</span>
+{' '}
+from{' '}
+                          <span>{singleCompany?.name}</span>
+.
+</p>
                         <p className={styles.modalWarningMessage}>
                           Are you sure?
                         </p>

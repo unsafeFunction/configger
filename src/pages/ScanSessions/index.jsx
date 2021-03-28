@@ -35,10 +35,10 @@ const ScanSessions = () => {
 
       const params = dates.length
         ? {
-          started_on_day_after: dates[0],
-          started_on_day_before: dates[1],
-          ...filteringParams,
-        }
+            started_on_day_after: dates[0],
+            started_on_day_before: dates[1],
+            ...filteringParams,
+          }
         : filteringParams;
 
       dispatch({
@@ -129,10 +129,10 @@ const ScanSessions = () => {
 
     const params = dates.length
       ? {
-        started_on_day_after: dates[0],
-        started_on_day_before: dates[1],
-        ...filteringParams,
-      }
+          started_on_day_after: dates[0],
+          started_on_day_before: dates[1],
+          ...filteringParams,
+        }
       : filteringParams;
 
     return dispatch({
@@ -152,10 +152,10 @@ const ScanSessions = () => {
 
       const params = stateRef.current.length
         ? {
-          started_on_day_after: stateRef.current[0],
-          started_on_day_before: stateRef.current[1],
-          ...filteringParams,
-        }
+            started_on_day_after: stateRef.current[0],
+            started_on_day_before: stateRef.current[1],
+            ...filteringParams,
+          }
         : filteringParams;
 
       return dispatch({
@@ -217,9 +217,9 @@ const ScanSessions = () => {
                   scan_time: moment(scan.scan_timestamp).format('LLLL'),
                   pool_name:
                     scan?.scan_order >= 0
-                      ? `${
-                          moment(scan?.scan_timestamp)?.format('dddd')?.[0]
-                        }${scan?.scan_order + 1}`
+                      ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
+                          scan?.scan_order + 1
+                        }`
                       : '-',
                   scanner: scan.scanner ?? '-',
                   action: (

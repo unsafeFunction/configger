@@ -92,9 +92,6 @@ export const constants = {
   poolsByRun: {
     itemsLoadingCount: 100,
   },
-  activityStream: {
-    itemsLoadingCount: 25,
-  },
   intakeLog: {
     itemsLoadingCount: 25,
   },

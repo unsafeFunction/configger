@@ -102,7 +102,7 @@ const columns = [
 ];
 
 const UserPermissions = () => {
-  const { userPermission } = useSelector(state => state.userSettings);
+  const { userPermission } = useSelector((state) => state.userSettings);
   const dispatch = useDispatch();
 
   const onPermissionChange = useCallback(
@@ -127,7 +127,7 @@ const UserPermissions = () => {
       return {
         create: (
           <Checkbox
-            onChange={event =>
+            onChange={(event) =>
               onPermissionChange(
                 event.target.checked,
                 userRole,
@@ -140,7 +140,7 @@ const UserPermissions = () => {
         ),
         read: (
           <Checkbox
-            onChange={event =>
+            onChange={(event) =>
               onPermissionChange(
                 event.target.checked,
                 userRole,
@@ -153,7 +153,7 @@ const UserPermissions = () => {
         ),
         update: (
           <Checkbox
-            onChange={event =>
+            onChange={(event) =>
               onPermissionChange(
                 event.target.checked,
                 userRole,
@@ -166,7 +166,7 @@ const UserPermissions = () => {
         ),
         delete: (
           <Checkbox
-            onChange={event =>
+            onChange={(event) =>
               onPermissionChange(
                 event.target.checked,
                 userRole,
@@ -183,7 +183,7 @@ const UserPermissions = () => {
   );
 
   const getRoleColumn = useCallback(
-    role => {
+    (role) => {
       return [
         {
           key: `pre_scan_${role}`,
@@ -230,11 +230,11 @@ const UserPermissions = () => {
     [userPermission],
   );
 
-  const getRoleHeaderCheckbox = userRole => {
+  const getRoleHeaderCheckbox = (userRole) => {
     return {
       create: (
         <Checkbox
-          onChange={event =>
+          onChange={(event) =>
             onPermissionChange(
               event.target.checked,
               userRole,
@@ -248,7 +248,7 @@ const UserPermissions = () => {
       //   <Checkbox/>,
       update: (
         <Checkbox
-          onChange={event =>
+          onChange={(event) =>
             onPermissionChange(
               event.target.checked,
               userRole,
@@ -261,7 +261,7 @@ const UserPermissions = () => {
       ),
       read: (
         <Checkbox
-          onChange={event =>
+          onChange={(event) =>
             onPermissionChange(
               event.target.checked,
               userRole,
@@ -274,7 +274,7 @@ const UserPermissions = () => {
       ),
       delete: (
         <Checkbox
-          onChange={event =>
+          onChange={(event) =>
             onPermissionChange(
               event.target.checked,
               userRole,

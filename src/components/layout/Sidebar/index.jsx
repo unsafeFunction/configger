@@ -1,82 +1,82 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Scrollbars } from 'react-custom-scrollbars'
-import { Switch, Radio, Select } from 'antd'
-import classNames from 'classnames'
-import style from './style.module.scss'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Scrollbars } from 'react-custom-scrollbars';
+import { Switch, Radio, Select } from 'antd';
+import classNames from 'classnames';
+import style from './style.module.scss';
 
-const mapStateToProps = ({ settings }) => ({ settings })
+const mapStateToProps = ({ settings }) => ({ settings });
 
 @connect(mapStateToProps)
 class Sidebar extends React.Component {
   changeSetting = (setting, value) => {
-    const { dispatch } = this.props
+    const { dispatch } = this.props;
     dispatch({
       type: 'settings/CHANGE_SETTING',
       payload: {
         setting,
         value,
       },
-    })
-  }
+    });
+  };
 
   toggleSettings = () => {
-    const { dispatch, settings } = this.props
-    const { isSidebarOpen } = settings
+    const { dispatch, settings } = this.props;
+    const { isSidebarOpen } = settings;
     dispatch({
       type: 'settings/CHANGE_SETTING',
       payload: {
         setting: 'isSidebarOpen',
         value: !isSidebarOpen,
       },
-    })
-  }
+    });
+  };
 
-  selectMenuType = e => {
-    const { dispatch } = this.props
-    const { value } = e.target
+  selectMenuType = (e) => {
+    const { dispatch } = this.props;
+    const { value } = e.target;
     dispatch({
       type: 'settings/CHANGE_SETTING',
       payload: {
         setting: 'menuType',
         value,
       },
-    })
-  }
+    });
+  };
 
-  selectMenuLayoutType = e => {
-    const { dispatch } = this.props
-    const { value } = e.target
+  selectMenuLayoutType = (e) => {
+    const { dispatch } = this.props;
+    const { value } = e.target;
     dispatch({
       type: 'settings/CHANGE_SETTING',
       payload: {
         setting: 'menuLayoutType',
         value,
       },
-    })
-  }
+    });
+  };
 
   colorPickerHandler = (setting, value) => {
-    const { dispatch } = this.props
+    const { dispatch } = this.props;
     dispatch({
       type: 'settings/CHANGE_SETTING',
       payload: {
         setting,
         value,
       },
-    })
-  }
+    });
+  };
 
-  selectRouterAnimation = value => {
-    const { dispatch } = this.props
+  selectRouterAnimation = (value) => {
+    const { dispatch } = this.props;
     dispatch({
       type: 'settings/CHANGE_SETTING',
       payload: {
         setting: 'routerAnimation',
         value,
       },
-    })
-  }
+    });
+  };
 
   render() {
     const {
@@ -100,10 +100,10 @@ class Sidebar extends React.Component {
         isBorderless,
         routerAnimation,
       },
-    } = this.props
+    } = this.props;
 
-    const ColorPicker = props => {
-      return props.colors.map(item => {
+    const ColorPicker = (props) => {
+      return props.colors.map((item) => {
         return (
           <a
             href="javascript: void(0);"
@@ -118,9 +118,9 @@ class Sidebar extends React.Component {
               [style.air__sidebar__select__item__img]: item === 'image',
             })}
           />
-        )
-      })
-    }
+        );
+      });
+    };
 
     return (
       <div>
@@ -152,15 +152,22 @@ class Sidebar extends React.Component {
               <h5>
                 <strong>Theme Settings</strong>
               </h5>
-              <div className="air__utils__line" style={{ marginTop: 25, marginBottom: 30 }} />
+              <div
+                className="air__utils__line"
+                style={{ marginTop: 25, marginBottom: 30 }}
+              />
               <div>
                 <p className="text-muted mb-5">
-                  This component gives possibility to construct custom blocks with any widgets,
-                  components and elements inside, like this theme settings
+                  This component gives possibility to construct custom blocks
+                  with any widgets, components and elements inside, like this
+                  theme settings
                 </p>
                 <div className={style.air__sidebar__type}>
                   <div className={style.air__sidebar__type__items}>
-                    <Radio.Group onChange={this.selectMenuLayoutType} defaultValue={menuLayoutType}>
+                    <Radio.Group
+                      onChange={this.selectMenuLayoutType}
+                      defaultValue={menuLayoutType}
+                    >
                       <div className="row">
                         <div className="col-6">
                           <div className="mb-2">
@@ -184,23 +191,35 @@ class Sidebar extends React.Component {
                     <span>Left Menu Type</span>
                   </div>
                   <div className={style.air__sidebar__type__items}>
-                    <Radio.Group onChange={this.selectMenuType} defaultValue={menuType}>
+                    <Radio.Group
+                      onChange={this.selectMenuType}
+                      defaultValue={menuType}
+                    >
                       <div className="row">
                         <div className="col-6">
                           <div className="mb-2">
-                            <Radio value="default" disabled={menuLayoutType !== 'left'}>
+                            <Radio
+                              value="default"
+                              disabled={menuLayoutType !== 'left'}
+                            >
                               Default
                             </Radio>
                           </div>
                           <div className="mb-2">
-                            <Radio value="flyout" disabled={menuLayoutType !== 'left'}>
+                            <Radio
+                              value="flyout"
+                              disabled={menuLayoutType !== 'left'}
+                            >
                               Flyout
                             </Radio>
                           </div>
                         </div>
                         <div className="col-6">
                           <div className="mb-2">
-                            <Radio value="compact" disabled={menuLayoutType !== 'left'}>
+                            <Radio
+                              value="compact"
+                              disabled={menuLayoutType !== 'left'}
+                            >
                               Compact
                             </Radio>
                           </div>
@@ -220,33 +239,41 @@ class Sidebar extends React.Component {
                       onChange={this.selectRouterAnimation}
                     >
                       <Select.Option value="none">None</Select.Option>
-                      <Select.Option value="slide-fadein-up">Slide Up</Select.Option>
-                      <Select.Option value="slide-fadein-right">Slide Right</Select.Option>
+                      <Select.Option value="slide-fadein-up">
+                        Slide Up
+                      </Select.Option>
+                      <Select.Option value="slide-fadein-right">
+                        Slide Right
+                      </Select.Option>
                       <Select.Option value="fadein">Fade In</Select.Option>
                       <Select.Option value="zoom-fadein">Zoom</Select.Option>
                     </Select>
                   </div>
                 </div>
                 <div className={style.air__sidebar__item}>
-                  <div className={style.air__sidebar__label}>Toggled left menu</div>
+                  <div className={style.air__sidebar__label}>
+                    Toggled left menu
+                  </div>
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isMenuCollapsed}
                       disabled={menuLayoutType !== 'left'}
-                      onChange={value => {
-                        this.changeSetting('isMenuCollapsed', value)
+                      onChange={(value) => {
+                        this.changeSetting('isMenuCollapsed', value);
                       }}
                     />
                   </div>
                 </div>
                 <div className={style.air__sidebar__item}>
-                  <div className={style.air__sidebar__label}>Unfixed left menu</div>
+                  <div className={style.air__sidebar__label}>
+                    Unfixed left menu
+                  </div>
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isMenuUnfixed}
                       disabled={menuLayoutType !== 'left'}
-                      onChange={value => {
-                        this.changeSetting('isMenuUnfixed', value)
+                      onChange={(value) => {
+                        this.changeSetting('isMenuUnfixed', value);
                       }}
                     />
                   </div>
@@ -256,8 +283,8 @@ class Sidebar extends React.Component {
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isTopbarFixed}
-                      onChange={value => {
-                        this.changeSetting('isTopbarFixed', value)
+                      onChange={(value) => {
+                        this.changeSetting('isTopbarFixed', value);
                       }}
                     />
                   </div>
@@ -293,12 +320,14 @@ class Sidebar extends React.Component {
                   </div>
                 </div>
                 <div className={style.air__sidebar__item}>
-                  <div className={style.air__sidebar__label}>Content no max-width</div>
+                  <div className={style.air__sidebar__label}>
+                    Content no max-width
+                  </div>
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isContentNoMaxWidth}
-                      onChange={value => {
-                        this.changeSetting('isContentNoMaxWidth', value)
+                      onChange={(value) => {
+                        this.changeSetting('isContentNoMaxWidth', value);
                       }}
                     />
                   </div>
@@ -308,19 +337,21 @@ class Sidebar extends React.Component {
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isAppMaxWidth}
-                      onChange={value => {
-                        this.changeSetting('isAppMaxWidth', value)
+                      onChange={(value) => {
+                        this.changeSetting('isAppMaxWidth', value);
                       }}
                     />
                   </div>
                 </div>
                 <div className={style.air__sidebar__item}>
-                  <div className={style.air__sidebar__label}>Gray background</div>
+                  <div className={style.air__sidebar__label}>
+                    Gray background
+                  </div>
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isGrayBackground}
-                      onChange={value => {
-                        this.changeSetting('isGrayBackground', value)
+                      onChange={(value) => {
+                        this.changeSetting('isGrayBackground', value);
                       }}
                     />
                   </div>
@@ -330,19 +361,21 @@ class Sidebar extends React.Component {
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isGrayTopbar}
-                      onChange={value => {
-                        this.changeSetting('isGrayTopbar', value)
+                      onChange={(value) => {
+                        this.changeSetting('isGrayTopbar', value);
                       }}
                     />
                   </div>
                 </div>
                 <div className={style.air__sidebar__item}>
-                  <div className={style.air__sidebar__label}>Squared card borders</div>
+                  <div className={style.air__sidebar__label}>
+                    Squared card borders
+                  </div>
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isSquaredBorders}
-                      onChange={value => {
-                        this.changeSetting('isSquaredBorders', value)
+                      onChange={(value) => {
+                        this.changeSetting('isSquaredBorders', value);
                       }}
                     />
                   </div>
@@ -352,19 +385,21 @@ class Sidebar extends React.Component {
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isCardShadow}
-                      onChange={value => {
-                        this.changeSetting('isCardShadow', value)
+                      onChange={(value) => {
+                        this.changeSetting('isCardShadow', value);
                       }}
                     />
                   </div>
                 </div>
                 <div className={style.air__sidebar__item}>
-                  <div className={style.air__sidebar__label}>Borderless cards</div>
+                  <div className={style.air__sidebar__label}>
+                    Borderless cards
+                  </div>
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isBorderless}
-                      onChange={value => {
-                        this.changeSetting('isBorderless', value)
+                      onChange={(value) => {
+                        this.changeSetting('isBorderless', value);
                       }}
                     />
                   </div>
@@ -374,8 +409,8 @@ class Sidebar extends React.Component {
                   <div className={style.air__sidebar__container}>
                     <Switch
                       checked={isMenuShadow}
-                      onChange={value => {
-                        this.changeSetting('isMenuShadow', value)
+                      onChange={(value) => {
+                        this.changeSetting('isMenuShadow', value);
                       }}
                     />
                   </div>
@@ -393,8 +428,8 @@ class Sidebar extends React.Component {
           <span className="d-none d-md-inline">Settings</span>
         </a>
       </div>
-    )
+    );
   }
 }
 
-export default Sidebar
+export default Sidebar;

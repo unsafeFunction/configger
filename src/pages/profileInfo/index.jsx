@@ -10,7 +10,7 @@ const ProfileInfo = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const onSubmit = useCallback(
-    values => {
+    (values) => {
       dispatch({
         type: actions.UPDATE_PROFILE_REQUEST,
         payload: {
@@ -21,9 +21,7 @@ const ProfileInfo = () => {
     [dispatch],
   );
 
-  const { profile, isProfileUpdating, error } = useSelector(
-    state => state.user,
-  );
+  const { profile, isProfileUpdating } = useSelector((state) => state.user);
 
   useEffect(() => {
     form.setFieldsValue({

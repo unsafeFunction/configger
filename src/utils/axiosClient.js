@@ -11,14 +11,14 @@ const API = axios.create({
 });
 
 API.interceptors.request.use(
-  config => {
+  (config) => {
     const storedToken = cookie.getItem('accessToken');
     if (!config.headers.authorization && storedToken) {
       config.headers.Authorization = `Token ${storedToken}`;
     }
     return config;
   },
-  error => {
+  (error) => {
     return Promise.reject(error);
   },
 );

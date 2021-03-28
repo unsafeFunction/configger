@@ -39,7 +39,7 @@ const routes = [
   },
   {
     path: '/profile',
-    Component: loadable(() => import('pages/profile')),
+    Component: loadable(() => import('pages/Profile')),
     exact: true,
   },
   {
@@ -53,7 +53,7 @@ const routes = [
   },
   {
     path: '/barcode-lookup',
-    Component: loadable(() => import('pages/search')),
+    Component: loadable(() => import('pages/Search')),
   },
   {
     path: '/intake',
@@ -65,12 +65,12 @@ const routes = [
   },
   {
     path: '/runs',
-    Component: loadable(() => import('pages/runs')),
+    Component: loadable(() => import('pages/Runs')),
     exact: true,
   },
   {
     path: '/runs/:id',
-    Component: loadable(() => import('pages/runs/run')),
+    Component: loadable(() => import('pages/Runs/run')),
   },
   {
     path: '/pool-scans/:id',

@@ -1,6 +1,6 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import Login from 'components/system/Auth/Login'
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import Login from 'components/system/Auth/Login';
 
 class SystemLogin extends React.Component {
   render() {
@@ -9,8 +9,8 @@ class SystemLogin extends React.Component {
         <Helmet title="Login" />
         <Login />
       </div>
-    )
+    );
   }
 }
 
-export default SystemLogin
+export default SystemLogin;

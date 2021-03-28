@@ -6,13 +6,13 @@ const generateRequestActions = (
   actionName = instance,
 ) => {
   const actions = {};
-  const methodsArray = requestTypes.map(type => ({
+  const methodsArray = requestTypes.map((type) => ({
     type,
     states,
   }));
 
-  methodsArray.forEach(method => {
-    method.states.forEach(state => {
+  methodsArray.forEach((method) => {
+    method.states.forEach((state) => {
       const singleAction = `${method.type.toUpperCase()}_${actionName.toUpperCase()}_${state}`;
 
       Object.assign(actions, {
