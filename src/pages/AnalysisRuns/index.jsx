@@ -47,7 +47,6 @@ const ScanSessions = () => {
   useFetching();
 
   const runsItems = runs?.items;
-
   // const navigateToRun = useCallback(
   //   ({ sessionId }) => {
   //     history.push({
@@ -88,12 +87,16 @@ const ScanSessions = () => {
     {
       title: 'Reflex Run',
       dataIndex: 'reflexed',
-      render: (_, value) => (value ? <CheckOutlined /> : <CloseOutlined />),
+      align: 'center',
+      render: (_, record) =>
+        record?.reflexed ? <CheckOutlined /> : <CloseOutlined />,
     },
     {
       title: 'Validation Run',
       dataIndex: 'validated',
-      render: (_, value) => (value ? <CheckOutlined /> : <CloseOutlined />),
+      align: 'center',
+      render: (_, record) =>
+        record?.validated ? <CheckOutlined /> : <CloseOutlined />,
     },
   ];
 
