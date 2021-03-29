@@ -99,6 +99,10 @@ const routes = [
     path: '/intake-receipt-log',
     Component: loadable(() => import('pages/IntakeReceiptLog')),
   },
+  {
+    path: '/analysis-runs',
+    Component: loadable(() => import('pages/AnalysisRuns')),
+  },
   // {
   //   path: '/management',
   //   Component: loadable(() => import('pages/Management')),
