@@ -4,7 +4,15 @@ import { Menu, Dropdown } from 'antd';
 import { useSelector } from 'react-redux';
 import styles from './style.module.scss';
 
-const ProfileMenu = ({ history }) => {
+const ProfileMenu = ({ history, dispatch }) => {
+  const onLogout = useCallback(() => {
+    dispatch({
+      type: 'user/LOGOUT',
+      payload: {
+        redirect: () => history.push('/system/login'),
+      },
+    });
+  }, [dispatch, history]);
   const onRedirectToProfile = useCallback(() => {
     history.push('/profile');
   }, [history]);
@@ -20,11 +28,17 @@ const ProfileMenu = ({ history }) => {
   };
 
   const { first_name, last_name } = useSelector((state) => state.user.profile);
+  const hijack = useSelector((state) => state.hijack);
 
   const menu = (
     <Menu selectable={false}>
       <Menu.Item onClick={onRedirectToProfile}>
         <strong>Profile</strong>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item onClick={onLogout} disabled={hijack?.isActive}>
+        <i className={`${styles.menuIcon} fe fe-log-out`} />
+        Sign out
       </Menu.Item>
     </Menu>
   );

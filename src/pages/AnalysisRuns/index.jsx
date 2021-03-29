@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import { Table, DatePicker } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -48,29 +48,25 @@ const ScanSessions = () => {
 
   const runsItems = runs?.items;
 
-  // const navigateToRun = useCallback(
-  //   ({ sessionId }) => {
-  //     history.push({
-  //       pathname: `/pool-scans/${sessionId}`,
-  //     });
-  //   },
-  //   [history],
-  // );
-
   const columns = [
+    {
+      title: 'Run Title',
+      dataIndex: 'title',
+      render: (_, record) => (
+        <Link to={`/analysis-runs/${record.id}`} className="text-blue">
+          {record.title}
+        </Link>
+      ),
+    },
     {
       title: 'Creation Date',
       dataIndex: 'date',
     },
     {
-      title: 'Run Title',
-      dataIndex: 'title',
-    },
-    {
       title: 'Samples',
       dataIndex: 'scans_ids',
-      render: (_, value) => {
-        return value?.length || '-';
+      render: (_, record) => {
+        return record?.scans_ids?.length || '-';
       },
     },
     {
@@ -88,12 +84,16 @@ const ScanSessions = () => {
     {
       title: 'Reflex Run',
       dataIndex: 'reflexed',
-      render: (_, value) => (value ? <CheckOutlined /> : <CloseOutlined />),
+      align: 'center',
+      render: (_, record) =>
+        record?.reflexed ? <CheckOutlined /> : <CloseOutlined />,
     },
     {
       title: 'Validation Run',
       dataIndex: 'validated',
-      render: (_, value) => (value ? <CheckOutlined /> : <CloseOutlined />),
+      align: 'center',
+      render: (_, record) =>
+        record?.validated ? <CheckOutlined /> : <CloseOutlined />,
     },
   ];
 
