@@ -2,26 +2,8 @@ import axiosClient from 'utils/axiosClient';
 import saveBlobAs from 'utils/saveAsBlob';
 
 export const createRun = async (payload) => {
-  const {
-    title,
-    kfpParam,
-    replicationParam,
-    poolRacks,
-    reflex,
-    rerun,
-  } = payload;
-
   try {
-    const run = await axiosClient.post('/runs/', {
-      title,
-      type: kfpParam,
-      option: replicationParam,
-      scans_ids: poolRacks
-        .map((poolRack) => poolRack.id)
-        .filter((item) => typeof item === 'string'),
-      is_reflexed: reflex,
-      is_reruned: rerun,
-    });
+    const run = await axiosClient.post('/runs/', { ...payload });
     return run;
   } catch (error) {
     const err = error?.response?.data.field_errors;

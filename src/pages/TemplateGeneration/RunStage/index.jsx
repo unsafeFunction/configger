@@ -35,7 +35,7 @@ const RunStage = ({ runState, componentDispatch }) => {
       }}
       onFinish={onSubmit}
     >
-      <Item label="Run title" name="title" rules={[rules.required]}>
+      <Item label="Run title" name="runTitle" rules={[rules.required]}>
         <Input placeholder="Run title" />
       </Item>
       <Item name="reflex" valuePropName="checked" className="mb-0">

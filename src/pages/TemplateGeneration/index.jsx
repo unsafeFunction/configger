@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import React, { useReducer } from 'react';
 import { useSelector } from 'react-redux';
 import LayoutStage from './LayoutStage';
+import values from './params';
 import PoolRacksStage from './PoolRacksStage';
 import RunStage from './RunStage';
 import styles from './styles.module.scss';
@@ -19,8 +20,8 @@ const TemplateGeneration = () => {
 
   const initialRunState = {
     currentStage: 0,
-    kfpParam: '1_KINGFISHER_PLATE',
-    replicationParam: 'DUPLICATE',
+    kfpParam: values.oneKFP,
+    replicationParam: values.duplicate,
     poolRacks: Array(2).fill({}),
   };
 

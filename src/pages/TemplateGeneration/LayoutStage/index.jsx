@@ -1,7 +1,9 @@
 import { Button, Form, Radio } from 'antd';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { rules } from 'utils/rules';
+import values from '../params';
 import styles from './styles.module.scss';
 import { layout } from './utils';
 
@@ -17,7 +19,7 @@ const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
     });
 
     if (name === 'kfpParam') {
-      if (value === '1_KINGFISHER_PLATE') {
+      if (value === values.oneKFP) {
         componentDispatch({
           type: 'setValue',
           payload: {
@@ -25,7 +27,7 @@ const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
             value: Array(2).fill({}),
           },
         });
-      } else if (value === '2_KINGFISHER_PLATE') {
+      } else if (value === values.twoKFPs) {
         componentDispatch({
           type: 'setValue',
           payload: {
@@ -34,13 +36,13 @@ const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
           },
         });
 
-        form.setFieldsValue({ replicationParam: 'DUPLICATE' });
+        form.setFieldsValue({ replicationParam: values.duplicate });
 
         componentDispatch({
           type: 'setValue',
           payload: {
             name: 'replicationParam',
-            value: 'DUPLICATE',
+            value: values.duplicate,
           },
         });
       }
@@ -75,10 +77,10 @@ const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
             className={styles.radioGroup}
             buttonStyle="solid"
           >
-            <Radio.Button value="1_KINGFISHER_PLATE" className={styles.radio}>
+            <Radio.Button value={values.oneKFP} className={styles.radio}>
               1 KingFisher Plate
             </Radio.Button>
-            <Radio.Button value="2_KINGFISHER_PLATE" className={styles.radio}>
+            <Radio.Button value={values.twoKFPs} className={styles.radio}>
               2 KingFisher Plate
             </Radio.Button>
           </Radio.Group>
@@ -90,13 +92,13 @@ const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
             className={styles.radioGroup}
             buttonStyle="solid"
           >
-            <Radio.Button value="DUPLICATE" className={styles.radio}>
+            <Radio.Button value={values.duplicate} className={styles.radio}>
               Duplicate
             </Radio.Button>
             <Radio.Button
-              value="TRIPLICATE"
+              value={values.triplicate}
               className={styles.radio}
-              disabled={runState.kfpParam === '2_KINGFISHER_PLATE'}
+              disabled={runState.kfpParam === values.twoKFPs}
             >
               Triplicate
             </Radio.Button>

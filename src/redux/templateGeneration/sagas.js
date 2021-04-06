@@ -4,8 +4,26 @@ import { createRun, createTemplate } from 'services/templateGeneration';
 import actions from './actions';
 
 export function* callCreateTemplate({ payload }) {
+  const {
+    runTitle,
+    kfpParam,
+    replicationParam,
+    poolRacks,
+    reflex,
+    rerun,
+  } = payload;
+
   try {
-    const response = yield call(createRun, payload);
+    const response = yield call(createRun, {
+      title: runTitle,
+      type: kfpParam,
+      option: replicationParam,
+      scans_ids: poolRacks
+        .map((poolRack) => poolRack.id)
+        .filter((item) => typeof item === 'string'),
+      is_reflexed: reflex,
+      is_reruned: rerun,
+    });
 
     const { id, is_reflexed, is_reruned, title } = response?.data;
 
