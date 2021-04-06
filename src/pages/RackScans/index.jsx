@@ -99,7 +99,7 @@ const RackScans = () => {
     },
     {
       title: 'Logged By',
-      dataIndex: 'loaded_by',
+      dataIndex: 'scanned_by',
       render: (value) => {
         return value ?? '-';
       },
