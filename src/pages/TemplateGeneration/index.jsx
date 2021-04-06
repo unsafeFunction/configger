@@ -2,6 +2,7 @@ import { Button, Divider, Form, Steps } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
 import React, { useReducer } from 'react';
+import { useSelector } from 'react-redux';
 import LayoutStage from './LayoutStage';
 import PoolRacksStage from './PoolRacksStage';
 import RunStage from './RunStage';
@@ -14,10 +15,12 @@ const { Step } = Steps;
 const TemplateGeneration = () => {
   const [layoutForm] = Form.useForm();
 
+  const { isLoading } = useSelector((state) => state.templateGeneration);
+
   const initialRunState = {
     currentStage: 0,
-    kfpParam: '1-kingfisher',
-    replicationParam: 'duplicate',
+    kfpParam: '1_KINGFISHER_PLATE',
+    replicationParam: 'DUPLICATE',
     poolRacks: Array(2).fill({}),
   };
 
@@ -105,7 +108,7 @@ const TemplateGeneration = () => {
           // direction="vertical"
         >
           {stages.items.map((stage) => (
-            <Step title={stage.title} key={stage.title} />
+            <Step title={stage.title} key={stage.title} disabled={isLoading} />
           ))}
         </Steps>
         <Divider />
