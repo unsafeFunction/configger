@@ -1,13 +1,13 @@
+import { Button, Form, Input, Popconfirm, Popover, Table, Tag } from 'antd';
+import classNames from 'classnames';
+import InvalidateModal from 'components/widgets/Scans/InvalidateModal';
+import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
-import { Table, Button, Popover, Input, Popconfirm, Tag, Form } from 'antd';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
-import InvalidateModal from 'components/widgets/Scans/InvalidateModal';
 
 const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
   const { tubes } = constants;
@@ -177,11 +177,13 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                 </Popconfirm>
                 {(isRack &&
                   recordStatus !== tubes.deleted.status &&
+                  recordStatus !== tubes.missing.status &&
                   recordStatus !== tubes.negativeControl.status &&
                   recordStatus !== tubes.positiveControl.status) ||
                 (!isRack &&
-                  recordStatus !== tubes.pooling.status &&
-                  recordStatus !== tubes.deleted.status) ? (
+                  recordStatus !== tubes.deleted.status &&
+                  recordStatus !== tubes.missing.status &&
+                  recordStatus !== tubes.pooling.status) ? (
                   <Popconfirm
                     title="Are you sure to delete this tube?"
                     okText="Yes"

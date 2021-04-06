@@ -54,7 +54,14 @@ const racksReducer = (state = initialState, action) => {
   }
 };
 
-const rack = (state = initialState, action) => {
+const initialSingleRackState = {
+  items: [],
+  pools: [],
+  isLoading: false,
+  error: null,
+};
+
+const singleRackReducer = (state = initialSingleRackState, action) => {
   switch (action.type) {
     case actions.GET_RACK_REQUEST: {
       return {
@@ -141,5 +148,5 @@ const rack = (state = initialState, action) => {
 
 export default combineReducers({
   racks: racksReducer,
-  singleRack: rack,
+  singleRack: singleRackReducer,
 });

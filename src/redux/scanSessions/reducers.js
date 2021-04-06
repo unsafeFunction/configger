@@ -1,11 +1,13 @@
+import forEach from 'lodash.foreach';
 import { combineReducers } from 'redux';
 import { constants } from 'utils/constants';
-import forEach from 'lodash.foreach';
 import actions from './actions';
 
 const initialState = {
   items: [],
   isLoading: false,
+  total: 0,
+  offset: 0,
   error: null,
 };
 

@@ -1,12 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Card, Tag, Statistic, Col, Row, Tooltip } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons';
+import { Card, Col, Row, Statistic, Tag, Tooltip } from 'antd';
 import classNames from 'classnames';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import PropTypes from 'prop-types';
+import React from 'react';
 import { countedPoolTubes } from 'utils/tubesRules';
 import styles from '../styles.module.scss';
 
-const ScanStatistic = ({ scan, isRack }) => {
+const ScanStatistic = ({ scan, isRack = false }) => {
   const tubesTotal = scan?.scan_tubes?.filter((tube) => {
     return countedPoolTubes.find((t) => t.status === tube.status);
   });
@@ -70,7 +71,7 @@ const ScanStatistic = ({ scan, isRack }) => {
 };
 
 ScanStatistic.propTypes = {
-  scan: PropTypes.shape({}),
+  scan: PropTypes.shape({}).isRequired,
   isRack: PropTypes.bool,
 };
 

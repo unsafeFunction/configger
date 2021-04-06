@@ -1,8 +1,10 @@
-import React, { useReducer } from 'react';
-import { Steps, Divider, Button, Form } from 'antd';
-import moment from 'moment-timezone';
+import { Button, Divider, Form, Steps } from 'antd';
 import classNames from 'classnames';
+import moment from 'moment-timezone';
+import React, { useReducer } from 'react';
+import { useSelector } from 'react-redux';
 import LayoutStage from './LayoutStage';
+import values from './params';
 import PoolRacksStage from './PoolRacksStage';
 import RunStage from './RunStage';
 import styles from './styles.module.scss';
@@ -11,13 +13,15 @@ moment.tz.setDefault('America/New_York');
 
 const { Step } = Steps;
 
-const RunCreation = () => {
+const TemplateGeneration = () => {
   const [layoutForm] = Form.useForm();
+
+  const { isLoading } = useSelector((state) => state.templateGeneration);
 
   const initialRunState = {
     currentStage: 0,
-    kfpParam: '1-kingfisher',
-    qntParam: 'duplicate',
+    kfpParam: values.oneKFP,
+    replicationParam: values.duplicate,
     poolRacks: Array(2).fill({}),
   };
 
@@ -105,7 +109,7 @@ const RunCreation = () => {
           // direction="vertical"
         >
           {stages.items.map((stage) => (
-            <Step title={stage.title} key={stage.title} />
+            <Step title={stage.title} key={stage.title} disabled={isLoading} />
           ))}
         </Steps>
         <Divider />
@@ -116,4 +120,4 @@ const RunCreation = () => {
   );
 };
 
-export default RunCreation;
+export default TemplateGeneration;
