@@ -1,12 +1,12 @@
+import { SearchOutlined } from '@ant-design/icons';
+import { Col, DatePicker, Input, Row, Spin, Table } from 'antd';
+import classNames from 'classnames';
+import moment from 'moment-timezone';
+import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import poolRackActions from 'redux/racks/actions';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { Row, Col, Table, Spin, Tag, Button, Input, DatePicker } from 'antd';
-import { EyeOutlined, SearchOutlined } from '@ant-design/icons';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import moment from 'moment-timezone';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -126,7 +126,8 @@ const PoolRackTable = ({ setPoolRack, runState }) => {
   const columns = [
     {
       title: 'PoolRack Name',
-      dataIndex: '',
+      dataIndex: 'rack_name',
+      ellipsis: true,
     },
     {
       title: 'PoolRack RackID',
@@ -145,7 +146,8 @@ const PoolRackTable = ({ setPoolRack, runState }) => {
     },
     {
       title: 'Scanned By',
-      dataIndex: '',
+      dataIndex: 'scanned_by',
+      ellipsis: true,
     },
     {
       title: 'Actions',

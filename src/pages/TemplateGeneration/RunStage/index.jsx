@@ -1,10 +1,8 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Checkbox, Button } from 'antd';
+import { Button, Checkbox, Form, Input } from 'antd';
 import PropTypes from 'prop-types';
-import { layout } from './utils';
+import React from 'react';
 import { rules } from 'utils/rules';
-import styles from './styles.module.scss';
+import { layout } from './utils';
 
 const RunStage = ({ runState, componentDispatch }) => {
   const { Item } = Form;
@@ -17,8 +15,8 @@ const RunStage = ({ runState, componentDispatch }) => {
       <Item name="reflex" valuePropName="checked" className="mb-0">
         <Checkbox>Reflex</Checkbox>
       </Item>
-      <Item name="validation" valuePropName="checked">
-        <Checkbox>Validation</Checkbox>
+      <Item name="rerun" valuePropName="checked">
+        <Checkbox>Rerun</Checkbox>
       </Item>
       <Item>
         <Button

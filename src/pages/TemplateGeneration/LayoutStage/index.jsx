@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react';
-import { Form, Button, Radio } from 'antd';
+import { Button, Form, Radio } from 'antd';
 import PropTypes from 'prop-types';
-import { layout } from './utils';
+import React, { useCallback } from 'react';
 import { rules } from 'utils/rules';
 import styles from './styles.module.scss';
+import { layout } from './utils';
 
 const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
-  const { kfpParam, qntParam } = initialValues;
+  const { kfpParam, replicationParam } = initialValues;
 
   const handleChange = useCallback((e) => {
     const { value, name } = e.target;
@@ -34,12 +34,12 @@ const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
           },
         });
 
-        form.setFieldsValue({ qntParam: 'duplicate' });
+        form.setFieldsValue({ replicationParam: 'duplicate' });
 
         componentDispatch({
           type: 'setValue',
           payload: {
-            name: 'qntParam',
+            name: 'replicationParam',
             value: 'duplicate',
           },
         });
@@ -62,7 +62,7 @@ const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
       <Form
         form={form}
         layout="vertical"
-        initialValues={{ kfpParam, qntParam }}
+        initialValues={{ kfpParam, replicationParam }}
         size="large"
         onFinish={onSubmit}
         labelCol={layout}
@@ -83,9 +83,9 @@ const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
             </Radio.Button>
           </Radio.Group>
         </Form.Item>
-        <Form.Item name="qntParam" rules={[rules.required]}>
+        <Form.Item name="replicationParam" rules={[rules.required]}>
           <Radio.Group
-            name="qntParam"
+            name="replicationParam"
             onChange={handleChange}
             className={styles.radioGroup}
             buttonStyle="solid"

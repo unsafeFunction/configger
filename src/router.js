@@ -112,8 +112,8 @@ const routes = [
     Component: loadable(() => import('pages/Inventory')),
   },
   {
-    path: '/run-creation',
-    Component: loadable(() => import('pages/RunCreation')),
+    path: '/template-generation',
+    Component: loadable(() => import('pages/TemplateGeneration')),
   },
   {
     path: '/settings/permission',

@@ -1,23 +1,23 @@
-import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import user from './user/reducers';
-import menu from './menu/reducers';
-import settings from './settings/reducers';
-import userSettings from './userSettings/reducers';
-import modal from './modal/reducers';
+import { combineReducers } from 'redux';
+import analysisRuns from './analysisRuns/reducers';
 import companies from './companies/reducers';
-import runs from './runs/reducers';
-import pools from './pools/reducers';
 import intake from './intake/reducers';
-import search from './search/reducers';
 import intakeLims from './intakeLims/reducers';
 import intakeReceiptLog from './intakeReceiptLog/reducers';
-import scanSessions from './scanSessions/reducers';
-import management from './management/reducers';
 import inventory from './inventory/reducers';
+import management from './management/reducers';
+import menu from './menu/reducers';
+import modal from './modal/reducers';
+import pools from './pools/reducers';
 import racks from './racks/reducers';
-import runCreation from './runCreation/reducers';
-import analysisRuns from './analysisRuns/reducers';
+import runs from './runs/reducers';
+import scanSessions from './scanSessions/reducers';
+import search from './search/reducers';
+import settings from './settings/reducers';
+import templateGeneration from './templateGeneration/reducers';
+import user from './user/reducers';
+import userSettings from './userSettings/reducers';
 
 export default (history) =>
   combineReducers({
@@ -38,6 +38,6 @@ export default (history) =>
     management,
     inventory,
     racks,
-    runCreation,
+    templateGeneration,
     analysisRuns,
   });

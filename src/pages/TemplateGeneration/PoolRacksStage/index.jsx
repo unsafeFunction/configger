@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { Card, Col, Row, Typography } from 'antd';
+import moment from 'moment-timezone';
 import PropTypes from 'prop-types';
+import React, { useCallback, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
-import { Row, Col, Card, Typography } from 'antd';
-import { EyeOutlined, DeleteOutlined } from '@ant-design/icons';
-import moment from 'moment-timezone';
-import PoolRackTable from './PoolRackTable';
 import PoolRack from './PoolRack';
+import PoolRackTable from './PoolRackTable';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -78,7 +78,7 @@ const PoolRacksStage = ({ runState, componentDispatch }) => {
         },
       });
     },
-    [dispatch, poolRacks, selectedPoolRack, addPoolRack],
+    [dispatch, addPoolRack, handleReset],
   );
 
   const handleModalPoolRack = useCallback(
@@ -88,13 +88,13 @@ const PoolRacksStage = ({ runState, componentDispatch }) => {
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
           title: 'PoolRack',
-          // onOk: () => console.log('OK - Modal - View Rack'),
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
           },
           message: () => <PoolRack poolRackId={poolRackId} />,
           width: '100%',
+          footer: null,
         },
       });
     },
@@ -135,7 +135,8 @@ const PoolRacksStage = ({ runState, componentDispatch }) => {
                 {poolRack.rack_id ?? '-'}
               </p>
               <p>
-                <Text type="secondary">PoolRack Name: </Text>-
+                <Text type="secondary">PoolRack Name: </Text>
+                {poolRack.rack_name ?? '-'}
               </p>
               <p>
                 <Text type="secondary">Updated Time: </Text>

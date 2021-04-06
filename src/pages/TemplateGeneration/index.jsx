@@ -1,7 +1,7 @@
-import React, { useReducer } from 'react';
-import { Steps, Divider, Button, Form } from 'antd';
-import moment from 'moment-timezone';
+import { Button, Divider, Form, Steps } from 'antd';
 import classNames from 'classnames';
+import moment from 'moment-timezone';
+import React, { useReducer } from 'react';
 import LayoutStage from './LayoutStage';
 import PoolRacksStage from './PoolRacksStage';
 import RunStage from './RunStage';
@@ -11,13 +11,13 @@ moment.tz.setDefault('America/New_York');
 
 const { Step } = Steps;
 
-const RunCreation = () => {
+const TemplateGeneration = () => {
   const [layoutForm] = Form.useForm();
 
   const initialRunState = {
     currentStage: 0,
     kfpParam: '1-kingfisher',
-    qntParam: 'duplicate',
+    replicationParam: 'duplicate',
     poolRacks: Array(2).fill({}),
   };
 
@@ -116,4 +116,4 @@ const RunCreation = () => {
   );
 };
 
-export default RunCreation;
+export default TemplateGeneration;
