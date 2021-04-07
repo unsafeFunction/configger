@@ -214,6 +214,13 @@ export function* callUpdateTube({ payload }) {
       },
     });
 
+    yield put({
+      type: actions.FETCH_SCAN_BY_ID_REQUEST,
+      payload: {
+        scanId: payload.data.scanId,
+      },
+    });
+
     notification.success({
       message: 'Tube updated',
     });
@@ -256,6 +263,13 @@ export function* callInvalidateTube({ payload }) {
           scanId: payload.scanId,
           tube: response.data,
         },
+      },
+    });
+
+    yield put({
+      type: actions.FETCH_SCAN_BY_ID_REQUEST,
+      payload: {
+        scanId: payload.scanId,
       },
     });
 
@@ -336,6 +350,12 @@ export function* callDeleteTube({ payload }) {
       },
     });
 
+    yield put({
+      type: actions.FETCH_SCAN_BY_ID_REQUEST,
+      payload: {
+        scanId: payload.scanId,
+      },
+    });
     notification.success({
       message: 'Tube deleted',
     });
