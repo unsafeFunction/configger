@@ -90,6 +90,10 @@ export function* callUpdateRack({ payload }) {
     notification.success({
       message: 'PoolRack updated',
     });
+
+    if (payload.callback) {
+      payload.callback();
+    }
   } catch (error) {
     yield put({
       type: actions.UPDATE_RACK_FAILURE,
