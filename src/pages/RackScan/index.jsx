@@ -40,9 +40,10 @@ const RackScan = () => {
       type: actions.UPDATE_RACK_REQUEST,
       payload: {
         id: rackId,
+        callback: () => history.push('/rack-scans'),
       },
     });
-  }, [dispatch, rackId]);
+  }, [dispatch, rackId, history]);
 
   const useFetching = () => {
     useEffect(() => {
