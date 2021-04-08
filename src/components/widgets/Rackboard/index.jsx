@@ -39,7 +39,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
         type: actions.UPDATE_TUBE_REQUEST,
         payload: {
           id: record.id,
-          data: { tube_id: currentTubeID, scanId: rackboard?.id },
+          data: { tube_id: currentTubeID, scanId: rackboard?.id, isRack },
         },
       });
       setPopoverVisible(null);
@@ -56,6 +56,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
           data: {
             status: tubes.valid.status,
             scanId: rackboard?.id,
+            isRack,
           },
         },
       });
@@ -68,7 +69,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
     (tube) => {
       dispatch({
         type: actions.DELETE_TUBE_REQUEST,
-        payload: { tubeId: tube.id, scanId },
+        payload: { tubeId: tube.id, scanId, isRack },
       });
       setPopoverVisible(null);
     },
@@ -91,6 +92,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
         payload: {
           id: record.id,
           scanId: rackboard?.id,
+          isRack,
         },
       });
       dispatch({
