@@ -1,10 +1,11 @@
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Alert, Button, Checkbox, Form, Input } from 'antd';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/templateGeneration/actions';
 import { rules } from 'utils/rules';
+import values from '../params';
 import { layout } from './utils';
 
 const RunStage = ({ runState, componentDispatch }) => {
@@ -13,6 +14,11 @@ const RunStage = ({ runState, componentDispatch }) => {
   const dispatch = useDispatch();
 
   const { isLoading } = useSelector((state) => state.templateGeneration);
+
+  const selectedPoolRacks = runState.poolRacks.filter((item) => item.id).length;
+  const validation =
+    (runState.kfpParam === values.oneKFP && selectedPoolRacks > 0) ||
+    (runState.kfpParam === values.twoKFPs && selectedPoolRacks > 2);
 
   const onSubmit = useCallback(
     (values) => {
@@ -35,6 +41,16 @@ const RunStage = ({ runState, componentDispatch }) => {
       }}
       onFinish={onSubmit}
     >
+      {!validation && (
+        <Item>
+          <Alert
+            message="Warning"
+            description="Insufficient number of PoolRacks per run."
+            type="warning"
+            showIcon
+          />
+        </Item>
+      )}
       <Item label="Run title" name="runTitle" rules={[rules.required]}>
         <Input placeholder="Run title" />
       </Item>
@@ -50,6 +66,7 @@ const RunStage = ({ runState, componentDispatch }) => {
           size="large"
           htmlType="submit"
           loading={isLoading}
+          disabled={!validation}
           className="w-100"
         >
           Submit

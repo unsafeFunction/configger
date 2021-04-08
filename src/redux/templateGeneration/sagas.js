@@ -31,7 +31,7 @@ export function* callCreateTemplate({ payload }) {
       runId: id,
       reflex: is_reflexed,
       rerun: is_reruned,
-      name: title,
+      name: `${title}.csv`,
       contentType: 'text/csv',
     });
 
