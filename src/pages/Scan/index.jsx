@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
@@ -22,6 +23,7 @@ import {
   DownOutlined,
   ReloadOutlined,
   CheckOutlined,
+  EditOutlined,
 } from '@ant-design/icons';
 import Rackboard from 'components/widgets/Rackboard';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
@@ -478,7 +480,7 @@ const Scan = () => {
             />
             <Statistic
               className={styles.companyDetailsStat}
-              title="Short company name:"
+              title="Company short:"
               value={companyInfo?.name_short ?? '–'}
             />
             <Statistic
@@ -489,12 +491,16 @@ const Scan = () => {
             />
             <Statistic
               className={styles.companyDetailsStat}
-              title="Pool name:"
+              title={
+                <>
+                  Pool name: <EditOutlined className={styles.editPoolName} />
+                </>
+              }
               value={
                 scan?.scan_order >= 0
-                  ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
-                      scan?.scan_order + 1
-                    }`
+                  ? `${
+                      moment(scan?.scan_timestamp)?.format('dddd')?.[0]
+                    }${scan?.scan_order + 1}`
                   : '-'
               }
             />
