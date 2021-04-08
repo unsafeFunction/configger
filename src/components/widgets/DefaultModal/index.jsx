@@ -1,11 +1,19 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import useKeyPress from 'hooks/useKeyPress';
 import { Modal } from 'antd';
 import { useSelector } from 'react-redux';
 
 const DefaultModal = (props) => {
   const isLoading = useSelector((state) => state.modal.isLoading);
+  const enterPress = useKeyPress('Enter');
 
   const { type, isOpen, title, children, onOk, onCancel, width } = props;
+
+  useEffect(() => {
+    if (enterPress) {
+      onOk();
+    }
+  }, [enterPress, onOk]);
 
   return (
     <Modal
