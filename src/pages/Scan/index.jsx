@@ -532,10 +532,12 @@ const Scan = () => {
             <div className={styles.statisticReplacement}>
               <div className={styles.statisticReplacementTitle}>
                 <p>Pool name: </p>
-                <EditOutlined
-                  onClick={handleOpenEdit}
-                  className={styles.editPoolName}
-                />
+                {!session?.isLoading && scan && (
+                  <EditOutlined
+                    onClick={handleOpenEdit}
+                    className={styles.editPoolName}
+                  />
+                )}
               </div>
               <div className={styles.statisticReplacementContent}>
                 <span className={styles.statisticReplacementValue}>
@@ -546,7 +548,9 @@ const Scan = () => {
                         value={changedPoolName}
                         placeholder="Enter new pool name"
                       />
-                      <Button onClick={handleSavePoolName}>Save</Button>
+                      <Button type="primary" onClick={handleSavePoolName}>
+                        Save
+                      </Button>
                     </div>
                   ) : (
                     poolName
