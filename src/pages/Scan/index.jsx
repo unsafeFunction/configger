@@ -15,6 +15,7 @@ import {
   Dropdown,
   Menu,
   Alert,
+  Input,
 } from 'antd';
 import {
   LeftOutlined,
@@ -46,6 +47,8 @@ const Scan = () => {
   const [visibleActions, setVisibleActions] = useState(false);
   const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
   const [currentScanOrder, setCurrentScanOrder] = useState(0);
+  const [isEditOpen, setEditOpen] = useState(false);
+  const [changedPoolName, setChangedPoolName] = useState('');
 
   const sessionId = history.location.pathname.split('/')[2];
 
@@ -55,6 +58,12 @@ const Scan = () => {
     (scan) => scan.scan_order === currentScanOrder,
   );
   const recentScan = scans?.[scan?.scan_order - 1];
+  const poolName = scan?.pool_name
+    ? scan.pool_name
+    : scan?.scan_order >= 0
+    ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${scan?.scan_order +
+        1}`
+    : '-';
 
   const countOfReferencePools = session?.reference_pools_count;
   const countOfReferenceSamples = session?.reference_samples_count;
@@ -275,6 +284,38 @@ const Scan = () => {
     [history],
   );
 
+  const handleOpenEdit = useCallback(() => {
+    setEditOpen(!isEditOpen);
+    if (!isEditOpen) {
+      setChangedPoolName(scan?.pool_name ? scan?.pool_name : '-');
+    }
+  }, [isEditOpen, setEditOpen]);
+
+  useEffect(() => {
+    setChangedPoolName(scan?.pool_name ? scan?.pool_name : '-');
+  }, [scan]);
+
+  const handleChangePoolName = useCallback(
+    (e) => {
+      setChangedPoolName(e.target.value);
+    },
+    [setChangedPoolName],
+  );
+
+  const handleSavePoolName = useCallback(() => {
+    dispatch({
+      type: actions.UPDATE_SCAN_BY_ID_REQUEST,
+      payload: {
+        data: {
+          pool_name: changedPoolName,
+        },
+        id: scan?.id,
+      },
+    });
+    console.log(scan?.id, changedPoolName);
+    setEditOpen(false);
+  }, [dispatch, changedPoolName, scan]);
+
   const handleCancelScan = useCallback(
     (scan) => {
       dispatch({
@@ -489,21 +530,31 @@ const Scan = () => {
               groupSeparator=""
               value={companyInfo?.company_id ?? '–'}
             />
-            <Statistic
-              className={styles.companyDetailsStat}
-              title={
-                <>
-                  Pool name: <EditOutlined className={styles.editPoolName} />
-                </>
-              }
-              value={
-                scan?.scan_order >= 0
-                  ? `${
-                      moment(scan?.scan_timestamp)?.format('dddd')?.[0]
-                    }${scan?.scan_order + 1}`
-                  : '-'
-              }
-            />
+            <div className={styles.statisticReplacement}>
+              <div className={styles.statisticReplacementTitle}>
+                <p>Pool name: </p>
+                <EditOutlined
+                  onClick={handleOpenEdit}
+                  className={styles.editPoolName}
+                />
+              </div>
+              <div className={styles.statisticReplacementContent}>
+                <span className={styles.statisticReplacementValue}>
+                  {isEditOpen ? (
+                    <div className={styles.editPoolNameInputWrapper}>
+                      <Input
+                        onChange={handleChangePoolName}
+                        value={changedPoolName}
+                        placeholder="Enter new pool name"
+                      />
+                      <Button onClick={handleSavePoolName}>Save</Button>
+                    </div>
+                  ) : (
+                    poolName
+                  )}
+                </span>
+              </div>
+            </div>
             <Statistic
               className={styles.companyDetailsStat}
               title="Most Recent Scan:"
