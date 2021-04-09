@@ -292,18 +292,32 @@ const Scan = () => {
   );
 
   const onSaveScanModalToggle = useCallback(() => {
+    const emptyTubes = scan?.empty_positions
+      ?.map((tube) => tube.position)
+      .join(', ');
+
     dispatch({
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Save scan',
+        modalId: 'saveScan',
         onOk: () => updateScan(),
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
         },
         okText: 'Save',
-        message: () => <span>Are you sure to save scan?</span>,
+        message: () => (
+          <Alert
+            showIcon
+            type="warning"
+            message="Warning"
+            description={
+              <Paragraph>{`ARE YOU SURE THE RED (${emptyTubes}) POSITIONS ARE EMPTY?`}</Paragraph>
+            }
+          />
+        ),
       },
     });
   }, [dispatch, updateScan]);
@@ -312,7 +326,7 @@ const Scan = () => {
     if (enterPress && (session?.isLoading || session.scans.length > 0)) {
       onSaveScanModalToggle();
     }
-  }, [enterPress, onSaveScanModalToggle, scan, session, session.scans]);
+  }, [enterPress, onSaveScanModalToggle]);
 
   const onSaveSessionModalToggle = useCallback(
     (
