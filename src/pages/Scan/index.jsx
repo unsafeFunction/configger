@@ -312,7 +312,6 @@ const Scan = () => {
         id: scan?.id,
       },
     });
-    console.log(scan?.id, changedPoolName);
     setEditOpen(false);
   }, [dispatch, changedPoolName, scan]);
 
