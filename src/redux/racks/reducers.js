@@ -129,6 +129,8 @@ const singleRackReducer = (state = initialSingleRackState, action) => {
             return {
               ...item,
               ...action.payload.data.row,
+              last_modified_on: action.payload.data.tube.last_modified_on,
+              last_modified_by: action.payload.data.tube.last_modified_by,
             };
           }
           return item;
