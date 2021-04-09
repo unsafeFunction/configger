@@ -1,5 +1,5 @@
-import DefaultModal from 'components/widgets/DefaultModal';
 import React, { useCallback } from 'react';
+import DefaultModal from 'components/widgets/DefaultModal';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/modal/actions';
 

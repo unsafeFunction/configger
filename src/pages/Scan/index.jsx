@@ -1,4 +1,5 @@
-/* eslint-disable */
+/* eslint-disable prettier/prettier */
+/* eslint-disable indent */
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
@@ -30,6 +31,7 @@ import Rackboard from 'components/widgets/Rackboard';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
+import useKeyPress from 'hooks/useKeyPress';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
@@ -50,6 +52,7 @@ const Scan = () => {
   const [isEditOpen, setEditOpen] = useState(false);
   const [changedPoolName, setChangedPoolName] = useState('-');
 
+  const enterPress = useKeyPress('Enter');
   const sessionId = history.location.pathname.split('/')[2];
 
   const session = useSelector((state) => state.scanSessions?.singleSession);
@@ -346,6 +349,12 @@ const Scan = () => {
       },
     });
   }, [dispatch, updateScan]);
+
+  useEffect(() => {
+    if (enterPress && (session?.isLoading || session.scans.length > 0)) {
+      onSaveScanModalToggle();
+    }
+  }, [enterPress, onSaveScanModalToggle, scan, session, session.scans]);
 
   const onSaveSessionModalToggle = useCallback(
     (
