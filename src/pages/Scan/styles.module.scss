@@ -37,6 +37,22 @@
   }
 }
 
+.companyDetailsStat:first-child {
+  div:last-child {
+    span:last-child {
+      font-size: 22px;
+    }
+  }
+}
+
+.companyDetailsStat:nth-child(2) {
+  div:last-child {
+    span:last-child {
+      font-size: 20px;
+    }
+  }
+}
+
 .navigationWrapper {
   display: flex;
   justify-content: space-between;
@@ -46,4 +62,43 @@
 .submitBtns {
   display: flex;
   justify-content: flex-end;
+}
+
+.editPoolName:hover {
+  cursor: pointer;
+}
+
+.editPoolNameInputWrapper {
+  display: flex;
+  height: 32px;
+
+  input {
+    margin-right: 10px;
+  }
+}
+
+.statisticReplacement {
+  margin-bottom: 1.42rem;
+}
+
+.statisticReplacementTitle {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 15px;
+
+  p {
+    margin-bottom: 0;
+    margin-right: 5px;
+  }
+}
+
+.statisticReplacementContent {
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Source Sans Pro, sans-serif;
+}
+.statisticReplacementValue {
+  font-size: 18px;
 }
