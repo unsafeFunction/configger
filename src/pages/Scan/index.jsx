@@ -48,7 +48,7 @@ const Scan = () => {
   const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
   const [currentScanOrder, setCurrentScanOrder] = useState(0);
   const [isEditOpen, setEditOpen] = useState(false);
-  const [changedPoolName, setChangedPoolName] = useState('');
+  const [changedPoolName, setChangedPoolName] = useState('-');
 
   const sessionId = history.location.pathname.split('/')[2];
 
@@ -257,6 +257,10 @@ const Scan = () => {
 
   useFetching();
 
+  useEffect(() => {
+    setChangedPoolName(scan?.pool_name);
+  }, [scan]);
+
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
   }, [visibleActions]);
@@ -286,14 +290,10 @@ const Scan = () => {
 
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
-    if (!isEditOpen) {
+    if (isEditOpen) {
       setChangedPoolName(scan?.pool_name ? scan?.pool_name : '-');
     }
   }, [isEditOpen, setEditOpen]);
-
-  useEffect(() => {
-    setChangedPoolName(scan?.pool_name ? scan?.pool_name : '-');
-  }, [scan]);
 
   const handleChangePoolName = useCallback(
     (e) => {
