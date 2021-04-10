@@ -68,6 +68,8 @@ const initialSingleSession = {
   selectedCode: {},
   activeSessionId: null,
   activeSessionLoading: false,
+  intakeLogs: [],
+  companyInfoLoading: false,
 };
 
 const singleSessionReducer = (state = initialSingleSession, action) => {
@@ -336,6 +338,29 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         isLoading: false,
       };
     }
+
+    case actions.FETCH_COMPANY_INFO_REQUEST: {
+      return {
+        ...state,
+        companyInfoLoading: true,
+        error: null,
+      };
+    }
+    case actions.FETCH_COMPANY_INFO_SUCCESS: {
+      return {
+        ...state,
+        companyInfoLoading: false,
+        intakeLogs: action.payload.data,
+      };
+    }
+    case actions.FETCH_COMPANY_INFO_FAILURE: {
+      return {
+        ...state,
+        companyInfoLoading: false,
+        intakeLogs: [],
+      };
+    }
+
     default:
       return state;
   }

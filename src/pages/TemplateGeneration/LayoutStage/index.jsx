@@ -2,10 +2,10 @@ import { Button, Form, Radio } from 'antd';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
-import { rules } from 'utils/rules';
+import rules from 'utils/rules';
 import values from '../params';
 import styles from './styles.module.scss';
-import { layout } from './utils';
+import layout from './utils';
 
 const LayoutStage = ({ runState, componentDispatch, form, initialValues }) => {
   const { kfpParam, replicationParam } = initialValues;

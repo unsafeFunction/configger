@@ -1,12 +1,12 @@
-import React, { useEffect, useCallback, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import actions from 'redux/companies/actions';
-import { Form, Input, Select, InputNumber, Button } from 'antd';
 import {
   LoadingOutlined,
   MinusCircleOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
+import { Button, Form, Input, InputNumber, Select } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import actions from 'redux/companies/actions';
 import styles from './styles.module.scss';
 
 const IntakeRecepientLogModal = ({ form, edit }) => {
@@ -33,23 +33,25 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
         company_short: company.name_short,
       });
     }
-  }, [company]);
+  }, [form, company, edit]);
 
   useEffect(() => {
     setCommentsSelected(isSampleConditionValueOther);
   }, [setCommentsSelected, isSampleConditionValueOther]);
 
-  const handleBlurCompany = useCallback((e) => {
-    const { target } = e;
+  const handleBlurCompany = useCallback(
+    (e) => {
+      const { value } = e.target;
 
-    target.value &&
-      dispatch({
-        type: actions.FETCH_COMPANY_SHORT_REQUEST,
-        payload: {
-          id: target.value,
-        },
-      });
-  }, []);
+      if (value) {
+        dispatch({
+          type: actions.FETCH_COMPANY_SHORT_REQUEST,
+          payload: { id: value },
+        });
+      }
+    },
+    [dispatch],
+  );
 
   return (
     <Form

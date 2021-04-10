@@ -1,30 +1,32 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Select } from 'antd';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Select, Row, Col, Button } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import debounce from 'lodash.debounce';
-import actions from 'redux/scanSessions/actions';
 import companyActions from 'redux/companies/actions';
+import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
-import styles from './styles.module.scss';
+import rules from 'utils/rules';
+import layout from './utils';
 
 const ScanSession = () => {
+  const { Item } = Form;
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { items, total, offset, isLoading } = useSelector(
-    (state) => state.companies.all,
-  );
-  const { activeSessionId, isLoading: isSessionLoading } = useSelector(
-    (state) => state.scanSessions.singleSession,
-  );
-  const [value, onValueChange] = useState(null);
 
-  const [searchName, setSearchName] = useState('');
+  const {
+    activeSessionId,
+    isLoading: isSessionLoading,
+    intakeLogs,
+    companyInfoLoading,
+  } = useSelector((state) => state.scanSessions.singleSession);
 
-  const preparedData = items.map((item) => {
+  const company = useSelector((state) => state.companies.singleCompany);
+
+  const preparedData = intakeLogs.map((item) => {
     return {
-      value: item.company_id,
-      label: item.name,
+      value: item.id,
+      label: item.id,
     };
   });
 
@@ -40,59 +42,42 @@ const ScanSession = () => {
           limit: constants.companies.itemsLoadingCount,
         },
       });
-    }, [activeSessionId]);
+
+      if (!activeSessionId) {
+        form.setFieldsValue({
+          companyName: company.name,
+          companyShort: company.name_short,
+          intakeLog: '',
+        });
+      }
+    }, [form, activeSessionId, company]);
   };
 
   useFetching();
 
-  const startSession = useCallback(() => {
-    dispatch({
-      type: actions.CREATE_SESSION_REQUEST,
-      payload: {
-        companyId: value,
-      },
-    });
-  }, [dispatch, value]);
-
-  const onChange = useCallback((value) => {
-    onValueChange(value);
-  }, []);
-
-  const loadMore = useCallback(() => {
-    dispatch({
-      type: companyActions.FETCH_COMPANIES_REQUEST,
-      payload: {
-        limit: constants.companies.itemsLoadingCount,
-        offset,
-        search: searchName,
-      },
-    });
-  }, [dispatch, items, searchName]);
-
-  const sendQuery = useCallback(
-    (query) => {
+  const startSession = useCallback(
+    (values) => {
+      const { companyId, intakeLog } = values;
       dispatch({
-        type: companyActions.FETCH_COMPANIES_REQUEST,
-        payload: {
-          limit: constants?.companies?.itemsLoadingCount,
-          search: query,
-        },
+        type: actions.CREATE_SESSION_REQUEST,
+        payload: { companyId, intakeLog },
       });
     },
-    [dispatch, searchName],
+    [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const handleCompanyBlur = useCallback(
+    (e) => {
+      const { value } = e.target;
 
-  const onChangeSearch = useCallback(
-    (value) => {
-      setSearchName(value);
-      return delayedQuery(value);
+      if (value) {
+        dispatch({
+          type: actions.FETCH_COMPANY_INFO_REQUEST,
+          payload: { id: value },
+        });
+      }
     },
-    [delayedQuery],
+    [dispatch],
   );
 
   if (!isSessionLoading && activeSessionId) {
@@ -100,50 +85,60 @@ const ScanSession = () => {
   }
 
   return (
-    <div>
-      <Row className="ml-auto">
-        <Col xs={24} className="mb-4">
-          <Select
-            placeholder="Company"
-            loading={!isLoading}
-            showSearch
-            options={preparedData}
-            style={{ width: 400 }}
-            dropdownStyle={{
-              maxHeight: 300,
-              overflowY: 'hidden',
-              overflowX: 'scroll',
-            }}
-            listHeight={0}
-            dropdownRender={(menu) => (
-              <InfiniteScroll
-                next={loadMore}
-                hasMore={items.length < total}
-                dataLength={items.length}
-                height={300}
-              >
-                {menu}
-              </InfiniteScroll>
-            )}
-            optionFilterProp="label"
-            onSearch={onChangeSearch}
-            searchValue={searchName}
-            allowClear
-            onChange={onChange}
-          />
-        </Col>
-        <Col>
-          <Button
-            onClick={startSession}
-            disabled={!value}
-            loading={isSessionLoading}
-            type="primary"
-          >
-            Start session
-          </Button>
-        </Col>
-      </Row>
-    </div>
+    <Form
+      form={form}
+      layout="vertical"
+      labelCol={layout}
+      wrapperCol={layout}
+      onFinish={startSession}
+    >
+      <Item label="Company ID" name="companyId" rules={[rules.required]}>
+        <Input placeholder="Company ID" onBlur={handleCompanyBlur} />
+      </Item>
+
+      <Item label="Company name" name="companyName" rules={[rules.required]}>
+        <Input
+          disabled
+          placeholder="Company name"
+          suffix={company.isLoadingCompany && <LoadingOutlined />}
+        />
+      </Item>
+
+      <Item label="Company short" name="companyShort">
+        <Input
+          disabled
+          placeholder="Company short"
+          suffix={company.isLoadingCompany && <LoadingOutlined />}
+        />
+      </Item>
+
+      <Item
+        label="Intake Receipt Log"
+        name="intakeLog"
+        rules={[rules.required]}
+      >
+        <Select
+          placeholder="Intake Receipt Log"
+          loading={companyInfoLoading}
+          showArrow
+          showSearch
+          options={preparedData}
+          optionFilterProp="label"
+          allowClear
+        />
+      </Item>
+
+      <Item>
+        <Button
+          type="primary"
+          size="large"
+          htmlType="submit"
+          loading={isSessionLoading}
+        >
+          Start session
+        </Button>
+      </Item>
+    </Form>
   );
 };
 

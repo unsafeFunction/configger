@@ -1,14 +1,14 @@
-import { all, takeEvery, put, call } from 'redux-saga/effects';
+import { notification } from 'antd';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
+  createCompany,
   fetchCompanies,
   fetchCompanyShort,
   getSingleCompany,
-  createCompany,
   updateUsers,
 } from 'services/companies';
-import { notification } from 'antd';
-import actions from './actions';
 import modalActions from '../modal/actions';
+import actions from './actions';
 
 export function* callFetchCompanies({ payload }) {
   try {
@@ -92,8 +92,10 @@ export function* callFetchCompanyShort({ payload }) {
     });
 
     notification.error({
-      message: error.message ?? 'Something went wrong',
+      message: error.message ?? 'Сompany not found',
     });
+
+    throw new Error(error);
   }
 }
 
