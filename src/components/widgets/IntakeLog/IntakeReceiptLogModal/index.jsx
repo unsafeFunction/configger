@@ -60,10 +60,11 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
       layout="vertical"
       initialValues={{ tracking_numbers: [''] }}
     >
-      <Item label="Log ID" name="log_id" rules={[rules.required]}>
-        <Input placeholder="Log ID" />
-      </Item>
-
+      {!edit && (
+        <Item label="Log ID" name="log_id" rules={[rules.required]}>
+          <Input placeholder="Log ID" />
+        </Item>
+      )}
       <Item label="Company ID" name="company_id" rules={[rules.required]}>
         <Input
           disabled={edit}
@@ -71,7 +72,6 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           onBlur={handleBlurCompany}
         />
       </Item>
-
       <Item
         label="Company name"
         name="company_name"
@@ -88,7 +88,6 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           suffix={company.isLoadingCompany && <LoadingOutlined />}
         />
       </Item>
-
       <Item label="Company short" name="company_short">
         <Input
           disabled
@@ -96,7 +95,6 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           suffix={company.isLoadingCompany && <LoadingOutlined />}
         />
       </Item>
-
       <Item
         label="Reference pools count"
         name="reference_pools_count"
@@ -109,7 +107,6 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           min={1}
         />
       </Item>
-
       <Item
         label="Reference samples count"
         name="reference_samples_count"
@@ -136,7 +133,6 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           min={1}
         />
       </Item>
-
       <Item
         label="Shipping by"
         name="shipment"
@@ -164,7 +160,6 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           ]}
         />
       </Item>
-
       <Item
         label="Sample condition"
         name="sample_condition"
@@ -198,7 +193,6 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           <TextArea placeholder="Comments" />
         </Item>
       )}
-
       <Form.List name="tracking_numbers" className={styles.formItem}>
         {(fields, { add, remove }, { errors }) => (
           <>
