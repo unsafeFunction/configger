@@ -141,6 +141,16 @@ const IntakeReceiptLog = () => {
       dataIndex: 'sample_condition',
     },
     {
+      title: 'Comments',
+      dataIndex: 'comments',
+      width: '350px',
+      wordWrap: 'break-word',
+      wordBreak: 'break-word',
+      render: (_, record) => {
+        return record.comments ?? '-';
+      },
+    },
+    {
       title: 'Tracking Number',
       dataIndex: 'tracking_numbers',
       wordWrap: 'break-word',
