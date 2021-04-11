@@ -60,6 +60,19 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
       initialValues={{ tracking_numbers: [''] }}
     >
       <Item
+        label="Log ID"
+        name="log_id"
+        rules={[
+          {
+            required: true,
+            message: 'This field is required',
+          },
+        ]}
+      >
+        <Input placeholder="Log ID" />
+      </Item>
+
+      <Item
         label="Company ID"
         name="company_id"
         rules={[

@@ -484,6 +484,7 @@ export function* callFetchCompanyInfo(payload) {
         .subtract(24, 'hours')
         .format('YYYY-MM-DD'),
       created_before: moment().format('YYYY-MM-DD'),
+      company_id: payload.payload.id,
     });
 
     yield put({

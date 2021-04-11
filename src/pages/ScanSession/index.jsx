@@ -1,13 +1,14 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Select } from 'antd';
+import moment from 'moment-timezone';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import companyActions from 'redux/companies/actions';
 import actions from 'redux/scanSessions/actions';
-import { constants } from 'utils/constants';
 import rules from 'utils/rules';
 import layout from './utils';
+
+moment.tz.setDefault('America/New_York');
 
 const ScanSession = () => {
   const { Item } = Form;
@@ -26,7 +27,7 @@ const ScanSession = () => {
   const preparedData = intakeLogs.map((item) => {
     return {
       value: item.id,
-      label: item.id,
+      label: `${item.log_id} (${moment(item.created).format('lll')})`,
     };
   });
 
@@ -36,13 +37,6 @@ const ScanSession = () => {
         type: actions.FETCH_SESSION_ID_REQUEST,
       });
 
-      dispatch({
-        type: companyActions.FETCH_COMPANIES_REQUEST,
-        payload: {
-          limit: constants.companies.itemsLoadingCount,
-        },
-      });
-
       if (!activeSessionId) {
         form.setFieldsValue({
           companyName: company.name,
@@ -50,6 +44,7 @@ const ScanSession = () => {
           intakeLog: '',
         });
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form, activeSessionId, company]);
   };
 
@@ -57,10 +52,10 @@ const ScanSession = () => {
 
   const startSession = useCallback(
     (values) => {
-      const { companyId, intakeLog } = values;
+      const { intakeLog } = values;
       dispatch({
         type: actions.CREATE_SESSION_REQUEST,
-        payload: { companyId, intakeLog },
+        payload: { intakeLog },
       });
     },
     [dispatch],
