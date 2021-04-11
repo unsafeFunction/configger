@@ -1,6 +1,6 @@
 import { Button, Form, Table } from 'antd';
 import classNames from 'classnames';
-import IntakeRecepientLogModal from 'components/widgets/IntakeLog/IntakeRecepientLogModal';
+import IntakeReceiptLogModal from 'components/widgets/IntakeLog/IntakeReceiptLogModal';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -81,9 +81,7 @@ const IntakeReceiptLog = () => {
             overflow: 'scroll',
           },
           okText: `${record ? 'Edit' : 'New'} Log`,
-          message: () => (
-            <IntakeRecepientLogModal form={form} edit={!!record} />
-          ),
+          message: () => <IntakeReceiptLogModal form={form} edit={!!record} />,
           maskClosable: false,
           onCancel: handleReset,
         },

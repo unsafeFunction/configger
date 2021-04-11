@@ -7,9 +7,10 @@ import { Button, Form, Input, InputNumber, Select } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/companies/actions';
+import rules from 'utils/rules';
 import styles from './styles.module.scss';
 
-const IntakeRecepientLogModal = ({ form, edit }) => {
+const IntakeReceiptLogModal = ({ form, edit }) => {
   const [isCommentsSelected, setCommentsSelected] = useState(false);
   const dispatch = useDispatch();
   const { Item } = Form;
@@ -59,29 +60,11 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
       layout="vertical"
       initialValues={{ tracking_numbers: [''] }}
     >
-      <Item
-        label="Log ID"
-        name="log_id"
-        rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
-        ]}
-      >
+      <Item label="Log ID" name="log_id" rules={[rules.required]}>
         <Input placeholder="Log ID" />
       </Item>
 
-      <Item
-        label="Company ID"
-        name="company_id"
-        rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
-        ]}
-      >
+      <Item label="Company ID" name="company_id" rules={[rules.required]}>
         <Input
           disabled={edit}
           placeholder="Company ID"
@@ -118,12 +101,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
         label="Reference pools count"
         name="reference_pools_count"
         className={styles.formItem}
-        rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
-        ]}
+        rules={[rules.required]}
       >
         <InputNumber
           placeholder="Reference pools count"
@@ -138,10 +116,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
         className={styles.formItem}
         dependencies={['reference_pools_count']}
         rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
+          rules.required,
           ({ getFieldValue }) => ({
             validator(rule, value) {
               if (getFieldValue('reference_pools_count') <= value) {
@@ -166,12 +141,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
         label="Shipping by"
         name="shipment"
         className={styles.formItem}
-        rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
-        ]}
+        rules={[rules.required]}
       >
         <Select
           placeholder="Shipping by"
@@ -199,12 +169,7 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
         label="Sample condition"
         name="sample_condition"
         className={styles.formItem}
-        rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
-        ]}
+        rules={[rules.required]}
       >
         <Select
           placeholder="Sample condition"
@@ -288,4 +253,4 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
   );
 };
 
-export default IntakeRecepientLogModal;
+export default IntakeReceiptLogModal;
