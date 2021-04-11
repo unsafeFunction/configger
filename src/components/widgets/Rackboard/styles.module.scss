@@ -9,25 +9,7 @@
   width: 32px !important;
   height: 32px !important;
   visibility: visible !important;
-  // &:hover,
-  // &:active,
-  // &:focus {
-  //   border-color: $success !important;
-  //   border-width: 3px;
-  //   transition: none;
-  // }
 }
-
-// .notTested {
-//   background: $gray-4;
-//   border-color: $gray-4;
-//   &:hover,
-//   &:active,
-//   &:focus {
-//     background: lighten($gray-4, 10%);
-//     border-color: lighten($gray-4, 10%);
-//   }
-// }
 
 .tubeInput {
   width: 250px;
@@ -43,7 +25,6 @@
 .row:hover > td:not(:first-child) {
   background: unset !important;
 }
-
 
 .popoverBtn {
   display: flex;

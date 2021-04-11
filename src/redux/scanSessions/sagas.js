@@ -219,15 +219,6 @@ export function* callUpdateTube({ payload }) {
       },
     });
 
-    if (!payload.data.isRack) {
-      yield put({
-        type: actions.FETCH_SCAN_BY_ID_REQUEST,
-        payload: {
-          scanId: payload.data.scanId,
-        },
-      });
-    }
-
     notification.success({
       message: 'Tube updated',
     });
@@ -272,15 +263,6 @@ export function* callInvalidateTube({ payload }) {
         },
       },
     });
-
-    if (!payload.isRack) {
-      yield put({
-        type: actions.FETCH_SCAN_BY_ID_REQUEST,
-        payload: {
-          scanId: payload.scanId,
-        },
-      });
-    }
 
     yield put({
       type: modalActions.HIDE_MODAL,
@@ -358,15 +340,6 @@ export function* callDeleteTube({ payload }) {
         },
       },
     });
-
-    if (!payload.isRack) {
-      yield put({
-        type: actions.FETCH_SCAN_BY_ID_REQUEST,
-        payload: {
-          scanId: payload.scanId,
-        },
-      });
-    }
 
     notification.success({
       message: 'Tube deleted',

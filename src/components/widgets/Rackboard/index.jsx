@@ -18,9 +18,9 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
   const { selectedCode } = useSelector(
     (state) => state.scanSessions?.singleSession,
   );
-
+  const { modalId } = useSelector((state) => state.modal.modalProps);
+  console.log(rackboard);
   const [form] = Form.useForm();
-
   const initialRackboard = [...Array(6).keys()].map((i) => ({
     letter: String.fromCharCode(constants?.A + i),
     col1: { tube_id: null, status: tubes.blank.status },
@@ -139,6 +139,9 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
         recordStatus === tubes.improperCollection.status ||
         recordStatus === tubes.contamination.status ||
         recordStatus === tubes.invalid.status;
+      const isTubeEmpty = rackboard?.empty_positions?.find(
+        (tube) => tube.position === record?.[`col${i + 1}`]?.position,
+      );
 
       if (record[`col${i + 1}`] && recordStatus !== tubes.blank.status) {
         return (
@@ -250,14 +253,20 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
             }}
           >
             <Button
-              type="primary"
               shape="circle"
               className={styles.tube}
               style={{
-                background: record[`col${i + 1}`]?.color,
-                borderColor: record[`col${i + 1}`]?.color,
+                backgroundColor:
+                  isTubeEmpty && modalId === 'saveScan'
+                    ? '#ff0000'
+                    : record[`col${i + 1}`]?.color,
+                borderColor:
+                  isTubeEmpty && modalId === 'saveScan'
+                    ? '#ff0000'
+                    : record[`col${i + 1}`]?.color === '#ffffff'
+                    ? '#000000'
+                    : record[`col${i + 1}`]?.color,
               }}
-              ghost={recordStatus === tubes.deleted.status}
             />
           </Popover>
         );

@@ -97,7 +97,7 @@ const Pool = () => {
           <Statistic
             className={styles.scanStat}
             title="Last modified on:"
-            value={moment(scan?.modified).format('llll') ?? '–'}
+            value={moment(scan?.last_modified_on).format('llll') ?? '–'}
           />
           <Statistic
             className={styles.scanStat}
