@@ -13,6 +13,7 @@ const actions = {
   ...generateRequestActions(['delete'], 'scan', 'tube'),
   ...generateRequestActions(['update'], 'scan', 'selected_code'),
   ...generateRequestActions(['fetch'], 'scan', 'session_id'),
+  ...generateRequestActions(['fetch'], 'session', 'company_info'),
 };
 
 export default actions;

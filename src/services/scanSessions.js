@@ -37,10 +37,11 @@ export const updateSession = async (data) => {
   }
 };
 
-export const createSession = async ({ companyId }) => {
+export const createSession = async ({ companyId, intakeLog }) => {
   try {
     const session = await axiosClient.post(`/scans/sessions/open/`, {
       company_id: companyId,
+      intake_log: intakeLog,
     });
 
     return session;

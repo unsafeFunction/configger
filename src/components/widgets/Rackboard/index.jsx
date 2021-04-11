@@ -18,9 +18,9 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
   const { selectedCode } = useSelector(
     (state) => state.scanSessions?.singleSession,
   );
-
+  const { modalId } = useSelector((state) => state.modal.modalProps);
+  console.log(rackboard);
   const [form] = Form.useForm();
-
   const initialRackboard = [...Array(6).keys()].map((i) => ({
     letter: String.fromCharCode(constants?.A + i),
     col1: { tube_id: null, status: tubes.blank.status },
@@ -39,7 +39,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
         type: actions.UPDATE_TUBE_REQUEST,
         payload: {
           id: record.id,
-          data: { tube_id: currentTubeID, scanId: rackboard?.id },
+          data: { tube_id: currentTubeID, scanId: rackboard?.id, isRack },
         },
       });
       setPopoverVisible(null);
@@ -56,6 +56,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
           data: {
             status: tubes.valid.status,
             scanId: rackboard?.id,
+            isRack,
           },
         },
       });
@@ -68,7 +69,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
     (tube) => {
       dispatch({
         type: actions.DELETE_TUBE_REQUEST,
-        payload: { tubeId: tube.id, scanId },
+        payload: { tubeId: tube.id, scanId, isRack },
       });
       setPopoverVisible(null);
     },
@@ -91,6 +92,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
         payload: {
           id: record.id,
           scanId: rackboard?.id,
+          isRack,
         },
       });
       dispatch({
@@ -137,6 +139,9 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
         recordStatus === tubes.improperCollection.status ||
         recordStatus === tubes.contamination.status ||
         recordStatus === tubes.invalid.status;
+      const isTubeEmpty = rackboard?.empty_positions?.find(
+        (tube) => tube.position === record?.[`col${i + 1}`]?.position,
+      );
 
       if (record[`col${i + 1}`] && recordStatus !== tubes.blank.status) {
         return (
@@ -248,14 +253,20 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
             }}
           >
             <Button
-              type="primary"
               shape="circle"
               className={styles.tube}
               style={{
-                background: record[`col${i + 1}`]?.color,
-                borderColor: record[`col${i + 1}`]?.color,
+                backgroundColor:
+                  isTubeEmpty && modalId === 'saveScan'
+                    ? '#ff0000'
+                    : record[`col${i + 1}`]?.color,
+                borderColor:
+                  isTubeEmpty && modalId === 'saveScan'
+                    ? '#ff0000'
+                    : record[`col${i + 1}`]?.color === '#ffffff'
+                    ? '#000000'
+                    : record[`col${i + 1}`]?.color,
               }}
-              ghost={recordStatus === tubes.deleted.status}
             />
           </Popover>
         );

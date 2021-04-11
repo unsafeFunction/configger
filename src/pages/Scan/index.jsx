@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable indent */
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/scanSessions/actions';
@@ -14,6 +16,7 @@ import {
   Dropdown,
   Menu,
   Alert,
+  Input,
 } from 'antd';
 import {
   LeftOutlined,
@@ -22,11 +25,13 @@ import {
   DownOutlined,
   ReloadOutlined,
   CheckOutlined,
+  EditOutlined,
 } from '@ant-design/icons';
 import Rackboard from 'components/widgets/Rackboard';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
+import useKeyPress from 'hooks/useKeyPress';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
@@ -44,7 +49,10 @@ const Scan = () => {
   const [visibleActions, setVisibleActions] = useState(false);
   const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
   const [currentScanOrder, setCurrentScanOrder] = useState(0);
+  const [isEditOpen, setEditOpen] = useState(false);
+  const [changedPoolName, setChangedPoolName] = useState('-');
 
+  const enterPress = useKeyPress('Enter');
   const sessionId = history.location.pathname.split('/')[2];
 
   const session = useSelector((state) => state.scanSessions?.singleSession);
@@ -53,6 +61,12 @@ const Scan = () => {
     (scan) => scan.scan_order === currentScanOrder,
   );
   const recentScan = scans?.[scan?.scan_order - 1];
+  const poolName = scan?.pool_name
+    ? scan.pool_name
+    : scan?.scan_order >= 0
+    ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${scan?.scan_order +
+        1}`
+    : '-';
 
   const countOfReferencePools = session?.reference_pools_count;
   const countOfReferenceSamples = session?.reference_samples_count;
@@ -246,6 +260,10 @@ const Scan = () => {
 
   useFetching();
 
+  useEffect(() => {
+    setChangedPoolName(scan?.pool_name);
+  }, [scan]);
+
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
   }, [visibleActions]);
@@ -273,6 +291,33 @@ const Scan = () => {
     [history],
   );
 
+  const handleOpenEdit = useCallback(() => {
+    setEditOpen(!isEditOpen);
+    if (isEditOpen) {
+      setChangedPoolName(scan?.pool_name ? scan?.pool_name : '-');
+    }
+  }, [isEditOpen, setEditOpen]);
+
+  const handleChangePoolName = useCallback(
+    (e) => {
+      setChangedPoolName(e.target.value);
+    },
+    [setChangedPoolName],
+  );
+
+  const handleSavePoolName = useCallback(() => {
+    dispatch({
+      type: actions.UPDATE_SCAN_BY_ID_REQUEST,
+      payload: {
+        data: {
+          pool_name: changedPoolName,
+        },
+        id: scan?.id,
+      },
+    });
+    setEditOpen(false);
+  }, [dispatch, changedPoolName, scan]);
+
   const handleCancelScan = useCallback(
     (scan) => {
       dispatch({
@@ -289,21 +334,41 @@ const Scan = () => {
   );
 
   const onSaveScanModalToggle = useCallback(() => {
+    const emptyTubes = scan?.empty_positions
+      ?.map((tube) => tube.position)
+      .join(', ');
+
     dispatch({
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Save scan',
+        modalId: 'saveScan',
         onOk: () => updateScan(),
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
         },
         okText: 'Save',
-        message: () => <span>Are you sure to save scan?</span>,
+        message: () => (
+          <Alert
+            showIcon
+            type="warning"
+            message="Warning"
+            description={
+              <Paragraph>{`ARE YOU SURE THE RED (${emptyTubes}) POSITIONS ARE EMPTY?`}</Paragraph>
+            }
+          />
+        ),
       },
     });
   }, [dispatch, updateScan]);
+
+  useEffect(() => {
+    if (enterPress && (session?.isLoading || session.scans.length > 0)) {
+      onSaveScanModalToggle();
+    }
+  }, [enterPress, onSaveScanModalToggle]);
 
   const onSaveSessionModalToggle = useCallback(
     (
@@ -478,7 +543,7 @@ const Scan = () => {
             />
             <Statistic
               className={styles.companyDetailsStat}
-              title="Short company name:"
+              title="Company short:"
               value={companyInfo?.name_short ?? '–'}
             />
             <Statistic
@@ -487,17 +552,35 @@ const Scan = () => {
               groupSeparator=""
               value={companyInfo?.company_id ?? '–'}
             />
-            <Statistic
-              className={styles.companyDetailsStat}
-              title="Pool name:"
-              value={
-                scan?.scan_order >= 0
-                  ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
-                      scan?.scan_order + 1
-                    }`
-                  : '-'
-              }
-            />
+            <div className={styles.statisticReplacement}>
+              <div className={styles.statisticReplacementTitle}>
+                <p>Pool name: </p>
+                {!session?.isLoading && scan && (
+                  <EditOutlined
+                    onClick={handleOpenEdit}
+                    className={styles.editPoolName}
+                  />
+                )}
+              </div>
+              <div className={styles.statisticReplacementContent}>
+                <span className={styles.statisticReplacementValue}>
+                  {isEditOpen ? (
+                    <div className={styles.editPoolNameInputWrapper}>
+                      <Input
+                        onChange={handleChangePoolName}
+                        value={changedPoolName}
+                        placeholder="Enter new pool name"
+                      />
+                      <Button type="primary" onClick={handleSavePoolName}>
+                        Save
+                      </Button>
+                    </div>
+                  ) : (
+                    poolName
+                  )}
+                </span>
+              </div>
+            </div>
             <Statistic
               className={styles.companyDetailsStat}
               title="Most Recent Scan:"

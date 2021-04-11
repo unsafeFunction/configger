@@ -68,6 +68,8 @@ const initialSingleSession = {
   selectedCode: {},
   activeSessionId: null,
   activeSessionLoading: false,
+  intakeLogs: [],
+  companyInfoLoading: false,
 };
 
 const singleSessionReducer = (state = initialSingleSession, action) => {
@@ -131,7 +133,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     }
     case actions.UPDATE_TUBE_SUCCESS: {
       const { pool_id, tube, scanId } = action.payload.data;
-
+      console.log(tube.last_modified_on);
       return {
         ...state,
         isLoading: false,
@@ -143,6 +145,8 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
                 if (row.letter === action.payload.data.row.letter) {
                   return {
                     ...row,
+                    last_modified_on: tube.last_modified_on,
+                    last_modified_by: tube.last_modified_by,
                     ...action.payload.data.row,
                   };
                 }
@@ -151,8 +155,9 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
               scan_tubes: scan.scan_tubes.map((tubeItem) => {
                 return tubeItem.id === tube.id ? tube : tubeItem;
               }),
-
               ...(pool_id ? { pool_id } : {}),
+              last_modified_on: tube.last_modified_on,
+              last_modified_by: tube.last_modified_by,
             };
           }
           return scan;
@@ -180,6 +185,8 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
           if (scan.id === action.payload.data.scanId) {
             return {
               ...scan,
+              last_modified_on: tube.last_modified_on,
+              last_modified_by: tube.last_modified_by,
               items: scan.items.map((row) => {
                 if (row.letter === action.payload.data.row.letter) {
                   return {
@@ -286,6 +293,21 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
 
+    case actions.FETCH_SCAN_BY_ID_SUCCESS: {
+      console.log(action.payload);
+      return {
+        scans: state.scans.map((scan) => {
+          if (scan.id === action.payload.id) {
+            return {
+              ...scan,
+              ...action.payload,
+            };
+          }
+          return scan;
+        }),
+      };
+    }
+
     case actions.UPDATE_SCAN_BY_ID_REQUEST:
     case actions.CANCEL_SCAN_BY_ID_REQUEST: {
       return {
@@ -336,6 +358,29 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         isLoading: false,
       };
     }
+
+    case actions.FETCH_COMPANY_INFO_REQUEST: {
+      return {
+        ...state,
+        companyInfoLoading: true,
+        error: null,
+      };
+    }
+    case actions.FETCH_COMPANY_INFO_SUCCESS: {
+      return {
+        ...state,
+        companyInfoLoading: false,
+        intakeLogs: action.payload.data,
+      };
+    }
+    case actions.FETCH_COMPANY_INFO_FAILURE: {
+      return {
+        ...state,
+        companyInfoLoading: false,
+        intakeLogs: [],
+      };
+    }
+
     default:
       return state;
   }

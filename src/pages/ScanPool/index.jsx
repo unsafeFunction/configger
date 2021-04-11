@@ -75,9 +75,9 @@ const Pool = () => {
               title="Pool name:"
               value={
                 scan?.scan_order >= 0
-                  ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
-                      scan?.scan_order + 1
-                    }`
+                  ? `${
+                      moment(scan?.scan_timestamp)?.format('dddd')?.[0]
+                    }${scan?.scan_order + 1}`
                   : '-'
               }
             />
@@ -97,12 +97,12 @@ const Pool = () => {
           <Statistic
             className={styles.scanStat}
             title="Last modified on:"
-            value={moment(scan?.modified).format('llll') ?? '–'}
+            value={moment(scan?.last_modified_on).format('llll') ?? '–'}
           />
           <Statistic
             className={styles.scanStat}
             title="Last modified by:"
-            value={moment(scan?.modified).format('llll') ?? '–'}
+            value={scan?.last_modified_by ?? '-'}
           />
         </Col>
       </Row>
