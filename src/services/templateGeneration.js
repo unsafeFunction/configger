@@ -21,7 +21,7 @@ export const createTemplate = async ({
   try {
     const response = await axiosClient.get(`/runs/${runId}/generate/`, {
       params: { reflex, rerun },
-      headers: { 'Content-Type': 'text/csv' },
+      headers: { 'Content-Type': contentType },
       responseType: 'blob',
     });
 

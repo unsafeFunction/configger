@@ -32,7 +32,7 @@ export function* callCreateTemplate({ payload }) {
       reflex: is_reflexed,
       rerun: is_reruned,
       name: title,
-      contentType: 'text/csv',
+      contentType: 'application/zip',
     });
 
     yield put({ type: actions.CREATE_TEMPLATE_SUCCESS });
