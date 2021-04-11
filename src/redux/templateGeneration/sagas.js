@@ -31,8 +31,8 @@ export function* callCreateTemplate({ payload }) {
       runId: id,
       reflex: is_reflexed,
       rerun: is_reruned,
-      name: `${title}.csv`,
-      contentType: 'text/csv',
+      name: title,
+      contentType: 'application/zip',
     });
 
     yield put({ type: actions.CREATE_TEMPLATE_SUCCESS });
