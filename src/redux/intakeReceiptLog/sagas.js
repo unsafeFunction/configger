@@ -1,11 +1,11 @@
-import { all, takeEvery, put, call } from 'redux-saga/effects';
+import { notification } from 'antd';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
+import modalActions from 'redux/modal/actions';
 import {
-  fetchIntakeReceiptLog,
   createIntake,
+  fetchIntakeReceiptLog,
   updateIntake,
 } from 'services/intakeReceiptLog';
-import { notification } from 'antd';
-import modalActions from 'redux/modal/actions';
 import actions from './actions';
 
 export function* callFetchIntakeReceiptLog({ payload }) {

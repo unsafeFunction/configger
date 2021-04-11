@@ -1,12 +1,9 @@
 import axiosClient from 'utils/axiosClient';
 
-export const fetchIntakeReceiptLog = async ({ limit, offset }) => {
+export const fetchIntakeReceiptLog = async (query) => {
   try {
     return await axiosClient.get('/intake-logs/', {
-      params: {
-        limit,
-        offset,
-      },
+      params: { ...query },
     });
   } catch (error) {
     throw new Error(error);

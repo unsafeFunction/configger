@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/templateGeneration/actions';
-import { rules } from 'utils/rules';
-import { layout } from './utils';
+import rules from 'utils/rules';
+import layout from './utils';
 
 const RunStage = ({ runState, componentDispatch }) => {
   const { Item } = Form;

@@ -1,27 +1,32 @@
-import { all, takeEvery, put, call, select } from 'redux-saga/effects';
 import { notification } from 'antd';
-import actions from './actions';
+import sortBy from 'lodash.sortby';
+import moment from 'moment-timezone';
+import { all, call, put, select, takeEvery } from 'redux-saga/effects';
+import { callFetchCompanyShort } from 'redux/companies/sagas';
 import modalActions from 'redux/modal/actions';
+import { fetchIntakeReceiptLog } from 'services/intakeReceiptLog';
 import {
+  cancelScan,
+  deleteScan,
   deleteTube,
   fetchScanById,
-  updateTube,
-  deleteScan,
-  updateScan,
-  invalidateTube,
   fetchSessionId,
-  cancelScan,
+  invalidateTube,
+  updateScan,
+  updateTube,
 } from 'services/scans';
 import {
-  fetchSessions,
-  fetchSessionById,
-  updateSession,
-  createSession,
   closeSession,
+  createSession,
+  fetchSessionById,
+  fetchSessions,
+  updateSession,
 } from 'services/scanSessions';
-import { getSelectedCode } from './selectors';
-import sortBy from 'lodash.sortby';
 import { constants } from 'utils/constants';
+import actions from './actions';
+import { getSelectedCode } from './selectors';
+
+moment.tz.setDefault('America/New_York');
 
 export function* callFetchScanSessions({ payload }) {
   try {
@@ -443,6 +448,30 @@ export function* callCancelScan({ payload }) {
   }
 }
 
+export function* callFetchCompanyInfo(payload) {
+  try {
+    yield call(callFetchCompanyShort, payload);
+
+    const response = yield call(fetchIntakeReceiptLog, {
+      created_after: moment()
+        .subtract(24, 'hours')
+        .format('YYYY-MM-DD'),
+      created_before: moment().format('YYYY-MM-DD'),
+    });
+
+    yield put({
+      type: actions.FETCH_COMPANY_INFO_SUCCESS,
+      payload: {
+        data: response.data.results,
+      },
+    });
+  } catch (error) {
+    yield put({
+      type: actions.FETCH_COMPANY_INFO_FAILURE,
+    });
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_SCAN_SESSIONS_REQUEST, callFetchScanSessions),
@@ -460,5 +489,6 @@ export default function* rootSaga() {
     takeEvery(actions.CREATE_SESSION_REQUEST, callCreateSession),
     takeEvery(actions.FETCH_SESSION_ID_REQUEST, callFetchSessionId),
     takeEvery(actions.CANCEL_SCAN_BY_ID_REQUEST, callCancelScan),
+    takeEvery(actions.FETCH_COMPANY_INFO_REQUEST, callFetchCompanyInfo),
   ]);
 }
