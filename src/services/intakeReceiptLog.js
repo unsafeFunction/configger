@@ -14,13 +14,14 @@ export const createIntake = async (payload) => {
   try {
     const intake = await axiosClient.post('/intake-logs/', {
       ...payload,
-      tracking_numbers: payload.tracking_numbers[0].length
+      tracking_numbers: payload.tracking_numbers?.[0].length
         ? payload.tracking_numbers
-        : undefined,
+        : null,
     });
     return intake;
   } catch (error) {
-    throw new Error(error?.response?.data.detail);
+    const err = error?.response?.data.field_errors;
+    throw new Error(err ? JSON.stringify(err) : error);
   }
 };
 
@@ -28,12 +29,13 @@ export const updateIntake = async (payload) => {
   try {
     const intake = await axiosClient.patch(`/intake-logs/${payload.id}`, {
       ...payload,
-      tracking_numbers: payload.tracking_numbers[0].length
+      tracking_numbers: payload.tracking_numbers?.[0].length
         ? payload.tracking_numbers
-        : undefined,
+        : null,
     });
     return intake;
   } catch (error) {
-    throw new Error(error?.response?.data.detail);
+    const err = error?.response?.data.field_errors;
+    throw new Error(err ? JSON.stringify(err) : error);
   }
 };

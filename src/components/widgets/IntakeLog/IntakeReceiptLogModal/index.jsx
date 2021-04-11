@@ -7,9 +7,10 @@ import { Button, Form, Input, InputNumber, Select } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/companies/actions';
+import rules from 'utils/rules';
 import styles from './styles.module.scss';
 
-const IntakeRecepientLogModal = ({ form, edit }) => {
+const IntakeReceiptLogModal = ({ form, edit }) => {
   const [isCommentsSelected, setCommentsSelected] = useState(false);
   const dispatch = useDispatch();
   const { Item } = Form;
@@ -59,23 +60,18 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
       layout="vertical"
       initialValues={{ tracking_numbers: [''] }}
     >
-      <Item
-        label="Company ID"
-        name="company_id"
-        rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
-        ]}
-      >
+      {!edit && (
+        <Item label="Log ID" name="log_id" rules={[rules.required]}>
+          <Input placeholder="Log ID" />
+        </Item>
+      )}
+      <Item label="Company ID" name="company_id" rules={[rules.required]}>
         <Input
           disabled={edit}
           placeholder="Company ID"
           onBlur={handleBlurCompany}
         />
       </Item>
-
       <Item
         label="Company name"
         name="company_name"
@@ -92,7 +88,6 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
           suffix={company.isLoadingCompany && <LoadingOutlined />}
         />
       </Item>
-
       <Item label="Company short" name="company_short">
         <Input
           disabled
@@ -100,17 +95,11 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
           suffix={company.isLoadingCompany && <LoadingOutlined />}
         />
       </Item>
-
       <Item
         label="Reference pools count"
         name="reference_pools_count"
         className={styles.formItem}
-        rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
-        ]}
+        rules={[rules.required]}
       >
         <InputNumber
           placeholder="Reference pools count"
@@ -118,17 +107,13 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
           min={1}
         />
       </Item>
-
       <Item
         label="Reference samples count"
         name="reference_samples_count"
         className={styles.formItem}
         dependencies={['reference_pools_count']}
         rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
+          rules.required,
           ({ getFieldValue }) => ({
             validator(rule, value) {
               if (getFieldValue('reference_pools_count') <= value) {
@@ -148,17 +133,11 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
           min={1}
         />
       </Item>
-
       <Item
         label="Shipping by"
         name="shipment"
         className={styles.formItem}
-        rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
-        ]}
+        rules={[rules.required]}
       >
         <Select
           placeholder="Shipping by"
@@ -181,17 +160,11 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
           ]}
         />
       </Item>
-
       <Item
         label="Sample condition"
         name="sample_condition"
         className={styles.formItem}
-        rules={[
-          {
-            required: true,
-            message: 'This field is required',
-          },
-        ]}
+        rules={[rules.required]}
       >
         <Select
           placeholder="Sample condition"
@@ -220,7 +193,6 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
           <TextArea placeholder="Comments" />
         </Item>
       )}
-
       <Form.List name="tracking_numbers" className={styles.formItem}>
         {(fields, { add, remove }, { errors }) => (
           <>
@@ -275,4 +247,4 @@ const IntakeRecepientLogModal = ({ form, edit }) => {
   );
 };
 
-export default IntakeRecepientLogModal;
+export default IntakeReceiptLogModal;

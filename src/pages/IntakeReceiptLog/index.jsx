@@ -1,13 +1,13 @@
+import { Button, Form, Table } from 'antd';
+import classNames from 'classnames';
+import IntakeReceiptLogModal from 'components/widgets/IntakeLog/IntakeReceiptLogModal';
+import moment from 'moment-timezone';
 import React, { useCallback, useEffect } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/intakeReceiptLog/actions';
 import modalActions from 'redux/modal/actions';
-import { Table, Button, Form } from 'antd';
-import moment from 'moment-timezone';
-import classNames from 'classnames';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { constants } from 'utils/constants';
-import IntakeRecepientLogModal from 'components/widgets/IntakeLog/IntakeRecepientLogModal';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -26,37 +26,40 @@ const IntakeReceiptLog = () => {
           limit: constants?.intakeLog?.itemsLoadingCount,
         },
       });
-    }, [dispatch]);
+    }, []);
   };
 
   useFetching();
 
   const handleReset = useCallback(() => {
     form.resetFields();
-  }, []);
+  }, [form]);
 
-  const handleChangeIntake = useCallback(async (record) => {
-    const fieldValues = await form.validateFields();
-    const { company_name, company_short, ...rest } = fieldValues;
+  const handleChangeIntake = useCallback(
+    async (record) => {
+      const fieldValues = await form.validateFields();
+      const { company_name, company_short, ...rest } = fieldValues;
 
-    if (record) {
-      dispatch({
-        type: actions.PATCH_INTAKE_REQUEST,
-        payload: {
-          intake: { ...rest, id: record.id },
-          resetForm: handleReset,
-        },
-      });
-    } else {
-      dispatch({
-        type: actions.CREATE_INTAKE_REQUEST,
-        payload: {
-          intake: rest,
-          resetForm: handleReset,
-        },
-      });
-    }
-  }, []);
+      if (record) {
+        dispatch({
+          type: actions.PATCH_INTAKE_REQUEST,
+          payload: {
+            intake: { ...rest, id: record.id },
+            resetForm: handleReset,
+          },
+        });
+      } else {
+        dispatch({
+          type: actions.CREATE_INTAKE_REQUEST,
+          payload: {
+            intake: rest,
+            resetForm: handleReset,
+          },
+        });
+      }
+    },
+    [dispatch, form, handleReset],
+  );
 
   const handleModalToggle = useCallback(
     (record) => {
@@ -78,18 +81,23 @@ const IntakeReceiptLog = () => {
             overflow: 'scroll',
           },
           okText: `${record ? 'Edit' : 'New'} Log`,
-          message: () => (
-            <IntakeRecepientLogModal form={form} edit={!!record} />
-          ),
+          message: () => <IntakeReceiptLogModal form={form} edit={!!record} />,
           maskClosable: false,
           onCancel: handleReset,
         },
       });
     },
-    [dispatch],
+    [dispatch, form, handleChangeIntake, handleReset],
   );
 
   const columns = [
+    {
+      title: 'Log ID',
+      dataIndex: 'log_id',
+      render: (_, record) => {
+        return record.log_id ?? '-';
+      },
+    },
     {
       title: 'Log DateTime',
       dataIndex: 'modified',
@@ -131,16 +139,6 @@ const IntakeReceiptLog = () => {
     {
       title: 'Sample Condition',
       dataIndex: 'sample_condition',
-    },
-    {
-      title: 'Comments',
-      dataIndex: 'comments',
-      width: '350px',
-      wordWrap: 'break-word',
-      wordBreak: 'break-word',
-      render: (_, record) => {
-        return record.comments ?? '-';
-      },
     },
     {
       title: 'Tracking Number',
