@@ -121,7 +121,9 @@ const Scan = () => {
 
   const scansTotal = session?.scans?.length;
   const incorrectPositions = scan?.incorrect_positions?.join(', ');
+  const isIncorrectTubes = incorrectPositions?.length > 0;
   const emptyPosition = scan?.empty_positions?.join(', ');
+  const isEmptyTubes = emptyPosition?.length > 0;
 
   const companyInfo = session?.company_short;
   const deleteScan = useCallback(
@@ -336,8 +338,6 @@ const Scan = () => {
   );
 
   const onSaveScanModalToggle = useCallback(() => {
-    const disabledBtn = incorrectPositions?.length > 0;
-
     dispatch({
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
@@ -345,14 +345,14 @@ const Scan = () => {
         title: 'Save scan',
         modalId: 'saveScan',
         onOk: () => {
-          return !disabledBtn ? updateScan() : null;
+          return !isIncorrectTubes ? updateScan() : null;
         },
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
         },
         okButtonProps: {
-          disabled: disabledBtn,
+          disabled: isIncorrectTubes,
         },
         okText: 'Save',
         message: () => (
@@ -361,9 +361,9 @@ const Scan = () => {
             type="warning"
             message="Warning"
             description={
-              incorrectPositions?.length > 0 ? (
+              isIncorrectTubes ? (
                 <Paragraph>{`IT IS IMPOSSIBLE TO SAVE SCAN BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}</Paragraph>
-              ) : emptyPosition?.length > 0 ? (
+              ) : isEmptyTubes ? (
                 <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>
               ) : null
             }
@@ -379,7 +379,7 @@ const Scan = () => {
         !session?.isLoading &&
         session.scans.length > 0 &&
         !isModalOpen) ||
-      (isModalOpen && incorrectPositions?.length <= 0)
+      (isModalOpen && !isIncorrectTubes)
     ) {
       onSaveScanModalToggle();
     }
