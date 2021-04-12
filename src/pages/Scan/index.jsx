@@ -121,6 +121,7 @@ const Scan = () => {
 
   const scansTotal = session?.scans?.length;
   const incorrectPositions = scan?.incorrect_positions?.join(', ');
+  const emptyPosition = scan?.empty_positions?.join(', ');
 
   const companyInfo = session?.company_short;
   const deleteScan = useCallback(
@@ -360,7 +361,11 @@ const Scan = () => {
             type="warning"
             message="Warning"
             description={
-              <Paragraph>{`ARE YOU SURE THE RED (${incorrectPositions}) POSITIONS ARE EMPTY?`}</Paragraph>
+              incorrectPositions?.length > 0 ? (
+                <Paragraph>{`ARE YOU SURE THE RED (${incorrectPositions}) POSITIONS ARE EMPTY?`}</Paragraph>
+              ) : emptyPosition?.length > 0 ? (
+                <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>
+              ) : null
             }
           />
         ),
