@@ -218,6 +218,7 @@ const Scan = () => {
             countOfCompletedSamples,
           )
         }
+        disabled={incorrectPositions?.length > 0}
         key="2"
         icon={<CheckOutlined />}
       >
