@@ -343,7 +343,9 @@ const Scan = () => {
       modalProps: {
         title: 'Save scan',
         modalId: 'saveScan',
-        onOk: () => updateScan(),
+        onOk: () => {
+          return !disabledBtn ? updateScan() : null;
+        },
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
@@ -367,7 +369,7 @@ const Scan = () => {
   }, [dispatch, updateScan, incorrectPositions]);
 
   useEffect(() => {
-    if (enterPress && (!session?.isLoading || session.scans.length > 0)) {
+    if (enterPress && !session?.isLoading && session.scans.length > 0) {
       onSaveScanModalToggle();
     }
   }, [enterPress, onSaveScanModalToggle]);
