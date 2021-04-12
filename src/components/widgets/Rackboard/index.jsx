@@ -139,8 +139,8 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
         recordStatus === tubes.improperCollection.status ||
         recordStatus === tubes.contamination.status ||
         recordStatus === tubes.invalid.status;
-      const isTubeEmpty = rackboard?.empty_positions?.find(
-        (tube) => tube.position === record?.[`col${i + 1}`]?.position,
+      const isTubeEmpty = rackboard?.incorrect_positions?.find(
+        (position) => position === record?.[`col${i + 1}`]?.position,
       );
 
       if (record[`col${i + 1}`] && recordStatus !== tubes.blank.status) {

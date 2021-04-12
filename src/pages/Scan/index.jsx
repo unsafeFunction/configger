@@ -334,9 +334,7 @@ const Scan = () => {
   );
 
   const onSaveScanModalToggle = useCallback(() => {
-    const emptyTubes = scan?.empty_positions
-      ?.map((tube) => tube.position)
-      .join(', ');
+    const emptyTubes = scan?.incorrect_positions?.join(', ');
 
     dispatch({
       type: modalActions.SHOW_MODAL,
