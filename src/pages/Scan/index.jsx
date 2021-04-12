@@ -1,41 +1,41 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable indent */
-import React, { useEffect, useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/scanSessions/actions';
-import modalActions from 'redux/modal/actions';
-import { constants } from 'utils/constants';
-import { countedPoolTubes } from 'utils/tubesRules';
 import {
-  Row,
-  Col,
-  Button,
-  Typography,
-  Popconfirm,
-  Statistic,
-  Dropdown,
-  Menu,
-  Alert,
-  Input,
-} from 'antd';
-import {
-  LeftOutlined,
-  RightOutlined,
+  CheckOutlined,
   CloseOutlined,
   DownOutlined,
-  ReloadOutlined,
-  CheckOutlined,
   EditOutlined,
+  LeftOutlined,
+  ReloadOutlined,
+  RightOutlined,
 } from '@ant-design/icons';
+import {
+  Alert,
+  Button,
+  Col,
+  Dropdown,
+  Input,
+  Menu,
+  Popconfirm,
+  Row,
+  Statistic,
+  Typography,
+} from 'antd';
+import classNames from 'classnames';
 import Rackboard from 'components/widgets/Rackboard';
-import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
+import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import useKeyPress from 'hooks/useKeyPress';
-import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
 import moment from 'moment-timezone';
 import qs from 'qs';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import modalActions from 'redux/modal/actions';
+import actions from 'redux/scanSessions/actions';
+import { constants } from 'utils/constants';
+import { countedPoolTubes } from 'utils/tubesRules';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -148,7 +148,7 @@ const Scan = () => {
 
   const handleVoidScan = useCallback(() => {
     goToNextScan();
-    deleteScan({ id: scan.id });
+    deleteScan({ id: scan?.id });
 
     setVisibleActions(false);
   }, [scan, goToNextScan, deleteScan]);
