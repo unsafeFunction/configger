@@ -120,6 +120,7 @@ const Scan = () => {
   }, [scans, history, currentScanOrder]);
 
   const scansTotal = session?.scans?.length;
+  const incorrectPositions = scan?.incorrect_positions?.join(', ');
 
   const companyInfo = session?.company_short;
   const deleteScan = useCallback(
@@ -334,7 +335,7 @@ const Scan = () => {
   );
 
   const onSaveScanModalToggle = useCallback(() => {
-    const emptyTubes = scan?.incorrect_positions?.join(', ');
+    const disabledBtn = incorrectPositions?.length > 0;
 
     dispatch({
       type: modalActions.SHOW_MODAL,
@@ -347,6 +348,9 @@ const Scan = () => {
           maxHeight: '70vh',
           overflow: 'scroll',
         },
+        okButtonProps: {
+          disabled: disabledBtn,
+        },
         okText: 'Save',
         message: () => (
           <Alert
@@ -354,13 +358,13 @@ const Scan = () => {
             type="warning"
             message="Warning"
             description={
-              <Paragraph>{`ARE YOU SURE THE RED (${emptyTubes}) POSITIONS ARE EMPTY?`}</Paragraph>
+              <Paragraph>{`ARE YOU SURE THE RED (${incorrectPositions}) POSITIONS ARE EMPTY?`}</Paragraph>
             }
           />
         ),
       },
     });
-  }, [dispatch, updateScan]);
+  }, [dispatch, updateScan, incorrectPositions]);
 
   useEffect(() => {
     if (enterPress && (session?.isLoading || session.scans.length > 0)) {
