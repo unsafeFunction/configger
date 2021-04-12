@@ -362,7 +362,7 @@ const Scan = () => {
             message="Warning"
             description={
               incorrectPositions?.length > 0 ? (
-                <Paragraph>{`ARE YOU SURE THE RED (${incorrectPositions}) POSITIONS ARE EMPTY?`}</Paragraph>
+                <Paragraph>{`IT IS IMPOSSIBLE TO SAVE SCAN BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}</Paragraph>
               ) : emptyPosition?.length > 0 ? (
                 <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>
               ) : null
