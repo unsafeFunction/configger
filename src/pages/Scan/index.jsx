@@ -51,7 +51,7 @@ const Scan = () => {
   const [currentScanOrder, setCurrentScanOrder] = useState(0);
   const [isEditOpen, setEditOpen] = useState(false);
   const [changedPoolName, setChangedPoolName] = useState('-');
-
+  const isModalOpen = useSelector((state) => state.modal?.isOpen);
   const enterPress = useKeyPress('Enter');
   const sessionId = history.location.pathname.split('/')[2];
 
@@ -218,7 +218,6 @@ const Scan = () => {
             countOfCompletedSamples,
           )
         }
-        disabled={incorrectPositions?.length > 0}
         key="2"
         icon={<CheckOutlined />}
       >
@@ -375,7 +374,13 @@ const Scan = () => {
   }, [dispatch, updateScan, incorrectPositions]);
 
   useEffect(() => {
-    if (enterPress && !session?.isLoading && session.scans.length > 0) {
+    if (
+      (enterPress &&
+        !session?.isLoading &&
+        session.scans.length > 0 &&
+        !isModalOpen) ||
+      (isModalOpen && incorrectPositions?.length <= 0)
+    ) {
       onSaveScanModalToggle();
     }
   }, [enterPress, onSaveScanModalToggle]);
