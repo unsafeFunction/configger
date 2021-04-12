@@ -20,6 +20,8 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
   );
   const { modalId } = useSelector((state) => state.modal.modalProps);
   console.log(rackboard);
+  const isIncorrectPositions = rackboard?.incorrect_positions?.length > 0;
+
   const [form] = Form.useForm();
   const initialRackboard = [...Array(6).keys()].map((i) => ({
     letter: String.fromCharCode(constants?.A + i),
@@ -139,7 +141,10 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
         recordStatus === tubes.improperCollection.status ||
         recordStatus === tubes.contamination.status ||
         recordStatus === tubes.invalid.status;
-      const isTubeEmpty = rackboard?.incorrect_positions?.find(
+      const isTubeIncorrect = rackboard?.incorrect_positions?.find(
+        (position) => position === record?.[`col${i + 1}`]?.position,
+      );
+      const isTubeEmpty = rackboard?.empty_positions?.find(
         (position) => position === record?.[`col${i + 1}`]?.position,
       );
 
@@ -257,11 +262,13 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
               className={styles.tube}
               style={{
                 backgroundColor:
-                  isTubeEmpty && modalId === 'saveScan'
+                  (isTubeIncorrect || (!isIncorrectPositions && isTubeEmpty)) &&
+                  modalId === 'saveScan'
                     ? '#ff0000'
                     : record[`col${i + 1}`]?.color,
                 borderColor:
-                  isTubeEmpty && modalId === 'saveScan'
+                  (isTubeIncorrect || (!isIncorrectPositions && isTubeEmpty)) &&
+                  modalId === 'saveScan'
                     ? '#ff0000'
                     : record[`col${i + 1}`]?.color === '#ffffff'
                     ? '#000000'
