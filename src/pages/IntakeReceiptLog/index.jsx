@@ -109,13 +109,6 @@ const IntakeReceiptLog = () => {
 
   const columns = [
     {
-      title: 'Log ID',
-      dataIndex: 'log_id',
-      render: (_, record) => {
-        return record.log_id ?? '-';
-      },
-    },
-    {
       title: 'Log DateTime',
       dataIndex: 'modified',
       sorter: true,
