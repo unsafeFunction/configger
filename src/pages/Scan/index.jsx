@@ -51,7 +51,7 @@ const Scan = () => {
   const [currentScanOrder, setCurrentScanOrder] = useState(0);
   const [isEditOpen, setEditOpen] = useState(false);
   const [changedPoolName, setChangedPoolName] = useState('-');
-
+  const isModalOpen = useSelector((state) => state.modal?.isOpen);
   const enterPress = useKeyPress('Enter');
   const sessionId = history.location.pathname.split('/')[2];
 
@@ -120,6 +120,10 @@ const Scan = () => {
   }, [scans, history, currentScanOrder]);
 
   const scansTotal = session?.scans?.length;
+  const incorrectPositions = scan?.incorrect_positions?.join(', ');
+  const isIncorrectTubes = incorrectPositions?.length > 0;
+  const emptyPosition = scan?.empty_positions?.join(', ');
+  const isEmptyTubes = emptyPosition?.length > 0;
 
   const companyInfo = session?.company_short;
   const deleteScan = useCallback(
@@ -334,18 +338,21 @@ const Scan = () => {
   );
 
   const onSaveScanModalToggle = useCallback(() => {
-    const emptyTubes = scan?.incorrect_positions?.join(', ');
-
     dispatch({
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Save scan',
         modalId: 'saveScan',
-        onOk: () => updateScan(),
+        onOk: () => {
+          return !isIncorrectTubes ? updateScan() : null;
+        },
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
+        },
+        okButtonProps: {
+          disabled: isIncorrectTubes,
         },
         okText: 'Save',
         message: () => (
@@ -354,16 +361,26 @@ const Scan = () => {
             type="warning"
             message="Warning"
             description={
-              <Paragraph>{`ARE YOU SURE THE RED (${emptyTubes}) POSITIONS ARE EMPTY?`}</Paragraph>
+              isIncorrectTubes ? (
+                <Paragraph>{`IT IS IMPOSSIBLE TO SAVE SCAN BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}</Paragraph>
+              ) : isEmptyTubes ? (
+                <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>
+              ) : null
             }
           />
         ),
       },
     });
-  }, [dispatch, updateScan]);
+  }, [dispatch, updateScan, incorrectPositions]);
 
   useEffect(() => {
-    if (enterPress && (session?.isLoading || session.scans.length > 0)) {
+    if (
+      (enterPress &&
+        !session?.isLoading &&
+        session.scans.length > 0 &&
+        !isModalOpen) ||
+      (isModalOpen && !isIncorrectTubes)
+    ) {
       onSaveScanModalToggle();
     }
   }, [enterPress, onSaveScanModalToggle]);
