@@ -89,6 +89,7 @@ export const constants = {
       countedForPool: true,
       countedForPoolRack: true,
     }, // D
+    incorrectLetters: ['D', 'E', 'F'],
   },
   poolsByRun: {
     itemsLoadingCount: 100,

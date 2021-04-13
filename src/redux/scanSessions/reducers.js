@@ -133,7 +133,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     }
     case actions.UPDATE_TUBE_SUCCESS: {
       const { pool_id, tube, scanId } = action.payload.data;
-      console.log(tube.last_modified_on);
       return {
         ...state,
         isLoading: false,
@@ -141,6 +140,23 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
           if (scan.id === scanId) {
             return {
               ...scan,
+              empty_positions:
+                tube?.status === constants.tubes.deleted.status &&
+                !constants.tubes.incorrectLetters.includes(tube?.position?.[0])
+                  ? [...scan.empty_positions, tube?.position]
+                  : tube?.status !== constants.tubes.deleted.status &&
+                    !constants.tubes.incorrectLetters.includes(
+                      tube?.position?.[0],
+                    )
+                  ? scan.empty_positions.filter(
+                      (position) => position !== tube?.position,
+                    )
+                  : scan.empty_positions,
+              incorrect_positions: constants.tubes.incorrectLetters.includes(
+                tube?.position?.[0],
+              )
+                ? [...scan.incorrect_positions, tube?.position]
+                : scan.incorrect_positions,
               items: scan.items.map((row) => {
                 if (row.letter === action.payload.data.row.letter) {
                   return {
@@ -275,6 +291,18 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
           if (scan.id === scanId) {
             return {
               ...scan,
+              empty_positions:
+                tube?.status === constants.tubes.deleted.status &&
+                !constants.tubes.incorrectLetters.includes(tube?.position?.[0])
+                  ? [...scan.empty_positions, tube?.position]
+                  : scan.empty_positions,
+              incorrect_positions: constants.tubes.incorrectLetters.includes(
+                tube?.position?.[0],
+              )
+                ? scan.incorrect_positions?.filter(
+                    (position) => position !== tube?.position,
+                  )
+                : scan.incorrect_positions,
               scan_tubes: scan.scan_tubes.map((tubeItem) => {
                 return tubeItem.id === tubeId ? tube : tubeItem;
               }),
@@ -294,7 +322,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     }
 
     case actions.FETCH_SCAN_BY_ID_SUCCESS: {
-      console.log(action.payload);
       return {
         scans: state.scans.map((scan) => {
           if (scan.id === action.payload.id) {
