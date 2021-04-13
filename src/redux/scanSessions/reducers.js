@@ -133,7 +133,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     }
     case actions.UPDATE_TUBE_SUCCESS: {
       const { pool_id, tube, scanId } = action.payload.data;
-      console.log(tube.last_modified_on);
       return {
         ...state,
         isLoading: false,
@@ -141,6 +140,10 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
           if (scan.id === scanId) {
             return {
               ...scan,
+              empty_positions:
+                tube?.status === constants.tubes.deleted.status
+                  ? [...scan.empty_positions, tube?.position]
+                  : scan.empty_positions,
               items: scan.items.map((row) => {
                 if (row.letter === action.payload.data.row.letter) {
                   return {
@@ -275,6 +278,10 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
           if (scan.id === scanId) {
             return {
               ...scan,
+              empty_positions:
+                tube?.status === constants.tubes.deleted.status
+                  ? [...scan.empty_positions, tube?.position]
+                  : scan.empty_positions,
               scan_tubes: scan.scan_tubes.map((tubeItem) => {
                 return tubeItem.id === tubeId ? tube : tubeItem;
               }),
