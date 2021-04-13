@@ -29,7 +29,7 @@ import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
 import qs from 'qs';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
@@ -53,6 +53,8 @@ const Scan = () => {
   const [changedPoolName, setChangedPoolName] = useState('-');
   const isModalOpen = useSelector((state) => state.modal?.isOpen);
   const enterPress = useKeyPress('Enter');
+  const leftArrowRef = useRef(null);
+  const rightArrowRef = useRef(null);
   const sessionId = history.location.pathname.split('/')[2];
 
   const session = useSelector((state) => state.scanSessions?.singleSession);
@@ -499,22 +501,26 @@ const Scan = () => {
                   <>
                     <Button
                       className="mr-2"
+                      ref={leftArrowRef}
                       icon={<LeftOutlined />}
-                      onClick={() =>
-                        handleNavigation({
+                      onClick={() => {
+                        leftArrowRef.current.blur();
+                        return handleNavigation({
                           direction: 'prev',
-                        })
-                      }
+                        });
+                      }}
                       disabled={session?.isLoading}
                     />
                     <Button
                       className="mr-2"
+                      ref={rightArrowRef}
                       icon={<RightOutlined />}
-                      onClick={() =>
-                        handleNavigation({
+                      onClick={() => {
+                        rightArrowRef.current.blur();
+                        return handleNavigation({
                           direction: 'next',
-                        })
-                      }
+                        });
+                      }}
                       disabled={session?.isLoading}
                     />
                   </>
