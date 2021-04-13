@@ -2,7 +2,7 @@ import { Button, Form, Table } from 'antd';
 import classNames from 'classnames';
 import IntakeReceiptLogModal from 'components/widgets/IntakeLog/IntakeReceiptLogModal';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/intakeReceiptLog/actions';
@@ -16,6 +16,8 @@ const IntakeReceiptLog = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
+  const [sortBy, setSortBy] = useState(undefined);
+
   const intakeLog = useSelector((state) => state.intakeReceiptLog);
 
   const useFetching = () => {
@@ -24,12 +26,27 @@ const IntakeReceiptLog = () => {
         type: actions.FETCH_INTAKE_LOG_REQUEST,
         payload: {
           limit: constants?.intakeLog?.itemsLoadingCount,
+          sort_by: sortBy,
         },
       });
-    }, []);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sortBy]);
   };
 
   useFetching();
+
+  const handleTableChange = (pagination, filters, sorter) => {
+    if (sorter) {
+      setSortBy(
+        // eslint-disable-next-line no-nested-ternary
+        sorter.order
+          ? sorter.order === 'ascend'
+            ? `${sorter.field}`
+            : `-${sorter.field}`
+          : undefined,
+      );
+    }
+  };
 
   const handleReset = useCallback(() => {
     form.resetFields();
@@ -101,6 +118,7 @@ const IntakeReceiptLog = () => {
     {
       title: 'Log DateTime',
       dataIndex: 'modified',
+      sorter: true,
       render: (_, record) => {
         return moment(record.modified).format('lll');
       },
@@ -188,9 +206,10 @@ const IntakeReceiptLog = () => {
       payload: {
         limit: constants?.intakeLog?.itemsLoadingCount,
         offset: intakeLog.offset,
+        sort_by: sortBy,
       },
     });
-  }, [dispatch, intakeLog]);
+  }, [dispatch, intakeLog, sortBy]);
 
   return (
     <>
@@ -217,6 +236,7 @@ const IntakeReceiptLog = () => {
           bordered
           loading={intakeLog.isLoading}
           rowKey={(record) => record.id}
+          onChange={handleTableChange}
         />
       </InfiniteScroll>
     </>

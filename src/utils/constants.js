@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/prefer-default-export
 export const constants = {
   customers: {
     itemsLoadingCount: 25,
@@ -93,9 +94,6 @@ export const constants = {
     itemsLoadingCount: 100,
   },
   intakeLog: {
-    itemsLoadingCount: 25,
-  },
-  poolRacks: {
     itemsLoadingCount: 25,
   },
   USstates: [
