@@ -340,6 +340,7 @@ const Scan = () => {
   );
 
   const onSaveScanModalToggle = useCallback(() => {
+    console.log(scan);
     dispatch({
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
@@ -347,16 +348,18 @@ const Scan = () => {
         title: 'Save scan',
         modalId: 'saveScan',
         onOk: () => {
-          return !isIncorrectTubes ? updateScan() : null;
+          return !isIncorrectTubes
+            ? updateScan()
+            : scan?.possibly_reversed && updateScan({ reverse: true });
         },
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
         },
         okButtonProps: {
-          disabled: isIncorrectTubes,
+          disabled: !scan.possibly_reversed && isIncorrectTubes,
         },
-        okText: 'Save',
+        okText: scan.possibly_reversed ? 'Reverse scan' : 'Save',
         message: () => {
           return isIncorrectTubes || isEmptyTubes ? (
             <Alert
@@ -364,7 +367,9 @@ const Scan = () => {
               type="warning"
               message="Warning"
               description={
-                isIncorrectTubes ? (
+                scan?.possibly_reversed ? (
+                  <Paragraph>IS IT A REVERSED SCAN?</Paragraph>
+                ) : isIncorrectTubes ? (
                   <Paragraph>{`IT IS IMPOSSIBLE TO SAVE SCAN BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}</Paragraph>
                 ) : isEmptyTubes ? (
                   <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>
