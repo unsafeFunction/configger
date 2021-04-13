@@ -138,12 +138,31 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         isLoading: false,
         scans: state.scans.map((scan) => {
           if (scan.id === scanId) {
+            console.log(
+              scan,
+              constants.tubes.incorrectLetters.includes(tube?.position?.[0]),
+              tube?.position?.[0],
+              constants.tubes.incorrectLetters,
+            );
             return {
               ...scan,
               empty_positions:
-                tube?.status === constants.tubes.deleted.status
+                tube?.status === constants.tubes.deleted.status &&
+                !constants.tubes.incorrectLetters.includes(tube?.position?.[0])
                   ? [...scan.empty_positions, tube?.position]
+                  : tube?.status !== constants.tubes.deleted.status &&
+                    !constants.tubes.incorrectLetters.includes(
+                      tube?.position?.[0],
+                    )
+                  ? scan.empty_positions.filter(
+                      (position) => position !== tube?.position,
+                    )
                   : scan.empty_positions,
+              incorrect_positions: constants.tubes.incorrectLetters.includes(
+                tube?.position?.[0],
+              )
+                ? [...scan.incorrect_positions, tube?.position]
+                : scan.incorrect_positions,
               items: scan.items.map((row) => {
                 if (row.letter === action.payload.data.row.letter) {
                   return {
@@ -276,12 +295,21 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         ...state,
         scans: state.scans.map((scan) => {
           if (scan.id === scanId) {
+            console.log(scan);
             return {
               ...scan,
               empty_positions:
-                tube?.status === constants.tubes.deleted.status
+                tube?.status === constants.tubes.deleted.status &&
+                !constants.tubes.incorrectLetters.includes(tube?.position?.[0])
                   ? [...scan.empty_positions, tube?.position]
                   : scan.empty_positions,
+              incorrect_positions: constants.tubes.incorrectLetters.includes(
+                tube?.position?.[0],
+              )
+                ? scan.incorrect_positions?.filter(
+                    (position) => position !== tube?.position,
+                  )
+                : scan.incorrect_positions,
               scan_tubes: scan.scan_tubes.map((tubeItem) => {
                 return tubeItem.id === tubeId ? tube : tubeItem;
               }),

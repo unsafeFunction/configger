@@ -88,14 +88,12 @@ export const constants = {
       countedForPool: true,
       countedForPoolRack: true,
     }, // D
+    incorrectLetters: ['D', 'E', 'F'],
   },
   poolsByRun: {
     itemsLoadingCount: 100,
   },
   intakeLog: {
-    itemsLoadingCount: 25,
-  },
-  poolRacks: {
     itemsLoadingCount: 25,
   },
   USstates: [
