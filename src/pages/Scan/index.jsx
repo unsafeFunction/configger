@@ -378,7 +378,8 @@ const Scan = () => {
       (enterPress &&
         !session?.isLoading &&
         session.scans.length > 0 &&
-        !isModalOpen) ||
+        !isModalOpen &&
+        (isIncorrectTubes || isEmptyTubes)) ||
       (isModalOpen && !isIncorrectTubes)
     ) {
       onSaveScanModalToggle();
