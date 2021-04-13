@@ -381,11 +381,10 @@ const Scan = () => {
 
   useEffect(() => {
     if (
-      (enterPress &&
-        !session?.isLoading &&
-        session.scans.length > 0 &&
-        !isModalOpen) ||
-      (isModalOpen && !isIncorrectTubes)
+      enterPress &&
+      !session?.isLoading &&
+      session.scans.length > 0 &&
+      !isModalOpen
     ) {
       onSaveScanModalToggle();
     }
