@@ -138,12 +138,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         isLoading: false,
         scans: state.scans.map((scan) => {
           if (scan.id === scanId) {
-            console.log(
-              scan,
-              constants.tubes.incorrectLetters.includes(tube?.position?.[0]),
-              tube?.position?.[0],
-              constants.tubes.incorrectLetters,
-            );
             return {
               ...scan,
               empty_positions:
@@ -295,7 +289,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         ...state,
         scans: state.scans.map((scan) => {
           if (scan.id === scanId) {
-            console.log(scan);
             return {
               ...scan,
               empty_positions:
@@ -329,7 +322,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     }
 
     case actions.FETCH_SCAN_BY_ID_SUCCESS: {
-      console.log(action.payload);
       return {
         scans: state.scans.map((scan) => {
           if (scan.id === action.payload.id) {
