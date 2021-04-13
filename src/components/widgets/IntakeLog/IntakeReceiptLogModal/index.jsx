@@ -60,11 +60,6 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
       layout="vertical"
       initialValues={{ tracking_numbers: [''] }}
     >
-      {!edit && (
-        <Item label="Log ID" name="log_id" rules={[rules.required]}>
-          <Input placeholder="Log ID" />
-        </Item>
-      )}
       <Item label="Company ID" name="company_id" rules={[rules.required]}>
         <Input
           disabled={edit}

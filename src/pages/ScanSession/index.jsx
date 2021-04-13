@@ -29,7 +29,7 @@ const ScanSession = () => {
   const preparedData = intakeLogs.map((item) => {
     return {
       value: item.id,
-      label: `${item.log_id} (${moment(item.created).format('lll')})`,
+      label: `${moment(item.created).format('lll')} ${item.logged_by}`,
     };
   });
 
