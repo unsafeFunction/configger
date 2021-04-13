@@ -355,20 +355,24 @@ const Scan = () => {
           disabled: isIncorrectTubes,
         },
         okText: 'Save',
-        message: () => (
-          <Alert
-            showIcon
-            type="warning"
-            message="Warning"
-            description={
-              isIncorrectTubes ? (
-                <Paragraph>{`IT IS IMPOSSIBLE TO SAVE SCAN BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}</Paragraph>
-              ) : isEmptyTubes ? (
-                <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>
-              ) : null
-            }
-          />
-        ),
+        message: () => {
+          return isIncorrectTubes || isEmptyTubes ? (
+            <Alert
+              showIcon
+              type="warning"
+              message="Warning"
+              description={
+                isIncorrectTubes ? (
+                  <Paragraph>{`IT IS IMPOSSIBLE TO SAVE SCAN BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}</Paragraph>
+                ) : isEmptyTubes ? (
+                  <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>
+                ) : null
+              }
+            />
+          ) : (
+            <Paragraph>Are you sure to save scan?</Paragraph>
+          );
+        },
       },
     });
   }, [dispatch, updateScan, incorrectPositions]);
@@ -378,8 +382,7 @@ const Scan = () => {
       (enterPress &&
         !session?.isLoading &&
         session.scans.length > 0 &&
-        !isModalOpen &&
-        (isIncorrectTubes || isEmptyTubes)) ||
+        !isModalOpen) ||
       (isModalOpen && !isIncorrectTubes)
     ) {
       onSaveScanModalToggle();
