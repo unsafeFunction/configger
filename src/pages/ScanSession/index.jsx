@@ -6,12 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import actions from 'redux/scanSessions/actions';
 import rules from 'utils/rules';
+import styles from './styles.module.scss';
 import layout from './utils';
 
 moment.tz.setDefault('America/New_York');
 
 const ScanSession = () => {
   const { Item } = Form;
+  const { Search } = Input;
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
@@ -61,10 +63,8 @@ const ScanSession = () => {
     [dispatch],
   );
 
-  const handleCompanyBlur = useCallback(
-    (e) => {
-      const { value } = e.target;
-
+  const handleCompanySearch = useCallback(
+    (value) => {
       if (value) {
         dispatch({
           type: actions.FETCH_COMPANY_INFO_REQUEST,
@@ -88,7 +88,11 @@ const ScanSession = () => {
       onFinish={startSession}
     >
       <Item label="Company ID" name="companyId" rules={[rules.required]}>
-        <Input placeholder="Company ID" onBlur={handleCompanyBlur} />
+        <Search
+          placeholder="Company ID"
+          onSearch={handleCompanySearch}
+          className={styles.inputSearch}
+        />
       </Item>
 
       <Item label="Company name" name="companyName" rules={[rules.required]}>
