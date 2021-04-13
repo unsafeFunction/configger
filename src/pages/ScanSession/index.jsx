@@ -92,6 +92,7 @@ const ScanSession = () => {
           placeholder="Company ID"
           onSearch={handleCompanySearch}
           className={styles.inputSearch}
+          loading={companyInfoLoading}
         />
       </Item>
 
@@ -99,7 +100,7 @@ const ScanSession = () => {
         <Input
           disabled
           placeholder="Company name"
-          suffix={company.isLoadingCompany && <LoadingOutlined />}
+          suffix={companyInfoLoading && <LoadingOutlined />}
         />
       </Item>
 
@@ -107,7 +108,7 @@ const ScanSession = () => {
         <Input
           disabled
           placeholder="Company short"
-          suffix={company.isLoadingCompany && <LoadingOutlined />}
+          suffix={companyInfoLoading && <LoadingOutlined />}
         />
       </Item>
 

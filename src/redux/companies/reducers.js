@@ -1,7 +1,7 @@
+import isEmpty from 'lodash.isempty';
 import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
 import { constants } from 'utils/constants';
-import isEmpty from 'lodash.isempty';
 import actions from './actions';
 
 const initialState = {
@@ -111,6 +111,7 @@ export default combineReducers({
     ],
   })((state = initialSingleCompany, action = {}) => {
     switch (action.type) {
+      case 'modal/SHOW_MODAL':
       case 'modal/HIDE_MODAL': {
         return {
           ...initialSingleCompany,
