@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+import { Button, Col, DatePicker, Input, Row, Table, Tag } from 'antd';
+import classNames from 'classnames';
+import debounce from 'lodash.debounce';
+import sortBy from 'lodash.sortby';
+import moment from 'moment-timezone';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
-import { Table, Input, Button, Tag, DatePicker, Row, Col } from 'antd';
-import debounce from 'lodash.debounce';
-import { SearchOutlined } from '@ant-design/icons';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/scanSessions/actions';
-import moment from 'moment-timezone';
-import sortBy from 'lodash.sortby';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -215,12 +215,7 @@ const ScanSessions = () => {
                   key: scan.id,
                   pool_id: scan.pool_id,
                   scan_time: moment(scan.scan_timestamp).format('LLLL'),
-                  pool_name:
-                    scan?.scan_order >= 0
-                      ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${
-                          scan?.scan_order + 1
-                        }`
-                      : '-',
+                  pool_name: scan?.pool_name ? scan.pool_name : '-',
                   scanner: scan.scanner ?? '-',
                   action: (
                     <Button

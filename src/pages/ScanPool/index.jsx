@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/scanSessions/actions';
-import { Row, Col, Statistic } from 'antd';
+import { Col, Row, Statistic } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import PoolStatistic from 'components/widgets/Scans/PoolStatistic';
-import { useHistory } from 'react-router-dom';
 import moment from 'moment-timezone';
 import qs from 'qs';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import actions from 'redux/scanSessions/actions';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -73,13 +73,7 @@ const Pool = () => {
             <Statistic
               className={styles.companyDetailsStat}
               title="Pool name:"
-              value={
-                scan?.scan_order >= 0
-                  ? `${
-                      moment(scan?.scan_timestamp)?.format('dddd')?.[0]
-                    }${scan?.scan_order + 1}`
-                  : '-'
-              }
+              value={scan?.pool_name ? scan.pool_name : '-'}
             />
           </div>
         </Col>
