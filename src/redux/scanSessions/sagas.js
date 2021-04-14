@@ -19,6 +19,7 @@ import {
   closeSession,
   createSession,
   fetchSessionById,
+  fetchSessionByIdWithoutTubes,
   fetchSessions,
   updateSession,
 } from 'services/scanSessions';
@@ -27,6 +28,19 @@ import actions from './actions';
 import { getSelectedCode } from './selectors';
 
 moment.tz.setDefault('America/New_York');
+
+const formatResponse = (response) => {
+  return Object.assign(
+    {},
+    ...response?.map?.((obj) => ({
+      letter: obj?.position?.[0],
+      [`col${obj?.position?.[1]}`]: {
+        ...obj,
+        status: obj?.status,
+      },
+    })),
+  );
+};
 
 export function* callFetchScanSessions({ payload }) {
   try {
@@ -55,19 +69,6 @@ export function* callFetchScanSessions({ payload }) {
 export function* callFetchScanSessionById({ payload }) {
   try {
     const response = yield call(fetchSessionById, payload.sessionId);
-
-    const formatResponse = (response) => {
-      return Object.assign(
-        {},
-        ...response?.map?.((obj) => ({
-          letter: obj?.position?.[0],
-          [`col${obj?.position?.[1]}`]: {
-            ...obj,
-            status: obj?.status,
-          },
-        })),
-      );
-    };
 
     yield put({
       type: actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS,
@@ -98,6 +99,33 @@ export function* callFetchScanSessionById({ payload }) {
 
     notification.error(error);
     throw new Error(error);
+  }
+}
+
+export function* callFetchScanSessionByIdShort({ payload }) {
+  try {
+    const response = yield call(
+      fetchSessionByIdWithoutTubes,
+      payload.sessionId,
+    );
+
+    yield put({
+      type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_SUCCESS,
+      payload: {
+        data: {
+          ...response?.data,
+          scans: [...sortBy(response?.data?.scans, 'scan_order')],
+        },
+      },
+    });
+  } catch (error) {
+    yield put({
+      type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_FAILURE,
+    });
+
+    notification.error({
+      message: error.message,
+    });
   }
 }
 
@@ -155,22 +183,9 @@ export function* callUpdateSession({ payload }) {
 
 export function* callFetchScanById({ payload }) {
   try {
-    const response = yield call(fetchScanById, payload);
+    const response = yield call(fetchScanById, payload.scanId);
 
     const tubesInfo = response?.data?.scan_tubes;
-
-    const formatResponse = (response) => {
-      return Object.assign(
-        {},
-        ...response?.map?.((obj) => ({
-          letter: obj?.position?.[0],
-          [`col${obj?.position?.[1]}`]: {
-            ...obj,
-            status: obj?.status,
-          },
-        })),
-      );
-    };
 
     const preparedResponse = [
       formatResponse(tubesInfo?.slice?.(0, 8)),
@@ -184,12 +199,20 @@ export function* callFetchScanById({ payload }) {
     yield put({
       type: actions.FETCH_SCAN_BY_ID_SUCCESS,
       payload: {
-        ...response?.data,
-        items: preparedResponse,
+        data: {
+          ...response?.data,
+          items: preparedResponse,
+        },
       },
     });
   } catch (error) {
-    notification.error(error);
+    yield put({
+      type: actions.FETCH_SCAN_BY_ID_FAILURE,
+    });
+
+    notification.error({
+      message: error.message,
+    });
   }
 }
 
@@ -479,6 +502,10 @@ export default function* rootSaga() {
     takeEvery(
       actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
       callFetchScanSessionById,
+    ),
+    takeEvery(
+      actions.FETCH_SCAN_SESSION_BY_ID_SHORT_REQUEST,
+      callFetchScanSessionByIdShort,
     ),
     takeEvery(actions.UPDATE_SESSION_REQUEST, callUpdateSession),
     takeEvery(actions.VOID_SCAN_BY_ID_REQUEST, callVoidScan),

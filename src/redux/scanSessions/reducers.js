@@ -106,6 +106,27 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
 
+    case actions.FETCH_SCAN_SESSION_BY_ID_SHORT_REQUEST: {
+      return {
+        ...state,
+        ...initialSingleSession,
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_SCAN_SESSION_BY_ID_SHORT_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        ...action.payload.data,
+      };
+    }
+    case actions.FETCH_SCAN_SESSION_BY_ID_SHORT_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
     case actions.UPDATE_SESSION_REQUEST: {
       return {
         ...state,
@@ -321,20 +342,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
 
-    case actions.FETCH_SCAN_BY_ID_SUCCESS: {
-      return {
-        scans: state.scans.map((scan) => {
-          if (scan.id === action.payload.id) {
-            return {
-              ...scan,
-              ...action.payload,
-            };
-          }
-          return scan;
-        }),
-      };
-    }
-
     case actions.UPDATE_SCAN_BY_ID_REQUEST:
     case actions.CANCEL_SCAN_BY_ID_REQUEST: {
       return {
@@ -413,7 +420,55 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
   }
 };
 
+const initialScan = {
+  isLoading: false,
+  id: null,
+  pool_id: null,
+  pool_name: null,
+  rack_id: null,
+  status: null,
+  scanner: null,
+  scan_timestamp: null,
+  modified: null,
+  scanned_by: null,
+  last_modified_by: null,
+  last_modified_on: null,
+  scan_order: null,
+  possibly_reversed: false,
+  tubes_count: null,
+  scan_tubes: [],
+  error: null,
+};
+
+const scanReducer = (state = initialScan, action) => {
+  switch (action.type) {
+    case actions.FETCH_SCAN_BY_ID_REQUEST: {
+      return {
+        ...state,
+        ...initialScan,
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_SCAN_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        ...action.payload.data,
+      };
+    }
+    case actions.FETCH_SCAN_BY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   sessions: sessionsReducer,
   singleSession: singleSessionReducer,
+  scan: scanReducer,
 });

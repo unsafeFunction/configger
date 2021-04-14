@@ -1,9 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import Switch from 'react-router-transition-switch';
 import { Link, Route } from 'react-router-dom';
-
+import Switch from 'react-router-transition-switch';
 import styles from './style.module.scss';
 
 const SubBar = ({ location }) => {
@@ -16,6 +15,7 @@ const SubBar = ({ location }) => {
         {pathArray[0] === 'runs' ||
         pathArray[0] === 'users' ||
         pathArray[0] === 'session' ||
+        pathArray[0] === 'pool-scans' ||
         pathArray[0] === 'rack-scans' ? (
           <li className={styles.breadcrumb}>
             <Link to={`/${pathArray[0]}`} className={styles.breadcrumbLink}>

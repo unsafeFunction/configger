@@ -2,7 +2,6 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Button, Col, DatePicker, Input, Row, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
-import sortBy from 'lodash.sortby';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -19,12 +18,19 @@ const { RangePicker } = DatePicker;
 const ScanSessions = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [openedRow, setOpenedRow] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [dates, setDates] = useState([]);
   const stateRef = useRef();
   stateRef.current = dates;
 
-  const scanSessions = useSelector((state) => state.scanSessions.sessions);
+  const { items: sessionItems, isLoading, total, offset } = useSelector(
+    (state) => state.scanSessions.sessions,
+  );
+
+  const { scans, isLoading: scansIsLoading } = useSelector(
+    (state) => state.scanSessions.singleSession,
+  );
 
   const useFetching = () => {
     useEffect(() => {
@@ -47,19 +53,15 @@ const ScanSessions = () => {
           ...params,
         },
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dates]);
   };
 
   useFetching();
 
-  const sessionItems = scanSessions?.items;
-
   const navigateToScan = useCallback(
-    ({ sessionId, scanOrder }) => {
-      history.push({
-        pathname: `/pool-scans/${sessionId}`,
-        search: `?scanOrder=${scanOrder}`,
-      });
+    ({ sessionId, scanId }) => {
+      history.push({ pathname: `/pool-scans/${sessionId}/${scanId}` });
     },
     [history],
   );
@@ -117,13 +119,20 @@ const ScanSessions = () => {
       { title: 'Action', dataIndex: 'action', key: 'action' },
     ];
 
-    return <Table columns={columns} dataSource={scan} pagination={false} />;
+    return (
+      <Table
+        columns={columns}
+        dataSource={scan}
+        pagination={false}
+        loading={scansIsLoading}
+      />
+    );
   };
 
   const loadMore = useCallback(() => {
     const filteringParams = {
       limit: constants.scanSessions.itemsLoadingCount,
-      offset: scanSessions.offset,
+      offset,
       search: searchName,
     };
 
@@ -141,7 +150,7 @@ const ScanSessions = () => {
         ...params,
       },
     });
-  }, [dispatch, scanSessions, searchName, dates]);
+  }, [dispatch, searchName, dates, offset]);
 
   const sendQuery = useCallback(
     (query) => {
@@ -188,6 +197,21 @@ const ScanSessions = () => {
     return dates ? setDates(dateStrings) : setDates([]);
   }, []);
 
+  const handleExpand = useCallback(
+    (expanded, record) => {
+      if (expanded) {
+        setOpenedRow([record.id]);
+        dispatch({
+          type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_REQUEST,
+          payload: { sessionId: record.id },
+        });
+      } else {
+        setOpenedRow([]);
+      }
+    },
+    [dispatch],
+  );
+
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
@@ -196,7 +220,7 @@ const ScanSessions = () => {
 
       <InfiniteScroll
         next={loadMore}
-        hasMore={sessionItems.length < scanSessions?.total}
+        hasMore={sessionItems.length < total}
         dataLength={sessionItems?.length}
       >
         <Table
@@ -204,25 +228,30 @@ const ScanSessions = () => {
           columns={columns}
           scroll={{ x: 1000 }}
           bordered
-          loading={!scanSessions?.isLoading}
+          loading={!isLoading}
           align="center"
           pagination={false}
           rowKey={(record) => record.id}
+          expandRowByClick
+          expandedRowKeys={openedRow}
+          onExpand={handleExpand}
           expandedRowRender={(record) => {
             return expandedRow(
-              sortBy(record.scans, 'scan_order').map((scan) => {
+              scans.map((scan) => {
                 return {
                   key: scan.id,
                   pool_id: scan.pool_id,
-                  scan_time: moment(scan.scan_timestamp).format('LLLL'),
-                  pool_name: scan?.pool_name ? scan.pool_name : '-',
+                  scan_time: scan.scan_timestamp
+                    ? moment(scan.scan_timestamp).format('LLLL')
+                    : '-',
+                  pool_name: scan.pool_name ?? '-',
                   scanner: scan.scanner ?? '-',
                   action: (
                     <Button
                       onClick={() =>
                         navigateToScan({
                           sessionId: record.id,
-                          scanOrder: scan.scan_order,
+                          scanId: scan.id,
                         })
                       }
                       type="primary"

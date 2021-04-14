@@ -1,9 +1,13 @@
 import axiosClient from 'utils/axiosClient';
 
-export const fetchScanById = async ({ scanId }) => {
-  const scan = await axiosClient.get(`/scans/pool/${scanId}/`);
+export const fetchScanById = async (scanId) => {
+  try {
+    const scan = await axiosClient.get(`/scans/pool/${scanId}/`);
 
-  return scan;
+    return scan;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export const updateTube = async ({ id, data }) => {

@@ -72,8 +72,20 @@ const routes = [
     Component: loadable(() => import('pages/Runs/run')),
   },
   {
-    path: '/pool-scans/:id',
-    Component: loadable(() => import('pages/ScanPool')),
+    path: '/session/:id',
+    Component: loadable(() => import('pages/Scan')),
+  },
+  {
+    path: '/session',
+    Component: loadable(() => import('pages/ScanSession')),
+  },
+  {
+    path: '/pool-scans/:sessionId/:scanId',
+    Component: loadable(() => import('pages/PoolScan')),
+  },
+  {
+    path: '/pool-scans',
+    Component: loadable(() => import('pages/ScanSessions')),
   },
   {
     path: '/rack-scans/:id',
@@ -82,18 +94,6 @@ const routes = [
   {
     path: '/rack-scans',
     Component: loadable(() => import('pages/RackScans')),
-  },
-  {
-    path: '/pool-scans',
-    Component: loadable(() => import('pages/ScanSessions')),
-  },
-  {
-    path: '/session/:id',
-    Component: loadable(() => import('pages/Scan')),
-  },
-  {
-    path: '/session',
-    Component: loadable(() => import('pages/ScanSession')),
   },
   {
     path: '/intake-receipt-log',
