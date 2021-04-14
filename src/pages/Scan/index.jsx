@@ -391,7 +391,10 @@ const Scan = () => {
       session.scans.length > 0 &&
       !isModalOpen
     ) {
-      onSaveScanModalToggle();
+      if (isEditOpen) {
+        return handleSavePoolName();
+      }
+      return onSaveScanModalToggle();
     }
   }, [enterPress, onSaveScanModalToggle]);
 
