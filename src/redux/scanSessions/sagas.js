@@ -213,7 +213,7 @@ export function* callUpdateTube({ payload }) {
             },
           },
           tube: response.data,
-          scanId: payload.data.scanId,
+          scanId: payload.scanId,
           ...(poolingTube ? { pool_id: response?.data?.tube_id } : {}),
         },
       },
