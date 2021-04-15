@@ -10,6 +10,7 @@ import menu from './menu/sagas';
 import pools from './pools/sagas';
 import racks from './racks/sagas';
 import runs from './runs/sagas';
+import scanners from './scanners/sagas';
 import scan from './scanSessions/sagas';
 import search from './search/sagas';
 import settings from './settings/sagas';
@@ -36,5 +37,6 @@ export default function* rootSaga() {
     racks(),
     templateGeneration(),
     analysisRuns(),
+    scanners(),
   ]);
 }

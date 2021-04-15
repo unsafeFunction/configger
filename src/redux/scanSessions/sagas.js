@@ -276,7 +276,7 @@ export function* callInvalidateTube({ payload }) {
   }
 }
 
-export function* callFetchSessionId() {
+export function* callFetchSessionId({ payload }) {
   try {
     const response = yield call(fetchSessionId);
 
@@ -286,6 +286,10 @@ export function* callFetchSessionId() {
         sessionId: response?.data?.session_id,
       },
     });
+
+    if (payload?.callback && !response?.data?.session_id) {
+      yield call(payload.callback);
+    }
   } catch (error) {
     notification.error({
       message: 'Something went wrong',
@@ -318,7 +322,8 @@ export function* callCreateSession({ payload }) {
     });
 
     notification.error({
-      message: error.message,
+      message: 'Failure!',
+      description: error.message,
     });
 
     return error;
