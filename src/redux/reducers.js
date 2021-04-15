@@ -12,6 +12,7 @@ import modal from './modal/reducers';
 import pools from './pools/reducers';
 import racks from './racks/reducers';
 import runs from './runs/reducers';
+import scanners from './scanners/reducers';
 import scanSessions from './scanSessions/reducers';
 import search from './search/reducers';
 import settings from './settings/reducers';
@@ -40,4 +41,5 @@ export default (history) =>
     racks,
     templateGeneration,
     analysisRuns,
+    scanners,
   });

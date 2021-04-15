@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import scannersActions from 'redux/scanners/actions';
 import actions from 'redux/scanSessions/actions';
 import rules from 'utils/rules';
 import styles from './styles.module.scss';
@@ -25,39 +26,56 @@ const ScanSession = () => {
   } = useSelector((state) => state.scanSessions.singleSession);
 
   const company = useSelector((state) => state.companies.singleCompany);
+  const scanners = useSelector((state) => state.scanners.all);
 
-  const preparedData = intakeLogs.map((item) => {
+  const preparedLogData = intakeLogs.map((item) => {
     return {
       value: item.id,
       label: `${moment(item.created).format('lll')} ${item.logged_by}`,
     };
   });
 
+  const preparedScannerData = scanners.items.map((item) => {
+    return {
+      value: item.id,
+      label: `${item.scanner_id} – model: ${item.model}`,
+      disabled: !item.is_active,
+    };
+  });
+
+  const fetchScanners = useCallback(() => {
+    dispatch({
+      type: scannersActions.FETCH_SCANNERS_REQUEST,
+    });
+  }, [dispatch]);
+
   const useFetching = () => {
     useEffect(() => {
       dispatch({
         type: actions.FETCH_SESSION_ID_REQUEST,
+        payload: { callback: fetchScanners },
+      });
+    }, []);
+
+    useEffect(() => {
+      form.setFieldsValue({
+        companyName: company.name,
+        companyShort: company.name_short,
+        intakeLog: '',
       });
 
-      if (!activeSessionId) {
-        form.setFieldsValue({
-          companyName: company.name,
-          companyShort: company.name_short,
-          intakeLog: '',
-        });
-      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [form, activeSessionId, company]);
+    }, [form, company]);
   };
 
   useFetching();
 
   const startSession = useCallback(
     (values) => {
-      const { intakeLog } = values;
+      const { intakeLog, scanner } = values;
       dispatch({
         type: actions.CREATE_SESSION_REQUEST,
-        payload: { intakeLog },
+        payload: { intakeLog, scanner },
       });
     },
     [dispatch],
@@ -122,9 +140,20 @@ const ScanSession = () => {
           loading={companyInfoLoading}
           showArrow
           showSearch
-          options={preparedData}
+          options={preparedLogData}
           optionFilterProp="label"
           allowClear
+        />
+      </Item>
+
+      <Item label="Scanner" name="scanner" rules={[rules.required]}>
+        <Select
+          placeholder="Scanner"
+          loading={scanners.isLoading}
+          showArrow
+          showSearch
+          options={preparedScannerData}
+          optionFilterProp="label"
         />
       </Item>
 

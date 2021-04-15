@@ -37,15 +37,19 @@ export const updateSession = async (data) => {
   }
 };
 
-export const createSession = async ({ intakeLog }) => {
+export const createSession = async ({ intakeLog, scanner }) => {
   try {
     const session = await axiosClient.post(`/scans/sessions/open/`, {
       intake_log_id: intakeLog,
+      scanner_id: scanner,
     });
 
     return session;
   } catch (error) {
-    throw new Error(error?.response?.data.detail);
+    const err = error?.response?.data.field_errors;
+    throw new Error(
+      err ? JSON.stringify(err, null, 2).replace(/{|}|"|,/g, '') : error,
+    );
   }
 };
 
