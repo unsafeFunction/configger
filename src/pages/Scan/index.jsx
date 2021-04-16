@@ -29,7 +29,7 @@ import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
 import qs from 'qs';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
@@ -63,6 +63,7 @@ const Scan = () => {
     (scan) => scan.scan_order === currentScanOrder,
   );
   const recentScan = scans?.[scan?.scan_order - 1];
+
   const poolName = scan?.pool_name
     ? scan.pool_name
     : scan?.scan_order >= 0
@@ -143,7 +144,7 @@ const Scan = () => {
       dispatch({
         type: actions.UPDATE_SCAN_BY_ID_REQUEST,
         payload: {
-          data,
+          data: { ...data, pool_name: poolName },
           id: scan?.id,
           callback: goToNextScan,
         },
@@ -340,7 +341,6 @@ const Scan = () => {
   );
 
   const onSaveScanModalToggle = useCallback(() => {
-    console.log(scan);
     dispatch({
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
