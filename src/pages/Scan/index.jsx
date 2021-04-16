@@ -144,7 +144,7 @@ const Scan = () => {
       dispatch({
         type: actions.UPDATE_SCAN_BY_ID_REQUEST,
         payload: {
-          data: { ...data, pool_name: poolName },
+          data: { ...data, pool_name: poolName, status: 'COMPLETED' },
           id: scan?.id,
           callback: goToNextScan,
         },
