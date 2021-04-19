@@ -278,7 +278,7 @@ const Scan = () => {
   useFetching();
 
   useEffect(() => {
-    setChangedPoolName(scan?.pool_name);
+    setChangedPoolName(scan?.pool_name || poolName);
   }, [scan]);
 
   const handleSwitchVisibleActions = useCallback(() => {
@@ -311,9 +311,9 @@ const Scan = () => {
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
     if (isEditOpen) {
-      setChangedPoolName(scan?.pool_name ? scan?.pool_name : '-');
+      setChangedPoolName(scan?.pool_name ? scan?.pool_name : poolName);
     }
-  }, [isEditOpen, setEditOpen]);
+  }, [isEditOpen, setEditOpen, poolName]);
 
   const handleChangePoolName = useCallback(
     (e) => {
