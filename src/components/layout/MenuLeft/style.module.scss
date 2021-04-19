@@ -53,7 +53,6 @@
 
   // menu container
   &__container {
-    padding-bottom: rem(20);
     & > ul {
       & > li {
         // &:last-child {
@@ -269,6 +268,13 @@
   }
 
   // menu items
+  &__mainList {
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 65px);
+  }
+
   &__list {
     list-style: none;
     padding-left: 0;
@@ -276,7 +282,7 @@
 
     @media (max-height: 360px) {
       height: 100%;
-      max-height: 130px;
+      //max-height: 130px;
       overflow: scroll;
     }
 
@@ -1082,11 +1088,6 @@
   text-align: center;
 }
 
-.helpItem {
-  position: absolute;
-  bottom: 18px;
-
-  &:last-child {
-    bottom: 51px;
-  }
+.firstHelpItem {
+  margin-top: auto;
 }
