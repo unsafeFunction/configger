@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Card, Tag, Statistic, Col, Row } from 'antd';
+import { Card, Col, Row, Statistic, Tag } from 'antd';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { constants } from 'utils/constants';
 import { countedPoolTubes } from 'utils/tubesRules';
 import styles from '../styles.module.scss';
 
 const SessionStatistic = ({ session }) => {
   const actualPools = session?.scans?.filter(
-    (scan) => scan.status !== constants.scanStatuses.voided,
+    (scan) => scan.status === constants.scanStatuses.completed,
   );
 
   const countOfActualPools = actualPools.length;
@@ -79,7 +79,7 @@ const SessionStatistic = ({ session }) => {
             value={
               actualSamples?.length > 0
                 ? actualSamples.reduce((acc, curr) => acc + curr)
-                : '-'
+                : 0
             }
             formatter={(value) => <Tag color="cyan">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
