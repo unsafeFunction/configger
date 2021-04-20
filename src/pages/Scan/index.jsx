@@ -62,13 +62,23 @@ const Scan = () => {
   const scan = session?.scans?.find(
     (scan) => scan.scan_order === currentScanOrder,
   );
-  const recentScan = scans?.[scan?.scan_order - 1];
+  const recentScan = scans?.find(
+    (scan) => scan?.scan_order === currentScanOrder - 1,
+  );
 
   const poolName = scan?.pool_name
     ? scan.pool_name
     : scan?.scan_order >= 0
     ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${scan?.scan_order +
         1}`
+    : '-';
+
+  const recentScanPoolName = recentScan?.pool_name
+    ? recentScan.pool_name
+    : recentScan?.scan_order >= 0
+    ? `${
+        moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
+      }${recentScan?.scan_order + 1}`
     : '-';
 
   const countOfReferencePools = session?.reference_pools_count;
@@ -268,7 +278,7 @@ const Scan = () => {
   useFetching();
 
   useEffect(() => {
-    setChangedPoolName(scan?.pool_name);
+    setChangedPoolName(scan?.pool_name || poolName);
   }, [scan]);
 
   const handleSwitchVisibleActions = useCallback(() => {
@@ -301,9 +311,9 @@ const Scan = () => {
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
     if (isEditOpen) {
-      setChangedPoolName(scan?.pool_name ? scan?.pool_name : '-');
+      setChangedPoolName(scan?.pool_name ? scan?.pool_name : poolName);
     }
-  }, [isEditOpen, setEditOpen]);
+  }, [isEditOpen, setEditOpen, poolName]);
 
   const handleChangePoolName = useCallback(
     (e) => {
@@ -618,11 +628,8 @@ const Scan = () => {
               title="Most Recent Scan:"
               value={
                 scan?.scan_order > 0
-                  ? `${session?.company_short?.name_short} ${
-                      moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
-                    }${recentScan?.scan_order + 1} on ${moment(
-                      recentScan?.scan_timestamp,
-                    )?.format('lll')}`
+                  ? `${session?.company_short?.name_short} ${recentScanPoolName}
+                  on ${moment(recentScan?.scan_timestamp)?.format('lll')}`
                   : '-'
               }
             />
