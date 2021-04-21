@@ -229,8 +229,7 @@ class MenuLeft extends React.Component {
           <li
             className={classNames(style.air__menuLeft__item, {
               [style.air__menuLeft__item__active]: activeItem === key,
-              [style.helpItem]:
-                item.key === 'contactUs' || item.key === 'helpCenter',
+              [style.firstHelpItem]: item.key === 'contactUs',
             })}
             key={key}
           >
@@ -247,8 +246,7 @@ class MenuLeft extends React.Component {
         <li
           className={classNames(style.air__menuLeft__item, {
             [style.air__menuLeft__item__active]: activeItem === key,
-            [style.helpItem]:
-              item.key === 'contactUs' || item.key === 'helpCenter',
+            [style.firstHelpItem]: item.key === 'contactUs',
           })}
           key={key}
         >
@@ -459,7 +457,14 @@ class MenuLeft extends React.Component {
                 id="menu-left-container"
                 className={style.air__menuLeft__container}
               >
-                <ul className={style.air__menuLeft__list}>{items}</ul>
+                <ul
+                  className={classNames(
+                    style.air__menuLeft__list,
+                    style.air__menuLeft__mainList,
+                  )}
+                >
+                  {items}
+                </ul>
               </div>
             </Scrollbars>
           </div>

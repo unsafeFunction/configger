@@ -244,7 +244,15 @@ const ScanSessions = () => {
                   scan_time: scan.scan_timestamp
                     ? moment(scan.scan_timestamp).format('LLLL')
                     : '-',
-                  pool_name: scan.pool_name ?? '-',
+                  // TODO: temp
+                  // pool_name: scan?.pool_name ? scan.pool_name : '-',
+                  pool_name: scan?.pool_name
+                    ? scan.pool_name
+                    : scan?.scan_order >= 0
+                    ? `${
+                        moment(scan?.scan_timestamp)?.format('dddd')?.[0]
+                      }${scan?.scan_order + 1}`
+                    : '-',
                   scanner: scan.scanner ?? '-',
                   action: (
                     <Button

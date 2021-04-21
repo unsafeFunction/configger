@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.0.0...v4.1.0) (2021-04-14)
+
+### Features
+
+- add log ID to Intake Log, filter intakes by company id ([80da91e](https://github.com/mokkapps/changelog-generator-demo/commits/80da91ec9204c1e20039cdc8d89653f0bfa9c83b))
+- add posobility to reverse ([72261d2](https://github.com/mokkapps/changelog-generator-demo/commits/72261d2814d335a24bd8a6ebf4041f97d277ba44))
+- download run templates as zip file ([0d2d704](https://github.com/mokkapps/changelog-generator-demo/commits/0d2d704ed78a9cea05d9c0531df55227e376f289))
+- sort intake log table by date ([48eaaf2](https://github.com/mokkapps/changelog-generator-demo/commits/48eaaf293306c59761ab366d7c4fa24f33e2705d))
+- start session based on intake log ([416776d](https://github.com/mokkapps/changelog-generator-demo/commits/416776d1b2f45fa7f64ba0e9c5e14815776f1ca1))
+- validation message for run ([d65e037](https://github.com/mokkapps/changelog-generator-demo/commits/d65e037d53b25dc0420eb84d8170473e6d57081e))
+
+### Bug Fixes
+
+- blur arrows ([3280bd2](https://github.com/mokkapps/changelog-generator-demo/commits/3280bd2f5e6460166c519f09cb51213000d7f6bb))
+- check for an existing scan ([4d4c465](https://github.com/mokkapps/changelog-generator-demo/commits/4d4c4652e51a16da82070d59fbf7d94094925108))
+- correct modal message ([0dc6b4a](https://github.com/mokkapps/changelog-generator-demo/commits/0dc6b4addcbd9ba65524a8408d7a272d8ef313ce))
+- correct save logic ([af830a9](https://github.com/mokkapps/changelog-generator-demo/commits/af830a93f9c5b43799c78af5d3d5aa6845382ac2))
+- delete extra console log ([ad26b79](https://github.com/mokkapps/changelog-generator-demo/commits/ad26b79d5f105b54cc821e4fa2f6304d102b6530))
+- disable enter press session loading ([e05fcbb](https://github.com/mokkapps/changelog-generator-demo/commits/e05fcbbff587fb50e9ddb970e58f2a5602ec0d7b))
+- disable save modal button ([0b3e67e](https://github.com/mokkapps/changelog-generator-demo/commits/0b3e67efbe65b5981421d9e2b2f23867711a5d8e))
+- disable save session incorrect positions ([95dec58](https://github.com/mokkapps/changelog-generator-demo/commits/95dec585ce98d6f10227dc22eb818572e5962dfd))
+- edit intake log, remove comments from intake log table ([20c772c](https://github.com/mokkapps/changelog-generator-demo/commits/20c772ca1865ae8e1b10adad8fd9b7622524814e))
+- empty positions modal ([35d9080](https://github.com/mokkapps/changelog-generator-demo/commits/35d9080996a7eeae175ced24dbc707e93efca648))
+- empty positions redux ([f5cf27b](https://github.com/mokkapps/changelog-generator-demo/commits/f5cf27ba346a9a399a8846c3009b1ae0688269d0))
+- fix double request when open modal ([6686433](https://github.com/mokkapps/changelog-generator-demo/commits/6686433eb0462e0d93edb4f75c774c55a34e0f79))
+- incorrect text modal ([3b6f1a3](https://github.com/mokkapps/changelog-generator-demo/commits/3b6f1a32000894845c9c6cd4e8009bf4569a3e90))
+- loading status for company ([b8d9692](https://github.com/mokkapps/changelog-generator-demo/commits/b8d9692bc93afb572b6e42d333dd503b4224a70f))
+- open modal only incorrect/emtpy ([2560bc6](https://github.com/mokkapps/changelog-generator-demo/commits/2560bc6e881d723ce11eb56ca4ad439e5e7f9f08))
+- pool name for saved pools ([bdb9f6a](https://github.com/mokkapps/changelog-generator-demo/commits/bdb9f6a300f366fadbb051e0d839cf6d7fb5ac84))
+- red empty tubes ([5621e10](https://github.com/mokkapps/changelog-generator-demo/commits/5621e107c98755253fbbd69d9a2706b603b073b1))
+- redux incorrect/empty ([19ea1d0](https://github.com/mokkapps/changelog-generator-demo/commits/19ea1d081a00454a32ad383f8e6eddfda5b2beff))
+- refactor length empty/incorrect ([9af2bb8](https://github.com/mokkapps/changelog-generator-demo/commits/9af2bb874c1545ae909c41198babe16d7f64115f))
+- refactor session save disable ([64ee549](https://github.com/mokkapps/changelog-generator-demo/commits/64ee5496a51be430f772ac76e3124b1df6894d46))
+- remove scan id from update tube request ([58e6ec4](https://github.com/mokkapps/changelog-generator-demo/commits/58e6ec402cf2a61312148bb357546e4c0d4931d5))
+- rename Intake receipt log modal, replace required fields rules from utils ([c7e9899](https://github.com/mokkapps/changelog-generator-demo/commits/c7e98992405ebf35116e863098e9d33fb660977b))
+- return back comments to intake log table ([673e517](https://github.com/mokkapps/changelog-generator-demo/commits/673e517536b99cd5997f1ca617cabc37b219fb7c))
+- search company by button instead by blur ([94bec9b](https://github.com/mokkapps/changelog-generator-demo/commits/94bec9b95589f5d7d1ae083e2e2d714292227640))
+- update according backend ([42b5f63](https://github.com/mokkapps/changelog-generator-demo/commits/42b5f63a1902c7cd5fbb0e9c3d40bf2f7d092525))
+- when user edit pool name and press enter we send request to save pool name ([57effb0](https://github.com/mokkapps/changelog-generator-demo/commits/57effb0be0639ff1c8fd93934f0f497985e34b1f))
+
 ## [4.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v3.1.1...v4.0.0) (2021-04-09)
 
 ### Features

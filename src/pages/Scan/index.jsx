@@ -29,7 +29,7 @@ import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
 import qs from 'qs';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
@@ -62,12 +62,23 @@ const Scan = () => {
   const scan = session?.scans?.find(
     (scan) => scan.scan_order === currentScanOrder,
   );
-  const recentScan = scans?.[scan?.scan_order - 1];
+  const recentScan = scans?.find(
+    (scan) => scan?.scan_order === currentScanOrder - 1,
+  );
+
   const poolName = scan?.pool_name
     ? scan.pool_name
     : scan?.scan_order >= 0
     ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${scan?.scan_order +
         1}`
+    : '-';
+
+  const recentScanPoolName = recentScan?.pool_name
+    ? recentScan.pool_name
+    : recentScan?.scan_order >= 0
+    ? `${
+        moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
+      }${recentScan?.scan_order + 1}`
     : '-';
 
   const countOfReferencePools = session?.reference_pools_count;
@@ -143,7 +154,7 @@ const Scan = () => {
       dispatch({
         type: actions.UPDATE_SCAN_BY_ID_REQUEST,
         payload: {
-          data,
+          data: { ...data, pool_name: poolName, status: 'COMPLETED' },
           id: scan?.id,
           callback: goToNextScan,
         },
@@ -267,7 +278,7 @@ const Scan = () => {
   useFetching();
 
   useEffect(() => {
-    setChangedPoolName(scan?.pool_name);
+    setChangedPoolName(scan?.pool_name || poolName);
   }, [scan]);
 
   const handleSwitchVisibleActions = useCallback(() => {
@@ -300,9 +311,9 @@ const Scan = () => {
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
     if (isEditOpen) {
-      setChangedPoolName(scan?.pool_name ? scan?.pool_name : '-');
+      setChangedPoolName(scan?.pool_name ? scan?.pool_name : poolName);
     }
-  }, [isEditOpen, setEditOpen]);
+  }, [isEditOpen, setEditOpen, poolName]);
 
   const handleChangePoolName = useCallback(
     (e) => {
@@ -340,7 +351,6 @@ const Scan = () => {
   );
 
   const onSaveScanModalToggle = useCallback(() => {
-    console.log(scan);
     dispatch({
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
@@ -391,7 +401,10 @@ const Scan = () => {
       session.scans.length > 0 &&
       !isModalOpen
     ) {
-      onSaveScanModalToggle();
+      if (isEditOpen) {
+        return handleSavePoolName();
+      }
+      return onSaveScanModalToggle();
     }
   }, [enterPress, onSaveScanModalToggle]);
 
@@ -615,11 +628,8 @@ const Scan = () => {
               title="Most Recent Scan:"
               value={
                 scan?.scan_order > 0
-                  ? `${session?.company_short?.name_short} ${
-                      moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
-                    }${recentScan?.scan_order + 1} on ${moment(
-                      recentScan?.scan_timestamp,
-                    )?.format('lll')}`
+                  ? `${session?.company_short?.name_short} ${recentScanPoolName}
+                  on ${moment(recentScan?.scan_timestamp)?.format('lll')}`
                   : '-'
               }
             />
