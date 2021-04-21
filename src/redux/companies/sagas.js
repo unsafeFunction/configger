@@ -90,12 +90,9 @@ export function* callFetchCompanyShort({ payload }) {
         data: error.message ?? null,
       },
     });
-
     notification.error({
       message: error.message ?? 'Сompany not found',
     });
-
-    throw new Error(error);
   }
 }
 
