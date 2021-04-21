@@ -90,6 +90,7 @@ export const constants = {
       countedForPoolRack: true,
     }, // D
     incorrectLetters: ['D', 'E', 'F'],
+    referenceTubePosition: 'F8',
   },
   poolsByRun: {
     itemsLoadingCount: 100,
