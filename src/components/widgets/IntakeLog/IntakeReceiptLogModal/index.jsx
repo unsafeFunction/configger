@@ -138,6 +138,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           placeholder="Shipping by"
           showArrow
           showSearch
+          getPopupContainer={(triggerNode) => triggerNode.parentNode}
           optionFilterProp="label"
           options={[
             {
@@ -164,6 +165,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
         <Select
           placeholder="Sample condition"
           showArrow
+          getPopupContainer={(triggerNode) => triggerNode.parentNode}
           onChange={handleChangeCommentsVisibility}
           showSearch
           optionFilterProp="label"
