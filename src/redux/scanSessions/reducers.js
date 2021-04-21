@@ -152,11 +152,12 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
                       (position) => position !== tube?.position,
                     )
                   : scan.empty_positions,
-              incorrect_positions: constants.tubes.incorrectLetters.includes(
-                tube?.position?.[0],
-              )
-                ? [...scan.incorrect_positions, tube?.position]
-                : scan.incorrect_positions,
+              incorrect_positions:
+                constants.tubes.incorrectLetters.includes(
+                  tube?.position?.[0],
+                ) && constants.tubes.referenceTubePosition !== tube?.position
+                  ? [...scan.incorrect_positions, tube?.position]
+                  : scan.incorrect_positions,
               items: scan.items.map((row) => {
                 if (row.letter === action.payload.data.row.letter) {
                   return {
@@ -296,13 +297,14 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
                 !constants.tubes.incorrectLetters.includes(tube?.position?.[0])
                   ? [...scan.empty_positions, tube?.position]
                   : scan.empty_positions,
-              incorrect_positions: constants.tubes.incorrectLetters.includes(
-                tube?.position?.[0],
-              )
-                ? scan.incorrect_positions?.filter(
-                    (position) => position !== tube?.position,
-                  )
-                : scan.incorrect_positions,
+              incorrect_positions:
+                constants.tubes.incorrectLetters.includes(
+                  tube?.position?.[0],
+                ) && constants.tubes.referenceTubePosition !== tube?.position
+                  ? scan.incorrect_positions?.filter(
+                      (position) => position !== tube?.position,
+                    )
+                  : scan.incorrect_positions,
               scan_tubes: scan.scan_tubes.map((tubeItem) => {
                 return tubeItem.id === tubeId ? tube : tubeItem;
               }),
