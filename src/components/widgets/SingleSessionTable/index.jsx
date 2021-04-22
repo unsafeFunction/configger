@@ -1,8 +1,9 @@
-import React from 'react';
-import { Table, Button, Tag } from 'antd';
-import PropTypes from 'prop-types';
+import { Button, Table, Tag } from 'antd';
 import moment from 'moment';
-
+// eslint-disable-next-line import/no-extraneous-dependencies
+import PropTypes from 'prop-types';
+import React from 'react';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const SingleSessionTable = ({
@@ -10,6 +11,8 @@ const SingleSessionTable = ({
   handleNavigateToScan,
   handleCancelScan,
 }) => {
+  const { started, invalid, completed } = constants.scanStatuses;
+
   const columns = [
     { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id', width: 100 },
     { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
@@ -35,37 +38,44 @@ const SingleSessionTable = ({
     { title: 'Actions', dataIndex: 'action', key: 'action', width: 200 },
   ];
 
-  const dataForTable = session?.scans
-    ?.filter((scan) => scan.status !== 'VOIDED')
-    .map((scan) => {
-      return {
-        key: scan.id,
-        pool_id: scan.pool_id,
-        status: scan.status,
-        scan_time: moment(scan.scan_timestamp).format('llll'),
-        rack_id: scan.rack_id,
-        scanner: scan.scanner ?? '-',
-        action: (
-          <div className={styles.actions}>
-            <Button
-              onClick={() =>
-                handleNavigateToScan({
-                  scanOrder: scan.scan_order,
-                })
-              }
-              type="primary"
-            >
-              View scan
+  const scanInWork = session?.scans?.find(
+    (s) => s.status === (started || invalid),
+  );
+
+  const scanInWorkArr = scanInWork ? [scanInWork] : [];
+
+  const dataForTable = [
+    ...scanInWorkArr,
+    ...session?.scans?.filter((scan) => scan.status === completed),
+  ].map((scan) => {
+    return {
+      key: scan.id,
+      pool_id: scan.pool_id,
+      status: scan.status,
+      scan_time: moment(scan.scan_timestamp).format('llll'),
+      rack_id: scan.rack_id,
+      scanner: scan.scanner ?? '-',
+      action: (
+        <div className={styles.actions}>
+          <Button
+            onClick={() =>
+              handleNavigateToScan({
+                scanOrder: scan.scan_order,
+              })
+            }
+            type="primary"
+          >
+            View scan
+          </Button>
+          {scan.status === 'COMPLETED' && (
+            <Button onClick={() => handleCancelScan(scan)} type="primary">
+              Cancel
             </Button>
-            {scan.status === 'COMPLETED' && (
-              <Button onClick={() => handleCancelScan(scan)} type="primary">
-                Cancel
-              </Button>
-            )}
-          </div>
-        ),
-      };
-    });
+          )}
+        </div>
+      ),
+    };
+  });
 
   return (
     <Table

@@ -49,6 +49,7 @@ const Scan = () => {
   const [visibleActions, setVisibleActions] = useState(false);
   const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
   const [currentScanOrder, setCurrentScanOrder] = useState(0);
+  console.log('CURRENT SCAN ORDER', currentScanOrder);
   const [isEditOpen, setEditOpen] = useState(false);
   const [changedPoolName, setChangedPoolName] = useState('-');
   const isModalOpen = useSelector((state) => state.modal?.isOpen);
@@ -57,14 +58,16 @@ const Scan = () => {
   const rightArrowRef = useRef(null);
   const sessionId = history.location.pathname.split('/')[2];
 
-  const session = useSelector((state) => state.scanSessions?.singleSession);
+  const session = useSelector((state) => state.scanSessions.singleSession);
   const scans = session?.scans;
-  const scan = session?.scans?.find(
-    (scan) => scan.scan_order === currentScanOrder,
-  );
-  const recentScan = scans?.find(
-    (scan) => scan?.scan_order === currentScanOrder - 1,
-  );
+  // const scan = session?.scans?.find(
+  //   (scan) => scan.scan_order === currentScanOrder,
+  // );
+  const scan = useSelector((state) => state.scanSessions.scan);
+
+  // const recentScan = scans?.find(
+  //   (scan) => scan?.scan_order === currentScanOrder - 1,
+  // );
 
   const poolName = scan?.pool_name
     ? scan.pool_name
@@ -73,13 +76,13 @@ const Scan = () => {
         1}`
     : '-';
 
-  const recentScanPoolName = recentScan?.pool_name
-    ? recentScan.pool_name
-    : recentScan?.scan_order >= 0
-    ? `${
-        moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
-      }${recentScan?.scan_order + 1}`
-    : '-';
+  // const recentScanPoolName = recentScan?.pool_name
+  //   ? recentScan.pool_name
+  //   : recentScan?.scan_order >= 0
+  //   ? `${
+  //       moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
+  //     }${recentScan?.scan_order + 1}`
+  //   : '-';
 
   const countOfReferencePools = session?.reference_pools_count;
   const countOfReferenceSamples = session?.reference_samples_count;
@@ -241,12 +244,23 @@ const Scan = () => {
     </Menu>
   );
 
+  const loadScan = useCallback(
+    (scanId) => {
+      dispatch({
+        type: actions.FETCH_SCAN_BY_ID_REQUEST,
+        payload: { scanId },
+      });
+    },
+    [dispatch],
+  );
+
   const loadSession = useCallback(() => {
+    // loadScan говорит о том, что это Active Session !!!
     dispatch({
-      type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
-      payload: { sessionId },
+      type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_REQUEST,
+      payload: { sessionId, loadScan, currentScanOrder },
     });
-  }, [dispatch, sessionId]);
+  }, [dispatch, sessionId, loadScan, currentScanOrder]);
 
   const useFetching = () => {
     useEffect(() => {
@@ -263,6 +277,8 @@ const Scan = () => {
     }, []);
   };
 
+  useFetching();
+
   useEffect(() => {
     if (session?.activeSessionId && sessionId) {
       if (session?.activeSessionId === sessionId) {
@@ -274,8 +290,6 @@ const Scan = () => {
       history.push('/session');
     }
   }, [session.activeSessionId, sessionId]);
-
-  useFetching();
 
   useEffect(() => {
     setChangedPoolName(scan?.pool_name || poolName);
@@ -623,7 +637,7 @@ const Scan = () => {
                 </span>
               </div>
             </div>
-            <Statistic
+            {/* <Statistic
               className={styles.companyDetailsStat}
               title="Most Recent Scan:"
               value={
@@ -632,7 +646,7 @@ const Scan = () => {
                   on ${moment(recentScan?.scan_timestamp)?.format('lll')}`
                   : '-'
               }
-            />
+            /> */}
           </div>
           <SessionStatistic session={session} />
         </Col>

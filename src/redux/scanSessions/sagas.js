@@ -103,21 +103,27 @@ export function* callFetchScanSessionById({ payload }) {
 }
 
 export function* callFetchScanSessionByIdShort({ payload }) {
+  const { sessionId, loadScan, currentScanOrder } = payload;
   try {
-    const response = yield call(
-      fetchSessionByIdWithoutTubes,
-      payload.sessionId,
-    );
+    const response = yield call(fetchSessionByIdWithoutTubes, sessionId);
+
+    const sortedScans = [...sortBy(response?.data?.scans, 'scan_order')];
 
     yield put({
       type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_SUCCESS,
       payload: {
         data: {
           ...response?.data,
-          scans: [...sortBy(response?.data?.scans, 'scan_order')],
+          // scans: [...sortBy(response?.data?.scans, 'scan_order')],
+          scans: sortedScans,
         },
       },
     });
+
+    if (loadScan) {
+      loadScan(sortedScans?.[currentScanOrder]?.id);
+      console.log('PARAM FOR LOADSCAN()', sortedScans?.[currentScanOrder]?.id);
+    }
   } catch (error) {
     yield put({
       type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_FAILURE,
@@ -339,9 +345,6 @@ export function* callCreateSession({ payload }) {
   } catch (error) {
     yield put({
       type: actions.CREATE_SESSION_FAILURE,
-      payload: {
-        poolId: payload.poolId,
-      },
     });
 
     notification.error({
@@ -515,7 +518,7 @@ export default function* rootSaga() {
     takeEvery(actions.UPDATE_SESSION_REQUEST, callUpdateSession),
     takeEvery(actions.VOID_SCAN_BY_ID_REQUEST, callVoidScan),
     takeEvery(actions.UPDATE_SCAN_BY_ID_REQUEST, callUpdateScan),
-    takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById),
+    takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById), // fetch Pool Scan
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
     takeEvery(actions.DELETE_TUBE_REQUEST, callDeleteTube),
     takeEvery(actions.INVALIDATE_TUBE_REQUEST, callInvalidateTube),

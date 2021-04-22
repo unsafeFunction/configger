@@ -15,6 +15,7 @@ const actions = {
   ...generateRequestActions(['update'], 'scan', 'selected_code'),
   ...generateRequestActions(['fetch'], 'scan', 'session_id'),
   ...generateRequestActions(['fetch'], 'session', 'company_info'),
+  CHANGE_SESSION_DATA: 'session/CHANGE_SESSION_DATA',
 };
 
 export default actions;
