@@ -1,4 +1,3 @@
-import forEach from 'lodash.foreach';
 import { combineReducers } from 'redux';
 import { constants } from 'utils/constants';
 import actions from './actions';
@@ -255,6 +254,22 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
 
+    case actions.CHANGE_SESSION_DATA: {
+      const { scanId, ...scanData } = action.payload.data;
+      return {
+        ...state,
+        scans: state.scans.map((scan) => {
+          if (scan.id === scanId) {
+            return {
+              ...scan,
+              ...scanData,
+            };
+          }
+          return scan;
+        }),
+      };
+    }
+
     default:
       return state;
   }
@@ -314,52 +329,24 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
     case actions.UPDATE_TUBE_SUCCESS: {
-      const { pool_id, tube, scanId } = action.payload.data;
+      const { row, tube, ...scanData } = action.payload.data;
       return {
         ...state,
         isLoading: false,
-        scans: state.scans.map((scan) => {
-          if (scan.id === scanId) {
+        ...scanData,
+        items: state.items.map((row) => {
+          if (row.letter === action.payload.data.row.letter) {
             return {
-              ...scan,
-              empty_positions:
-                tube?.status === constants.tubes.deleted.status &&
-                !constants.tubes.incorrectLetters.includes(tube?.position?.[0])
-                  ? [...scan.empty_positions, tube?.position]
-                  : tube?.status !== constants.tubes.deleted.status &&
-                    !constants.tubes.incorrectLetters.includes(
-                      tube?.position?.[0],
-                    )
-                  ? scan.empty_positions.filter(
-                      (position) => position !== tube?.position,
-                    )
-                  : scan.empty_positions,
-              incorrect_positions:
-                constants.tubes.incorrectLetters.includes(
-                  tube?.position?.[0],
-                ) && constants.tubes.referenceTubePosition !== tube?.position
-                  ? [...scan.incorrect_positions, tube?.position]
-                  : scan.incorrect_positions,
-              items: scan.items.map((row) => {
-                if (row.letter === action.payload.data.row.letter) {
-                  return {
-                    ...row,
-                    last_modified_on: tube.last_modified_on,
-                    last_modified_by: tube.last_modified_by,
-                    ...action.payload.data.row,
-                  };
-                }
-                return row;
-              }),
-              scan_tubes: scan.scan_tubes.map((tubeItem) => {
-                return tubeItem.id === tube.id ? tube : tubeItem;
-              }),
-              ...(pool_id ? { pool_id } : {}),
-              last_modified_on: tube.last_modified_on,
-              last_modified_by: tube.last_modified_by,
+              ...row,
+              // last_modified_on: tube.last_modified_on, // for what?
+              // last_modified_by: tube.last_modified_by, // for what?
+              ...action.payload.data.row,
             };
           }
-          return scan;
+          return row;
+        }),
+        scan_tubes: state.scan_tubes.map((tubeItem) => {
+          return tubeItem.id === tube.id ? tube : tubeItem;
         }),
       };
     }
@@ -377,31 +364,25 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
     case actions.INVALIDATE_TUBE_SUCCESS: {
-      const { tube } = action.payload.data;
+      const { row, tube, ...scanData } = action.payload.data;
       return {
         ...state,
         isLoading: false,
-        scans: state.scans.map((scan) => {
-          if (scan.id === action.payload.data.scanId) {
+        ...scanData,
+
+        items: state.items.map((row) => {
+          if (row.letter === action.payload.data.row.letter) {
             return {
-              ...scan,
-              last_modified_on: tube.last_modified_on,
-              last_modified_by: tube.last_modified_by,
-              items: scan.items.map((row) => {
-                if (row.letter === action.payload.data.row.letter) {
-                  return {
-                    ...row,
-                    ...action.payload.data.row,
-                  };
-                }
-                return row;
-              }),
-              scan_tubes: scan.scan_tubes.map((tubeItem) => {
-                return tubeItem.id === tube.id ? tube : tubeItem;
-              }),
+              ...row,
+              // last_modified_on: tube.last_modified_on, // for what?
+              // last_modified_by: tube.last_modified_by, // for what?
+              ...action.payload.data.row,
             };
           }
-          return scan;
+          return row;
+        }),
+        scan_tubes: state.scan_tubes.map((tubeItem) => {
+          return tubeItem.id === tube.id ? tube : tubeItem;
         }),
       };
     }
@@ -420,48 +401,25 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
     case actions.DELETE_TUBE_SUCCESS: {
-      const { tube, scanId, tubeId } = action.payload.data;
-      const scansArray = state.scans;
-
-      state.scans.forEach((row, index) => {
-        if (row.id === scanId) {
-          row.items.forEach((value, key) => {
-            forEach(value, (rowValue, rowKey) => {
-              if (rowValue.id === tubeId) {
-                scansArray[index].items[key][rowKey] = tube;
-              }
-            });
-          });
-        }
-      });
-
+      const { row, tube, ...scanData } = action.payload.data;
       return {
         ...state,
-        scans: state.scans.map((scan) => {
-          if (scan.id === scanId) {
+        isLoading: false,
+        ...scanData,
+        items: state.items.map((row) => {
+          if (row.letter === action.payload.data.row.letter) {
             return {
-              ...scan,
-              empty_positions:
-                tube?.status === constants.tubes.deleted.status &&
-                !constants.tubes.incorrectLetters.includes(tube?.position?.[0])
-                  ? [...scan.empty_positions, tube?.position]
-                  : scan.empty_positions,
-              incorrect_positions:
-                constants.tubes.incorrectLetters.includes(
-                  tube?.position?.[0],
-                ) && constants.tubes.referenceTubePosition !== tube?.position
-                  ? scan.incorrect_positions?.filter(
-                      (position) => position !== tube?.position,
-                    )
-                  : scan.incorrect_positions,
-              scan_tubes: scan.scan_tubes.map((tubeItem) => {
-                return tubeItem.id === tubeId ? tube : tubeItem;
-              }),
+              ...row,
+              // last_modified_on: tube.last_modified_on, // for what?
+              // last_modified_by: tube.last_modified_by, // for what?
+              ...action.payload.data.row,
             };
           }
-          return scan;
+          return row;
         }),
-        isLoading: false,
+        scan_tubes: state.scan_tubes.map((tubeItem) => {
+          return tubeItem.id === tube.id ? tube : tubeItem;
+        }),
       };
     }
     case actions.DELETE_TUBE_FAILURE: {

@@ -11,7 +11,6 @@ import {
   deleteTube,
   fetchScanById,
   fetchSessionId,
-  invalidateTube,
   updateScan,
   updateTube,
 } from 'services/scans';
@@ -24,8 +23,13 @@ import {
   updateSession,
 } from 'services/scanSessions';
 import { constants } from 'utils/constants';
+import { emptyPositionsArr, incorrectPositionsArr } from 'utils/tubesRules';
 import actions from './actions';
-import { getSelectedCode } from './selectors';
+import {
+  getEmptyPositions,
+  getIncorrectPositions,
+  getSelectedCode,
+} from './selectors';
 
 moment.tz.setDefault('America/New_York');
 
@@ -225,10 +229,37 @@ export function* callFetchScanById({ payload }) {
 export function* callUpdateTube({ payload }) {
   const { pooling } = constants.tubes;
 
+  // TODO: зачем передаем isRack ???
+  // const { id, data, scanId, isRack } = payload;
+
   try {
     const response = yield call(updateTube, payload);
+    console.log('RESPONSE UPDATE TUBE', response);
 
-    const poolingTube = response?.data?.status === pooling.status;
+    const emptyPositions = yield select(getEmptyPositions);
+    const empty_positions = yield call(
+      emptyPositionsArr,
+      emptyPositions,
+      response.data,
+    );
+
+    const incorrectPositions = yield select(getIncorrectPositions);
+    const incorrect_positions = yield call(
+      incorrectPositionsArr,
+      incorrectPositions,
+      response.data,
+    );
+
+    const scanData = {
+      empty_positions,
+      incorrect_positions,
+      last_modified_on: response.data.last_modified_on,
+      last_modified_by: response.data.last_modified_by,
+      ...(response?.data?.status === pooling.status
+        ? { pool_id: response?.data?.tube_id }
+        : {}),
+      // TODO: +tubes_count
+    };
 
     yield put({
       type: actions.UPDATE_TUBE_SUCCESS,
@@ -242,8 +273,18 @@ export function* callUpdateTube({ payload }) {
             },
           },
           tube: response.data,
+          ...scanData,
+        },
+      },
+    });
+
+    yield put({
+      type: actions.CHANGE_SESSION_DATA,
+      payload: {
+        data: {
           scanId: payload.scanId,
-          ...(poolingTube ? { pool_id: response?.data?.tube_id } : {}),
+          // TODO: + actual samples count
+          ...scanData,
         },
       },
     });
@@ -266,14 +307,20 @@ export function* callUpdateTube({ payload }) {
 }
 
 export function* callInvalidateTube({ payload }) {
+  // TODO: зачем передаем isRack ???
+  // const { id, scanId, isRack } = payload;
+
   try {
     const selectedCode = yield select(getSelectedCode);
-    const response = yield call(invalidateTube, {
+    const response = yield call(updateTube, {
       ...payload,
-      data: {
-        status: selectedCode.status,
-      },
+      data: { status: selectedCode.status },
     });
+
+    const scanData = {
+      last_modified_on: response.data.last_modified_on,
+      last_modified_by: response.data.last_modified_by,
+    };
 
     yield put({
       type: actions.INVALIDATE_TUBE_SUCCESS,
@@ -287,8 +334,18 @@ export function* callInvalidateTube({ payload }) {
               color: response?.data?.color,
             },
           },
-          scanId: payload.scanId,
           tube: response.data,
+          ...scanData,
+        },
+      },
+    });
+
+    yield put({
+      type: actions.CHANGE_SESSION_DATA,
+      payload: {
+        data: {
+          scanId: payload.scanId,
+          ...scanData,
         },
       },
     });
@@ -296,12 +353,96 @@ export function* callInvalidateTube({ payload }) {
     yield put({
       type: modalActions.HIDE_MODAL,
     });
+
+    notification.success({
+      message: 'Tube updated',
+    });
   } catch (error) {
+    yield put({
+      type: actions.INVALIDATE_TUBE_FAILURE,
+      error: error,
+    });
+
     notification.error({
-      message: 'Something went wrong',
+      message: error.message ?? 'Something went wrong',
     });
 
     throw Error(error);
+  }
+}
+
+export function* callDeleteTube({ payload }) {
+  // TODO: зачем передаем isRack ???
+  // const { tubeId, scanId, isRack } = payload;
+
+  try {
+    const response = yield call(deleteTube, payload);
+    console.log('RESPONSE DELETE TUBE', response);
+
+    const emptyPositions = yield select(getEmptyPositions);
+    const empty_positions = yield call(
+      emptyPositionsArr,
+      emptyPositions,
+      response.data,
+    );
+
+    const incorrectPositions = yield select(getIncorrectPositions);
+    const incorrect_positions = yield call(
+      incorrectPositionsArr,
+      incorrectPositions,
+      response.data,
+    );
+
+    const scanData = {
+      empty_positions,
+      incorrect_positions,
+      last_modified_on: response.data.last_modified_on,
+      last_modified_by: response.data.last_modified_by,
+      // TODO: +tubes_count
+    };
+
+    yield put({
+      type: actions.DELETE_TUBE_SUCCESS,
+      payload: {
+        data: {
+          row: {
+            letter: response?.data?.position?.[0],
+            [`col${response?.data?.position?.[1]}`]: {
+              ...response?.data,
+              status: response?.data?.status,
+            },
+          },
+          tube: response.data,
+          ...scanData,
+        },
+      },
+    });
+
+    yield put({
+      type: actions.CHANGE_SESSION_DATA,
+      payload: {
+        data: {
+          scanId: payload.scanId,
+          // TODO: + actual samples count
+          ...scanData,
+        },
+      },
+    });
+
+    notification.success({
+      message: 'Tube deleted',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.DELETE_TUBE_FAILURE,
+      payload: {
+        data: error.message ?? null,
+      },
+    });
+
+    notification.error({
+      message: error.message ?? 'Failure!',
+    });
   }
 }
 
@@ -353,39 +494,6 @@ export function* callCreateSession({ payload }) {
     });
 
     return error;
-  }
-}
-
-export function* callDeleteTube({ payload }) {
-  try {
-    const response = yield call(deleteTube, payload);
-
-    yield put({
-      type: actions.DELETE_TUBE_SUCCESS,
-      payload: {
-        data: {
-          tube: response.data,
-          position: response.data.position,
-          scanId: payload.scanId,
-          tubeId: payload.tubeId,
-        },
-      },
-    });
-
-    notification.success({
-      message: 'Tube deleted',
-    });
-  } catch (error) {
-    yield put({
-      type: actions.DELETE_TUBE_FAILURE,
-      payload: {
-        data: error.message ?? null,
-      },
-    });
-
-    notification.error({
-      message: error.message ?? 'Failure!',
-    });
   }
 }
 

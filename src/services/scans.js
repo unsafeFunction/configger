@@ -31,12 +31,6 @@ export const deleteTube = async ({ tubeId, scanId }) => {
   }
 };
 
-export const invalidateTube = async ({ id, data }) => {
-  return await axiosClient.patch(`/scans/tubes/${id}/`, {
-    ...data,
-  });
-};
-
 export const fetchSessionId = async () => {
   try {
     return await axiosClient.get(`/scans/sessions/active/`);
