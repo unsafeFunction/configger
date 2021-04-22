@@ -257,7 +257,7 @@ const Scan = () => {
   const loadSession = useCallback(() => {
     // loadScan говорит о том, что это Active Session !!!
     dispatch({
-      type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_REQUEST,
+      type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
       payload: { sessionId, loadScan, currentScanOrder },
     });
   }, [dispatch, sessionId, loadScan, currentScanOrder]);

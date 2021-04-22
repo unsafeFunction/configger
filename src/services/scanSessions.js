@@ -25,18 +25,6 @@ export const fetchSessionById = async (sessionId) => {
   }
 };
 
-export const fetchSessionByIdWithoutTubes = async (sessionId) => {
-  try {
-    const session = await axiosClient.get(
-      `/scans/sessions/${sessionId}/short/`,
-    );
-
-    return session;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
 export const updateSession = async (data) => {
   try {
     const session = await axiosClient.patch(`/scans/sessions/${data.id}/`, {

@@ -26,7 +26,7 @@ const PoolScan = () => {
     useEffect(() => {
       // TODO: in some cases this request is unnecessary
       dispatch({
-        type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_REQUEST,
+        type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
         payload: { sessionId },
       });
 

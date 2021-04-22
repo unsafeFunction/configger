@@ -18,7 +18,6 @@ import {
   closeSession,
   createSession,
   fetchSessionById,
-  fetchSessionByIdWithoutTubes,
   fetchSessions,
   updateSession,
 } from 'services/scanSessions';
@@ -71,50 +70,14 @@ export function* callFetchScanSessions({ payload }) {
 }
 
 export function* callFetchScanSessionById({ payload }) {
-  try {
-    const response = yield call(fetchSessionById, payload.sessionId);
-
-    yield put({
-      type: actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS,
-      payload: {
-        ...response?.data,
-        scans: [
-          ...sortBy(response?.data?.scans, 'scan_order').map?.((scan) => {
-            const tubesInfo = scan?.scan_tubes;
-            return {
-              ...scan,
-              items: [
-                formatResponse(tubesInfo?.slice?.(0, 8)),
-                formatResponse(tubesInfo?.slice?.(8, 16)),
-                formatResponse(tubesInfo?.slice?.(16, 24)),
-                formatResponse(tubesInfo?.slice?.(24, 32)),
-                formatResponse(tubesInfo?.slice?.(32, 40)),
-                formatResponse(tubesInfo?.slice?.(40, 48)),
-              ],
-            };
-          }),
-        ],
-      },
-    });
-  } catch (error) {
-    yield put({
-      type: actions.FETCH_SCAN_SESSION_BY_ID_FAILURE,
-    });
-
-    notification.error(error);
-    throw new Error(error);
-  }
-}
-
-export function* callFetchScanSessionByIdShort({ payload }) {
   const { sessionId, loadScan, currentScanOrder } = payload;
   try {
-    const response = yield call(fetchSessionByIdWithoutTubes, sessionId);
+    const response = yield call(fetchSessionById, sessionId);
 
     const sortedScans = [...sortBy(response?.data?.scans, 'scan_order')];
 
     yield put({
-      type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_SUCCESS,
+      type: actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS,
       payload: {
         data: {
           ...response?.data,
@@ -130,7 +93,7 @@ export function* callFetchScanSessionByIdShort({ payload }) {
     }
   } catch (error) {
     yield put({
-      type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_FAILURE,
+      type: actions.FETCH_SCAN_SESSION_BY_ID_FAILURE,
     });
 
     notification.error({
@@ -618,10 +581,6 @@ export default function* rootSaga() {
     takeEvery(
       actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
       callFetchScanSessionById,
-    ),
-    takeEvery(
-      actions.FETCH_SCAN_SESSION_BY_ID_SHORT_REQUEST,
-      callFetchScanSessionByIdShort,
     ),
     takeEvery(actions.UPDATE_SESSION_REQUEST, callUpdateSession),
     takeEvery(actions.VOID_SCAN_BY_ID_REQUEST, callVoidScan),

@@ -69,6 +69,10 @@ const initialSingleSession = {
   activeSessionLoading: false,
   intakeLogs: [],
   companyInfoLoading: false,
+  actual_pools_count: null,
+  actual_samples_count: null,
+  reference_pools_count: null,
+  reference_samples_count: null,
 };
 
 const singleSessionReducer = (state = initialSingleSession, action) => {
@@ -85,9 +89,11 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         selectedCode: {},
       };
     }
+
     case actions.FETCH_SCAN_SESSION_BY_ID_REQUEST: {
       return {
         ...state,
+        ...initialSingleSession,
         isLoading: true,
       };
     }
@@ -95,31 +101,10 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
-        ...action.payload,
-      };
-    }
-    case actions.FETCH_SCAN_SESSION_BY_ID_FAILURE: {
-      return {
-        ...state,
-        isLoading: false,
-      };
-    }
-
-    case actions.FETCH_SCAN_SESSION_BY_ID_SHORT_REQUEST: {
-      return {
-        ...state,
-        ...initialSingleSession,
-        isLoading: true,
-      };
-    }
-    case actions.FETCH_SCAN_SESSION_BY_ID_SHORT_SUCCESS: {
-      return {
-        ...state,
-        isLoading: false,
         ...action.payload.data,
       };
     }
-    case actions.FETCH_SCAN_SESSION_BY_ID_SHORT_FAILURE: {
+    case actions.FETCH_SCAN_SESSION_BY_ID_FAILURE: {
       return {
         ...state,
         isLoading: false,

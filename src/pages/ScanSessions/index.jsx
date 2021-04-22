@@ -202,7 +202,7 @@ const ScanSessions = () => {
       if (expanded) {
         setOpenedRow([record.id]);
         dispatch({
-          type: actions.FETCH_SCAN_SESSION_BY_ID_SHORT_REQUEST,
+          type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
           payload: { sessionId: record.id },
         });
       } else {
