@@ -166,57 +166,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
 
-    case actions.UPDATE_SCAN_BY_ID_REQUEST:
-    case actions.CANCEL_SCAN_BY_ID_REQUEST: {
-      return {
-        ...state,
-        isLoading: true,
-      };
-    }
-    case actions.CANCEL_SCAN_BY_ID_SUCCESS:
-    case actions.UPDATE_SCAN_BY_ID_SUCCESS: {
-      const { data } = action.payload;
-
-      return {
-        ...state,
-        isLoading: false,
-        scans: state.scans.map((scan) => {
-          if (scan.id === data.id) {
-            return {
-              ...scan,
-              ...data,
-            };
-          }
-          return scan;
-        }),
-      };
-    }
-
-    case actions.VOID_SCAN_BY_ID_SUCCESS: {
-      const { data } = action.payload;
-
-      return {
-        ...state,
-        isLoading: false,
-        scans: state.scans.map((scan) => {
-          if (scan.id === data.id) {
-            return {
-              ...scan,
-              status: 'VOIDED',
-            };
-          }
-          return scan;
-        }),
-      };
-    }
-    case actions.CANCEL_SCAN_BY_ID_FAILURE:
-    case actions.UPDATE_SCAN_BY_ID_FAILURE: {
-      return {
-        ...state,
-        isLoading: false,
-      };
-    }
-
     case actions.FETCH_COMPANY_INFO_REQUEST: {
       return {
         ...state,
@@ -265,7 +214,6 @@ const initialScan = {
   id: null,
   pool_id: null,
   pool_name: null,
-  rack_name: null,
   rack_id: null,
   possibly_reversed: false,
   empty_positions: [],
@@ -412,6 +360,36 @@ const scanReducer = (state = initialScan, action) => {
         ...state,
         isLoading: false,
         error: action.payload.data,
+      };
+    }
+
+    case actions.UPDATE_SCAN_BY_ID_REQUEST:
+    case actions.CANCEL_SCAN_BY_ID_REQUEST:
+    case actions.VOID_SCAN_BY_ID_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case actions.UPDATE_SCAN_BY_ID_SUCCESS:
+    case actions.CANCEL_SCAN_BY_ID_SUCCESS:
+    case actions.VOID_SCAN_BY_ID_SUCCESS: {
+      const { data } = action.payload;
+
+      return {
+        ...state,
+        isLoading: false,
+        ...data,
+      };
+    }
+
+    case actions.UPDATE_SCAN_BY_ID_FAILURE:
+    case actions.CANCEL_SCAN_BY_ID_FAILURE:
+    case actions.VOID_SCAN_BY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
       };
     }
 

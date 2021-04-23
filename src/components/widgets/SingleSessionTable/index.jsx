@@ -47,6 +47,7 @@ const SingleSessionTable = ({
   const dataForTable = [
     ...scanInWorkArr,
     ...session?.scans?.filter((scan) => scan.status === completed),
+    // ...session?.scans,
   ].map((scan) => {
     return {
       key: scan.id,

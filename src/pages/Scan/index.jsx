@@ -142,15 +142,18 @@ const Scan = () => {
   const isEmptyTubes = emptyPosition?.length > 0;
 
   const companyInfo = session?.company_short;
-  const deleteScan = useCallback(
-    (data) => {
-      dispatch({
-        type: actions.VOID_SCAN_BY_ID_REQUEST,
-        payload: { ...data },
-      });
-    },
-    [dispatch],
-  );
+
+  const deleteScan = useCallback(() => {
+    dispatch({
+      type: actions.VOID_SCAN_BY_ID_REQUEST,
+      payload: {
+        id: scan?.id,
+        // callback: goToNextScan, // TODO: изменить функцию goToNextScan
+      },
+    });
+
+    setVisibleActions(false);
+  }, [dispatch, scan]);
 
   const updateScan = useCallback(
     (data) => {
@@ -159,19 +162,12 @@ const Scan = () => {
         payload: {
           data: { ...data, pool_name: poolName, status: 'COMPLETED' },
           id: scan?.id,
-          callback: goToNextScan,
+          // callback: goToNextScan, // TODO: изменить функцию goToNextScan
         },
       });
     },
-    [dispatch, scan, scansTotal, currentScanOrder],
+    [dispatch, scan, poolName],
   );
-
-  const handleVoidScan = useCallback(() => {
-    goToNextScan();
-    deleteScan({ id: scan?.id });
-
-    setVisibleActions(false);
-  }, [scan, goToNextScan, deleteScan]);
 
   const updateSession = useCallback(
     (data) => {
@@ -207,7 +203,7 @@ const Scan = () => {
           title="Are you sure to Void Scan?"
           okText="Yes"
           cancelText="No"
-          onConfirm={handleVoidScan}
+          onConfirm={deleteScan}
         >
           Void Scan
         </Popconfirm>
@@ -340,9 +336,7 @@ const Scan = () => {
     dispatch({
       type: actions.UPDATE_SCAN_BY_ID_REQUEST,
       payload: {
-        data: {
-          pool_name: changedPoolName,
-        },
+        data: { pool_name: changedPoolName },
         id: scan?.id,
       },
     });
@@ -354,9 +348,7 @@ const Scan = () => {
       dispatch({
         type: actions.CANCEL_SCAN_BY_ID_REQUEST,
         payload: {
-          data: {
-            status: 'STARTED',
-          },
+          data: { status: 'STARTED' },
           id: scan?.id,
         },
       });
@@ -523,7 +515,11 @@ const Scan = () => {
                 onClick={onSaveScanModalToggle}
                 type="primary"
                 htmlType="submit"
-                disabled={session?.isLoading || session.scans.length === 0}
+                disabled={
+                  session?.isLoading ||
+                  session.scans.length === 0 ||
+                  scan?.isLoading
+                }
               >
                 Save Scan
               </Button>

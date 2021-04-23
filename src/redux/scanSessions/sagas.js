@@ -6,7 +6,6 @@ import { callFetchCompanyShort } from 'redux/companies/sagas';
 import modalActions from 'redux/modal/actions';
 import { fetchIntakeReceiptLog } from 'services/intakeReceiptLog';
 import {
-  cancelScan,
   deleteScan,
   deleteTube,
   fetchScanById,
@@ -460,34 +459,6 @@ export function* callCreateSession({ payload }) {
   }
 }
 
-export function* callVoidScan({ payload }) {
-  try {
-    const response = yield call(deleteScan, payload);
-
-    yield put({
-      type: actions.VOID_SCAN_BY_ID_SUCCESS,
-      payload: {
-        data: {
-          id: payload.id,
-        },
-      },
-    });
-
-    notification.success({
-      message: 'Scan was voided',
-    });
-  } catch (error) {
-    yield put({
-      type: actions.VOID_SCAN_BY_ID_FAILURE,
-      payload: {
-        error,
-      },
-    });
-
-    throw new Error(error);
-  }
-}
-
 export function* callUpdateScan({ payload }) {
   try {
     const response = yield call(updateScan, payload);
@@ -496,6 +467,16 @@ export function* callUpdateScan({ payload }) {
       type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
       payload: {
         data: response.data,
+      },
+    });
+
+    yield put({
+      type: actions.CHANGE_SESSION_DATA,
+      payload: {
+        data: {
+          scanId: response.data.id,
+          ...response.data,
+        },
       },
     });
 
@@ -527,12 +508,22 @@ export function* callUpdateScan({ payload }) {
 
 export function* callCancelScan({ payload }) {
   try {
-    const response = yield call(cancelScan, payload);
+    const response = yield call(updateScan, payload);
 
     yield put({
       type: actions.CANCEL_SCAN_BY_ID_SUCCESS,
       payload: {
         data: response.data,
+      },
+    });
+
+    yield put({
+      type: actions.CHANGE_SESSION_DATA,
+      payload: {
+        data: {
+          scanId: response.data.id,
+          ...response.data,
+        },
       },
     });
 
@@ -547,6 +538,42 @@ export function* callCancelScan({ payload }) {
     notification.error({
       message: error.message ?? 'Scan not updated',
     });
+  }
+}
+
+export function* callVoidScan({ payload }) {
+  try {
+    const response = yield call(deleteScan, payload);
+
+    yield put({
+      type: actions.VOID_SCAN_BY_ID_SUCCESS,
+      payload: {
+        data: { status: 'VOIDED' },
+      },
+    });
+
+    yield put({
+      type: actions.CHANGE_SESSION_DATA,
+      payload: {
+        data: {
+          scanId: response.data.scan_id,
+          status: 'VOIDED',
+        },
+      },
+    });
+
+    notification.success({
+      message: 'Scan was voided',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.VOID_SCAN_BY_ID_FAILURE,
+      payload: {
+        error,
+      },
+    });
+
+    throw new Error(error);
   }
 }
 

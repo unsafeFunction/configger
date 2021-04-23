@@ -39,25 +39,11 @@ export const fetchSessionId = async () => {
   }
 };
 
-export const deleteScan = async (data) => {
+export const deleteScan = async ({ id }) => {
   try {
-    const { id } = data;
-
     return await axiosClient.delete(`/scans/pool/${id}/`);
   } catch (error) {
     throw new Error(error);
-  }
-};
-
-export const cancelScan = async ({ data, id }) => {
-  try {
-    const scan = await axiosClient.put(`/scans/pool/${id}/`, {
-      ...data,
-    });
-
-    return scan;
-  } catch (error) {
-    throw new Error(error?.response?.data.non_field_errors);
   }
 };
 
