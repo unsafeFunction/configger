@@ -3,16 +3,15 @@ import moment from 'moment';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React from 'react';
-import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const SingleSessionTable = ({
-  session,
+  scansInWork,
+  isLoading,
   handleNavigateToScan,
   handleCancelScan,
+  loadScan,
 }) => {
-  const { started, invalid, completed } = constants.scanStatuses;
-
   const columns = [
     { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id', width: 100 },
     { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
@@ -38,17 +37,7 @@ const SingleSessionTable = ({
     { title: 'Actions', dataIndex: 'action', key: 'action', width: 200 },
   ];
 
-  const scanInWork = session?.scans?.find(
-    (s) => s.status === (started || invalid),
-  );
-
-  const scanInWorkArr = scanInWork ? [scanInWork] : [];
-
-  const dataForTable = [
-    ...scanInWorkArr,
-    ...session?.scans?.filter((scan) => scan.status === completed),
-    // ...session?.scans,
-  ].map((scan) => {
+  const dataForTable = scansInWork.map((scan) => {
     return {
       key: scan.id,
       pool_id: scan.pool_id,
@@ -59,11 +48,12 @@ const SingleSessionTable = ({
       action: (
         <div className={styles.actions}>
           <Button
-            onClick={() =>
-              handleNavigateToScan({
-                scanOrder: scan.scan_order,
-              })
-            }
+            // onClick={() =>
+            //   handleNavigateToScan({
+            //     scanOrder: scan.scan_order,
+            //   })
+            // }
+            onClick={() => loadScan(scan.id)}
             type="primary"
           >
             View scan
@@ -81,7 +71,8 @@ const SingleSessionTable = ({
   return (
     <Table
       loading={
-        session?.isLoading && (session?.scans?.length === 0 || !session.scans)
+        // TODO: зачем второе сравнение? третье всегда - false (scansInWork = [])
+        isLoading && (scansInWork.length === 0 || !scansInWork)
       }
       columns={columns}
       pagination={false}
@@ -92,9 +83,11 @@ const SingleSessionTable = ({
 };
 
 SingleSessionTable.propTypes = {
-  session: PropTypes.shape({}).isRequired,
+  scansInWork: PropTypes.shape([]).isRequired,
+  isLoading: PropTypes.bool.isRequired,
   handleNavigateToScan: PropTypes.func.isRequired,
   handleCancelScan: PropTypes.func.isRequired,
+  loadScan: PropTypes.func.isRequired,
 };
 
 export default SingleSessionTable;

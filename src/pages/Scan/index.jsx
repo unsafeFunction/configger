@@ -5,9 +5,8 @@ import {
   CloseOutlined,
   DownOutlined,
   EditOutlined,
-  LeftOutlined,
+  // LeftOutlined,
   ReloadOutlined,
-  RightOutlined,
 } from '@ant-design/icons';
 import {
   Alert,
@@ -64,6 +63,20 @@ const Scan = () => {
   //   (scan) => scan.scan_order === currentScanOrder,
   // );
   const scan = useSelector((state) => state.scanSessions.scan);
+
+  // TODO: scans in work arr
+  const { started, invalid, completed } = constants.scanStatuses;
+  const scanInWork = session?.scans?.find(
+    (s) => s.status === (started || invalid),
+  );
+  const scanInWorkArr = scanInWork ? [scanInWork] : [];
+
+  const scansInWork = [
+    ...scanInWorkArr,
+    ...session?.scans?.filter((scan) => scan.status === completed),
+  ];
+
+  console.log('SCANS IN WORK !!!', scansInWork);
 
   // const recentScan = scans?.find(
   //   (scan) => scan?.scan_order === currentScanOrder - 1,
@@ -240,6 +253,7 @@ const Scan = () => {
     </Menu>
   );
 
+  // TODO: useEffect сейчас подгружается скан с currentScanOrder
   const loadScan = useCallback(
     (scanId) => {
       dispatch({
@@ -524,7 +538,7 @@ const Scan = () => {
                 Save Scan
               </Button>
               <div>
-                {scansTotal > 1 && (
+                {/* {scansTotal > 1 && (
                   <>
                     <Button
                       className="mr-2"
@@ -551,7 +565,7 @@ const Scan = () => {
                       disabled={session?.isLoading}
                     />
                   </>
-                )}
+                )} */}
                 <Dropdown
                   overlay={menu}
                   overlayClassName={styles.actionsOverlay}
@@ -579,9 +593,11 @@ const Scan = () => {
           <Row>
             <Col sm={24}>
               <SingleSessionTable
-                session={session}
+                scansInWork={scansInWork}
+                isLoading={session?.isLoading}
                 handleNavigateToScan={handleNavigateToScan}
                 handleCancelScan={handleCancelScan}
+                loadScan={loadScan}
               />
             </Col>
           </Row>
