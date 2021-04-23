@@ -5,8 +5,9 @@ import {
   CloseOutlined,
   DownOutlined,
   EditOutlined,
-  // LeftOutlined,
+  LeftOutlined,
   ReloadOutlined,
+  RightOutlined,
 } from '@ant-design/icons';
 import {
   Alert,
@@ -48,7 +49,6 @@ const Scan = () => {
   const [visibleActions, setVisibleActions] = useState(false);
   const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
   const [currentScanOrder, setCurrentScanOrder] = useState(0);
-  console.log('CURRENT SCAN ORDER', currentScanOrder);
   const [isEditOpen, setEditOpen] = useState(false);
   const [changedPoolName, setChangedPoolName] = useState('-');
   const isModalOpen = useSelector((state) => state.modal?.isOpen);
@@ -59,25 +59,20 @@ const Scan = () => {
 
   const session = useSelector((state) => state.scanSessions.singleSession);
   const scans = session?.scans;
-  // const scan = session?.scans?.find(
-  //   (scan) => scan.scan_order === currentScanOrder,
-  // );
   const scan = useSelector((state) => state.scanSessions.scan);
 
-  // TODO: scans in work arr
   const { started, invalid, completed } = constants.scanStatuses;
   const scanInWork = session?.scans?.find(
     (s) => s.status === (started || invalid),
   );
-  const scanInWorkArr = scanInWork ? [scanInWork] : [];
 
   const scansInWork = [
-    ...scanInWorkArr,
+    ...(scanInWork ? [scanInWork] : []),
     ...session?.scans?.filter((scan) => scan.status === completed),
   ];
-
   console.log('SCANS IN WORK !!!', scansInWork);
 
+  // TODO: не понимаю как сейчас вывести Most recent scan
   // const recentScan = scans?.find(
   //   (scan) => scan?.scan_order === currentScanOrder - 1,
   // );
@@ -148,7 +143,6 @@ const Scan = () => {
     }
   }, [scans, history, currentScanOrder]);
 
-  const scansTotal = session?.scans?.length;
   const incorrectPositions = scan?.incorrect_positions?.join(', ');
   const isIncorrectTubes = incorrectPositions?.length > 0;
   const emptyPosition = scan?.empty_positions?.join(', ');
@@ -159,10 +153,7 @@ const Scan = () => {
   const deleteScan = useCallback(() => {
     dispatch({
       type: actions.VOID_SCAN_BY_ID_REQUEST,
-      payload: {
-        id: scan?.id,
-        // callback: goToNextScan, // TODO: изменить функцию goToNextScan
-      },
+      payload: { id: scan?.id },
     });
 
     setVisibleActions(false);
@@ -175,7 +166,6 @@ const Scan = () => {
         payload: {
           data: { ...data, pool_name: poolName, status: 'COMPLETED' },
           id: scan?.id,
-          // callback: goToNextScan, // TODO: изменить функцию goToNextScan
         },
       });
     },
@@ -253,7 +243,6 @@ const Scan = () => {
     </Menu>
   );
 
-  // TODO: useEffect сейчас подгружается скан с currentScanOrder
   const loadScan = useCallback(
     (scanId) => {
       dispatch({
@@ -264,13 +253,25 @@ const Scan = () => {
     [dispatch],
   );
 
+  useEffect(() => {
+    // console.log(
+    //   'Изменился 1-ый элемент массива scansInWork[] scansInWork[0]?.id',
+    //   scansInWork[0]?.id,
+    // );
+
+    if (scansInWork[0]?.id) {
+      loadScan(scansInWork[0]?.id);
+    } else {
+      dispatch({ type: actions.RESET_SCAN });
+    }
+  }, [dispatch, loadScan, scansInWork[0]?.id]);
+
   const loadSession = useCallback(() => {
-    // loadScan говорит о том, что это Active Session !!!
     dispatch({
       type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
-      payload: { sessionId, loadScan, currentScanOrder },
+      payload: { sessionId },
     });
-  }, [dispatch, sessionId, loadScan, currentScanOrder]);
+  }, [dispatch, sessionId]);
 
   const useFetching = () => {
     useEffect(() => {
@@ -418,6 +419,7 @@ const Scan = () => {
     if (
       enterPress &&
       !session?.isLoading &&
+      !scan.isLoading &&
       session.scans.length > 0 &&
       !isModalOpen
     ) {
@@ -426,7 +428,16 @@ const Scan = () => {
       }
       return onSaveScanModalToggle();
     }
-  }, [enterPress, onSaveScanModalToggle]);
+  }, [
+    enterPress,
+    onSaveScanModalToggle,
+    handleSavePoolName,
+    isEditOpen,
+    isModalOpen,
+    scan.isLoading,
+    session?.isLoading,
+    session.scans.length,
+  ]);
 
   const onSaveSessionModalToggle = useCallback(
     (
@@ -538,34 +549,34 @@ const Scan = () => {
                 Save Scan
               </Button>
               <div>
-                {/* {scansTotal > 1 && (
+                {scansInWork.length > 1 && (
                   <>
                     <Button
                       className="mr-2"
                       ref={leftArrowRef}
                       icon={<LeftOutlined />}
-                      onClick={() => {
-                        leftArrowRef.current.blur();
-                        return handleNavigation({
-                          direction: 'prev',
-                        });
-                      }}
+                      // onClick={() => {
+                      //   leftArrowRef.current.blur();
+                      //   return handleNavigation({
+                      //     direction: 'prev',
+                      //   });
+                      // }}
                       disabled={session?.isLoading}
                     />
                     <Button
                       className="mr-2"
                       ref={rightArrowRef}
                       icon={<RightOutlined />}
-                      onClick={() => {
-                        rightArrowRef.current.blur();
-                        return handleNavigation({
-                          direction: 'next',
-                        });
-                      }}
+                      // onClick={() => {
+                      //   rightArrowRef.current.blur();
+                      //   return handleNavigation({
+                      //     direction: 'next',
+                      //   });
+                      // }}
                       disabled={session?.isLoading}
                     />
                   </>
-                )} */}
+                )}
                 <Dropdown
                   overlay={menu}
                   overlayClassName={styles.actionsOverlay}

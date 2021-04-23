@@ -69,7 +69,7 @@ export function* callFetchScanSessions({ payload }) {
 }
 
 export function* callFetchScanSessionById({ payload }) {
-  const { sessionId, loadScan, currentScanOrder } = payload;
+  const { sessionId } = payload;
   try {
     const response = yield call(fetchSessionById, sessionId);
 
@@ -80,16 +80,10 @@ export function* callFetchScanSessionById({ payload }) {
       payload: {
         data: {
           ...response?.data,
-          // scans: [...sortBy(response?.data?.scans, 'scan_order')],
           scans: sortedScans,
         },
       },
     });
-
-    if (loadScan) {
-      loadScan(sortedScans?.[currentScanOrder]?.id);
-      console.log('PARAM FOR LOADSCAN()', sortedScans?.[currentScanOrder]?.id);
-    }
   } catch (error) {
     yield put({
       type: actions.FETCH_SCAN_SESSION_BY_ID_FAILURE,
@@ -196,7 +190,6 @@ export function* callUpdateTube({ payload }) {
 
   try {
     const response = yield call(updateTube, payload);
-    console.log('RESPONSE UPDATE TUBE', response);
 
     const emptyPositions = yield select(getEmptyPositions);
     const empty_positions = yield call(
@@ -339,7 +332,6 @@ export function* callDeleteTube({ payload }) {
 
   try {
     const response = yield call(deleteTube, payload);
-    console.log('RESPONSE DELETE TUBE', response);
 
     const emptyPositions = yield select(getEmptyPositions);
     const empty_positions = yield call(
@@ -479,10 +471,6 @@ export function* callUpdateScan({ payload }) {
         },
       },
     });
-
-    if (payload.callback) {
-      payload.callback();
-    }
 
     yield put({
       type: modalActions.HIDE_MODAL,

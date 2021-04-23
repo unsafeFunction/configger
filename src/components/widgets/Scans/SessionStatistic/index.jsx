@@ -74,7 +74,9 @@ const SessionStatistic = ({ session }) => {
         xl={{ span: 12, order: 4 }}
         xxl={{ span: 9, order: 4 }}
       >
-        <Card className={styles.card}>
+        {/* TODO: пока не правильно считается, изм при save scan/ cancel scan/ void scan */}
+        {/* TODO: в scan response возвращается tubes_count исп его */}
+        {/* <Card className={styles.card}>
           <Statistic
             title="Actual samples"
             // value={
@@ -86,7 +88,7 @@ const SessionStatistic = ({ session }) => {
             formatter={(value) => <Tag color="cyan">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
-        </Card>
+        </Card> */}
       </Col>
     </Row>
   );

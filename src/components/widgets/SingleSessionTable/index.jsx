@@ -3,6 +3,7 @@ import moment from 'moment';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 
 const SingleSessionTable = ({
@@ -12,6 +13,8 @@ const SingleSessionTable = ({
   handleCancelScan,
   loadScan,
 }) => {
+  const scanId = useSelector((state) => state.scanSessions.scan.id);
+
   const columns = [
     { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id', width: 100 },
     { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
@@ -78,12 +81,13 @@ const SingleSessionTable = ({
       pagination={false}
       dataSource={dataForTable}
       scroll={{ y: 200, x: 600 }}
+      rowClassName={(record) => record.key === scanId && styles.highlightedRow}
     />
   );
 };
 
 SingleSessionTable.propTypes = {
-  scansInWork: PropTypes.shape([]).isRequired,
+  scansInWork: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   isLoading: PropTypes.bool.isRequired,
   handleNavigateToScan: PropTypes.func.isRequired,
   handleCancelScan: PropTypes.func.isRequired,

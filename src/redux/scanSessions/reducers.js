@@ -234,6 +234,13 @@ const initialScan = {
 
 const scanReducer = (state = initialScan, action) => {
   switch (action.type) {
+    case actions.RESET_SCAN: {
+      return {
+        ...state,
+        ...initialScan,
+      };
+    }
+
     case actions.FETCH_SCAN_BY_ID_REQUEST: {
       return {
         ...state,
