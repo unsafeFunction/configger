@@ -89,9 +89,9 @@ const ScanSessions = () => {
     },
     {
       title: `Scanned on`,
-      dataIndex: 'started_on_day',
+      dataIndex: 'completed_timestamp',
       render: (_, value) => {
-        return moment(value?.started_on_day).format('llll') || '-';
+        return moment(value?.completed_timestamp).format('llll') || '-';
       },
     },
     {
