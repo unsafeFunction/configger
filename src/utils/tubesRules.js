@@ -4,17 +4,10 @@ import { constants } from 'utils/constants';
 export const countedPoolTubes = filter(constants.tubes, 'countedForPool');
 
 export const emptyPositionsArr = (positionsArr = [], tube = {}) => {
-  if (
-    tube?.status === constants.tubes.deleted.status &&
-    !constants.tubes.incorrectLetters.includes(tube?.position?.[0])
-  ) {
-    return [...positionsArr, tube?.position];
-  }
-
-  if (
-    tube?.status !== constants.tubes.deleted.status &&
-    !constants.tubes.incorrectLetters.includes(tube?.position?.[0])
-  ) {
+  if (!constants.tubes.incorrectLetters.includes(tube?.position?.[0])) {
+    if (tube?.status === constants.tubes.deleted.status) {
+      return [...positionsArr, tube?.position];
+    }
     return positionsArr.filter((position) => position !== tube?.position);
   }
 
@@ -26,6 +19,9 @@ export const incorrectPositionsArr = (positionsArr = [], tube = {}) => {
     constants.tubes.incorrectLetters.includes(tube?.position?.[0]) &&
     constants.tubes.referenceTubePosition !== tube?.position
   ) {
+    if (tube?.status === constants.tubes.deleted.status) {
+      return positionsArr.filter((position) => position !== tube?.position);
+    }
     return [...positionsArr, tube?.position];
   }
 
