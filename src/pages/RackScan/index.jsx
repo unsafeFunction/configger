@@ -1,8 +1,7 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/racks/actions';
 import modalActions from 'redux/modal/actions';
-import { constants } from 'utils/constants';
 import { Row, Col, Button, Typography, Input } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
@@ -103,6 +102,7 @@ const RackScan = () => {
               onChange={onDataChange}
               name="orientation_sign_off"
               placeholder="Orientation sign off"
+              maxLength={4}
               value={rack.orientation_sign_off}
             />
           </Row>
