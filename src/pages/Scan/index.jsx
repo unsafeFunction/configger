@@ -35,7 +35,6 @@ import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
-import { countedPoolTubes } from 'utils/tubesRules';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -92,22 +91,15 @@ const Scan = () => {
   //     }${recentScan?.scan_order + 1}`
   //   : '-';
 
-  const countOfReferencePools = session?.reference_pools_count;
-  const countOfReferenceSamples = session?.reference_samples_count;
-  const completedPools = scans?.filter(
+  const refPoolsCount = session?.reference_pools_count;
+  const refSamplesCount = session?.reference_samples_count;
+  const actualPools = session?.scans?.filter(
     (scan) => scan.status === constants.scanStatuses.completed,
   );
-  const countOfCompletedPools = completedPools.length;
-  const completedSamples = completedPools?.map?.(
-    (scan) =>
-      scan?.scan_tubes?.filter?.((tube) => {
-        return countedPoolTubes.find((t) => t.status === tube.status);
-      })?.length,
-  );
-  const countOfCompletedSamples =
-    completedSamples?.length > 0
-      ? completedSamples?.reduce((acc, curr) => acc + curr)
-      : 0;
+  const actualPoolsCount = actualPools.length;
+  const actualSamplesCount = actualPools.reduce((acc, curr) => {
+    return acc + curr.tubes_count;
+  }, 0);
 
   const goToNextScan = useCallback(() => {
     const nextScanOrder = scans?.find(
@@ -229,10 +221,10 @@ const Scan = () => {
       <Menu.Item
         onClick={() =>
           onSaveSessionModalToggle(
-            countOfReferencePools,
-            countOfReferenceSamples,
-            countOfCompletedPools,
-            countOfCompletedSamples,
+            refPoolsCount,
+            refSamplesCount,
+            actualPoolsCount,
+            actualSamplesCount,
           )
         }
         key="2"
@@ -440,12 +432,7 @@ const Scan = () => {
   ]);
 
   const onSaveSessionModalToggle = useCallback(
-    (
-      countOfReferencePools,
-      countOfReferenceSamples,
-      countOfCompletedPools,
-      countOfCompletedSamples,
-    ) => {
+    (refPoolsCount, refSamplesCount, actualPoolsCount, actualSamplesCount) => {
       dispatch({
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
@@ -459,8 +446,8 @@ const Scan = () => {
           okText: 'Save',
           message: () => {
             if (
-              countOfReferencePools === countOfCompletedPools &&
-              countOfReferenceSamples === countOfCompletedSamples
+              refPoolsCount === actualPoolsCount &&
+              refSamplesCount === actualSamplesCount
             ) {
               return <span>Are you sure to save session?</span>;
             }
@@ -472,18 +459,16 @@ const Scan = () => {
                 description={
                   <>
                     <Paragraph>Are you sure to save session?</Paragraph>
-                    {countOfReferencePools !== countOfCompletedPools && (
+                    {refPoolsCount !== actualPoolsCount && (
                       <Paragraph>
-                        Reference pools ({countOfReferencePools}) don't match
-                        completed scans ({countOfCompletedPools})
+                        Reference pools ({refPoolsCount}) don't match actual
+                        pools ({actualPoolsCount})
                       </Paragraph>
                     )}
-                    {countOfReferenceSamples !== countOfCompletedSamples && (
+                    {refSamplesCount !== actualSamplesCount && (
                       <Paragraph>
-                        Reference samples(
-                        {countOfReferenceSamples}) don't match completed
-                        samples(
-                        {countOfCompletedSamples})
+                        Reference samples ({refSamplesCount}) don't match actual
+                        samples ({actualSamplesCount})
                       </Paragraph>
                     )}
                   </>
@@ -671,7 +656,12 @@ const Scan = () => {
               }
             /> */}
           </div>
-          <SessionStatistic session={session} />
+          <SessionStatistic
+            refPools={refPoolsCount}
+            refSamples={refSamplesCount}
+            actualPools={actualPoolsCount}
+            actualSamples={actualSamplesCount}
+          />
         </Col>
       </Row>
     </>
