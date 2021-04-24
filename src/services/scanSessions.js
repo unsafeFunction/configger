@@ -53,7 +53,7 @@ export const createSession = async ({ intakeLog, scanner }) => {
   }
 };
 
-export const closeSession = async ({ companyId }) => {
+export const closeSession = async () => {
   try {
     const session = await axiosClient.delete('/scans/sessions/active');
 

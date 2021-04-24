@@ -9,6 +9,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import actions from 'redux/scanSessions/actions';
+import helperActions from 'redux/helpers/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -188,6 +189,21 @@ const ScanSessions = () => {
     return dates ? setDates(dateStrings) : setDates([]);
   }, []);
 
+  const exportPool = useCallback(
+    ({ name, poolId }) => {
+      dispatch({
+        type: helperActions.EXPORT_FILE_REQUEST,
+        payload: {
+          link: `/scans/pool/${poolId}/export`,
+          instanceId: poolId,
+          name,
+          contentType: 'text/csv',
+        },
+      });
+    },
+    [dispatch],
+  );
+
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
@@ -226,17 +242,31 @@ const ScanSessions = () => {
                     : '-',
                   scanner: scan.scanner ?? '-',
                   action: (
-                    <Button
-                      onClick={() =>
-                        navigateToScan({
-                          sessionId: record.id,
-                          scanOrder: scan.scan_order,
-                        })
-                      }
-                      type="primary"
-                    >
-                      View pool
-                    </Button>
+                    <>
+                      <Button
+                        onClick={() =>
+                          navigateToScan({
+                            sessionId: record.id,
+                            scanOrder: scan.scan_order,
+                          })
+                        }
+                        className="mr-3"
+                        type="primary"
+                      >
+                        View pool
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          return exportPool({
+                            poolId: scan.id,
+                            name: scan.pool_name,
+                          });
+                        }}
+                        type="primary"
+                      >
+                        Export pool
+                      </Button>
+                    </>
                   ),
                 };
               }),
