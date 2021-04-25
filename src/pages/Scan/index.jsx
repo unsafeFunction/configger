@@ -28,7 +28,7 @@ import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
-import qs from 'qs';
+// import qs from 'qs';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -47,7 +47,7 @@ const Scan = () => {
 
   const [visibleActions, setVisibleActions] = useState(false);
   const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
-  const [currentScanOrder, setCurrentScanOrder] = useState(0);
+  // const [currentScanOrder, setCurrentScanOrder] = useState(0);
   const [isEditOpen, setEditOpen] = useState(false);
   const [changedPoolName, setChangedPoolName] = useState('-');
   const isModalOpen = useSelector((state) => state.modal?.isOpen);
@@ -56,20 +56,26 @@ const Scan = () => {
   const rightArrowRef = useRef(null);
   const sessionId = history.location.pathname.split('/')[2];
 
+  const [scansInWork, setScansInWork] = useState([]);
+  console.log('SCANS IN WORK !!!', scansInWork);
+
   const session = useSelector((state) => state.scanSessions.singleSession);
   const scans = session?.scans;
   const scan = useSelector((state) => state.scanSessions.scan);
 
   const { started, invalid, completed } = constants.scanStatuses;
-  const scanInWork = session?.scans?.find(
-    (s) => s.status === (started || invalid),
-  );
 
-  const scansInWork = [
-    ...(scanInWork ? [scanInWork] : []),
-    ...session?.scans?.filter((scan) => scan.status === completed),
-  ];
-  console.log('SCANS IN WORK !!!', scansInWork);
+  useEffect(() => {
+    const scanInWork = scans?.find((s) => s.status === (started || invalid));
+
+    setScansInWork([
+      ...(scanInWork ? [scanInWork] : []),
+      ...scans?.filter((scan) => scan.status === completed),
+    ]);
+  }, [scans, started, invalid, completed]);
+
+  const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
+  console.log('scanIndex', scanIndex);
 
   // TODO: не понимаю как сейчас вывести Most recent scan
   // const recentScan = scans?.find(
@@ -93,47 +99,11 @@ const Scan = () => {
 
   const refPoolsCount = session?.reference_pools_count;
   const refSamplesCount = session?.reference_samples_count;
-  const actualPools = session?.scans?.filter(
-    (scan) => scan.status === constants.scanStatuses.completed,
-  );
+  const actualPools = scans?.filter((scan) => scan.status === completed);
   const actualPoolsCount = actualPools.length;
   const actualSamplesCount = actualPools.reduce((acc, curr) => {
     return acc + curr.tubes_count;
   }, 0);
-
-  const goToNextScan = useCallback(() => {
-    const nextScanOrder = scans?.find(
-      (scan) => scan.scan_order > currentScanOrder && scan.status !== 'VOIDED',
-    )?.scan_order;
-
-    if (nextScanOrder) {
-      setCurrentScanOrder(nextScanOrder);
-      history.push({ search: `?scanOrder=${nextScanOrder}` });
-    } else {
-      const firstScanOrder = scans.find((scan) => scan.status !== 'VOIDED')
-        ?.scan_order;
-      setCurrentScanOrder(firstScanOrder);
-      history.push({ search: `?scanOrder=${firstScanOrder}` });
-    }
-  }, [history, scans, currentScanOrder]);
-
-  const goToPrevScan = useCallback(() => {
-    const reversedScans = scans?.slice?.().reverse?.();
-    const prevScanOrder = reversedScans?.find(
-      (scan) => scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
-    )?.scan_order;
-
-    if (prevScanOrder >= 0) {
-      setCurrentScanOrder(prevScanOrder);
-      history.push({ search: `?scanOrder=${prevScanOrder}` });
-    } else {
-      const lastScanOrder = reversedScans?.find(
-        (scan) => scan.status !== 'VOIDED',
-      )?.scan_order;
-      setCurrentScanOrder(lastScanOrder);
-      history.push({ search: `?scanOrder=${lastScanOrder}` });
-    }
-  }, [scans, history, currentScanOrder]);
 
   const incorrectPositions = scan?.incorrect_positions?.join(', ');
   const isIncorrectTubes = incorrectPositions?.length > 0;
@@ -246,16 +216,17 @@ const Scan = () => {
   );
 
   useEffect(() => {
-    // console.log(
-    //   'Изменился 1-ый элемент массива scansInWork[] scansInWork[0]?.id',
-    //   scansInWork[0]?.id,
-    // );
+    console.log(
+      'Изменился 1-ый элемент массива scansInWork[] scansInWork[0]?.id',
+      scansInWork[0]?.id,
+    );
 
     if (scansInWork[0]?.id) {
       loadScan(scansInWork[0]?.id);
     } else {
       dispatch({ type: actions.RESET_SCAN });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, loadScan, scansInWork[0]?.id]);
 
   const loadSession = useCallback(() => {
@@ -267,10 +238,10 @@ const Scan = () => {
 
   const useFetching = () => {
     useEffect(() => {
-      const { scanOrder = 0 } = qs.parse(history.location.search, {
-        ignoreQueryPrefix: true,
-      });
-      setCurrentScanOrder(+scanOrder);
+      // const { scanOrder = 0 } = qs.parse(history.location.search, {
+      //   ignoreQueryPrefix: true,
+      // });
+      // setCurrentScanOrder(+scanOrder);
 
       if (!session?.activeSessionId) {
         dispatch({
@@ -306,24 +277,13 @@ const Scan = () => {
     setSessionActionVisible(!isSessionActionsVisible);
   }, [setSessionActionVisible]);
 
-  const handleNavigation = useCallback(
-    ({ direction }) => {
-      if (direction === 'next') {
-        goToNextScan();
-      } else {
-        goToPrevScan();
-      }
-    },
-    [goToNextScan, goToPrevScan],
-  );
-
-  const handleNavigateToScan = useCallback(
-    ({ scanOrder }) => {
-      history.push({ search: `?scanOrder=${scanOrder}` });
-      setCurrentScanOrder(scanOrder);
-    },
-    [history],
-  );
+  // const handleNavigateToScan = useCallback(
+  //   ({ scanOrder }) => {
+  //     history.push({ search: `?scanOrder=${scanOrder}` });
+  //     setCurrentScanOrder(scanOrder);
+  //   },
+  //   [history],
+  // );
 
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
@@ -540,25 +500,31 @@ const Scan = () => {
                       className="mr-2"
                       ref={leftArrowRef}
                       icon={<LeftOutlined />}
-                      // onClick={() => {
-                      //   leftArrowRef.current.blur();
-                      //   return handleNavigation({
-                      //     direction: 'prev',
-                      //   });
-                      // }}
-                      disabled={session?.isLoading}
+                      onClick={() => {
+                        leftArrowRef.current.blur();
+                        return (
+                          scansInWork[scanIndex - 1]?.id &&
+                          loadScan(scansInWork[scanIndex - 1].id)
+                        );
+                      }}
+                      disabled={
+                        session?.isLoading || !scansInWork[scanIndex - 1]
+                      }
                     />
                     <Button
                       className="mr-2"
                       ref={rightArrowRef}
                       icon={<RightOutlined />}
-                      // onClick={() => {
-                      //   rightArrowRef.current.blur();
-                      //   return handleNavigation({
-                      //     direction: 'next',
-                      //   });
-                      // }}
-                      disabled={session?.isLoading}
+                      onClick={() => {
+                        rightArrowRef.current.blur();
+                        return (
+                          scansInWork[scanIndex + 1]?.id &&
+                          loadScan(scansInWork[scanIndex + 1].id)
+                        );
+                      }}
+                      disabled={
+                        session?.isLoading || !scansInWork[scanIndex + 1]
+                      }
                     />
                   </>
                 )}
@@ -591,7 +557,7 @@ const Scan = () => {
               <SingleSessionTable
                 scansInWork={scansInWork}
                 isLoading={session?.isLoading}
-                handleNavigateToScan={handleNavigateToScan}
+                // handleNavigateToScan={handleNavigateToScan}
                 handleCancelScan={handleCancelScan}
                 loadScan={loadScan}
               />

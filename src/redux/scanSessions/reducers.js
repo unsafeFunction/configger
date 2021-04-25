@@ -69,10 +69,8 @@ const initialSingleSession = {
   activeSessionLoading: false,
   intakeLogs: [],
   companyInfoLoading: false,
-  actual_pools_count: null,
-  actual_samples_count: null,
-  reference_pools_count: null,
-  reference_samples_count: null,
+  reference_pools_count: 0,
+  reference_samples_count: 0,
 };
 
 const singleSessionReducer = (state = initialSingleSession, action) => {

@@ -9,7 +9,7 @@ import styles from './styles.module.scss';
 const SingleSessionTable = ({
   scansInWork,
   isLoading,
-  handleNavigateToScan,
+  // handleNavigateToScan,
   handleCancelScan,
   loadScan,
 }) => {
@@ -89,7 +89,7 @@ const SingleSessionTable = ({
 SingleSessionTable.propTypes = {
   scansInWork: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   isLoading: PropTypes.bool.isRequired,
-  handleNavigateToScan: PropTypes.func.isRequired,
+  // handleNavigateToScan: PropTypes.func.isRequired,
   handleCancelScan: PropTypes.func.isRequired,
   loadScan: PropTypes.func.isRequired,
 };
