@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.2.0...v4.3.0) (2021-04-25)
+
+### Features
+
+- add function to processing file name with extenstion ([c13c24e](https://github.com/mokkapps/changelog-generator-demo/commits/c13c24e5285b195c57a51fbe2ea483ee7c3abaa1))
+- add processing to request ([1792e2c](https://github.com/mokkapps/changelog-generator-demo/commits/1792e2c3df6d3b2feb927356d5a78da22bcf4c93))
+
 ## [4.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.1.0...v4.2.0) (2021-04-24)
 
 ### Features
