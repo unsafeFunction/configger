@@ -70,17 +70,12 @@ const Scan = () => {
 
     setScansInWork([
       ...(scanInWork ? [scanInWork] : []),
-      ...scans?.filter((scan) => scan.status === completed),
+      ...scans?.filter((scan) => scan.status === completed).reverse(),
     ]);
   }, [scans, started, invalid, completed]);
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
   console.log('scanIndex', scanIndex);
-
-  // TODO: не понимаю как сейчас вывести Most recent scan
-  // const recentScan = scans?.find(
-  //   (scan) => scan?.scan_order === currentScanOrder - 1,
-  // );
 
   const poolName = scan?.pool_name
     ? scan.pool_name
@@ -88,14 +83,6 @@ const Scan = () => {
     ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${scan?.scan_order +
         1}`
     : '-';
-
-  // const recentScanPoolName = recentScan?.pool_name
-  //   ? recentScan.pool_name
-  //   : recentScan?.scan_order >= 0
-  //   ? `${
-  //       moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
-  //     }${recentScan?.scan_order + 1}`
-  //   : '-';
 
   const refPoolsCount = session?.reference_pools_count;
   const refSamplesCount = session?.reference_samples_count;
@@ -611,16 +598,18 @@ const Scan = () => {
                 </span>
               </div>
             </div>
-            {/* <Statistic
+            <Statistic
               className={styles.companyDetailsStat}
               title="Most Recent Scan:"
               value={
-                scan?.scan_order > 0
-                  ? `${session?.company_short?.name_short} ${recentScanPoolName}
-                  on ${moment(recentScan?.scan_timestamp)?.format('lll')}`
+                scansInWork[1]
+                  ? `${session?.company_short?.name_short} ${
+                      scansInWork[1].pool_name
+                    } 
+                    on ${moment(scansInWork[1].scan_timestamp)?.format('lll')}`
                   : '-'
               }
-            /> */}
+            />
           </div>
           <SessionStatistic
             refPools={refPoolsCount}
