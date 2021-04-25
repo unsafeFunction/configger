@@ -42,8 +42,8 @@ const ScanSessions = () => {
 
       const params = dates.length
         ? {
-            started_on_day_after: dates[0],
-            started_on_day_before: dates[1],
+            completed_timestamp_after: dates[0],
+            completed_timestamp_before: dates[1],
             ...filteringParams,
           }
         : filteringParams;
@@ -139,8 +139,8 @@ const ScanSessions = () => {
 
     const params = dates.length
       ? {
-          started_on_day_after: dates[0],
-          started_on_day_before: dates[1],
+          completed_timestamp_after: dates[0],
+          completed_timestamp_before: dates[1],
           ...filteringParams,
         }
       : filteringParams;
@@ -162,8 +162,8 @@ const ScanSessions = () => {
 
       const params = stateRef.current.length
         ? {
-            started_on_day_after: stateRef.current[0],
-            started_on_day_before: stateRef.current[1],
+            completed_timestamp_after: stateRef.current[0],
+            completed_timestamp_before: stateRef.current[1],
             ...filteringParams,
           }
         : filteringParams;
