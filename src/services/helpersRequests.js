@@ -1,5 +1,6 @@
 import axiosClient from 'utils/axiosClient';
 import saveBlobAs from 'utils/saveAsBlob';
+import nameWithExtension from 'utils/nameWithExtension';
 
 export const downloadFile = async ({ link, instanceId, name, contentType }) => {
   try {
@@ -12,7 +13,10 @@ export const downloadFile = async ({ link, instanceId, name, contentType }) => {
 
     const blobData = new Blob([response.data], { type: contentType });
 
-    saveBlobAs(blobData, name || `Unknown_${instanceId}`);
+    saveBlobAs(
+      blobData,
+      nameWithExtension(name || `Unknown_${instanceId}`, contentType),
+    );
     return response;
   } catch (error) {
     throw new Error(error);
