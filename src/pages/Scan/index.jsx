@@ -28,7 +28,6 @@ import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
-// import qs from 'qs';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -77,12 +76,13 @@ const Scan = () => {
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
   console.log('scanIndex', scanIndex);
 
-  const poolName = scan?.pool_name
-    ? scan.pool_name
-    : scan?.scan_order >= 0
-    ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${scan?.scan_order +
-        1}`
-    : '-';
+  const poolName =
+    scan?.pool_name ??
+    (scan?.scan_order >= 0 && scan?.scan_timestamp
+      ? `${
+          moment(scan?.scan_timestamp)?.format('dddd')?.[0]
+        }${scan?.scan_order + 1}`
+      : '-');
 
   const refPoolsCount = session?.reference_pools_count;
   const refSamplesCount = session?.reference_samples_count;
@@ -264,14 +264,6 @@ const Scan = () => {
     setSessionActionVisible(!isSessionActionsVisible);
   }, [setSessionActionVisible]);
 
-  // const handleNavigateToScan = useCallback(
-  //   ({ scanOrder }) => {
-  //     history.push({ search: `?scanOrder=${scanOrder}` });
-  //     setCurrentScanOrder(scanOrder);
-  //   },
-  //   [history],
-  // );
-
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
     if (isEditOpen) {
@@ -359,7 +351,7 @@ const Scan = () => {
       enterPress &&
       !session?.isLoading &&
       !scan.isLoading &&
-      session.scans.length > 0 &&
+      scans.length > 0 &&
       !isModalOpen
     ) {
       if (isEditOpen) {
@@ -375,7 +367,7 @@ const Scan = () => {
     isModalOpen,
     scan.isLoading,
     session?.isLoading,
-    session.scans.length,
+    scans.length,
   ]);
 
   const onSaveSessionModalToggle = useCallback(
@@ -441,6 +433,7 @@ const Scan = () => {
             icon={<ReloadOutlined />}
             className="mb-2 mr-2"
             type="primary"
+            disabled={session?.isLoading}
           >
             Refresh
           </Button>
@@ -473,9 +466,7 @@ const Scan = () => {
                 type="primary"
                 htmlType="submit"
                 disabled={
-                  session?.isLoading ||
-                  session.scans.length === 0 ||
-                  scan?.isLoading
+                  session?.isLoading || scans.length === 0 || scan?.isLoading
                 }
               >
                 Save Scan
@@ -495,7 +486,9 @@ const Scan = () => {
                         );
                       }}
                       disabled={
-                        session?.isLoading || !scansInWork[scanIndex - 1]
+                        session?.isLoading ||
+                        scan?.isLoading ||
+                        !scansInWork[scanIndex - 1]
                       }
                     />
                     <Button
@@ -510,7 +503,9 @@ const Scan = () => {
                         );
                       }}
                       disabled={
-                        session?.isLoading || !scansInWork[scanIndex + 1]
+                        session?.isLoading ||
+                        scan?.isLoading ||
+                        !scansInWork[scanIndex + 1]
                       }
                     />
                   </>
@@ -526,7 +521,9 @@ const Scan = () => {
                       setVisibleActions(false);
                     }
                   }}
-                  disabled={session?.isLoading || session.scans.length === 0}
+                  disabled={
+                    session?.isLoading || scan?.isLoading || scans.length === 0
+                  }
                 >
                   <Button type="primary">
                     Actions
@@ -542,9 +539,8 @@ const Scan = () => {
           <Row>
             <Col sm={24}>
               <SingleSessionTable
+                session={session}
                 scansInWork={scansInWork}
-                isLoading={session?.isLoading}
-                // handleNavigateToScan={handleNavigateToScan}
                 handleCancelScan={handleCancelScan}
                 loadScan={loadScan}
               />
@@ -572,12 +568,14 @@ const Scan = () => {
             <div className={styles.statisticReplacement}>
               <div className={styles.statisticReplacementTitle}>
                 <p>Pool name: </p>
-                {!session?.isLoading && scan && (
-                  <EditOutlined
-                    onClick={handleOpenEdit}
-                    className={styles.editPoolName}
-                  />
-                )}
+                {!session?.isLoading &&
+                  !scan?.isLoading &&
+                  scans.length > 0 && (
+                    <EditOutlined
+                      onClick={handleOpenEdit}
+                      className={styles.editPoolName}
+                    />
+                  )}
               </div>
               <div className={styles.statisticReplacementContent}>
                 <span className={styles.statisticReplacementValue}>

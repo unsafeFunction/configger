@@ -7,9 +7,8 @@ import { useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 
 const SingleSessionTable = ({
+  session,
   scansInWork,
-  isLoading,
-  // handleNavigateToScan,
   handleCancelScan,
   loadScan,
 }) => {
@@ -50,15 +49,7 @@ const SingleSessionTable = ({
       scanner: scan.scanner ?? '-',
       action: (
         <div className={styles.actions}>
-          <Button
-            // onClick={() =>
-            //   handleNavigateToScan({
-            //     scanOrder: scan.scan_order,
-            //   })
-            // }
-            onClick={() => loadScan(scan.id)}
-            type="primary"
-          >
+          <Button onClick={() => loadScan(scan.id)} type="primary">
             View scan
           </Button>
           {scan.status === 'COMPLETED' && (
@@ -73,10 +64,7 @@ const SingleSessionTable = ({
 
   return (
     <Table
-      loading={
-        // TODO: зачем второе сравнение? третье всегда - false (scansInWork = [])
-        isLoading && (scansInWork.length === 0 || !scansInWork)
-      }
+      loading={session?.isLoading}
       columns={columns}
       pagination={false}
       dataSource={dataForTable}
@@ -87,9 +75,8 @@ const SingleSessionTable = ({
 };
 
 SingleSessionTable.propTypes = {
+  session: PropTypes.shape({}).isRequired,
   scansInWork: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  // handleNavigateToScan: PropTypes.func.isRequired,
   handleCancelScan: PropTypes.func.isRequired,
   loadScan: PropTypes.func.isRequired,
 };
