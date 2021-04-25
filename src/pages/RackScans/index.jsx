@@ -2,9 +2,8 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, Input, Button, Tag, DatePicker, Row, Col } from 'antd';
-import debounce from 'lodash.debounce';
-import { SearchOutlined } from '@ant-design/icons';
+import { Table, Button, Tag, DatePicker, Row, Col } from 'antd';
+import helperActions from 'redux/helpers/actions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/racks/actions';
 import moment from 'moment-timezone';
@@ -48,6 +47,21 @@ const RackScans = () => {
       });
     }, [dates]);
   };
+
+  const exportRack = useCallback(
+    ({ name, poolId }) => {
+      dispatch({
+        type: helperActions.EXPORT_FILE_REQUEST,
+        payload: {
+          link: `/scans/rack/${poolId}/export`,
+          instanceId: poolId,
+          name,
+          contentType: 'text/csv',
+        },
+      });
+    },
+    [dispatch],
+  );
 
   useFetching();
 
@@ -112,8 +126,23 @@ const RackScans = () => {
       render: (_, record) => {
         return (
           <div className={styles.actions}>
-            <Button onClick={() => navigateToScan(record.id)} type="primary">
+            <Button
+              className="mr-3"
+              onClick={() => navigateToScan(record.id)}
+              type="primary"
+            >
               View rack
+            </Button>
+            <Button
+              onClick={() => {
+                return exportRack({
+                  poolId: record.id,
+                  name: record.pool_name,
+                });
+              }}
+              type="primary"
+            >
+              Export rack
             </Button>
           </div>
         );
@@ -144,47 +173,6 @@ const RackScans = () => {
     });
   }, [dispatch, racks, searchName, dates]);
 
-  const sendQuery = useCallback(
-    (query) => {
-      const filteringParams = {
-        limit: constants.poolRacks.itemsLoadingCount,
-        search: query,
-      };
-
-      const params = stateRef.current.length
-        ? {
-            scan_timestamp_after: stateRef.current[0],
-            scan_timestamp_before: stateRef.current[1],
-            ...filteringParams,
-          }
-        : filteringParams;
-
-      return dispatch({
-        type: actions.FETCH_RACKS_REQUEST,
-        payload: {
-          ...params,
-        },
-      });
-    },
-    [dispatch],
-  );
-
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
-
-  const onChangeSearch = useCallback(
-    (e) => {
-      const { target } = e;
-
-      setSearchName(target.value);
-
-      return delayedQuery(target.value);
-    },
-    [delayedQuery],
-  );
-
   const onDatesChange = useCallback((dates, dateStrings) => {
     return dates ? setDates(dateStrings) : setDates([]);
   }, []);
@@ -202,7 +190,6 @@ const RackScans = () => {
         <Table
           dataSource={racksItems}
           columns={columns}
-          scroll={{ x: 1000 }}
           bordered
           loading={racks?.isLoading}
           align="center"
@@ -217,16 +204,7 @@ const RackScans = () => {
                 lg={{ span: 7, offset: 10 }}
                 xl={{ span: 6, offset: 12 }}
                 xxl={{ span: 7, offset: 12 }}
-              >
-                {/* TODO: leave here */}
-                {/* <Input
-                  prefix={<SearchOutlined />}
-                  placeholder="Search..."
-                  value={searchName}
-                  onChange={onChangeSearch}
-                  className={classNames(styles.tableHeaderItem, styles.search)}
-                /> */}
-              </Col>
+              />
               <Col
                 xs={{ span: 24 }}
                 sm={{ span: 12 }}

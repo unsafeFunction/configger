@@ -17,6 +17,7 @@ import settings from './settings/sagas';
 import templateGeneration from './templateGeneration/sagas';
 import user from './user/sagas';
 import userSettings from './userSettings/sagas';
+import helpers from './helpers/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -38,5 +39,6 @@ export default function* rootSaga() {
     templateGeneration(),
     analysisRuns(),
     scanners(),
+    helpers(),
   ]);
 }

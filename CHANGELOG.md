@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.1.0...v4.2.0) (2021-04-24)
+
+### Features
+
+- add export for pool and add validation for sign off input ([6be764d](https://github.com/mokkapps/changelog-generator-demo/commits/6be764d48ff5529b2039edf0a32bbe0b1546b1f0))
+- add export for rack ([80df5fb](https://github.com/mokkapps/changelog-generator-demo/commits/80df5fb2357d90b2f2fe9858e523c83aafbd1d1c))
+- add helpers for comman requests ([399937e](https://github.com/mokkapps/changelog-generator-demo/commits/399937e217e2377830905ac41cdfe797b9623744))
+- bind a scanner to a session ([f3eaba5](https://github.com/mokkapps/changelog-generator-demo/commits/f3eaba5a67ab464cbeac67a35d564211fe5b9602))
+
+### Bug Fixes
+
+- count tubes for completed pool scans ([563819f](https://github.com/mokkapps/changelog-generator-demo/commits/563819fd736456181e52b5e1c347ea8186c27a68))
+- delete extra comment ([d8c5ef4](https://github.com/mokkapps/changelog-generator-demo/commits/d8c5ef44e076990ecbdd470fda6c153cb0686cf6))
+- edit pool name ([19fbfc5](https://github.com/mokkapps/changelog-generator-demo/commits/19fbfc552165fe1f76faf78643b62b461db50adc))
+- f8 pos ([dd20059](https://github.com/mokkapps/changelog-generator-demo/commits/dd20059b5a4fe3b0b8ed4939a3b54135dc396a05))
+- fetch company error ([148ee85](https://github.com/mokkapps/changelog-generator-demo/commits/148ee855a58dda65e0c1d1650646fe132a98e074))
+- fix pool names ([31ce703](https://github.com/mokkapps/changelog-generator-demo/commits/31ce703c3db5859b46411aac88e82ac9410a96be))
+- menu styles ([e905fb0](https://github.com/mokkapps/changelog-generator-demo/commits/e905fb02e7e1d57622f9cb5a7e357220d96d937f))
+- new log dropdowns ([95b96ed](https://github.com/mokkapps/changelog-generator-demo/commits/95b96ed63ac952db4851dc3c46f2fdc9239498fd))
+- pool scans scanned on ([26d0f0a](https://github.com/mokkapps/changelog-generator-demo/commits/26d0f0abc275659fccebcd763fb6aea2a2b213c9))
+- recent scan ([5b6da7e](https://github.com/mokkapps/changelog-generator-demo/commits/5b6da7e4979314a94b167e9fb02ce36eb913563e))
+- reduce sessions count ([e5661ff](https://github.com/mokkapps/changelog-generator-demo/commits/e5661ff15d1fd68d639427c80f3104974c0a6652))
+- status request ([9001897](https://github.com/mokkapps/changelog-generator-demo/commits/9001897e24b062c14fc88d17ed7d8730a91d8d66))
+
 ## [4.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.0.0...v4.1.0) (2021-04-14)
 
 ### Features

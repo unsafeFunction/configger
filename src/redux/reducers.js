@@ -19,6 +19,7 @@ import settings from './settings/reducers';
 import templateGeneration from './templateGeneration/reducers';
 import user from './user/reducers';
 import userSettings from './userSettings/reducers';
+import helpersReducer from './helpers/reducers';
 
 export default (history) =>
   combineReducers({
@@ -42,4 +43,5 @@ export default (history) =>
     templateGeneration,
     analysisRuns,
     scanners,
+    helpersReducer,
   });
