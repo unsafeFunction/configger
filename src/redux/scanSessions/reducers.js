@@ -132,6 +132,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     case actions.FETCH_SESSION_ID_REQUEST: {
       return {
         ...state,
+        ...initialSingleSession,
         isLoading: true,
       };
     }
