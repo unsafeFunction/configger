@@ -2,40 +2,37 @@ import { Col, Row, Statistic } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import PoolStatistic from 'components/widgets/Scans/PoolStatistic';
 import moment from 'moment-timezone';
-import qs from 'qs';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import actions from 'redux/scanSessions/actions';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
-const Pool = () => {
+const PoolScan = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const { pathname } = useLocation();
 
-  const [currentScanOrder, setCurrentScanOrder] = useState(0);
+  const sessionId = pathname.split('/')[2];
+  const scanId = pathname.split('/')[3];
 
-  const sessionId = history.location.pathname.split('/')[2];
-
-  const session = useSelector((state) => state.scanSessions?.singleSession);
-  const scan = session?.scans?.find(
-    (scan) => scan.scan_order === currentScanOrder,
-  );
+  const session = useSelector((state) => state.scanSessions.singleSession);
+  const scan = useSelector((state) => state.scanSessions.scan);
 
   const companyInfo = session?.company_short;
 
   const useFetching = () => {
     useEffect(() => {
-      const { scanOrder = 0 } = qs.parse(history.location.search, {
-        ignoreQueryPrefix: true,
-      });
-      setCurrentScanOrder(+scanOrder);
-
+      // TODO: in some cases this request is unnecessary
       dispatch({
         type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
         payload: { sessionId },
+      });
+
+      dispatch({
+        type: actions.FETCH_SCAN_BY_ID_REQUEST,
+        payload: { scanId },
       });
     }, []);
   };
@@ -91,7 +88,11 @@ const Pool = () => {
           <Statistic
             className={styles.scanStat}
             title="Scanned on:"
-            value={moment(scan?.scan_timestamp).format('llll') ?? '–'}
+            value={
+              scan?.scan_timestamp
+                ? moment(scan.scan_timestamp).format('llll')
+                : '–'
+            }
           />
           <Statistic
             className={styles.scanStat}
@@ -101,7 +102,11 @@ const Pool = () => {
           <Statistic
             className={styles.scanStat}
             title="Last modified on:"
-            value={moment(scan?.last_modified_on).format('llll') ?? '–'}
+            value={
+              scan?.last_modified_on
+                ? moment(scan.last_modified_on).format('llll')
+                : '–'
+            }
           />
           <Statistic
             className={styles.scanStat}
@@ -114,4 +119,4 @@ const Pool = () => {
   );
 };
 
-export default Pool;
+export default PoolScan;

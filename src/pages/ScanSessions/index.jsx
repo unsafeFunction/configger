@@ -2,14 +2,13 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Button, Col, DatePicker, Input, Row, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
-import sortBy from 'lodash.sortby';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import actions from 'redux/scanSessions/actions';
 import helperActions from 'redux/helpers/actions';
+import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -20,12 +19,19 @@ const { RangePicker } = DatePicker;
 const ScanSessions = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [openedRow, setOpenedRow] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [dates, setDates] = useState([]);
   const stateRef = useRef();
   stateRef.current = dates;
 
-  const scanSessions = useSelector((state) => state.scanSessions.sessions);
+  const { items: sessionItems, isLoading, total, offset } = useSelector(
+    (state) => state.scanSessions.sessions,
+  );
+
+  const { scans, isLoading: scansIsLoading } = useSelector(
+    (state) => state.scanSessions.singleSession,
+  );
 
   const useFetching = () => {
     useEffect(() => {
@@ -36,8 +42,8 @@ const ScanSessions = () => {
 
       const params = dates.length
         ? {
-            started_on_day_after: dates[0],
-            started_on_day_before: dates[1],
+            completed_timestamp_after: dates[0],
+            completed_timestamp_before: dates[1],
             ...filteringParams,
           }
         : filteringParams;
@@ -48,19 +54,15 @@ const ScanSessions = () => {
           ...params,
         },
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dates]);
   };
 
   useFetching();
 
-  const sessionItems = scanSessions?.items;
-
   const navigateToScan = useCallback(
-    ({ sessionId, scanOrder }) => {
-      history.push({
-        pathname: `/pool-scans/${sessionId}`,
-        search: `?scanOrder=${scanOrder}`,
-      });
+    ({ sessionId, scanId }) => {
+      history.push({ pathname: `/pool-scans/${sessionId}/${scanId}` });
     },
     [history],
   );
@@ -118,20 +120,27 @@ const ScanSessions = () => {
       { title: 'Action', dataIndex: 'action', key: 'action' },
     ];
 
-    return <Table columns={columns} dataSource={scan} pagination={false} />;
+    return (
+      <Table
+        columns={columns}
+        dataSource={scan}
+        pagination={false}
+        loading={scansIsLoading}
+      />
+    );
   };
 
   const loadMore = useCallback(() => {
     const filteringParams = {
       limit: constants.scanSessions.itemsLoadingCount,
-      offset: scanSessions.offset,
+      offset,
       search: searchName,
     };
 
     const params = dates.length
       ? {
-          started_on_day_after: dates[0],
-          started_on_day_before: dates[1],
+          completed_timestamp_after: dates[0],
+          completed_timestamp_before: dates[1],
           ...filteringParams,
         }
       : filteringParams;
@@ -142,7 +151,7 @@ const ScanSessions = () => {
         ...params,
       },
     });
-  }, [dispatch, scanSessions, searchName, dates]);
+  }, [dispatch, searchName, dates, offset]);
 
   const sendQuery = useCallback(
     (query) => {
@@ -153,8 +162,8 @@ const ScanSessions = () => {
 
       const params = stateRef.current.length
         ? {
-            started_on_day_after: stateRef.current[0],
-            started_on_day_before: stateRef.current[1],
+            completed_timestamp_after: stateRef.current[0],
+            completed_timestamp_before: stateRef.current[1],
             ...filteringParams,
           }
         : filteringParams;
@@ -189,6 +198,21 @@ const ScanSessions = () => {
     return dates ? setDates(dateStrings) : setDates([]);
   }, []);
 
+  const handleExpand = useCallback(
+    (expanded, record) => {
+      if (expanded) {
+        setOpenedRow([record.id]);
+        dispatch({
+          type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
+          payload: { sessionId: record.id },
+        });
+      } else {
+        setOpenedRow([]);
+      }
+    },
+    [dispatch],
+  );
+
   const exportPool = useCallback(
     ({ name, poolId }) => {
       dispatch({
@@ -212,7 +236,7 @@ const ScanSessions = () => {
 
       <InfiniteScroll
         next={loadMore}
-        hasMore={sessionItems.length < scanSessions?.total}
+        hasMore={sessionItems.length < total}
         dataLength={sessionItems?.length}
       >
         <Table
@@ -220,17 +244,22 @@ const ScanSessions = () => {
           columns={columns}
           scroll={{ x: 1000 }}
           bordered
-          loading={!scanSessions?.isLoading}
+          loading={!isLoading}
           align="center"
           pagination={false}
           rowKey={(record) => record.id}
+          expandRowByClick
+          expandedRowKeys={openedRow}
+          onExpand={handleExpand}
           expandedRowRender={(record) => {
             return expandedRow(
-              sortBy(record.scans, 'scan_order').map((scan) => {
+              scans.map((scan) => {
                 return {
                   key: scan.id,
                   pool_id: scan.pool_id,
-                  scan_time: moment(scan.scan_timestamp).format('LLLL'),
+                  scan_time: scan.scan_timestamp
+                    ? moment(scan.scan_timestamp).format('LLLL')
+                    : '-',
                   // TODO: temp
                   // pool_name: scan?.pool_name ? scan.pool_name : '-',
                   pool_name: scan?.pool_name
@@ -247,7 +276,7 @@ const ScanSessions = () => {
                         onClick={() =>
                           navigateToScan({
                             sessionId: record.id,
-                            scanOrder: scan.scan_order,
+                            scanId: scan.id,
                           })
                         }
                         className="mr-3"

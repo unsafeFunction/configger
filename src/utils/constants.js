@@ -25,6 +25,7 @@ export const constants = {
     voided: 'VOIDED',
     started: 'STARTED',
     completed: 'COMPLETED',
+    invalid: 'INVALID',
   },
   tubes: {
     // default

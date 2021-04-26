@@ -19,7 +19,6 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
     (state) => state.scanSessions?.singleSession,
   );
   const { modalId } = useSelector((state) => state.modal.modalProps);
-  console.log(rackboard);
   const isIncorrectPositions = rackboard?.incorrect_positions?.length > 0;
 
   const [form] = Form.useForm();
@@ -299,7 +298,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
       <Table
         columns={columns}
         dataSource={rackboard?.items ?? initialRackboard}
-        loading={session?.isLoading}
+        loading={session?.isLoading || rackboard?.isLoading}
         pagination={false}
         scroll={{ x: 'max-content' }}
         bordered

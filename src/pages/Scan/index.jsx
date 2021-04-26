@@ -28,14 +28,12 @@ import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
-import qs from 'qs';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
-import { countedPoolTubes } from 'utils/tubesRules';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -48,7 +46,6 @@ const Scan = () => {
 
   const [visibleActions, setVisibleActions] = useState(false);
   const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
-  const [currentScanOrder, setCurrentScanOrder] = useState(0);
   const [isEditOpen, setEditOpen] = useState(false);
   const [changedPoolName, setChangedPoolName] = useState('-');
   const isModalOpen = useSelector((state) => state.modal?.isOpen);
@@ -57,14 +54,24 @@ const Scan = () => {
   const rightArrowRef = useRef(null);
   const sessionId = history.location.pathname.split('/')[2];
 
-  const session = useSelector((state) => state.scanSessions?.singleSession);
+  const [scansInWork, setScansInWork] = useState([]);
+
+  const session = useSelector((state) => state.scanSessions.singleSession);
   const scans = session?.scans;
-  const scan = session?.scans?.find(
-    (scan) => scan.scan_order === currentScanOrder,
-  );
-  const recentScan = scans?.find(
-    (scan) => scan?.scan_order === currentScanOrder - 1,
-  );
+  const scan = useSelector((state) => state.scanSessions.scan);
+
+  const { started, invalid, completed } = constants.scanStatuses;
+
+  useEffect(() => {
+    const scanInWork = scans?.find((s) => s.status === (started || invalid));
+
+    setScansInWork([
+      ...(scanInWork ? [scanInWork] : []),
+      ...scans?.filter((scan) => scan.status === completed).reverse(),
+    ]);
+  }, [scans, started, invalid, completed]);
+
+  const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
   const poolName = scan?.pool_name
     ? scan.pool_name
@@ -73,81 +80,29 @@ const Scan = () => {
         1}`
     : '-';
 
-  const recentScanPoolName = recentScan?.pool_name
-    ? recentScan.pool_name
-    : recentScan?.scan_order >= 0
-    ? `${
-        moment(recentScan?.scan_timestamp)?.format('dddd')?.[0]
-      }${recentScan?.scan_order + 1}`
-    : '-';
+  const refPoolsCount = session?.reference_pools_count;
+  const refSamplesCount = session?.reference_samples_count;
+  const actualPools = scans?.filter((scan) => scan.status === completed);
+  const actualPoolsCount = actualPools.length;
+  const actualSamplesCount = actualPools.reduce((acc, curr) => {
+    return acc + curr.tubes_count;
+  }, 0);
 
-  const countOfReferencePools = session?.reference_pools_count;
-  const countOfReferenceSamples = session?.reference_samples_count;
-  const completedPools = scans?.filter(
-    (scan) => scan.status === constants.scanStatuses.completed,
-  );
-  const countOfCompletedPools = completedPools.length;
-  const completedSamples = completedPools?.map?.(
-    (scan) =>
-      scan?.scan_tubes?.filter?.((tube) => {
-        return countedPoolTubes.find((t) => t.status === tube.status);
-      })?.length,
-  );
-  const countOfCompletedSamples =
-    completedSamples?.length > 0
-      ? completedSamples?.reduce((acc, curr) => acc + curr)
-      : 0;
-
-  const goToNextScan = useCallback(() => {
-    const nextScanOrder = scans?.find(
-      (scan) => scan.scan_order > currentScanOrder && scan.status !== 'VOIDED',
-    )?.scan_order;
-
-    if (nextScanOrder) {
-      setCurrentScanOrder(nextScanOrder);
-      history.push({ search: `?scanOrder=${nextScanOrder}` });
-    } else {
-      const firstScanOrder = scans.find((scan) => scan.status !== 'VOIDED')
-        ?.scan_order;
-      setCurrentScanOrder(firstScanOrder);
-      history.push({ search: `?scanOrder=${firstScanOrder}` });
-    }
-  }, [history, scans, currentScanOrder]);
-
-  const goToPrevScan = useCallback(() => {
-    const reversedScans = scans?.slice?.().reverse?.();
-    const prevScanOrder = reversedScans?.find(
-      (scan) => scan.scan_order < currentScanOrder && scan.status !== 'VOIDED',
-    )?.scan_order;
-
-    if (prevScanOrder >= 0) {
-      setCurrentScanOrder(prevScanOrder);
-      history.push({ search: `?scanOrder=${prevScanOrder}` });
-    } else {
-      const lastScanOrder = reversedScans?.find(
-        (scan) => scan.status !== 'VOIDED',
-      )?.scan_order;
-      setCurrentScanOrder(lastScanOrder);
-      history.push({ search: `?scanOrder=${lastScanOrder}` });
-    }
-  }, [scans, history, currentScanOrder]);
-
-  const scansTotal = session?.scans?.length;
   const incorrectPositions = scan?.incorrect_positions?.join(', ');
   const isIncorrectTubes = incorrectPositions?.length > 0;
   const emptyPosition = scan?.empty_positions?.join(', ');
   const isEmptyTubes = emptyPosition?.length > 0;
 
   const companyInfo = session?.company_short;
-  const deleteScan = useCallback(
-    (data) => {
-      dispatch({
-        type: actions.VOID_SCAN_BY_ID_REQUEST,
-        payload: { ...data },
-      });
-    },
-    [dispatch],
-  );
+
+  const deleteScan = useCallback(() => {
+    dispatch({
+      type: actions.VOID_SCAN_BY_ID_REQUEST,
+      payload: { id: scan?.id },
+    });
+
+    setVisibleActions(false);
+  }, [dispatch, scan]);
 
   const updateScan = useCallback(
     (data) => {
@@ -156,19 +111,11 @@ const Scan = () => {
         payload: {
           data: { ...data, pool_name: poolName, status: 'COMPLETED' },
           id: scan?.id,
-          callback: goToNextScan,
         },
       });
     },
-    [dispatch, scan, scansTotal, currentScanOrder],
+    [dispatch, scan, poolName],
   );
-
-  const handleVoidScan = useCallback(() => {
-    goToNextScan();
-    deleteScan({ id: scan?.id });
-
-    setVisibleActions(false);
-  }, [scan, goToNextScan, deleteScan]);
 
   const updateSession = useCallback(
     (data) => {
@@ -204,7 +151,7 @@ const Scan = () => {
           title="Are you sure to Void Scan?"
           okText="Yes"
           cancelText="No"
-          onConfirm={handleVoidScan}
+          onConfirm={deleteScan}
         >
           Void Scan
         </Popconfirm>
@@ -227,10 +174,10 @@ const Scan = () => {
       <Menu.Item
         onClick={() =>
           onSaveSessionModalToggle(
-            countOfReferencePools,
-            countOfReferenceSamples,
-            countOfCompletedPools,
-            countOfCompletedSamples,
+            refPoolsCount,
+            refSamplesCount,
+            actualPoolsCount,
+            actualSamplesCount,
           )
         }
         key="2"
@@ -241,6 +188,25 @@ const Scan = () => {
     </Menu>
   );
 
+  const loadScan = useCallback(
+    (scanId) => {
+      dispatch({
+        type: actions.FETCH_SCAN_BY_ID_REQUEST,
+        payload: { scanId },
+      });
+    },
+    [dispatch],
+  );
+
+  useEffect(() => {
+    if (scansInWork[0]?.id) {
+      loadScan(scansInWork[0]?.id);
+    } else {
+      dispatch({ type: actions.RESET_SCAN });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, loadScan, scansInWork[0]?.id]);
+
   const loadSession = useCallback(() => {
     dispatch({
       type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
@@ -250,11 +216,6 @@ const Scan = () => {
 
   const useFetching = () => {
     useEffect(() => {
-      const { scanOrder = 0 } = qs.parse(history.location.search, {
-        ignoreQueryPrefix: true,
-      });
-      setCurrentScanOrder(+scanOrder);
-
       if (!session?.activeSessionId) {
         dispatch({
           type: actions.FETCH_SESSION_ID_REQUEST,
@@ -262,6 +223,8 @@ const Scan = () => {
       }
     }, []);
   };
+
+  useFetching();
 
   useEffect(() => {
     if (session?.activeSessionId && sessionId) {
@@ -275,8 +238,6 @@ const Scan = () => {
     }
   }, [session.activeSessionId, sessionId]);
 
-  useFetching();
-
   useEffect(() => {
     setChangedPoolName(scan?.pool_name || poolName);
   }, [scan]);
@@ -288,25 +249,6 @@ const Scan = () => {
   const handleSessionActionVisible = useCallback(() => {
     setSessionActionVisible(!isSessionActionsVisible);
   }, [setSessionActionVisible]);
-
-  const handleNavigation = useCallback(
-    ({ direction }) => {
-      if (direction === 'next') {
-        goToNextScan();
-      } else {
-        goToPrevScan();
-      }
-    },
-    [goToNextScan, goToPrevScan],
-  );
-
-  const handleNavigateToScan = useCallback(
-    ({ scanOrder }) => {
-      history.push({ search: `?scanOrder=${scanOrder}` });
-      setCurrentScanOrder(scanOrder);
-    },
-    [history],
-  );
 
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
@@ -326,9 +268,7 @@ const Scan = () => {
     dispatch({
       type: actions.UPDATE_SCAN_BY_ID_REQUEST,
       payload: {
-        data: {
-          pool_name: changedPoolName,
-        },
+        data: { pool_name: changedPoolName },
         id: scan?.id,
       },
     });
@@ -340,9 +280,7 @@ const Scan = () => {
       dispatch({
         type: actions.CANCEL_SCAN_BY_ID_REQUEST,
         payload: {
-          data: {
-            status: 'STARTED',
-          },
+          data: { status: 'STARTED' },
           id: scan?.id,
         },
       });
@@ -398,7 +336,8 @@ const Scan = () => {
     if (
       enterPress &&
       !session?.isLoading &&
-      session.scans.length > 0 &&
+      !scan.isLoading &&
+      scans.length > 0 &&
       !isModalOpen
     ) {
       if (isEditOpen) {
@@ -406,15 +345,19 @@ const Scan = () => {
       }
       return onSaveScanModalToggle();
     }
-  }, [enterPress, onSaveScanModalToggle]);
+  }, [
+    enterPress,
+    onSaveScanModalToggle,
+    handleSavePoolName,
+    isEditOpen,
+    isModalOpen,
+    scan.isLoading,
+    session?.isLoading,
+    scans.length,
+  ]);
 
   const onSaveSessionModalToggle = useCallback(
-    (
-      countOfReferencePools,
-      countOfReferenceSamples,
-      countOfCompletedPools,
-      countOfCompletedSamples,
-    ) => {
+    (refPoolsCount, refSamplesCount, actualPoolsCount, actualSamplesCount) => {
       dispatch({
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
@@ -428,8 +371,8 @@ const Scan = () => {
           okText: 'Save',
           message: () => {
             if (
-              countOfReferencePools === countOfCompletedPools &&
-              countOfReferenceSamples === countOfCompletedSamples
+              refPoolsCount === actualPoolsCount &&
+              refSamplesCount === actualSamplesCount
             ) {
               return <span>Are you sure to save session?</span>;
             }
@@ -441,18 +384,16 @@ const Scan = () => {
                 description={
                   <>
                     <Paragraph>Are you sure to save session?</Paragraph>
-                    {countOfReferencePools !== countOfCompletedPools && (
+                    {refPoolsCount !== actualPoolsCount && (
                       <Paragraph>
-                        Reference pools ({countOfReferencePools}) don't match
-                        completed scans ({countOfCompletedPools})
+                        Reference pools ({refPoolsCount}) don't match actual
+                        pools ({actualPoolsCount})
                       </Paragraph>
                     )}
-                    {countOfReferenceSamples !== countOfCompletedSamples && (
+                    {refSamplesCount !== actualSamplesCount && (
                       <Paragraph>
-                        Reference samples(
-                        {countOfReferenceSamples}) don't match completed
-                        samples(
-                        {countOfCompletedSamples})
+                        Reference samples ({refSamplesCount}) don't match actual
+                        samples ({actualSamplesCount})
                       </Paragraph>
                     )}
                   </>
@@ -478,6 +419,7 @@ const Scan = () => {
             icon={<ReloadOutlined />}
             className="mb-2 mr-2"
             type="primary"
+            disabled={session?.isLoading}
           >
             Refresh
           </Button>
@@ -509,12 +451,14 @@ const Scan = () => {
                 onClick={onSaveScanModalToggle}
                 type="primary"
                 htmlType="submit"
-                disabled={session?.isLoading || session.scans.length === 0}
+                disabled={
+                  session?.isLoading || scans.length === 0 || scan?.isLoading
+                }
               >
                 Save Scan
               </Button>
               <div>
-                {scansTotal > 1 && (
+                {scansInWork.length > 1 && (
                   <>
                     <Button
                       className="mr-2"
@@ -522,11 +466,16 @@ const Scan = () => {
                       icon={<LeftOutlined />}
                       onClick={() => {
                         leftArrowRef.current.blur();
-                        return handleNavigation({
-                          direction: 'prev',
-                        });
+                        return (
+                          scansInWork[scanIndex - 1]?.id &&
+                          loadScan(scansInWork[scanIndex - 1].id)
+                        );
                       }}
-                      disabled={session?.isLoading}
+                      disabled={
+                        session?.isLoading ||
+                        scan?.isLoading ||
+                        !scansInWork[scanIndex - 1]
+                      }
                     />
                     <Button
                       className="mr-2"
@@ -534,11 +483,16 @@ const Scan = () => {
                       icon={<RightOutlined />}
                       onClick={() => {
                         rightArrowRef.current.blur();
-                        return handleNavigation({
-                          direction: 'next',
-                        });
+                        return (
+                          scansInWork[scanIndex + 1]?.id &&
+                          loadScan(scansInWork[scanIndex + 1].id)
+                        );
                       }}
-                      disabled={session?.isLoading}
+                      disabled={
+                        session?.isLoading ||
+                        scan?.isLoading ||
+                        !scansInWork[scanIndex + 1]
+                      }
                     />
                   </>
                 )}
@@ -553,7 +507,9 @@ const Scan = () => {
                       setVisibleActions(false);
                     }
                   }}
-                  disabled={session?.isLoading || session.scans.length === 0}
+                  disabled={
+                    session?.isLoading || scan?.isLoading || scans.length === 0
+                  }
                 >
                   <Button type="primary">
                     Actions
@@ -570,8 +526,9 @@ const Scan = () => {
             <Col sm={24}>
               <SingleSessionTable
                 session={session}
-                handleNavigateToScan={handleNavigateToScan}
+                scansInWork={scansInWork}
                 handleCancelScan={handleCancelScan}
+                loadScan={loadScan}
               />
             </Col>
           </Row>
@@ -597,12 +554,14 @@ const Scan = () => {
             <div className={styles.statisticReplacement}>
               <div className={styles.statisticReplacementTitle}>
                 <p>Pool name: </p>
-                {!session?.isLoading && scan && (
-                  <EditOutlined
-                    onClick={handleOpenEdit}
-                    className={styles.editPoolName}
-                  />
-                )}
+                {!session?.isLoading &&
+                  !scan?.isLoading &&
+                  scans.length > 0 && (
+                    <EditOutlined
+                      onClick={handleOpenEdit}
+                      className={styles.editPoolName}
+                    />
+                  )}
               </div>
               <div className={styles.statisticReplacementContent}>
                 <span className={styles.statisticReplacementValue}>
@@ -627,14 +586,21 @@ const Scan = () => {
               className={styles.companyDetailsStat}
               title="Most Recent Scan:"
               value={
-                scan?.scan_order > 0
-                  ? `${session?.company_short?.name_short} ${recentScanPoolName}
-                  on ${moment(recentScan?.scan_timestamp)?.format('lll')}`
+                scansInWork[1]
+                  ? `${session?.company_short?.name_short} ${
+                      scansInWork[1].pool_name
+                    } 
+                    on ${moment(scansInWork[1].scan_timestamp)?.format('lll')}`
                   : '-'
               }
             />
           </div>
-          <SessionStatistic session={session} />
+          <SessionStatistic
+            refPools={refPoolsCount}
+            refSamples={refSamplesCount}
+            actualPools={actualPoolsCount}
+            actualSamples={actualSamplesCount}
+          />
         </Col>
       </Row>
     </>

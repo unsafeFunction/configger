@@ -1,25 +1,16 @@
 import { Card, Col, Row, Statistic, Tag } from 'antd';
 import classNames from 'classnames';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React from 'react';
-import { constants } from 'utils/constants';
-import { countedPoolTubes } from 'utils/tubesRules';
 import styles from '../styles.module.scss';
 
-const SessionStatistic = ({ session }) => {
-  const actualPools = session?.scans?.filter(
-    (scan) => scan.status === constants.scanStatuses.completed,
-  );
-
-  const countOfActualPools = actualPools.length;
-
-  const actualSamples = actualPools?.map?.(
-    (scan) =>
-      scan?.scan_tubes?.filter?.((tube) => {
-        return countedPoolTubes.find((t) => t.status === tube.status);
-      })?.length,
-  );
-
+const SessionStatistic = ({
+  refPools,
+  refSamples,
+  actualPools,
+  actualSamples,
+}) => {
   return (
     <Row gutter={[24, 16]}>
       <Col
@@ -31,7 +22,7 @@ const SessionStatistic = ({ session }) => {
         <Card className={styles.card}>
           <Statistic
             title="Reference pools"
-            value={session?.reference_pools_count ?? '-'}
+            value={refPools ?? '-'}
             formatter={(value) => <Tag color="geekblue">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
@@ -46,7 +37,7 @@ const SessionStatistic = ({ session }) => {
         <Card className={styles.card}>
           <Statistic
             title="Actual pools"
-            value={countOfActualPools}
+            value={actualPools}
             formatter={(value) => <Tag color="geekblue">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
@@ -61,7 +52,7 @@ const SessionStatistic = ({ session }) => {
         <Card className={styles.card}>
           <Statistic
             title="Reference samples"
-            value={session?.reference_samples_count ?? '-'}
+            value={refSamples ?? '-'}
             formatter={(value) => <Tag color="cyan">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
@@ -76,11 +67,7 @@ const SessionStatistic = ({ session }) => {
         <Card className={styles.card}>
           <Statistic
             title="Actual samples"
-            value={
-              actualSamples?.length > 0
-                ? actualSamples.reduce((acc, curr) => acc + curr)
-                : 0
-            }
+            value={actualSamples}
             formatter={(value) => <Tag color="cyan">{value}</Tag>}
             className={classNames(styles.statistic, styles.ellipsis)}
           />
@@ -91,7 +78,10 @@ const SessionStatistic = ({ session }) => {
 };
 
 SessionStatistic.propTypes = {
-  session: PropTypes.shape({}).isRequired,
+  refPools: PropTypes.number.isRequired,
+  refSamples: PropTypes.number.isRequired,
+  actualPools: PropTypes.number.isRequired,
+  actualSamples: PropTypes.number.isRequired,
 };
 
 export default SessionStatistic;
