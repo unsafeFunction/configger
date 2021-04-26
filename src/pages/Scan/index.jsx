@@ -73,12 +73,22 @@ const Scan = () => {
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
-  const poolName = scan?.pool_name
-    ? scan.pool_name
-    : scan?.scan_order >= 0
-    ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${scan?.scan_order +
-        1}`
-    : '-';
+  const getPoolName = useCallback(() => {
+    if (scan?.isLoading || session?.isLoading) {
+      return '-';
+    }
+    if (scan?.pool_name) {
+      return scan.pool_name;
+    }
+    if (scan?.scan_order >= 0) {
+      return `${
+        moment(scan?.scan_timestamp)?.format('dddd')?.[0]
+      }${scan?.scan_order + 1}`;
+    }
+    return '-';
+  }, [scan, session]);
+
+  const poolName = getPoolName();
 
   const refPoolsCount = session?.reference_pools_count;
   const refSamplesCount = session?.reference_samples_count;
@@ -106,6 +116,7 @@ const Scan = () => {
 
   const updateScan = useCallback(
     (data) => {
+      setEditOpen(false);
       dispatch({
         type: actions.UPDATE_SCAN_BY_ID_REQUEST,
         payload: {
@@ -466,6 +477,7 @@ const Scan = () => {
                       icon={<LeftOutlined />}
                       onClick={() => {
                         leftArrowRef.current.blur();
+                        setEditOpen(false);
                         return (
                           scansInWork[scanIndex - 1]?.id &&
                           loadScan(scansInWork[scanIndex - 1].id)
@@ -483,6 +495,7 @@ const Scan = () => {
                       icon={<RightOutlined />}
                       onClick={() => {
                         rightArrowRef.current.blur();
+                        setEditOpen(false);
                         return (
                           scansInWork[scanIndex + 1]?.id &&
                           loadScan(scansInWork[scanIndex + 1].id)
@@ -589,7 +602,7 @@ const Scan = () => {
                 scansInWork[1]
                   ? `${session?.company_short?.name_short} ${
                       scansInWork[1].pool_name
-                    } 
+                    }
                     on ${moment(scansInWork[1].scan_timestamp)?.format('lll')}`
                   : '-'
               }
