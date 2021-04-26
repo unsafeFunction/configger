@@ -94,7 +94,9 @@ const ScanSessions = () => {
       title: `Scanned on`,
       dataIndex: 'completed_timestamp',
       render: (_, value) => {
-        return moment(value?.completed_timestamp).format('llll') || '-';
+        return value?.completed_timestamp
+          ? moment(value.completed_timestamp).format('llll')
+          : '-';
       },
     },
     {
