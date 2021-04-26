@@ -185,9 +185,6 @@ export function* callFetchScanById({ payload }) {
 export function* callUpdateTube({ payload }) {
   const { pooling } = constants.tubes;
 
-  // TODO: зачем передаем isRack ???
-  // const { id, data, scanId, isRack } = payload;
-
   try {
     const response = yield call(updateTube, payload);
 
@@ -213,7 +210,6 @@ export function* callUpdateTube({ payload }) {
       ...(response?.data?.status === pooling.status
         ? { pool_id: response?.data?.tube_id }
         : {}),
-      // TODO: +tubes_count
     };
 
     yield put({
@@ -228,21 +224,22 @@ export function* callUpdateTube({ payload }) {
             },
           },
           tube: response.data,
-          ...scanData,
+          scanData,
         },
       },
     });
 
-    yield put({
-      type: actions.CHANGE_SESSION_DATA,
-      payload: {
-        data: {
-          scanId: payload.scanId,
-          // TODO: + actual samples count
-          ...scanData,
+    if (!payload.isRack) {
+      yield put({
+        type: actions.CHANGE_SESSION_DATA,
+        payload: {
+          data: {
+            scanId: payload.scanId,
+            scanData,
+          },
         },
-      },
-    });
+      });
+    }
 
     notification.success({
       message: 'Tube updated',
@@ -262,9 +259,6 @@ export function* callUpdateTube({ payload }) {
 }
 
 export function* callInvalidateTube({ payload }) {
-  // TODO: зачем передаем isRack ???
-  // const { id, scanId, isRack } = payload;
-
   try {
     const selectedCode = yield select(getSelectedCode);
     const response = yield call(updateTube, {
@@ -290,7 +284,7 @@ export function* callInvalidateTube({ payload }) {
             },
           },
           tube: response.data,
-          ...scanData,
+          scanData,
         },
       },
     });
@@ -300,7 +294,7 @@ export function* callInvalidateTube({ payload }) {
       payload: {
         data: {
           scanId: payload.scanId,
-          ...scanData,
+          scanData,
         },
       },
     });
@@ -327,9 +321,6 @@ export function* callInvalidateTube({ payload }) {
 }
 
 export function* callDeleteTube({ payload }) {
-  // TODO: зачем передаем isRack ???
-  // const { tubeId, scanId, isRack } = payload;
-
   try {
     const response = yield call(deleteTube, payload);
 
@@ -352,7 +343,6 @@ export function* callDeleteTube({ payload }) {
       incorrect_positions,
       last_modified_on: response.data.last_modified_on,
       last_modified_by: response.data.last_modified_by,
-      // TODO: +tubes_count
     };
 
     yield put({
@@ -367,21 +357,22 @@ export function* callDeleteTube({ payload }) {
             },
           },
           tube: response.data,
-          ...scanData,
+          scanData,
         },
       },
     });
 
-    yield put({
-      type: actions.CHANGE_SESSION_DATA,
-      payload: {
-        data: {
-          scanId: payload.scanId,
-          // TODO: + actual samples count
-          ...scanData,
+    if (!payload.isRack) {
+      yield put({
+        type: actions.CHANGE_SESSION_DATA,
+        payload: {
+          data: {
+            scanId: payload.scanId,
+            scanData,
+          },
         },
-      },
-    });
+      });
+    }
 
     notification.success({
       message: 'Tube deleted',
@@ -467,7 +458,7 @@ export function* callUpdateScan({ payload }) {
       payload: {
         data: {
           scanId: response.data.id,
-          ...response.data,
+          scanData: response.data,
         },
       },
     });
@@ -510,7 +501,7 @@ export function* callCancelScan({ payload }) {
       payload: {
         data: {
           scanId: response.data.id,
-          ...response.data,
+          scanData: response.data,
         },
       },
     });
@@ -545,7 +536,9 @@ export function* callVoidScan({ payload }) {
       payload: {
         data: {
           scanId: response.data.scan_id,
-          status: 'VOIDED',
+          scanData: {
+            status: 'VOIDED',
+          },
         },
       },
     });
@@ -600,7 +593,7 @@ export default function* rootSaga() {
     takeEvery(actions.UPDATE_SESSION_REQUEST, callUpdateSession),
     takeEvery(actions.VOID_SCAN_BY_ID_REQUEST, callVoidScan),
     takeEvery(actions.UPDATE_SCAN_BY_ID_REQUEST, callUpdateScan),
-    takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById), // fetch Pool Scan
+    takeEvery(actions.FETCH_SCAN_BY_ID_REQUEST, callFetchScanById),
     takeEvery(actions.UPDATE_TUBE_REQUEST, callUpdateTube),
     takeEvery(actions.DELETE_TUBE_REQUEST, callDeleteTube),
     takeEvery(actions.INVALIDATE_TUBE_REQUEST, callInvalidateTube),

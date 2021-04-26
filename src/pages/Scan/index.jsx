@@ -46,7 +46,6 @@ const Scan = () => {
 
   const [visibleActions, setVisibleActions] = useState(false);
   const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
-  // const [currentScanOrder, setCurrentScanOrder] = useState(0);
   const [isEditOpen, setEditOpen] = useState(false);
   const [changedPoolName, setChangedPoolName] = useState('-');
   const isModalOpen = useSelector((state) => state.modal?.isOpen);
@@ -56,7 +55,6 @@ const Scan = () => {
   const sessionId = history.location.pathname.split('/')[2];
 
   const [scansInWork, setScansInWork] = useState([]);
-  console.log('SCANS IN WORK !!!', scansInWork);
 
   const session = useSelector((state) => state.scanSessions.singleSession);
   const scans = session?.scans;
@@ -74,15 +72,13 @@ const Scan = () => {
   }, [scans, started, invalid, completed]);
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
-  console.log('scanIndex', scanIndex);
 
-  const poolName =
-    scan?.pool_name ??
-    (scan?.scan_order >= 0 && scan?.scan_timestamp
-      ? `${
-          moment(scan?.scan_timestamp)?.format('dddd')?.[0]
-        }${scan?.scan_order + 1}`
-      : '-');
+  const poolName = scan?.pool_name
+    ? scan.pool_name
+    : scan?.scan_order >= 0
+    ? `${moment(scan?.scan_timestamp)?.format('dddd')?.[0]}${scan?.scan_order +
+        1}`
+    : '-';
 
   const refPoolsCount = session?.reference_pools_count;
   const refSamplesCount = session?.reference_samples_count;
@@ -203,11 +199,6 @@ const Scan = () => {
   );
 
   useEffect(() => {
-    console.log(
-      'Изменился 1-ый элемент массива scansInWork[] scansInWork[0]?.id',
-      scansInWork[0]?.id,
-    );
-
     if (scansInWork[0]?.id) {
       loadScan(scansInWork[0]?.id);
     } else {
@@ -225,11 +216,6 @@ const Scan = () => {
 
   const useFetching = () => {
     useEffect(() => {
-      // const { scanOrder = 0 } = qs.parse(history.location.search, {
-      //   ignoreQueryPrefix: true,
-      // });
-      // setCurrentScanOrder(+scanOrder);
-
       if (!session?.activeSessionId) {
         dispatch({
           type: actions.FETCH_SESSION_ID_REQUEST,

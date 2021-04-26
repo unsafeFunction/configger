@@ -101,36 +101,36 @@ const singleRackReducer = (state = initialSingleRackState, action) => {
         isLoading: false,
       };
     }
-    case actions.DELETE_TUBE_SUCCESS: {
-      const { data } = action.payload;
-
-      return Object.assign({}, state, {
-        items: state.items.map((item) => {
-          if (item.letter === data?.position?.[0]) {
-            return {
-              ...item,
-              [`col${data?.position[1]}`]: {
-                ...item[`col${data?.position[1]}`],
-                ...data.tube,
-              },
-            };
-          }
-          return item;
-        }),
-        isLoading: false,
-      });
-    }
     case actions.UPDATE_TUBE_SUCCESS: {
+      const { row, tube } = action.payload.data;
       return {
         ...state,
         isLoading: false,
         items: state.items.map((item) => {
-          if (item.letter === action.payload.data.row.letter) {
+          if (item.letter === row.letter) {
             return {
               ...item,
-              ...action.payload.data.row,
-              last_modified_on: action.payload.data.tube.last_modified_on,
-              last_modified_by: action.payload.data.tube.last_modified_by,
+              ...row,
+              last_modified_on: tube.last_modified_on,
+              last_modified_by: tube.last_modified_by,
+            };
+          }
+          return item;
+        }),
+      };
+    }
+    case actions.DELETE_TUBE_SUCCESS: {
+      const { row, tube } = action.payload.data;
+      return {
+        ...state,
+        isLoading: false,
+        items: state.items.map((item) => {
+          if (item.letter === row.letter) {
+            return {
+              ...item,
+              ...row,
+              last_modified_on: tube.last_modified_on,
+              last_modified_by: tube.last_modified_by,
             };
           }
           return item;

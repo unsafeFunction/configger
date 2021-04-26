@@ -187,7 +187,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     }
 
     case actions.CHANGE_SESSION_DATA: {
-      const { scanId, ...scanData } = action.payload.data;
+      const { scanId, scanData } = action.payload.data;
       return {
         ...state,
         scans: state.scans.map((scan) => {
@@ -267,21 +267,21 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
     case actions.UPDATE_TUBE_SUCCESS: {
-      const { row, tube, ...scanData } = action.payload.data;
+      const { row, tube, scanData } = action.payload.data;
       return {
         ...state,
         isLoading: false,
         ...scanData,
-        items: state.items.map((row) => {
-          if (row.letter === action.payload.data.row.letter) {
+        items: state.items.map((item) => {
+          if (item.letter === row.letter) {
             return {
+              ...item,
               ...row,
-              // last_modified_on: tube.last_modified_on, // for what?
-              // last_modified_by: tube.last_modified_by, // for what?
-              ...action.payload.data.row,
+              last_modified_on: tube.last_modified_on,
+              last_modified_by: tube.last_modified_by,
             };
           }
-          return row;
+          return item;
         }),
         scan_tubes: state.scan_tubes.map((tubeItem) => {
           return tubeItem.id === tube.id ? tube : tubeItem;
@@ -302,22 +302,21 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
     case actions.INVALIDATE_TUBE_SUCCESS: {
-      const { row, tube, ...scanData } = action.payload.data;
+      const { row, tube, scanData } = action.payload.data;
       return {
         ...state,
         isLoading: false,
         ...scanData,
-
-        items: state.items.map((row) => {
-          if (row.letter === action.payload.data.row.letter) {
+        items: state.items.map((item) => {
+          if (item.letter === row.letter) {
             return {
+              ...item,
               ...row,
-              // last_modified_on: tube.last_modified_on, // for what?
-              // last_modified_by: tube.last_modified_by, // for what?
-              ...action.payload.data.row,
+              last_modified_on: tube.last_modified_on,
+              last_modified_by: tube.last_modified_by,
             };
           }
-          return row;
+          return item;
         }),
         scan_tubes: state.scan_tubes.map((tubeItem) => {
           return tubeItem.id === tube.id ? tube : tubeItem;
@@ -339,21 +338,21 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
     case actions.DELETE_TUBE_SUCCESS: {
-      const { row, tube, ...scanData } = action.payload.data;
+      const { row, tube, scanData } = action.payload.data;
       return {
         ...state,
         isLoading: false,
         ...scanData,
-        items: state.items.map((row) => {
-          if (row.letter === action.payload.data.row.letter) {
+        items: state.items.map((item) => {
+          if (item.letter === row.letter) {
             return {
+              ...item,
               ...row,
-              // last_modified_on: tube.last_modified_on, // for what?
-              // last_modified_by: tube.last_modified_by, // for what?
-              ...action.payload.data.row,
+              last_modified_on: tube.last_modified_on,
+              last_modified_by: tube.last_modified_by,
             };
           }
-          return row;
+          return item;
         }),
         scan_tubes: state.scan_tubes.map((tubeItem) => {
           return tubeItem.id === tube.id ? tube : tubeItem;
