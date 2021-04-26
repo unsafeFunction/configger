@@ -137,7 +137,7 @@ const RackScans = () => {
               onClick={() => {
                 return exportRack({
                   poolId: record.id,
-                  name: record.pool_name,
+                  name: record.rack_name,
                 });
               }}
               type="primary"
