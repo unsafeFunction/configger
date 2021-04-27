@@ -9,12 +9,12 @@ export async function getMenuData() {
       key: 'intakeSection',
       icon: 'fe fe-monitor',
       children: [
-        {
-          title: 'Intake',
-          key: 'intake',
-          url: '/intake',
-          icon: 'fe fe-monitor',
-        },
+        // {
+        //   title: 'Intake',
+        //   key: 'intake',
+        //   url: '/intake',
+        //   icon: 'fe fe-monitor',
+        // },
         {
           title: 'Intake Receipt Log',
           key: 'intake-receipt-log',
@@ -79,12 +79,12 @@ export async function getMenuData() {
         },
       ],
     },
-    {
-      title: 'Packing Slip',
-      key: 'packingSlip',
-      url: '/packing-slip',
-      icon: 'fe fe-download',
-    },
+    // {
+    //   title: 'Packing Slip',
+    //   key: 'packingSlip',
+    //   url: '/packing-slip',
+    //   icon: 'fe fe-download',
+    // },
     {
       title: 'Barcode Lookup',
       key: 'search',
