@@ -180,7 +180,7 @@ const PoolTable = ({ loadMore }) => {
             }
             style={{ width: 178 }}
             loading={record.resultIsUpdating}
-            onSelect={onModalToggle(record.unique_id, record.pool_id)}
+            onSelect={onModalToggle(record.id, record.pool_id)}
             disabled={record.resultIsUpdating}
             bordered={false}
           >
@@ -236,9 +236,7 @@ const PoolTable = ({ loadMore }) => {
           title={`Sure to ${
             record.is_published ? 'unpublished' : 'published'
           }?`}
-          onConfirm={() =>
-            handlePublish(record.unique_id, !record.is_published)
-          }
+          onConfirm={() => handlePublish(record.id, !record.is_published)}
           placement="topRight"
           disabled={user.role === 'staff'}
         >
