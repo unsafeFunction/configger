@@ -53,7 +53,7 @@ const RackScans = () => {
       dispatch({
         type: helperActions.EXPORT_FILE_REQUEST,
         payload: {
-          link: `/scans/rack/${poolId}/export`,
+          link: `/scans/rack/${poolId}/export/`,
           instanceId: poolId,
           name,
           contentType: 'text/csv',
@@ -70,7 +70,7 @@ const RackScans = () => {
   const navigateToScan = useCallback(
     (rackId) => {
       history.push({
-        pathname: `/rack-scans/${rackId}`,
+        pathname: `/rack-scans/${rackId}/`,
       });
     },
     [history],
