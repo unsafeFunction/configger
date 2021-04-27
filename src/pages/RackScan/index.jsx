@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/racks/actions';
 import modalActions from 'redux/modal/actions';
-import { Row, Col, Button, Typography, Input } from 'antd';
+import { Row, Col, Button, Typography, Input, Form } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import { useHistory } from 'react-router-dom';
@@ -15,10 +15,20 @@ moment.tz.setDefault('America/New_York');
 const RackScan = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [form] = Form.useForm();
+  const { Item } = Form;
 
   const rackId = history.location.pathname.split('/')[2];
 
   const rack = useSelector((state) => state.racks?.singleRack);
+
+  const { orientation_sign_off } = rack;
+
+  useEffect(() => {
+    form.setFieldsValue({
+      orientation_sign_off,
+    });
+  }, [orientation_sign_off]);
 
   const onDataChange = useCallback(
     (event) => {
@@ -74,51 +84,61 @@ const RackScan = () => {
 
   return (
     <>
-      <div className={classNames('air__utils__heading', styles.page__header)}>
-        <Typography.Title level={4} className="font-weight-normal">
-          {`Scan on ${moment(rack?.scan_timestamp)?.format('LLLL') ?? ''}`}
-        </Typography.Title>
-      </div>
-      <Row gutter={[48, 40]} justify="center">
-        <Col xs={24} md={18} lg={16} xl={14}>
-          <div className="mb-4">
-            <Rackboard isRack rackboard={rack} scanId={rack.id} />
-          </div>
-          <ScanStatistic isRack scan={rack} />
-        </Col>
-        <Col xs={24} md={18} lg={8} xl={10}>
-          <Row className="mb-3">
-            <Typography.Text>PoolRack Name</Typography.Text>
-            <Input
-              onChange={onDataChange}
-              name="rack_name"
-              placeholder="PoolRack name"
-              value={rack.rack_name}
-            />
-          </Row>
-          <Row className="mb-3">
-            <Typography.Text>Orientation sign off</Typography.Text>
-            <Input
-              onChange={onDataChange}
-              name="orientation_sign_off"
-              placeholder="Orientation sign off"
-              maxLength={4}
-              value={rack.orientation_sign_off}
-            />
-          </Row>
-          <Row>
-            <Button
-              onClick={onSaveScanModalToggle}
-              type="primary"
-              htmlType="submit"
-              disabled={rack?.isLoading}
-              loading={rack?.isLoading}
-            >
-              Submit
-            </Button>
-          </Row>
-        </Col>
-      </Row>
+      <Form form={form} onFinish={onSaveScanModalToggle}>
+        <div className={classNames('air__utils__heading', styles.page__header)}>
+          <Typography.Title level={4} className="font-weight-normal">
+            {`Scan on ${moment(rack?.scan_timestamp)?.format('LLLL') ?? ''}`}
+          </Typography.Title>
+        </div>
+        <Row gutter={[48, 40]} justify="center">
+          <Col xs={24} md={18} lg={16} xl={14}>
+            <div className="mb-4">
+              <Rackboard isRack rackboard={rack} scanId={rack.id} />
+            </div>
+            <ScanStatistic isRack scan={rack} />
+          </Col>
+          <Col xs={24} md={18} lg={8} xl={10}>
+            <Row className="mb-3">
+              <Typography.Text>PoolRack Name</Typography.Text>
+              <Input
+                onChange={onDataChange}
+                name="rack_name"
+                placeholder="PoolRack name"
+                value={rack.rack_name}
+              />
+            </Row>
+            <Row className="mb-3">
+              <Typography.Text>Orientation sign off</Typography.Text>
+              <Item
+                name="orientation_sign_off"
+                className={styles.formItem}
+                rules={[
+                  {
+                    max: 4,
+                    message: 'This field has a maximum length of 4 characters.',
+                  },
+                ]}
+              >
+                <Input
+                  name="orientation_sign_off"
+                  onChange={onDataChange}
+                  placeholder="Orientation sign off"
+                />
+              </Item>
+            </Row>
+            <Row>
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={rack?.isLoading}
+                loading={rack?.isLoading}
+              >
+                Submit
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+      </Form>
     </>
   );
 };
