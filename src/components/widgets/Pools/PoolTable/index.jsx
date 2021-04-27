@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/pools/actions';
@@ -41,10 +43,18 @@ const PoolTable = ({ loadMore }) => {
       title: 'Results Timestamp',
       dataIndex: 'results_updated_on',
       width: 180,
+      align: 'center',
+      render: (value) => {
+        return value || '-';
+      },
     },
     {
       title: 'Run Title',
       dataIndex: 'run_title',
+      align: 'center',
+      render: (value) => {
+        return value || '-';
+      },
     },
     {
       title: 'Company',
@@ -52,6 +62,7 @@ const PoolTable = ({ loadMore }) => {
       ellipsis: {
         showTitle: false,
       },
+      align: 'center',
       sorter: {
         compare: (a, b) =>
           a.shortCompany < b.shortCompany
@@ -67,21 +78,33 @@ const PoolTable = ({ loadMore }) => {
           overlayClassName={styles.popover}
           placement="topLeft"
         >
-          {record.shortCompany}
+          {record?.shortCompany ? record.shortCompany : '-'}
         </Popover>
       ),
     },
     {
       title: 'Pool Title',
       dataIndex: 'title',
+      align: 'center',
+      render: (value) => {
+        return value || '-';
+      },
     },
     {
       title: 'Rack ID',
       dataIndex: 'rack_id',
+      align: 'center',
+      render: (value) => {
+        return value || '-';
+      },
     },
     {
       title: 'Pool ID',
       dataIndex: 'pool_id',
+      align: 'center',
+      render: (value) => {
+        return value || '-';
+      },
     },
     {
       title: (
@@ -157,7 +180,7 @@ const PoolTable = ({ loadMore }) => {
             }
             style={{ width: 178 }}
             loading={record.resultIsUpdating}
-            onSelect={onModalToggle(record.unique_id, record.pool_id)}
+            onSelect={onModalToggle(record.id, record.pool_id)}
             disabled={record.resultIsUpdating}
             bordered={false}
           >
@@ -213,9 +236,7 @@ const PoolTable = ({ loadMore }) => {
           title={`Sure to ${
             record.is_published ? 'unpublished' : 'published'
           }?`}
-          onConfirm={() =>
-            handlePublish(record.unique_id, !record.is_published)
-          }
+          onConfirm={() => handlePublish(record.id, !record.is_published)}
           placement="topRight"
           disabled={user.role === 'staff'}
         >

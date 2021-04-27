@@ -46,18 +46,18 @@ const routes = [
     Component: loadable(() => import('pages/Profile')),
     exact: true,
   },
-  {
-    path: '/packing-slip',
-    Component: loadable(() => import('pages/Intake')),
-  },
+  // {
+  //   path: '/packing-slip',
+  //   Component: loadable(() => import('pages/Intake')),
+  // },
   {
     path: '/barcode-lookup',
     Component: loadable(() => import('pages/Search')),
   },
-  {
-    path: '/intake',
-    Component: loadable(() => import('pages/IntakeLims')),
-  },
+  // {
+  //   path: '/intake',
+  //   Component: loadable(() => import('pages/IntakeLims')),
+  // },
   {
     path: '/pools',
     Component: loadable(() => import('pages/Pools')),

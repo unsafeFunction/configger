@@ -14,7 +14,7 @@ export const fetchRackScans = async (query) => {
 
 export const fetchRackScan = async (id) => {
   try {
-    const rackScan = await axiosClient.get(`/scans/rack/${id}`);
+    const rackScan = await axiosClient.get(`/scans/rack/${id}/`);
 
     return rackScan;
   } catch (error) {
