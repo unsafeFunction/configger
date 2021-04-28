@@ -1,10 +1,9 @@
-import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Button } from 'antd';
-import actions from 'redux/user/actions';
-import classNames from 'classnames';
+import { Button, Form, Input } from 'antd';
 import moment from 'moment';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import actions from 'redux/user/actions';
 import style from '../style.module.scss';
 
 const Login = () => {
@@ -22,7 +21,7 @@ const Login = () => {
         },
       });
     },
-    [dispatch],
+    [dispatch, history],
   );
 
   const { isLoggingIn } = user;

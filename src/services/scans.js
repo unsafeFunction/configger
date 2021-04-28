@@ -31,14 +31,6 @@ export const deleteTube = async ({ tubeId, scanId }) => {
   }
 };
 
-export const fetchSessionId = async () => {
-  try {
-    return await axiosClient.get(`/scans/sessions/active/`);
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
 export const deleteScan = async ({ id }) => {
   try {
     return await axiosClient.delete(`/scans/pool/${id}/`);
