@@ -9,7 +9,6 @@ import {
   deleteScan,
   deleteTube,
   fetchScanById,
-  fetchSessionId,
   updateScan,
   updateTube,
 } from 'services/scans';
@@ -17,6 +16,7 @@ import {
   closeSession,
   createSession,
   fetchSessionById,
+  fetchSessionId,
   fetchSessions,
   updateSession,
 } from 'services/scanSessions';
@@ -102,7 +102,7 @@ export function* callUpdateSession({ payload }) {
     if (payload.isSaveSession) {
       response = yield call(updateSession, payload);
     } else {
-      response = yield call(closeSession, payload);
+      response = yield call(closeSession);
     }
 
     yield put({

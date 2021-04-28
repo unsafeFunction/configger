@@ -148,7 +148,7 @@ const Scan = () => {
 
   const markCompleteSession = useCallback(() => {
     updateSession({
-      status: 'COMPLETED',
+      data: { status: 'COMPLETED' },
       id: sessionId,
       isSaveSession: true,
       callback: () => history.push('/session'),

@@ -1,17 +1,16 @@
-import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
-  login,
-  forgotPassword,
-  restore,
-  getProfile,
-  updateProfile,
   changePassword,
-  verifyEmail,
+  forgotPassword,
+  getProfile,
+  login,
   regByEmail,
+  restore,
+  updateProfile,
+  verifyEmail,
 } from 'services/user';
 import cookieStorage from 'utils/cookie';
-import modalActions from 'redux/modal/actions';
 import actions from './actions';
 
 const cookie = cookieStorage();
@@ -23,12 +22,7 @@ export function* callLogin({ payload }) {
 
     cookie.setItem('accessToken', response.data.key);
 
-    yield put({
-      type: actions.LOGIN_SUCCESS,
-      payload: {
-        ...response.data,
-      },
-    });
+    yield put({ type: actions.LOGIN_SUCCESS });
 
     notification.success({
       message: 'Logged In',

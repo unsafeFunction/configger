@@ -25,9 +25,17 @@ export const fetchSessionById = async (sessionId) => {
   }
 };
 
-export const updateSession = async (data) => {
+export const fetchSessionId = async () => {
   try {
-    const session = await axiosClient.patch(`/scans/sessions/${data.id}/`, {
+    return await axiosClient.get(`/scans/sessions/active/`);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const updateSession = async ({ id, data }) => {
+  try {
+    const session = await axiosClient.patch(`/scans/sessions/${id}/`, {
       ...data,
     });
 
@@ -55,7 +63,7 @@ export const createSession = async ({ intakeLog, scanner }) => {
 
 export const closeSession = async () => {
   try {
-    const session = await axiosClient.delete('/scans/sessions/active');
+    const session = await axiosClient.delete('/scans/sessions/active/');
 
     return session;
   } catch (error) {
