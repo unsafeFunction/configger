@@ -532,7 +532,12 @@ const Scan = () => {
               </div>
             </div>
             {/* TODO: why is using separately scanId */}
-            <Rackboard rackboard={scan} scanId={scan?.id} session={session} />
+            <Rackboard
+              rackboard={scan}
+              scanId={scan?.id}
+              session={session}
+              editMode={scan?.status !== completed}
+            />
           </div>
           <ScanStatistic scan={scan} />
           <Row>
