@@ -9,7 +9,13 @@ import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
-const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
+const Rackboard = ({
+  rackboard,
+  scanId,
+  session,
+  isRack = false,
+  editMode = true,
+}) => {
   const { tubes } = constants;
 
   const dispatch = useDispatch();
@@ -156,7 +162,9 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
                 <Tag color="purple">{recordStatus}</Tag>
               </>
             }
-            visible={popoverVisible?.id === record?.[`col${i + 1}`]?.id}
+            visible={
+              popoverVisible?.id === record?.[`col${i + 1}`]?.id && editMode
+            }
             content={
               <div className={styles.popoverWrapper}>
                 <Input
@@ -312,6 +320,7 @@ const Rackboard = ({ rackboard, scanId, session, isRack = false }) => {
 
 Rackboard.propTypes = {
   rackboard: PropTypes.shape({}),
+  editMode: PropTypes.bool,
 };
 
 export default Rackboard;
