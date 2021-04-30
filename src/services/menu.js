@@ -34,12 +34,12 @@ export async function getMenuData() {
           url: '/session',
           icon: 'fe fe-minimize',
         },
-        {
-          title: 'Pools',
-          key: 'pools',
-          url: '/pools',
-          icon: 'fe fe-folder',
-        },
+        // {
+        //   title: 'Pools',
+        //   key: 'pools',
+        //   url: '/pools',
+        //   icon: 'fe fe-folder',
+        // },
         {
           title: 'Pool Scans',
           key: 'pool-scans',
@@ -54,44 +54,44 @@ export async function getMenuData() {
         },
       ],
     },
-    {
-      title: 'Runs section',
-      key: 'runsSection',
-      icon: 'fe fe-box',
-      children: [
-        {
-          title: 'Runs',
-          key: 'runs',
-          url: '/runs',
-          icon: 'fe fe-box',
-        },
-        {
-          title: 'Generate Run',
-          key: 'templateGeneration',
-          url: '/template-generation',
-          icon: 'fe fe-layers',
-        },
-        {
-          title: 'Analysis Runs',
-          key: 'analysisRuns',
-          url: '/analysis-runs',
-          icon: 'fe fe-bar-chart-2',
-        },
-      ],
-    },
+    // {
+    //   title: 'Runs section',
+    //   key: 'runsSection',
+    //   icon: 'fe fe-box',
+    //   children: [
+    //     {
+    //       title: 'Runs',
+    //       key: 'runs',
+    //       url: '/runs',
+    //       icon: 'fe fe-box',
+    //     },
+    //     {
+    //       title: 'Generate Run',
+    //       key: 'templateGeneration',
+    //       url: '/template-generation',
+    //       icon: 'fe fe-layers',
+    //     },
+    //     {
+    //       title: 'Analysis Runs',
+    //       key: 'analysisRuns',
+    //       url: '/analysis-runs',
+    //       icon: 'fe fe-bar-chart-2',
+    //     },
+    //   ],
+    // },
     // {
     //   title: 'Packing Slip',
     //   key: 'packingSlip',
     //   url: '/packing-slip',
     //   icon: 'fe fe-download',
     // },
-    {
-      title: 'Barcode Lookup',
-      key: 'search',
-      icon: 'fe fe-search',
-      url: '/barcode-lookup',
-      isAlpha: true,
-    },
+    // {
+    //   title: 'Barcode Lookup',
+    //   key: 'search',
+    //   icon: 'fe fe-search',
+    //   url: '/barcode-lookup',
+    //   isAlpha: true,
+    // },
     {
       title: 'Inventory',
       key: 'inventory',
