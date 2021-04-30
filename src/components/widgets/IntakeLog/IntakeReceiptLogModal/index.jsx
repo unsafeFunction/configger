@@ -111,13 +111,11 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           rules.required,
           ({ getFieldValue }) => ({
             validator(rule, value) {
-              if (getFieldValue('reference_pools_count') <= value) {
+              const pools = getFieldValue('reference_pools_count');
+              if (value >= pools * 2 && value <= pools * 24) {
                 return Promise.resolve();
               }
-
-              return Promise.reject(
-                'The number of pools must be less than or equal to the number of samples',
-              );
+              return Promise.reject('2 - 24 tubes per rack');
             },
           }),
         ]}
