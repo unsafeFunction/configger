@@ -2,13 +2,13 @@ import { CookieStorage } from 'cookie-storage';
 import moment from 'moment';
 
 let storage = null;
-const today = moment();
+// const today = moment();
 
 function initCookieStorage() {
   try {
     storage = new CookieStorage({
       path: '/',
-      expires: new Date(moment(today).add(1, 'days')),
+      // expires: new Date(moment(today).add(1, 'days')),
     });
   } catch (error) {
     throw new Error(error);
