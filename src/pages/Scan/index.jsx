@@ -80,7 +80,7 @@ const Scan = () => {
     if (scan?.pool_name) {
       return scan.pool_name;
     }
-    if (scan?.scan_order >= 0) {
+    if (scan?.scan_order >= 0 && scan?.scan_order !== null) {
       return `${
         moment(scan?.scan_timestamp)?.format('dddd')?.[0]
       }${scan?.scan_order + 1}`;
@@ -89,6 +89,7 @@ const Scan = () => {
   }, [scan, session]);
 
   const poolName = getPoolName();
+  console.log(poolName, scan, scan?.scan_order >= 0);
 
   const refPoolsCount = session?.reference_pools_count;
   const refSamplesCount = session?.reference_samples_count;
