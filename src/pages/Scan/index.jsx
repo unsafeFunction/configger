@@ -80,7 +80,7 @@ const Scan = () => {
     if (scan?.pool_name) {
       return scan.pool_name;
     }
-    if (scan?.scan_order >= 0) {
+    if (scan?.scan_order >= 0 && scan?.scan_order !== null) {
       return `${
         moment(scan?.scan_timestamp)?.format('dddd')?.[0]
       }${scan?.scan_order + 1}`;
@@ -120,7 +120,7 @@ const Scan = () => {
       dispatch({
         type: actions.UPDATE_SCAN_BY_ID_REQUEST,
         payload: {
-          data: { ...data, pool_name: poolName, status: 'COMPLETED' },
+          data: { ...data, scan_name: poolName, status: 'COMPLETED' },
           id: scan?.id,
         },
       });
@@ -279,7 +279,7 @@ const Scan = () => {
     dispatch({
       type: actions.UPDATE_SCAN_BY_ID_REQUEST,
       payload: {
-        data: { pool_name: changedPoolName },
+        data: { scan_name: changedPoolName },
         id: scan?.id,
       },
     });
