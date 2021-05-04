@@ -25,12 +25,12 @@ export const fetchRackScan = async (id) => {
 export const updateRackScan = async ({
   id,
   orientation_sign_off,
-  rack_name,
+  scan_name,
 }) => {
   try {
     const rackScan = await axiosClient.patch(`/scans/rack/${id}/`, {
       orientation_sign_off,
-      scan_name: rack_name,
+      scan_name,
     });
 
     return rackScan;

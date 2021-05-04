@@ -111,7 +111,7 @@ const ScanSessions = () => {
   const expandedRow = (scan) => {
     const columns = [
       { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
-      { title: 'Pool Name', dataIndex: 'pool_name', key: 'pool_name' },
+      { title: 'Pool Name', dataIndex: 'scan_name', key: 'scan_name' },
       {
         title: 'Scan time',
         dataIndex: 'scan_time',
@@ -263,9 +263,9 @@ const ScanSessions = () => {
                     ? moment(scan.scan_timestamp).format('LLLL')
                     : '-',
                   // TODO: temp
-                  // pool_name: scan?.pool_name ? scan.pool_name : '-',
-                  pool_name: scan?.pool_name
-                    ? scan.pool_name
+                  // scan_name: scan?.scan_name ? scan.scan_name : '-',
+                  scan_name: scan?.scan_name
+                    ? scan.scan_name
                     : scan?.scan_order >= 0
                     ? `${
                         moment(scan?.scan_timestamp)?.format('dddd')?.[0]
@@ -290,7 +290,7 @@ const ScanSessions = () => {
                         onClick={() => {
                           return exportPool({
                             poolId: scan.id,
-                            name: scan.pool_name,
+                            name: scan.scan_name,
                           });
                         }}
                         type="primary"

@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 import { SearchOutlined } from '@ant-design/icons';
 import { Col, DatePicker, Input, Row, Spin, Table, Tag } from 'antd';
 import classNames from 'classnames';
@@ -126,7 +128,7 @@ const PoolRackTable = ({ setPoolRack, runState }) => {
   const columns = [
     {
       title: 'PoolRack Name',
-      dataIndex: 'rack_name',
+      dataIndex: 'scan_name',
       ellipsis: true,
     },
     {

@@ -77,8 +77,8 @@ const Scan = () => {
     if (scan?.isLoading || session?.isLoading) {
       return '-';
     }
-    if (scan?.pool_name) {
-      return scan.pool_name;
+    if (scan?.scan_name) {
+      return scan.scan_name;
     }
     if (scan?.scan_order >= 0 && scan?.scan_order !== null) {
       return `${
@@ -250,7 +250,7 @@ const Scan = () => {
   }, [session.activeSessionId, sessionId]);
 
   useEffect(() => {
-    setChangedPoolName(scan?.pool_name || poolName);
+    setChangedPoolName(scan?.scan_name || poolName);
   }, [scan]);
 
   const handleSwitchVisibleActions = useCallback(() => {
@@ -264,7 +264,7 @@ const Scan = () => {
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
     if (isEditOpen) {
-      setChangedPoolName(scan?.pool_name ? scan?.pool_name : poolName);
+      setChangedPoolName(scan?.scan_name ? scan?.scan_name : poolName);
     }
   }, [isEditOpen, setEditOpen, poolName]);
 
@@ -606,7 +606,7 @@ const Scan = () => {
               value={
                 scansInWork[1]
                   ? `${session?.company_short?.name_short} ${
-                      scansInWork[1].pool_name
+                      scansInWork[1].scan_name
                     }
                     on ${moment(scansInWork[1].scan_timestamp)?.format('lll')}`
                   : '-'

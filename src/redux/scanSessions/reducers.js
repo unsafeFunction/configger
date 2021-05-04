@@ -212,7 +212,7 @@ const initialScan = {
   isLoading: false,
   id: null,
   pool_id: null,
-  pool_name: null,
+  scan_name: null,
   rack_id: null,
   possibly_reversed: false,
   empty_positions: [],
