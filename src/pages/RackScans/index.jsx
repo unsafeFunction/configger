@@ -79,7 +79,7 @@ const RackScans = () => {
   const columns = [
     {
       title: 'PoolRack Name',
-      dataIndex: 'rack_name',
+      dataIndex: 'scan_name',
     },
     {
       title: 'Rack ID',
@@ -137,7 +137,7 @@ const RackScans = () => {
               onClick={() => {
                 return exportRack({
                   poolId: record.id,
-                  name: record.rack_name,
+                  name: record.scan_name,
                 });
               }}
               type="primary"

@@ -102,9 +102,9 @@ const RackScan = () => {
               <Typography.Text>PoolRack Name</Typography.Text>
               <Input
                 onChange={onDataChange}
-                name="rack_name"
+                name="scan_name"
                 placeholder="PoolRack name"
-                value={rack.rack_name}
+                value={rack.scan_name}
               />
             </Row>
             <Row className="mb-3">

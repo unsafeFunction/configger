@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Typography } from 'antd';
 import moment from 'moment-timezone';
@@ -136,7 +138,7 @@ const PoolRacksStage = ({ runState, componentDispatch }) => {
               </p>
               <p>
                 <Text type="secondary">PoolRack Name: </Text>
-                {poolRack.rack_name ?? '-'}
+                {poolRack.scan_name ?? '-'}
               </p>
               <p>
                 <Text type="secondary">Updated Time: </Text>
