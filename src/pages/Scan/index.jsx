@@ -89,7 +89,6 @@ const Scan = () => {
   }, [scan, session]);
 
   const poolName = getPoolName();
-  console.log(poolName, scan, scan?.scan_order >= 0);
 
   const refPoolsCount = session?.reference_pools_count;
   const refSamplesCount = session?.reference_samples_count;
