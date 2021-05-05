@@ -31,17 +31,25 @@ import {
 
 moment.tz.setDefault('America/New_York');
 
-const formatResponse = (response) => {
-  return Object.assign(
-    {},
-    ...response?.map?.((obj) => ({
-      letter: obj?.position?.[0],
-      [`col${obj?.position?.[1]}`]: {
-        ...obj,
-        status: obj?.status,
-      },
-    })),
-  );
+const formatResponseScanTubes = (response) => {
+  const colsNumber = 8;
+  return response
+    ?.map?.((_, idx) => {
+      if (idx % colsNumber === 0) {
+        const rightIdx = idx + colsNumber;
+        return Object.assign(
+          {},
+          ...response?.slice(idx, rightIdx)?.map?.((obj) => ({
+            letter: obj?.position?.[0],
+            [`col${obj?.position?.[1]}`]: {
+              ...obj,
+              status: obj?.status,
+            },
+          })),
+        );
+      }
+    })
+    ?.filter((item) => item?.letter);
 };
 
 export function* callFetchScanSessions({ payload }) {
@@ -153,21 +161,12 @@ export function* callFetchScanById({ payload }) {
 
     const tubesInfo = response?.data?.scan_tubes;
 
-    const preparedResponse = [
-      formatResponse(tubesInfo?.slice?.(0, 8)),
-      formatResponse(tubesInfo?.slice?.(8, 16)),
-      formatResponse(tubesInfo?.slice?.(16, 24)),
-      formatResponse(tubesInfo?.slice?.(24, 32)),
-      formatResponse(tubesInfo?.slice?.(32, 40)),
-      formatResponse(tubesInfo?.slice?.(40, 48)),
-    ];
-
     yield put({
       type: actions.FETCH_SCAN_BY_ID_SUCCESS,
       payload: {
         data: {
           ...response?.data,
-          items: preparedResponse,
+          items: formatResponseScanTubes(tubesInfo),
         },
       },
     });
@@ -449,7 +448,10 @@ export function* callUpdateScan({ payload }) {
     yield put({
       type: actions.UPDATE_SCAN_BY_ID_SUCCESS,
       payload: {
-        data: response.data,
+        data: {
+          ...response.data,
+          items: formatResponseScanTubes(response.data.scan_tubes),
+        },
       },
     });
 
