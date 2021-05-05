@@ -444,7 +444,6 @@ export function* callCreateSession({ payload }) {
 
 export function* callUpdateScan({ payload }) {
   try {
-    const { completed } = constants.scanStatuses;
     const response = yield call(updateScan, payload);
 
     yield put({
@@ -454,17 +453,15 @@ export function* callUpdateScan({ payload }) {
       },
     });
 
-    if (response?.data?.status === completed) {
-      yield put({
-        type: actions.CHANGE_SESSION_DATA,
-        payload: {
-          data: {
-            scanId: response.data.id,
-            scanData: response.data,
-          },
+    yield put({
+      type: actions.CHANGE_SESSION_DATA,
+      payload: {
+        data: {
+          scanId: response.data.id,
+          scanData: response.data,
         },
-      });
-    }
+      },
+    });
 
     yield put({
       type: modalActions.HIDE_MODAL,
