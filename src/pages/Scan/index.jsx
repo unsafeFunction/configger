@@ -63,7 +63,9 @@ const Scan = () => {
   const { started, invalid, completed } = constants.scanStatuses;
 
   useEffect(() => {
-    const scanInWork = scans?.find((s) => s.status === (started || invalid));
+    const scanInWork = scans?.find(
+      (s) => s.status === started || s.status === invalid,
+    );
 
     setScansInWork([
       ...(scanInWork ? [scanInWork] : []),

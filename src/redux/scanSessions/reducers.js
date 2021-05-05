@@ -384,8 +384,8 @@ const scanReducer = (state = initialScan, action) => {
 
       return {
         ...state,
-        isLoading: false,
         ...data,
+        isLoading: false,
       };
     }
 
