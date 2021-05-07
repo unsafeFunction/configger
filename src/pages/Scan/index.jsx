@@ -434,7 +434,7 @@ const Scan = () => {
             type="primary"
             disabled={session?.isLoading}
           >
-            Refresh
+            Load Additional Scan
           </Button>
           <Dropdown
             overlay={sessionMenu}
