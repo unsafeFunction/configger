@@ -11,6 +11,7 @@ import {
   fetchScanById,
   updateScan,
   updateTube,
+  fetchActiveScans,
 } from 'services/scans';
 import {
   closeSession,
@@ -585,6 +586,23 @@ export function* callFetchCompanyInfo(payload) {
   }
 }
 
+export function* callFetchActiveScans(payload) {
+  try {
+    const response = yield call(fetchActiveScans);
+
+    yield put({
+      type: actions.FETCH_ACTIVE_SCANS_SUCCESS,
+      payload: {
+        data: response.data.results,
+      },
+    });
+  } catch (error) {
+    yield put({
+      type: actions.FETCH_ACTIVE_SCANS_FAILURE,
+    });
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_SCAN_SESSIONS_REQUEST, callFetchScanSessions),
@@ -603,5 +621,6 @@ export default function* rootSaga() {
     takeEvery(actions.FETCH_SESSION_ID_REQUEST, callFetchSessionId),
     takeEvery(actions.CANCEL_SCAN_BY_ID_REQUEST, callCancelScan),
     takeEvery(actions.FETCH_COMPANY_INFO_REQUEST, callFetchCompanyInfo),
+    takeEvery(actions.FETCH_ACTIVE_SCANS_REQUEST, callFetchActiveScans),
   ]);
 }
