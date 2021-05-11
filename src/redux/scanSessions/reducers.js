@@ -187,6 +187,23 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
 
+    case actions.FETCH_ACTIVE_SCANS_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+    case actions.FETCH_ACTIVE_SCANS_SUCCESS: {
+      return {
+        ...state,
+        scans: [...state.scans, ...action.payload.data],
+      };
+    }
+    case actions.FETCH_ACTIVE_SCANS_FAILURE: {
+      return {
+        ...state,
+      };
+    }
+
     case actions.CHANGE_SESSION_DATA: {
       const { scanId, scanData } = action.payload.data;
       return {
@@ -267,6 +284,7 @@ const scanReducer = (state = initialScan, action) => {
         isLoading: true,
       };
     }
+
     case actions.UPDATE_TUBE_SUCCESS: {
       const { row, tube, scanData } = action.payload.data;
       return {

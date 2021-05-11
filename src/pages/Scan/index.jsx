@@ -255,6 +255,29 @@ const Scan = () => {
     setChangedPoolName(scan?.scan_name || poolName);
   }, [scan]);
 
+  useEffect(() => {
+    const isFetchNew = session.reference_pools_count > actualPoolsCount;
+
+    const refreshInterval = setInterval(() => {
+      if (isFetchNew) {
+        dispatch({
+          type: actions.FETCH_ACTIVE_SCANS_REQUEST,
+          payload: scans.map((scan) => {
+            return scan.pool_id;
+          }),
+        });
+      }
+    }, 7000);
+
+    if (!isFetchNew) {
+      clearInterval(refreshInterval);
+    }
+
+    return () => {
+      clearInterval(refreshInterval);
+    };
+  }, [session.reference_pools_count, actualPoolsCount, scans, dispatch]);
+
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
   }, [visibleActions]);

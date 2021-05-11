@@ -10,6 +10,20 @@ export const fetchScanById = async (scanId) => {
   }
 };
 
+export const fetchActiveScans = async (query) => {
+  try {
+    const scans = await axiosClient.get(`scans/sessions/active/refresh`, {
+      params: {
+        pool_ids: query?.join(),
+      },
+    });
+
+    return scans;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 export const updateTube = async ({ id, data }) => {
   try {
     const tube = await axiosClient.patch(`/scans/tubes/${id}/`, { ...data });
