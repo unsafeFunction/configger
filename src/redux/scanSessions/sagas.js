@@ -586,14 +586,14 @@ export function* callFetchCompanyInfo(payload) {
   }
 }
 
-export function* callFetchActiveScans(payload) {
+export function* callFetchActiveScans({ payload }) {
   try {
-    const response = yield call(fetchActiveScans);
+    const response = yield call(fetchActiveScans, payload);
 
     yield put({
       type: actions.FETCH_ACTIVE_SCANS_SUCCESS,
       payload: {
-        data: response.data.results,
+        data: response.data,
       },
     });
   } catch (error) {

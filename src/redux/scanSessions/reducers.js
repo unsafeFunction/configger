@@ -195,7 +195,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     case actions.FETCH_ACTIVE_SCANS_SUCCESS: {
       return {
         ...state,
-        scans: [...state.scans, ...action.payload],
+        scans: [...state.scans, ...action.payload.data],
       };
     }
     case actions.FETCH_ACTIVE_SCANS_FAILURE: {

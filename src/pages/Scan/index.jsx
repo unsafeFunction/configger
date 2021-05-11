@@ -262,6 +262,9 @@ const Scan = () => {
       if (isFetchNew) {
         dispatch({
           type: actions.FETCH_ACTIVE_SCANS_REQUEST,
+          payload: scans.map((scan) => {
+            return scan.pool_id;
+          }),
         });
       }
     }, 7000);
@@ -269,7 +272,11 @@ const Scan = () => {
     if (!isFetchNew) {
       clearInterval(refreshInterval);
     }
-  }, [session.reference_pools_count, actualPoolsCount, dispatch]);
+
+    return () => {
+      clearInterval(refreshInterval);
+    };
+  }, [session.reference_pools_count, actualPoolsCount, scans, dispatch]);
 
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
