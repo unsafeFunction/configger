@@ -30,6 +30,7 @@ export default function modal(state = initialState, action) {
         isDisabled: !!action.payload,
       });
     }
+    case actions.UPDATE_SCAN_BY_ID_REQUEST:
     case actions.PATCH_INTAKE_REQUEST: {
       return {
         ...state,

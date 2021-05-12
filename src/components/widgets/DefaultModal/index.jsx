@@ -7,7 +7,16 @@ const DefaultModal = (props) => {
   const isLoading = useSelector((state) => state.modal.isLoading);
   const enterPress = useKeyPress('Enter');
 
-  const { type, isOpen, title, children, onOk, onCancel, width } = props;
+  const {
+    type,
+    isOpen,
+    title,
+    children,
+    onOk,
+    onCancel,
+    width,
+    okButtonProps,
+  } = props;
 
   useEffect(() => {
     if (enterPress) {
@@ -23,7 +32,9 @@ const DefaultModal = (props) => {
       onOk={onOk}
       onCancel={onCancel}
       width={width}
-      okButtonProps={{ loading: isLoading }}
+      okButtonProps={Object.assign(okButtonProps, {
+        loading: isLoading,
+      })}
       {...props}
     >
       {children}
