@@ -19,9 +19,7 @@ const DefaultModal = (props) => {
   } = props;
 
   const formattedOkButtonProps = okButtonProps
-    ? Object.assign(okButtonProps, {
-        loading: isLoading,
-      })
+    ? { ...okButtonProps, loading: isLoading }
     : okButtonProps;
 
   useEffect(() => {

@@ -220,7 +220,7 @@ const ScanSessions = () => {
       dispatch({
         type: helperActions.EXPORT_FILE_REQUEST,
         payload: {
-          link: `/scans/pool/${poolId}/export`,
+          link: `/scans/pool/${poolId}/export/`,
           instanceId: poolId,
           name,
           contentType: 'text/csv',
