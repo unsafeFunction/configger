@@ -19,8 +19,10 @@ const DefaultModal = (props) => {
   } = props;
 
   const formattedOkButtonProps = okButtonProps
-    ? { ...okButtonProps, loading: isLoading }
-    : okButtonProps;
+    ? Object.assign(okButtonProps, {
+        loading: isLoading,
+      })
+    : { loading: isLoading };
 
   useEffect(() => {
     if (enterPress) {

@@ -12,7 +12,7 @@ const SingleSessionTable = ({
   handleCancelScan,
   loadScan,
 }) => {
-  const scanId = useSelector((state) => state.scanSessions.scan.id);
+  const { id, isLoading } = useSelector((state) => state.scanSessions.scan);
 
   const columns = [
     { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id', width: 100 },
@@ -49,11 +49,19 @@ const SingleSessionTable = ({
       scanner: scan.scanner ?? '-',
       action: (
         <div className={styles.actions}>
-          <Button onClick={() => loadScan(scan.id)} type="primary">
+          <Button
+            disabled={isLoading}
+            onClick={() => loadScan(scan.id)}
+            type="primary"
+          >
             View scan
           </Button>
           {scan.status === 'COMPLETED' && (
-            <Button onClick={() => handleCancelScan(scan)} type="primary">
+            <Button
+              disabled={isLoading}
+              onClick={() => handleCancelScan(scan)}
+              type="primary"
+            >
               Cancel
             </Button>
           )}
@@ -69,7 +77,7 @@ const SingleSessionTable = ({
       pagination={false}
       dataSource={dataForTable}
       scroll={{ y: 200, x: 600 }}
-      rowClassName={(record) => record.key === scanId && styles.highlightedRow}
+      rowClassName={(record) => record.key === id && styles.highlightedRow}
     />
   );
 };
