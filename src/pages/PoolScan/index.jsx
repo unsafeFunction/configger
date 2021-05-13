@@ -2,7 +2,7 @@ import { Col, Row, Statistic } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import PoolStatistic from 'components/widgets/Scans/PoolStatistic';
 import moment from 'moment-timezone';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/scanSessions/actions';
@@ -19,6 +19,21 @@ const PoolScan = () => {
 
   const session = useSelector((state) => state.scanSessions.singleSession);
   const scan = useSelector((state) => state.scanSessions.scan);
+
+  const getPoolName = useCallback(() => {
+    if (scan?.isLoading || session?.isLoading) {
+      return '-';
+    }
+    if (scan?.scan_name) {
+      return scan.scan_name;
+    }
+    if (!scan?.scan_name) {
+      return scan?.ordinal_name;
+    }
+    return '-';
+  }, [scan, session]);
+
+  const poolName = getPoolName();
 
   const companyInfo = session?.company_short;
 
@@ -72,15 +87,7 @@ const PoolScan = () => {
               title="Pool name:"
               // TODO: temp
               // value={scan?.scan_name ? scan.scan_name : '-'}
-              value={
-                scan?.scan_name
-                  ? scan.scan_name
-                  : scan?.scan_order >= 0
-                  ? `${
-                      moment(scan?.scan_timestamp)?.format('dddd')?.[0]
-                    }${scan?.scan_order + 1}`
-                  : '-'
-              }
+              value={poolName}
             />
           </div>
         </Col>

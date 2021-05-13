@@ -82,10 +82,8 @@ const Scan = () => {
     if (scan?.scan_name) {
       return scan.scan_name;
     }
-    if (scan?.scan_order >= 0 && scan?.scan_order !== null) {
-      return `${
-        moment(scan?.scan_timestamp)?.format('dddd')?.[0]
-      }${scan?.scan_order + 1}`;
+    if (!scan?.scan_name) {
+      return scan?.ordinal_name;
     }
     return '-';
   }, [scan, session]);

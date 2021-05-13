@@ -220,7 +220,7 @@ const ScanSessions = () => {
       dispatch({
         type: helperActions.EXPORT_FILE_REQUEST,
         payload: {
-          link: `/scans/pool/${poolId}/export`,
+          link: `/scans/pool/${poolId}/export/`,
           instanceId: poolId,
           name,
           contentType: 'text/csv',
@@ -229,6 +229,19 @@ const ScanSessions = () => {
     },
     [dispatch],
   );
+
+  const getPoolName = useCallback((scan) => {
+    if (scan?.isLoading) {
+      return '-';
+    }
+    if (scan?.scan_name) {
+      return scan.scan_name;
+    }
+    if (!scan?.scan_name) {
+      return scan?.ordinal_name;
+    }
+    return '-';
+  }, []);
 
   return (
     <>
@@ -256,6 +269,8 @@ const ScanSessions = () => {
           expandedRowRender={(record) => {
             return expandedRow(
               scans.map((scan) => {
+                const poolName = getPoolName(scan);
+
                 return {
                   key: scan.id,
                   pool_id: scan.pool_id,
@@ -264,13 +279,7 @@ const ScanSessions = () => {
                     : '-',
                   // TODO: temp
                   // scan_name: scan?.scan_name ? scan.scan_name : '-',
-                  scan_name: scan?.scan_name
-                    ? scan.scan_name
-                    : scan?.scan_order >= 0
-                    ? `${
-                        moment(scan?.scan_timestamp)?.format('dddd')?.[0]
-                      }${scan?.scan_order + 1}`
-                    : '-',
+                  scan_name: poolName,
                   scanner: scan.scanner ?? '-',
                   action: (
                     <>
@@ -290,7 +299,7 @@ const ScanSessions = () => {
                         onClick={() => {
                           return exportPool({
                             poolId: scan.id,
-                            name: scan.scan_name,
+                            name: scan.scan_file_name,
                           });
                         }}
                         type="primary"
