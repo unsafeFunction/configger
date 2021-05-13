@@ -18,6 +18,12 @@ const DefaultModal = (props) => {
     okButtonProps,
   } = props;
 
+  const formattedOkButtonProps = okButtonProps
+    ? Object.assign(okButtonProps, {
+        loading: isLoading,
+      })
+    : okButtonProps;
+
   useEffect(() => {
     if (enterPress) {
       onOk();
@@ -32,9 +38,7 @@ const DefaultModal = (props) => {
       onOk={onOk}
       onCancel={onCancel}
       width={width}
-      okButtonProps={Object.assign(okButtonProps, {
-        loading: isLoading,
-      })}
+      okButtonProps={formattedOkButtonProps}
       {...props}
     >
       {children}
