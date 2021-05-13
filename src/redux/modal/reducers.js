@@ -33,7 +33,10 @@ export default function modal(state = initialState, action) {
     case actions.INVALIDATE_TUBE_REQUEST:
     case actions.UPDATE_TUBE_REQUEST:
     case actions.UPDATE_SCAN_BY_ID_REQUEST:
-    case actions.PATCH_INTAKE_REQUEST: {
+    case actions.PATCH_INTAKE_REQUEST:
+    case actions.CREATE_INTAKE_REQUEST:
+    case actions.UPDATE_SESSION_REQUEST:
+    case actions.UPDATE_RACK_REQUEST: {
       return {
         ...state,
         isLoading: true,
@@ -46,7 +49,13 @@ export default function modal(state = initialState, action) {
     case actions.UPDATE_SCAN_BY_ID_SUCCESS:
     case actions.UPDATE_SCAN_BY_ID_FAILURE:
     case actions.PATCH_INTAKE_SUCCESS:
-    case actions.PATCH_INTAKE_FAILURE: {
+    case actions.PATCH_INTAKE_FAILURE:
+    case actions.CREATE_INTAKE_SUCCESS:
+    case actions.CREATE_INTAKE_FAILURE:
+    case actions.UPDATE_SESSION_SUCCESS:
+    case actions.UPDATE_SESSION_FAILURE:
+    case actions.UPDATE_RACK_SUCCESS:
+    case actions.UPDATE_RACK_FAILURE: {
       return {
         ...state,
         isLoading: false,
