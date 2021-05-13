@@ -1,5 +1,6 @@
 import intakeReceiptLogActions from 'redux/intakeReceiptLog/actions';
 import sessionActions from 'redux/scanSessions/actions';
+import racksActions from 'redux/racks/actions';
 
 const actions = {
   SHOW_MODAL: 'modal/SHOW_MODAL',
@@ -7,6 +8,7 @@ const actions = {
   SET_ERROR: 'modal/SET_ERROR',
   ...intakeReceiptLogActions,
   ...sessionActions,
+  ...racksActions,
 };
 
 export default actions;
