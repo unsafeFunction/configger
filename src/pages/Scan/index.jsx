@@ -6,7 +6,6 @@ import {
   DownOutlined,
   EditOutlined,
   LeftOutlined,
-  ReloadOutlined,
   RightOutlined,
 } from '@ant-design/icons';
 import {
@@ -448,15 +447,6 @@ const Scan = () => {
           {`Scan on ${moment(scan?.scan_timestamp)?.format('LLLL') ?? ''}`}
         </Typography.Title>
         <Row>
-          <Button
-            onClick={loadSession}
-            icon={<ReloadOutlined />}
-            className="mb-2 mr-2"
-            type="primary"
-            disabled={session?.isLoading}
-          >
-            Load Additional Scan
-          </Button>
           <Dropdown
             overlay={sessionMenu}
             overlayClassName={styles.actionsOverlay}
