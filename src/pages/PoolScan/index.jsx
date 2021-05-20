@@ -85,8 +85,6 @@ const PoolScan = () => {
             <Statistic
               className={styles.companyDetailsStat}
               title="Pool name:"
-              // TODO: temp
-              // value={scan?.scan_name ? scan.scan_name : '-'}
               value={poolName}
             />
           </div>

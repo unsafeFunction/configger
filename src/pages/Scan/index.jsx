@@ -249,8 +249,8 @@ const Scan = () => {
   }, [session.activeSessionId, sessionId]);
 
   useEffect(() => {
-    setChangedPoolName(scan?.scan_name || poolName);
-  }, [scan]);
+    setChangedPoolName(poolName);
+  }, [poolName]);
 
   useEffect(() => {
     const isFetchNew = session.reference_pools_count > actualPoolsCount;
@@ -286,7 +286,7 @@ const Scan = () => {
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
     if (isEditOpen) {
-      setChangedPoolName(scan?.scan_name ? scan?.scan_name : poolName);
+      setChangedPoolName(poolName);
     }
   }, [isEditOpen, setEditOpen, poolName]);
 
