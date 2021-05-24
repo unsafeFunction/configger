@@ -124,7 +124,7 @@ const Scan = () => {
         },
       });
     },
-    [dispatch, scan, poolName],
+    [dispatch, scan],
   );
 
   const updateSession = useCallback(
