@@ -277,8 +277,6 @@ const ScanSessions = () => {
                   scan_time: scan.scan_timestamp
                     ? moment(scan.scan_timestamp).format('LLLL')
                     : '-',
-                  // TODO: temp
-                  // scan_name: scan?.scan_name ? scan.scan_name : '-',
                   scan_name: poolName,
                   scanner: scan.scanner ?? '-',
                   action: (
