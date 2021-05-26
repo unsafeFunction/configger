@@ -477,7 +477,10 @@ const Scan = () => {
                 htmlType="submit"
                 className={styles.saveScanBtn}
                 disabled={
-                  session?.isLoading || scans.length === 0 || scan?.isLoading
+                  session?.isLoading ||
+                  scans.length === 0 ||
+                  scan?.isLoading ||
+                  scan?.status === completed
                 }
               >
                 Save Scan
@@ -535,7 +538,10 @@ const Scan = () => {
                     }
                   }}
                   disabled={
-                    session?.isLoading || scan?.isLoading || scans.length === 0
+                    session?.isLoading ||
+                    scan?.isLoading ||
+                    scans.length === 0 ||
+                    scan?.status === completed
                   }
                 >
                   <Button type="primary">
