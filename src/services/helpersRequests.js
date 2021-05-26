@@ -12,10 +12,14 @@ export const downloadFile = async ({ link, instanceId, name, contentType }) => {
     });
 
     const blobData = new Blob([response.data], { type: contentType });
+    const parsedName = response.headers['content-disposition']
+      ?.split(';')[1]
+      ?.split('="')[1]
+      ?.split('.')[0];
 
     saveBlobAs(
       blobData,
-      nameWithExtension(name || `Unknown_${instanceId}`, contentType),
+      nameWithExtension(parsedName || `Unknown_${instanceId}`, contentType),
     );
     return response;
   } catch (error) {
