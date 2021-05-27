@@ -2,7 +2,7 @@ import { Button, Table, Tag } from 'antd';
 import moment from 'moment';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 
@@ -14,7 +14,24 @@ const SingleSessionTable = ({
 }) => {
   const { id, isLoading } = useSelector((state) => state.scanSessions.scan);
 
+  const getPoolName = useCallback((scan) => {
+    if (scan?.scan_name) {
+      return scan.scan_name;
+    }
+    if (!scan?.scan_name) {
+      return scan?.ordinal_name;
+    }
+    return '-';
+  }, []);
+
   const columns = [
+    {
+      title: 'PoolName',
+      dataIndex: 'scan_name',
+      key: 'scan_name',
+      width: 100,
+      ellipsis: true,
+    },
     { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id', width: 100 },
     { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
     {
@@ -42,6 +59,7 @@ const SingleSessionTable = ({
   const dataForTable = scansInWork.map((scan) => {
     return {
       key: scan.id,
+      scan_name: getPoolName(scan),
       pool_id: scan.pool_id,
       status: scan.status,
       scan_time: moment(scan.scan_timestamp).format('llll'),
