@@ -171,7 +171,7 @@ const Scan = () => {
 
   const sessionMenu = (
     <Menu>
-      <Menu.Item key="1" icon={<CloseOutlined />}>
+      <Menu.Item className="mb-4" key="1" icon={<CloseOutlined />}>
         <Popconfirm
           title="Are you sure to cancel session?"
           okText="Yes"
