@@ -91,8 +91,8 @@ const SingleSessionTable = ({
     .sort((a, b) => {
       const reA = /[^a-zA-Z]/g;
       const reN = /[^0-9]/g;
-      const nameA = a.scan_name.replace(reA, '');
-      const nameB = b.scan_name.replace(reA, '');
+      const nameA = a.scan_name.replace(reA, '').toLowerCase();
+      const nameB = b.scan_name.replace(reA, '').toLowerCase();
       if (nameA === nameB) {
         const nameANumber = parseInt(a.scan_name.replace(reN, ''), 10);
         const nameBNumber = parseInt(b.scan_name.replace(reN, ''), 10);
