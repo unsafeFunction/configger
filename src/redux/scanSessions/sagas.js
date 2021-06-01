@@ -174,7 +174,7 @@ export function* callFetchScanById({ payload }) {
     });
 
     if (payload.callback && response?.data?.possibly_reversed) {
-      payload.callback();
+      yield call(payload.callback);
     }
   } catch (error) {
     yield put({

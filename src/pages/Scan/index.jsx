@@ -216,7 +216,7 @@ const Scan = () => {
           },
           cancelText: 'Cancel',
           onCancel: () => {
-            updateScan({ possibly_reversed: false }, scanId);
+            updateScan({ reverse: false }, scanId);
           },
         },
         content: () => {
@@ -240,7 +240,7 @@ const Scan = () => {
         type: actions.FETCH_SCAN_BY_ID_REQUEST,
         payload: {
           scanId,
-          callback: reverseScanDrawer(scanId),
+          callback: () => reverseScanDrawer(scanId),
         },
       });
     },
