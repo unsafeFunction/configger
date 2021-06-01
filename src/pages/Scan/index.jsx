@@ -171,17 +171,8 @@ const Scan = () => {
 
   const sessionMenu = (
     <Menu>
-      <Menu.Item className="mb-4" key="1" icon={<CloseOutlined />}>
-        <Popconfirm
-          title="Are you sure to cancel session?"
-          okText="Yes"
-          cancelText="No"
-          onConfirm={closeSession}
-        >
-          Cancel session
-        </Popconfirm>
-      </Menu.Item>
       <Menu.Item
+        className="mb-4"
         onClick={() =>
           onSaveSessionModalToggle(
             refPoolsCount,
@@ -190,10 +181,20 @@ const Scan = () => {
             actualSamplesCount,
           )
         }
-        key="2"
+        key="1"
         icon={<CheckOutlined />}
       >
         Save session
+      </Menu.Item>
+      <Menu.Item key="2" icon={<CloseOutlined />}>
+        <Popconfirm
+          title="Are you sure to cancel session?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={closeSession}
+        >
+          Cancel session
+        </Popconfirm>
       </Menu.Item>
     </Menu>
   );
