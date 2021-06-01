@@ -30,6 +30,7 @@ import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
@@ -74,20 +75,23 @@ const Scan = () => {
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
-  const getPoolName = useCallback(() => {
-    if (scan?.isLoading || session?.isLoading) {
+  const getPoolName = useCallback(
+    (scan) => {
+      if (scan?.isLoading || session?.isLoading) {
+        return '-';
+      }
+      if (scan?.scan_name) {
+        return scan.scan_name;
+      }
+      if (!scan?.scan_name) {
+        return scan?.ordinal_name;
+      }
       return '-';
-    }
-    if (scan?.scan_name) {
-      return scan.scan_name;
-    }
-    if (!scan?.scan_name) {
-      return scan?.ordinal_name;
-    }
-    return '-';
-  }, [scan, session]);
+    },
+    [session],
+  );
 
-  const poolName = getPoolName();
+  const poolName = getPoolName(scan);
 
   const refPoolsCount = session?.reference_pools_count;
   const refSamplesCount = session?.reference_samples_count;
@@ -114,13 +118,13 @@ const Scan = () => {
   }, [dispatch, scan]);
 
   const updateScan = useCallback(
-    (data) => {
+    (data, id = scan?.id) => {
       setEditOpen(false);
       dispatch({
         type: actions.UPDATE_SCAN_BY_ID_REQUEST,
         payload: {
-          data: { ...data, status: 'COMPLETED' },
-          id: scan?.id,
+          data,
+          id,
         },
       });
     },
@@ -199,14 +203,51 @@ const Scan = () => {
     </Menu>
   );
 
+  const reverseScanDrawer = useCallback(
+    (scanId) => {
+      dispatch({
+        type: drawerActions.SHOW_DRAWER,
+        drawerProps: {
+          title: 'Warning',
+          placement: 'top',
+          maskClosable: false,
+          closable: false,
+          maskStyle: {
+            'background-color': 'rgba(38, 50, 56, 0.2)',
+          },
+        },
+        footerProps: {
+          okText: 'Reverse scan',
+          onOk: () => {
+            updateScan({ reverse: true }, scanId);
+          },
+        },
+        content: () => {
+          return (
+            <Alert
+              showIcon
+              type="warning"
+              message="Warning"
+              description={<Paragraph>IS IT A REVERSED SCAN?</Paragraph>}
+            />
+          );
+        },
+      });
+    },
+    [dispatch, updateScan],
+  );
+
   const loadScan = useCallback(
     (scanId) => {
       dispatch({
         type: actions.FETCH_SCAN_BY_ID_REQUEST,
-        payload: { scanId },
+        payload: {
+          scanId,
+          callback: () => reverseScanDrawer(scanId),
+        },
       });
     },
-    [dispatch],
+    [dispatch, reverseScanDrawer],
   );
 
   useEffect(() => {
@@ -216,7 +257,7 @@ const Scan = () => {
       dispatch({ type: actions.RESET_SCAN });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, loadScan, scansInWork[0]?.id]);
+  }, [dispatch, scansInWork[0]?.id]);
 
   const loadSession = useCallback(() => {
     dispatch({
@@ -330,18 +371,16 @@ const Scan = () => {
         title: 'Save scan',
         modalId: 'saveScan',
         onOk: () => {
-          return !isIncorrectTubes
-            ? updateScan()
-            : scan?.possibly_reversed && updateScan({ reverse: true });
+          updateScan({ status: completed });
         },
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
         },
         okButtonProps: {
-          disabled: !scan.possibly_reversed && isIncorrectTubes,
+          disabled: isIncorrectTubes,
         },
-        okText: scan.possibly_reversed ? 'Reverse scan' : 'Save',
+        okText: 'Save',
         message: () => {
           return isIncorrectTubes || isEmptyTubes ? (
             <Alert
@@ -349,9 +388,7 @@ const Scan = () => {
               type="warning"
               message="Warning"
               description={
-                scan?.possibly_reversed ? (
-                  <Paragraph>IS IT A REVERSED SCAN?</Paragraph>
-                ) : isIncorrectTubes ? (
+                isIncorrectTubes ? (
                   <Paragraph>{`IT IS IMPOSSIBLE TO SAVE SCAN BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}</Paragraph>
                 ) : isEmptyTubes ? (
                   <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>
@@ -364,7 +401,7 @@ const Scan = () => {
         },
       },
     });
-  }, [dispatch, updateScan, incorrectPositions]);
+  }, [dispatch, updateScan, incorrectPositions, completed]);
 
   useEffect(() => {
     if (
@@ -626,9 +663,8 @@ const Scan = () => {
               title="Most Recent Scan:"
               value={
                 scansInWork[1]
-                  ? `${session?.company_short?.name_short} ${
-                      scansInWork[1].scan_name
-                    }
+                  ? `${session?.company_short?.name_short} 
+                    ${getPoolName(scansInWork[1])}
                     on ${moment(scansInWork[1].scan_timestamp)?.format('lll')}`
                   : '-'
               }
