@@ -214,10 +214,6 @@ const Scan = () => {
           onOk: () => {
             updateScan({ reverse: true }, scanId);
           },
-          cancelText: 'Cancel',
-          onCancel: () => {
-            updateScan({ reverse: false }, scanId);
-          },
         },
         content: () => {
           return (

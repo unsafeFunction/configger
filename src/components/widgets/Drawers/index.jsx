@@ -18,15 +18,16 @@ const DefaultDrawer = () => {
     <Drawer
       visible={isOpen}
       onClose={onClose}
+      placement="top"
       footer={
         // eslint-disable-next-line react/jsx-wrap-multilines
         <div style={{ textAlign: 'right' }}>
           <Button
-            onClick={footerProps.onCancel}
+            onClick={onClose}
             style={{ marginRight: 8 }}
             loading={isLoading}
           >
-            {footerProps.cancelText}
+            Cancel
           </Button>
           <Button onClick={footerProps.onOk} type="primary" loading={isLoading}>
             {footerProps.okText}

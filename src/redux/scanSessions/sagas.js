@@ -173,7 +173,11 @@ export function* callFetchScanById({ payload }) {
       },
     });
 
-    if (payload.callback && response?.data?.possibly_reversed) {
+    if (
+      payload.callback &&
+      response?.data?.possibly_reversed &&
+      response?.data?.status !== 'COMPLETED'
+    ) {
       yield call(payload.callback);
     }
   } catch (error) {
