@@ -370,7 +370,7 @@ const Scan = () => {
         title: 'Save scan',
         modalId: 'saveScan',
         onOk: () => {
-          updateScan({ status: 'COMPLETED' });
+          updateScan({ status: completed });
         },
         bodyStyle: {
           maxHeight: '70vh',
@@ -400,7 +400,7 @@ const Scan = () => {
         },
       },
     });
-  }, [dispatch, updateScan, incorrectPositions]);
+  }, [dispatch, updateScan, incorrectPositions, completed]);
 
   useEffect(() => {
     if (
