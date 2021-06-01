@@ -30,6 +30,7 @@ import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
@@ -114,13 +115,13 @@ const Scan = () => {
   }, [dispatch, scan]);
 
   const updateScan = useCallback(
-    (data) => {
+    (data, id = scan?.id) => {
       setEditOpen(false);
       dispatch({
         type: actions.UPDATE_SCAN_BY_ID_REQUEST,
         payload: {
-          data: { ...data, status: 'COMPLETED' },
-          id: scan?.id,
+          data,
+          id,
         },
       });
     },
@@ -198,14 +199,60 @@ const Scan = () => {
     </Menu>
   );
 
+  const reverseScanDrawer = useCallback(
+    (scanId) => {
+      dispatch({
+        type: drawerActions.SHOW_DRAWER,
+        drawerProps: {
+          title: 'Warning',
+          placement: 'top',
+          maskClosable: false,
+          closable: false,
+          footer: (
+            <div style={{ textAlign: 'right' }}>
+              <Button
+                onClick={() => updateScan({ possibly_reversed: false }, scanId)}
+                style={{ marginRight: 8 }}
+                loading={scan.isLoading}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => updateScan({ reverse: true }, scanId)}
+                type="primary"
+                loading={scan.isLoading}
+              >
+                Reverse scan
+              </Button>
+            </div>
+          ),
+        },
+        content: () => {
+          return (
+            <Alert
+              showIcon
+              type="warning"
+              message="Warning"
+              description={<Paragraph>IS IT A REVERSED SCAN?</Paragraph>}
+            />
+          );
+        },
+      });
+    },
+    [dispatch, updateScan, scan],
+  );
+
   const loadScan = useCallback(
     (scanId) => {
       dispatch({
         type: actions.FETCH_SCAN_BY_ID_REQUEST,
-        payload: { scanId },
+        payload: {
+          scanId,
+          callback: reverseScanDrawer(scanId),
+        },
       });
     },
-    [dispatch],
+    [dispatch, reverseScanDrawer],
   );
 
   useEffect(() => {
@@ -215,7 +262,7 @@ const Scan = () => {
       dispatch({ type: actions.RESET_SCAN });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, loadScan, scansInWork[0]?.id]);
+  }, [dispatch, scansInWork[0]?.id]);
 
   const loadSession = useCallback(() => {
     dispatch({
@@ -329,18 +376,16 @@ const Scan = () => {
         title: 'Save scan',
         modalId: 'saveScan',
         onOk: () => {
-          return !isIncorrectTubes
-            ? updateScan()
-            : scan?.possibly_reversed && updateScan({ reverse: true });
+          updateScan({ status: 'COMPLETED' });
         },
         bodyStyle: {
           maxHeight: '70vh',
           overflow: 'scroll',
         },
         okButtonProps: {
-          disabled: !scan.possibly_reversed && isIncorrectTubes,
+          disabled: isIncorrectTubes,
         },
-        okText: scan.possibly_reversed ? 'Reverse scan' : 'Save',
+        okText: 'Save',
         message: () => {
           return isIncorrectTubes || isEmptyTubes ? (
             <Alert
@@ -348,9 +393,7 @@ const Scan = () => {
               type="warning"
               message="Warning"
               description={
-                scan?.possibly_reversed ? (
-                  <Paragraph>IS IT A REVERSED SCAN?</Paragraph>
-                ) : isIncorrectTubes ? (
+                isIncorrectTubes ? (
                   <Paragraph>{`IT IS IMPOSSIBLE TO SAVE SCAN BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}</Paragraph>
                 ) : isEmptyTubes ? (
                   <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>

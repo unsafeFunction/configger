@@ -21,7 +21,6 @@ export default function modal(state = initialState, action) {
     case actions.HIDE_MODAL: {
       return {
         ...initialState,
-        isLoading: false,
       };
     }
     case actions.SET_ERROR: {

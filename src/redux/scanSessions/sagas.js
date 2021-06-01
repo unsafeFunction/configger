@@ -3,15 +3,16 @@ import sortBy from 'lodash.sortby';
 import moment from 'moment-timezone';
 import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import { callFetchCompanyShort } from 'redux/companies/sagas';
+import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
 import { fetchIntakeReceiptLog } from 'services/intakeReceiptLog';
 import {
   deleteScan,
   deleteTube,
+  fetchActiveScans,
   fetchScanById,
   updateScan,
   updateTube,
-  fetchActiveScans,
 } from 'services/scans';
 import {
   closeSession,
@@ -171,6 +172,10 @@ export function* callFetchScanById({ payload }) {
         },
       },
     });
+
+    if (payload.callback && response?.data?.possibly_reversed) {
+      payload.callback();
+    }
   } catch (error) {
     yield put({
       type: actions.FETCH_SCAN_BY_ID_FAILURE,
@@ -478,6 +483,10 @@ export function* callUpdateScan({ payload }) {
 
     yield put({
       type: modalActions.HIDE_MODAL,
+    });
+
+    yield put({
+      type: drawerActions.HIDE_DRAWER,
     });
 
     notification.success({

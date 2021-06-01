@@ -2,6 +2,8 @@ import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
 import analysisRuns from './analysisRuns/reducers';
 import companies from './companies/reducers';
+import drawer from './drawer/reducers';
+import helpersReducer from './helpers/reducers';
 import intake from './intake/reducers';
 import intakeLims from './intakeLims/reducers';
 import intakeReceiptLog from './intakeReceiptLog/reducers';
@@ -19,7 +21,6 @@ import settings from './settings/reducers';
 import templateGeneration from './templateGeneration/reducers';
 import user from './user/reducers';
 import userSettings from './userSettings/reducers';
-import helpersReducer from './helpers/reducers';
 
 export default (history) =>
   combineReducers({
@@ -29,6 +30,7 @@ export default (history) =>
     settings,
     userSettings,
     modal,
+    drawer,
     companies,
     runs,
     pools,
