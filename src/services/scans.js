@@ -54,7 +54,6 @@ export const deleteScan = async ({ id }) => {
 };
 
 export const updateScan = async ({ data, id }) => {
-  // return console.log('SCAN SERVICES data, id', data, id);
   try {
     const scan = await axiosClient.patch(`/scans/pool/${id}/`, {
       ...data,

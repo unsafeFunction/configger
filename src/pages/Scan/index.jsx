@@ -290,28 +290,28 @@ const Scan = () => {
     setChangedPoolName(poolName);
   }, [poolName]);
 
-  // useEffect(() => {
-  //   const isFetchNew = session.reference_pools_count > actualPoolsCount;
+  useEffect(() => {
+    const isFetchNew = session.reference_pools_count > actualPoolsCount;
 
-  //   const refreshInterval = setInterval(() => {
-  //     if (isFetchNew) {
-  //       dispatch({
-  //         type: actions.FETCH_ACTIVE_SCANS_REQUEST,
-  //         payload: scans.map((scan) => {
-  //           return scan.pool_id;
-  //         }),
-  //       });
-  //     }
-  //   }, 7000);
+    const refreshInterval = setInterval(() => {
+      if (isFetchNew) {
+        dispatch({
+          type: actions.FETCH_ACTIVE_SCANS_REQUEST,
+          payload: scans.map((scan) => {
+            return scan.pool_id;
+          }),
+        });
+      }
+    }, 7000);
 
-  //   if (!isFetchNew) {
-  //     clearInterval(refreshInterval);
-  //   }
+    if (!isFetchNew) {
+      clearInterval(refreshInterval);
+    }
 
-  //   return () => {
-  //     clearInterval(refreshInterval);
-  //   };
-  // }, [session.reference_pools_count, actualPoolsCount, scans, dispatch]);
+    return () => {
+      clearInterval(refreshInterval);
+    };
+  }, [session.reference_pools_count, actualPoolsCount, scans, dispatch]);
 
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
