@@ -75,20 +75,23 @@ const Scan = () => {
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
-  const getPoolName = useCallback(() => {
-    if (scan?.isLoading || session?.isLoading) {
+  const getPoolName = useCallback(
+    (scan) => {
+      if (scan?.isLoading || session?.isLoading) {
+        return '-';
+      }
+      if (scan?.scan_name) {
+        return scan.scan_name;
+      }
+      if (!scan?.scan_name) {
+        return scan?.ordinal_name;
+      }
       return '-';
-    }
-    if (scan?.scan_name) {
-      return scan.scan_name;
-    }
-    if (!scan?.scan_name) {
-      return scan?.ordinal_name;
-    }
-    return '-';
-  }, [scan, session]);
+    },
+    [session],
+  );
 
-  const poolName = getPoolName();
+  const poolName = getPoolName(scan);
 
   const refPoolsCount = session?.reference_pools_count;
   const refSamplesCount = session?.reference_samples_count;
@@ -659,9 +662,8 @@ const Scan = () => {
               title="Most Recent Scan:"
               value={
                 scansInWork[1]
-                  ? `${session?.company_short?.name_short} ${
-                      scansInWork[1].scan_name
-                    }
+                  ? `${session?.company_short?.name_short} 
+                    ${getPoolName(scansInWork[1])}
                     on ${moment(scansInWork[1].scan_timestamp)?.format('lll')}`
                   : '-'
               }
