@@ -208,24 +208,16 @@ const Scan = () => {
           placement: 'top',
           maskClosable: false,
           closable: false,
-          footer: (
-            <div style={{ textAlign: 'right' }}>
-              <Button
-                onClick={() => updateScan({ possibly_reversed: false }, scanId)}
-                style={{ marginRight: 8 }}
-                loading={scan.isLoading}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() => updateScan({ reverse: true }, scanId)}
-                type="primary"
-                loading={scan.isLoading}
-              >
-                Reverse scan
-              </Button>
-            </div>
-          ),
+        },
+        footerProps: {
+          okText: 'Reverse scan',
+          onOk: () => {
+            updateScan({ reverse: true }, scanId);
+          },
+          cancelText: 'Cancel',
+          onCancel: () => {
+            updateScan({ possibly_reversed: false }, scanId);
+          },
         },
         content: () => {
           return (
@@ -239,7 +231,7 @@ const Scan = () => {
         },
       });
     },
-    [dispatch, updateScan, scan],
+    [dispatch, updateScan],
   );
 
   const loadScan = useCallback(

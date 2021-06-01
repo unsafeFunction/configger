@@ -2,6 +2,7 @@ import actions from './actions';
 
 const initialState = {
   drawerProps: {},
+  footerProps: {},
   content: null,
   isOpen: false,
   error: '',
@@ -15,6 +16,7 @@ export default function drawerReducer(state = initialState, action) {
       return {
         ...state,
         drawerProps: action.drawerProps,
+        footerProps: action.footerProps,
         content: action.content,
         isOpen: true,
       };
@@ -29,6 +31,19 @@ export default function drawerReducer(state = initialState, action) {
         ...state,
         error: action.payload,
         isDisabled: !!action.payload,
+      };
+    }
+    case actions.UPDATE_SCAN_BY_ID_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.UPDATE_SCAN_BY_ID_SUCCESS:
+    case actions.UPDATE_SCAN_BY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
       };
     }
     default:
