@@ -669,6 +669,7 @@ const Scan = () => {
                 </span>
               </div>
             </div>
+            {/* TODO: move recent scan logic to backend */}
             <Statistic
               className={styles.companyDetailsStat}
               title="Most Recent Scan:"
