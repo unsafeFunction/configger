@@ -569,6 +569,8 @@ export function* callVoidScan({ payload }) {
       },
     });
 
+    yield call(payload.reloadSession);
+
     notification.success({
       message: 'Scan was voided',
     });

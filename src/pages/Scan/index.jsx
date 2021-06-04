@@ -108,14 +108,24 @@ const Scan = () => {
 
   const companyInfo = session?.company_short;
 
+  const loadSession = useCallback(() => {
+    dispatch({
+      type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
+      payload: { sessionId },
+    });
+  }, [dispatch, sessionId]);
+
   const deleteScan = useCallback(() => {
     dispatch({
       type: actions.VOID_SCAN_BY_ID_REQUEST,
-      payload: { id: scan?.id },
+      payload: {
+        id: scan?.id,
+        reloadSession: loadSession,
+      },
     });
 
     setVisibleActions(false);
-  }, [dispatch, scan]);
+  }, [dispatch, scan, loadSession]);
 
   const updateScan = useCallback(
     (data, id = scan?.id) => {
@@ -158,7 +168,7 @@ const Scan = () => {
     });
   }, [updateSession, sessionId, history]);
 
-  const menu = (
+  const scanMenu = (
     <Menu>
       <Menu.Item key="1" icon={<CloseOutlined />}>
         <Popconfirm
@@ -258,13 +268,6 @@ const Scan = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, scansInWork[0]?.id]);
-
-  const loadSession = useCallback(() => {
-    dispatch({
-      type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
-      payload: { sessionId },
-    });
-  }, [dispatch, sessionId]);
 
   const useFetching = () => {
     useEffect(() => {
@@ -565,7 +568,7 @@ const Scan = () => {
                   </>
                 )}
                 <Dropdown
-                  overlay={menu}
+                  overlay={scanMenu}
                   overlayClassName={styles.actionsOverlay}
                   trigger="click"
                   onClick={handleSwitchVisibleActions}
@@ -576,10 +579,7 @@ const Scan = () => {
                     }
                   }}
                   disabled={
-                    session?.isLoading ||
-                    scan?.isLoading ||
-                    scans.length === 0 ||
-                    scan?.status === completed
+                    session?.isLoading || scan?.isLoading || scans.length === 0
                   }
                 >
                   <Button type="primary">
