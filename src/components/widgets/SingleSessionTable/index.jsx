@@ -14,16 +14,6 @@ const SingleSessionTable = ({
 }) => {
   const { id, isLoading } = useSelector((state) => state.scanSessions.scan);
 
-  const getPoolName = useCallback((scan) => {
-    if (scan?.scan_name) {
-      return scan.scan_name;
-    }
-    if (!scan?.scan_name) {
-      return scan?.ordinal_name;
-    }
-    return '-';
-  }, []);
-
   const columns = [
     {
       title: 'PoolName',
@@ -56,54 +46,37 @@ const SingleSessionTable = ({
     { title: 'Actions', dataIndex: 'action', key: 'action', width: 200 },
   ];
 
-  const dataForTable = scansInWork
-    .map((scan) => {
-      return {
-        key: scan.id,
-        scan_name: getPoolName(scan),
-        pool_id: scan.pool_id,
-        status: scan.status,
-        scan_time: moment(scan.scan_timestamp).format('llll'),
-        rack_id: scan.rack_id,
-        scanner: scan.scanner ?? '-',
-        action: (
-          <div className={styles.actions}>
+  const dataForTable = scansInWork.map((scan) => {
+    return {
+      key: scan.id,
+      scan_name: scan.scan_name,
+      pool_id: scan.pool_id,
+      status: scan.status,
+      scan_time: moment(scan.scan_timestamp).format('llll'),
+      rack_id: scan.rack_id,
+      scanner: scan.scanner ?? '-',
+      action: (
+        <div className={styles.actions}>
+          <Button
+            disabled={isLoading}
+            onClick={() => loadScan(scan.id)}
+            type="primary"
+          >
+            View scan
+          </Button>
+          {scan.status === 'COMPLETED' && (
             <Button
               disabled={isLoading}
-              onClick={() => loadScan(scan.id)}
+              onClick={() => handleCancelScan(scan)}
               type="primary"
             >
-              View scan
+              Cancel
             </Button>
-            {scan.status === 'COMPLETED' && (
-              <Button
-                disabled={isLoading}
-                onClick={() => handleCancelScan(scan)}
-                type="primary"
-              >
-                Cancel
-              </Button>
-            )}
-          </div>
-        ),
-      };
-    })
-    .sort((a, b) => {
-      const reA = /[^a-zA-Z]/g;
-      const reN = /[^0-9]/g;
-      const nameA = a.scan_name.replace(reA, '').toLowerCase();
-      const nameB = b.scan_name.replace(reA, '').toLowerCase();
-      if (nameA === nameB) {
-        const nameANumber = parseInt(a.scan_name.replace(reN, ''), 10);
-        const nameBNumber = parseInt(b.scan_name.replace(reN, ''), 10);
-        return nameANumber === nameBNumber
-          ? 0
-          : nameANumber > nameBNumber
-          ? 1
-          : -1;
-      }
-      return nameA > nameB ? 1 : -1;
-    });
+          )}
+        </div>
+      ),
+    };
+  });
 
   return (
     <Table

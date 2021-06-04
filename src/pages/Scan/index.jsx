@@ -69,7 +69,24 @@ const Scan = () => {
 
     setScansInWork([
       ...(scanInWork ? [scanInWork] : []),
-      ...scans?.filter((scan) => scan.status === completed).reverse(),
+      ...scans
+        ?.filter((scan) => scan.status === completed)
+        .sort((a, b) => {
+          const reA = /[^a-zA-Z]/g;
+          const reN = /[^0-9]/g;
+          const nameA = a.scan_name.replace(reA, '').toLowerCase();
+          const nameB = b.scan_name.replace(reA, '').toLowerCase();
+          if (nameA === nameB) {
+            const nameANumber = parseInt(a.scan_name.replace(reN, ''), 10);
+            const nameBNumber = parseInt(b.scan_name.replace(reN, ''), 10);
+            return nameANumber === nameBNumber
+              ? 0
+              : nameANumber > nameBNumber
+              ? 1
+              : -1;
+          }
+          return nameA > nameB ? 1 : -1;
+        }),
     ]);
   }, [scans, started, invalid, completed]);
 
@@ -77,16 +94,10 @@ const Scan = () => {
 
   const getPoolName = useCallback(
     (scan) => {
-      if (scan?.isLoading || session?.isLoading) {
+      if (scan?.isLoading || session?.isLoading || !scan?.scan_name) {
         return '-';
       }
-      if (scan?.scan_name) {
-        return scan.scan_name;
-      }
-      if (!scan?.scan_name) {
-        return scan?.ordinal_name;
-      }
-      return '-';
+      return scan.scan_name;
     },
     [session],
   );
@@ -294,8 +305,8 @@ const Scan = () => {
   }, [session.activeSessionId, sessionId]);
 
   useEffect(() => {
-    setChangedPoolName(poolName);
-  }, [poolName]);
+    setChangedPoolName(scan?.scan_name);
+  }, [scan]);
 
   useEffect(() => {
     const isFetchNew = session.reference_pools_count > actualPoolsCount;
@@ -331,9 +342,9 @@ const Scan = () => {
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
     if (isEditOpen) {
-      setChangedPoolName(poolName);
+      setChangedPoolName(scan?.scan_name);
     }
-  }, [isEditOpen, setEditOpen, poolName]);
+  }, [isEditOpen, setEditOpen, scan]);
 
   const handleChangePoolName = useCallback(
     (e) => {
@@ -658,13 +669,14 @@ const Scan = () => {
                 </span>
               </div>
             </div>
+            {/* TODO: move recent scan logic to backend */}
             <Statistic
               className={styles.companyDetailsStat}
               title="Most Recent Scan:"
               value={
                 scansInWork[1]
-                  ? `${session?.company_short?.name_short} 
-                    ${getPoolName(scansInWork[1])}
+                  ? `${session?.company_short?.name_short}
+                    ${scansInWork[1]?.scan_name}
                     on ${moment(scansInWork[1].scan_timestamp)?.format('lll')}`
                   : '-'
               }

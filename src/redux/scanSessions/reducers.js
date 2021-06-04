@@ -73,6 +73,13 @@ const initialSingleSession = {
   reference_samples_count: 0,
 };
 
+const getScanName = (scan) => {
+  if (scan?.scan_name) {
+    return scan.scan_name;
+  }
+  return scan?.ordinal_name;
+};
+
 const singleSessionReducer = (state = initialSingleSession, action) => {
   switch (action.type) {
     case actions.UPDATE_SELECTED_CODE_REQUEST: {
@@ -100,6 +107,10 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         ...state,
         isLoading: false,
         ...action.payload.data,
+        scans: action.payload.data.scans?.map((scan) => ({
+          ...scan,
+          scan_name: getScanName(scan),
+        })),
       };
     }
     case actions.FETCH_SCAN_SESSION_BY_ID_FAILURE: {
