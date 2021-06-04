@@ -398,11 +398,9 @@ const scanReducer = (state = initialScan, action) => {
     case actions.UPDATE_SCAN_BY_ID_SUCCESS:
     case actions.CANCEL_SCAN_BY_ID_SUCCESS:
     case actions.VOID_SCAN_BY_ID_SUCCESS: {
-      const { data } = action.payload;
-
       return {
         ...state,
-        ...data,
+        ...action.payload?.data,
         isLoading: false,
       };
     }
