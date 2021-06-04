@@ -550,24 +550,7 @@ export function* callVoidScan({ payload }) {
   try {
     const response = yield call(deleteScan, payload);
 
-    yield put({
-      type: actions.VOID_SCAN_BY_ID_SUCCESS,
-      payload: {
-        data: { status: 'VOIDED' },
-      },
-    });
-
-    yield put({
-      type: actions.CHANGE_SESSION_DATA,
-      payload: {
-        data: {
-          scanId: response.data.scan_id,
-          scanData: {
-            status: 'VOIDED',
-          },
-        },
-      },
-    });
+    yield put({ type: actions.VOID_SCAN_BY_ID_SUCCESS });
 
     yield call(payload.reloadSession);
 
