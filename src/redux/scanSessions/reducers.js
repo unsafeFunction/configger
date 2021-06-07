@@ -204,9 +204,16 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
     case actions.FETCH_ACTIVE_SCANS_SUCCESS: {
+      const freshScans = action.payload.data.map((scan) => {
+        return {
+          ...scan,
+          scan_name: getScanName(scan),
+        };
+      });
+
       return {
         ...state,
-        scans: [...state.scans, ...action.payload.data],
+        scans: [...state.scans, ...freshScans],
       };
     }
     case actions.FETCH_ACTIVE_SCANS_FAILURE: {
@@ -224,6 +231,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
             return {
               ...scan,
               ...scanData,
+              scan_name: getScanName(scan),
             };
           }
           return scan;
@@ -276,10 +284,12 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
     case actions.FETCH_SCAN_BY_ID_SUCCESS: {
+      const scan = action.payload.data;
       return {
         ...state,
         isLoading: false,
-        ...action.payload.data,
+        ...scan,
+        scan_name: getScanName(scan),
       };
     }
     case actions.FETCH_SCAN_BY_ID_FAILURE: {
@@ -407,11 +417,19 @@ const scanReducer = (state = initialScan, action) => {
     }
 
     case actions.UPDATE_SCAN_BY_ID_SUCCESS:
-    case actions.CANCEL_SCAN_BY_ID_SUCCESS:
+    case actions.CANCEL_SCAN_BY_ID_SUCCESS: {
+      const scan = action.payload.data;
+      return {
+        ...state,
+        ...scan,
+        scan_name: getScanName(scan),
+        isLoading: false,
+      };
+    }
+
     case actions.VOID_SCAN_BY_ID_SUCCESS: {
       return {
         ...state,
-        ...action.payload?.data,
         isLoading: false,
       };
     }
