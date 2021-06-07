@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { Button, Col, DatePicker, Row, Table, Tag } from 'antd';
+import classNames from 'classnames';
+import moment from 'moment-timezone';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
-import { Table, Button, Tag, DatePicker, Row, Col } from 'antd';
 import helperActions from 'redux/helpers/actions';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/racks/actions';
-import moment from 'moment-timezone';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -49,13 +49,12 @@ const RackScans = () => {
   };
 
   const exportRack = useCallback(
-    ({ name, poolId }) => {
+    ({ poolId }) => {
       dispatch({
         type: helperActions.EXPORT_FILE_REQUEST,
         payload: {
           link: `/scans/rack/${poolId}/export/`,
           instanceId: poolId,
-          name,
           contentType: 'text/csv',
         },
       });
@@ -135,10 +134,7 @@ const RackScans = () => {
             </Button>
             <Button
               onClick={() => {
-                return exportRack({
-                  poolId: record.id,
-                  name: record.scan_name,
-                });
+                return exportRack({ poolId: record.id });
               }}
               type="primary"
             >
