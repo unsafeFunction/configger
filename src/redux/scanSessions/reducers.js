@@ -231,7 +231,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
             return {
               ...scan,
               ...scanData,
-              scan_name: getScanName(scan),
+              scan_name: getScanName(scanData),
             };
           }
           return scan;
