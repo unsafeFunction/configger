@@ -428,7 +428,9 @@ const Scan = () => {
       if (isEditOpen) {
         return handleSavePoolName();
       }
-      return onSaveScanModalToggle();
+      if (scan?.status !== completed) {
+        return onSaveScanModalToggle();
+      }
     }
   }, [
     enterPress,
