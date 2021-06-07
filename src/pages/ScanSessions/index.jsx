@@ -216,13 +216,12 @@ const ScanSessions = () => {
   );
 
   const exportPool = useCallback(
-    ({ name, poolId }) => {
+    ({ poolId }) => {
       dispatch({
         type: helperActions.EXPORT_FILE_REQUEST,
         payload: {
           link: `/scans/pool/${poolId}/export/`,
           instanceId: poolId,
-          name,
           contentType: 'text/csv',
         },
       });
@@ -295,10 +294,7 @@ const ScanSessions = () => {
                       </Button>
                       <Button
                         onClick={() => {
-                          return exportPool({
-                            poolId: scan.id,
-                            name: scan.scan_file_name,
-                          });
+                          return exportPool({ poolId: scan.id });
                         }}
                         type="primary"
                       >

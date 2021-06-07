@@ -1,8 +1,9 @@
+/* eslint-disable import/prefer-default-export */
 import axiosClient from 'utils/axiosClient';
-import saveBlobAs from 'utils/saveAsBlob';
 import nameWithExtension from 'utils/nameWithExtension';
+import saveBlobAs from 'utils/saveAsBlob';
 
-export const downloadFile = async ({ link, instanceId, name, contentType }) => {
+export const downloadFile = async ({ link, instanceId, contentType }) => {
   try {
     const response = await axiosClient.get(link, {
       headers: {
