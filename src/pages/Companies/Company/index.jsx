@@ -1,10 +1,11 @@
 import {
   CheckCircleOutlined,
-  CloseCircleOutlined, DeleteOutlined, SearchOutlined
+  CloseCircleOutlined,
+  DeleteOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import { Button, Form, Input, Space, Table, Tabs, Tag } from 'antd';
 import { ContactResultModal } from 'components/widgets/companies';
-import HijackBtn from 'components/widgets/hijack/HijackBtn';
 import PoolTable from 'components/widgets/Pools/PoolTable';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
@@ -146,9 +147,7 @@ const CompanyProfile = () => {
       dataIndex: 'fullname',
       render: (_, record) => (
         <Link to={`/users/${record.id}`} className="text-blue">
-          {record.first_name} 
-{' '}
-{record.last_name}
+          {record.first_name} {record.last_name}
         </Link>
       ),
     },
@@ -211,15 +210,10 @@ const CompanyProfile = () => {
                     message: () => (
                       <>
                         <p className={styles.modalWarningMessage}>
-                          You try to delete 
-{' '}
-<span>{user.first_name}</span>{' '}
-                          <span>{user.last_name}</span>
-{' '}
-from{' '}
-                          <span>{singleCompany?.name}</span>
-.
-</p>
+                          You try to delete <span>{user.first_name}</span>{' '}
+                          <span>{user.last_name}</span> from{' '}
+                          <span>{singleCompany?.name}</span>.
+                        </p>
                         <p className={styles.modalWarningMessage}>
                           Are you sure?
                         </p>
@@ -230,14 +224,6 @@ from{' '}
                   },
                 })
               }
-            />
-            <HijackBtn
-              userId={user.id}
-              userFirstName={user.first_name}
-              userLastName={user.last_name}
-              userRole={user.role}
-              path={history.location.pathname}
-              userIsActive={user.is_active}
             />
           </Space>
         );

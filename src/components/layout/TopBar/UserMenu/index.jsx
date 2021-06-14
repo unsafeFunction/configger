@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import { Dropdown, Menu } from 'antd';
 import PropTypes from 'prop-types';
-import { Menu, Dropdown } from 'antd';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './style.module.scss';
 
@@ -28,7 +28,6 @@ const ProfileMenu = ({ history, dispatch }) => {
   };
 
   const { first_name, last_name } = useSelector((state) => state.user.profile);
-  const hijack = useSelector((state) => state.hijack);
 
   const menu = (
     <Menu selectable={false}>
@@ -36,7 +35,7 @@ const ProfileMenu = ({ history, dispatch }) => {
         <strong>Profile</strong>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item onClick={onLogout} disabled={hijack?.isActive}>
+      <Menu.Item onClick={onLogout}>
         <i className={`${styles.menuIcon} fe fe-log-out`} />
         Sign out
       </Menu.Item>
