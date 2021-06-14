@@ -74,13 +74,13 @@ const Login = () => {
           </Form.Item>
         </Form>
         <div className={style.navigationWrap}>
-          <Button
+          {/* <Button
             type="link"
             className={style.linkButton}
             onClick={() => history.push('/system/forgot-password')}
           >
             Forgot password?
-          </Button>
+          </Button> */}
           <a
             className={style.linkButton}
             href="mailto:testingsupport@mirimus.com"
