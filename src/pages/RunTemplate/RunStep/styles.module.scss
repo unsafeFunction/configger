@@ -4,3 +4,24 @@
   width: 200px;
   text-align: center;
 }
+
+.switch {
+  display: flex;
+
+  .ant-form-item-control-input-content {
+    align-items: center;
+    display: flex;
+
+    span {
+      margin-left: 5px;
+    }
+  }
+}
+
+.editPoolRacks {
+  display: flex;
+
+  button {
+    margin-left: auto;
+  }
+}

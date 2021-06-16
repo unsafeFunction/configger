@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 import {
   Button,
   Checkbox,
@@ -8,6 +10,7 @@ import {
   Radio,
   Row,
   Table,
+  Empty,
 } from 'antd';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -40,6 +43,10 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     const limit = layoutHook(runState.kfpParam);
     setPoolRackLimit(limit);
   }, [runState.kfpParam]);
+
+  const isPoolsSelected = runState.poolRacks.length >= 1;
+  // TODO: refactor not working
+  const isTitleEmpty = form.getFieldValue('runTitle')?.length > 0;
 
   const handleChangeLayout = useCallback(
     (e) => {
@@ -204,7 +211,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         onFinish={onSubmit}
       >
         <Row>
-          <Col xs={{ span: 16 }}>
+          <Col xs={{ span: 12 }}>
             <Item name="kfpParam" rules={[rules.required]}>
               <Radio.Group
                 name="kfpParam"
@@ -237,40 +244,68 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
                 </Radio.Button>
               </Radio.Group>
             </Item>
-            <Item name="reflex" valuePropName="checked" className="mb-0">
-              <Checkbox>Reflex</Checkbox>
-            </Item>
-            <Item name="rerun" valuePropName="checked">
-              <Checkbox>Rerun</Checkbox>
-            </Item>
           </Col>
-          <Col xs={{ span: 8 }}>
-            <Item label="Run title" name="runTitle" rules={[rules.required]}>
+          <Col xs={{ span: 12 }}>
+            <Item name="runTitle" rules={[rules.required]}>
               <Input placeholder="Run title" />
             </Item>
+            <Row>
+              <Item name="reflex" valuePropName="checked" className="mb-0">
+                <Checkbox>Reflex</Checkbox>
+              </Item>
+              <Item name="rerun" valuePropName="checked">
+                <Checkbox>Rerun</Checkbox>
+              </Item>
+            </Row>
           </Col>
         </Row>
-        <Button
-          type="primary"
-          onClick={() => openModalList(runState, poolRackLimit)}
-        >
-          Select PoolRacks
-        </Button>
-        <Table
-          columns={columns}
-          dataSource={runState.poolRacks}
-          pagination={false}
-          scroll={{ x: 'max-content' }}
-          bordered
-          rowKey={(record) => record.id}
-          className="mt-3 mb-5"
-        />
-
+        {isPoolsSelected && (
+          <div className={styles.editPoolRacks}>
+            <Button
+              type="primary"
+              onClick={() => openModalList(runState, poolRackLimit)}
+            >
+              Edit PoolRacks List
+            </Button>
+          </div>
+        )}
         <Item>
-          <Button type="primary" size="large" htmlType="submit">
-            Continue
-          </Button>
+          <Table
+            columns={columns}
+            dataSource={runState.poolRacks}
+            pagination={false}
+            scroll={{ x: 'max-content' }}
+            bordered
+            rowKey={(record) => record.id}
+            className="mt-3 mb-5"
+            locale={{
+              emptyText: () => (
+                <Empty
+                  image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                  imageStyle={{
+                    height: 60,
+                  }}
+                  description={<span>No PoolRacks selected</span>}
+                >
+                  <Button
+                    type="primary"
+                    className="mb-3"
+                    onClick={() => openModalList(runState, poolRackLimit)}
+                  >
+                    Select PoolRacks
+                  </Button>
+                </Empty>
+              ),
+            }}
+          />
         </Item>
+        {isPoolsSelected && !isTitleEmpty && (
+          <Item>
+            <Button type="primary" size="large" htmlType="submit">
+              Continue
+            </Button>
+          </Item>
+        )}
       </Form>
     </>
   );
