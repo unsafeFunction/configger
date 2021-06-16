@@ -203,7 +203,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         }}
         onFinish={onSubmit}
       >
-        <Row gutter={[96, 16]}>
+        <Row>
           <Col xs={{ span: 16 }}>
             <Item name="kfpParam" rules={[rules.required]}>
               <Radio.Group
@@ -237,25 +237,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
                 </Radio.Button>
               </Radio.Group>
             </Item>
-
-            <Table
-              columns={columns}
-              dataSource={runState.poolRacks}
-              pagination={false}
-              scroll={{ x: 'max-content' }}
-              bordered
-              rowKey={(record) => record.id}
-              className="mt-5 mb-5"
-              title={() => (
-                <Button
-                  type="primary"
-                  onClick={() => openModalList(runState, poolRackLimit)}
-                >
-                  Select PoolRacks
-                </Button>
-              )}
-            />
-
             <Item name="reflex" valuePropName="checked" className="mb-0">
               <Checkbox>Reflex</Checkbox>
             </Item>
@@ -263,12 +244,27 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
               <Checkbox>Rerun</Checkbox>
             </Item>
           </Col>
-          <Col>
+          <Col xs={{ span: 8 }}>
             <Item label="Run title" name="runTitle" rules={[rules.required]}>
               <Input placeholder="Run title" />
             </Item>
           </Col>
         </Row>
+        <Button
+          type="primary"
+          onClick={() => openModalList(runState, poolRackLimit)}
+        >
+          Select PoolRacks
+        </Button>
+        <Table
+          columns={columns}
+          dataSource={runState.poolRacks}
+          pagination={false}
+          scroll={{ x: 'max-content' }}
+          bordered
+          rowKey={(record) => record.id}
+          className="mt-3 mb-5"
+        />
 
         <Item>
           <Button type="primary" size="large" htmlType="submit">
