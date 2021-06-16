@@ -71,6 +71,12 @@ export async function getMenuData() {
           url: '/template-generation',
           icon: 'fe fe-layers',
         },
+        {
+          title: 'Generate Run v2',
+          key: 'runTemplate',
+          url: '/run-template',
+          icon: 'fe fe-layers',
+        },
         // {
         //   title: 'Analysis Runs',
         //   key: 'analysisRuns',
@@ -150,6 +156,7 @@ export async function getRolePermissions() {
         '/pools',
         '/rack-scans',
         '/template-generation',
+        '/run-template',
         // '/management',
         '/inventory',
         '/analysis-runs',

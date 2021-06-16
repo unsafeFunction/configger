@@ -116,6 +116,10 @@ const routes = [
     Component: loadable(() => import('pages/TemplateGeneration')),
   },
   {
+    path: '/run-template',
+    Component: loadable(() => import('pages/RunTemplate')),
+  },
+  {
     path: '/settings/permission',
     Component: loadable(() => import('pages/Settings/Permissions')),
   },
