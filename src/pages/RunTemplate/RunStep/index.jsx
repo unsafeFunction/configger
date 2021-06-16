@@ -302,7 +302,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         {isPoolsSelected && !isTitleEmpty && (
           <Item>
             <Button type="primary" size="large" htmlType="submit">
-              Continue
+              Review run
             </Button>
           </Item>
         )}
