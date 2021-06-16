@@ -92,7 +92,6 @@ const RunTemplate = () => {
           </Button>
         </Dropdown>
       </div>
-
       <div className={styles.stages}>
         <Steps current={runState.currentStep}>
           {steps.map((item) => (

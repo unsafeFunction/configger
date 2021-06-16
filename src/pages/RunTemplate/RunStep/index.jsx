@@ -203,7 +203,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         }}
         onFinish={onSubmit}
       >
-        <Row gutter={[96, 16]}>
+        <Row>
           <Col xs={{ span: 16 }}>
             <Item name="kfpParam" rules={[rules.required]}>
               <Radio.Group
@@ -237,7 +237,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
                 </Radio.Button>
               </Radio.Group>
             </Item>
-
             <Table
               columns={columns}
               dataSource={runState.poolRacks}
@@ -272,7 +271,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
 
         <Item>
           <Button type="primary" size="large" htmlType="submit">
-            Continue
+            Review run
           </Button>
         </Item>
       </Form>
