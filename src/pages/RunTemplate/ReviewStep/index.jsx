@@ -1,4 +1,13 @@
-import { Button, Card, Col, Row, Space, Tag, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Row,
+  Space,
+  Tag,
+  Typography,
+  Statistic,
+} from 'antd';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -12,7 +21,7 @@ moment.tz.setDefault('America/New_York');
 const ReviewStep = ({ runState, componentDispatch, form }) => {
   const { kfpParam, replicationParam, poolRacks } = runState;
 
-  const { Text } = Typography;
+  const { Text, Paragraph } = Typography;
 
   const dispatch = useDispatch();
 
@@ -48,24 +57,43 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
 
   return (
     <>
-      <Space direction="vertical">
-        <Text>
-          {form.getFieldValue('runTitle')}
-          {form.getFieldValue('reflex') && <Tag color="blue">reflex</Tag>}
-          {form.getFieldValue('rerun') && <Tag color="blue">rerun</Tag>}
-        </Text>
-
-        <Text>
-          {kfpParam} / {replicationParam}
-        </Text>
+      <Space className="mb-4" direction="vertical">
+        <Row>
+          <Col className="mr-4">
+            <Text strong>Run title: &nbsp;</Text>
+            <Text>{form.getFieldValue('runTitle')}</Text>
+          </Col>
+          <Col>
+            <Text strong>Layout type: &nbsp;</Text>
+            <Text>{`${kfpParam}/${replicationParam}`}</Text>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="mr-4">
+            <Text strong>Reflexed: &nbsp;</Text>
+            <Text>{form.getFieldValue('reflex') ? 'Yes' : 'No'}</Text>
+          </Col>
+          <Col>
+            <Text strong>Reruned: &nbsp;</Text>
+            <Text>{form.getFieldValue('rerun') ? 'Yes' : 'No'}</Text>
+          </Col>
+        </Row>
       </Space>
-
       <Row gutter={[40, 40]}>
         {poolRacks.map((poolRack, index) => (
-          <Col xs={24} sm={20} md={16} lg={12} xl={10} xxl={9} key={index}>
+          <Col
+            xs={24}
+            sm={20}
+            md={16}
+            lg={12}
+            xl={10}
+            xxl={9}
+            key={poolRack.id}
+          >
             <Card
               title={`PoolRack ${index + 1}`}
               extra={
+                // eslint-disable-next-line react/jsx-wrap-multilines
                 <a
                   className="text-primary"
                   onClick={() => openModalDetail(poolRack.id)}
@@ -92,11 +120,9 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
           </Col>
         ))}
       </Row>
-
       <Space size="middle">
-        <Button type="primary">Generate template and Download files</Button>
-
-        <Button onClick={handlePrevious}>Previous</Button>
+        <Button type="primary">Generate run</Button>
+        <Button onClick={handlePrevious}>Edit run</Button>
       </Space>
     </>
   );
