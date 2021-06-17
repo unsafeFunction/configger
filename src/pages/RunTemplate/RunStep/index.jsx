@@ -4,13 +4,13 @@ import {
   Button,
   Checkbox,
   Col,
+  Empty,
   Form,
   Input,
   notification,
   Radio,
   Row,
   Table,
-  Empty,
 } from 'antd';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -38,6 +38,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   stateRef.current = selectedRows;
 
   const [poolRackLimit, setPoolRackLimit] = useState({});
+  const [runTitle, setRunTitle] = useState(form.getFieldValue('runTitle'));
 
   useEffect(() => {
     const limit = layoutHook(runState.kfpParam);
@@ -45,8 +46,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   }, [runState.kfpParam]);
 
   const isPoolsSelected = runState.poolRacks.length >= 1;
-  // TODO: refactor not working
-  const isTitleEmpty = form.getFieldValue('runTitle')?.length > 0;
+  const isRunTitle = runTitle?.length > 0;
 
   const handleChangeLayout = useCallback(
     (e) => {
@@ -81,6 +81,26 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     [componentDispatch, form],
   );
 
+  const openModalDetail = useCallback(
+    (poolRackId) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'PoolRack',
+          bodyStyle: {
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          },
+          message: () => <PoolRackDetail id={poolRackId} />,
+          width: '100%',
+          footer: null,
+        },
+      });
+    },
+    [dispatch],
+  );
+
   const columns = [
     {
       title: 'PoolRack Name',
@@ -101,12 +121,9 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     {
       title: 'Actions',
       render: (text, record) => (
-        // <Space size="middle">
         <Button type="link" onClick={() => openModalDetail(record.id)}>
           View plate
         </Button>
-        // <a>Delete</a>
-        // </Space>
       ),
     },
   ];
@@ -154,26 +171,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     [dispatch, updatePoolRacks, resetSelectedRows],
   );
 
-  const openModalDetail = useCallback(
-    (poolRackId) => {
-      dispatch({
-        type: modalActions.SHOW_MODAL,
-        modalType: 'COMPLIANCE_MODAL',
-        modalProps: {
-          title: 'PoolRack',
-          bodyStyle: {
-            maxHeight: '70vh',
-            overflow: 'scroll',
-          },
-          message: () => <PoolRackDetail id={poolRackId} />,
-          width: '100%',
-          footer: null,
-        },
-      });
-    },
-    [dispatch],
-  );
-
   const onSubmit = useCallback(
     (values) => {
       if (
@@ -195,6 +192,10 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     },
     [componentDispatch, runState, poolRackLimit],
   );
+
+  const handleChangeTitle = useCallback((event) => {
+    setRunTitle(event.target.value);
+  }, []);
 
   return (
     <>
@@ -247,7 +248,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
           </Col>
           <Col xs={{ span: 12 }}>
             <Item name="runTitle" rules={[rules.required]}>
-              <Input placeholder="Run title" />
+              <Input placeholder="Run title" onChange={handleChangeTitle} />
             </Item>
             <Row>
               <Item name="reflex" valuePropName="checked" className="mb-0">
@@ -299,9 +300,9 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
             }}
           />
         </Item>
-        {isPoolsSelected && !isTitleEmpty && (
+        {isPoolsSelected && isRunTitle && (
           <Item>
-            <Button type="primary" size="large" htmlType="submit">
+            <Button type="primary" htmlType="submit">
               Review run
             </Button>
           </Item>

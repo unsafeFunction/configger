@@ -122,6 +122,7 @@ const PoolRackTable = ({ setSelectedRows, runState, limit }) => {
             })
           : false,
     }),
+    hideSelectAll: true,
   };
 
   const data = [

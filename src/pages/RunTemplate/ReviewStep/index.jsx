@@ -94,13 +94,9 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
       </Row>
 
       <Space size="middle">
-        <Button type="primary" size="large">
-          Generate template and Download files
-        </Button>
+        <Button type="primary">Generate template and Download files</Button>
 
-        <Button size="large" onClick={handlePrevious}>
-          Previous
-        </Button>
+        <Button onClick={handlePrevious}>Previous</Button>
       </Space>
     </>
   );
