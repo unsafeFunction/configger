@@ -1,13 +1,4 @@
-import {
-  Button,
-  Card,
-  Col,
-  Row,
-  Space,
-  Tag,
-  Typography,
-  Statistic,
-} from 'antd';
+import { Button, Card, Col, Row, Space, Result, Typography } from 'antd';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -21,7 +12,7 @@ moment.tz.setDefault('America/New_York');
 const ReviewStep = ({ runState, componentDispatch, form }) => {
   const { kfpParam, replicationParam, poolRacks } = runState;
 
-  const { Text, Paragraph } = Typography;
+  const { Text } = Typography;
 
   const dispatch = useDispatch();
 
@@ -56,7 +47,18 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
   }, [componentDispatch]);
 
   return (
-    <>
+    <div>
+      {/* <Result
+        status="success"
+        title="Successfully generate run RUN_NAME!"
+        subTitle="TODO RUN INFO"
+        extra={[
+          <Button type="primary" key="console">
+            View runs
+          </Button>,
+          <Button key="buy">Generate new run</Button>,
+        ]}
+      /> */}
       <Space className="mb-4" direction="vertical">
         <Row>
           <Col className="mr-4">
@@ -124,7 +126,7 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
         <Button type="primary">Generate run</Button>
         <Button onClick={handlePrevious}>Edit run</Button>
       </Space>
-    </>
+    </div>
   );
 };
 

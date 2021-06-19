@@ -278,7 +278,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
             scroll={{ x: 'max-content' }}
             bordered
             rowKey={(record) => record.id}
-            className="mt-3 mb-5"
+            className="mt-3"
             locale={{
               emptyText: () => (
                 <Empty
@@ -300,13 +300,15 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
             }}
           />
         </Item>
-        {isPoolsSelected && isRunTitle && (
-          <Item>
-            <Button type="primary" htmlType="submit">
-              Review run
-            </Button>
-          </Item>
-        )}
+        <Item>
+          <Button
+            disabled={!isPoolsSelected || !isRunTitle}
+            type="primary"
+            htmlType="submit"
+          >
+            Review run
+          </Button>
+        </Item>
       </Form>
     </>
   );
