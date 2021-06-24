@@ -42,3 +42,13 @@
     }
   }
 }
+
+.actions {
+  button {
+    min-width: 86px;
+
+    &:first-child {
+      margin-right: 20px;
+    }
+  }
+}

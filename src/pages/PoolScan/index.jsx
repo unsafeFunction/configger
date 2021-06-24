@@ -1,4 +1,4 @@
-import { Col, Row, Statistic } from 'antd';
+import { Button, Col, Row, Statistic } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import PoolStatistic from 'components/widgets/Scans/PoolStatistic';
 import moment from 'moment-timezone';
@@ -31,6 +31,21 @@ const PoolScan = () => {
       return scan?.ordinal_name;
     }
     return '-';
+  }, [scan, session]);
+
+  const goToScan = useCallback(
+    ({ side }) => {
+      return console.log(side, 'here');
+    },
+    [scan],
+  );
+
+  const disableNextBtn = useCallback(() => {
+    return scan?.id === session?.scans?.[session?.scans.length]?.id;
+  }, [scan, session]);
+
+  const disablePrevBtn = useCallback(() => {
+    return scan?.id === session?.scans?.[0]?.id;
   }, [scan, session]);
 
   const poolName = getPoolName();
@@ -87,6 +102,21 @@ const PoolScan = () => {
               title="Pool name:"
               value={poolName}
             />
+            <div className={styles.actions}>
+              <Button
+                disabled={disablePrevBtn()}
+                onClick={() => goToScan({ side: 'prev' })}
+              >
+                Previous
+              </Button>
+              <Button
+                disabled={disableNextBtn()}
+                onClick={() => goToScan({ side: 'next' })}
+                type="primary"
+              >
+                Next
+              </Button>
+            </div>
           </div>
         </Col>
         <Col xs={24} md={18} lg={24}>
