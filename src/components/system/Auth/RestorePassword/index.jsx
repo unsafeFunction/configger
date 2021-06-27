@@ -26,7 +26,7 @@ const RestorePassword = () => {
         },
       });
     },
-    [dispatch, token, uid],
+    [dispatch, token, uid, history],
   );
 
   const user = useSelector((state) => state.user);

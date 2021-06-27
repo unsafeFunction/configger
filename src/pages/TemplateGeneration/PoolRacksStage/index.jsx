@@ -5,7 +5,7 @@ import { Card, Col, Row, Typography } from 'antd';
 import moment from 'moment-timezone';
 import PropTypes from 'prop-types';
 import React, { useCallback, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import PoolRack from './PoolRack';
 import PoolRackTable from './PoolRackTable';
@@ -22,8 +22,6 @@ const PoolRacksStage = ({ runState, componentDispatch }) => {
   // TODO: leave ref here
   const stateRef = useRef();
   stateRef.current = selectedPoolRack;
-
-  const poolRacks = useSelector((state) => state.racks.racks);
 
   const addPoolRack = useCallback((poolRack, poolRackPosition, runState) => {
     const poolRacks = [...runState.poolRacks];

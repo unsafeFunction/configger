@@ -233,7 +233,7 @@ export function* callChangePassword({ payload }) {
 
 export function* callVerifyEmail({ payload }) {
   try {
-    const response = yield call(verifyEmail, payload.inviteKey);
+    yield call(verifyEmail, payload.inviteKey);
 
     yield put({ type: actions.VERIFY_EMAIL_SUCCESS });
 

@@ -1,5 +1,4 @@
 import { CookieStorage } from 'cookie-storage';
-import moment from 'moment';
 
 let storage = null;
 // const today = moment();
