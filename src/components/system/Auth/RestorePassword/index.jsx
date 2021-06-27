@@ -16,7 +16,7 @@ const RestorePassword = () => {
   });
 
   const onSubmit = useCallback(
-    values => {
+    (values) => {
       dispatch({
         type: actions.RESTORE_REQUEST,
         payload: {
@@ -30,7 +30,7 @@ const RestorePassword = () => {
     [dispatch, token, uid],
   );
 
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
 
   if (!token || !uid) {
     return <Redirect to="/system/404" />;

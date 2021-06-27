@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import style from '../style.module.scss'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import style from '../style.module.scss';
 
 class Error500 extends React.Component {
   render() {
@@ -17,7 +17,9 @@ class Error500 extends React.Component {
             </div>
           </div>
         </div>
-        <div className={`${style.container} pl-5 pr-5 pt-5 pb-5 mb-auto text-dark font-size-30`}>
+        <div
+          className={`${style.container} pl-5 pr-5 pt-5 pb-5 mb-auto text-dark font-size-30`}
+        >
           <div className="font-weight-bold mb-3">Server Error</div>
           <div>This page is deprecated, deleted, or does not exist at all</div>
           <div className="font-weight-bold font-size-70 mb-1">500 —</div>
@@ -42,11 +44,13 @@ class Error500 extends React.Component {
               <a href="#">Contacts</a>
             </li>
           </ul>
-          <div className="text-gray-4 text-center">© 2019 Mediatec. All rights reserved.</div>
+          <div className="text-gray-4 text-center">
+            © 2019 Mediatec. All rights reserved.
+          </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default Error500
+export default Error500;

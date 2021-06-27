@@ -74,7 +74,6 @@ class Layout extends React.PureComponent {
     const layoutType = getLayout();
     const Container = Layouts[layoutType];
     const isUserAuthorized = cookie.getItem('accessToken');
-    const isTermsAccepted = cookie.getItem('termsAccepted');
     const isAuthLayout = layoutType === 'auth';
     const BootstrappedLayout = () => {
       // show loader when user in check authorization process, not authorized yet and not on login pages
@@ -84,10 +83,6 @@ class Layout extends React.PureComponent {
       // redirect to login page if current is not login page and user not authorized
       if (!isAuthLayout && !isUserAuthorized) {
         return <Redirect to="/system/login" />;
-      }
-      // redirect to terms&conditions page if user has not accepted them yet
-      if (!isAuthLayout && !isTermsAccepted) {
-        return <Redirect to="/system/terms-and-conditions" />;
       }
       if (!isAuthLayout && !authorizedToVisit) {
         return <Redirect to={defaultPath} />;

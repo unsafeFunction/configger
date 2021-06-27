@@ -1,23 +1,20 @@
-import React, { useEffect } from 'react';
-import { Layout } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Alert, Layout } from 'antd';
 import classNames from 'classnames';
-import TopBar from 'components/layout/TopBar';
 import MenuLeft from 'components/layout/MenuLeft';
 import SubBar from 'components/layout/SubBar';
-import MenuTop from 'components/layout/MenuTop';
+import TopBar from 'components/layout/TopBar';
+import Drawer from 'components/widgets/Drawers';
 import Modal from 'components/widgets/Modals';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import actions from 'redux/user/actions';
-import { Alert } from 'antd';
-import HijackBar from 'components/widgets/hijack/HijackBar';
 import styles from './styles.module.scss';
 
-const AppLayout = props => {
+const AppLayout = (props) => {
   const dispatch = useDispatch();
-  const settings = useSelector(state => state.settings);
-  const { role, profile } = useSelector(state => state.user);
-  const hijack = useSelector(state => state.hijack);
+  const settings = useSelector((state) => state.settings);
+  const { role, profile } = useSelector((state) => state.user);
   const {
     menuLayoutType,
     isContentNoMaxWidth,
@@ -58,11 +55,7 @@ const AppLayout = props => {
           closable
         />
       )}
-
-      {hijack.isActive && <HijackBar />}
-
       {menuLayoutType === 'left' && <MenuLeft />}
-      {menuLayoutType === 'top' && <MenuTop />}
       <Layout>
         <Layout.Header
           className={classNames('air__layout__header', {
@@ -77,6 +70,7 @@ const AppLayout = props => {
           <div className="air__utils__content">{children}</div>
         </Layout.Content>
         <Modal />
+        <Drawer />
       </Layout>
     </Layout>
   );

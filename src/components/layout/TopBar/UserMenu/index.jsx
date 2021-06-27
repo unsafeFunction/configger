@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Menu, Dropdown, Avatar } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import { useSelector } from 'react-redux';
 import styles from './style.module.scss';
 
-const ProfileMenu = ({ dispatch, history }) => {
+const ProfileMenu = ({ history, dispatch }) => {
   const onLogout = useCallback(() => {
     dispatch({
       type: 'user/LOGOUT',
@@ -13,7 +13,6 @@ const ProfileMenu = ({ dispatch, history }) => {
       },
     });
   }, [dispatch, history]);
-
   const onRedirectToProfile = useCallback(() => {
     history.push('/profile');
   }, [history]);
@@ -28,10 +27,8 @@ const ProfileMenu = ({ dispatch, history }) => {
     return '';
   };
 
-  const { first_name, last_name, role } = useSelector(
-    state => state.user.profile,
-  );
-  const hijack = useSelector(state => state.hijack);
+  const { first_name, last_name } = useSelector((state) => state.user.profile);
+  const hijack = useSelector((state) => state.hijack);
 
   const menu = (
     <Menu selectable={false}>
@@ -39,7 +36,7 @@ const ProfileMenu = ({ dispatch, history }) => {
         <strong>Profile</strong>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item onClick={onLogout} disabled={hijack.isActive}>
+      <Menu.Item onClick={onLogout} disabled={hijack?.isActive}>
         <i className={`${styles.menuIcon} fe fe-log-out`} />
         Sign out
       </Menu.Item>
@@ -57,8 +54,7 @@ const ProfileMenu = ({ dispatch, history }) => {
 };
 
 ProfileMenu.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 
 export default ProfileMenu;

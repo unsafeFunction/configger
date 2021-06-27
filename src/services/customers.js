@@ -32,13 +32,13 @@ export const toggleUser = async (id, is_active) => {
   return status;
 };
 
-export const reinviteUser = async id => {
-  const invite = await axiosClient.post(`/users/${id}/reinvite/`);
+export const reinviteUser = async (id) => {
+  const invite = await axiosClient.post(`/users/${id}/reinvite/`, {});
 
   return invite;
 };
 
-export const inviteCustomer = async values => {
+export const inviteCustomer = async (values) => {
   const invite = await axiosClient.post('/rest-auth/registration/', {
     ...values,
   });

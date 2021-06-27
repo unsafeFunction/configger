@@ -1,27 +1,49 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/require-default-props */
-import React, { Component } from 'react'
-import { Modal } from 'antd'
+import React, { useEffect } from 'react';
+import useKeyPress from 'hooks/useKeyPress';
+import { Modal } from 'antd';
+import { useSelector } from 'react-redux';
 
-class DefaultModal extends Component {
-  render() {
-    const { type, isOpen, title, children, onOk, onCancel, width } = this.props
+const DefaultModal = (props) => {
+  const isLoading = useSelector((state) => state.modal.isLoading);
+  const enterPress = useKeyPress('Enter');
 
-    return (
-      <Modal
-        title={title}
-        visible={isOpen}
-        type={type}
-        onOk={onOk}
-        onCancel={onCancel}
-        width={width}
-        {...this.props}
-      >
-        {children}
-      </Modal>
-    )
-  }
-}
+  const {
+    type,
+    isOpen,
+    title,
+    children,
+    onOk,
+    onCancel,
+    width,
+    okButtonProps,
+  } = props;
 
-export default DefaultModal
+  const formattedOkButtonProps = okButtonProps
+    ? Object.assign(okButtonProps, {
+        loading: isLoading,
+      })
+    : { loading: isLoading };
+
+  useEffect(() => {
+    if (enterPress) {
+      onOk();
+    }
+  }, [enterPress, onOk]);
+
+  return (
+    <Modal
+      title={title}
+      visible={isOpen}
+      type={type}
+      onOk={onOk}
+      onCancel={onCancel}
+      width={width}
+      okButtonProps={formattedOkButtonProps}
+      {...props}
+    >
+      {children}
+    </Modal>
+  );
+};
+
+export default DefaultModal;

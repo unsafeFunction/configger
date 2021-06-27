@@ -12,7 +12,7 @@ const saveBlobAs = (blob: Blob, fileName: string) => {
 
   // On Edge, revokeObjectURL should be called only after
   // a.click() has completed, atleast on EdgeHTML 15.15048
-  setTimeout(function() {
+  setTimeout(function () {
     window.URL.revokeObjectURL(url);
   }, 1000);
 };

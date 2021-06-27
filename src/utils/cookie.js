@@ -1,25 +1,25 @@
-import { CookieStorage } from 'cookie-storage'
-import moment from 'moment'
+import { CookieStorage } from 'cookie-storage';
+import moment from 'moment';
 
-let storage = null
-const today = moment()
+let storage = null;
+// const today = moment();
 
 function initCookieStorage() {
   try {
     storage = new CookieStorage({
       path: '/',
-      expires: new Date(moment(today).add(1, 'days')),
-    })
+      // expires: new Date(moment(today).add(1, 'days')),
+    });
   } catch (error) {
-    throw error
+    throw new Error(error);
   }
 
-  return storage
+  return storage;
 }
 
 export default function cookieStorage() {
   if (storage === null) {
-    initCookieStorage()
+    initCookieStorage();
   }
-  return storage
+  return storage;
 }

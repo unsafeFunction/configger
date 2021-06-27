@@ -1,0 +1,17 @@
+@import 'assets/styles/mixins.scss';
+
+.sessionStatus {
+  text-transform: capitalize;
+}
+
+.actions {
+  display: flex;
+
+  button:first-child {
+    margin-right: 10px;
+  }
+}
+
+.highlightedRow {
+  background: fade-out($primary, 0.95);
+}

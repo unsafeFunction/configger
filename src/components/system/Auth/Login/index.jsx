@@ -1,30 +1,27 @@
-import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Button } from 'antd';
-import actions from 'redux/user/actions';
-import classNames from 'classnames';
+import { Button, Form, Input } from 'antd';
 import moment from 'moment';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import actions from 'redux/user/actions';
 import style from '../style.module.scss';
 
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
 
   const onSubmit = useCallback(
-    values => {
+    (values) => {
       dispatch({
         type: actions.LOGIN_REQUEST,
         payload: {
           ...values,
-          toTimeline: () => history.push('/results'),
-          toRuns: () => history.push('/runs'),
-          acceptTerms: () => history.push('/system/terms-and-conditions'),
+          toScanSession: () => history.push('/session'),
         },
       });
     },
-    [dispatch],
+    [dispatch, history],
   );
 
   const { isLoggingIn } = user;

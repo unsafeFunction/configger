@@ -9,7 +9,7 @@ export const login = async (username, password) => {
   return login;
 };
 
-export const forgotPassword = async email => {
+export const forgotPassword = async (email) => {
   const restore = await axiosClient.post('rest-auth/password/reset/', {
     email,
   });
@@ -26,14 +26,6 @@ export const restore = async (new_password1, new_password2, uid, token) => {
   });
 
   return restore;
-};
-
-export const accept = async () => {
-  const accept = await axiosClient.patch('/me/', {
-    terms_accepted: true,
-  });
-
-  return accept;
 };
 
 export const getProfile = async () => {
@@ -66,11 +58,11 @@ export const changePassword = async (
   return update;
 };
 
-export const fetchUserById = async id => {
+export const fetchUserById = async (id) => {
   return await axiosClient.get(`/users/${id}/`);
 };
 
-export const verifyEmail = async inviteKey => {
+export const verifyEmail = async (inviteKey) => {
   const verifyEmail = await axiosClient.post(
     '/rest-auth/registration/verify-email/',
     { key: inviteKey },

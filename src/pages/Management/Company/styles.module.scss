@@ -1,0 +1,25 @@
+@import 'assets/styles/mixins.scss';
+
+.tagColumn {
+  height: 3.5em;
+}
+
+.modalWarningMessage {
+  span {
+    font-weight: bold;
+  }
+}
+
+.search {
+  width: 25%;
+
+  @media (max-width: $sm-max-width) {
+    width: 100%;
+  }
+
+  margin-bottom: 1em;
+}
+
+.modalButton {
+  width: 100px;
+}

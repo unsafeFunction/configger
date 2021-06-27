@@ -1,6 +1,6 @@
 {
   "name": "mirimus-admin",
-  "version": "1.5.1",
+  "version": "5.0.0",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
@@ -10,6 +10,8 @@
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,scss,less}\"",
     "eslint": "eslint --fix --ext .js,jsx src",
     "stylelint": "stylelint \"src/**/*.{scss,less}\"",
+    "build:qa": "env-cmd -f .env.qa npm run build",
+    "build:production": "env-cmd -f .env.prod npm run build",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
@@ -17,7 +19,8 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "lint-staged": {
@@ -44,11 +47,18 @@
     "customize-cra": "^0.2.13",
     "emoji-mart": "^3.0.0",
     "emoji-picker-react": "^3.1.6",
+    "env-cmd": "^10.1.0",
     "history": "^4.9.0",
     "lodash.debounce": "^4.0.8",
+    "lodash.filter": "^4.6.0",
     "lodash.find": "^4.6.0",
+    "lodash.foreach": "^4.5.0",
     "lodash.get": "^4.4.2",
+    "lodash.isempty": "^4.4.0",
+    "lodash.map": "^4.6.0",
+    "lodash.merge": "^4.6.2",
     "lodash.orderby": "^4.6.0",
+    "lodash.sortby": "^4.7.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.32",
     "nprogress": "^0.2.0",
@@ -59,7 +69,6 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-infinite-scroll-component": "^5.1.0",
-    "react-infinite-scroller": "^1.2.4",
     "react-input-mask": "^2.0.4",
     "react-loadable": "^5.5.0",
     "react-redux": "^7.1.0",
@@ -82,12 +91,14 @@
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^5.0.0",
     "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^2.4.1",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "lint-staged": "^8.2.1",
     "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
+    "pretty-quick": "^3.1.0",
     "prop-types": "^15.7.2",
     "standard-version": "^9.1.0",
     "stylelint": "^10.1.0",

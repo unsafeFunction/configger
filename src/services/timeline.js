@@ -1,7 +1,7 @@
 import axiosClient from 'utils/axiosClient';
 import saveBlobAs from 'utils/saveAsBlob';
 
-export const loadTimeline = async query => {
+export const loadTimeline = async (query) => {
   try {
     const timeline = await axiosClient.get('/timeline/', {
       params: { ...query },

@@ -1,15 +1,14 @@
+import Loader from 'components/layout/Loader';
+import Layout from 'layouts';
+import NotFoundPage from 'pages/system/404';
 import React from 'react';
-import { Route, Redirect, BrowserRouter } from 'react-router-dom';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
-import Switch from 'react-router-transition-switch';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+import Switch from 'react-router-transition-switch';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
-import Layout from 'layouts';
-import Loader from 'components/layout/Loader';
-import NotFoundPage from 'pages/system/404';
-
-const loadable = loader =>
+const loadable = (loader) =>
   Loadable({
     loader,
     delay: false,
@@ -17,11 +16,6 @@ const loadable = loader =>
   });
 
 const routes = [
-  {
-    path: '/results',
-    Component: loadable(() => import('pages/timeline')),
-    exact: true,
-  },
   {
     path: '/system/login',
     Component: loadable(() => import('pages/system/login')),
@@ -43,62 +37,87 @@ const routes = [
     exact: false,
   },
   {
-    path: '/system/terms-and-conditions',
-    Component: loadable(() => import('pages/system/terms-and-conditions')),
-    exact: false,
-  },
-  {
-    path: '/profile',
-    Component: loadable(() => import('pages/profile')),
-    exact: true,
-  },
-  {
     path: '/system/404',
     Component: loadable(() => import('pages/system/404')),
     exact: true,
   },
   {
-    path: '/users',
-    Component: loadable(() => import('pages/Customers')),
+    path: '/profile',
+    Component: loadable(() => import('pages/Profile')),
     exact: true,
   },
+  // {
+  //   path: '/packing-slip',
+  //   Component: loadable(() => import('pages/Intake')),
+  // },
   {
-    path: '/users/:userId',
-    Component: loadable(() => import('pages/activityStream')),
+    path: '/barcode-lookup',
+    Component: loadable(() => import('pages/Search')),
   },
-  {
-    path: '/runs',
-    Component: loadable(() => import('pages/runs')),
-    exact: true,
-  },
-  {
-    path: '/runs/:id',
-    Component: loadable(() => import('pages/runs/run')),
-  },
+  // {
+  //   path: '/intake',
+  //   Component: loadable(() => import('pages/IntakeLims')),
+  // },
   {
     path: '/pools',
     Component: loadable(() => import('pages/Pools')),
   },
   {
-    path: '/companies',
-    Component: loadable(() => import('pages/Companies')),
+    path: '/runs',
+    Component: loadable(() => import('pages/Runs')),
     exact: true,
   },
   {
-    path: '/companies/:id',
-    Component: loadable(() => import('pages/Companies/Company')),
+    path: '/runs/:id',
+    Component: loadable(() => import('pages/Runs/run')),
   },
   {
-    path: '/packing-slip',
-    Component: loadable(() => import('pages/Intake')),
+    path: '/session/:id',
+    Component: loadable(() => import('pages/Scan')),
   },
   {
-    path: '/barcode-lookup',
-    Component: loadable(() => import('pages/search')),
+    path: '/session',
+    Component: loadable(() => import('pages/ScanSession')),
   },
   {
-    path: '/intake',
-    Component: loadable(() => import('pages/IntakeLims')),
+    path: '/pool-scans/:sessionId/:scanId',
+    Component: loadable(() => import('pages/PoolScan')),
+  },
+  {
+    path: '/pool-scans',
+    Component: loadable(() => import('pages/ScanSessions')),
+  },
+  {
+    path: '/rack-scans/:id',
+    Component: loadable(() => import('pages/RackScan')),
+  },
+  {
+    path: '/rack-scans',
+    Component: loadable(() => import('pages/RackScans')),
+  },
+  {
+    path: '/intake-receipt-log',
+    Component: loadable(() => import('pages/IntakeReceiptLog')),
+  },
+  {
+    path: '/analysis-runs',
+    Component: loadable(() => import('pages/AnalysisRuns')),
+  },
+  // {
+  //   path: '/management',
+  //   Component: loadable(() => import('pages/Management')),
+  // },
+  {
+    path: '/inventory',
+    Component: loadable(() => import('pages/Inventory')),
+  },
+  {
+    path: '/template-generation',
+    Component: loadable(() => import('pages/TemplateGeneration')),
+  },
+  {
+    path: '/settings/permission',
+    Component: loadable(() => import('pages/Settings/Permissions')),
   },
 ];
 
@@ -114,7 +133,7 @@ class Router extends React.Component {
       <BrowserRouter>
         <Layout>
           <Switch
-            render={props => {
+            render={(props) => {
               const {
                 children,
                 location: { pathname },
@@ -136,7 +155,7 @@ class Router extends React.Component {
               exact
               path="/"
               render={() => {
-                return <Redirect to="/results" />;
+                return <Redirect to="/session" />;
               }}
             />
             {routes.map(({ path, Component, exact = false }) => (

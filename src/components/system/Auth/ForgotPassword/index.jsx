@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   const history = useHistory();
 
   const onSubmit = useCallback(
-    values => {
+    (values) => {
       dispatch({
         type: actions.FORGOT_REQUEST,
         payload: {
@@ -24,7 +24,7 @@ const ForgotPassword = () => {
     [dispatch],
   );
 
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
 
   const { isRestoring } = user;
 

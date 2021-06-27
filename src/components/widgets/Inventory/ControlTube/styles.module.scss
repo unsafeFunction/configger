@@ -1,0 +1,38 @@
+@import 'assets/styles/mixins.scss';
+
+.companyModalWrapper {
+  @media (max-width: $sm-max-width) {
+    p {
+      font-size: 16px;
+    }
+
+    .addCompanyLocationBtn {
+      height: 40px;
+    }
+  }
+}
+
+.formItem {
+  label {
+    font-size: 16px;
+  }
+
+  input {
+    height: 32px;
+
+    @media (max-width: $sm-max-width) {
+      height: 40px;
+      font-size: 16px;
+    }
+  }
+}
+
+.dropDown {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.hide {
+  border: unset !important;
+  padding: 0;
+}

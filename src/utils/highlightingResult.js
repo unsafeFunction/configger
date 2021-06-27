@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import TwoToneComponent from 'assets/TwoTone';
 
-export const getColor = status => {
+export const getColor = (status) => {
   switch (status) {
     case 'COVID-19 Detected': {
       return 'red';
@@ -35,7 +35,7 @@ export const getColor = status => {
   }
 };
 
-export const getIcon = status => {
+export const getIcon = (status) => {
   switch (status) {
     case 'COVID-19 Detected': {
       return <PlusCircleFilled />;

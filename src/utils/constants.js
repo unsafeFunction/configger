@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/prefer-default-export
 export const constants = {
   customers: {
     itemsLoadingCount: 25,
@@ -11,10 +12,91 @@ export const constants = {
   pools: {
     itemsLoadingCount: 25,
   },
+  scanSessions: {
+    itemsLoadingCount: 12,
+  },
+  poolRacks: {
+    itemsLoadingCount: 25,
+  },
+  inventory: {
+    itemsLoadingCount: 25,
+  },
+  scanStatuses: {
+    voided: 'VOIDED',
+    started: 'STARTED',
+    completed: 'COMPLETED',
+    invalid: 'INVALID',
+  },
+  tubes: {
+    // default
+    blank: {
+      status: 'BLANK',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    missing: {
+      status: 'MISSING',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    valid: {
+      status: 'VALID',
+      countedForPool: true,
+      countedForPoolRack: true,
+    },
+    deleted: {
+      status: 'NULL',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    positiveControl: {
+      status: 'POSITIVE_CONTROL',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    negativeControl: {
+      status: 'NEGATIVE_CONTROL',
+      countedForPool: false,
+      countedForPoolRack: false,
+    },
+    pooling: {
+      status: 'POOLING',
+      countedForPool: false,
+      countedForPoolRack: true,
+    },
+    // invalid statuses
+    invalid: {
+      status: 'INVALID',
+      countedForPool: true,
+      countedForPoolRack: true,
+    },
+    empty: {
+      status: 'EMPTY',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // A
+    insufficient: {
+      status: 'INSUFFICIENT',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // B
+    improperCollection: {
+      status: 'IMPROPER_COLLECTION',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // C
+    contamination: {
+      status: 'CONTAMINATION',
+      countedForPool: true,
+      countedForPoolRack: true,
+    }, // D
+    incorrectLetters: ['D', 'E', 'F'],
+    referenceTubePosition: 'F8',
+  },
   poolsByRun: {
     itemsLoadingCount: 100,
   },
-  activityStream: {
+  intakeLog: {
     itemsLoadingCount: 25,
   },
   USstates: [
@@ -253,6 +335,47 @@ export const constants = {
     {
       label: 'Wyoming',
       value: 'WY',
+    },
+  ],
+  A: 'A'.charCodeAt(0),
+  invalidateCodes: [
+    {
+      id: 1,
+      code: 'A',
+      reason: 'Empty',
+      color: '#ffffff',
+      status: 'EMPTY',
+    },
+    {
+      id: 2,
+      code: 'B',
+      reason: 'Quantity Not Sufficient',
+      color: '#cacaca',
+      status: 'INSUFFICIENT',
+    },
+    {
+      id: 3,
+      code: 'C',
+      reason: 'Improper Sample Collection',
+      color: '#ff0000',
+      status: 'IMPROPER_COLLECTION',
+    },
+    {
+      id: 4,
+      code: 'D',
+      reason: 'Contamination',
+      color: '#ff0000',
+      status: 'CONTAMINATION',
+    },
+  ],
+  controlTypes: [
+    {
+      label: 'Positive',
+      value: 'POSITIVE_CONTROL',
+    },
+    {
+      label: 'Negative',
+      value: 'NEGATIVE_CONTROL',
     },
   ],
 };
