@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.1](https://github.com/mokkapps/changelog-generator-demo/compare/v5.0.0...v5.0.1) (2021-06-27)
+
+### Bug Fixes
+
+- temorary comment menu items ([a1a2ab3](https://github.com/mokkapps/changelog-generator-demo/commits/a1a2ab3fa09c55344fa1e5a10d427809824498fd))
+
 ## [5.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.3.2...v5.0.0) (2021-06-27)
 
 ### Features
