@@ -50,7 +50,12 @@ const PoolRack = ({ poolRackId }) => {
           </Typography.Title>
           <Typography.Title level={5}>Test Tubes: 3 </Typography.Title> */}
           <ScanStatistic isRack scan={poolRack} />
-          <Rackboard isRack rackboard={poolRack} scanId={poolRack.id} />
+          <Rackboard
+            isRack
+            rackboard={poolRack}
+            scanId={poolRack.id}
+            editMode={false}
+          />
         </Col>
         <Col xs={24} lg={12}>
           <Table
