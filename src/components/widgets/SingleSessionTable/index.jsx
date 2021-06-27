@@ -2,7 +2,7 @@ import { Button, Table, Tag } from 'antd';
 import moment from 'moment';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 

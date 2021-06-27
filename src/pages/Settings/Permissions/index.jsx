@@ -1,17 +1,5 @@
-import React, { useEffect, useCallback, useReducer } from 'react';
-import classNames from 'classnames';
-import {
-  Typography,
-  Col,
-  Input,
-  Button,
-  Form,
-  DatePicker,
-  InputNumber,
-  Checkbox,
-  Table,
-  Spin,
-} from 'antd';
+import React, { useCallback } from 'react';
+import { Typography, Input, Checkbox, Table } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import actions from 'redux/userSettings/actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -179,7 +167,7 @@ const UserPermissions = () => {
         ),
       };
     },
-    [userPermission],
+    [userPermission, onPermissionChange],
   );
 
   const getRoleColumn = useCallback(

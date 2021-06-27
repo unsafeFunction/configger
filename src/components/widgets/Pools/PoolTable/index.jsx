@@ -1,27 +1,15 @@
 /* eslint-disable prettier/prettier */
-
 import React, { useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/pools/actions';
 import modalActions from 'redux/modal/actions';
-import {
-  Table,
-  Spin,
-  Switch,
-  Popconfirm,
-  Popover,
-  Select,
-  Typography,
-  Tag,
-} from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Table, Spin, Switch, Popconfirm, Popover, Select, Tag } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getColor, getIcon } from 'utils/highlightingResult';
-import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
 const { Option } = Select;
-const { Text } = Typography;
 
 const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();

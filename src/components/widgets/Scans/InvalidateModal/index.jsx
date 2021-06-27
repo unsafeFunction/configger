@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Form, Input, Select, Statistic, Tag } from 'antd';
+import { Form, Select, Statistic } from 'antd';
 import { constants } from 'utils/constants';
 import classNames from 'classnames';
 import styles from 'pages/Scan/styles.module.scss';

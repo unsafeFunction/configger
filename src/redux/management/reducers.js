@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
-import { constants } from 'utils/constants';
 import actions from './actions';
 
 const initialState = {
