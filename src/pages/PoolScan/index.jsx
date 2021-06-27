@@ -127,11 +127,12 @@ const PoolScan = () => {
               title="Pool name:"
               value={poolName}
             />
-            <div className={styles.actions}>
+            <div>
               <Button
                 data-type="prev"
                 disabled={disableNavigationButton('prev') || scan?.isLoading}
                 onClick={goToScan}
+                className="mr-3"
               >
                 Previous
               </Button>
