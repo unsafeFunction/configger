@@ -1,11 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
-import { Input, Select, Form } from 'antd';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import 'emoji-mart/css/emoji-mart.css';
+import { Input, Row, Col, Select, Typography, Switch, Form } from 'antd';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const ControlTubeModal = ({ form }) => {
-  const { Item } = Form;
+  const { Item, List } = Form;
   return (
     <Form form={form} layout="vertical" className={styles.companyModalWrapper}>
       <div>

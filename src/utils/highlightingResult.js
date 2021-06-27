@@ -32,8 +32,6 @@ export const getColor = (status) => {
     //
     //   )
     // }
-    default:
-      return 'Unknown';
   }
 };
 
@@ -57,7 +55,5 @@ export const getIcon = (status) => {
     case 'Invalid': {
       return <ExclamationCircleOutlined />;
     }
-    default:
-      return 'Unknown';
   }
 };

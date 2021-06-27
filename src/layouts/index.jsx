@@ -3,6 +3,7 @@ import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import NProgress from 'nprogress';
 import { Helmet } from 'react-helmet';
+import Loader from 'components/layout/Loader';
 import cookieStorage from 'utils/cookie';
 import PublicLayout from './Public';
 import AuthLayout from './Auth';
@@ -34,6 +35,7 @@ class Layout extends React.PureComponent {
       location: { pathname, search },
       menu: { rolePermissions },
       user,
+      timeline,
     } = this.props;
 
     let authorizedToVisit = true;

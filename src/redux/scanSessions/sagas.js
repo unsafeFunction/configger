@@ -548,7 +548,7 @@ export function* callCancelScan({ payload }) {
 
 export function* callVoidScan({ payload }) {
   try {
-    yield call(deleteScan, payload);
+    const response = yield call(deleteScan, payload);
 
     yield put({ type: actions.VOID_SCAN_BY_ID_SUCCESS });
 

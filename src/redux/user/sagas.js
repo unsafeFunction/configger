@@ -81,7 +81,13 @@ export function* callForgotPassword({ payload }) {
 export function* callRestore({ payload }) {
   const { newPassword, passwordConfirmation, token, uid, redirect } = payload;
   try {
-    yield call(restore, newPassword, passwordConfirmation, uid, token);
+    const response = yield call(
+      restore,
+      newPassword,
+      passwordConfirmation,
+      uid,
+      token,
+    );
     yield put({
       type: actions.RESTORE_SUCCESS,
     });
@@ -233,7 +239,7 @@ export function* callChangePassword({ payload }) {
 
 export function* callVerifyEmail({ payload }) {
   try {
-    yield call(verifyEmail, payload.inviteKey);
+    const response = yield call(verifyEmail, payload.inviteKey);
 
     yield put({ type: actions.VERIFY_EMAIL_SUCCESS });
 

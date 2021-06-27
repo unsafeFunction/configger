@@ -1,3 +1,4 @@
+import store from 'store';
 import map from 'lodash.map';
 import merge from 'lodash.merge';
 

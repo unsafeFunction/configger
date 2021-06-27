@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
+import 'emoji-mart/css/emoji-mart.css';
 import { Select, Form } from 'antd';
 import debounce from 'lodash.debounce';
 import customersActions from 'redux/customers/actions';

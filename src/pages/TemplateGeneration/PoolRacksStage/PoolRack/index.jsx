@@ -1,4 +1,4 @@
-import { Col, Row, Table, Tag } from 'antd';
+import { Col, Row, Table, Tag, Typography } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import poolRackActions from 'redux/racks/actions';
+
+const { Text } = Typography;
 
 const PoolRack = ({ poolRackId }) => {
   const dispatch = useDispatch();
@@ -50,12 +52,7 @@ const PoolRack = ({ poolRackId }) => {
           </Typography.Title>
           <Typography.Title level={5}>Test Tubes: 3 </Typography.Title> */}
           <ScanStatistic isRack scan={poolRack} />
-          <Rackboard
-            isRack
-            rackboard={poolRack}
-            scanId={poolRack.id}
-            editMode={false}
-          />
+          <Rackboard isRack rackboard={poolRack} scanId={poolRack.id} />
         </Col>
         <Col xs={24} lg={12}>
           <Table

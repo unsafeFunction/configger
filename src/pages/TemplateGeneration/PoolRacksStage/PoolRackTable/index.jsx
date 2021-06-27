@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import { SearchOutlined } from '@ant-design/icons';
-import { Col, DatePicker, Input, Row, Spin, Table } from 'antd';
+import { Col, DatePicker, Input, Row, Spin, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
 import PropTypes from 'prop-types';
@@ -134,6 +134,13 @@ const PoolRackTable = ({ setPoolRack, runState }) => {
     {
       title: 'PoolRack RackID',
       dataIndex: 'rack_id',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      render: (text) => {
+        return <Tag color="volcano">{text}</Tag>;
+      },
     },
     {
       title: 'Pool Count',

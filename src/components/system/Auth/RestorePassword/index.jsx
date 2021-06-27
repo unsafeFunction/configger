@@ -3,9 +3,10 @@ import { useHistory, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
+import classNames from 'classnames';
+import style from '../style.module.scss';
 import moment from 'moment';
 import qs from 'qs';
-import style from '../style.module.scss';
 
 const RestorePassword = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const RestorePassword = () => {
         },
       });
     },
-    [dispatch, token, uid, history],
+    [dispatch, token, uid],
   );
 
   const user = useSelector((state) => state.user);
