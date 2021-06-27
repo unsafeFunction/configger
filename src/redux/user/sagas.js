@@ -81,13 +81,7 @@ export function* callForgotPassword({ payload }) {
 export function* callRestore({ payload }) {
   const { newPassword, passwordConfirmation, token, uid, redirect } = payload;
   try {
-    const response = yield call(
-      restore,
-      newPassword,
-      passwordConfirmation,
-      uid,
-      token,
-    );
+    yield call(restore, newPassword, passwordConfirmation, uid, token);
     yield put({
       type: actions.RESTORE_SUCCESS,
     });

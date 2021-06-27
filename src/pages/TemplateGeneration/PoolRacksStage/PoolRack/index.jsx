@@ -1,4 +1,4 @@
-import { Col, Row, Table, Tag, Typography } from 'antd';
+import { Col, Row, Table, Tag } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import poolRackActions from 'redux/racks/actions';
-
-const { Text } = Typography;
 
 const PoolRack = ({ poolRackId }) => {
   const dispatch = useDispatch();

@@ -63,7 +63,7 @@
     "moment-timezone": "^0.5.32",
     "nprogress": "^0.2.0",
     "qs": "^6.9.3",
-    "react": "^16.8.6",
+    "react": "^18.0.0",
     "react-app-rewired": "^2.1.3",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.8.6",
