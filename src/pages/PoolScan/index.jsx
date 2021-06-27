@@ -1,10 +1,10 @@
+import React, { useCallback, useEffect } from 'react';
 import { Button, Col, Row, Statistic } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import PoolStatistic from 'components/widgets/Scans/PoolStatistic';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import actions from 'redux/scanSessions/actions';
 import styles from './styles.module.scss';
 
@@ -13,12 +13,15 @@ moment.tz.setDefault('America/New_York');
 const PoolScan = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const history = useHistory();
 
   const sessionId = pathname.split('/')[2];
   const scanId = pathname.split('/')[3];
 
   const session = useSelector((state) => state.scanSessions.singleSession);
   const scan = useSelector((state) => state.scanSessions.scan);
+
+  const companyInfo = session?.company_short;
 
   const getPoolName = useCallback(() => {
     if (scan?.isLoading || session?.isLoading) {
@@ -33,24 +36,46 @@ const PoolScan = () => {
     return '-';
   }, [scan, session]);
 
-  const goToScan = useCallback(
-    ({ side }) => {
-      return console.log(side, 'here');
-    },
-    [scan],
-  );
-
-  const disableNextBtn = useCallback(() => {
-    return scan?.id === session?.scans?.[session?.scans.length]?.id;
-  }, [scan, session]);
-
-  const disablePrevBtn = useCallback(() => {
-    return scan?.id === session?.scans?.[0]?.id;
-  }, [scan, session]);
-
   const poolName = getPoolName();
 
-  const companyInfo = session?.company_short;
+  const goToScan = useCallback(
+    (event) => {
+      const { type } = event.currentTarget.dataset;
+      const currentScanIndex = session.scans.findIndex(
+        (sessionScan) => sessionScan.id === scan?.id,
+      );
+
+      switch (type) {
+        case 'next': {
+          if (session.scans[currentScanIndex + 1]) {
+            return history.push(`${session.scans[currentScanIndex + 1].id}`);
+          }
+
+          return undefined;
+        }
+        case 'prev': {
+          if (session.scans[currentScanIndex - 1]) {
+            return history.push(`${session.scans[currentScanIndex - 1].id}`);
+          }
+
+          return undefined;
+        }
+        default:
+          return null;
+      }
+    },
+    [scan, session, history],
+  );
+
+  const disableNavigationButton = useCallback(
+    (type) => {
+      if (type === 'prev') {
+        return scan?.id === session?.scans?.[0]?.id;
+      }
+      return scan?.id === session?.scans?.[session?.scans.length]?.id;
+    },
+    [scan, session],
+  );
 
   const useFetching = () => {
     useEffect(() => {
@@ -104,14 +129,16 @@ const PoolScan = () => {
             />
             <div className={styles.actions}>
               <Button
-                disabled={disablePrevBtn()}
-                onClick={() => goToScan({ side: 'prev' })}
+                data-type="prev"
+                disabled={disableNavigationButton('prev') || scan?.isLoading}
+                onClick={goToScan}
               >
                 Previous
               </Button>
               <Button
-                disabled={disableNextBtn()}
-                onClick={() => goToScan({ side: 'next' })}
+                data-type="next"
+                disabled={disableNavigationButton('next') || scan?.isLoading}
+                onClick={goToScan}
                 type="primary"
               >
                 Next
