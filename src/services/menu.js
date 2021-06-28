@@ -85,19 +85,19 @@ export async function getMenuData() {
         // },
       ],
     },
-    {
-      title: 'Packing Slip',
-      key: 'packingSlip',
-      url: '/packing-slip',
-      icon: 'fe fe-download',
-    },
-    {
-      title: 'Barcode Lookup',
-      key: 'search',
-      icon: 'fe fe-search',
-      url: '/barcode-lookup',
-      isAlpha: true,
-    },
+    // {
+    //   title: 'Packing Slip',
+    //   key: 'packingSlip',
+    //   url: '/packing-slip',
+    //   icon: 'fe fe-download',
+    // },
+    // {
+    //   title: 'Barcode Lookup',
+    //   key: 'search',
+    //   icon: 'fe fe-search',
+    //   url: '/barcode-lookup',
+    //   isAlpha: true,
+    // },
     {
       title: 'Inventory',
       key: 'inventory',

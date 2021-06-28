@@ -1,10 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/search/actions';
 import { Empty, Input, Steps } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import classNames from 'classnames';
-import { useHistory } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import styles from './styles.module.scss';
 import moment from 'moment-timezone';
@@ -16,7 +14,6 @@ const { Step } = Steps;
 
 const Search = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [searchName, setSearchName] = useState('');
 
   const search = useSelector((state) => state.search);
