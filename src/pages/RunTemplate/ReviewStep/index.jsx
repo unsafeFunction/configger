@@ -49,16 +49,17 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
     });
   }, [componentDispatch]);
 
-  const generateRun = useCallback(
-    (values) => {
-      return console.log('RUN SATE + VALUES', runState, values);
-      // dispatch({
-      //   type: actions.CREATE_TEMPLATE_REQUEST,
-      //   payload: { ...runState, ...values },
-      // });
-    },
-    [dispatch, runState],
-  );
+  const generateRun = useCallback(() => {
+    return console.log(
+      'RUN SATE + VALUES',
+      runState,
+      form.getFieldsValue(true),
+    );
+    // dispatch({
+    //   type: actions.CREATE_TEMPLATE_REQUEST,
+    //   payload: { ...runState, ...values },
+    // });
+  }, [dispatch, runState, form]);
 
   return (
     <div>
@@ -76,8 +77,8 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
       <Space className="mb-4" direction="vertical">
         <Row>
           <Col className="mr-4">
-            <Text strong>Run title: &nbsp;</Text>
-            <Text>{form.getFieldValue('runTitle')}</Text>
+            <Text strong>Method: &nbsp;</Text>
+            <Text>{form.getFieldValue('method')}</Text>
           </Col>
           <Col>
             <Text strong>Layout type: &nbsp;</Text>
@@ -86,12 +87,22 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
         </Row>
         <Row>
           <Col className="mr-4">
-            <Text strong>Reflexed: &nbsp;</Text>
-            <Text>{form.getFieldValue('reflex') ? 'Yes' : 'No'}</Text>
+            <Text strong>Start column: &nbsp;</Text>
+            <Text>{form.getFieldValue('startColumn')}</Text>
           </Col>
           <Col>
-            <Text strong>Reruned: &nbsp;</Text>
-            <Text>{form.getFieldValue('rerun') ? 'Yes' : 'No'}</Text>
+            <Text strong>Run number: &nbsp;</Text>
+            <Text>{form.getFieldValue('runNumber')}</Text>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="mr-4">
+            <Text strong>Run type: &nbsp;</Text>
+            <Text>{form.getFieldValue('runType')}</Text>
+          </Col>
+          <Col>
+            <Text strong>QS Machine: &nbsp;</Text>
+            <Text>{form.getFieldValue('qsMachine')}</Text>
           </Col>
         </Row>
       </Space>

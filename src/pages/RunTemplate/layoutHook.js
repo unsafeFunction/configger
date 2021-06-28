@@ -1,4 +1,4 @@
-import values from './params';
+import { values } from './params';
 
 const layoutHook = (kfpParam) => {
   if (kfpParam === values.oneKFP) {

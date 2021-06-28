@@ -2,7 +2,6 @@
 
 import {
   Button,
-  Checkbox,
   Col,
   Empty,
   Form,
@@ -10,6 +9,7 @@ import {
   notification,
   Radio,
   Row,
+  Select,
   Table,
 } from 'antd';
 import moment from 'moment-timezone';
@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import rules from 'utils/rules';
 import layoutHook from '../layoutHook';
-import values from '../params';
+import { qsMachine, runType, values } from '../params';
 import PoolRackDetail from '../PoolRackDetail';
 import PoolRackTable from '../PoolRackTable';
 import styles from './styles.module.scss';
@@ -38,7 +38,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   stateRef.current = selectedRows;
 
   const [poolRackLimit, setPoolRackLimit] = useState({});
-  const [runTitle, setRunTitle] = useState(form.getFieldValue('runTitle'));
+  const [runNumber, setRunNumber] = useState(form.getFieldValue('runNumber'));
 
   useEffect(() => {
     const limit = layoutHook(runState.kfpParam);
@@ -46,7 +46,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   }, [runState.kfpParam]);
 
   const isPoolsSelected = runState.poolRacks.length >= 1;
-  const isRunTitle = runTitle?.length > 0;
+  const isRunNumber = runNumber?.length > 0;
 
   const handleChangeLayout = useCallback(
     (e) => {
@@ -171,30 +171,27 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     [dispatch, updatePoolRacks, resetSelectedRows],
   );
 
-  const onSubmit = useCallback(
-    (values) => {
-      if (
-        runState.poolRacks.length < poolRackLimit.min ||
-        runState.poolRacks.length > poolRackLimit.max
-      ) {
-        return notification.error({
-          message: 'Wrong number of PoolRacks per run',
-          description: `Select ${poolRackLimit.min} – ${poolRackLimit.max} PoolRacks`,
-        });
-      }
-      return componentDispatch({
-        type: 'setValue',
-        payload: {
-          name: 'currentStep',
-          value: 1,
-        },
+  const onSubmit = useCallback(() => {
+    if (
+      runState.poolRacks.length < poolRackLimit.min ||
+      runState.poolRacks.length > poolRackLimit.max
+    ) {
+      return notification.error({
+        message: 'Wrong number of PoolRacks per run',
+        description: `Select ${poolRackLimit.min} – ${poolRackLimit.max} PoolRacks`,
       });
-    },
-    [componentDispatch, runState, poolRackLimit],
-  );
+    }
+    return componentDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'currentStep',
+        value: 1,
+      },
+    });
+  }, [componentDispatch, runState, poolRackLimit]);
 
-  const handleChangeTitle = useCallback((event) => {
-    setRunTitle(event.target.value);
+  const handleChangeRunNumber = useCallback((event) => {
+    setRunNumber(event.target.value);
   }, []);
 
   return (
@@ -205,14 +202,28 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         initialValues={{
           kfpParam,
           replicationParam,
-          runTitle: '',
-          reflex: false,
-          rerun: false,
+          runNumber: '',
         }}
         onFinish={onSubmit}
       >
         <Row>
           <Col xs={{ span: 12 }}>
+            <Item name="method" rules={[rules.required]}>
+              <Radio.Group name="method" buttonStyle="solid">
+                <Radio.Button
+                  value={values.SalivaClear}
+                  className={styles.radio}
+                >
+                  SalivaClear
+                </Radio.Button>
+                <Radio.Button
+                  value={values.SalivaDirect}
+                  className={styles.radio}
+                >
+                  SalivaDirect
+                </Radio.Button>
+              </Radio.Group>
+            </Item>
             <Item name="kfpParam" rules={[rules.required]}>
               <Radio.Group
                 name="kfpParam"
@@ -247,17 +258,48 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
             </Item>
           </Col>
           <Col xs={{ span: 12 }}>
-            <Item name="runTitle" rules={[rules.required]}>
-              <Input placeholder="Run title" onChange={handleChangeTitle} />
+            <Item name="startColumn" rules={[rules.required]}>
+              <Select
+                placeholder="Start column"
+                showArrow
+                optionFilterProp="label"
+                allowClear
+                options={[
+                  {
+                    label: '1',
+                    value: '1',
+                  },
+                  {
+                    label: '3',
+                    value: '3',
+                  },
+                ]}
+              />
             </Item>
-            <Row>
-              <Item name="reflex" valuePropName="checked" className="mb-0">
-                <Checkbox>Reflex</Checkbox>
-              </Item>
-              <Item name="rerun" valuePropName="checked">
-                <Checkbox>Rerun</Checkbox>
-              </Item>
-            </Row>
+            <Item name="runNumber" rules={[rules.required]}>
+              <Input
+                placeholder="Run number"
+                onChange={handleChangeRunNumber}
+              />
+            </Item>
+            <Item name="runType" rules={[rules.required]}>
+              <Select
+                placeholder="Run Type"
+                showArrow
+                optionFilterProp="label"
+                allowClear
+                options={runType}
+              />
+            </Item>
+            <Item name="qsMachine" rules={[rules.required]}>
+              <Select
+                placeholder="QS Machine"
+                showArrow
+                optionFilterProp="label"
+                allowClear
+                options={qsMachine}
+              />
+            </Item>
           </Col>
         </Row>
         {isPoolsSelected && (
@@ -302,7 +344,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         </Item>
         <Item>
           <Button
-            disabled={!isPoolsSelected || !isRunTitle}
+            disabled={!isPoolsSelected || !isRunNumber}
             type="primary"
             htmlType="submit"
           >

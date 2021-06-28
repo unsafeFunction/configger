@@ -5,7 +5,8 @@ import actions from './actions';
 
 export function* callCreateTemplate({ payload }) {
   const {
-    runTitle,
+    method,
+    runNumber,
     kfpParam,
     replicationParam,
     poolRacks,
@@ -15,7 +16,7 @@ export function* callCreateTemplate({ payload }) {
 
   try {
     const response = yield call(createRun, {
-      title: runTitle,
+      title: runNumber,
       type: kfpParam,
       option: replicationParam,
       scans_ids: poolRacks
