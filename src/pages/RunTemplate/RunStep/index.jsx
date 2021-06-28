@@ -280,6 +280,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
               <Input
                 placeholder="Run number"
                 onChange={handleChangeRunNumber}
+                className={styles.runNumber}
               />
             </Item>
             <Item name="runType" rules={[rules.required]}>

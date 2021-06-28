@@ -2,6 +2,7 @@ import axiosClient from 'utils/axiosClient';
 import saveBlobAs from 'utils/saveAsBlob';
 
 export const createRun = async (payload) => {
+  return console.log(payload);
   try {
     const run = await axiosClient.post('/runs/', { ...payload });
     return run;

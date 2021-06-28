@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
-// import actions from 'redux/runTemplate/actions';
+import actions from 'redux/runTemplate/actions';
 import PoolRackDetail from '../PoolRackDetail';
 
 moment.tz.setDefault('America/New_York');
@@ -50,15 +50,10 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
   }, [componentDispatch]);
 
   const generateRun = useCallback(() => {
-    return console.log(
-      'RUN SATE + VALUES',
-      runState,
-      form.getFieldsValue(true),
-    );
-    // dispatch({
-    //   type: actions.CREATE_TEMPLATE_REQUEST,
-    //   payload: { ...runState, ...values },
-    // });
+    dispatch({
+      type: actions.CREATE_TEMPLATE_REQUEST,
+      payload: { ...runState, ...form.getFieldsValue(true) },
+    });
   }, [dispatch, runState, form]);
 
   return (
