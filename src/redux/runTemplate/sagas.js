@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { createRun, createTemplate } from 'services/templateGeneration';
+import { createRun, createTemplate } from 'services/runTemplate';
 import actions from './actions';
 
 export function* callCreateTemplate({ payload }) {

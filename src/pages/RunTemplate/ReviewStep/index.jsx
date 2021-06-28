@@ -1,10 +1,11 @@
-import { Button, Card, Col, Row, Space, Result, Typography } from 'antd';
+import { Button, Card, Col, Row, Space, Typography } from 'antd';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
+// import actions from 'redux/runTemplate/actions';
 import PoolRackDetail from '../PoolRackDetail';
 
 moment.tz.setDefault('America/New_York');
@@ -15,6 +16,8 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
   const { Text } = Typography;
 
   const dispatch = useDispatch();
+
+  const { isLoading } = useSelector((state) => state.runTemplate);
 
   const openModalDetail = useCallback(
     (poolRackId) => {
@@ -45,6 +48,17 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
       },
     });
   }, [componentDispatch]);
+
+  const generateRun = useCallback(
+    (values) => {
+      return console.log('RUN SATE + VALUES', runState, values);
+      // dispatch({
+      //   type: actions.CREATE_TEMPLATE_REQUEST,
+      //   payload: { ...runState, ...values },
+      // });
+    },
+    [dispatch, runState],
+  );
 
   return (
     <div>
@@ -123,7 +137,9 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
         ))}
       </Row>
       <Space size="middle">
-        <Button type="primary">Generate run</Button>
+        <Button type="primary" onClick={generateRun} loading={isLoading}>
+          Generate run
+        </Button>
         <Button onClick={handlePrevious}>Edit run</Button>
       </Space>
     </div>

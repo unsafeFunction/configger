@@ -112,11 +112,7 @@ const routes = [
     Component: loadable(() => import('pages/Inventory')),
   },
   {
-    path: '/template-generation',
-    Component: loadable(() => import('pages/TemplateGeneration')),
-  },
-  {
-    path: '/run-template',
+    path: '/generate-run',
     Component: loadable(() => import('pages/RunTemplate')),
   },
   {

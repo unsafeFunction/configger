@@ -67,14 +67,8 @@ export async function getMenuData() {
         // },
         {
           title: 'Generate Run',
-          key: 'templateGeneration',
-          url: '/template-generation',
-          icon: 'fe fe-layers',
-        },
-        {
-          title: 'Generate Run v2',
           key: 'runTemplate',
-          url: '/run-template',
+          url: '/generate-run',
           icon: 'fe fe-layers',
         },
         // {
@@ -155,8 +149,7 @@ export async function getRolePermissions() {
         '/runs',
         '/pools',
         '/rack-scans',
-        '/template-generation',
-        '/run-template',
+        '/generate-run',
         // '/management',
         '/inventory',
         '/analysis-runs',
@@ -176,7 +169,6 @@ export async function getRolePermissions() {
         '/runs',
         '/pools',
         '/rack-scans',
-        '/template-generation',
         // '/management',
         '/inventory',
         '/analysis-runs',
