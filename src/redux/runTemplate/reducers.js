@@ -2,7 +2,6 @@ import actions from './actions';
 
 const initialState = {
   isLoading: false,
-  error: null,
 };
 
 export default function runTemplateReducer(state = initialState, action) {
@@ -23,7 +22,6 @@ export default function runTemplateReducer(state = initialState, action) {
         isLoading: false,
       };
     }
-
     default:
       return state;
   }

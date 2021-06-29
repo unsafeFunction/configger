@@ -1,35 +1,30 @@
 import axiosClient from 'utils/axiosClient';
+import nameWithExtension from 'utils/nameWithExtension';
 import saveBlobAs from 'utils/saveAsBlob';
 
-export const createRun = async (payload) => {
+// eslint-disable-next-line import/prefer-default-export
+export const createTemplate = async (payload) => {
   return console.log(payload);
   try {
-    const run = await axiosClient.post('/runs/', { ...payload });
-    return run;
-  } catch (error) {
-    const err = error?.response?.data.field_errors;
-    throw new Error(err ? JSON.stringify(err) : error);
-  }
-};
-
-export const createTemplate = async ({
-  runId,
-  reflex,
-  rerun,
-  name,
-  contentType,
-}) => {
-  try {
-    const response = await axiosClient.get(`/runs/${runId}/generate/`, {
-      params: { reflex, rerun },
-      headers: { 'Content-Type': contentType },
+    const contentType = 'text/csv';
+    const response = await axiosClient.post('/runs/', {
+      data: { ...payload },
+      headers: {
+        'Content-Type': contentType,
+      },
       responseType: 'blob',
     });
 
     const blobData = new Blob([response.data], { type: contentType });
+    const parsedName = response.headers['content-disposition']
+      ?.split(';')[1]
+      ?.split('="')[1]
+      ?.split('.')[0];
 
-    saveBlobAs(blobData, name);
-
+    saveBlobAs(
+      blobData,
+      nameWithExtension(parsedName || 'Unknown', contentType),
+    );
     return response;
   } catch (error) {
     throw new Error(error?.response?.data.detail);

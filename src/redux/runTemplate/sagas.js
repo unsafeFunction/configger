@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { createRun } from 'services/runTemplate';
+import { createTemplate } from 'services/runTemplate';
 import actions from './actions';
 
 export function* callCreateTemplate({ payload }) {
@@ -16,16 +16,7 @@ export function* callCreateTemplate({ payload }) {
   } = payload;
 
   try {
-    const response = yield call(createRun, {
-      // title: runNumber,
-      // type: kfpParam,
-      // option: replicationParam,
-      // scans_ids: poolRacks
-      //   .map((poolRack) => poolRack.id)
-      //   .filter((item) => typeof item === 'string'),
-      // is_reflexed: reflex,
-      // is_reruned: rerun,
-
+    yield call(createTemplate, {
       method,
       replication: replicationParam,
       kfp: kfpParam,
@@ -38,17 +29,7 @@ export function* callCreateTemplate({ payload }) {
         .filter((item) => typeof item === 'string'),
     });
 
-    // const { id, is_reflexed, is_reruned, title } = response?.data;
-
-    // yield call(createTemplate, {
-    //   runId: id,
-    //   reflex: is_reflexed,
-    //   rerun: is_reruned,
-    //   name: title,
-    //   contentType: 'application/zip',
-    // });
-
-    // yield put({ type: actions.CREATE_TEMPLATE_SUCCESS });
+    yield put({ type: actions.CREATE_TEMPLATE_SUCCESS });
 
     notification.success({
       message: 'Template generated',
