@@ -1,0 +1,10 @@
+@import 'assets/styles/mixins.scss';
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.row:hover > td {
+  background: unset !important;
+}

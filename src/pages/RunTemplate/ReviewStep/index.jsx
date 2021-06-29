@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/runTemplate/actions';
 import PoolRackDetail from '../PoolRackDetail';
+import ReviewTable from './components';
 
 moment.tz.setDefault('America/New_York');
 
@@ -56,6 +57,18 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
     });
   }, [dispatch, runState, form]);
 
+  const dataTable = [
+    {
+      key: 1,
+      id: 1,
+      method: form.getFieldValue('method'),
+      start_column: form.getFieldValue('startColumn'),
+      run_type: form.getFieldValue('runType'),
+      layout_type: `${kfpParam}/${replicationParam}`,
+      run_number: form.getFieldValue('runNumber'),
+      qs_machine: form.getFieldValue('qsMachine'),
+    },
+  ];
   return (
     <div>
       {/* <Result
@@ -69,38 +82,7 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
           <Button key="buy">Generate new run</Button>,
         ]}
       /> */}
-      <Space className="mb-4" direction="vertical">
-        <Row>
-          <Col className="mr-4">
-            <Text strong>Method: &nbsp;</Text>
-            <Text>{form.getFieldValue('method')}</Text>
-          </Col>
-          <Col>
-            <Text strong>Layout type: &nbsp;</Text>
-            <Text>{`${kfpParam}/${replicationParam}`}</Text>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="mr-4">
-            <Text strong>Start column: &nbsp;</Text>
-            <Text>{form.getFieldValue('startColumn')}</Text>
-          </Col>
-          <Col>
-            <Text strong>Run number: &nbsp;</Text>
-            <Text>{form.getFieldValue('runNumber')}</Text>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="mr-4">
-            <Text strong>Run type: &nbsp;</Text>
-            <Text>{form.getFieldValue('runType')}</Text>
-          </Col>
-          <Col>
-            <Text strong>QS Machine: &nbsp;</Text>
-            <Text>{form.getFieldValue('qsMachine')}</Text>
-          </Col>
-        </Row>
-      </Space>
+      <ReviewTable data={dataTable} />
       <Row gutter={[40, 40]} justify="center" className="mb-4">
         {poolRacks.map((poolRack, index) => (
           <Col
