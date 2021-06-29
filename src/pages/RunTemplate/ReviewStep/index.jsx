@@ -101,7 +101,7 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
           </Col>
         </Row>
       </Space>
-      <Row gutter={[40, 40]}>
+      <Row gutter={[40, 40]} justify="center" className="mb-4">
         {poolRacks.map((poolRack, index) => (
           <Col
             xs={24}
