@@ -206,8 +206,8 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         }}
         onFinish={onSubmit}
       >
-        <Row>
-          <Col xs={{ span: 12 }}>
+        <Row gutter={[24, 16]}>
+          <Col xs={{ span: 24 }} sm={24} md={12}>
             <Item name="method" rules={[rules.required]}>
               <Radio.Group name="method" buttonStyle="solid">
                 <Radio.Button
@@ -257,7 +257,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
               </Radio.Group>
             </Item>
           </Col>
-          <Col xs={{ span: 12 }}>
+          <Col xs={{ span: 24 }} sm={24} md={6}>
             <Item name="startColumn" rules={[rules.required]}>
               <Select
                 placeholder="Start column"
@@ -275,6 +275,8 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
                 className={styles.runNumber}
               />
             </Item>
+          </Col>
+          <Col xs={{ span: 24 }} sm={24} md={6}>
             <Item name="runType" rules={[rules.required]}>
               <Select
                 placeholder="Run type"
