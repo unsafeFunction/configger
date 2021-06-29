@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import rules from 'utils/rules';
 import layoutHook from '../layoutHook';
-import { qsMachine, runType, values } from '../params';
+import { qsMachines, runTypes, startColumns, values } from '../params';
 import PoolRackDetail from '../PoolRackDetail';
 import PoolRackTable from '../PoolRackTable';
 import styles from './styles.module.scss';
@@ -264,16 +264,8 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
                 showArrow
                 optionFilterProp="label"
                 allowClear
-                options={[
-                  {
-                    label: '1',
-                    value: '1',
-                  },
-                  {
-                    label: '3',
-                    value: '3',
-                  },
-                ]}
+                showSearch
+                options={startColumns(1, 23)}
               />
             </Item>
             <Item name="runNumber" rules={[rules.required]}>
@@ -285,20 +277,22 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
             </Item>
             <Item name="runType" rules={[rules.required]}>
               <Select
-                placeholder="Run Type"
+                placeholder="Run type"
                 showArrow
                 optionFilterProp="label"
                 allowClear
-                options={runType}
+                showSearch
+                options={runTypes}
               />
             </Item>
             <Item name="qsMachine" rules={[rules.required]}>
               <Select
-                placeholder="QS Machine"
+                placeholder="QS machine"
                 showArrow
                 optionFilterProp="label"
                 allowClear
-                options={qsMachine}
+                showSearch
+                options={qsMachines}
               />
             </Item>
           </Col>

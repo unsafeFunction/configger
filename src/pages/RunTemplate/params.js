@@ -7,7 +7,20 @@ export const values = {
   triplicate: 'TRIPLICATE',
 };
 
-export const runType = [
+export const startColumns = (start = 1, end = 23) => {
+  const arr = [];
+  let i = start % 2 ? start : (start += 1);
+  while (i <= end) {
+    arr.push({
+      label: i,
+      value: i,
+    });
+    i += 2;
+  }
+  return arr;
+};
+
+export const runTypes = [
   {
     label: 'Pools',
     value: 'pools',
@@ -30,7 +43,7 @@ export const runType = [
   },
 ];
 
-export const qsMachine = [
+export const qsMachines = [
   {
     label: 'QS1',
     value: 'QS1',
