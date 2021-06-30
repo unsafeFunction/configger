@@ -80,17 +80,17 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   );
 
   const openModalDetail = useCallback(
-    (poolRackId) => {
+    (poolRack) => {
       dispatch({
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
-          title: 'PoolRack',
+          title: `PoolRack ${poolRack.rack_id}`,
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
           },
-          message: () => <PoolRackDetail id={poolRackId} />,
+          message: () => <PoolRackDetail id={poolRack.id} />,
           width: '100%',
           footer: null,
         },
@@ -119,7 +119,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     {
       title: 'Actions',
       render: (text, record) => (
-        <Button type="link" onClick={() => openModalDetail(record.id)}>
+        <Button type="link" onClick={() => openModalDetail(record)}>
           View plate
         </Button>
       ),

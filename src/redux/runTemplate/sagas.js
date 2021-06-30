@@ -19,9 +19,9 @@ export function* callCreateTemplate({ payload }) {
     yield call(createTemplate, {
       method,
       replication: replicationParam,
-      kfp: kfpParam,
+      plate: kfpParam,
       start_column: startColumn,
-      run_number: runNumber,
+      title: runNumber,
       run_type: runType,
       qs_machine: qsMachine,
       scans_ids: poolRacks
