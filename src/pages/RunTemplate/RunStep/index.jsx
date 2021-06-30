@@ -38,7 +38,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   stateRef.current = selectedRows;
 
   const [poolRackLimit, setPoolRackLimit] = useState({});
-  const [runNumber, setRunNumber] = useState(form.getFieldValue('runNumber'));
 
   useEffect(() => {
     const limit = layoutHook(runState.kfpParam);
@@ -46,7 +45,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   }, [runState.kfpParam]);
 
   const isPoolsSelected = runState.poolRacks.length >= 1;
-  const isRunNumber = runNumber?.length > 0;
 
   const handleChangeLayout = useCallback(
     (e) => {
@@ -190,10 +188,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     });
   }, [componentDispatch, runState, poolRackLimit]);
 
-  const handleChangeRunNumber = useCallback((event) => {
-    setRunNumber(event.target.value);
-  }, []);
-
   return (
     <>
       <Form
@@ -269,11 +263,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
               />
             </Item>
             <Item name="runNumber" rules={[rules.required]}>
-              <Input
-                placeholder="Run number"
-                onChange={handleChangeRunNumber}
-                className={styles.runNumber}
-              />
+              <Input placeholder="Run number" className={styles.runNumber} />
             </Item>
           </Col>
           <Col xs={{ span: 24 }} sm={24} md={6}>
@@ -340,11 +330,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
           />
         </Item>
         <Item>
-          <Button
-            disabled={!isPoolsSelected || !isRunNumber}
-            type="primary"
-            htmlType="submit"
-          >
+          <Button disabled={!isPoolsSelected} type="primary" htmlType="submit">
             Review run
           </Button>
         </Item>
