@@ -1,38 +1,32 @@
 import { notification } from 'antd';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { createRun, createTemplate } from 'services/templateGeneration';
+import { createTemplate } from 'services/runTemplate';
 import actions from './actions';
 
 export function* callCreateTemplate({ payload }) {
   const {
-    runTitle,
+    method,
+    runNumber,
     kfpParam,
     replicationParam,
     poolRacks,
-    reflex,
-    rerun,
+    qsMachine,
+    runType,
+    startColumn,
   } = payload;
 
   try {
-    const response = yield call(createRun, {
-      title: runTitle,
-      type: kfpParam,
-      option: replicationParam,
+    yield call(createTemplate, {
+      method,
+      replication: replicationParam,
+      plate: kfpParam,
+      start_column: startColumn,
+      title: runNumber,
+      run_type: runType,
+      qs_machine: qsMachine,
       scans_ids: poolRacks
         .map((poolRack) => poolRack.id)
         .filter((item) => typeof item === 'string'),
-      is_reflexed: reflex,
-      is_reruned: rerun,
-    });
-
-    const { id, is_reflexed, is_reruned, title } = response?.data;
-
-    yield call(createTemplate, {
-      runId: id,
-      reflex: is_reflexed,
-      rerun: is_reruned,
-      name: title,
-      contentType: 'application/zip',
     });
 
     yield put({ type: actions.CREATE_TEMPLATE_SUCCESS });

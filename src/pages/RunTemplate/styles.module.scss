@@ -11,9 +11,10 @@
   }
 }
 
-.stages {
-  margin-bottom: 5rem;
-  @media (max-width: $xs-max-width) {
-    margin-bottom: 4.5rem;
+.actionsOverlay {
+  ul {
+    li:last-child {
+      color: red;
+    }
   }
 }

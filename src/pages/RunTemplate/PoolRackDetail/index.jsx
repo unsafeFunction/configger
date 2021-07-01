@@ -1,13 +1,14 @@
-import { Col, Row, Table, Tag } from 'antd';
+import { Col, Row, Table, Tag, Typography } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
-import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import poolRackActions from 'redux/racks/actions';
 
-const PoolRack = ({ poolRackId }) => {
+const { Text } = Typography;
+
+const PoolRackDetail = ({ id }) => {
   const dispatch = useDispatch();
 
   const poolRack = useSelector((state) => state.racks.singleRack);
@@ -16,7 +17,7 @@ const PoolRack = ({ poolRackId }) => {
     useEffect(() => {
       dispatch({
         type: poolRackActions.GET_RACK_REQUEST,
-        payload: poolRackId,
+        payload: id,
       });
     }, []);
   };
@@ -45,11 +46,6 @@ const PoolRack = ({ poolRackId }) => {
     <>
       <Row gutter={[40, 56]} justify="center">
         <Col xs={24} lg={12}>
-          {/* <Typography.Title level={5}>
-            PoolRack ID: ER00009784
-          </Typography.Title>
-          <Typography.Title level={5}>Test Tubes: 3 </Typography.Title> */}
-          <ScanStatistic isRack scan={poolRack} />
           <Rackboard
             isRack
             rackboard={poolRack}
@@ -73,8 +69,8 @@ const PoolRack = ({ poolRackId }) => {
   );
 };
 
-PoolRack.propTypes = {
-  poolRackId: PropTypes.string.isRequired,
+PoolRackDetail.propTypes = {
+  id: PropTypes.string.isRequired,
 };
 
-export default PoolRack;
+export default PoolRackDetail;

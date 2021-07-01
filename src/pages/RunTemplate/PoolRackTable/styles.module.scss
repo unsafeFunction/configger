@@ -6,14 +6,11 @@
   margin: 20px 0;
 }
 
-.tableHeaderItem {
-  margin-bottom: 0.5rem;
-}
-
-.search {
-  height: 32px;
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
 }
 
 .rangePicker {
-  width: 100%;
+  margin-bottom: 0.5rem;
 }

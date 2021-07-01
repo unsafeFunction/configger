@@ -2,13 +2,9 @@ import actions from './actions';
 
 const initialState = {
   isLoading: false,
-  error: null,
 };
 
-export default function templateGenerationReducer(
-  state = initialState,
-  action,
-) {
+export default function runTemplateReducer(state = initialState, action) {
   switch (action.type) {
     case actions.CREATE_TEMPLATE_REQUEST:
       return {
@@ -26,7 +22,6 @@ export default function templateGenerationReducer(
         isLoading: false,
       };
     }
-
     default:
       return state;
   }
