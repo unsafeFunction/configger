@@ -40,7 +40,6 @@ const RunTemplate = () => {
   };
 
   const [runState, componentDispatch] = useReducer(reducer, initialRunState);
-  console.log('RUN STATE', runState);
 
   const steps = [
     {
