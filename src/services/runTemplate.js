@@ -4,14 +4,13 @@ import saveBlobAs from 'utils/saveAsBlob';
 
 // eslint-disable-next-line import/prefer-default-export
 export const createTemplate = async (payload) => {
-  return console.log(payload);
   try {
     const contentType = 'text/csv';
     const response = await axiosClient.post('/runs/', {
       data: { ...payload },
-      headers: {
-        'Content-Type': contentType,
-      },
+      // headers: {
+      //   'Content-Type': contentType,
+      // },
       responseType: 'blob',
     });
 
