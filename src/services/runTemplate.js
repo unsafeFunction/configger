@@ -7,7 +7,7 @@ export const createTemplate = async (payload) => {
   try {
     const contentType = 'text/csv';
     const response = await axiosClient.post('/runs/', {
-      data: { ...payload },
+      ...payload,
       // headers: {
       //   'Content-Type': contentType,
       // },
