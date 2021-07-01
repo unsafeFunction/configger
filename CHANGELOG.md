@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v5.0.1...v6.0.0) (2021-07-01)
+
+### Features
+
+- additional params for run ([84c4fad](https://github.com/mokkapps/changelog-generator-demo/commits/84c4fade368ef9398f9a4a07c526d944a561a70e))
+
+### Bug Fixes
+
+- center cards, margin ([2760ae6](https://github.com/mokkapps/changelog-generator-demo/commits/2760ae685528649b42bf59247d9567ac1ac1605b))
+- data payload ([17d5606](https://github.com/mokkapps/changelog-generator-demo/commits/17d5606e8d5555f20e914d1de46d55728662783f))
+- fix review step ([d0feb23](https://github.com/mokkapps/changelog-generator-demo/commits/d0feb23d65130ed32356732c014e6f4f58672aab))
+- grid generate run step ([3dbe045](https://github.com/mokkapps/changelog-generator-demo/commits/3dbe0456502ad2a8152f81bff9daac8bb49770b4))
+- hide password recovery btn ([74866c2](https://github.com/mokkapps/changelog-generator-demo/commits/74866c2cae40cf8428bcd700c44233a90ccca877))
+- hide SelectAll, small btns, check for empty title ([5590b47](https://github.com/mokkapps/changelog-generator-demo/commits/5590b4757969036808ddedf3e9c0348739afdbc5))
+- new params to run saga ([8432a3f](https://github.com/mokkapps/changelog-generator-demo/commits/8432a3fac8e30fb940b710cb6b9ce9a8ca40f2a0))
+- refactor review table title ([5661a7c](https://github.com/mokkapps/changelog-generator-demo/commits/5661a7c47d7d1b3879a2d7e0c99e1527eb13d669))
+- refactor run template ([bd40aad](https://github.com/mokkapps/changelog-generator-demo/commits/bd40aad81961c16dbeeb6bdd2806b47f84db6ac0))
+- refactor table ([75e5688](https://github.com/mokkapps/changelog-generator-demo/commits/75e56881823ca3f77c8ec4a7b55a5a655bc9e613))
+- refactoring ([8fb68ac](https://github.com/mokkapps/changelog-generator-demo/commits/8fb68ac0a87494dd161326dc6a59fb5332a8aa28))
+- remove console ([cb28074](https://github.com/mokkapps/changelog-generator-demo/commits/cb28074830bf2bd075308b8ea1a51c14f55e0fff))
+- remove console ([1f38ef5](https://github.com/mokkapps/changelog-generator-demo/commits/1f38ef5e229e6fe55e6438e1cd2a8d119c58f30f))
+- remove runNumber check ([f5c49cf](https://github.com/mokkapps/changelog-generator-demo/commits/f5c49cff5fa17c455ba4a202e89e668e2556bc25))
+- rename fields for request, remove statistic block ([4ea6dec](https://github.com/mokkapps/changelog-generator-demo/commits/4ea6dec3a9b3b87e5811c0808d339f5477d97d32))
+- resolve conflict from dev ([bf19454](https://github.com/mokkapps/changelog-generator-demo/commits/bf1945405160b06c7f40d387ab867e15745c9a7e))
+- start column param ([da47809](https://github.com/mokkapps/changelog-generator-demo/commits/da4780946964ebee4111c513b0dca4de6d91308f))
+- ui tweeks ([77c6ce0](https://github.com/mokkapps/changelog-generator-demo/commits/77c6ce0bbb5cfbe0543b4ffbddb276bde21aa487))
+- ui tweeks ([0c45f9b](https://github.com/mokkapps/changelog-generator-demo/commits/0c45f9bc7f866013f0f9b52b9447d69883f12101))
+
 ### [5.0.1](https://github.com/mokkapps/changelog-generator-demo/compare/v5.0.0...v5.0.1) (2021-06-27)
 
 ### Bug Fixes
