@@ -71,12 +71,12 @@ export async function getMenuData() {
           url: '/generate-run',
           icon: 'fe fe-layers',
         },
-        // {
-        //   title: 'Analysis Runs',
-        //   key: 'analysisRuns',
-        //   url: '/analysis-runs',
-        //   icon: 'fe fe-bar-chart-2',
-        // },
+        {
+          title: 'Analysis Runs',
+          key: 'analysisRuns',
+          url: '/analysis-runs',
+          icon: 'fe fe-bar-chart-2',
+        },
       ],
     },
     // {
