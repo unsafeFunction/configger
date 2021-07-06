@@ -12,3 +12,25 @@ export const fetchRuns = async (query) => {
     return error;
   }
 };
+
+export const uploadRunResult = async (data) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', data.file);
+
+    const uploadedRun = await axiosClient.post(
+      `/runs/${data.id}/import/`,
+      formData,
+      {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      },
+    );
+    console.log(uploadedRun);
+    return uploadedRun;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

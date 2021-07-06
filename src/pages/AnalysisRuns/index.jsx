@@ -2,13 +2,14 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { Table, DatePicker } from 'antd';
+import { Table, DatePicker, Button, Upload } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/analysisRuns/actions';
 import moment from 'moment-timezone';
 import { constants } from 'utils/constants';
 import qs from 'qs';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import modalActions from 'redux/modal/actions';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -48,6 +49,51 @@ const ScanSessions = () => {
 
   const runsItems = runs?.items;
 
+  const onUploadRun = useCallback(
+    (id, uploadObject) => {
+      dispatch({
+        type: actions.UPLOAD_RUN_RESULT_REQUEST,
+        payload: {
+          id,
+          file: uploadObject.file,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const onUploadClick = useCallback(
+    (id) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Upload run result',
+          // onOk: handleSubmit,
+          message: () => (
+            <Upload.Dragger
+              customRequest={(file) => onUploadRun(id, file)}
+              maxCount={1}
+              name="runFile"
+              accept=".csv"
+            >
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                Support for a single upload. You can upload only csv files.
+              </p>
+            </Upload.Dragger>
+          ),
+        },
+      });
+    },
+    [dispatch, onUploadRun],
+  );
+
   const columns = [
     {
       title: 'Run Title',
@@ -60,7 +106,8 @@ const ScanSessions = () => {
     },
     {
       title: 'Creation Date',
-      dataIndex: 'date',
+      dataIndex: 'created',
+      render: (value) => moment(value).format('YYYY-MM-DD HH:MM'),
     },
     {
       title: 'Samples',
@@ -75,25 +122,28 @@ const ScanSessions = () => {
     },
     {
       title: 'Last updated',
-      dataIndex: 'last_updated',
+      dataIndex: 'updated',
+      render: (value) => moment(value).format('YYYY-MM-DD HH:MM'),
     },
     {
-      title: 'User',
+      title: 'Created By',
       dataIndex: 'user',
     },
     {
-      title: 'Reflex Run',
-      dataIndex: 'reflexed',
-      align: 'center',
-      render: (_, record) =>
-        record?.reflexed ? <CheckOutlined /> : <CloseOutlined />,
+      title: 'Run Type',
+      dataIndex: 'type',
     },
     {
-      title: 'Validation Run',
-      dataIndex: 'validated',
-      align: 'center',
-      render: (_, record) =>
-        record?.validated ? <CheckOutlined /> : <CloseOutlined />,
+      title: 'Actions',
+      render: (_, run) => (
+        <Button
+          onClick={() => onUploadClick(run.id)}
+          icon={<UploadOutlined />}
+          type="link"
+        >
+          Upload result
+        </Button>
+      ),
     },
   ];
 
