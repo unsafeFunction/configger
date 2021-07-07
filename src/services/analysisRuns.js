@@ -1,4 +1,5 @@
 import axiosClient from 'utils/axiosClient';
+import { notification } from 'antd';
 
 export const fetchRuns = async (query) => {
   try {
@@ -13,13 +14,15 @@ export const fetchRuns = async (query) => {
   }
 };
 
-export const uploadRunResult = async (data) => {
+export const uploadRunResult = async (payload) => {
+  const { file, onSuccess, onError } = payload?.options;
+
   try {
     const formData = new FormData();
-    formData.append('file', data.file);
+    formData.append('result_file', file);
 
     const uploadedRun = await axiosClient.post(
-      `/runs/${data.id}/import/`,
+      `/runs/${payload.id}/import/`,
       formData,
       {
         headers: {
@@ -27,10 +30,12 @@ export const uploadRunResult = async (data) => {
         },
       },
     );
-    console.log(uploadedRun);
+    onSuccess(uploadedRun);
+    notification.success({ message: uploadedRun.data });
     return uploadedRun;
   } catch (error) {
-    console.log(error);
+    notification.error({ message: 'Something went wrong.' });
+    onError(error);
     return error;
   }
 };

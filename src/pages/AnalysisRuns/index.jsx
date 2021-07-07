@@ -50,12 +50,12 @@ const ScanSessions = () => {
   const runsItems = runs?.items;
 
   const onUploadRun = useCallback(
-    (id, uploadObject) => {
+    (id, options) => {
       dispatch({
         type: actions.UPLOAD_RUN_RESULT_REQUEST,
         payload: {
           id,
-          file: uploadObject.file,
+          options,
         },
       });
     },
@@ -72,7 +72,7 @@ const ScanSessions = () => {
           // onOk: handleSubmit,
           message: () => (
             <Upload.Dragger
-              customRequest={(file) => onUploadRun(id, file)}
+              customRequest={(options) => onUploadRun(id, options)}
               maxCount={1}
               name="runFile"
               accept=".csv"
