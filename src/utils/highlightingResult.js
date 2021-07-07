@@ -61,3 +61,22 @@ export const getIcon = (status) => {
       return 'Unknown';
   }
 };
+
+export const getColorRun = (status) => {
+  switch (status) {
+    case 'QPCR': {
+      return 'blue';
+    }
+    case 'ANALYSIS': {
+      return 'orange';
+    }
+    case 'REVIEW': {
+      return 'red';
+    }
+    case 'PUBLISHED': {
+      return 'green';
+    }
+    default:
+      return 'Unknown';
+  }
+};

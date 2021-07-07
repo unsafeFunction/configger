@@ -10,6 +10,7 @@ import { constants } from 'utils/constants';
 import qs from 'qs';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import modalActions from 'redux/modal/actions';
+import ResultTag from 'components/widgets/ResultTag';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -119,6 +120,10 @@ const ScanSessions = () => {
     {
       title: `Status`,
       dataIndex: 'status',
+      align: 'center',
+      render: (_, record) => {
+        return <ResultTag status={record?.status} />;
+      },
     },
     {
       title: 'Last updated',
