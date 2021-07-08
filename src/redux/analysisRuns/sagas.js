@@ -21,10 +21,11 @@ export function* callLoadRuns({ payload }) {
 
 export function* callUploadRunResult({ payload }) {
   try {
-    yield call(uploadRunResult, payload);
+    const { data } = yield call(uploadRunResult, payload);
 
     yield put({
       type: actions.UPLOAD_RUN_RESULT_SUCCESS,
+      payload: data,
     });
   } catch (error) {
     yield put({

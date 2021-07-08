@@ -31,7 +31,7 @@ export const uploadRunResult = async (payload) => {
       },
     );
     onSuccess(uploadedRun);
-    notification.success({ message: uploadedRun.data });
+    notification.success({ message: 'Successfully loaded' });
     return uploadedRun;
   } catch (error) {
     notification.error({ message: 'Something went wrong.' });

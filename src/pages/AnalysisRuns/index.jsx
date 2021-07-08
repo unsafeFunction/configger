@@ -63,6 +63,12 @@ const ScanSessions = () => {
     [dispatch],
   );
 
+  const handleSubmit = useCallback(() => {
+    dispatch({
+      type: modalActions.HIDE_MODAL,
+    });
+  }, []);
+
   const onUploadClick = useCallback(
     (id) => {
       dispatch({
@@ -70,7 +76,7 @@ const ScanSessions = () => {
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
           title: 'Upload run result',
-          // onOk: handleSubmit,
+          onOk: handleSubmit,
           message: () => (
             <Upload.Dragger
               customRequest={(options) => onUploadRun(id, options)}

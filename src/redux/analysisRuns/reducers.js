@@ -38,6 +38,17 @@ export default function runsReducer(state = initialState, action) {
         // error: action.payload.data,
       };
     }
+    case actions.UPLOAD_RUN_RESULT_SUCCESS: {
+      return {
+        ...state,
+        items: state.items.map((item) => {
+          if (item.id === action.payload.id) {
+            return action.payload;
+          }
+          return item;
+        }),
+      };
+    }
 
     default:
       return state;
