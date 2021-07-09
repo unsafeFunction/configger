@@ -1,6 +1,6 @@
-import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
-import { fetchRuns, uploadRunResult } from 'services/analysisRuns';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { fetchRun, fetchRuns, uploadRunResult } from 'services/analysisRuns';
 import actions from './actions';
 
 export function* callLoadRuns({ payload }) {
@@ -35,9 +35,26 @@ export function* callUploadRunResult({ payload }) {
   }
 }
 
+export function* callLoadRun({ payload }) {
+  try {
+    const response = yield call(fetchRun, payload);
+
+    yield put({
+      type: actions.FETCH_RUN_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+  } catch (error) {
+    yield put({ type: actions.FETCH_RUN_FAILURE });
+    notification.error(error);
+  }
+}
+
 export default function* rootSaga() {
   yield all([takeEvery(actions.FETCH_RUNS_REQUEST, callLoadRuns)]);
   yield all([
     takeEvery(actions.UPLOAD_RUN_RESULT_REQUEST, callUploadRunResult),
   ]);
+  yield all([takeEvery(actions.FETCH_RUN_REQUEST, callLoadRun)]);
 }

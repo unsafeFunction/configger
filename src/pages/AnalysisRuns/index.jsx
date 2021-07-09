@@ -1,23 +1,23 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, DatePicker, Table, Upload } from 'antd';
+import classNames from 'classnames';
+import ResultTag from 'components/widgets/ResultTag';
+import moment from 'moment-timezone';
+import qs from 'qs';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import classNames from 'classnames';
-import { Table, DatePicker, Button, Upload } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/analysisRuns/actions';
-import moment from 'moment-timezone';
-import { constants } from 'utils/constants';
-import qs from 'qs';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import modalActions from 'redux/modal/actions';
-import ResultTag from 'components/widgets/ResultTag';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
 const { RangePicker } = DatePicker;
 
-const ScanSessions = () => {
+const AnalysisRuns = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [dates, setDates] = useState([]);
@@ -25,7 +25,7 @@ const ScanSessions = () => {
   const stateRef = useRef();
   stateRef.current = dates;
 
-  const runs = useSelector((state) => state.analysisRuns);
+  const runs = useSelector((state) => state.analysisRuns.all);
 
   const { from, to } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -128,7 +128,7 @@ const ScanSessions = () => {
       dataIndex: 'status',
       align: 'center',
       render: (_, record) => {
-        return <ResultTag status={record?.status} />;
+        return <ResultTag status={record?.status} type="run" />;
       },
     },
     {
@@ -226,4 +226,4 @@ const ScanSessions = () => {
   );
 };
 
-export default ScanSessions;
+export default AnalysisRuns;

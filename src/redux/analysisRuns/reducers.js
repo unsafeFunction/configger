@@ -1,7 +1,8 @@
+import { combineReducers } from 'redux';
 import { constants } from 'utils/constants';
 import actions from './actions';
 
-const initialState = {
+const initialRunsState = {
   items: [],
   isLoading: false,
   total: 0,
@@ -10,7 +11,7 @@ const initialState = {
   error: null,
 };
 
-export default function runsReducer(state = initialState, action) {
+const runsReducer = (state = initialRunsState, action) => {
   switch (action.type) {
     case actions.FETCH_RUNS_REQUEST: {
       return {
@@ -35,7 +36,6 @@ export default function runsReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        // error: action.payload.data,
       };
     }
     case actions.UPLOAD_RUN_RESULT_SUCCESS: {
@@ -53,4 +53,42 @@ export default function runsReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+const initialRunState = {
+  items: [],
+  isLoading: false,
+};
+
+const singleRunReducer = (state = initialRunState, action) => {
+  switch (action.type) {
+    case actions.FETCH_RUN_REQUEST: {
+      return {
+        ...state,
+        items: [],
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_RUN_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        items: action.payload.data,
+      };
+    }
+    case actions.FETCH_RUN_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  all: runsReducer,
+  singleRun: singleRunReducer,
+});

@@ -1,5 +1,6 @@
-import axiosClient from 'utils/axiosClient';
 import { notification } from 'antd';
+import run from 'pages/AnalysisRun/data';
+import axiosClient from 'utils/axiosClient';
 
 export const fetchRuns = async (query) => {
   try {
@@ -36,6 +37,14 @@ export const uploadRunResult = async (payload) => {
   } catch (error) {
     notification.error({ message: 'Something went wrong.' });
     onError(error);
+    return error;
+  }
+};
+
+export const fetchRun = async () => {
+  try {
+    return run;
+  } catch (error) {
     return error;
   }
 };
