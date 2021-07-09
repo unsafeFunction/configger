@@ -39,6 +39,7 @@
     "@ant-design/icons": "^4.0.6",
     "@sentry/react": "^5.29.2",
     "antd": "^4.9.4",
+    "array-move": "^3.0.1",
     "axios": "^0.19.2",
     "bootstrap-css-only": "^4.3.1",
     "classnames": "^2.2.6",
@@ -74,6 +75,7 @@
     "react-router-dom": "^5.0.1",
     "react-router-transition-switch": "1.1.1",
     "react-scripts": "3.0.1",
+    "react-sortable-hoc": "^2.0.0",
     "react-transition-group": "^4.2.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
@@ -98,11 +100,11 @@
     "prettier": "^1.18.2",
     "pretty-quick": "^3.1.0",
     "prop-types": "^15.7.2",
+    "redux-logger": "^3.0.6",
     "standard-version": "^9.1.0",
     "stylelint": "^10.1.0",
     "stylelint-config-prettier": "^5.2.0",
-    "stylelint-config-standard": "^18.3.0",
-    "redux-logger": "^3.0.6"
+    "stylelint-config-standard": "^18.3.0"
   },
   "eslintConfig": {
     "extends": "react-app"

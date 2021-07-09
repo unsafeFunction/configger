@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-
+import { MenuOutlined } from '@ant-design/icons';
 import {
   Button,
   Col,
@@ -12,11 +12,17 @@ import {
   Select,
   Table,
 } from 'antd';
+import arrayMove from 'array-move';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import {
+  sortableContainer,
+  sortableElement,
+  sortableHandle,
+} from 'react-sortable-hoc';
 import modalActions from 'redux/modal/actions';
 import rules from 'utils/rules';
 import layoutHook from '../layoutHook';
@@ -26,6 +32,9 @@ import PoolRackTable from '../PoolRackTable';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
+
+const SortableItem = sortableElement((props) => <tr {...props} />);
+const SortableContainer = sortableContainer((props) => <tbody {...props} />);
 
 const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   const { kfpParam, replicationParam } = initialValues;
@@ -99,11 +108,24 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     [dispatch],
   );
 
+  const DragHandle = sortableHandle(() => (
+    <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />
+  ));
+
   const columns = [
+    {
+      title: 'Sort',
+      dataIndex: 'sort',
+      width: 30,
+      className: styles.dragVisible,
+      align: 'center',
+      render: () => <DragHandle />,
+    },
     {
       title: 'PoolRack Name',
       dataIndex: 'scan_name',
       ellipsis: true,
+      className: styles.dragVisible,
     },
     {
       title: 'PoolRack RackID',
@@ -125,6 +147,48 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
       ),
     },
   ];
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    console.log('ON SORT END', oldIndex, newIndex);
+    const dataSource = runState.poolRacks;
+    if (oldIndex !== newIndex) {
+      const newData = arrayMove(
+        [].concat(dataSource),
+        oldIndex,
+        newIndex,
+      ).filter((el) => !!el);
+
+      console.log('Sorted items: ', newData);
+
+      componentDispatch({
+        type: 'setValue',
+        payload: {
+          name: 'poolRacks',
+          value: newData,
+        },
+      });
+    }
+  };
+
+  const DraggableContainer = (props) => (
+    <SortableContainer
+      useDragHandle
+      disableAutoscroll
+      helperClass={styles.rowDragging}
+      onSortEnd={onSortEnd}
+      {...props}
+    />
+  );
+
+  const DraggableBodyRow = ({ className, style, ...restProps }) => {
+    console.log('HERE !!!!!!!', restProps['data-row-key']);
+    const dataSource = runState.poolRacks;
+    const index = dataSource.findIndex(
+      (x) => x.id === restProps['data-row-key'],
+    );
+    console.log('HERE2222 !!!!!!!', index);
+    return <SortableItem index={index} {...restProps} />;
+  };
 
   const updatePoolRacks = useCallback(() => {
     componentDispatch({
@@ -326,6 +390,12 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
                   </Button>
                 </Empty>
               ),
+            }}
+            components={{
+              body: {
+                wrapper: DraggableContainer,
+                row: DraggableBodyRow,
+              },
             }}
           />
         </Item>

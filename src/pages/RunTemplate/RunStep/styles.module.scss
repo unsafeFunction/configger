@@ -29,3 +29,16 @@
 .runNumber {
   height: 32px;
 }
+
+.rowDragging {
+  background: #fafafa;
+  border: 1px solid #ccc;
+}
+
+.rowDragging td {
+  padding: 16px;
+}
+
+.rowDragging .dragVisible {
+  visibility: visible;
+}
