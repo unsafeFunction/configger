@@ -7,7 +7,7 @@ import { getColor, getColorRun, getIcon } from 'utils/highlightingResult';
 const ResultTag = ({ color = '', icon = null, status, type }) => {
   switch (type) {
     case 'run': {
-      const formattedColor = color ?? getColorRun(status);
+      const formattedColor = color || getColorRun(status);
       return (
         <Tag color={formattedColor} icon={icon}>
           {status}
@@ -16,7 +16,7 @@ const ResultTag = ({ color = '', icon = null, status, type }) => {
     }
     case 'pool': {
       return (
-        <Tag color={getColor(status)} icon={getIcon(status)}>
+        <Tag color={color || getColor(status)} icon={getIcon(status)}>
           {status.toUpperCase()}
         </Tag>
       );
