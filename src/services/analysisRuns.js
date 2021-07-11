@@ -41,8 +41,11 @@ export const uploadRunResult = async (payload) => {
   }
 };
 
-export const fetchRun = async () => {
+export const fetchRun = async ({ id }) => {
   try {
+    // TODO: uncomment when endpoint will be ready
+    // const runs = await axiosClient.get(`/runs/${id}`);
+
     return run;
   } catch (error) {
     return error;

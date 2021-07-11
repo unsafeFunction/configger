@@ -38,7 +38,6 @@ export function* callUploadRunResult({ payload }) {
 export function* callLoadRun({ payload }) {
   try {
     const response = yield call(fetchRun, payload);
-
     yield put({
       type: actions.FETCH_RUN_SUCCESS,
       payload: {
@@ -47,6 +46,7 @@ export function* callLoadRun({ payload }) {
     });
   } catch (error) {
     yield put({ type: actions.FETCH_RUN_FAILURE });
+
     notification.error(error);
   }
 }

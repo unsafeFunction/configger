@@ -57,6 +57,7 @@ const runsReducer = (state = initialRunsState, action) => {
 
 const initialRunState = {
   items: [],
+  id: null,
   isLoading: false,
 };
 

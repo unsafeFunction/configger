@@ -1,11 +1,16 @@
-import { DownOutlined, ExclamationCircleTwoTone } from '@ant-design/icons';
-import { Button, Dropdown, Menu, Table, Tooltip } from 'antd';
+import {
+  DownOutlined,
+  ExclamationCircleTwoTone,
+  InboxOutlined,
+} from '@ant-design/icons';
+import { useLocation } from 'react-router-dom';
+import { Button, Dropdown, Menu, Table, Tooltip, Upload } from 'antd';
 import classNames from 'classnames';
 import ResultTag from 'components/widgets/ResultTag';
 import moment from 'moment-timezone';
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import modalActions from 'redux/modal/actions';
 import actions from 'redux/analysisRuns/actions';
 import styles from './styles.module.scss';
 
@@ -13,15 +18,19 @@ moment.tz.setDefault('America/New_York');
 
 const AnalysisRun = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
 
   const run = useSelector((state) => state.analysisRuns.singleRun);
+  const location = useLocation();
 
   const useFetching = () => {
     useEffect(() => {
+      const runId = location.pathname.split('/')[2];
+
       dispatch({
         type: actions.FETCH_RUN_REQUEST,
+        payload: {
+          id: runId,
+        },
       });
     }, []);
   };
@@ -46,9 +55,6 @@ const AnalysisRun = () => {
       dataIndex: 'status',
       render: (_, record) => {
         return {
-          // props: {
-          //   style: { borderRight: '1px solid black' },
-          // },
           children: record?.status ? (
             <ResultTag status={record.status} type="pool" />
           ) : null,
@@ -83,6 +89,56 @@ const AnalysisRun = () => {
     },
   ];
 
+  const onUploadRun = useCallback(
+    (options) => {
+      console.log(run);
+
+      dispatch({
+        type: actions.UPLOAD_RUN_RESULT_REQUEST,
+        payload: {
+          id: run.id,
+          options,
+        },
+      });
+    },
+    [dispatch, run.id],
+  );
+
+  const handleSubmit = useCallback(() => {
+    dispatch({
+      type: modalActions.HIDE_MODAL,
+    });
+  }, [dispatch]);
+
+  const onUploadClick = useCallback(() => {
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'COMPLIANCE_MODAL',
+      modalProps: {
+        title: 'Upload run result',
+        onOk: handleSubmit,
+        message: () => (
+          <Upload.Dragger
+            customRequest={onUploadRun}
+            maxCount={1}
+            name="runFile"
+            accept=".csv"
+          >
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">
+              Click or drag file to this area to upload
+            </p>
+            <p className="ant-upload-hint">
+              Support for a single upload. You can upload only csv files.
+            </p>
+          </Upload.Dragger>
+        ),
+      },
+    });
+  }, [dispatch, onUploadRun, handleSubmit]);
+
   const menu = (
     <Menu>
       <Menu.Item key="1">View Table</Menu.Item>
@@ -90,9 +146,15 @@ const AnalysisRun = () => {
         View Timeline
       </Menu.Item>
       <Menu.Item key="3">View 96-well Plate</Menu.Item>
-      <Menu.Item key="4">Go to DataConnect</Menu.Item>
-      <Menu.Item key="5">Upload Raw Data</Menu.Item>
-      <Menu.Item key="6">Print Run</Menu.Item>
+      <Menu.Item disabled key="4">
+        Go to DataConnect
+      </Menu.Item>
+      <Menu.Item onClick={onUploadClick} key="5">
+        Upload Raw Data
+      </Menu.Item>
+      <Menu.Item disabled key="6">
+        Print Run
+      </Menu.Item>
     </Menu>
   );
 
