@@ -7,6 +7,12 @@
   justify-content: space-between;
 }
 
+.actionsWrapper {
+  button:first-child {
+    margin-right: 10px;
+  }
+}
+
 // .divider {
 //   border-right: '1px solid black';
 // }

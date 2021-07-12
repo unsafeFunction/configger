@@ -193,6 +193,10 @@ const AnalysisRun = () => {
     });
   }, [dispatch, onUploadRun, handleSubmit]);
 
+  const handleStatusAction = useCallback(() => {
+    console.log('foo');
+  }, []);
+
   const menu = (
     <Menu>
       <Menu.Item key="1" disabled>
@@ -211,16 +215,31 @@ const AnalysisRun = () => {
     </Menu>
   );
 
+  const getBtnName = useCallback((status) => {
+    switch (status) {
+      case 'review':
+      case 'published':
+        return 'Publish';
+      default:
+        return 'Finish Analysis';
+    }
+  }, []);
+
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Run</h4>
-        <Dropdown overlay={menu}>
-          <Button type="primary">
-            Actions
-            <DownOutlined />
+        <div className={styles.actionsWrapper}>
+          <Button type="primary" ghost onClick={handleStatusAction}>
+            {getBtnName(run?.status?.toLowerCase())}
           </Button>
-        </Dropdown>
+          <Dropdown overlay={menu}>
+            <Button type="primary">
+              Actions
+              <DownOutlined />
+            </Button>
+          </Dropdown>
+        </div>
       </div>
 
       <Table
