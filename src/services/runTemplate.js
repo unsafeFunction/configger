@@ -26,6 +26,9 @@ export const createTemplate = async (payload) => {
     );
     return response;
   } catch (error) {
-    throw new Error(error?.response?.data.detail);
+    const err = error?.response?.data.field_errors;
+    throw new Error(
+      err ? JSON.stringify(err, null, 2).replace(/{|}|"|,/g, '') : error,
+    );
   }
 };
