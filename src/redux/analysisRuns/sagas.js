@@ -1,6 +1,11 @@
 import { notification } from 'antd';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { fetchRun, fetchRuns, uploadRunResult } from 'services/analysisRuns';
+import {
+  fetchRun,
+  fetchRuns,
+  updatePool,
+  uploadRunResult,
+} from 'services/analysisRuns';
 import actions from './actions';
 
 export function* callLoadRuns({ payload }) {
@@ -51,10 +56,32 @@ export function* callLoadRun({ payload }) {
   }
 }
 
+export function* callUpdatePool({ payload }) {
+  try {
+    const response = yield call(updatePool, payload);
+
+    yield put({
+      type: actions.UPDATE_POOL_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+
+    notification.success({
+      message: 'Pool updated',
+    });
+  } catch (error) {
+    yield put({ type: actions.UPDATE_POOL_FAILURE });
+
+    notification.error(error);
+  }
+}
+
 export default function* rootSaga() {
   yield all([takeEvery(actions.FETCH_RUNS_REQUEST, callLoadRuns)]);
   yield all([
     takeEvery(actions.UPLOAD_RUN_RESULT_REQUEST, callUploadRunResult),
   ]);
   yield all([takeEvery(actions.FETCH_RUN_REQUEST, callLoadRun)]);
+  yield all([takeEvery(actions.UPDATE_POOL_REQUEST, callUpdatePool)]);
 }

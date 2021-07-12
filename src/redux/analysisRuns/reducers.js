@@ -74,13 +74,57 @@ const singleRunReducer = (state = initialRunState, action) => {
       return {
         ...state,
         isLoading: false,
-        items: action.payload.data,
+        ...action.payload.data,
       };
     }
     case actions.FETCH_RUN_FAILURE: {
       return {
         ...state,
         isLoading: false,
+      };
+    }
+
+    case actions.UPDATE_POOL_REQUEST: {
+      return {
+        ...state,
+        items: state.items.map((pool) => {
+          if (pool.id === action.payload.id) {
+            return {
+              ...pool,
+              isUpdating: true,
+            };
+          }
+          return pool;
+        }),
+      };
+    }
+    case actions.UPDATE_POOL_SUCCESS: {
+      return {
+        ...state,
+        items: state.items.map((pool) => {
+          if (pool.id === action.payload.data.id) {
+            return {
+              ...pool,
+              ...action.payload.data,
+              isUpdating: false,
+            };
+          }
+          return pool;
+        }),
+      };
+    }
+    case actions.UPDATE_POOL_FAILURE: {
+      return {
+        ...state,
+        items: state.items.map((pool) => {
+          if (pool.id === action?.payload?.id) {
+            return {
+              ...pool,
+              isUpdating: false,
+            };
+          }
+          return pool;
+        }),
       };
     }
 

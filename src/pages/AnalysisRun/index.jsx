@@ -3,15 +3,16 @@ import {
   ExclamationCircleTwoTone,
   InboxOutlined,
 } from '@ant-design/icons';
-import { useLocation } from 'react-router-dom';
 import { Button, Dropdown, Menu, Table, Tooltip, Upload } from 'antd';
 import classNames from 'classnames';
 import ResultTag from 'components/widgets/ResultTag';
 import moment from 'moment-timezone';
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import modalActions from 'redux/modal/actions';
+import { useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
+import modalActions from 'redux/modal/actions';
+import PoolCheckbox from './PoolCheckbox';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -87,6 +88,59 @@ const AnalysisRun = () => {
       title: 'S gene',
       dataIndex: 's_gene',
     },
+    {
+      title: 'Orf1ab',
+      dataIndex: 'orf1ab',
+    },
+    {
+      title: 'RP',
+      dataIndex: 'rp',
+    },
+    {
+      title: 'Reflex SC',
+      dataIndex: 'reflex_sc',
+      align: 'center',
+      render: (value, record) => {
+        return (
+          <PoolCheckbox
+            record={record}
+            dataIndex="reflex_sc"
+            value={value}
+            title="Reflex SC"
+          />
+        );
+      },
+    },
+    {
+      title: 'Reflex SD',
+      dataIndex: 'reflex_sd',
+      align: 'center',
+      render: (value, record) => {
+        return (
+          <PoolCheckbox
+            record={record}
+            dataIndex="reflex_sd"
+            value={value}
+            title="Reflex SD"
+          />
+        );
+      },
+    },
+    {
+      title: 'Rerun',
+      dataIndex: 'rerun',
+      align: 'center',
+      render: (value, record) => {
+        return (
+          <PoolCheckbox
+            record={record}
+            dataIndex="rerun"
+            value={value}
+            title="Rerun"
+          />
+        );
+      },
+    },
   ];
 
   const onUploadRun = useCallback(
@@ -141,18 +195,17 @@ const AnalysisRun = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="1">View Table</Menu.Item>
-      <Menu.Item key="2" disabled>
+      <Menu.Item key="1" disabled>
         View Timeline
       </Menu.Item>
-      <Menu.Item key="3">View 96-well Plate</Menu.Item>
-      <Menu.Item disabled key="4">
+      <Menu.Item key="2">View 96-well Plate</Menu.Item>
+      <Menu.Item disabled key="3">
         Go to DataConnect
       </Menu.Item>
-      <Menu.Item onClick={onUploadClick} key="5">
+      <Menu.Item onClick={onUploadClick} key="4">
         Upload Raw Data
       </Menu.Item>
-      <Menu.Item disabled key="6">
+      <Menu.Item disabled key="5">
         Print Run
       </Menu.Item>
     </Menu>
