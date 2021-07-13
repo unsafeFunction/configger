@@ -99,13 +99,14 @@ const singleRunReducer = (state = initialRunState, action) => {
       };
     }
     case actions.UPDATE_POOL_SUCCESS: {
+      const { data } = action.payload;
       return {
         ...state,
         items: state.items.map((pool) => {
-          if (pool.id === action.payload.data.id) {
+          if (pool.id === data.id) {
             return {
               ...pool,
-              ...action.payload.data,
+              ...data,
               isUpdating: false,
             };
           }
@@ -114,10 +115,11 @@ const singleRunReducer = (state = initialRunState, action) => {
       };
     }
     case actions.UPDATE_POOL_FAILURE: {
+      const { poolId } = action.payload;
       return {
         ...state,
         items: state.items.map((pool) => {
-          if (pool.id === action?.payload?.id) {
+          if (pool.id === poolId) {
             return {
               ...pool,
               isUpdating: false,

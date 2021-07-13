@@ -71,7 +71,12 @@ export function* callUpdatePool({ payload }) {
       message: 'Pool updated',
     });
   } catch (error) {
-    yield put({ type: actions.UPDATE_POOL_FAILURE });
+    yield put({
+      type: actions.UPDATE_POOL_FAILURE,
+      payload: {
+        poolId: payload.id,
+      },
+    });
 
     notification.error(error);
   }

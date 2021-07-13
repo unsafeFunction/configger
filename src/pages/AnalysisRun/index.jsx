@@ -1,18 +1,13 @@
-import {
-  DownOutlined,
-  ExclamationCircleTwoTone,
-  InboxOutlined,
-} from '@ant-design/icons';
-import { Button, Dropdown, Menu, Table, Tooltip, Upload } from 'antd';
+import { DownOutlined, InboxOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Menu, Table, Upload } from 'antd';
 import classNames from 'classnames';
-import ResultTag from 'components/widgets/ResultTag';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
-import PoolCheckbox from './PoolCheckbox';
+import columns from './components';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -37,111 +32,6 @@ const AnalysisRun = () => {
   };
 
   useFetching();
-
-  const columns = [
-    {
-      title: 'Company Short',
-      dataIndex: 'company_short',
-    },
-    {
-      title: 'Pool Name',
-      dataIndex: 'pool_name',
-    },
-    {
-      title: 'Sample ID',
-      dataIndex: 'sample_id',
-    },
-    {
-      title: 'Result',
-      dataIndex: 'status',
-      render: (_, record) => {
-        return {
-          children: record?.status ? (
-            <ResultTag status={record.status} type="pool" />
-          ) : null,
-        };
-      },
-    },
-    {
-      title: 'Wells',
-      dataIndex: 'wells',
-    },
-    {
-      title: 'MS2',
-      dataIndex: 'ms2',
-    },
-    {
-      title: 'N gene',
-      dataIndex: 'n_gene',
-      render: (value) => {
-        return value < 5 ? (
-          <Tooltip placement="right" title="some text">
-            {value}
-            <ExclamationCircleTwoTone twoToneColor="orange" className="ml-1" />
-          </Tooltip>
-        ) : (
-          <>{value}</>
-        );
-      },
-    },
-    {
-      title: 'S gene',
-      dataIndex: 's_gene',
-    },
-    {
-      title: 'Orf1ab',
-      dataIndex: 'orf1ab',
-    },
-    {
-      title: 'RP',
-      dataIndex: 'rp',
-    },
-    {
-      title: 'Reflex SC',
-      dataIndex: 'reflex_sc',
-      align: 'center',
-      render: (value, record) => {
-        return (
-          <PoolCheckbox
-            record={record}
-            dataIndex="reflex_sc"
-            value={value}
-            title="Reflex SC"
-          />
-        );
-      },
-    },
-    {
-      title: 'Reflex SD',
-      dataIndex: 'reflex_sd',
-      align: 'center',
-      render: (value, record) => {
-        return (
-          <PoolCheckbox
-            record={record}
-            dataIndex="reflex_sd"
-            value={value}
-            title="Reflex SD"
-          />
-        );
-      },
-    },
-    {
-      title: 'Rerun',
-      dataIndex: 'rerun',
-      align: 'center',
-      render: (value, record) => {
-        return (
-          <PoolCheckbox
-            record={record}
-            dataIndex="rerun"
-            value={value}
-            title="Rerun"
-          />
-        );
-      },
-    },
-  ];
 
   const onUploadRun = useCallback(
     (options) => {
@@ -245,7 +135,7 @@ const AnalysisRun = () => {
       <Table
         dataSource={run.items}
         columns={columns}
-        scroll={{ x: 1000 }}
+        scroll={{ x: 1200 }}
         loading={run.isLoading}
         pagination={false}
         rowKey={(record) => record.id}
