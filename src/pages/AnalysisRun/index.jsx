@@ -1,14 +1,17 @@
-import { DownOutlined, InboxOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Menu, Table, Upload } from 'antd';
+import { DownOutlined, InboxOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Col, Dropdown, Input, Menu, Row, Table, Upload } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
+import debounce from 'lodash.debounce';
 import columns from './components';
 import styles from './styles.module.scss';
+import companyActions from '../../redux/companies/actions';
+import { constants } from '../../utils/constants';
 
 moment.tz.setDefault('America/New_York');
 
@@ -16,6 +19,8 @@ const AnalysisRun = () => {
   const dispatch = useDispatch();
 
   const run = useSelector((state) => state.analysisRuns.singleRun);
+  const [searchName, setSearchName] = useState('');
+
   const location = useLocation();
 
   const useFetching = () => {
@@ -30,6 +35,27 @@ const AnalysisRun = () => {
       });
     }, []);
   };
+
+  const sendQuery = useCallback(
+    (query) => {
+      // TODO: search dispatch
+      console.log(query);
+    },
+    [searchName],
+  );
+
+  const delayedQuery = useCallback(
+    debounce((q) => sendQuery(q), 500),
+    [],
+  );
+
+  const onChangeSearch = useCallback(
+    (event) => {
+      setSearchName(event.target.value);
+      delayedQuery(event.target.value);
+    },
+    [delayedQuery],
+  );
 
   useFetching();
 
@@ -119,17 +145,6 @@ const AnalysisRun = () => {
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Run</h4>
-        <div className={styles.actionsWrapper}>
-          <Button type="primary" ghost onClick={handleStatusAction}>
-            {getBtnName(run?.status?.toLowerCase())}
-          </Button>
-          <Dropdown overlay={menu}>
-            <Button type="primary">
-              Actions
-              <DownOutlined />
-            </Button>
-          </Dropdown>
-        </div>
       </div>
 
       <Table
@@ -139,6 +154,47 @@ const AnalysisRun = () => {
         loading={run.isLoading}
         pagination={false}
         rowKey={(record) => record.id}
+        title={() => (
+          <Row gutter={16}>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 12 }}
+              md={{ span: 9, offset: 6 }}
+              lg={{ span: 7, offset: 10 }}
+              xl={{ span: 6, offset: 12 }}
+              xxl={{ span: 7, offset: 12 }}
+            >
+              <Input
+                size="middle"
+                prefix={<SearchOutlined />}
+                className={styles.search}
+                placeholder="Search..."
+                value={searchName}
+                onChange={onChangeSearch}
+              />
+            </Col>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 12 }}
+              md={{ span: 9 }}
+              lg={{ span: 7 }}
+              xl={{ span: 6 }}
+              xxl={{ span: 5 }}
+            >
+              <div className={styles.actionsWrapper}>
+                <Button type="primary" ghost onClick={handleStatusAction}>
+                  {getBtnName(run?.status?.toLowerCase())}
+                </Button>
+                <Dropdown overlay={menu}>
+                  <Button type="primary">
+                    Actions
+                    <DownOutlined />
+                  </Button>
+                </Dropdown>
+              </div>
+            </Col>
+          </Row>
+        )}
       />
     </>
   );

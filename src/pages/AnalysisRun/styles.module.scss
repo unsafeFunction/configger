@@ -8,11 +8,18 @@
 }
 
 .actionsWrapper {
-  button:first-child {
-    margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+
+  button {
+    width: 49%;
   }
 }
 
-// .divider {
-//   border-right: '1px solid black';
-// }
+@media (max-width: 574px) {
+  .search {
+    margin-bottom: 10px;
+  }
+}
