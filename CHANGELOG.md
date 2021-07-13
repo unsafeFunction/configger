@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v6.0.0...v6.1.0) (2021-07-13)
+
+### Features
+
+- util for errors ([ef9a945](https://github.com/mokkapps/changelog-generator-demo/commits/ef9a94581a780bdc632156a533bfe68db706c368))
+
+### Bug Fixes
+
+- add output of loaded scans ([4cedfa1](https://github.com/mokkapps/changelog-generator-demo/commits/4cedfa18efefad63bb800c08d783b0174a437ac6))
+- add run analysis ([a551556](https://github.com/mokkapps/changelog-generator-demo/commits/a551556167f509882eee1d6f372f2f4a5c73eb32))
+- error output for run template, fix modal title ([13e3df8](https://github.com/mokkapps/changelog-generator-demo/commits/13e3df81136b241866388cc176e09528246561ff))
+- fix error util ([95c658e](https://github.com/mokkapps/changelog-generator-demo/commits/95c658eb2fb1e62556ab535160d17dd8000e2542))
+
 ## [6.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v5.0.1...v6.0.0) (2021-07-01)
 
 ### Features
