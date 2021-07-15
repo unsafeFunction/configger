@@ -117,8 +117,14 @@ const AnalysisRun = () => {
         View Timeline
       </Menu.Item>
       <Menu.Item key="2">View 96-well Plate</Menu.Item>
-      <Menu.Item disabled key="3">
-        Go to DataConnect
+      <Menu.Item key="3">
+        <a
+          href="https://apps.thermofisher.com/apps/spa/#/dataconnect"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Go to DataConnect
+        </a>
       </Menu.Item>
       <Menu.Item onClick={onUploadClick} key="4">
         Upload Raw Data
