@@ -87,6 +87,11 @@ const resultList = [
     text: 'Not Detected',
     value: 'Not Detected',
   },
+  {
+    key: 'in_progress',
+    text: 'In Progress',
+    value: 'In Progress',
+  },
 ];
 
 const ResultSelect = ({ record, field }) => {
@@ -160,16 +165,17 @@ const columns = [
   {
     title: 'Pool Name',
     dataIndex: 'pool_name',
-    render: (value, record) => {
-      return (
-        <Tooltip
-          placement="right"
-          title={`Pool size: ${record.pool_size ?? 'Unknown'}`}
-        >
-          {value}
-        </Tooltip>
-      );
-    },
+    // TODO: future feature
+    // render: (value, record) => {
+    //   return (
+    //     <Tooltip
+    //       placement="right"
+    //       title={`Pool size: ${record.pool_size ?? 'Unknown'}`}
+    //     >
+    //       {value}
+    //     </Tooltip>
+    //   );
+    // },
   },
   {
     title: 'Sample ID',

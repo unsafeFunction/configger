@@ -1,9 +1,8 @@
 import {
   ClockCircleFilled,
-  ExclamationCircleOutlined,
+  ExclamationCircleFilled,
   MinusCircleFilled,
   PlusCircleFilled,
-  SyncOutlined,
 } from '@ant-design/icons';
 import TwoToneComponent from 'assets/TwoTone';
 import React from 'react';
@@ -23,16 +22,9 @@ export const getColor = (status) => {
     case 'In Progress': {
       return 'blue';
     }
-    // case 'Processing': {
-    //   return (
-    //
-    //   )
-    // }
-    // case 'Invalid': {
-    //   return (
-    //
-    //   )
-    // }
+    case 'Invalid': {
+      return 'default';
+    }
     default:
       return 'Unknown';
   }
@@ -53,11 +45,8 @@ export const getIcon = (status) => {
     case 'In Progress': {
       return <ClockCircleFilled />;
     }
-    case 'Processing': {
-      return <SyncOutlined />;
-    }
     case 'Invalid': {
-      return <ExclamationCircleOutlined />;
+      return <ExclamationCircleFilled />;
     }
     default:
       return 'Unknown';
