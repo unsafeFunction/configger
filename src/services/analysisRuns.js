@@ -52,13 +52,13 @@ export const fetchRun = async ({ id }) => {
   }
 };
 
-export const updatePool = async ({ id, param, value }) => {
+export const updatePool = async ({ id, field, value }) => {
   try {
-    return console.log(id, param, value);
+    return console.log(id, field, value);
 
     // TODO: uncomment when endpoint will be ready
     // const pool = await axiosClient.patch(`/runs/${id}/`, {
-    //   [param]: value,
+    //   [field]: value,
     // });
     // return pool;
   } catch (error) {

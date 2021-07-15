@@ -1,15 +1,19 @@
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
-import { Checkbox, Popconfirm, Tooltip } from 'antd';
+import { Checkbox, Popconfirm, Select, Tooltip, Typography } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import actions from 'redux/analysisRuns/actions';
+import modalActions from 'redux/modal/actions';
+import { getColor } from 'utils/highlightingResult';
 
-const TargetValue = ({ record, value, warning }) => {
-  return record[warning] ? (
-    <Tooltip placement="right" title={record[warning]}>
+const { Option } = Select;
+
+const Target = ({ record, field, value }) => {
+  return record[`${field}_msg`] ? (
+    <Tooltip placement="right" title={record[`${field}_msg`]}>
       {value}
       <ExclamationCircleTwoTone twoToneColor="orange" className="ml-1" />
     </Tooltip>
@@ -18,21 +22,21 @@ const TargetValue = ({ record, value, warning }) => {
   );
 };
 
-TargetValue.propTypes = {
+Target.propTypes = {
   record: PropTypes.shape({}).isRequired,
-  warning: PropTypes.string.isRequired,
+  field: PropTypes.string.isRequired,
 };
 
-const PoolCheckbox = ({ record, dataIndex, value, title }) => {
+const PoolCheckbox = ({ record, field, value, title }) => {
   const dispatch = useDispatch();
 
   const onPoolUpdate = useCallback(
-    (id, param, value) => {
+    (id, field, value) => {
       dispatch({
         type: actions.UPDATE_POOL_REQUEST,
         payload: {
           id,
-          param,
+          field,
           value,
         },
       });
@@ -45,11 +49,11 @@ const PoolCheckbox = ({ record, dataIndex, value, title }) => {
       title={`Are you sure you would like to ${
         value ? 'unset' : 'set'
       } ${title} for ${record.pool_name} pool?`}
-      onConfirm={() => onPoolUpdate(record.id, dataIndex, !value)}
+      onConfirm={() => onPoolUpdate(record.id, field, !value)}
       placement="topRight"
     >
       {record.children && (
-        <Checkbox checked={value} disabled={record.isUpdating} />
+        <Checkbox checked={value} disabled={record[`${field}IsUpdating`]} />
       )}
     </Popconfirm>
   );
@@ -57,29 +61,96 @@ const PoolCheckbox = ({ record, dataIndex, value, title }) => {
 
 PoolCheckbox.propTypes = {
   record: PropTypes.shape({}).isRequired,
-  dataIndex: PropTypes.string.isRequired,
+  field: PropTypes.string.isRequired,
   value: PropTypes.bool,
   title: PropTypes.string.isRequired,
 };
 
-const poolStatuses = [
+const resultList = [
   {
+    key: 'detected',
     text: 'Detected',
     value: 'Detected',
   },
   {
+    key: 'inconclusive',
     text: 'Inconclusive',
     value: 'Inconclusive',
   },
   {
+    key: 'invalid',
     text: 'Invalid',
     value: 'Invalid',
   },
   {
+    key: 'not_detected',
     text: 'Not Detected',
     value: 'Not Detected',
   },
 ];
+
+const ResultSelect = ({ record, field }) => {
+  const dispatch = useDispatch();
+
+  const onResultUpdate = useCallback(
+    (id, field, value) => {
+      dispatch({
+        type: actions.UPDATE_POOL_REQUEST,
+        payload: {
+          id,
+          field,
+          value,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const onModalToggle = useCallback(
+    (id, field, sampleId) => (_, option) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Confirm action',
+          onOk: () => onResultUpdate(id, field, option.key),
+          bodyStyle: {
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          },
+          okText: 'Update result',
+          message: () =>
+            `Are you sure you would like to update sample ${sampleId} result to ${option.value}?`,
+        },
+      });
+    },
+    [dispatch, onResultUpdate],
+  );
+
+  return (
+    <Select
+      value={<ResultTag status={record.result} type="pool" />}
+      style={{ width: 175 }}
+      onSelect={onModalToggle(record.id, field, record.sample_id)}
+      loading={record[`${field}IsUpdating`]}
+      disabled={record[`${field}IsUpdating`]}
+      bordered={false}
+    >
+      {resultList
+        ?.filter((option) => option.value !== record.result)
+        .map((item) => (
+          <Option key={item.key} value={item.value}>
+            <ResultTag status={item.value} type="pool" />
+          </Option>
+        ))}
+    </Select>
+  );
+};
+
+ResultSelect.propTypes = {
+  record: PropTypes.shape({}).isRequired,
+  field: PropTypes.string.isRequired,
+};
 
 const columns = [
   {
@@ -89,6 +160,16 @@ const columns = [
   {
     title: 'Pool Name',
     dataIndex: 'pool_name',
+    render: (value, record) => {
+      return (
+        <Tooltip
+          placement="right"
+          title={`Pool size: ${record.pool_size ?? 'Unknown'}`}
+        >
+          {value}
+        </Tooltip>
+      );
+    },
   },
   {
     title: 'Sample ID',
@@ -96,16 +177,27 @@ const columns = [
   },
   {
     title: 'Result',
-    dataIndex: 'status',
+    dataIndex: 'result',
     render: (_, record) => {
       return {
-        children: record?.status ? (
-          <ResultTag status={record.status} type="pool" />
+        children: record?.result ? (
+          <ResultSelect record={record} field="result" />
         ) : null,
       };
     },
-    filters: poolStatuses,
-    onFilter: (value, record) => record.status.indexOf(value) === 0,
+    filters: resultList,
+    onFilter: (value, record) => record.result.indexOf(value) === 0,
+  },
+  {
+    title: 'Interpreted Result',
+    dataIndex: 'interpreted_result',
+    render: (value) => {
+      return (
+        <Typography.Text style={{ color: getColor(value) }}>
+          {value}
+        </Typography.Text>
+      );
+    },
   },
   {
     title: 'Wells',
@@ -116,7 +208,7 @@ const columns = [
     dataIndex: 'ms2',
     width: 75,
     render: (value, record) => {
-      return <TargetValue record={record} value={value} warning="ms2_msg" />;
+      return <Target record={record} field="ms2" value={value} />;
     },
   },
   {
@@ -124,7 +216,7 @@ const columns = [
     dataIndex: 'n_gene',
     width: 75,
     render: (value, record) => {
-      return <TargetValue record={record} value={value} warning="n_gene_msg" />;
+      return <Target record={record} field="n_gene" value={value} />;
     },
   },
   {
@@ -132,7 +224,7 @@ const columns = [
     dataIndex: 's_gene',
     width: 75,
     render: (value, record) => {
-      return <TargetValue record={record} value={value} warning="s_gene_msg" />;
+      return <Target record={record} field="s_gene" value={value} />;
     },
   },
   {
@@ -140,7 +232,7 @@ const columns = [
     dataIndex: 'orf1ab',
     width: 75,
     render: (value, record) => {
-      return <TargetValue record={record} value={value} warning="orf1ab_msg" />;
+      return <Target record={record} field="orf1ab" value={value} />;
     },
   },
   {
@@ -148,7 +240,7 @@ const columns = [
     dataIndex: 'rp',
     width: 75,
     render: (value, record) => {
-      return <TargetValue record={record} value={value} warning="rp_msg" />;
+      return <Target record={record} field="rp" value={value} />;
     },
   },
   {
@@ -159,7 +251,7 @@ const columns = [
       return (
         <PoolCheckbox
           record={record}
-          dataIndex="reflex_sc"
+          field="reflex_sc"
           value={value}
           title="Reflex SC"
         />
@@ -174,7 +266,7 @@ const columns = [
       return (
         <PoolCheckbox
           record={record}
-          dataIndex="reflex_sd"
+          field="reflex_sd"
           value={value}
           title="Reflex SD"
         />
@@ -189,7 +281,7 @@ const columns = [
       return (
         <PoolCheckbox
           record={record}
-          dataIndex="rerun"
+          field="rerun"
           value={value}
           title="Rerun"
         />

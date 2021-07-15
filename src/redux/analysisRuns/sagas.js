@@ -1,5 +1,6 @@
 import { notification } from 'antd';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
+import modalActions from 'redux/modal/actions';
 import {
   fetchRun,
   fetchRuns,
@@ -57,15 +58,23 @@ export function* callLoadRun({ payload }) {
 }
 
 export function* callUpdatePool({ payload }) {
+  const { id, field } = payload;
   try {
     const response = yield call(updatePool, payload);
 
     yield put({
       type: actions.UPDATE_POOL_SUCCESS,
       payload: {
+        field,
         data: response.data,
       },
     });
+
+    if (field === 'result') {
+      yield put({
+        type: modalActions.HIDE_MODAL,
+      });
+    }
 
     notification.success({
       message: 'Pool updated',
@@ -74,7 +83,8 @@ export function* callUpdatePool({ payload }) {
     yield put({
       type: actions.UPDATE_POOL_FAILURE,
       payload: {
-        poolId: payload.id,
+        id,
+        field,
       },
     });
 

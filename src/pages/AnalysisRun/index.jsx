@@ -1,17 +1,15 @@
 import { DownOutlined, InboxOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Col, Dropdown, Input, Menu, Row, Table, Upload } from 'antd';
 import classNames from 'classnames';
+import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
-import debounce from 'lodash.debounce';
 import columns from './components';
 import styles from './styles.module.scss';
-import companyActions from '../../redux/companies/actions';
-import { constants } from '../../utils/constants';
 
 moment.tz.setDefault('America/New_York');
 
@@ -150,10 +148,15 @@ const AnalysisRun = () => {
       <Table
         dataSource={run.items}
         columns={columns}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1400 }}
         loading={run.isLoading}
         pagination={false}
-        rowKey={(record) => record.id}
+        rowKey={(record) => {
+          if (record.children) {
+            return record.id;
+          }
+          return record.wells;
+        }}
         title={() => (
           <Row gutter={16}>
             <Col

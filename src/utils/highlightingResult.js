@@ -1,16 +1,17 @@
-import React from 'react';
 import {
-  MinusCircleFilled,
-  PlusCircleFilled,
   ClockCircleFilled,
   ExclamationCircleOutlined,
+  MinusCircleFilled,
+  PlusCircleFilled,
   SyncOutlined,
 } from '@ant-design/icons';
 import TwoToneComponent from 'assets/TwoTone';
+import React from 'react';
 
 export const getColor = (status) => {
   switch (status) {
-    case 'COVID-19 Detected': {
+    case 'COVID-19 Detected':
+    case 'Detected': {
       return 'red';
     }
     case 'Not Detected': {
@@ -39,7 +40,8 @@ export const getColor = (status) => {
 
 export const getIcon = (status) => {
   switch (status) {
-    case 'COVID-19 Detected': {
+    case 'COVID-19 Detected':
+    case 'Detected': {
       return <PlusCircleFilled />;
     }
     case 'Not Detected': {

@@ -85,13 +85,14 @@ const singleRunReducer = (state = initialRunState, action) => {
     }
 
     case actions.UPDATE_POOL_REQUEST: {
+      const { id, field } = action.payload;
       return {
         ...state,
         items: state.items.map((pool) => {
-          if (pool.id === action.payload.id) {
+          if (pool.id === id) {
             return {
               ...pool,
-              isUpdating: true,
+              [`${field}IsUpdating`]: true,
             };
           }
           return pool;
@@ -99,7 +100,7 @@ const singleRunReducer = (state = initialRunState, action) => {
       };
     }
     case actions.UPDATE_POOL_SUCCESS: {
-      const { data } = action.payload;
+      const { field, data } = action.payload;
       return {
         ...state,
         items: state.items.map((pool) => {
@@ -107,7 +108,7 @@ const singleRunReducer = (state = initialRunState, action) => {
             return {
               ...pool,
               ...data,
-              isUpdating: false,
+              [`${field}IsUpdating`]: false,
             };
           }
           return pool;
@@ -115,14 +116,14 @@ const singleRunReducer = (state = initialRunState, action) => {
       };
     }
     case actions.UPDATE_POOL_FAILURE: {
-      const { poolId } = action.payload;
+      const { id, field } = action.payload;
       return {
         ...state,
         items: state.items.map((pool) => {
-          if (pool.id === poolId) {
+          if (pool.id === id) {
             return {
               ...pool,
-              isUpdating: false,
+              [`${field}IsUpdating`]: false,
             };
           }
           return pool;
