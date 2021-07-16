@@ -1,5 +1,6 @@
 import { notification } from 'antd';
 import axiosClient from 'utils/axiosClient';
+import errorOutput from 'utils/errorOutput';
 
 export const fetchRuns = async (query) => {
   try {
@@ -45,7 +46,7 @@ export const fetchRun = async ({ id }) => {
     const run = await axiosClient.get(`/runs/results/${id}/entries`);
     return run;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
