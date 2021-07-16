@@ -1,4 +1,5 @@
 import axiosClient from 'utils/axiosClient';
+import errorOutput from 'utils/errorOutput';
 import nameWithExtension from 'utils/nameWithExtension';
 import saveBlobAs from 'utils/saveAsBlob';
 
@@ -26,6 +27,6 @@ export const createTemplate = async (payload) => {
     );
     return response;
   } catch (error) {
-    throw new Error(error?.response?.data.detail);
+    throw new Error(errorOutput(error));
   }
 };
