@@ -7,24 +7,53 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
+import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlightingResult';
 
 const { Option } = Select;
 
 const Target = ({ record, field, value }) => {
-  return record[`${field}_msg`] ? (
-    <Tooltip placement="right" title={record[`${field}_msg`]}>
-      {value}
+  const formattedValue = (val) => {
+    if (val && !isNaN(val)) {
+      return parseFloat(val).toFixed(2);
+    }
+    if (value && isNaN(val)) {
+      return 'NA';
+    }
+    return;
+  };
+
+  const cqConfidence = formattedValue(record[`${field}_cq_confidence`]);
+  const inconclusiveAmpStatus =
+    record[`${field}_amp_status`] === constants.poolResults.inconclusive;
+
+  const warning = () => {
+    if (cqConfidence > 0 && cqConfidence <= 0.7 && inconclusiveAmpStatus) {
+      return `Cq confidence is low! (${cqConfidence}) Amplification is inconclusive`;
+    }
+    if (cqConfidence > 0 && cqConfidence <= 0.7) {
+      return `Cq confidence is low! (${cqConfidence})`;
+    }
+    if (inconclusiveAmpStatus) {
+      return 'Amplification is inconclusive';
+    }
+    return null;
+  };
+
+  return warning() ? (
+    <Tooltip placement="right" title={warning()}>
+      {formattedValue(value)}
       <ExclamationCircleTwoTone twoToneColor="orange" className="ml-1" />
     </Tooltip>
   ) : (
-    <>{value}</>
+    <>{formattedValue(value)}</>
   );
 };
 
 Target.propTypes = {
   record: PropTypes.shape({}).isRequired,
   field: PropTypes.string.isRequired,
+  value: PropTypes.string,
 };
 
 const PoolCheckbox = ({ record, field, value, title }) => {
@@ -66,33 +95,12 @@ PoolCheckbox.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-const resultList = [
-  {
-    key: 'detected',
-    text: 'Detected',
-    value: 'Detected',
-  },
-  {
-    key: 'inconclusive',
-    text: 'Inconclusive',
-    value: 'Inconclusive',
-  },
-  {
-    key: 'invalid',
-    text: 'Invalid',
-    value: 'Invalid',
-  },
-  {
-    key: 'not_detected',
-    text: 'Not Detected',
-    value: 'Not Detected',
-  },
-  {
-    key: 'in_progress',
-    text: 'In Progress',
-    value: 'In Progress',
-  },
-];
+const resultList = Object.values(constants.poolResults).map((item) => {
+  return {
+    text: item.replaceAll('_', ' '),
+    value: item,
+  };
+});
 
 const ResultSelect = ({ record, field }) => {
   const dispatch = useDispatch();
@@ -144,7 +152,7 @@ const ResultSelect = ({ record, field }) => {
       {resultList
         ?.filter((option) => option.value !== record.result)
         .map((item) => (
-          <Option key={item.key} value={item.value}>
+          <Option key={item.value} value={item.value}>
             <ResultTag status={item.value} type="pool" />
           </Option>
         ))}
@@ -196,11 +204,17 @@ const columns = [
   },
   {
     title: 'Interpreted Result',
-    dataIndex: 'interpreted_result',
+    dataIndex: 'result_interpreted',
     render: (value) => {
+      const formattedResult = value?.replaceAll('_', ' ').toLowerCase();
       return (
-        <Typography.Text style={{ color: getColor(value) }}>
-          {value}
+        <Typography.Text
+          style={{
+            color: getColor(value),
+            textTransform: 'capitalize',
+          }}
+        >
+          {formattedResult}
         </Typography.Text>
       );
     },
@@ -211,42 +225,42 @@ const columns = [
   },
   {
     title: 'MS2',
-    dataIndex: 'ms2',
+    dataIndex: 'MS2',
     width: 75,
     render: (value, record) => {
-      return <Target record={record} field="ms2" value={value} />;
+      return <Target record={record} field="MS2" value={value} />;
     },
   },
   {
     title: 'N gene',
-    dataIndex: 'n_gene',
+    dataIndex: 'N gene',
     width: 75,
     render: (value, record) => {
-      return <Target record={record} field="n_gene" value={value} />;
+      return <Target record={record} field="N gene" value={value} />;
     },
   },
   {
     title: 'S gene',
-    dataIndex: 's_gene',
+    dataIndex: 'S gene',
     width: 75,
     render: (value, record) => {
-      return <Target record={record} field="s_gene" value={value} />;
+      return <Target record={record} field="S gene" value={value} />;
     },
   },
   {
     title: 'Orf1ab',
-    dataIndex: 'orf1ab',
+    dataIndex: 'ORF1ab',
     width: 75,
     render: (value, record) => {
-      return <Target record={record} field="orf1ab" value={value} />;
+      return <Target record={record} field="ORF1ab" value={value} />;
     },
   },
   {
     title: 'RP',
-    dataIndex: 'rp',
+    dataIndex: 'RP',
     width: 75,
     render: (value, record) => {
-      return <Target record={record} field="rp" value={value} />;
+      return <Target record={record} field="RP" value={value} />;
     },
   },
   {

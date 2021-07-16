@@ -17,7 +17,7 @@ const ResultTag = ({ color = '', icon = null, status, type }) => {
     case 'pool': {
       return (
         <Tag color={color || getColor(status)} icon={getIcon(status)}>
-          {status.toUpperCase()}
+          {status.replaceAll('_', ' ').toUpperCase()}
         </Tag>
       );
     }

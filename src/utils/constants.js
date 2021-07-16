@@ -99,6 +99,13 @@ export const constants = {
   intakeLog: {
     itemsLoadingCount: 25,
   },
+  poolResults: {
+    notDetected: 'NOT_DETECTED',
+    detected: 'DETECTED',
+    inconclusive: 'INCONCLUSIVE',
+    invalid: 'INVALID',
+    inProgress: 'IN_PROGRESS',
+  },
   USstates: [
     {
       label: 'Alabama',

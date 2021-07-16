@@ -1,5 +1,4 @@
 import { notification } from 'antd';
-import run from 'pages/AnalysisRun/data';
 import axiosClient from 'utils/axiosClient';
 
 export const fetchRuns = async (query) => {
@@ -43,9 +42,7 @@ export const uploadRunResult = async (payload) => {
 
 export const fetchRun = async ({ id }) => {
   try {
-    // TODO: uncomment when endpoint will be ready
-    // const runs = await axiosClient.get(`/runs/${id}`);
-
+    const run = await axiosClient.get(`/runs/results/${id}/entries`);
     return run;
   } catch (error) {
     return error;

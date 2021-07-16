@@ -159,7 +159,7 @@ const AnalysisRun = () => {
         pagination={false}
         rowKey={(record) => {
           if (record.children) {
-            return record.id;
+            return record.sample_id;
           }
           return record.wells;
         }}
