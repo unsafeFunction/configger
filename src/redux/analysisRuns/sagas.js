@@ -47,7 +47,7 @@ export function* callLoadRun({ payload }) {
     yield put({
       type: actions.FETCH_RUN_SUCCESS,
       payload: {
-        data: response.data,
+        data: { ...response.data, id: payload.id },
       },
     });
   } catch (error) {

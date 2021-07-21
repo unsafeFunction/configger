@@ -2,35 +2,40 @@ import { DownOutlined, InboxOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Col, Dropdown, Input, Menu, Row, Table, Upload } from 'antd';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
+import WellPlate from 'components/widgets/WellPlate';
 import columns from './components';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
 const AnalysisRun = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const run = useSelector((state) => state.analysisRuns.singleRun);
   const [searchName, setSearchName] = useState('');
 
   const location = useLocation();
+  const { type, id } = useParams();
 
   const useFetching = () => {
     useEffect(() => {
       const runId = location.pathname.split('/')[2];
 
-      dispatch({
-        type: actions.FETCH_RUN_REQUEST,
-        payload: {
-          id: runId,
-        },
-      });
+      if ((run.items.length === 0 || run.id !== id) && !run.loading) {
+        dispatch({
+          type: actions.FETCH_RUN_REQUEST,
+          payload: {
+            id: runId,
+          },
+        });
+      }
     }, []);
   };
 
@@ -72,6 +77,36 @@ const AnalysisRun = () => {
     [dispatch, run.id],
   );
 
+  const handleWellplateClose = useCallback(() => {
+    dispatch({ type: modalActions.HIDE_MODAL });
+    return history.push(`/analysis-runs/${id}`);
+  }, [id, dispatch]);
+
+  const isWellplate = useCallback(() => {
+    return type === 'wellplate';
+  }, [type]);
+
+  useEffect(() => {
+    if (isWellplate()) {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Well Plate',
+          cancelButtonProps: { className: styles.cancelBtn },
+          onOk: () => handleWellplateClose(),
+          onCancel: () => handleWellplateClose(),
+          bodyStyle: {
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          },
+          width: '30%',
+          message: () => <WellPlate />,
+        },
+      });
+    }
+  }, [isWellplate]);
+
   const handleSubmit = useCallback(() => {
     dispatch({
       type: modalActions.HIDE_MODAL,
@@ -111,13 +146,26 @@ const AnalysisRun = () => {
     console.log('foo');
   }, []);
 
+  const handleShowWellplate = useCallback(() => {
+    history.push(`/analysis-runs/${id}/wellplate`);
+  }, [id]);
+
+  const handleShowTable = useCallback(() => {
+    history.push(`/analysis-runs/${id}`);
+  }, [id]);
+
   const menu = (
     <Menu>
-      <Menu.Item key="1" disabled>
+      <Menu.Item key="1" disabled={!type} onClick={handleShowTable}>
+        View Table
+      </Menu.Item>
+      <Menu.Item key="2" disabled>
         View Timeline
       </Menu.Item>
-      <Menu.Item key="2">View 96-well Plate</Menu.Item>
-      <Menu.Item key="3">
+      <Menu.Item onClick={handleShowWellplate} key="3">
+        View 96-well Plate
+      </Menu.Item>
+      <Menu.Item key="4">
         <a
           href="https://apps.thermofisher.com/apps/spa/#/dataconnect"
           target="_blank"
@@ -126,10 +174,10 @@ const AnalysisRun = () => {
           Go to DataConnect
         </a>
       </Menu.Item>
-      <Menu.Item onClick={onUploadClick} key="4">
+      <Menu.Item onClick={onUploadClick} key="5">
         Upload Raw Data
       </Menu.Item>
-      <Menu.Item disabled key="5">
+      <Menu.Item disabled key="6">
         Print Run
       </Menu.Item>
     </Menu>
