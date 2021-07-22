@@ -1,15 +1,5 @@
 import { DownOutlined, InboxOutlined, SearchOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Col,
-  Dropdown,
-  Input,
-  Menu,
-  Popconfirm,
-  Row,
-  Table,
-  Upload,
-} from 'antd';
+import { Button, Dropdown, Input, Menu, Popconfirm, Table, Upload } from 'antd';
 import classNames from 'classnames';
 import ResultTag from 'components/widgets/ResultTag';
 import WellPlate from 'components/widgets/WellPlate';
@@ -31,7 +21,9 @@ const AnalysisRun = () => {
   const dispatch = useDispatch();
 
   const run = useSelector((state) => state.analysisRuns.singleRun);
+
   const [searchName, setSearchName] = useState('');
+  const [samples, setSamples] = useState([]);
 
   const location = useLocation();
 
@@ -52,17 +44,28 @@ const AnalysisRun = () => {
     }, []);
   };
 
+  useFetching();
+
+  useEffect(() => {
+    setSamples(run.items);
+  }, [run.items]);
+
   const sendQuery = useCallback(
     (query) => {
-      // TODO: search dispatch
-      console.log(query);
+      setSamples(
+        run.items.filter((sample) =>
+          sample?.display_sample_id
+            ?.toLowerCase()
+            .includes(query.toLowerCase()),
+        ),
+      );
     },
-    [searchName],
+    [run],
   );
 
   const delayedQuery = useCallback(
     debounce((q) => sendQuery(q), 500),
-    [],
+    [run],
   );
 
   const onChangeSearch = useCallback(
@@ -73,12 +76,8 @@ const AnalysisRun = () => {
     [delayedQuery],
   );
 
-  useFetching();
-
   const onUploadRun = useCallback(
     (options) => {
-      console.log(run);
-
       dispatch({
         type: actions.UPLOAD_RUN_RESULT_REQUEST,
         payload: {
@@ -240,7 +239,7 @@ const AnalysisRun = () => {
       </div>
 
       <Table
-        dataSource={run.items}
+        dataSource={samples}
         columns={columns}
         scroll={{ x: 2000 }}
         loading={run.isLoading}
@@ -249,62 +248,50 @@ const AnalysisRun = () => {
           return record.sample_id ?? record.wells;
         }}
         title={() => (
-          <Row gutter={16}>
-            <Col
-              xs={{ span: 24 }}
-              sm={{ span: 12 }}
-              md={{ span: 9 }}
-              lg={{ span: 7 }}
-              xl={{ span: 6 }}
-              xxl={{ span: 7 }}
-            >
-              <Input
-                size="middle"
-                prefix={<SearchOutlined />}
-                className={styles.search}
-                placeholder="Enter Sample ID"
-                value={searchName}
-                onChange={onChangeSearch}
-              />
-            </Col>
-            <Col
-              xs={{ span: 24 }}
-              sm={{ span: 12 }}
-              md={{ span: 9 }}
-              lg={{ span: 7 }}
-              xl={{ span: 6 }}
-              xxl={{ span: 5 }}
-            >
-              <div className={styles.actionsWrapper}>
-                {(run.status === constants.runStatuses.analysis ||
-                  run.status === constants.runStatuses.review) && (
-                  <Popconfirm
-                    title={`Are you sure you would like to ${getBtnName(
-                      run.status?.toLowerCase(),
-                    )}?`}
-                    onConfirm={() =>
-                      handleStatusAction(
-                        runId,
-                        'status',
-                        getNextStatus(run.status?.toLowerCase()),
-                      )
-                    }
-                    placement="topRight"
+          <div className={styles.tableHeader}>
+            <Input
+              prefix={<SearchOutlined />}
+              className={styles.search}
+              placeholder="Enter Sample ID"
+              value={searchName}
+              // onChange={() => onChangeSearch(run.items)}
+              onChange={onChangeSearch}
+            />
+
+            <div>
+              {(run.status === constants.runStatuses.analysis ||
+                run.status === constants.runStatuses.review) && (
+                <Popconfirm
+                  title={`Are you sure you would like to ${getBtnName(
+                    run.status?.toLowerCase(),
+                  )}?`}
+                  onConfirm={() =>
+                    handleStatusAction(
+                      runId,
+                      'status',
+                      getNextStatus(run.status?.toLowerCase()),
+                    )
+                  }
+                  placement="topRight"
+                >
+                  <Button
+                    type="primary"
+                    ghost
+                    loading={run.isLoading}
+                    className="mr-3"
                   >
-                    <Button type="primary" ghost loading={run.isLoading}>
-                      {getBtnName(run.status?.toLowerCase())}
-                    </Button>
-                  </Popconfirm>
-                )}
-                <Dropdown overlay={menu}>
-                  <Button type="primary">
-                    Actions
-                    <DownOutlined />
+                    {getBtnName(run.status?.toLowerCase())}
                   </Button>
-                </Dropdown>
-              </div>
-            </Col>
-          </Row>
+                </Popconfirm>
+              )}
+              <Dropdown overlay={menu}>
+                <Button type="primary">
+                  Actions
+                  <DownOutlined />
+                </Button>
+              </Dropdown>
+            </div>
+          </div>
         )}
       />
     </>

@@ -73,29 +73,31 @@ const Actions = ({ record, field, value }) => {
   );
 
   const options = [
-    { label: 'Reflex SC', value: 'REFLEX_SC' },
-    { label: 'Reflec SD', value: 'REFLEX_SD' },
-    { label: 'Rerun', value: 'RERUN' },
+    {
+      label: 'Reflex SC',
+      value: 'REFLEX_SC',
+      disabled: value.length && value[0] !== 'REFLEX_SC',
+    },
+    {
+      label: 'Reflec SD',
+      value: 'REFLEX_SD',
+      disabled: value.length && value[0] !== 'REFLEX_SD',
+    },
+    {
+      label: 'Rerun',
+      value: 'RERUN',
+      disabled: value.length && value[0] !== 'RERUN',
+    },
   ];
-
-  // TODO: Reflex and Rerun may not be chosen together
-  // const isDisabled = () => {
-  //   if (!record[field]) {
-  //     return false;
-  //   }
-  //   return false;
-  // };
 
   const onSampleUpdate = useCallback(
     (id, field, value) => {
-      // return console.log('ID FIELD VALUE', id, field, value);
-
       dispatch({
         type: actions.UPDATE_SAMPLE_REQUEST,
         payload: {
           id,
           field,
-          value,
+          value: value ?? '',
         },
       });
     },
@@ -339,7 +341,13 @@ const columns = [
     dataIndex: 'rerun_action',
     width: 300,
     render: (value, record) => {
-      return <Actions record={record} field="rerun_action" value={[value]} />;
+      return (
+        <Actions
+          record={record}
+          field="rerun_action"
+          value={value ? [...value] : []}
+        />
+      );
     },
   },
 ];
