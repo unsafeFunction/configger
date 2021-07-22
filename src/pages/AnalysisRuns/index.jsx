@@ -126,7 +126,8 @@ const AnalysisRuns = () => {
     {
       title: 'Creation Date',
       dataIndex: 'created',
-      render: (value) => (value ? moment(value).format('lll') : '-'),
+      render: (value) =>
+        value ? moment(value).format('YYYY-MM-DD HH:mm') : '-',
     },
     {
       title: 'Samples',
@@ -146,7 +147,8 @@ const AnalysisRuns = () => {
     {
       title: 'Last updated',
       dataIndex: 'modified',
-      render: (value) => (value ? moment(value).format('lll') : '-'),
+      render: (value) =>
+        value ? moment(value).format('YYYY-MM-DD HH:mm') : '-',
     },
     {
       title: 'Created By',
@@ -227,7 +229,7 @@ const AnalysisRuns = () => {
         <Table
           dataSource={runsItems}
           columns={columns}
-          scroll={{ x: 1000 }}
+          scroll={{ x: 1200 }}
           bordered
           loading={runs?.isLoading}
           align="center"
