@@ -50,16 +50,28 @@ export const fetchRun = async ({ id }) => {
   }
 };
 
-export const updatePool = async ({ id, field, value }) => {
+export const updateSample = async ({ id, field, value }) => {
   try {
-    return console.log(id, field, value);
+    // return console.log('SERVISES UPDATE SAMPLE', id, field, value);
 
-    // TODO: uncomment when endpoint will be ready
-    // const pool = await axiosClient.patch(`/runs/${id}/`, {
-    //   [field]: value,
-    // });
-    // return pool;
+    const sample = await axiosClient.put(`/runs/results/sample/${id}/`, {
+      [field]: value,
+    });
+    return sample;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
+  }
+};
+
+export const updateRun = async ({ id, field, value }) => {
+  try {
+    // return console.log('SERVISES UPDATE RUN', id, field, value);
+
+    const run = await axiosClient.put(`/runs/${id}/status/`, {
+      [field]: value,
+    });
+    return run;
+  } catch (error) {
+    throw new Error(errorOutput(error));
   }
 };

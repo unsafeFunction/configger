@@ -1,6 +1,17 @@
 import { DownOutlined, InboxOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Col, Dropdown, Input, Menu, Row, Table, Upload } from 'antd';
+import {
+  Button,
+  Col,
+  Dropdown,
+  Input,
+  Menu,
+  Popconfirm,
+  Row,
+  Table,
+  Upload,
+} from 'antd';
 import classNames from 'classnames';
+import ResultTag from 'components/widgets/ResultTag';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -8,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
+import { constants } from 'utils/constants';
 import columns from './components';
 import styles from './styles.module.scss';
 
@@ -20,11 +32,10 @@ const AnalysisRun = () => {
   const [searchName, setSearchName] = useState('');
 
   const location = useLocation();
+  const runId = location.pathname.split('/')[2];
 
   const useFetching = () => {
     useEffect(() => {
-      const runId = location.pathname.split('/')[2];
-
       dispatch({
         type: actions.FETCH_RUN_REQUEST,
         payload: {
@@ -107,9 +118,19 @@ const AnalysisRun = () => {
     });
   }, [dispatch, onUploadRun, handleSubmit]);
 
-  const handleStatusAction = useCallback(() => {
-    console.log('foo');
-  }, []);
+  const handleStatusAction = useCallback(
+    (id, field, value) => {
+      dispatch({
+        type: actions.UPDATE_RUN_REQUEST,
+        payload: {
+          id,
+          field,
+          value,
+        },
+      });
+    },
+    [dispatch],
+  );
 
   const menu = (
     <Menu>
@@ -126,8 +147,12 @@ const AnalysisRun = () => {
           Go to DataConnect
         </a>
       </Menu.Item>
-      <Menu.Item onClick={onUploadClick} key="4">
-        Upload Raw Data
+      <Menu.Item
+        onClick={onUploadClick}
+        key="4"
+        disabled={run.status === constants.runStatuses.published}
+      >
+        Upload Result
       </Menu.Item>
       <Menu.Item disabled key="5">
         Print Run
@@ -137,11 +162,23 @@ const AnalysisRun = () => {
 
   const getBtnName = useCallback((status) => {
     switch (status) {
+      case 'analysis':
+        return 'Finish Analysis';
       case 'review':
-      case 'published':
         return 'Publish';
       default:
-        return 'Finish Analysis';
+        return '';
+    }
+  }, []);
+
+  const getNextStatus = useCallback((status) => {
+    switch (status) {
+      case 'analysis':
+        return constants.runStatuses.review;
+      case 'review':
+        return constants.runStatuses.published;
+      default:
+        return '';
     }
   }, []);
 
@@ -149,35 +186,33 @@ const AnalysisRun = () => {
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Run</h4>
+        {run.status && <ResultTag status={run.status} type="run" />}
       </div>
 
       <Table
         dataSource={run.items}
         columns={columns}
-        scroll={{ x: 1400 }}
+        scroll={{ x: 2000 }}
         loading={run.isLoading}
         pagination={false}
         rowKey={(record) => {
-          if (record.children) {
-            return record.sample_id;
-          }
-          return record.wells;
+          return record.sample_id ?? record.wells;
         }}
         title={() => (
           <Row gutter={16}>
             <Col
               xs={{ span: 24 }}
               sm={{ span: 12 }}
-              md={{ span: 9, offset: 6 }}
-              lg={{ span: 7, offset: 10 }}
-              xl={{ span: 6, offset: 12 }}
-              xxl={{ span: 7, offset: 12 }}
+              md={{ span: 9 }}
+              lg={{ span: 7 }}
+              xl={{ span: 6 }}
+              xxl={{ span: 7 }}
             >
               <Input
                 size="middle"
                 prefix={<SearchOutlined />}
                 className={styles.search}
-                placeholder="Search..."
+                placeholder="Enter Sample ID"
                 value={searchName}
                 onChange={onChangeSearch}
               />
@@ -191,9 +226,26 @@ const AnalysisRun = () => {
               xxl={{ span: 5 }}
             >
               <div className={styles.actionsWrapper}>
-                <Button type="primary" ghost onClick={handleStatusAction}>
-                  {getBtnName(run?.status?.toLowerCase())}
-                </Button>
+                {(run.status === constants.runStatuses.analysis ||
+                  run.status === constants.runStatuses.review) && (
+                  <Popconfirm
+                    title={`Are you sure you would like to ${getBtnName(
+                      run.status?.toLowerCase(),
+                    )}?`}
+                    onConfirm={() =>
+                      handleStatusAction(
+                        runId,
+                        'status',
+                        getNextStatus(run.status?.toLowerCase()),
+                      )
+                    }
+                    placement="topRight"
+                  >
+                    <Button type="primary" ghost loading={run.isLoading}>
+                      {getBtnName(run.status?.toLowerCase())}
+                    </Button>
+                  </Popconfirm>
+                )}
                 <Dropdown overlay={menu}>
                   <Button type="primary">
                     Actions

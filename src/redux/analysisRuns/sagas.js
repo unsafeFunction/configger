@@ -4,7 +4,8 @@ import modalActions from 'redux/modal/actions';
 import {
   fetchRun,
   fetchRuns,
-  updatePool,
+  updateRun,
+  updateSample,
   uploadRunResult,
 } from 'services/analysisRuns';
 import actions from './actions';
@@ -44,6 +45,7 @@ export function* callUploadRunResult({ payload }) {
 export function* callLoadRun({ payload }) {
   try {
     const response = yield call(fetchRun, payload);
+
     yield put({
       type: actions.FETCH_RUN_SUCCESS,
       payload: {
@@ -53,42 +55,69 @@ export function* callLoadRun({ payload }) {
   } catch (error) {
     yield put({ type: actions.FETCH_RUN_FAILURE });
 
-    notification.error(error);
+    notification.error({
+      message: error.message,
+    });
   }
 }
 
-export function* callUpdatePool({ payload }) {
+export function* callUpdateSample({ payload }) {
   const { id, field } = payload;
   try {
-    const response = yield call(updatePool, payload);
+    const response = yield call(updateSample, payload);
 
     yield put({
-      type: actions.UPDATE_POOL_SUCCESS,
+      type: actions.UPDATE_SAMPLE_SUCCESS,
       payload: {
         field,
         data: response.data,
       },
     });
 
-    if (field === 'result') {
-      yield put({
-        type: modalActions.HIDE_MODAL,
-      });
-    }
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
 
     notification.success({
-      message: 'Pool updated',
+      message: 'Sample updated',
     });
   } catch (error) {
     yield put({
-      type: actions.UPDATE_POOL_FAILURE,
+      type: actions.UPDATE_SAMPLE_FAILURE,
       payload: {
         id,
         field,
       },
     });
 
-    notification.error(error);
+    notification.error({
+      message: error.message ?? 'Sample not updated',
+    });
+  }
+}
+
+export function* callUpdateRun({ payload }) {
+  try {
+    const response = yield call(updateRun, payload);
+
+    yield put({
+      type: actions.UPDATE_RUN_SUCCESS,
+      payload: {
+        data: response.data,
+      },
+    });
+
+    notification.success({
+      message: 'Run updated',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.UPDATE_RUN_FAILURE,
+    });
+
+    notification.error({
+      message: error.message ?? 'Run not updated',
+    });
   }
 }
 
@@ -98,5 +127,6 @@ export default function* rootSaga() {
     takeEvery(actions.UPLOAD_RUN_RESULT_REQUEST, callUploadRunResult),
   ]);
   yield all([takeEvery(actions.FETCH_RUN_REQUEST, callLoadRun)]);
-  yield all([takeEvery(actions.UPDATE_POOL_REQUEST, callUpdatePool)]);
+  yield all([takeEvery(actions.UPDATE_SAMPLE_REQUEST, callUpdateSample)]);
+  yield all([takeEvery(actions.UPDATE_RUN_REQUEST, callUpdateRun)]);
 }

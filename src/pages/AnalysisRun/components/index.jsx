@@ -1,10 +1,10 @@
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
-import { Checkbox, Popconfirm, Select, Tooltip, Typography } from 'antd';
+import { Checkbox, Select, Tooltip, Typography } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
@@ -13,14 +13,13 @@ import { getColor } from 'utils/highlightingResult';
 const { Option } = Select;
 
 const Target = ({ record, field, value }) => {
+  const { reservedSamples } = constants;
+
   const formattedValue = (val) => {
     if (val && !isNaN(val)) {
       return parseFloat(val).toFixed(2);
     }
-    if (value && isNaN(val)) {
-      return 'NA';
-    }
-    return;
+    return null;
   };
 
   const cqConfidence = formattedValue(record[`${field}_cq_confidence`]);
@@ -40,7 +39,17 @@ const Target = ({ record, field, value }) => {
     return null;
   };
 
-  return warning() ? (
+  const meanTargetValue = () => {
+    const mean = formattedValue(record.mean[field]);
+    const deviation = formattedValue(record.standard_deviation[field]) ?? 'NA';
+    return mean ? `${mean} (${deviation})` : null;
+  };
+
+  // TODO: rewrite
+  return record.children ||
+    reservedSamples.includes(record.display_sample_id) ? (
+    meanTargetValue()
+  ) : warning() ? (
     <Tooltip placement="right" title={warning()}>
       {formattedValue(value)}
       <ExclamationCircleTwoTone twoToneColor="orange" className="ml-1" />
@@ -56,59 +65,33 @@ Target.propTypes = {
   value: PropTypes.string,
 };
 
-const PoolCheckbox = ({ record, field, value, title }) => {
+const Actions = ({ record, field, value }) => {
   const dispatch = useDispatch();
 
-  const onPoolUpdate = useCallback(
-    (id, field, value) => {
-      dispatch({
-        type: actions.UPDATE_POOL_REQUEST,
-        payload: {
-          id,
-          field,
-          value,
-        },
-      });
-    },
-    [dispatch],
+  const { status: runStatus } = useSelector(
+    (state) => state.analysisRuns.singleRun,
   );
 
-  return (
-    <Popconfirm
-      title={`Are you sure you would like to ${
-        value ? 'unset' : 'set'
-      } ${title} for ${record.pool_name} pool?`}
-      onConfirm={() => onPoolUpdate(record.id, field, !value)}
-      placement="topRight"
-    >
-      {record.children && (
-        <Checkbox checked={value} disabled={record[`${field}IsUpdating`]} />
-      )}
-    </Popconfirm>
-  );
-};
+  const options = [
+    { label: 'Reflex SC', value: 'REFLEX_SC' },
+    { label: 'Reflec SD', value: 'REFLEX_SD' },
+    { label: 'Rerun', value: 'RERUN' },
+  ];
 
-PoolCheckbox.propTypes = {
-  record: PropTypes.shape({}).isRequired,
-  field: PropTypes.string.isRequired,
-  value: PropTypes.bool,
-  title: PropTypes.string.isRequired,
-};
+  // TODO: Reflex and Rerun may not be chosen together
+  // const isDisabled = () => {
+  //   if (!record[field]) {
+  //     return false;
+  //   }
+  //   return false;
+  // };
 
-const resultList = Object.values(constants.poolResults).map((item) => {
-  return {
-    text: item.replaceAll('_', ' '),
-    value: item,
-  };
-});
-
-const ResultSelect = ({ record, field }) => {
-  const dispatch = useDispatch();
-
-  const onResultUpdate = useCallback(
+  const onSampleUpdate = useCallback(
     (id, field, value) => {
+      // return console.log('ID FIELD VALUE', id, field, value);
+
       dispatch({
-        type: actions.UPDATE_POOL_REQUEST,
+        type: actions.UPDATE_SAMPLE_REQUEST,
         payload: {
           id,
           field,
@@ -120,7 +103,87 @@ const ResultSelect = ({ record, field }) => {
   );
 
   const onModalToggle = useCallback(
-    (id, field, sampleId) => (_, option) => {
+    (id, field, sample) => (checkedValues) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Confirm action',
+          onOk: () => onSampleUpdate(id, field, checkedValues[0]),
+          bodyStyle: {
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          },
+          okText: 'Update sample',
+          message: () =>
+            `Are you sure you would like to ${
+              checkedValues[0] ? 'set' : 'unset'
+            } ${checkedValues[0]} action for ${sample} sample?`,
+        },
+      });
+    },
+    [dispatch, onSampleUpdate],
+  );
+
+  return (
+    <>
+      {record.children && (
+        <Checkbox.Group
+          value={value}
+          options={options}
+          disabled={
+            record[`${field}IsUpdating`] ||
+            runStatus === constants.runStatuses.published
+          }
+          onChange={onModalToggle(
+            record.sample_id,
+            field,
+            record.display_sample_id,
+          )}
+        />
+      )}
+    </>
+  );
+};
+
+Actions.propTypes = {
+  record: PropTypes.shape({}).isRequired,
+  field: PropTypes.string.isRequired,
+  value: PropTypes.shape([]).isRequired,
+};
+
+const resultList = Object.values(constants.poolResults).map((item) => {
+  return {
+    text: item.replaceAll('_', ' '),
+    value: item,
+  };
+});
+
+const ResultSelect = ({ record, field }) => {
+  const { runStatuses, reservedSamples } = constants;
+
+  const dispatch = useDispatch();
+
+  const { status: runStatus } = useSelector(
+    (state) => state.analysisRuns.singleRun,
+  );
+
+  const onResultUpdate = useCallback(
+    (id, field, value) => {
+      dispatch({
+        type: actions.UPDATE_SAMPLE_REQUEST,
+        payload: {
+          id,
+          field,
+          value,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const onModalToggle = useCallback(
+    (id, field, sample) => (_, option) => {
       dispatch({
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
@@ -133,7 +196,7 @@ const ResultSelect = ({ record, field }) => {
           },
           okText: 'Update result',
           message: () =>
-            `Are you sure you would like to update sample ${sampleId} result to ${option.value}?`,
+            `Are you sure you would like to update sample ${sample} result to ${option.value}?`,
         },
       });
     },
@@ -142,15 +205,23 @@ const ResultSelect = ({ record, field }) => {
 
   return (
     <Select
-      value={<ResultTag status={record.result} type="pool" />}
+      value={<ResultTag status={record[field]} type="pool" />}
       style={{ width: 175 }}
-      onSelect={onModalToggle(record.id, field, record.sample_id)}
+      onSelect={onModalToggle(
+        record.sample_id,
+        field,
+        record.display_sample_id,
+      )}
       loading={record[`${field}IsUpdating`]}
-      disabled={record[`${field}IsUpdating`]}
+      disabled={
+        record[`${field}IsUpdating`] ||
+        runStatus === runStatuses.published ||
+        reservedSamples.includes(record.display_sample_id)
+      }
       bordered={false}
     >
       {resultList
-        ?.filter((option) => option.value !== record.result)
+        ?.filter((option) => option.value !== record[field])
         .map((item) => (
           <Option key={item.value} value={item.value}>
             <ResultTag status={item.value} type="pool" />
@@ -187,20 +258,20 @@ const columns = [
   },
   {
     title: 'Sample ID',
-    dataIndex: 'sample_id',
+    dataIndex: 'display_sample_id',
   },
   {
     title: 'Result',
-    dataIndex: 'result',
+    dataIndex: 'analysis_result',
     render: (_, record) => {
       return {
-        children: record?.result ? (
-          <ResultSelect record={record} field="result" />
+        children: record?.analysis_result ? (
+          <ResultSelect record={record} field="analysis_result" />
         ) : null,
       };
     },
     filters: resultList,
-    onFilter: (value, record) => record.result.indexOf(value) === 0,
+    onFilter: (value, record) => record.analysis_result.indexOf(value) === 0,
   },
   {
     title: 'Interpreted Result',
@@ -226,7 +297,7 @@ const columns = [
   {
     title: 'MS2',
     dataIndex: 'MS2',
-    width: 75,
+    width: 100,
     render: (value, record) => {
       return <Target record={record} field="MS2" value={value} />;
     },
@@ -234,7 +305,7 @@ const columns = [
   {
     title: 'N gene',
     dataIndex: 'N gene',
-    width: 75,
+    width: 100,
     render: (value, record) => {
       return <Target record={record} field="N gene" value={value} />;
     },
@@ -242,7 +313,7 @@ const columns = [
   {
     title: 'S gene',
     dataIndex: 'S gene',
-    width: 75,
+    width: 100,
     render: (value, record) => {
       return <Target record={record} field="S gene" value={value} />;
     },
@@ -250,7 +321,7 @@ const columns = [
   {
     title: 'Orf1ab',
     dataIndex: 'ORF1ab',
-    width: 75,
+    width: 100,
     render: (value, record) => {
       return <Target record={record} field="ORF1ab" value={value} />;
     },
@@ -258,54 +329,17 @@ const columns = [
   {
     title: 'RP',
     dataIndex: 'RP',
-    width: 75,
+    width: 100,
     render: (value, record) => {
       return <Target record={record} field="RP" value={value} />;
     },
   },
   {
-    title: 'Reflex SC',
-    dataIndex: 'reflex_sc',
-    align: 'center',
+    title: 'Actions',
+    dataIndex: 'rerun_action',
+    width: 300,
     render: (value, record) => {
-      return (
-        <PoolCheckbox
-          record={record}
-          field="reflex_sc"
-          value={value}
-          title="Reflex SC"
-        />
-      );
-    },
-  },
-  {
-    title: 'Reflex SD',
-    dataIndex: 'reflex_sd',
-    align: 'center',
-    render: (value, record) => {
-      return (
-        <PoolCheckbox
-          record={record}
-          field="reflex_sd"
-          value={value}
-          title="Reflex SD"
-        />
-      );
-    },
-  },
-  {
-    title: 'Rerun',
-    dataIndex: 'rerun',
-    align: 'center',
-    render: (value, record) => {
-      return (
-        <PoolCheckbox
-          record={record}
-          field="rerun"
-          value={value}
-          title="Rerun"
-        />
-      );
+      return <Actions record={record} field="rerun_action" value={[value]} />;
     },
   },
 ];

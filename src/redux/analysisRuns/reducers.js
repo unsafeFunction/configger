@@ -56,8 +56,9 @@ const runsReducer = (state = initialRunsState, action) => {
 };
 
 const initialRunState = {
-  items: [],
   id: null,
+  status: null,
+  items: [],
   isLoading: false,
 };
 
@@ -66,15 +67,27 @@ const singleRunReducer = (state = initialRunState, action) => {
     case actions.FETCH_RUN_REQUEST: {
       return {
         ...state,
-        items: [],
+        ...initialRunState,
         isLoading: true,
       };
     }
     case actions.FETCH_RUN_SUCCESS: {
+      const { reservedSamples } = constants;
+
+      const formattedResults = action.payload.data?.items?.map?.((item) => {
+        if (reservedSamples.includes(item.display_sample_id)) {
+          // eslint-disable-next-line camelcase
+          const { rerun_action, children, ...rest } = item;
+          return rest;
+        }
+        return item;
+      });
+
       return {
         ...state,
         isLoading: false,
         ...action.payload.data,
+        items: formattedResults,
       };
     }
     case actions.FETCH_RUN_FAILURE: {
@@ -84,50 +97,70 @@ const singleRunReducer = (state = initialRunState, action) => {
       };
     }
 
-    case actions.UPDATE_POOL_REQUEST: {
+    case actions.UPDATE_SAMPLE_REQUEST: {
       const { id, field } = action.payload;
       return {
         ...state,
-        items: state.items.map((pool) => {
-          if (pool.id === id) {
+        items: state.items.map((sample) => {
+          if (sample.sample_id === id) {
             return {
-              ...pool,
+              ...sample,
               [`${field}IsUpdating`]: true,
             };
           }
-          return pool;
+          return sample;
         }),
       };
     }
-    case actions.UPDATE_POOL_SUCCESS: {
+    case actions.UPDATE_SAMPLE_SUCCESS: {
       const { field, data } = action.payload;
       return {
         ...state,
-        items: state.items.map((pool) => {
-          if (pool.id === data.id) {
+        items: state.items.map((sample) => {
+          if (sample.sample_id === data.id) {
             return {
-              ...pool,
+              ...sample,
               ...data,
               [`${field}IsUpdating`]: false,
             };
           }
-          return pool;
+          return sample;
         }),
       };
     }
-    case actions.UPDATE_POOL_FAILURE: {
+    case actions.UPDATE_SAMPLE_FAILURE: {
       const { id, field } = action.payload;
       return {
         ...state,
-        items: state.items.map((pool) => {
-          if (pool.id === id) {
+        items: state.items.map((sample) => {
+          if (sample.sample_id === id) {
             return {
-              ...pool,
+              ...sample,
               [`${field}IsUpdating`]: false,
             };
           }
-          return pool;
+          return sample;
         }),
+      };
+    }
+
+    case actions.UPDATE_RUN_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.UPDATE_RUN_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        ...action.payload.data,
+      };
+    }
+    case actions.UPDATE_RUN_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
       };
     }
 

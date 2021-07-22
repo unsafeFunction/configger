@@ -163,6 +163,7 @@ const AnalysisRuns = () => {
           onClick={() => onUploadClick(run.id)}
           icon={<UploadOutlined />}
           type="link"
+          disabled={run.status === constants.runStatuses.published}
         >
           Upload result
         </Button>
