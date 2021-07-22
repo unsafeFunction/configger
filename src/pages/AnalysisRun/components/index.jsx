@@ -45,18 +45,18 @@ const Target = ({ record, field, value }) => {
     return mean ? `${mean} (${deviation})` : null;
   };
 
-  // TODO: rewrite
-  return record.children ||
-    reservedSamples.includes(record.display_sample_id) ? (
-    meanTargetValue()
-  ) : warning() ? (
-    <Tooltip placement="right" title={warning()}>
-      {formattedValue(value)}
-      <ExclamationCircleTwoTone twoToneColor="orange" className="ml-1" />
-    </Tooltip>
-  ) : (
-    <>{formattedValue(value)}</>
-  );
+  if (record.children || reservedSamples.includes(record.display_sample_id)) {
+    return meanTargetValue();
+  }
+  if (warning()) {
+    return (
+      <Tooltip placement="right" title={warning()}>
+        {formattedValue(value)}
+        <ExclamationCircleTwoTone twoToneColor="orange" className="ml-1" />
+      </Tooltip>
+    );
+  }
+  return formattedValue(value);
 };
 
 Target.propTypes = {
@@ -151,7 +151,7 @@ const Actions = ({ record, field, value }) => {
 Actions.propTypes = {
   record: PropTypes.shape({}).isRequired,
   field: PropTypes.string.isRequired,
-  value: PropTypes.shape([]).isRequired,
+  value: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const resultList = Object.values(constants.poolResults).map((item) => {

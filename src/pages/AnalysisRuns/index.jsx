@@ -126,7 +126,7 @@ const AnalysisRuns = () => {
     {
       title: 'Creation Date',
       dataIndex: 'created',
-      render: (value) => moment(value).format('YYYY-MM-DD HH:MM'),
+      render: (value) => (value ? moment(value).format('lll') : '-'),
     },
     {
       title: 'Samples',
@@ -145,8 +145,8 @@ const AnalysisRuns = () => {
     },
     {
       title: 'Last updated',
-      dataIndex: 'updated',
-      render: (value) => moment(value).format('YYYY-MM-DD HH:MM'),
+      dataIndex: 'modified',
+      render: (value) => (value ? moment(value).format('lll') : '-'),
     },
     {
       title: 'Created By',

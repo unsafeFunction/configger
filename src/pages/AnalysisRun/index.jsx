@@ -254,7 +254,6 @@ const AnalysisRun = () => {
               className={styles.search}
               placeholder="Enter Sample ID"
               value={searchName}
-              // onChange={() => onChangeSearch(run.items)}
               onChange={onChangeSearch}
             />
 

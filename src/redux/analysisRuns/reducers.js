@@ -87,7 +87,7 @@ const singleRunReducer = (state = initialRunState, action) => {
         ...state,
         isLoading: false,
         ...action.payload.data,
-        items: formattedResults,
+        items: formattedResults ?? [],
       };
     }
     case actions.FETCH_RUN_FAILURE: {
