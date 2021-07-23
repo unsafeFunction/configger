@@ -137,8 +137,8 @@ const Actions = ({ record, field, value }) => {
           okText: 'Update sample',
           message: () =>
             `Are you sure you would like to ${
-              checkedValues[0] ? 'set' : 'unset'
-            } ${checkedValues[0]} action for ${sample} sample?`,
+              checkedValues[0] ? `set ${checkedValues[0]}` : 'unset'
+            } action for ${sample} sample?`,
         },
       });
     },
@@ -363,7 +363,7 @@ const columns = [
         <Actions
           record={record}
           field="rerun_action"
-          value={value ? [...value] : []}
+          value={value ? [value] : []}
         />
       );
     },

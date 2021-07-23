@@ -52,9 +52,7 @@ export const fetchRun = async ({ id }) => {
 
 export const updateSample = async ({ id, field, value }) => {
   try {
-    // return console.log('SERVISES UPDATE SAMPLE', id, field, value);
-
-    const sample = await axiosClient.put(`/runs/results/sample/${id}/`, {
+    const sample = await axiosClient.patch(`/runs/results/sample/${id}/`, {
       [field]: value,
     });
     return sample;
@@ -65,9 +63,7 @@ export const updateSample = async ({ id, field, value }) => {
 
 export const updateRun = async ({ id, field, value }) => {
   try {
-    // return console.log('SERVISES UPDATE RUN', id, field, value);
-
-    const run = await axiosClient.put(`/runs/${id}/status/`, {
+    const run = await axiosClient.patch(`/runs/${id}/status/`, {
       [field]: value,
     });
     return run;
