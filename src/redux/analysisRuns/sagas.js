@@ -7,6 +7,7 @@ import {
   updateRun,
   updateSample,
   uploadRunResult,
+  fetchWellplate,
 } from 'services/analysisRuns';
 import actions from './actions';
 
@@ -54,6 +55,52 @@ export function* callLoadRun({ payload }) {
     });
   } catch (error) {
     yield put({ type: actions.FETCH_RUN_FAILURE });
+
+    notification.error({
+      message: error.message,
+    });
+  }
+}
+
+export function* callFetchWellplate({ payload }) {
+  try {
+    const { data } = yield call(fetchWellplate, payload);
+
+    const formatResponse = (response) => {
+      console.log(response);
+      return Object.assign(
+        {},
+        ...response?.map?.((obj) => ({
+          letter: obj?.position?.[0],
+          [`col${obj?.position?.[1]}`]: {
+            ...obj,
+            status: obj?.status,
+          },
+        })),
+      );
+    };
+
+    const wellplates = data?.items;
+
+    const preparedResponse = wellplates.map((wellplate) => [
+      formatResponse(wellplate?.slice?.(0, 8)),
+      formatResponse(wellplate?.slice?.(8, 16)),
+      formatResponse(wellplate?.slice?.(16, 24)),
+      formatResponse(wellplate?.slice?.(24, 32)),
+      formatResponse(wellplate?.slice?.(32, 40)),
+      formatResponse(wellplate?.slice?.(40, 48)),
+    ]);
+
+    console.log(wellplates, preparedResponse);
+
+    yield put({
+      type: actions.FETCH_WELLPLATE_SUCCESS,
+      payload: {
+        data: preparedResponse,
+      },
+    });
+  } catch (error) {
+    yield put({ type: actions.FETCH_WELLPLATE_FAILURE });
 
     notification.error({
       message: error.message,
@@ -129,4 +176,5 @@ export default function* rootSaga() {
   yield all([takeEvery(actions.FETCH_RUN_REQUEST, callLoadRun)]);
   yield all([takeEvery(actions.UPDATE_SAMPLE_REQUEST, callUpdateSample)]);
   yield all([takeEvery(actions.UPDATE_RUN_REQUEST, callUpdateRun)]);
+  yield all([takeEvery(actions.FETCH_WELLPLATE_REQUEST, callFetchWellplate)]);
 }

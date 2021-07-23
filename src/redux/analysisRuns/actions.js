@@ -6,6 +6,7 @@ const actions = {
   ...generateRequestActions(['fetch'], 'analysisRuns', 'run'),
   ...generateRequestActions(['update'], 'analysisRuns', 'sample'),
   ...generateRequestActions(['update'], 'analysisRuns', 'run'),
+  ...generateRequestActions(['fetch'], 'analysisRuns', 'wellplate'),
 };
 
 export default actions;

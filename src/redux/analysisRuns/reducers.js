@@ -60,6 +60,7 @@ const initialRunState = {
   status: null,
   items: [],
   isLoading: false,
+  wellplates: [],
 };
 
 const singleRunReducer = (state = initialRunState, action) => {
@@ -158,6 +159,26 @@ const singleRunReducer = (state = initialRunState, action) => {
       };
     }
     case actions.UPDATE_RUN_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
+    case actions.FETCH_WELLPLATE_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_WELLPLATE_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        wellplates: action.payload.data,
+      };
+    }
+    case actions.FETCH_WELLPLATE_FAILURE: {
       return {
         ...state,
         isLoading: false,

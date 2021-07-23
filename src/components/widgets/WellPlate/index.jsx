@@ -1,13 +1,24 @@
-import { Button, Form, Input, Popconfirm, Popover, Table, Tag } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  Popconfirm,
+  Popover,
+  Table,
+  Tag,
+  Tabs,
+} from 'antd';
 import classNames from 'classnames';
 import InvalidateModal from 'components/widgets/Scans/InvalidateModal';
 import PropTypes from 'prop-types';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
-import actions from 'redux/scanSessions/actions';
+import actions from 'redux/analysisRuns/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
+
+const { TabPane } = Tabs;
 
 const WellPlate = ({
   wellplate,
@@ -15,6 +26,7 @@ const WellPlate = ({
   session,
   isRack = false,
   editMode = true,
+  runId,
 }) => {
   const { tubes } = constants;
 
@@ -24,10 +36,25 @@ const WellPlate = ({
   const { selectedCode } = useSelector(
     (state) => state.scanSessions?.singleSession,
   );
+  const { wellplates } = useSelector((state) => state.analysisRuns.singleRun);
   const { modalId } = useSelector((state) => state.modal.modalProps);
   const isIncorrectPositions = wellplate?.incorrect_positions?.length > 0;
 
   const [form] = Form.useForm();
+
+  const useFetching = () => {
+    useEffect(() => {
+      dispatch({
+        type: actions.FETCH_WELLPLATE_REQUEST,
+        payload: {
+          id: runId,
+        },
+      });
+    }, []);
+  };
+
+  useFetching();
+
   const initialWellplate = [...Array(8).keys()].map((i) => ({
     letter: String.fromCharCode(constants?.A + i),
     col1: { tube_id: null, status: tubes.blank.status },
@@ -307,17 +334,23 @@ const WellPlate = ({
   ];
   return (
     <>
-      <Table
-        columns={columns}
-        dataSource={wellplate?.items ?? initialWellplate}
-        loading={session?.isLoading || wellplate?.isLoading}
-        pagination={false}
-        scroll={{ x: 'max-content' }}
-        bordered
-        rowClassName={styles.row}
-        rowKey={(record) => record.letter}
-        size="small"
-      />
+      <Tabs defaultActiveKey="0">
+        {wellplates.map((wellplate, idx) => (
+          <TabPane key={idx} tab={`Wellplate ${idx + 1}`}>
+            <Table
+              columns={columns}
+              dataSource={wellplates?.[idx] ?? initialWellplate}
+              loading={session?.isLoading || wellplate?.isLoading}
+              pagination={false}
+              scroll={{ x: 'max-content' }}
+              bordered
+              rowClassName={styles.row}
+              rowKey={(record) => record.letter}
+              size="small"
+            />
+          </TabPane>
+        ))}
+      </Tabs>
     </>
   );
 };

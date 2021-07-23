@@ -91,10 +91,6 @@ const AnalysisRun = () => {
     dispatch({ type: modalActions.HIDE_MODAL });
   }, [id, dispatch]);
 
-  const isWellplate = useCallback(() => {
-    return type === 'wellplate';
-  }, [type]);
-
   const handleSubmit = useCallback(() => {
     dispatch({
       type: modalActions.HIDE_MODAL,
@@ -158,7 +154,7 @@ const AnalysisRun = () => {
           overflow: 'scroll',
         },
         width: 'max-content',
-        message: () => <WellPlate />,
+        message: () => <WellPlate runId={id} />,
       },
     });
   }, [id]);
