@@ -1,6 +1,7 @@
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 import { Checkbox, Select, Tooltip, Typography } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
+import floor from 'lodash.floor';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
@@ -28,7 +29,7 @@ Warning.propTypes = {
 const Target = ({ record, field, value }) => {
   const formatValue = (value) => {
     if (value && !isNaN(value)) {
-      return parseFloat(value).toFixed(2);
+      return floor(value, 2);
     }
     return null;
   };
