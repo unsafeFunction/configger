@@ -12,51 +12,69 @@ import { getColor } from 'utils/highlightingResult';
 
 const { Option } = Select;
 
+const Warning = ({ message, targetValue }) => (
+  <Tooltip placement="right" title={message}>
+    {targetValue}
+    <ExclamationCircleTwoTone twoToneColor="orange" className="ml-1" />
+  </Tooltip>
+);
+
+Warning.propTypes = {
+  message: PropTypes.string.isRequired,
+  targetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
+};
+
 const Target = ({ record, field, value }) => {
-  const { reservedSamples } = constants;
-
-  const formattedValue = (val) => {
-    if (val && !isNaN(val)) {
-      return parseFloat(val).toFixed(2);
+  const formatValue = (value) => {
+    if (value && !isNaN(value)) {
+      return parseFloat(value).toFixed(2);
     }
     return null;
   };
 
-  const cqConfidence = formattedValue(record[`${field}_cq_confidence`]);
-  const inconclusiveAmpStatus =
-    record[`${field}_amp_status`] === constants.poolResults.inconclusive;
+  const targetValue = () => {
+    if (record?.mean) {
+      const mean = formatValue(record?.mean?.[field]);
+      const deviation =
+        formatValue(record?.standard_deviation?.[field]) ?? 'NA';
+      return mean ? `${mean} (${deviation})` : null;
+    }
+    if (record[field] && !isNaN(record[field])) {
+      const cqConfidence = formatValue(record[`${field}_cq_confidence`]);
+      const inconclusiveAmpStatus =
+        record[`${field}_amp_status`] === constants.poolResults.inconclusive;
 
-  const warning = () => {
-    if (cqConfidence > 0 && cqConfidence <= 0.7 && inconclusiveAmpStatus) {
-      return `Cq confidence is low! (${cqConfidence}) Amplification is inconclusive`;
-    }
-    if (cqConfidence > 0 && cqConfidence <= 0.7) {
-      return `Cq confidence is low! (${cqConfidence})`;
-    }
-    if (inconclusiveAmpStatus) {
-      return 'Amplification is inconclusive';
+      if (cqConfidence > 0 && cqConfidence <= 0.7 && inconclusiveAmpStatus) {
+        return (
+          <Warning
+            message={`Cq confidence is low! (${cqConfidence}) Amplification is inconclusive`}
+            targetValue={formatValue(value)}
+          />
+        );
+      }
+      if (cqConfidence > 0 && cqConfidence <= 0.7) {
+        return (
+          <Warning
+            message={`Cq confidence is low! (${cqConfidence})`}
+            targetValue={formatValue(value)}
+          />
+        );
+      }
+      if (inconclusiveAmpStatus) {
+        return (
+          <Warning
+            message="Amplification is inconclusive"
+            targetValue={formatValue(value)}
+          />
+        );
+      }
+      return formatValue(value);
     }
     return null;
   };
 
-  const meanTargetValue = () => {
-    const mean = formattedValue(record.mean[field]);
-    const deviation = formattedValue(record.standard_deviation[field]) ?? 'NA';
-    return mean ? `${mean} (${deviation})` : null;
-  };
-
-  if (record.children || reservedSamples.includes(record.display_sample_id)) {
-    return meanTargetValue();
-  }
-  if (warning()) {
-    return (
-      <Tooltip placement="right" title={warning()}>
-        {formattedValue(value)}
-        <ExclamationCircleTwoTone twoToneColor="orange" className="ml-1" />
-      </Tooltip>
-    );
-  }
-  return formattedValue(value);
+  return targetValue();
 };
 
 Target.propTypes = {
