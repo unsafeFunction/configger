@@ -1,23 +1,23 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, DatePicker, Table, Upload } from 'antd';
+import classNames from 'classnames';
+import ResultTag from 'components/widgets/ResultTag';
+import moment from 'moment-timezone';
+import qs from 'qs';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import classNames from 'classnames';
-import { Table, DatePicker, Button, Upload } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/analysisRuns/actions';
-import moment from 'moment-timezone';
-import { constants } from 'utils/constants';
-import qs from 'qs';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import modalActions from 'redux/modal/actions';
-import ResultTag from 'components/widgets/ResultTag';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
 const { RangePicker } = DatePicker;
 
-const ScanSessions = () => {
+const AnalysisRuns = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [dates, setDates] = useState([]);
@@ -25,7 +25,7 @@ const ScanSessions = () => {
   const stateRef = useRef();
   stateRef.current = dates;
 
-  const runs = useSelector((state) => state.analysisRuns);
+  const runs = useSelector((state) => state.analysisRuns.all);
 
   const { from, to } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -83,6 +83,18 @@ const ScanSessions = () => {
               maxCount={1}
               name="runFile"
               accept=".csv"
+              // Need to parse .csv before upload for render preview
+              // beforeUpload={(file) => {
+              //   const reader = new FileReader();
+
+              //   reader.onload = (e) => {
+              //     console.log(e.target.result);
+              //   };
+              //   reader.readAsText(file);
+
+              //   // Prevent upload
+              //   return false;
+              // }}
             >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
@@ -98,7 +110,7 @@ const ScanSessions = () => {
         },
       });
     },
-    [dispatch, onUploadRun],
+    [dispatch, onUploadRun, handleSubmit],
   );
 
   const columns = [
@@ -114,7 +126,8 @@ const ScanSessions = () => {
     {
       title: 'Creation Date',
       dataIndex: 'created',
-      render: (value) => moment(value).format('YYYY-MM-DD HH:MM'),
+      render: (value) =>
+        value ? moment(value).format('YYYY-MM-DD HH:mm') : '-',
     },
     {
       title: 'Samples',
@@ -128,13 +141,14 @@ const ScanSessions = () => {
       dataIndex: 'status',
       align: 'center',
       render: (_, record) => {
-        return <ResultTag status={record?.status} />;
+        return <ResultTag status={record?.status} type="run" />;
       },
     },
     {
       title: 'Last updated',
-      dataIndex: 'updated',
-      render: (value) => moment(value).format('YYYY-MM-DD HH:MM'),
+      dataIndex: 'modified',
+      render: (value) =>
+        value ? moment(value).format('YYYY-MM-DD HH:mm') : '-',
     },
     {
       title: 'Created By',
@@ -151,6 +165,7 @@ const ScanSessions = () => {
           onClick={() => onUploadClick(run.id)}
           icon={<UploadOutlined />}
           type="link"
+          disabled={run.status === constants.runStatuses.published}
         >
           Upload result
         </Button>
@@ -214,7 +229,7 @@ const ScanSessions = () => {
         <Table
           dataSource={runsItems}
           columns={columns}
-          scroll={{ x: 1000 }}
+          scroll={{ x: 1200 }}
           bordered
           loading={runs?.isLoading}
           align="center"
@@ -226,4 +241,4 @@ const ScanSessions = () => {
   );
 };
 
-export default ScanSessions;
+export default AnalysisRuns;

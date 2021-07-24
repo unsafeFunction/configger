@@ -100,6 +100,10 @@ const routes = [
     Component: loadable(() => import('pages/IntakeReceiptLog')),
   },
   {
+    path: '/analysis-runs/:id/:type?',
+    Component: loadable(() => import('pages/AnalysisRun')),
+  },
+  {
     path: '/analysis-runs',
     Component: loadable(() => import('pages/AnalysisRuns')),
   },

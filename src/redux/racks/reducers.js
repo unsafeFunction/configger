@@ -72,6 +72,7 @@ const singleRackReducer = (state = initialSingleRackState, action) => {
     }
     case actions.GET_RACK_SUCCESS: {
       return {
+        ...state,
         isLoading: false,
         ...action.payload,
       };

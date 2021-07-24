@@ -1,5 +1,6 @@
-import axiosClient from 'utils/axiosClient';
 import { notification } from 'antd';
+import axiosClient from 'utils/axiosClient';
+import errorOutput from 'utils/errorOutput';
 
 export const fetchRuns = async (query) => {
   try {
@@ -37,5 +38,36 @@ export const uploadRunResult = async (payload) => {
     notification.error({ message: 'Something went wrong.' });
     onError(error);
     return error;
+  }
+};
+
+export const fetchRun = async ({ id }) => {
+  try {
+    const run = await axiosClient.get(`/runs/results/${id}/entries`);
+    return run;
+  } catch (error) {
+    throw new Error(errorOutput(error));
+  }
+};
+
+export const updateSample = async ({ id, field, value }) => {
+  try {
+    const sample = await axiosClient.patch(`/runs/results/sample/${id}/`, {
+      [field]: value,
+    });
+    return sample;
+  } catch (error) {
+    throw new Error(errorOutput(error));
+  }
+};
+
+export const updateRun = async ({ id, field, value }) => {
+  try {
+    const run = await axiosClient.patch(`/runs/${id}/status/`, {
+      [field]: value,
+    });
+    return run;
+  } catch (error) {
+    throw new Error(errorOutput(error));
   }
 };
