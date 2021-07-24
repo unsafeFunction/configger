@@ -33,14 +33,12 @@ const AnalysisRun = () => {
 
   const useFetching = () => {
     useEffect(() => {
-      if ((run.items.length === 0 || run.id !== id) && !run.loading) {
-        dispatch({
-          type: actions.FETCH_RUN_REQUEST,
-          payload: {
-            id: runId,
-          },
-        });
-      }
+      dispatch({
+        type: actions.FETCH_RUN_REQUEST,
+        payload: {
+          id: runId,
+        },
+      });
     }, []);
   };
 
@@ -91,33 +89,7 @@ const AnalysisRun = () => {
 
   const handleWellplateClose = useCallback(() => {
     dispatch({ type: modalActions.HIDE_MODAL });
-    return history.push(`/analysis-runs/${id}`);
   }, [id, dispatch]);
-
-  const isWellplate = useCallback(() => {
-    return type === 'wellplate';
-  }, [type]);
-
-  useEffect(() => {
-    if (isWellplate()) {
-      dispatch({
-        type: modalActions.SHOW_MODAL,
-        modalType: 'COMPLIANCE_MODAL',
-        modalProps: {
-          title: 'Well Plate',
-          cancelButtonProps: { className: styles.cancelBtn },
-          onOk: () => handleWellplateClose(),
-          onCancel: () => handleWellplateClose(),
-          bodyStyle: {
-            maxHeight: '70vh',
-            overflow: 'scroll',
-          },
-          width: '30%',
-          message: () => <WellPlate />,
-        },
-      });
-    }
-  }, [isWellplate]);
 
   const handleSubmit = useCallback(() => {
     dispatch({
@@ -169,7 +141,22 @@ const AnalysisRun = () => {
   );
 
   const handleShowWellplate = useCallback(() => {
-    history.push(`/analysis-runs/${id}/wellplate`);
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'COMPLIANCE_MODAL',
+      modalProps: {
+        title: 'Well Plate',
+        cancelButtonProps: { className: styles.cancelBtn },
+        onOk: () => handleWellplateClose(),
+        onCancel: () => handleWellplateClose(),
+        bodyStyle: {
+          maxHeight: '70vh',
+          overflow: 'scroll',
+        },
+        width: 'max-content',
+        message: () => <WellPlate runId={id} />,
+      },
+    });
   }, [id]);
 
   const handleShowTable = useCallback(() => {

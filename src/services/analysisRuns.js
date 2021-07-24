@@ -50,6 +50,14 @@ export const fetchRun = async ({ id }) => {
   }
 };
 
+export const fetchWellplate = async ({ id }) => {
+  try {
+    return await axiosClient.get(`/runs/${id}/tubes/`);
+  } catch (error) {
+    throw new Error(errorOutput(error));
+  }
+};
+
 export const updateSample = async ({ id, field, value }) => {
   try {
     const sample = await axiosClient.patch(`/runs/results/sample/${id}/`, {
