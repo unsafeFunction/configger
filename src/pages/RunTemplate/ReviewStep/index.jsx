@@ -128,7 +128,9 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
         <Button type="primary" onClick={generateRun} loading={isLoading}>
           Generate run
         </Button>
-        <Button onClick={handlePrevious}>Edit run</Button>
+        <Button onClick={handlePrevious} disabled={isLoading}>
+          Edit run
+        </Button>
       </Space>
     </div>
   );

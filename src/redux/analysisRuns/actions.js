@@ -1,7 +1,11 @@
+import generateRequestActions from 'redux/factories/generateRequestActions';
+
 const actions = {
-  FETCH_RUNS_REQUEST: 'analysisRuns/FETCH_RUNS_REQUEST',
-  FETCH_RUNS_SUCCESS: 'analysisRuns/FETCH_RUNS_SUCCESS',
-  FETCH_RUNS_FAILURE: 'analysisRuns/FETCH_RUNS_FAILURE',
+  ...generateRequestActions(['fetch'], 'analysisRuns', 'runs'),
+  ...generateRequestActions(['upload'], 'analysisRuns', 'run_result'),
+  ...generateRequestActions(['fetch'], 'analysisRuns', 'run'),
+  ...generateRequestActions(['update'], 'analysisRuns', 'sample'),
+  ...generateRequestActions(['update'], 'analysisRuns', 'run'),
 };
 
 export default actions;

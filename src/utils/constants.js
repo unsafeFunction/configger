@@ -99,6 +99,20 @@ export const constants = {
   intakeLog: {
     itemsLoadingCount: 25,
   },
+  runStatuses: {
+    qpcr: 'QPCR',
+    analysis: 'ANALYSIS',
+    review: 'REVIEW',
+    published: 'PUBLISHED',
+  },
+  poolResults: {
+    notDetected: 'NOT_DETECTED',
+    detected: 'DETECTED',
+    inconclusive: 'INCONCLUSIVE',
+    invalid: 'INVALID',
+    inProgress: 'IN_PROGRESS',
+  },
+  reservedSamples: ['H20', 'HBSS', 'PC'],
   USstates: [
     {
       label: 'Alabama',
