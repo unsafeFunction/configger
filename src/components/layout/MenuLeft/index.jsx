@@ -297,6 +297,18 @@ class MenuLeft extends React.Component {
               <span>{title}</span>
             </a>
           )}
+          {item.key === 'version' && (
+            <a
+              // TODO: add link to changelog
+              href=""
+              target="_blank"
+              rel="noopener noreferrer"
+              className={style.air__menuLeft__link}
+            >
+              {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
+              <span>{title}</span>
+            </a>
+          )}
         </li>
       );
     };

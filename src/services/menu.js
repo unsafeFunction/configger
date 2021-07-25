@@ -131,6 +131,11 @@ export async function getMenuData() {
       key: 'helpCenter',
       icon: 'fa fa-question-circle-o',
     },
+    {
+      title: `v ${process.env.REACT_APP_VERSION}`,
+      key: 'version',
+      icon: 'fe fe-git-merge',
+    },
   ];
 }
 
