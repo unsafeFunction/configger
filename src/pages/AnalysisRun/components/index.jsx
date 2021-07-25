@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 import { Checkbox, Select, Tooltip, Typography } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
@@ -216,8 +217,12 @@ const ResultSelect = ({ record, field }) => {
             overflow: 'scroll',
           },
           okText: 'Update result',
-          message: () =>
-            `Are you sure you would like to update sample ${sample} result to ${option.value}?`,
+          message: () => (
+            <Typography>
+              Are you sure you would like to update {sample} sample result to
+              <ResultTag status={option.value} type="sample" />?
+            </Typography>
+          ),
         },
       });
     },
@@ -226,7 +231,7 @@ const ResultSelect = ({ record, field }) => {
 
   return (
     <Select
-      value={<ResultTag status={record[field]} type="pool" />}
+      value={<ResultTag status={record[field]} type="sample" />}
       style={{ width: 175 }}
       onSelect={onModalToggle(
         record.sample_id,
@@ -245,7 +250,7 @@ const ResultSelect = ({ record, field }) => {
         ?.filter((option) => option.value !== record[field])
         .map((item) => (
           <Option key={item.value} value={item.value}>
-            <ResultTag status={item.value} type="pool" />
+            <ResultTag status={item.value} type="sample" />
           </Option>
         ))}
     </Select>
