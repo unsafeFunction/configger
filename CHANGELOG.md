@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.0.0...v7.0.1) (2021-07-26)
+
+### Features
+
+- render version ([f90d71b](https://github.com/mokkapps/changelog-generator-demo/commits/f90d71bc31367cf2e6074d1439c2bbd8a06506b1))
+
+### Bug Fixes
+
+- extend the list of reserved sample ids ([da78f7f](https://github.com/mokkapps/changelog-generator-demo/commits/da78f7fe0c9f4a6376a74b0b421f6963c471353b))
+- fix qPCR register, fix modal text for update sample result, hide modal before request ([2c70ba2](https://github.com/mokkapps/changelog-generator-demo/commits/2c70ba22a7789c08dae360b1b9195b42328c5cda))
+- render version as text ([39f282b](https://github.com/mokkapps/changelog-generator-demo/commits/39f282bd62a0f696e455f1aab5f159363aa97fac))
+
 ## [7.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v6.1.0...v7.0.0) (2021-07-24)
 
 ### Features
