@@ -21,6 +21,10 @@
     margin-right: 0 !important;
   }
 
+  + .ant-tabs-tab {
+    margin: 0;
+  }
+
   @at-root {
     .card-header-tabbed-pills .ant-tabs-nav .ant-tabs-tab {
       margin-right: 0 !important;

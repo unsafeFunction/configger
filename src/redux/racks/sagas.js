@@ -38,7 +38,7 @@ export function* callFetchRack({ payload }) {
         {},
         ...response?.map?.((obj) => ({
           letter: obj?.position?.[0],
-          [`col${obj?.position?.[1]}`]: {
+          [`col${obj?.position?.substr(1)}`]: {
             ...obj,
             status: obj?.status,
           },
