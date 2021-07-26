@@ -4,10 +4,10 @@ import modalActions from 'redux/modal/actions';
 import {
   fetchRun,
   fetchRuns,
+  fetchWellplate,
   updateRun,
   updateSample,
   uploadRunResult,
-  fetchWellplate,
 } from 'services/analysisRuns';
 import actions from './actions';
 
@@ -110,6 +110,10 @@ export function* callFetchWellplate({ payload }) {
 export function* callUpdateSample({ payload }) {
   const { id, field } = payload;
   try {
+    yield put({
+      type: modalActions.HIDE_MODAL,
+    });
+
     const response = yield call(updateSample, payload);
 
     yield put({
@@ -118,10 +122,6 @@ export function* callUpdateSample({ payload }) {
         field,
         data: response.data,
       },
-    });
-
-    yield put({
-      type: modalActions.HIDE_MODAL,
     });
 
     notification.success({
