@@ -1,3 +1,4 @@
+import omit from 'lodash.omit';
 import { combineReducers } from 'redux';
 import { constants } from 'utils/constants';
 import actions from './actions';
@@ -43,7 +44,10 @@ const runsReducer = (state = initialRunsState, action) => {
         ...state,
         items: state.items.map((item) => {
           if (item.id === action.payload.id) {
-            return action.payload;
+            return {
+              ...item,
+              ...omit(action.payload, ['items']),
+            };
           }
           return item;
         }),
@@ -78,8 +82,7 @@ const singleRunReducer = (state = initialRunState, action) => {
       const formattedResults = action.payload.data?.items?.map?.((item) => {
         if (reservedSamples.includes(item.display_sample_id)) {
           // eslint-disable-next-line camelcase
-          const { rerun_action, children, ...rest } = item;
-          return rest;
+          return omit(item, ['children', 'rerun_action']);
         }
         return item;
       });
@@ -182,6 +185,24 @@ const singleRunReducer = (state = initialRunState, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    }
+
+    case actions.UPLOAD_RUN_RESULT_SUCCESS: {
+      const { reservedSamples } = constants;
+
+      const formattedResults = action.payload?.items?.map?.((item) => {
+        if (reservedSamples.includes(item.display_sample_id)) {
+          // eslint-disable-next-line camelcase
+          return omit(item, ['children', 'rerun_action']);
+        }
+        return item;
+      });
+
+      return {
+        ...initialRunState,
+        ...action.payload,
+        items: formattedResults ?? [],
       };
     }
 
