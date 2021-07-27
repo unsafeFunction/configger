@@ -67,12 +67,11 @@ export function* callFetchWellplate({ payload }) {
     const { data } = yield call(fetchWellplate, payload);
 
     const formatResponse = (response) => {
-      console.log(response);
       return Object.assign(
         {},
         ...response?.map?.((obj) => ({
           letter: obj?.position?.[0],
-          [`col${obj?.position?.[1]}`]: {
+          [`col${obj?.position?.substr(1)}`]: {
             ...obj,
             status: obj?.status,
           },
@@ -83,15 +82,15 @@ export function* callFetchWellplate({ payload }) {
     const wellplates = data?.items;
 
     const preparedResponse = wellplates.map((wellplate) => [
-      formatResponse(wellplate?.slice?.(0, 8)),
-      formatResponse(wellplate?.slice?.(8, 16)),
-      formatResponse(wellplate?.slice?.(16, 24)),
-      formatResponse(wellplate?.slice?.(24, 32)),
-      formatResponse(wellplate?.slice?.(32, 40)),
-      formatResponse(wellplate?.slice?.(40, 48)),
+      formatResponse(wellplate?.slice?.(0, 12)),
+      formatResponse(wellplate?.slice?.(12, 24)),
+      formatResponse(wellplate?.slice?.(24, 36)),
+      formatResponse(wellplate?.slice?.(36, 48)),
+      formatResponse(wellplate?.slice?.(48, 60)),
+      formatResponse(wellplate?.slice?.(60, 72)),
+      formatResponse(wellplate?.slice?.(72, 84)),
+      formatResponse(wellplate?.slice?.(84, 96)),
     ]);
-
-    console.log(wellplates, preparedResponse);
 
     yield put({
       type: actions.FETCH_WELLPLATE_SUCCESS,
