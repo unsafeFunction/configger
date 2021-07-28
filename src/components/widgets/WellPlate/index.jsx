@@ -1,4 +1,4 @@
-import { Button, Input, Popover, Table, Tag, Tabs } from 'antd';
+import { Button, Input, Popover, Table, Tag, Tabs, Empty } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -132,7 +132,13 @@ const WellPlate = ({ wellplate, runId }) => {
   return (
     <>
       {!wellplates?.length && (
-        <div className={styles.infiniteLoadingIcon}>{spinIcon}</div>
+        <Empty
+          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+          imageStyle={{
+            height: 90,
+          }}
+          description={<span>Empty 96-well Plate</span>}
+        />
       )}
       {wellplates?.length > 0 && (
         <Tabs defaultActiveKey="0">

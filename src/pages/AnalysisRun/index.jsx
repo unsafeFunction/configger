@@ -151,9 +151,8 @@ const AnalysisRun = () => {
         onCancel: () => handleWellplateClose(),
         bodyStyle: {
           maxHeight: '70vh',
-          overflow: 'scroll',
+          overflow: 'auto',
         },
-        width: 'max-content',
         message: () => <WellPlate runId={id} />,
       },
     });
@@ -165,16 +164,13 @@ const AnalysisRun = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="1" disabled={!type} onClick={handleShowTable}>
-        View Table
-      </Menu.Item>
-      <Menu.Item key="2" disabled>
+      <Menu.Item key="1" disabled>
         View Timeline
       </Menu.Item>
-      <Menu.Item onClick={handleShowWellplate} key="3">
+      <Menu.Item onClick={handleShowWellplate} key="2">
         View 96-well Plate
       </Menu.Item>
-      <Menu.Item key="4">
+      <Menu.Item key="3">
         <a
           href="https://apps.thermofisher.com/apps/spa/#/dataconnect"
           target="_blank"
@@ -185,12 +181,12 @@ const AnalysisRun = () => {
       </Menu.Item>
       <Menu.Item
         onClick={onUploadClick}
-        key="5"
+        key="4"
         disabled={run.status === constants.runStatuses.published}
       >
         Upload Result
       </Menu.Item>
-      <Menu.Item disabled key="6">
+      <Menu.Item disabled key="5">
         Print Run
       </Menu.Item>
     </Menu>
