@@ -221,7 +221,7 @@ const AnalysisRun = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>Run</h4>
+        <h4>{`Run (${run.title || '-'})`}</h4>
         {run.status && <ResultTag status={run.status} type="run" />}
       </div>
 
