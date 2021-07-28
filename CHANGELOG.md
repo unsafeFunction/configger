@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.0.1...v7.0.2) (2021-07-28)
+
+### Features
+
+- add title to single run ([fa2a2e6](https://github.com/mokkapps/changelog-generator-demo/commits/fa2a2e694d03cd12d6b3993a5f2d6db1769fa193))
+- upload analysis results from inner run table ([ca1a022](https://github.com/mokkapps/changelog-generator-demo/commits/ca1a022196947a0166772267c3033720d177cd5a))
+
+### Bug Fixes
+
+- remove view table, update well plate ([b1985ec](https://github.com/mokkapps/changelog-generator-demo/commits/b1985eca83c2d2b5adf149bc07ef57a6ee14ca80))
+- replace spread rest to omit function ([09fe43b](https://github.com/mokkapps/changelog-generator-demo/commits/09fe43ba07abf547558997da5534255dedf3033a))
+- wellplate tubes ([eb5446c](https://github.com/mokkapps/changelog-generator-demo/commits/eb5446c394f931695443e03046b3d83e67976b81))
+
 ### [7.0.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.0.0...v7.0.1) (2021-07-26)
 
 ### Features
