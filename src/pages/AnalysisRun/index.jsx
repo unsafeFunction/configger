@@ -7,7 +7,7 @@ import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
@@ -17,7 +17,6 @@ import styles from './styles.module.scss';
 moment.tz.setDefault('America/New_York');
 
 const AnalysisRun = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const run = useSelector((state) => state.analysisRuns.singleRun);
@@ -29,7 +28,7 @@ const AnalysisRun = () => {
 
   const runId = location.pathname.split('/')[2];
 
-  const { type, id } = useParams();
+  const { id } = useParams();
 
   const useFetching = () => {
     useEffect(() => {
@@ -158,19 +157,16 @@ const AnalysisRun = () => {
     });
   }, [id]);
 
-  const handleShowTable = useCallback(() => {
-    history.push(`/analysis-runs/${id}`);
-  }, [id]);
-
   const menu = (
+    // TODO: will uncomment when timeline will be ready
     <Menu>
-      <Menu.Item key="1" disabled>
+      {/* <Menu.Item key="1" disabled>
         View Timeline
-      </Menu.Item>
-      <Menu.Item onClick={handleShowWellplate} key="2">
+      </Menu.Item> */}
+      <Menu.Item onClick={handleShowWellplate} key="1">
         View 96-well Plate
       </Menu.Item>
-      <Menu.Item key="3">
+      <Menu.Item key="2">
         <a
           href="https://apps.thermofisher.com/apps/spa/#/dataconnect"
           target="_blank"
@@ -181,12 +177,12 @@ const AnalysisRun = () => {
       </Menu.Item>
       <Menu.Item
         onClick={onUploadClick}
-        key="4"
+        key="3"
         disabled={run.status === constants.runStatuses.published}
       >
         Upload Result
       </Menu.Item>
-      <Menu.Item disabled key="5">
+      <Menu.Item disabled key="4">
         Print Run
       </Menu.Item>
     </Menu>
