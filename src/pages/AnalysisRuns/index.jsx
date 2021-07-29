@@ -35,7 +35,11 @@ const AnalysisRuns = () => {
     useEffect(() => {
       const params =
         from && to
-          ? { from, to, limit: constants?.runs?.itemsLoadingCount }
+          ? {
+              created_after: from,
+              created_before: to,
+              limit: constants?.runs?.itemsLoadingCount,
+            }
           : { limit: constants?.runs?.itemsLoadingCount };
       dispatch({
         type: actions.FETCH_RUNS_REQUEST,
@@ -187,8 +191,8 @@ const AnalysisRuns = () => {
     const params =
       from && to
         ? {
-            from,
-            to,
+            created_after: from,
+            created_before: to,
             limit: constants?.runs?.itemsLoadingCount,
             offset: runs.offset,
           }
