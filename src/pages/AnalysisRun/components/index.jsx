@@ -11,6 +11,7 @@ import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlightingResult';
+import isReserved from 'utils/reservedSamples';
 
 const { Option } = Select;
 
@@ -182,7 +183,7 @@ const resultList = Object.values(constants.poolResults).map((item) => {
 });
 
 const ResultSelect = ({ record, field }) => {
-  const { runStatuses, reservedSamples } = constants;
+  const { runStatuses } = constants;
 
   const dispatch = useDispatch();
 
@@ -242,7 +243,7 @@ const ResultSelect = ({ record, field }) => {
       disabled={
         record[`${field}IsUpdating`] ||
         runStatus === runStatuses.published ||
-        reservedSamples.includes(record.display_sample_id)
+        isReserved(record.display_sample_id)
       }
       bordered={false}
     >
