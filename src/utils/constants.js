@@ -112,7 +112,6 @@ export const constants = {
     invalid: 'INVALID',
     inProgress: 'IN_PROGRESS',
   },
-  reservedSamples: ['H20', 'H2O', 'HBSS', 'PC', 'BLANKS', 'EMPTY'],
   USstates: [
     {
       label: 'Alabama',

@@ -1,6 +1,7 @@
 import omit from 'lodash.omit';
 import { combineReducers } from 'redux';
 import { constants } from 'utils/constants';
+import isReserved from 'utils/reservedSamples';
 import actions from './actions';
 
 const initialRunsState = {
@@ -77,11 +78,8 @@ const singleRunReducer = (state = initialRunState, action) => {
       };
     }
     case actions.FETCH_RUN_SUCCESS: {
-      const { reservedSamples } = constants;
-
       const formattedResults = action.payload.data?.items?.map?.((item) => {
-        if (reservedSamples.includes(item.display_sample_id)) {
-          // eslint-disable-next-line camelcase
+        if (isReserved(item.display_sample_id)) {
           return omit(item, ['children', 'rerun_action']);
         }
         return item;
@@ -189,11 +187,8 @@ const singleRunReducer = (state = initialRunState, action) => {
     }
 
     case actions.UPLOAD_RUN_RESULT_SUCCESS: {
-      const { reservedSamples } = constants;
-
       const formattedResults = action.payload?.items?.map?.((item) => {
-        if (reservedSamples.includes(item.display_sample_id)) {
-          // eslint-disable-next-line camelcase
+        if (isReserved(item.display_sample_id)) {
           return omit(item, ['children', 'rerun_action']);
         }
         return item;

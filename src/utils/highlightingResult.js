@@ -57,7 +57,7 @@ export const getIcon = (status) => {
       return <ExclamationCircleFilled />;
     }
     default:
-      return 'Unknown';
+      return '';
   }
 };
 

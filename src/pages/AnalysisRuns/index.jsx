@@ -127,7 +127,7 @@ const AnalysisRuns = () => {
       title: 'Creation Date',
       dataIndex: 'created',
       render: (value) =>
-        value ? moment(value).format('YYYY-MM-DD HH:mm') : '-',
+        value ? moment(value).format('YYYY-MM-DD hh:mm A') : '-',
     },
     {
       title: 'Samples',
@@ -145,10 +145,10 @@ const AnalysisRuns = () => {
       },
     },
     {
-      title: 'Last updated',
+      title: 'Last Updated',
       dataIndex: 'modified',
       render: (value) =>
-        value ? moment(value).format('YYYY-MM-DD HH:mm') : '-',
+        value ? moment(value).format('YYYY-MM-DD hh:mm A') : '-',
     },
     {
       title: 'Created By',
