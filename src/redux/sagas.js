@@ -17,6 +17,7 @@ import scan from './scanSessions/sagas';
 import search from './search/sagas';
 import settings from './settings/sagas';
 import user from './user/sagas';
+import timeline from './timeline/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -38,5 +39,6 @@ export default function* rootSaga() {
     analysisRuns(),
     scanners(),
     helpers(),
+    timeline(),
   ]);
 }

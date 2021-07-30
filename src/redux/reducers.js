@@ -21,6 +21,7 @@ import search from './search/reducers';
 import settings from './settings/reducers';
 import user from './user/reducers';
 import userSettings from './userSettings/reducers';
+import timeline from './timeline/reducers';
 
 export default (history) =>
   combineReducers({
@@ -46,4 +47,5 @@ export default (history) =>
     analysisRuns,
     scanners,
     helpersReducer,
+    timeline,
   });
