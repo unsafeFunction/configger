@@ -9,6 +9,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
+import helperActions from 'redux/helpers/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import columns from './components';
@@ -157,6 +158,20 @@ const AnalysisRun = () => {
     });
   }, [id]);
 
+  const exportRun = useCallback(
+    ({ runId }) => {
+      dispatch({
+        type: helperActions.EXPORT_FILE_REQUEST,
+        payload: {
+          link: `/runs/${runId}/export/`,
+          instanceId: runId,
+          contentType: 'application/pdf',
+        },
+      });
+    },
+    [dispatch],
+  );
+
   const menu = (
     // TODO: will uncomment when timeline will be ready
     <Menu>
@@ -182,7 +197,13 @@ const AnalysisRun = () => {
       >
         Upload Result
       </Menu.Item>
-      <Menu.Item disabled key="4">
+      <Menu.Item
+        disabled
+        key="4"
+        onClick={() => {
+          return exportRun({ runId });
+        }}
+      >
         Print Run
       </Menu.Item>
     </Menu>
