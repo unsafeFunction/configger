@@ -48,6 +48,7 @@ const runsReducer = (state = initialRunsState, action) => {
             return {
               ...item,
               ...omit(action.payload, ['items']),
+              samples_count: action.payload.items.length,
             };
           }
           return item;

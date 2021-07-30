@@ -79,17 +79,17 @@ const AnalysisRun = () => {
       dispatch({
         type: actions.UPLOAD_RUN_RESULT_REQUEST,
         payload: {
-          id: run.id,
+          id: runId,
           options,
         },
       });
     },
-    [dispatch, run.id],
+    [dispatch, runId],
   );
 
   const handleWellplateClose = useCallback(() => {
     dispatch({ type: modalActions.HIDE_MODAL });
-  }, [id, dispatch]);
+  }, [dispatch]);
 
   const handleSubmit = useCallback(() => {
     dispatch({
