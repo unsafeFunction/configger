@@ -191,8 +191,8 @@ const AnalysisRuns = () => {
     const params =
       from && to
         ? {
-            from,
-            to,
+            created_after: from,
+            created_before: to,
             limit: constants?.runs?.itemsLoadingCount,
             offset: runs.offset,
           }

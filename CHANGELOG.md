@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.3](https://github.com/mokkapps/changelog-generator-demo/compare/v7.0.2...v7.0.3) (2021-07-29)
+
+### Features
+
+- add filter by date, hide timeline ([db5f88f](https://github.com/mokkapps/changelog-generator-demo/commits/db5f88f65e7eb75088acfaee2cab1365ce9ea296))
+
+### Bug Fixes
+
+- fix reserved sample ids, fix date format ([6a33a4b](https://github.com/mokkapps/changelog-generator-demo/commits/6a33a4baa2c6173bb7512c9c671b7d4aceafb5d4))
+- remove service worker register ([9efd705](https://github.com/mokkapps/changelog-generator-demo/commits/9efd70591b921952b2b40e6544cf2397af6c8361))
+
 ### [7.0.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.0.1...v7.0.2) (2021-07-28)
 
 ### Features
