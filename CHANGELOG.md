@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v7.0.3...v7.0.4) (2021-07-30)
+
+### Features
+
+- add filter by date, hide timeline ([d562338](https://github.com/mokkapps/changelog-generator-demo/commits/d56233821aac9dbf1a2d3db33c7899b3af8ac282))
+- export run ([a46618a](https://github.com/mokkapps/changelog-generator-demo/commits/a46618afef7486cc5f0fb6541e22fc4f72664cb6))
+
+### Bug Fixes
+
+- add samples count ([da9e12c](https://github.com/mokkapps/changelog-generator-demo/commits/da9e12c76eb08f566f8067c084a82f421f5cd2b5))
+- fix run id for upload raw file, fix samples count ([7a89dcf](https://github.com/mokkapps/changelog-generator-demo/commits/7a89dcf8d1eabd1a1562fd5fa51f1e0d2961025a))
+- fix run type for template ([f37d528](https://github.com/mokkapps/changelog-generator-demo/commits/f37d5282f8cb7a1390b58943f24cab0be34b5819))
+
 ### [7.0.3](https://github.com/mokkapps/changelog-generator-demo/compare/v7.0.2...v7.0.3) (2021-07-29)
 
 ### Features
