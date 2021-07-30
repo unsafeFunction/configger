@@ -135,10 +135,7 @@ const AnalysisRuns = () => {
     },
     {
       title: 'Samples',
-      dataIndex: 'scans_ids',
-      render: (_, record) => {
-        return record?.scans_ids?.length || '-';
-      },
+      dataIndex: 'samples_count',
     },
     {
       title: `Status`,
