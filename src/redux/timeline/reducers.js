@@ -18,7 +18,7 @@ const timelineReducer = (state = initialState, action) => {
       const { data } = action.payload;
 
       return {
-        items: data,
+        items: data.results,
         isLoading: true,
       };
     }

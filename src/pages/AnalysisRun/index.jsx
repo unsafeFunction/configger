@@ -90,9 +90,11 @@ const AnalysisRun = () => {
   const onLoadTimeline = useCallback(() => {
     dispatch({
       type: timelineActions.LOAD_TIMELINE_REQUEST,
-      payload: {},
+      payload: {
+        id: run.id,
+      },
     });
-  }, [dispatch]);
+  }, [dispatch, run.id]);
 
   const onUploadRun = useCallback(
     (options) => {
@@ -268,7 +270,7 @@ const AnalysisRun = () => {
         visible={isTimelineOpen}
         bodyStyle={{ paddingBottom: 80, paddingLeft: 0 }}
       >
-        <RunTimeline timeline={timeline} />
+        <RunTimeline timeline={timeline.items} />
       </Drawer>
       <Table
         dataSource={samples}

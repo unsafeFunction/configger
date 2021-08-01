@@ -5,7 +5,7 @@ import actions from './actions';
 
 export function* callLoadTimeline({ payload }) {
   try {
-    const response = yield call(loadTimeline, payload);
+    const response = yield call(loadTimeline, payload.id);
     yield put({
       type: actions.LOAD_TIMELINE_SUCCESS,
       payload: {
