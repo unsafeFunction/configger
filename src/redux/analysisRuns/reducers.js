@@ -190,7 +190,7 @@ const singleRunReducer = (state = initialRunState, action) => {
     }
 
     case actions.UPLOAD_RUN_RESULT_SUCCESS: {
-      const formattedResults = action.payload.data?.items
+      const formattedResults = action.payload?.items
         ?.filter?.((item) => !isUnused(item.display_sample_id))
         .map?.((item) => {
           if (isReserved(item.display_sample_id)) {
