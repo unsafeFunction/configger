@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.0.4...v7.1.0) (2021-08-02)
+
+### Features
+
+- add statses to timeline ([3b016d8](https://github.com/mokkapps/changelog-generator-demo/commits/3b016d87009806928ec6c3d556d313fe7accf62d))
+- add timeline ([625bf16](https://github.com/mokkapps/changelog-generator-demo/commits/625bf16f700bd24b0ae662207b0c1ad9c0377068))
+
+### Bug Fixes
+
+- fix redux for upload raw file ([e824329](https://github.com/mokkapps/changelog-generator-demo/commits/e82432933d6de9d30417a48d22f9c6a43d1488e3))
+- hide blank/empty samples ([8b308ee](https://github.com/mokkapps/changelog-generator-demo/commits/8b308eeb921b66681b15f08de6203fa7fe71b479))
+
 ### [7.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v7.0.3...v7.0.4) (2021-07-30)
 
 ### Features
