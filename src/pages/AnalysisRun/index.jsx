@@ -1,8 +1,18 @@
 import { DownOutlined, InboxOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Input, Menu, Popconfirm, Table, Upload } from 'antd';
+import {
+  Button,
+  Dropdown,
+  Input,
+  Menu,
+  Popconfirm,
+  Table,
+  Upload,
+  Drawer,
+} from 'antd';
 import classNames from 'classnames';
 import ResultTag from 'components/widgets/ResultTag';
 import WellPlate from 'components/widgets/WellPlate';
+import RunTimeline from 'components/widgets/Timeline';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -10,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import helperActions from 'redux/helpers/actions';
+import timelineActions from 'redux/timeline/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import columns from './components';
@@ -21,9 +32,11 @@ const AnalysisRun = () => {
   const dispatch = useDispatch();
 
   const run = useSelector((state) => state.analysisRuns.singleRun);
+  const timeline = useSelector((state) => state.timeline);
 
   const [searchName, setSearchName] = useState('');
   const [samples, setSamples] = useState([]);
+  const [isTimelineOpen, setOpen] = useState(false);
 
   const location = useLocation();
 
@@ -73,6 +86,15 @@ const AnalysisRun = () => {
     },
     [delayedQuery],
   );
+
+  const onLoadTimeline = useCallback(() => {
+    dispatch({
+      type: timelineActions.LOAD_TIMELINE_REQUEST,
+      payload: {
+        id: run.id,
+      },
+    });
+  }, [dispatch, run.id]);
 
   const onUploadRun = useCallback(
     (options) => {
@@ -156,7 +178,12 @@ const AnalysisRun = () => {
         message: () => <WellPlate runId={id} />,
       },
     });
-  }, [id]);
+  }, [id, dispatch, handleWellplateClose]);
+
+  const onTimelineOpenClose = () => {
+    onLoadTimeline();
+    setOpen(!isTimelineOpen);
+  };
 
   const exportRun = useCallback(
     ({ runId }) => {
@@ -173,15 +200,14 @@ const AnalysisRun = () => {
   );
 
   const menu = (
-    // TODO: will uncomment when timeline will be ready
     <Menu>
-      {/* <Menu.Item key="1" disabled>
+      <Menu.Item onClick={onTimelineOpenClose} key="1">
         View Timeline
-      </Menu.Item> */}
-      <Menu.Item onClick={handleShowWellplate} key="1">
+      </Menu.Item>
+      <Menu.Item onClick={handleShowWellplate} key="2">
         View 96-well Plate
       </Menu.Item>
-      <Menu.Item key="2">
+      <Menu.Item key="3">
         <a
           href="https://apps.thermofisher.com/apps/spa/#/dataconnect"
           target="_blank"
@@ -192,7 +218,7 @@ const AnalysisRun = () => {
       </Menu.Item>
       <Menu.Item
         onClick={onUploadClick}
-        key="3"
+        key="4"
         disabled={run.status === constants.runStatuses.published}
       >
         Upload Result
@@ -237,7 +263,15 @@ const AnalysisRun = () => {
         <h4>{`Run (${run.title || '-'})`}</h4>
         {run.status && <ResultTag status={run.status} type="run" />}
       </div>
-
+      <Drawer
+        title="Timeline"
+        width={720}
+        onClose={onTimelineOpenClose}
+        visible={isTimelineOpen}
+        bodyStyle={{ paddingBottom: 80, paddingLeft: 0 }}
+      >
+        <RunTimeline timeline={timeline.items} />
+      </Drawer>
       <Table
         dataSource={samples}
         columns={columns}
