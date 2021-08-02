@@ -11,7 +11,7 @@ import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlightingResult';
-import isReserved from 'utils/reservedSamples';
+import { isReserved } from 'utils/reservedSamples';
 
 const { Option } = Select;
 
