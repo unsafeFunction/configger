@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.1.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.1.0...v7.1.1) (2021-08-03)
+
+### Bug Fixes
+
+- wellplate ([ece3176](https://github.com/mokkapps/changelog-generator-demo/commits/ece3176113d848beaf8114cb490b4eff6fbe3f8d))
+
 ## [7.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.0.4...v7.1.0) (2021-08-02)
 
 ### Features
