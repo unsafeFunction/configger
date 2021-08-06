@@ -1,7 +1,7 @@
 import omit from 'lodash.omit';
 import { combineReducers } from 'redux';
+import { isReservedSample, isUnusedSample } from 'utils/analysisRules';
 import { constants } from 'utils/constants';
-import { isReserved, isUnused } from 'utils/reservedSamples';
 import actions from './actions';
 
 const initialRunsState = {
@@ -80,9 +80,9 @@ const singleRunReducer = (state = initialRunState, action) => {
     }
     case actions.FETCH_RUN_SUCCESS: {
       const formattedResults = action.payload.data?.items
-        ?.filter?.((item) => !isUnused(item.display_sample_id))
+        ?.filter?.((item) => !isUnusedSample(item.display_sample_id))
         .map?.((item) => {
-          if (isReserved(item.display_sample_id)) {
+          if (isReservedSample(item.display_sample_id)) {
             return omit(item, ['children', 'rerun_action']);
           }
           return item;
@@ -191,9 +191,9 @@ const singleRunReducer = (state = initialRunState, action) => {
 
     case actions.UPLOAD_RUN_RESULT_SUCCESS: {
       const formattedResults = action.payload?.items
-        ?.filter?.((item) => !isUnused(item.display_sample_id))
+        ?.filter?.((item) => !isUnusedSample(item.display_sample_id))
         .map?.((item) => {
-          if (isReserved(item.display_sample_id)) {
+          if (isReservedSample(item.display_sample_id)) {
             return omit(item, ['children', 'rerun_action']);
           }
           return item;

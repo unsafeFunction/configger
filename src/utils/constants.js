@@ -112,6 +112,9 @@ export const constants = {
     invalid: 'INVALID',
     inProgress: 'IN_PROGRESS',
   },
+  reflexList: {
+    itemsLoadingCount: 10,
+  },
   USstates: [
     {
       label: 'Alabama',

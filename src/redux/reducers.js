@@ -13,15 +13,16 @@ import menu from './menu/reducers';
 import modal from './modal/reducers';
 import pools from './pools/reducers';
 import racks from './racks/reducers';
+import reflexList from './reflexList/reducers';
 import runs from './runs/reducers';
 import runTemplate from './runTemplate/reducers';
 import scanners from './scanners/reducers';
 import scanSessions from './scanSessions/reducers';
 import search from './search/reducers';
 import settings from './settings/reducers';
+import timeline from './timeline/reducers';
 import user from './user/reducers';
 import userSettings from './userSettings/reducers';
-import timeline from './timeline/reducers';
 
 export default (history) =>
   combineReducers({
@@ -48,4 +49,5 @@ export default (history) =>
     scanners,
     helpersReducer,
     timeline,
+    reflexList,
   });

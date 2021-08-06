@@ -10,14 +10,15 @@ import management from './management/sagas';
 import menu from './menu/sagas';
 import pools from './pools/sagas';
 import racks from './racks/sagas';
+import reflexList from './reflexList/sagas';
 import runs from './runs/sagas';
 import runTemplate from './runTemplate/sagas';
 import scanners from './scanners/sagas';
 import scan from './scanSessions/sagas';
 import search from './search/sagas';
 import settings from './settings/sagas';
-import user from './user/sagas';
 import timeline from './timeline/sagas';
+import user from './user/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -40,5 +41,6 @@ export default function* rootSaga() {
     scanners(),
     helpers(),
     timeline(),
+    reflexList(),
   ]);
 }
