@@ -604,6 +604,12 @@ export function* callFetchActiveScans({ payload }) {
         data: response.data,
       },
     });
+
+    if (response.data || response.data.length > 0) {
+      notification.success({
+        message: 'New scans are uploaded',
+      });
+    }
   } catch (error) {
     yield put({
       type: actions.FETCH_ACTIVE_SCANS_FAILURE,
