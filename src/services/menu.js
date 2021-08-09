@@ -5,16 +5,10 @@ export async function getMenuData() {
       title: 'Menu', // category title
     },
     {
-      title: 'Intake section',
+      title: 'Intake',
       key: 'intakeSection',
       icon: 'fe fe-monitor',
       children: [
-        // {
-        //   title: 'Intake',
-        //   key: 'intake',
-        //   url: '/intake',
-        //   icon: 'fe fe-monitor',
-        // },
         {
           title: 'Intake Receipt Log',
           key: 'intake-receipt-log',
@@ -24,7 +18,7 @@ export async function getMenuData() {
       ],
     },
     {
-      title: 'Pools section',
+      title: 'Pools',
       key: 'poolSection',
       icon: 'fe fe-folder',
       children: [
@@ -34,12 +28,6 @@ export async function getMenuData() {
           url: '/session',
           icon: 'fe fe-minimize',
         },
-        // {
-        //   title: 'Pools',
-        //   key: 'pools',
-        //   url: '/pools',
-        //   icon: 'fe fe-folder',
-        // },
         {
           title: 'Pool Scans',
           key: 'pool-scans',
@@ -55,16 +43,10 @@ export async function getMenuData() {
       ],
     },
     {
-      title: 'Runs section',
+      title: 'Runs',
       key: 'runsSection',
       icon: 'fe fe-box',
       children: [
-        // {
-        //   title: 'Runs',
-        //   key: 'runs',
-        //   url: '/runs',
-        //   icon: 'fe fe-box',
-        // },
         {
           title: 'Generate Run',
           key: 'runTemplate',

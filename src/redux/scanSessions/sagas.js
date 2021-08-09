@@ -604,14 +604,6 @@ export function* callFetchActiveScans({ payload }) {
         data: response.data,
       },
     });
-
-    if (response.data) {
-      notification.success({
-        message: `New scans are uploaded. [${response.data
-          .map((scan) => scan.id)
-          .join(',')}]`,
-      });
-    }
   } catch (error) {
     yield put({
       type: actions.FETCH_ACTIVE_SCANS_FAILURE,
