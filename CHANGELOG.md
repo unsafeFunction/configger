@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.1.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.1.1...v7.1.2) (2021-08-09)
+
+### Bug Fixes
+
+- remove notifications and remove sections name ([cc612ef](https://github.com/mokkapps/changelog-generator-demo/commits/cc612ef27b8a016716638d7b25d9549059732ecb))
+
 ### [7.1.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.1.0...v7.1.1) (2021-08-03)
 
 ### Bug Fixes
