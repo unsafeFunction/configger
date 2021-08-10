@@ -25,6 +25,7 @@ import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
+import Countdown from 'components/widgets/Countdown';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -331,6 +332,23 @@ const Scan = () => {
     };
   }, [session.reference_pools_count, actualPoolsCount, scans, dispatch]);
 
+  useEffect(() => {
+    const refreshInterval = setInterval(() => {
+      dispatch({
+        type: actions.FETCH_ACTIVE_SCANS_REQUEST,
+        payload: scans.map((scan) => {
+          return scan.pool_id;
+        }),
+      });
+    }, 90000);
+
+    clearInterval(refreshInterval);
+
+    return () => {
+      clearInterval(refreshInterval);
+    };
+  }, [session, dispatch]);
+
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
   }, [visibleActions]);
@@ -495,12 +513,15 @@ const Scan = () => {
   );
 
   return (
-    <>
+    <div>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Typography.Title level={4} className="font-weight-normal">
           {`Scan on ${moment(scan?.scan_timestamp)?.format('LLLL') ?? ''}`}
         </Typography.Title>
         <Row>
+          <Row className="">
+            <Countdown startTime={session.started_on_day} />
+          </Row>
           <Dropdown
             overlay={sessionMenu}
             overlayClassName={styles.actionsOverlay}
@@ -692,7 +713,7 @@ const Scan = () => {
           />
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 

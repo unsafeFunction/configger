@@ -605,7 +605,7 @@ export function* callFetchActiveScans({ payload }) {
       },
     });
 
-    if (response.data || response.data.length > 0) {
+    if (response?.data?.length > 0) {
       notification.success({
         message: 'New scans are uploaded',
       });
