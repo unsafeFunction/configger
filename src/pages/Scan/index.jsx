@@ -25,7 +25,6 @@ import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
-// import Countdown from 'components/widgets/Countdown';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -337,23 +336,6 @@ const Scan = () => {
     };
   }, [session.reference_pools_count, actualPoolsCount, scans, dispatch]);
 
-  useEffect(() => {
-    const refreshInterval = setInterval(() => {
-      dispatch({
-        type: actions.FETCH_ACTIVE_SCANS_REQUEST,
-        payload: scans.map((scan) => {
-          return scan.pool_id;
-        }),
-      });
-    }, 90000);
-
-    clearInterval(refreshInterval);
-
-    return () => {
-      clearInterval(refreshInterval);
-    };
-  }, [session, dispatch]);
-
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
   }, [visibleActions]);
@@ -528,7 +510,7 @@ const Scan = () => {
             {session.started_on_day && (
               <Countdown
                 className={styles.timer}
-                title="Time left: "
+                title="The session will end in: "
                 value={moment(session.started_on_day).add(30, 'minutes')}
                 format="mm:ss"
                 onFinish={checkSession}
