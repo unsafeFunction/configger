@@ -39,6 +39,7 @@ import styles from './styles.module.scss';
 moment.tz.setDefault('America/New_York');
 
 const { Paragraph } = Typography;
+const { Countdown } = Statistic;
 
 const Scan = () => {
   const dispatch = useDispatch();
@@ -280,12 +281,16 @@ const Scan = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, scansInWork[0]?.id]);
 
+  const checkSession = useCallback(() => {
+    return dispatch({
+      type: actions.FETCH_SESSION_ID_REQUEST,
+    });
+  }, []);
+
   const useFetching = () => {
     useEffect(() => {
       if (!session?.activeSessionId) {
-        dispatch({
-          type: actions.FETCH_SESSION_ID_REQUEST,
-        });
+        checkSession();
       }
     }, []);
   };
@@ -495,12 +500,23 @@ const Scan = () => {
   );
 
   return (
-    <>
+    <div>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Typography.Title level={4} className="font-weight-normal">
           {`Scan on ${moment(scan?.scan_timestamp)?.format('LLLL') ?? ''}`}
         </Typography.Title>
         <Row>
+          <Row style={{ marginRight: 30 }}>
+            {session.started_on_day && (
+              <Countdown
+                className={styles.timer}
+                title="The session will end in: "
+                value={moment(session.started_on_day).add(30, 'minutes')}
+                format="mm:ss"
+                onFinish={checkSession}
+              />
+            )}
+          </Row>
           <Dropdown
             overlay={sessionMenu}
             overlayClassName={styles.actionsOverlay}
@@ -692,7 +708,7 @@ const Scan = () => {
           />
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 
