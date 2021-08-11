@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.1.2...v7.2.0) (2021-08-11)
+
+### Features
+
+- add session countdown, notify about session close ([91f8f73](https://github.com/mokkapps/changelog-generator-demo/commits/91f8f733f7d5373c7523426122040c8637839606))
+
+### Bug Fixes
+
+- refactor countdown ([ddbff0d](https://github.com/mokkapps/changelog-generator-demo/commits/ddbff0dc018181893d65ad7194f18a993648e8cc))
+- remove unused import ([dffc563](https://github.com/mokkapps/changelog-generator-demo/commits/dffc56384e81181b40a15368f981b8e4e760d684))
+- return notifications ([34d56bb](https://github.com/mokkapps/changelog-generator-demo/commits/34d56bb3cc65897bd4dadf3e6cdc7807b6781f8b))
+
 ### [7.1.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.1.1...v7.1.2) (2021-08-09)
 
 ### Bug Fixes
