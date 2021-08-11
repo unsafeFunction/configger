@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.2.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.2.0...v7.2.1) (2021-08-11)
+
+### Bug Fixes
+
+- remove upload scans notifications ([d0afc03](https://github.com/mokkapps/changelog-generator-demo/commits/d0afc038ca4952b0457ee38f80524b12b1edf9e5))
+
 ## [7.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.1.2...v7.2.0) (2021-08-11)
 
 ### Features
