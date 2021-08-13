@@ -96,7 +96,8 @@ const ReflexList = () => {
           dataSource={reflexList.items}
           scroll={{ x: 1200 }}
           rowKey={(record) => record.sample_id}
-          expandedRowRender={(record) => expandedRow(record.result_values)}
+          // TODO: this moment is pending with Gil
+          // expandedRowRender={(record) => expandedRow(record.result_values)}
           locale={{
             emptyText: () => (
               <Empty
