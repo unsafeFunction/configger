@@ -7,7 +7,6 @@ const initialState = {
   isLoading: false,
   total: 0,
   offset: 0,
-  search: '',
   error: null,
 };
 

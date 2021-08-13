@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import { Space, Tooltip, Typography } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -29,7 +30,7 @@ Target.propTypes = {
 export const columns = [
   {
     title: 'Company Short',
-    dataIndex: 'company_short',
+    dataIndex: 'company_short_name',
     width: 200,
   },
   {
@@ -39,7 +40,7 @@ export const columns = [
   },
   {
     title: 'Sample ID',
-    dataIndex: 'display_sample_id',
+    dataIndex: 'sample_id',
     width: 120,
   },
   {
@@ -56,11 +57,11 @@ export const columns = [
   },
   {
     title: 'Pool Run',
-    dataIndex: 'pool_run',
+    dataIndex: 'pool_run_title',
   },
   {
     title: 'Action',
-    dataIndex: 'rerun_action',
+    dataIndex: 'action',
     render: (value, record) => {
       return (
         <Tooltip
@@ -81,7 +82,7 @@ export const columns = [
   },
   {
     title: 'Reflex Run',
-    dataIndex: 'reflex_run',
+    dataIndex: 'reflex_run_title',
   },
 ];
 

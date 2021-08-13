@@ -113,7 +113,7 @@ export const constants = {
     inProgress: 'IN_PROGRESS',
   },
   reflexList: {
-    itemsLoadingCount: 10,
+    itemsLoadingCount: 25,
   },
   USstates: [
     {
