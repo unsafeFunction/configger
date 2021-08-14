@@ -10,7 +10,7 @@ import management from './management/sagas';
 import menu from './menu/sagas';
 import pools from './pools/sagas';
 import racks from './racks/sagas';
-import reflexList from './reflexList/sagas';
+import reflex from './reflex/sagas';
 import runs from './runs/sagas';
 import runTemplate from './runTemplate/sagas';
 import scanners from './scanners/sagas';
@@ -41,6 +41,6 @@ export default function* rootSaga() {
     scanners(),
     helpers(),
     timeline(),
-    reflexList(),
+    reflex(),
   ]);
 }

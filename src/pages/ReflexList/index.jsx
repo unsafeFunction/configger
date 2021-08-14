@@ -7,9 +7,9 @@ import React, { useCallback, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import actions from 'redux/reflexList/actions';
+import actions from 'redux/reflex/actions';
 import { constants } from 'utils/constants';
-import { columns } from './components';
+import columns from './components';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -19,7 +19,7 @@ const ReflexList = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const reflexList = useSelector((state) => state.reflexList.all);
+  const reflexList = useSelector((state) => state.reflex.all);
 
   const { date } = qs.parse(location.search, {
     ignoreQueryPrefix: true,

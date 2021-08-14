@@ -13,7 +13,7 @@ import menu from './menu/reducers';
 import modal from './modal/reducers';
 import pools from './pools/reducers';
 import racks from './racks/reducers';
-import reflexList from './reflexList/reducers';
+import reflex from './reflex/reducers';
 import runs from './runs/reducers';
 import runTemplate from './runTemplate/reducers';
 import scanners from './scanners/reducers';
@@ -49,5 +49,5 @@ export default (history) =>
     scanners,
     helpersReducer,
     timeline,
-    reflexList,
+    reflex,
   });

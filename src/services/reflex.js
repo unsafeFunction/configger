@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import axiosClient from 'utils/axiosClient';
 import errorOutput from 'utils/errorOutput';
 
@@ -9,6 +8,15 @@ export const fetchReflexList = async (query) => {
         ...query,
       },
     });
+  } catch (error) {
+    throw new Error(errorOutput(error));
+  }
+};
+
+export const fetchReflexDetails = async ({ id }) => {
+  try {
+    // TODO: add API endpoint
+    // return await axiosClient.get(``);
   } catch (error) {
     throw new Error(errorOutput(error));
   }

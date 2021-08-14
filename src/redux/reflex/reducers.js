@@ -10,7 +10,7 @@ const initialState = {
   error: null,
 };
 
-const reflexListReducer = (state = initialState, action) => {
+const reflexReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.FETCH_REFLEX_LIST_REQUEST: {
       return {
@@ -42,6 +42,38 @@ const reflexListReducer = (state = initialState, action) => {
   }
 };
 
+const initialSingleState = {
+  items: [],
+  isLoading: false,
+};
+
+const singleReflexReducer = (state = initialSingleState, action) => {
+  switch (action.type) {
+    case actions.FETCH_REFLEX_DETAILS_REQUEST: {
+      return {
+        ...initialSingleState,
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_REFLEX_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case actions.FETCH_REFLEX_DETAILS_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
-  all: reflexListReducer,
+  all: reflexReducer,
+  singleReflex: singleReflexReducer,
 });
