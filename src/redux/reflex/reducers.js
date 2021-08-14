@@ -37,6 +37,54 @@ const reflexReducer = (state = initialState, action) => {
         isLoading: false,
       };
     }
+
+    case actions.UPDATE_SAMPLE_REQUEST: {
+      const { id } = action.payload;
+      return {
+        ...state,
+        items: state.items.map((sample) => {
+          if (sample.sample_id === id) {
+            return {
+              ...sample,
+              isUpdating: true,
+            };
+          }
+          return sample;
+        }),
+      };
+    }
+    case actions.UPDATE_SAMPLE_SUCCESS: {
+      const { data } = action.payload;
+      return {
+        ...state,
+        items: state.items.map((sample) => {
+          if (sample.sample_id === data.sample_id) {
+            return {
+              ...sample,
+              ...data,
+              isUpdating: false,
+            };
+          }
+          return sample;
+        }),
+      };
+    }
+    case actions.UPDATE_SAMPLE_FAILURE: {
+      const { id } = action.payload;
+      return {
+        ...state,
+        items: state.items.map((sample) => {
+          if (sample.sample_id === id) {
+            return {
+              ...sample,
+              isUpdating: false,
+            };
+          }
+          return sample;
+        }),
+      };
+    }
+
     default:
       return state;
   }

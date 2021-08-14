@@ -1,6 +1,56 @@
-import { Checkbox } from 'antd';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Popconfirm, Switch } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
-import React from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import PropTypes from 'prop-types';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import actions from 'redux/reflex/actions';
+
+const ReflexStatus = ({ value, record }) => {
+  const dispatch = useDispatch();
+
+  const handleUpdate = useCallback(
+    (id, value) => {
+      dispatch({
+        type: actions.UPDATE_SAMPLE_REQUEST,
+        payload: {
+          id,
+          isCompleted: value,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  return (
+    <Popconfirm
+      title={`Are you sure you would like to ${
+        value ? 'cancel' : 'set as completed'
+      }?`}
+      onConfirm={() => handleUpdate(record.sample_id, !value)}
+      placement="topRight"
+      // TODO: uncomment when API endpoint will be ready
+      // disabled={value}
+      disabled
+    >
+      <Switch
+        checked={value}
+        checkedChildren={<CheckOutlined />}
+        unCheckedChildren={<CloseOutlined />}
+        loading={record.isUpdating}
+        // TODO: uncomment when API endpoint will be ready
+        // disabled={value}
+        disabled
+      />
+    </Popconfirm>
+  );
+};
+
+ReflexStatus.propTypes = {
+  value: PropTypes.bool.isRequired,
+  record: PropTypes.shape({}).isRequired,
+};
 
 const columns = [
   {
@@ -59,16 +109,7 @@ const columns = [
     dataIndex: 'completed',
     align: 'center',
     width: 100,
-    render: (value) => {
-      return (
-        <Checkbox
-          checked={value}
-          // TODO: uncomment when API endpoint will be ready
-          // disabled={value}
-          disabled
-        />
-      );
-    },
+    render: (value, record) => <ReflexStatus value={value} record={record} />,
   },
   {
     title: 'Completed By',
