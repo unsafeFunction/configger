@@ -1,13 +1,9 @@
-/* eslint-disable react/jsx-one-expression-per-line */
-import { Space, Tooltip, Typography } from 'antd';
+import { Checkbox } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React from 'react';
 import { roundValue } from 'utils/analysisRules';
-import styles from './styles.module.scss';
-
-const { Text } = Typography;
 
 const Target = ({ record, field }) => {
   const targetValue = () => {
@@ -31,7 +27,6 @@ export const columns = [
   {
     title: 'Company Short',
     dataIndex: 'company_short_name',
-    width: 200,
   },
   {
     title: 'Pool Name',
@@ -39,9 +34,12 @@ export const columns = [
     width: 100,
   },
   {
+    title: 'Tube Type',
+    dataIndex: 'tube_type',
+  },
+  {
     title: 'Sample ID',
     dataIndex: 'sample_id',
-    width: 120,
   },
   {
     title: 'Result',
@@ -50,10 +48,6 @@ export const columns = [
     render: (value) => {
       return <ResultTag status={value} type="sample" />;
     },
-  },
-  {
-    title: 'Rack ID',
-    dataIndex: 'rack_id',
   },
   {
     title: 'Pool Run',
@@ -62,40 +56,49 @@ export const columns = [
   {
     title: 'Action',
     dataIndex: 'action',
-    render: (value, record) => {
+  },
+  {
+    title: 'PoolRack ID',
+    dataIndex: 'poolrack_id',
+  },
+  {
+    title: 'PoolRack Position',
+    dataIndex: 'poolrack_position',
+  },
+  {
+    title: 'Rack ID',
+    dataIndex: 'rack_id',
+  },
+  {
+    title: 'Completed',
+    dataIndex: 'completed',
+    align: 'center',
+    width: 100,
+    render: (value) => {
       return (
-        <Tooltip
-          placement="right"
-          title={
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <Space direction="vertical" className={styles.tooltip}>
-              <Text>PoolRack ID: {record.pool_rack_id ?? '–'}</Text>
-              <Text>PoolRack: {record.pool_rack ?? '–'}</Text>
-              <Text>Position: {record.position ?? '–'}</Text>
-            </Space>
-          }
-        >
-          {value}
-        </Tooltip>
+        <Checkbox
+          value={value}
+          // TODO: uncomment when API endpoint will be ready
+          // disabled={value}
+          disabled
+        />
       );
     },
   },
   {
-    title: 'Reflex Run',
-    dataIndex: 'reflex_run_title',
+    title: 'Completed By',
+    dataIndex: 'completed_by',
   },
 ];
 
-export const expandedColumns = [
+export const comparisonColumns = [
   {
     title: 'Tube Type',
     dataIndex: 'tube_type',
-    width: 312,
   },
   {
     title: 'Tube ID',
     dataIndex: 'tube_id',
-    width: 120,
   },
   {
     title: 'Result',
@@ -106,8 +109,17 @@ export const expandedColumns = [
     },
   },
   {
+    title: 'MS2',
+    dataIndex: 'MS2',
+    width: 100,
+    render: (_, record) => {
+      return <Target record={record} field="MS2" />;
+    },
+  },
+  {
     title: 'N gene',
     dataIndex: 'N gene',
+    width: 100,
     render: (_, record) => {
       return <Target record={record} field="N gene" />;
     },
@@ -115,6 +127,7 @@ export const expandedColumns = [
   {
     title: 'S gene',
     dataIndex: 'S gene',
+    width: 100,
     render: (_, record) => {
       return <Target record={record} field="S gene" />;
     },
@@ -122,6 +135,7 @@ export const expandedColumns = [
   {
     title: 'Orf1ab',
     dataIndex: 'ORF1ab',
+    width: 100,
     render: (_, record) => {
       return <Target record={record} field="ORF1ab" />;
     },
@@ -129,6 +143,7 @@ export const expandedColumns = [
   {
     title: 'RP',
     dataIndex: 'RP',
+    width: 100,
     render: (_, record) => {
       return <Target record={record} field="RP" />;
     },

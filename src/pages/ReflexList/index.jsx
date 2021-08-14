@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/reflexList/actions';
 import { constants } from 'utils/constants';
-import { columns, expandedColumns } from './components';
+import { columns } from './components';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -60,17 +60,6 @@ const ReflexList = () => {
     });
   }, [dispatch, date, reflexList]);
 
-  const expandedRow = (sampleDetails) => {
-    return (
-      <Table
-        dataSource={sampleDetails}
-        columns={expandedColumns}
-        pagination={false}
-        rowKey={(record) => record.tube_type}
-      />
-    );
-  };
-
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
@@ -94,10 +83,9 @@ const ReflexList = () => {
           pagination={false}
           columns={columns}
           dataSource={reflexList.items}
-          scroll={{ x: 1200 }}
+          scroll={{ x: 2000 }}
           rowKey={(record) => record.sample_id}
-          // TODO: this moment is pending with Gil
-          // expandedRowRender={(record) => expandedRow(record.result_values)}
+          bordered
           locale={{
             emptyText: () => (
               <Empty
