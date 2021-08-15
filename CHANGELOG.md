@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.2.1...v7.3.0) (2021-08-15)
+
+### Features
+
+- possibility set reflex as completed ([1793668](https://github.com/mokkapps/changelog-generator-demo/commits/1793668a93f79b6a10fafc29c4ef611399920230))
+- reflex comparison ([2abe3b3](https://github.com/mokkapps/changelog-generator-demo/commits/2abe3b348ae1fbe5ccc7deebe0cc20a06dfd5881))
+- reflex list ([d26c471](https://github.com/mokkapps/changelog-generator-demo/commits/d26c4716976b7dd494d38d7c216f74d397ef2b4a))
+- reflex list without nested tables ([944db44](https://github.com/mokkapps/changelog-generator-demo/commits/944db442c351860bade898f0d82ef9e66a45a42f))
+- render reflex list only for one day ([ca5e6ac](https://github.com/mokkapps/changelog-generator-demo/commits/ca5e6acc1f1e8d2ec32ab588b08c1746d5572d9f))
+
+### Bug Fixes
+
+- hide nested table for reflex sample ([20ba133](https://github.com/mokkapps/changelog-generator-demo/commits/20ba133adc2789eb4325e4348e7b75f7275ce0c5))
+
 ### [7.2.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.2.0...v7.2.1) (2021-08-11)
 
 ### Bug Fixes
