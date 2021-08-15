@@ -2,16 +2,15 @@
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 import { Checkbox, Select, Tooltip, Typography } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
-import floor from 'lodash.floor';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
+import { isReservedSample, roundValue } from 'utils/analysisRules';
 import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlightingResult';
-import { isReserved } from 'utils/reservedSamples';
 
 const { Option } = Select;
 
@@ -29,22 +28,14 @@ Warning.propTypes = {
 };
 
 const Target = ({ record, field, value }) => {
-  const formatValue = (value) => {
-    if (value && !isNaN(value)) {
-      return floor(value, 2);
-    }
-    return null;
-  };
-
   const targetValue = () => {
     if (record?.mean) {
-      const mean = formatValue(record?.mean?.[field]);
-      const deviation =
-        formatValue(record?.standard_deviation?.[field]) ?? 'NA';
+      const mean = roundValue(record?.mean?.[field]);
+      const deviation = roundValue(record?.standard_deviation?.[field]) ?? 'NA';
       return mean ? `${mean} (${deviation})` : null;
     }
     if (record[field] && !isNaN(record[field])) {
-      const cqConfidence = formatValue(record[`${field}_cq_confidence`]);
+      const cqConfidence = roundValue(record[`${field}_cq_confidence`]);
       const inconclusiveAmpStatus =
         record[`${field}_amp_status`] === constants.poolResults.inconclusive;
 
@@ -52,7 +43,7 @@ const Target = ({ record, field, value }) => {
         return (
           <Warning
             message={`Cq confidence is low! (${cqConfidence}) Amplification is inconclusive`}
-            targetValue={formatValue(value)}
+            targetValue={roundValue(value)}
           />
         );
       }
@@ -60,7 +51,7 @@ const Target = ({ record, field, value }) => {
         return (
           <Warning
             message={`Cq confidence is low! (${cqConfidence})`}
-            targetValue={formatValue(value)}
+            targetValue={roundValue(value)}
           />
         );
       }
@@ -68,11 +59,11 @@ const Target = ({ record, field, value }) => {
         return (
           <Warning
             message="Amplification is inconclusive"
-            targetValue={formatValue(value)}
+            targetValue={roundValue(value)}
           />
         );
       }
-      return formatValue(value);
+      return roundValue(value);
     }
     return null;
   };
@@ -243,7 +234,7 @@ const ResultSelect = ({ record, field }) => {
       disabled={
         record[`${field}IsUpdating`] ||
         runStatus === runStatuses.published ||
-        isReserved(record.display_sample_id)
+        isReservedSample(record.display_sample_id)
       }
       bordered={false}
     >

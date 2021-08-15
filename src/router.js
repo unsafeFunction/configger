@@ -107,6 +107,14 @@ const routes = [
     path: '/analysis-runs',
     Component: loadable(() => import('pages/AnalysisRuns')),
   },
+  {
+    path: '/reflex-list/:sampleId',
+    Component: loadable(() => import('pages/ReflexDetails')),
+  },
+  {
+    path: '/reflex-list',
+    Component: loadable(() => import('pages/ReflexList')),
+  },
   // {
   //   path: '/management',
   //   Component: loadable(() => import('pages/Management')),

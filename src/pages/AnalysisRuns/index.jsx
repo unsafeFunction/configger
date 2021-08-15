@@ -174,15 +174,20 @@ const AnalysisRuns = () => {
     },
   ];
 
-  const onDatesChange = useCallback((dates, dateStrings) => {
-    if (dates) {
-      history.push({ search: `?from=${dateStrings[0]}&to=${dateStrings[1]}` });
-      setDates(dateStrings);
-    } else {
-      history.push({ search: '' });
-      setDates([]);
-    }
-  }, []);
+  const onDatesChange = useCallback(
+    (dates, dateStrings) => {
+      if (dates) {
+        history.push({
+          search: `?from=${dateStrings[0]}&to=${dateStrings[1]}`,
+        });
+        setDates(dateStrings);
+      } else {
+        history.push({ search: '' });
+        setDates([]);
+      }
+    },
+    [history],
+  );
 
   const loadMore = useCallback(() => {
     const params =

@@ -59,6 +59,12 @@ export async function getMenuData() {
           url: '/analysis-runs',
           icon: 'fe fe-bar-chart-2',
         },
+        {
+          title: 'Reflex List',
+          key: 'reflexList',
+          url: '/reflex-list',
+          icon: 'fe fe-check-square',
+        },
       ],
     },
     // {
@@ -140,6 +146,7 @@ export async function getRolePermissions() {
         // '/management',
         '/inventory',
         '/analysis-runs',
+        '/reflex-list',
       ],
       default: '/session',
     },
@@ -159,6 +166,7 @@ export async function getRolePermissions() {
         // '/management',
         '/inventory',
         '/analysis-runs',
+        '/reflex-list',
       ],
       default: '/session',
     },
