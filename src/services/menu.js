@@ -1,10 +1,6 @@
 export async function getMenuData() {
   return [
     {
-      category: true, // render category
-      title: 'Menu', // category title
-    },
-    {
       title: 'Intake',
       key: 'intakeSection',
       icon: 'fe fe-monitor',
