@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.3.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.3.0...v7.3.1) (2021-08-16)
+
+### Features
+
+- add timestamp to timpeline ([b90b457](https://github.com/mokkapps/changelog-generator-demo/commits/b90b457666fb80a9928840afa80052f7eef341aa))
+
+### Bug Fixes
+
+- remove menu ([0d5678d](https://github.com/mokkapps/changelog-generator-demo/commits/0d5678d5255936e8d93320efcf2baf3ee3e93c91))
+
 ## [7.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.2.1...v7.3.0) (2021-08-15)
 
 ### Features
