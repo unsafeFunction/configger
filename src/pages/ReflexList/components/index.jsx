@@ -3,6 +3,7 @@ import { Popconfirm, Switch } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import actions from 'redux/reflex/actions';
@@ -31,8 +32,7 @@ const ReflexStatus = ({ value, record }) => {
       onConfirm={() => handleUpdate(record.sample_id, !value)}
       placement="topRight"
       // TODO: uncomment when API endpoint will be ready
-      // disabled={value}
-      disabled
+      disabled={value}
     >
       <Switch
         checked={value}
@@ -40,8 +40,7 @@ const ReflexStatus = ({ value, record }) => {
         unCheckedChildren={<CloseOutlined />}
         loading={record.isUpdating}
         // TODO: uncomment when API endpoint will be ready
-        // disabled={value}
-        disabled
+        disabled={value}
       />
     </Popconfirm>
   );
@@ -70,11 +69,11 @@ const columns = [
     title: 'Sample ID',
     dataIndex: 'sample_id',
     // TODO: uncomment when API endpoint will be ready
-    // render: (value) => (
-    //   <Link to={`/reflex-list/${value}`} className="text-blue">
-    //     {value}
-    //   </Link>
-    // ),
+    render: (value) => (
+      <Link to={`/reflex-list/${value}`} className="text-blue">
+        {value}
+      </Link>
+    ),
   },
   {
     title: 'Result',
