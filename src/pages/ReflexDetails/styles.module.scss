@@ -6,3 +6,11 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.tableHeader {
+  > div:first-child {
+    > div:first-child {
+      margin-bottom: 5px;
+    }
+  }
+}
