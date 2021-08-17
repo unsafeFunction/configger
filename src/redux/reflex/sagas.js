@@ -62,7 +62,7 @@ export function* callLoadReflexDetails({ payload }) {
     yield put({
       type: actions.FETCH_REFLEX_DETAILS_SUCCESS,
       payload: {
-        data: response.data,
+        data: response?.data,
       },
     });
   } catch (error) {
