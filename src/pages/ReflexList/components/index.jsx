@@ -14,7 +14,7 @@ const ReflexStatus = ({ value, record }) => {
   const handleUpdate = useCallback(
     (id, value) => {
       dispatch({
-        type: actions.UPDATE_SAMPLE_REQUEST,
+        type: actions.UPDATE_REFLEX_SAMPLE_REQUEST,
         payload: {
           id,
           isCompleted: value,
@@ -29,7 +29,7 @@ const ReflexStatus = ({ value, record }) => {
       title={`Are you sure you would like to ${
         value ? 'cancel' : 'set as completed'
       }?`}
-      onConfirm={() => handleUpdate(record.sample_id, !value)}
+      onConfirm={() => handleUpdate(record.id, !value)}
       placement="topRight"
       // TODO: uncomment when API endpoint will be ready
       disabled={value}
@@ -92,12 +92,12 @@ const columns = [
     dataIndex: 'action',
   },
   {
-    title: 'PoolRack ID',
-    dataIndex: 'poolrack_id',
+    title: 'Tube Type',
+    dataIndex: 'tube_type',
   },
   {
     title: 'PoolRack Position',
-    dataIndex: 'poolrack_position',
+    dataIndex: 'rack_position',
   },
   {
     title: 'Rack ID',

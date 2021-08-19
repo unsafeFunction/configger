@@ -38,7 +38,7 @@ const reflexReducer = (state = initialState, action) => {
       };
     }
 
-    case actions.UPDATE_SAMPLE_REQUEST: {
+    case actions.UPDATE_REFLEX_SAMPLE_REQUEST: {
       const { id } = action.payload;
       return {
         ...state,
@@ -53,7 +53,7 @@ const reflexReducer = (state = initialState, action) => {
         }),
       };
     }
-    case actions.UPDATE_SAMPLE_SUCCESS: {
+    case actions.UPDATE_REFLEX_SAMPLE_SUCCESS: {
       const { data } = action.payload;
       return {
         ...state,
@@ -69,7 +69,7 @@ const reflexReducer = (state = initialState, action) => {
         }),
       };
     }
-    case actions.UPDATE_SAMPLE_FAILURE: {
+    case actions.UPDATE_REFLEX_SAMPLE_FAILURE: {
       const { id } = action.payload;
       return {
         ...state,

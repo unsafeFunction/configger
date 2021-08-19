@@ -15,11 +15,10 @@ export const fetchReflexList = async (query) => {
 
 export const updateSample = async ({ id, isCompleted }) => {
   try {
-    // TODO: add API endpoint
-    // const sample = await axiosClient.patch(``, {
-    //   isCompleted,
-    // });
-    // return sample;
+    const sample = await axiosClient.put(`/runs/results/rerun/${id}`, {
+      isCompleted,
+    });
+    return sample;
   } catch (error) {
     throw new Error(errorOutput(error));
   }

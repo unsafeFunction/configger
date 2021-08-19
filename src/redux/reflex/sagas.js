@@ -32,7 +32,7 @@ export function* callUpdateSample({ payload }) {
     const response = yield call(updateSample, payload);
 
     yield put({
-      type: actions.UPDATE_SAMPLE_SUCCESS,
+      type: actions.UPDATE_REFLEX_SAMPLE_SUCCESS,
       payload: {
         data: response.data,
       },
@@ -43,7 +43,7 @@ export function* callUpdateSample({ payload }) {
     });
   } catch (error) {
     yield put({
-      type: actions.UPDATE_SAMPLE_FAILURE,
+      type: actions.UPDATE_REFLEX_SAMPLE_FAILURE,
       payload: {
         id: payload.id,
       },
@@ -76,7 +76,9 @@ export function* callLoadReflexDetails({ payload }) {
 
 export default function* rootSaga() {
   yield all([takeEvery(actions.FETCH_REFLEX_LIST_REQUEST, callLoadReflexList)]);
-  yield all([takeEvery(actions.UPDATE_SAMPLE_REQUEST, callUpdateSample)]);
+  yield all([
+    takeEvery(actions.UPDATE_REFLEX_SAMPLE_REQUEST, callUpdateSample),
+  ]);
   yield all([
     takeEvery(actions.FETCH_REFLEX_DETAILS_REQUEST, callLoadReflexDetails),
   ]);
