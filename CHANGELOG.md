@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.3.1...v7.4.0) (2021-08-24)
+
+### Features
+
+- add complete run capability and update field in reflex table ([e03fd7f](https://github.com/mokkapps/changelog-generator-demo/commits/e03fd7f8cc3832f3ad0da129748693fe2a0a7a96))
+- table title ([6285008](https://github.com/mokkapps/changelog-generator-demo/commits/62850082af0bf8c043c8959a9fc10475fde02d69))
+
+### Bug Fixes
+
+- bump antd version ([8dd90ec](https://github.com/mokkapps/changelog-generator-demo/commits/8dd90ece121de11cce0f6d764ba8c71a105c55d8))
+- response error ([a8186cc](https://github.com/mokkapps/changelog-generator-demo/commits/a8186cca93816306cbfe166246b08aa5d41116c9))
+
 ### [7.3.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.3.0...v7.3.1) (2021-08-16)
 
 ### Features
