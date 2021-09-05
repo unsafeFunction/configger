@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.4.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.4.0...v7.4.1) (2021-09-05)
+
+### Bug Fixes
+
+- add 1 second to session durration ([a2c18de](https://github.com/mokkapps/changelog-generator-demo/commits/a2c18de24e2164bbd152ed84773a0eadf4905d75))
+- remove unnecessary dependency ([fe0173a](https://github.com/mokkapps/changelog-generator-demo/commits/fe0173a025da383f1788831de73c7b3861aba93a))
+
 ## [7.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.3.1...v7.4.0) (2021-08-24)
 
 ### Features

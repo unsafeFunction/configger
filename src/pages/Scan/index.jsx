@@ -511,6 +511,7 @@ const Scan = () => {
               <Countdown
                 className={styles.timer}
                 title="The session will end in: "
+                // This one second needed to close session after 30 minutes. Because on 30:00 we can do smth, but on 30:01 - can't
                 value={moment(session.started_on_day).add({
                   minutes: 30,
                   seconds: 1,
