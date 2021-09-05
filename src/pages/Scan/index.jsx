@@ -511,7 +511,10 @@ const Scan = () => {
               <Countdown
                 className={styles.timer}
                 title="The session will end in: "
-                value={moment(session.started_on_day).add(30, 'minutes')}
+                value={moment(session.started_on_day).add({
+                  minutes: 30,
+                  seconds: 1,
+                })}
                 format="mm:ss"
                 onFinish={checkSession}
               />
