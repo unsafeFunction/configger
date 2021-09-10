@@ -97,6 +97,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
         rules={[rules.required]}
       >
         <InputNumber
+          type="number"
           placeholder="Reference pools count"
           className="w-100"
           min={1}
@@ -121,9 +122,10 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
         ]}
       >
         <InputNumber
+          type="number"
           placeholder="Reference samples count"
           className="w-100"
-          min={1}
+          min={2}
         />
       </Item>
       <Item
