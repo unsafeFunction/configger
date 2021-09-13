@@ -67,7 +67,6 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        // error: action.payload.data,
       };
     }
 
@@ -94,7 +93,6 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        // error: action.payload.data,
       };
     }
 

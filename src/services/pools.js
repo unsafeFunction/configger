@@ -1,4 +1,5 @@
 import axiosClient from 'utils/axiosClient';
+import errorOutput from 'utils/errorOutput';
 
 export const fetchPoolsByRunId = async ({ runId, limit, offset, search }) => {
   try {
@@ -31,7 +32,7 @@ export const fetchPoolsByCompanyId = async ({
     });
     return pools;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
@@ -77,6 +78,6 @@ export const fetchPools = async ({ limit, offset, search }) => {
     });
     return pools;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
