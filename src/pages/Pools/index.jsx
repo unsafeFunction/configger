@@ -9,7 +9,6 @@ import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
-
 const Pools = () => {
   const dispatch = useDispatch();
   const [searchName, setSearchName] = useState('');

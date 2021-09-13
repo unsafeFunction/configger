@@ -1,13 +1,25 @@
-/* eslint-disable prettier/prettier */
-import React, { useCallback, useEffect } from 'react';
+import {
+  Popconfirm,
+  Popover,
+  Select,
+  Spin,
+  Switch,
+  Table,
+  Tag,
+  Tooltip,
+} from 'antd';
+import moment from 'moment-timezone';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/pools/actions';
-import modalActions from 'redux/modal/actions';
-import { Table, Spin, Switch, Popconfirm, Popover, Select, Tag } from 'antd';
+import React, { useCallback, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { getColor, getIcon } from 'utils/highlightingResult';
+import { useDispatch, useSelector } from 'react-redux';
+import modalActions from 'redux/modal/actions';
+import actions from 'redux/pools/actions';
+import { getColor, getIcon, getStatusText } from 'utils/highlightingResult';
 import styles from './styles.module.scss';
+
+moment.tz.setDefault('America/New_York');
 
 const { Option } = Select;
 
@@ -21,245 +33,20 @@ const PoolTable = ({ loadMore }) => {
   const useFetching = () => {
     useEffect(() => {
       dispatch({ type: actions.FETCH_RESULT_LIST_REQUEST });
-    }, [dispatch]);
+    }, []);
   };
 
   useFetching();
 
-  const columns = [
-    {
-      title: 'Results Timestamp',
-      dataIndex: 'results_updated_on',
-      width: 180,
-      align: 'center',
-      render: (value) => {
-        return value || '-';
+  const handlePublish = (poolId, checked) => {
+    dispatch({
+      type: actions.PUBLISH_POOL_REQUEST,
+      payload: {
+        poolId,
+        isPublished: checked,
       },
-    },
-    {
-      title: 'Run Title',
-      dataIndex: 'run_title',
-      align: 'center',
-      render: (value) => {
-        return value || '-';
-      },
-    },
-    {
-      title: 'Company',
-      dataIndex: 'shortCompany',
-      ellipsis: {
-        showTitle: false,
-      },
-      align: 'center',
-      sorter: {
-        compare: (a, b) =>
-          a.shortCompany < b.shortCompany
-            ? -1
-            : a.shortCompany > b.shortCompany
-            ? 1
-            : 0,
-      },
-      render: (_, record) => (
-        <Popover
-          content={record.company}
-          trigger="hover"
-          overlayClassName={styles.popover}
-          placement="topLeft"
-        >
-          {record?.shortCompany ? record.shortCompany : '-'}
-        </Popover>
-      ),
-    },
-    {
-      title: 'Pool Title',
-      dataIndex: 'title',
-      align: 'center',
-      render: (value) => {
-        return value || '-';
-      },
-    },
-    {
-      title: 'Rack ID',
-      dataIndex: 'rack_id',
-      align: 'center',
-      render: (value) => {
-        return value || '-';
-      },
-    },
-    {
-      title: 'Pool ID',
-      dataIndex: 'pool_id',
-      align: 'center',
-      render: (value) => {
-        return value || '-';
-      },
-    },
-    {
-      title: (
-        <div className={styles.resultsStyle}>
-          <span>Result</span>
-          {/* <Tooltip
-            overlayClassName={styles.hintTooltip}
-            placement="bottom"
-            title={
-              <ul className={styles.hintList}>
-                <li className={styles.hintItem}>
-                  <Text className={styles.hintStatus} type="danger">
-                    DETECTED -
-                  </Text>
-                  <span className={styles.hintDescription}>detected</span>
-                </li>
-                <li className={styles.hintItem}>
-                  <span className={styles.hintStatus}>NOT DETECTED - </span>
-                  <span className={styles.hintDescription}>detected</span>
-                </li>
-                <li className={styles.hintItem}>
-                  <span className={styles.hintStatus}>Inconclusive - </span>
-                  <span className={styles.hintDescription}>detected</span>
-                </li>
-                <li className={styles.hintItem}>
-                  <span className={styles.hintStatus}>In progress - </span>
-                  <span className={styles.hintDescription}>
-                    Your samples were tested but need to be retested due to a
-                    quality control.
-                  </span>
-                </li>
-                <li className={styles.hintItem}>
-                  <span className={styles.hintStatus}>Processing - </span>
-                  <span className={styles.hintDescription}>
-                    Your samples were received by the lab and are in queue to be
-                    tested
-                  </span>
-                </li>
-                <li className={styles.hintItem}>
-                  <span className={styles.hintStatus}>Invalid - </span>
-                  <span className={styles.hintDescription}>
-                    Your samples obtained no result. Either the sample quality
-                    was poor or there was not sufficient sample volume for
-                    testing. Samples must be resubmitted. The lab has completed
-                    testing on the samples.
-                  </span>
-                </li>
-              </ul>
-            }
-          >
-            <QuestionCircleOutlined size="small" />
-          </Tooltip> */}
-        </div>
-      ),
-      dataIndex: 'result',
-      width: 195,
-      sorter: {
-        compare: (a, b) =>
-          a.result < b.result ? -1 : a.result > b.result ? 1 : 0,
-      },
-      render: (_, record) =>
-        user.role === 'admin' ? (
-          <Select
-            value={
-              <Tag
-                color={getColor(record.result)}
-                icon={getIcon(record.result)}
-              >
-                {record.result === 'COVID-19 Detected'
-                  ? 'DETECTED'
-                  : record.result.toUpperCase()}
-              </Tag>
-            }
-            style={{ width: 178 }}
-            loading={record.resultIsUpdating}
-            onSelect={onModalToggle(record.id, record.pool_id)}
-            disabled={record.resultIsUpdating}
-            bordered={false}
-          >
-            {resutList?.items
-              ?.filter((option) => option.value !== record.result)
-              .map((item) => (
-                <Option key={item.key} value={item.value}>
-                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
-                    {item.value === 'COVID-19 Detected'
-                      ? 'DETECTED'
-                      : item.value.toUpperCase()}
-                  </Tag>
-                </Option>
-              ))}
-          </Select>
-        ) : (
-          <Tag color={getColor(record.result)} icon={getIcon(record.result)}>
-            {record.result === 'COVID-19 Detected'
-              ? 'DETECTED'
-              : record.result.toUpperCase()}
-          </Tag>
-        ),
-    },
-    {
-      title: 'Pool Size',
-      dataIndex: 'pool_size',
-    },
-    {
-      title: 'Tube IDs',
-      dataIndex: 'tubes',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (_, record) => (
-        <Popover
-          content={record.tubes}
-          title={`${record.pool_id} tubes`}
-          trigger="hover"
-          overlayClassName={styles.popover}
-          placement="topLeft"
-        >
-          {record.tubes}
-        </Popover>
-      ),
-    },
-
-    {
-      title: 'Action',
-      fixed: 'right',
-      width: 120,
-      render: (_, record) => (
-        <Popconfirm
-          title={`Sure to ${
-            record.is_published ? 'unpublished' : 'published'
-          }?`}
-          onConfirm={() => handlePublish(record.id, !record.is_published)}
-          placement="topRight"
-          disabled={user.role === 'staff'}
-        >
-          <Switch
-            checkedChildren="Published"
-            unCheckedChildren="Unpublished"
-            checked={record.is_published}
-            loading={record.isUpdating}
-            disabled={user.role === 'staff'}
-          />
-        </Popconfirm>
-      ),
-    },
-  ];
-
-  const data = pools?.items?.map?.((pool) => ({
-    ...pool,
-    key: pool.unique_id,
-    tubes: pool.tube_ids.join(', '),
-    company: pool.company.name,
-    shortCompany: pool.company.name_short,
-  }));
-
-  const handlePublish = useCallback(
-    (poolId, checked) => {
-      dispatch({
-        type: actions.PUBLISH_POOL_REQUEST,
-        payload: {
-          poolId,
-          isPublished: checked,
-        },
-      });
-    },
-    [dispatch],
-  );
+    });
+  };
 
   const resultUpdate = useCallback(
     ({ poolUniqueId, value }) => {
@@ -299,6 +86,168 @@ const PoolTable = ({ loadMore }) => {
     [resultUpdate, dispatch],
   );
 
+  const columns = [
+    {
+      title: 'Receipt Timestamp',
+      dataIndex: 'test_receipt_timestamp',
+      width: 180,
+      render: (value) =>
+        value ? moment(value).format('YYYY-MM-DD hh:mm A') : '–',
+    },
+    {
+      title: 'Run Title',
+      dataIndex: 'run_title',
+      render: (value) => {
+        return value ?? '-';
+      },
+    },
+    {
+      title: 'Company',
+      dataIndex: ['company', 'name_short'],
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (value, record) => (
+        <Popover
+          content={record.company?.name}
+          trigger="hover"
+          overlayClassName={styles.popover}
+          placement="topLeft"
+        >
+          {value ?? '–'}
+        </Popover>
+      ),
+    },
+    {
+      title: 'Pool Title',
+      dataIndex: 'title',
+      render: (value) => {
+        return value ?? '-';
+      },
+    },
+    {
+      title: 'Rack ID',
+      dataIndex: 'rack_id',
+      render: (value) => {
+        return value ?? '-';
+      },
+    },
+    {
+      title: 'Pool ID',
+      dataIndex: 'pool_id',
+      width: 100,
+      render: (value) => {
+        return value ?? '-';
+      },
+    },
+    {
+      title: (
+        <div className={styles.resultsStyle}>
+          <span>Result</span>
+        </div>
+      ),
+      dataIndex: 'result',
+      width: 195,
+      render: (_, record) =>
+        user.role === 'admin' ? (
+          <Tooltip
+            placement="bottom"
+            title={
+              record.result === 'Rejected' && (
+                <span>
+                  <b>REJECTED</b> - Your samples were <b>not tested</b> due to
+                  poor sample quality. The samples may be contaminated, empty,
+                  improperly collected, or have insufficient volume.
+                </span>
+              )
+            }
+          >
+            <Select
+              value={
+                <Tag
+                  color={getColor(record.result)}
+                  icon={getIcon(record.result)}
+                >
+                  {record.result === 'COVID-19 Detected'
+                    ? 'DETECTED'
+                    : record.result.toUpperCase()}
+                </Tag>
+              }
+              style={{ width: 178 }}
+              loading={record.resultIsUpdating}
+              onSelect={onModalToggle(record.id, record.pool_id)}
+              disabled={record.resultIsUpdating}
+              bordered={false}
+            >
+              {resutList?.items
+                ?.filter((option) => option.value !== record.result)
+                .map((item) => (
+                  <Option key={item.key} value={item.value}>
+                    <Tag
+                      color={getColor(item.value)}
+                      icon={getIcon(item.value)}
+                    >
+                      {getStatusText(item.value)}
+                    </Tag>
+                  </Option>
+                ))}
+            </Select>
+          </Tooltip>
+        ) : (
+          <Tag color={getColor(record.result)} icon={getIcon(record.result)}>
+            {getStatusText(record.result)}
+          </Tag>
+        ),
+    },
+    {
+      title: 'Pool Size',
+      dataIndex: 'pool_size',
+    },
+    {
+      title: 'Tube IDs',
+      dataIndex: 'tube_ids',
+      width: 100,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (value, record) => (
+        <Popover
+          content={value.join(', ')}
+          title={`${record.pool_id} tubes`}
+          trigger="hover"
+          overlayClassName={styles.popover}
+          placement="topLeft"
+        >
+          {value.join(', ')}
+        </Popover>
+      ),
+    },
+
+    {
+      title: 'Action',
+      fixed: 'right',
+      width: 120,
+      render: (_, record) => (
+        <Popconfirm
+          title={`Sure to ${
+            record.is_published ? 'unpublished' : 'published'
+          }?`}
+          onConfirm={() => handlePublish(record.id, !record.is_published)}
+          placement="topRight"
+          disabled={user.role === 'staff'}
+        >
+          <Switch
+            checkedChildren="Published"
+            unCheckedChildren="Unpublished"
+            checked={record.is_published}
+            loading={record.isUpdating}
+            disabled={user.role === 'staff'}
+          />
+        </Popconfirm>
+      ),
+    },
+  ];
+
   return (
     <InfiniteScroll
       next={loadMore}
@@ -312,11 +261,12 @@ const PoolTable = ({ loadMore }) => {
     >
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={pools.items}
         loading={pools.isLoading}
         pagination={false}
-        scroll={{ x: 1000 }}
+        scroll={{ x: 1400 }}
         bordered
+        rowKey={(record) => record.id}
       />
     </InfiniteScroll>
   );
