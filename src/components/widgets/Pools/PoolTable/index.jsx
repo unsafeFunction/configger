@@ -222,7 +222,6 @@ const PoolTable = ({ loadMore }) => {
         </Popover>
       ),
     },
-
     {
       title: 'Action',
       fixed: 'right',
