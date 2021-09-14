@@ -100,7 +100,7 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map((pool) => {
-          if (pool.unique_id === action.payload.poolId) {
+          if (pool.id === action.payload.poolId) {
             return {
               ...pool,
               isUpdating: true,
@@ -114,7 +114,7 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map((pool) => {
-          if (pool.unique_id === action.payload.data.unique_id) {
+          if (pool.id === action.payload.data.id) {
             return {
               ...pool,
               ...action.payload.data,
@@ -129,7 +129,7 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map((pool) => {
-          if (pool.unique_id === action?.payload?.poolId) {
+          if (pool.id === action?.payload?.poolId) {
             return {
               ...pool,
               isUpdating: false,
@@ -137,7 +137,6 @@ export default function poolsReducer(state = initialState, action) {
           }
           return pool;
         }),
-        // error: action.payload.data,
       };
     }
 
@@ -168,7 +167,6 @@ export default function poolsReducer(state = initialState, action) {
         resultList: {
           ...state.resultList,
           isLoading: false,
-          // error: action.payload.data,
         },
       };
     }
@@ -177,7 +175,7 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map((pool) => {
-          if (pool.unique_id === action.payload.poolId) {
+          if (pool.id === action.payload.poolId) {
             return {
               ...pool,
               resultIsUpdating: true,
@@ -191,7 +189,7 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map((pool) => {
-          if (pool.unique_id === action.payload.data.unique_id) {
+          if (pool.id === action.payload.data.id) {
             return {
               ...pool,
               ...action.payload.data,
@@ -206,7 +204,7 @@ export default function poolsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map((pool) => {
-          if (pool.unique_id === action?.payload?.poolId) {
+          if (pool.id === action?.payload?.poolId) {
             return {
               ...pool,
               resultIsUpdating: false,
@@ -214,7 +212,6 @@ export default function poolsReducer(state = initialState, action) {
           }
           return pool;
         }),
-        // error: action.payload.data,
       };
     }
 

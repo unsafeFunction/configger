@@ -29,7 +29,8 @@ export const getColor = (status) => {
       return 'blue';
     }
     case 'Invalid':
-    case 'INVALID': {
+    case 'INVALID':
+    case 'Processing': {
       return 'default';
     }
     default:

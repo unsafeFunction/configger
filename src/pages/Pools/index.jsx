@@ -38,7 +38,7 @@ const Pools = () => {
         search: searchName,
       },
     });
-  }, [dispatch, pools]);
+  }, [dispatch, pools, searchName]);
 
   const sendQuery = useCallback(
     (query) => {
@@ -50,18 +50,18 @@ const Pools = () => {
         },
       });
     },
-    [searchName],
+    [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = debounce((q) => sendQuery(q), 500);
 
-  const onChangeSearch = useCallback((event) => {
-    setSearchName(event.target.value);
-    delayedQuery(event.target.value);
-  }, []);
+  const onChangeSearch = useCallback(
+    (event) => {
+      setSearchName(event.target.value);
+      delayedQuery(event.target.value);
+    },
+    [delayedQuery],
+  );
 
   return (
     <>
