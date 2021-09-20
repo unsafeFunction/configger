@@ -25,10 +25,12 @@
     "useDefineForClassFields": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "rootDir": "src/",
     "allowJs": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "noEmit": true
   },
   "include": ["src"]
+  // "include": ["src/**/*"]
 }
