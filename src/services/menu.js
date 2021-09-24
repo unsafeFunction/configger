@@ -36,6 +36,12 @@ export async function getMenuData() {
           url: '/rack-scans',
           icon: 'fe fe-box',
         },
+        {
+          title: 'Pools',
+          key: 'pools',
+          url: '/pools',
+          icon: 'fe fe-folder',
+        },
       ],
     },
     {

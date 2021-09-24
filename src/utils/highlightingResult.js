@@ -3,7 +3,10 @@ import {
   ExclamationCircleFilled,
   MinusCircleFilled,
   PlusCircleFilled,
+  StopOutlined,
+  SyncOutlined,
 } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 import TwoToneComponent from 'assets/TwoTone';
 import React from 'react';
 
@@ -26,7 +29,8 @@ export const getColor = (status) => {
       return 'blue';
     }
     case 'Invalid':
-    case 'INVALID': {
+    case 'INVALID':
+    case 'Processing': {
       return 'default';
     }
     default:
@@ -56,6 +60,12 @@ export const getIcon = (status) => {
     case 'INVALID': {
       return <ExclamationCircleFilled />;
     }
+    case 'Processing': {
+      return <SyncOutlined />;
+    }
+    case 'Rejected': {
+      return <StopOutlined />;
+    }
     default:
       return '';
   }
@@ -77,5 +87,31 @@ export const getColorRun = (status) => {
     }
     default:
       return 'Unknown';
+  }
+};
+
+export const getStatusText = (status) => {
+  switch (status) {
+    case 'COVID-19 Detected': {
+      return 'DETECTED';
+    }
+    case 'Rejected': {
+      return (
+        <Tooltip
+          placement="bottom"
+          title={
+            <span>
+              <b>REJECTED</b> - Your samples were <b>not tested</b> due to poor
+              sample quality. The samples may be contaminated, empty, improperly
+              collected, or have insufficient volume.
+            </span>
+          }
+        >
+          Rejected
+        </Tooltip>
+      );
+    }
+    default:
+      return status.toUpperCase();
   }
 };
