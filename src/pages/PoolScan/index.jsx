@@ -115,8 +115,18 @@ const PoolScan = () => {
           <PoolStatistic scan={scan} />
         </Col>
         <Col xs={24} md={18} lg={8} xl={10}>
-          {scan?.scannerObj?.id && <PulseCircle scanner={scan.scannerObj} />}
           <div className={styles.companyDetails}>
+            <Statistic
+              className={styles.companyDetailsStat}
+              title="Scanner status:"
+              formatter={() =>
+                scan?.scannerObj?.id ? (
+                  <PulseCircle scanner={scan?.scannerObj} />
+                ) : (
+                  '-'
+                )
+              }
+            />
             <Statistic
               className={styles.companyDetailsStat}
               title="Company name:"
