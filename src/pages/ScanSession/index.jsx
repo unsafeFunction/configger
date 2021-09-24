@@ -38,8 +38,17 @@ const ScanSession = () => {
   const preparedScannerData = scanners.items.map((item) => {
     return {
       value: item.id,
-      label: `${item.scanner_id} – model: ${item.model}`,
-      disabled: !item.is_active,
+      label: (
+        <p style={{ margin: 0 }}>
+          {item.scanner_id} – model:{item.model}{' '}
+          {!item.is_online ? (
+            <span style={{ color: 'red' }}>(offline)</span>
+          ) : (
+            ''
+          )}
+        </p>
+      ),
+      disabled: !item.is_active || !item.is_online,
     };
   });
 

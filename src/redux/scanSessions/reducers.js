@@ -257,6 +257,7 @@ const initialScan = {
   incorrect_positions: [],
   status: null,
   scanner: {},
+  scannerObj: {},
   scan_timestamp: null,
   scanned_by: null,
   last_modified_by: null,
@@ -295,6 +296,26 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
     case actions.FETCH_SCAN_BY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
+    case actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.CHECK_SCANNER_STATUS_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        scannerObj: action.payload.data,
+      };
+    }
+    case actions.CHECK_SCANNER_STATUS_BY_ID_FAILURE: {
       return {
         ...state,
         isLoading: false,
