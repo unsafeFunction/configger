@@ -69,8 +69,8 @@ const columns = [
     title: 'Sample ID',
     dataIndex: 'sample_id',
     // TODO: uncomment when API endpoint will be ready
-    render: (value) => (
-      <Link to={`/reflex-list/${value}`} className="text-blue">
+    render: (value, record) => (
+      <Link to={`/reflex-list/${record.id}`} className="text-blue">
         {value}
       </Link>
     ),

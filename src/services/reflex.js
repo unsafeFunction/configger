@@ -26,8 +26,7 @@ export const updateSample = async ({ id, isCompleted }) => {
 
 export const fetchReflexDetails = async ({ id }) => {
   try {
-    // TODO: add API endpoint
-    // return await axiosClient.get(``);
+    return await axiosClient.get(`/runs/results/rerun/${id}/comapre`);
   } catch (error) {
     throw new Error(errorOutput(error));
   }

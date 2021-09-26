@@ -75,11 +75,9 @@ export function* callLoadReflexDetails({ payload }) {
 }
 
 export default function* rootSaga() {
-  yield all([takeEvery(actions.FETCH_REFLEX_LIST_REQUEST, callLoadReflexList)]);
   yield all([
+    takeEvery(actions.FETCH_REFLEX_LIST_REQUEST, callLoadReflexList),
     takeEvery(actions.UPDATE_REFLEX_SAMPLE_REQUEST, callUpdateSample),
-  ]);
-  yield all([
     takeEvery(actions.FETCH_REFLEX_DETAILS_REQUEST, callLoadReflexDetails),
   ]);
 }

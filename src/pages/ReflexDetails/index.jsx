@@ -15,15 +15,14 @@ const ReflexDetails = () => {
   const location = useLocation();
 
   const reflex = useSelector((state) => state.reflex.singleReflex);
-
-  const sampleId = location.pathname.split('/')[2];
+  const reflexId = location.pathname.split('/')[2];
 
   const useFetching = () => {
     useEffect(() => {
       dispatch({
         type: actions.FETCH_REFLEX_DETAILS_REQUEST,
         payload: {
-          id: sampleId,
+          id: reflexId,
         },
       });
     }, []);
@@ -36,7 +35,6 @@ const ReflexDetails = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Reflex Comparison</h4>
       </div>
-
       <Table
         className="mb-5"
         pagination={false}
