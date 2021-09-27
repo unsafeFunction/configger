@@ -5,7 +5,6 @@ import PoolStatistic from 'components/widgets/Scans/PoolStatistic';
 import moment from 'moment-timezone';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import PulseCircle from 'components/widgets/Pools/PulseCircle';
 import actions from 'redux/scanSessions/actions';
 import styles from './styles.module.scss';
 
@@ -95,15 +94,6 @@ const PoolScan = () => {
 
   useFetching();
 
-  useEffect(() => {
-    if (scan.scanner_id) {
-      dispatch({
-        type: actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST,
-        payload: { scannerId: scan?.scanner_id },
-      });
-    }
-  }, [scan.scanner_id]);
-
   return (
     <>
       <Row gutter={[48, 40]} justify="center">
@@ -116,17 +106,6 @@ const PoolScan = () => {
         </Col>
         <Col xs={24} md={18} lg={8} xl={10}>
           <div className={styles.companyDetails}>
-            <Statistic
-              className={styles.companyDetailsStat}
-              title="Scanner status:"
-              formatter={() =>
-                scan?.scannerObj?.id ? (
-                  <PulseCircle scanner={scan?.scannerObj} />
-                ) : (
-                  '-'
-                )
-              }
-            />
             <Statistic
               className={styles.companyDetailsStat}
               title="Company name:"

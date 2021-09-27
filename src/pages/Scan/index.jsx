@@ -35,6 +35,7 @@ import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
+import PulseCircle from '../../components/widgets/Pools/PulseCircle';
 
 moment.tz.setDefault('America/New_York');
 
@@ -90,6 +91,15 @@ const Scan = () => {
         }),
     ]);
   }, [scans, started, invalid, completed]);
+
+  useEffect(() => {
+    if (scan.scanner_id) {
+      dispatch({
+        type: actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST,
+        payload: { scannerId: scan?.scanner_id },
+      });
+    }
+  }, [scan.scanner_id]);
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
@@ -644,6 +654,17 @@ const Scan = () => {
         </Col>
         <Col xs={24} md={18} lg={8} xl={10}>
           <div className={styles.companyDetails}>
+            <Statistic
+              className={styles.companyDetailsStat}
+              title="Scanner status:"
+              formatter={() =>
+                scan?.scannerObj?.id ? (
+                  <PulseCircle scanner={scan?.scannerObj} />
+                ) : (
+                  '-'
+                )
+              }
+            />
             <Statistic
               className={styles.companyDetailsStat}
               title="Company name:"
