@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.5.0...v7.6.0) (2021-09-27)
+
+### Features
+
+- scanner status ([e4fbaa1](https://github.com/mokkapps/changelog-generator-demo/commits/e4fbaa1ae82adf3d6353cf03d5bf12cd5dad7caa))
+
+### Bug Fixes
+
+- finish reflex comparison ([b464723](https://github.com/mokkapps/changelog-generator-demo/commits/b4647237f4dbbfd6bb1ff18e4be5bdfdc7a436f5))
+- fix pool search ([8c082fe](https://github.com/mokkapps/changelog-generator-demo/commits/8c082feb173ed6a45c10d17e72e265c5e05d19ba))
+- fix unique_id ([7f5a7f3](https://github.com/mokkapps/changelog-generator-demo/commits/7f5a7f3b0b482bbc57a4913ee80378bad1b4b35e))
+- processing status color ([4e3df29](https://github.com/mokkapps/changelog-generator-demo/commits/4e3df290acb9f190bfda58a05d182c7da700bcd0))
+- scanner status ([36afe7f](https://github.com/mokkapps/changelog-generator-demo/commits/36afe7f010123bf98902e6f2bca43663ce7bc8ac))
+
 ## [7.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.4.0...v7.5.0) (2021-12-13)
 
 ### Features
