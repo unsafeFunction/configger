@@ -10,3 +10,13 @@ export const fetchScanners = async () => {
     throw new Error(error?.response?.data.detail);
   }
 };
+
+export const fetchScannerById = async (id) => {
+  try {
+    const scanner = await axiosClient.get(`/scans/scanners/${id}`);
+
+    return scanner;
+  } catch (error) {
+    throw new Error(error?.response?.data.detail);
+  }
+};

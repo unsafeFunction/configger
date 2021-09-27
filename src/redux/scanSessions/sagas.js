@@ -22,6 +22,7 @@ import {
   fetchSessions,
   updateSession,
 } from 'services/scanSessions';
+import { fetchScannerById } from 'services/scanners';
 import { constants } from 'utils/constants';
 import { emptyPositionsArr, incorrectPositionsArr } from 'utils/tubesRules';
 import actions from './actions';
@@ -183,6 +184,27 @@ export function* callFetchScanById({ payload }) {
   } catch (error) {
     yield put({
       type: actions.FETCH_SCAN_BY_ID_FAILURE,
+    });
+
+    notification.error({
+      message: error.message,
+    });
+  }
+}
+
+export function* callScannerStatusById({ payload }) {
+  try {
+    const { data } = yield call(fetchScannerById, payload.scannerId);
+
+    yield put({
+      type: actions.CHECK_SCANNER_STATUS_BY_ID_SUCCESS,
+      payload: {
+        data,
+      },
+    });
+  } catch (error) {
+    yield put({
+      type: actions.CHECK_SCANNER_STATUS_BY_ID_FAILURE,
     });
 
     notification.error({
@@ -630,5 +652,9 @@ export default function* rootSaga() {
     takeEvery(actions.CANCEL_SCAN_BY_ID_REQUEST, callCancelScan),
     takeEvery(actions.FETCH_COMPANY_INFO_REQUEST, callFetchCompanyInfo),
     takeEvery(actions.FETCH_ACTIVE_SCANS_REQUEST, callFetchActiveScans),
+    takeEvery(
+      actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST,
+      callScannerStatusById,
+    ),
   ]);
 }
