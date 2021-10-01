@@ -91,7 +91,7 @@ const Actions = ({ record, field, value }) => {
       disabled: value.length && value[0] !== 'REFLEX_SC',
     },
     {
-      label: 'Reflec SD',
+      label: 'Reflex SD',
       value: 'REFLEX_SD',
       disabled: value.length && value[0] !== 'REFLEX_SD',
     },
