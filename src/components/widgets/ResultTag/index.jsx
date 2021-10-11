@@ -2,7 +2,7 @@ import { Tag } from 'antd';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getColor, getColorRun, getIcon } from 'utils/highlightingResult';
+import { getColor, getColorRun, getIcon } from 'utils/highlighting';
 
 export const getStatus = (status) => {
   switch (status) {

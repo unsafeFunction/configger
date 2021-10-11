@@ -1,4 +1,4 @@
-import { Button, Form, Table } from 'antd';
+import { Button, Form, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import IntakeReceiptLogModal from 'components/widgets/IntakeLog/IntakeReceiptLogModal';
 import moment from 'moment-timezone';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/intakeReceiptLog/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
+import { getColorIntakeLog, getIconIntakeLog } from 'utils/highlighting';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -97,6 +98,7 @@ const IntakeReceiptLog = () => {
             maxHeight: '70vh',
             overflow: 'scroll',
           },
+          width: '100%',
           okText: `${record ? 'Edit' : 'New'} Log`,
           message: () => <IntakeReceiptLogModal form={form} edit={!!record} />,
           maskClosable: false,
@@ -144,12 +146,36 @@ const IntakeReceiptLog = () => {
       },
     },
     {
+      title: 'Shipped On',
+      dataIndex: 'shipped_on',
+      render: (value) => {
+        return value ? moment(value).format('YYYY-MM-DD') : '-';
+      },
+    },
+    {
       title: 'Shipping By',
       dataIndex: 'shipment',
     },
     {
+      title: 'Shipping Condition',
+      dataIndex: 'shipping_condition',
+    },
+    {
+      title: 'Packing Slip Condition',
+      dataIndex: 'packing_slip_condition',
+    },
+    {
+      title: 'Total number of packing slips submitted',
+      dataIndex: 'total_packing_slips',
+    },
+    {
       title: 'Sample Condition',
       dataIndex: 'sample_condition',
+      render: (value) => (
+        <Tag color={getColorIntakeLog(value)} icon={getIconIntakeLog(value)}>
+          {value}
+        </Tag>
+      ),
     },
     {
       title: 'Comments',

@@ -16,7 +16,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
-import { getColor, getIcon, getStatusText } from 'utils/highlightingResult';
+import { getColor, getIcon, getStatusText } from 'utils/highlighting';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');

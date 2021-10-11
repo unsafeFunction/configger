@@ -1,6 +1,9 @@
 import {
+  CheckCircleOutlined,
   ClockCircleFilled,
+  CloseCircleOutlined,
   ExclamationCircleFilled,
+  ExclamationCircleOutlined,
   MinusCircleFilled,
   PlusCircleFilled,
   StopOutlined,
@@ -113,5 +116,39 @@ export const getStatusText = (status) => {
     }
     default:
       return status.toUpperCase();
+  }
+};
+
+export const getColorIntakeLog = (status) => {
+  switch (status) {
+    case 'Acceptable':
+    case 'satisfactory': {
+      return 'success';
+    }
+    case 'Unacceptable': {
+      return 'error';
+    }
+    case 'unsatisfactory': {
+      return 'warning';
+    }
+    default:
+      return 'default';
+  }
+};
+
+export const getIconIntakeLog = (status) => {
+  switch (status) {
+    case 'Acceptable':
+    case 'satisfactory': {
+      return <CheckCircleOutlined />;
+    }
+    case 'Unacceptable': {
+      return <CloseCircleOutlined />;
+    }
+    case 'unsatisfactory': {
+      return <ExclamationCircleOutlined />;
+    }
+    default:
+      return '';
   }
 };
