@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.6.0...v7.7.0) (2021-10-12)
+
+### Bug Fixes
+
+- replace status scanner ([6d61039](https://github.com/mokkapps/changelog-generator-demo/commits/6d61039395cce41aa7e691496e075ebad9577842))
+- typo reflex ([0fbb934](https://github.com/mokkapps/changelog-generator-demo/commits/0fbb934851a7db513b8d8af6250b9df5b48a5f50))
+- wellplate modal ([15bf731](https://github.com/mokkapps/changelog-generator-demo/commits/15bf731fdd980112c358ddc8dd612899d1f8e521))
+
 ## [7.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.5.0...v7.6.0) (2021-09-27)
 
 ### Features
