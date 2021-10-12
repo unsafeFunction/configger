@@ -167,6 +167,7 @@ const AnalysisRun = () => {
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
+        width: 'max-content',
         title: 'Well Plate',
         cancelButtonProps: { className: styles.cancelBtn },
         onOk: () => handleWellplateClose(),
