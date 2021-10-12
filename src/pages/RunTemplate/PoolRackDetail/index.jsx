@@ -1,12 +1,10 @@
-import { Col, Row, Table, Tag, Typography } from 'antd';
+import { Col, Row, Table, Tag } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import poolRackActions from 'redux/racks/actions';
-
-const { Text } = Typography;
 
 const PoolRackDetail = ({ id }) => {
   const dispatch = useDispatch();
@@ -36,15 +34,23 @@ const PoolRackDetail = ({ id }) => {
     {
       title: 'Status',
       dataIndex: 'status',
-      render: (text) => {
-        return <Tag color="blue">{text}</Tag>;
+      render: (value) => {
+        return <Tag color="blue">{value}</Tag>;
       },
+    },
+    {
+      title: 'Company Short',
+      dataIndex: 'company_short',
+    },
+    {
+      title: 'Pool Name',
+      dataIndex: 'pool_name',
     },
   ];
 
   return (
     <>
-      <Row gutter={[40, 56]} justify="center">
+      <Row gutter={[40, 56]}>
         <Col xs={24} lg={12}>
           <Rackboard
             isRack

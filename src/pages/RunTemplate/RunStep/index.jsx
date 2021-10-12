@@ -118,7 +118,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     },
     {
       title: 'Actions',
-      render: (text, record) => (
+      render: (_, record) => (
         <Button type="link" onClick={() => openModalDetail(record)}>
           View plate
         </Button>

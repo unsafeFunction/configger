@@ -65,8 +65,7 @@ const singleRackReducer = (state = initialSingleRackState, action) => {
   switch (action.type) {
     case actions.GET_RACK_REQUEST: {
       return {
-        ...state,
-        items: [],
+        ...initialSingleRackState,
         isLoading: true,
       };
     }
