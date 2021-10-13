@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.7.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.7.0...v7.7.1) (2021-10-13)
+
+### Features
+
+- update csv format ([dd8576b](https://github.com/mokkapps/changelog-generator-demo/commits/dd8576b9383edeb1ede0f334a4897a624fda07ca))
+
+### Bug Fixes
+
+- round instead floor ([a937c3f](https://github.com/mokkapps/changelog-generator-demo/commits/a937c3f4a038c6dc42dbd06ad89756101c741d75))
+- update conainer styles for better ui ([b9c3bfc](https://github.com/mokkapps/changelog-generator-demo/commits/b9c3bfcd5ad9bc1cc860e2ac25bd0ff567181672))
+
 ## [7.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.6.0...v7.7.0) (2021-10-12)
 
 ### Bug Fixes
