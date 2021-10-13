@@ -34,8 +34,8 @@ import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
-import styles from './styles.module.scss';
 import PulseCircle from '../../components/widgets/Pools/PulseCircle';
+import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
@@ -177,7 +177,7 @@ const Scan = () => {
     updateSession({
       id: sessionId,
       isSaveSession: false,
-      callback: () => history.push('/session'),
+      callback: () => history.push('/intake-receipt-log'),
     });
   }, [updateSession, sessionId, history]);
 
@@ -186,7 +186,7 @@ const Scan = () => {
       data: { status: 'COMPLETED' },
       id: sessionId,
       isSaveSession: true,
-      callback: () => history.push('/session'),
+      callback: () => history.push('/intake-receipt-log'),
     });
   }, [updateSession, sessionId, history]);
 
@@ -315,7 +315,7 @@ const Scan = () => {
         history.push(`/session/${session?.activeSessionId}`);
       }
     } else if (session?.activeSessionId === undefined) {
-      history.push('/session');
+      history.push('/intake-receipt-log');
     }
   }, [session.activeSessionId, sessionId]);
 
