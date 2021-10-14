@@ -17,7 +17,7 @@ const Login = () => {
         type: actions.LOGIN_REQUEST,
         payload: {
           ...values,
-          toScanSession: () => history.push('/session'),
+          callback: () => history.push('/intake-receipt-log'),
         },
       });
     },

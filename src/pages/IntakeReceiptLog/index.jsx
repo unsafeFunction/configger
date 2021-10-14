@@ -1,5 +1,5 @@
-import { CommentOutlined } from '@ant-design/icons';
-import { Button, Form, Popover, Table, Tag } from 'antd';
+import { DownOutlined, CommentOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Form, Menu, Space, Popover, Table,Tag } from 'antd';
 import classNames from 'classnames';
 import IntakeReceiptLogModal from 'components/widgets/IntakeLog/IntakeReceiptLogModal';
 import omit from 'lodash.omit';
@@ -7,8 +7,11 @@ import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import actions from 'redux/intakeReceiptLog/actions';
 import modalActions from 'redux/modal/actions';
+import scannersActions from 'redux/scanners/actions';
+import sessionActions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import { getColorIntakeLog } from 'utils/highlighting';
 import styles from './styles.module.scss';
@@ -23,6 +26,21 @@ const IntakeReceiptLog = () => {
 
   const intakeLog = useSelector((state) => state.intakeReceiptLog);
 
+  const {
+    activeSessionId,
+    isLoading: isSessionLoading,
+    intakeLogs,
+    companyInfoLoading,
+  } = useSelector((state) => state.scanSessions.singleSession);
+
+  const scanners = useSelector((state) => state.scanners.all);
+
+  const fetchScanners = useCallback(() => {
+    dispatch({
+      type: scannersActions.FETCH_SCANNERS_REQUEST,
+    });
+  }, [dispatch]);
+
   const useFetching = () => {
     useEffect(() => {
       dispatch({
@@ -34,9 +52,54 @@ const IntakeReceiptLog = () => {
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sortBy]);
+
+    useEffect(() => {
+      dispatch({
+        type: sessionActions.FETCH_SESSION_ID_REQUEST,
+        payload: {
+          callback: fetchScanners,
+        },
+      });
+    }, []);
   };
 
   useFetching();
+
+  const startSession = useCallback(
+    (logId) => ({ key }) => {
+      dispatch({
+        type: sessionActions.CREATE_SESSION_REQUEST,
+        payload: {
+          intakeLog: logId,
+          scanner: key,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const scannerMenu = (logId) => (
+    <Menu onClick={startSession(logId)}>
+      {scanners.items.map((item) => (
+        <Menu.Item
+          key={item.id}
+          disabled={!item.is_active || !item.is_online}
+          className={
+            (!item.is_active || !item.is_online) && styles.disabledScanner
+          }
+        >
+          <p style={{ margin: 0 }}>
+            {item.scanner_id} – model:{item.model}{' '}
+            {!item.is_online ? (
+              <span style={{ color: 'red' }}>(offline)</span>
+            ) : (
+              ''
+            )}
+          </p>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
 
   const handleTableChange = (pagination, filters, sorter) => {
     if (sorter) {
@@ -245,15 +308,28 @@ const IntakeReceiptLog = () => {
       },
     },
     {
-      title: 'Edit',
-      dataIndex: 'edit',
+      title: 'Actions',
+      dataIndex: 'actions',
       fixed: 'right',
-      width: 70,
+      // width: 70,
       render: (_, record) => {
         return (
-          <Button type="primary" onClick={() => handleModalToggle(record)}>
-            Edit
-          </Button>
+          <Space>
+            <Button type="primary" onClick={() => handleModalToggle(record)}>
+              Edit
+            </Button>
+            {/* {moment(record.created).isSame(moment(), 'day') && ( */}
+            <Dropdown overlay={scannerMenu(record.id)} trigger="click">
+              <Button
+                type="primary"
+                loading={isSessionLoading || scanners.isLoading}
+              >
+                Start session
+                <DownOutlined />
+              </Button>
+            </Dropdown>
+            {/* )} */}
+          </Space>
         );
       },
     },
@@ -276,6 +352,10 @@ const IntakeReceiptLog = () => {
       },
     });
   }, [dispatch, intakeLog, sortBy]);
+
+  if (!isSessionLoading && activeSessionId) {
+    return <Redirect to={`/session/${activeSessionId}`} />;
+  }
 
   return (
     <>

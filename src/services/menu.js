@@ -19,12 +19,6 @@ export async function getMenuData() {
       icon: 'fe fe-folder',
       children: [
         {
-          title: 'Session',
-          key: 'session',
-          url: '/session',
-          icon: 'fe fe-minimize',
-        },
-        {
           title: 'Pool Scans',
           key: 'pool-scans',
           url: '/pool-scans',
@@ -150,7 +144,7 @@ export async function getRolePermissions() {
         '/analysis-runs',
         '/reflex-list',
       ],
-      default: '/session',
+      default: '/intake-receipt-log',
     },
     staff: {
       permitted: [
@@ -170,11 +164,11 @@ export async function getRolePermissions() {
         '/analysis-runs',
         '/reflex-list',
       ],
-      default: '/session',
+      default: '/intake-receipt-log',
     },
     'company-admin': {
       permitted: ['/profile', '/session', '/intake-receipt-log'],
-      default: '/session',
+      default: '/intake-receipt-log',
     },
   };
 }
