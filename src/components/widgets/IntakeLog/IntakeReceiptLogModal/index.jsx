@@ -79,6 +79,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
         tracking_numbers: [''],
         shipped_on: moment(),
         shipping_condition: 'Satisfactory',
+        shipping_violations: [],
         packing_slip_condition: 'Satisfactory',
         sample_condition: 'Acceptable',
       }}
@@ -204,11 +205,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           </Item>
         </Col>
         <Col xs={24} md={12}>
-          <Item
-            label="Shipping violations"
-            name="shipping_violations"
-            // rules={[rules.required]}
-          >
+          <Item label="Shipping violations" name="shipping_violations">
             <Checkbox.Group>
               <Row>
                 {constants.shippingViolations.map((item) => (
