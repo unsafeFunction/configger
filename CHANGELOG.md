@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.8.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.8.0...v7.8.1) (2021-10-14)
+
+### Bug Fixes
+
+- initial shipping violations value ([d7352b3](https://github.com/mokkapps/changelog-generator-demo/commits/d7352b30637c5496d1070ed05fd5119e88b2bd6d))
+
 ## [7.8.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.7.2...v7.8.0) (2021-10-14)
 
 ### Features
