@@ -219,8 +219,6 @@ const ScanSessions = () => {
         payload: {
           link: `/scans/pool/${poolId}/export/`,
           instanceId: poolId,
-          contentType:
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         },
       });
     },

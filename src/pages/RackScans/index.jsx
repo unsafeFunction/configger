@@ -55,8 +55,6 @@ const RackScans = () => {
         payload: {
           link: `/scans/rack/${poolId}/export/`,
           instanceId: poolId,
-          contentType:
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         },
       });
     },
