@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.8.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.7.2...v7.8.0) (2021-10-14)
+
+### Features
+
+- add new fields to Intake Log ([88e16e2](https://github.com/mokkapps/changelog-generator-demo/commits/88e16e2a3d7a5afea0cc694fbebe9d44e98becf0))
+- allow to start session only for the current day ([d94624e](https://github.com/mokkapps/changelog-generator-demo/commits/d94624e3705844c2008bee0785b87b53241961eb))
+- move session opening to intake log ([7d36dbe](https://github.com/mokkapps/changelog-generator-demo/commits/7d36dbeaac180270b9d5f007cb44f84b570ddf90))
+- new intake log columns ([fa2e44f](https://github.com/mokkapps/changelog-generator-demo/commits/fa2e44f640b98aca1479179464953fd5e5639029))
+
+### Bug Fixes
+
+- allow to start session within 24 hours ([377afa8](https://github.com/mokkapps/changelog-generator-demo/commits/377afa853273ee8f8cf5d0060f357474a51ba2c8))
+- fix patch intake log ([d5c1fb4](https://github.com/mokkapps/changelog-generator-demo/commits/d5c1fb4f57289b6b08725d6204569f8a99e6b5bc))
+
 ### [7.7.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.7.1...v7.7.2) (2021-10-14)
 
 ### Features
