@@ -15,12 +15,15 @@ import {
   Row,
   Select,
 } from 'antd';
+import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/companies/actions';
 import { constants } from 'utils/constants';
 import rules from 'utils/rules';
 import styles from './styles.module.scss';
+
+moment.tz.setDefault('America/New_York');
 
 const IntakeReceiptLogModal = ({ form, edit }) => {
   const [isCommentsSelected, setCommentsSelected] = useState(false);
@@ -74,8 +77,9 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
       layout="vertical"
       initialValues={{
         tracking_numbers: [''],
-        shipping_condition: 'satisfactory',
-        packing_slip_condition: 'satisfactory',
+        shipped_on: moment(),
+        shipping_condition: 'Satisfactory',
+        packing_slip_condition: 'Satisfactory',
         sample_condition: 'Acceptable',
       }}
       scrollToFirstError

@@ -1,6 +1,8 @@
-import { Button, Form, Table, Tag } from 'antd';
+import { CommentOutlined } from '@ant-design/icons';
+import { Button, Form, Popover, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import IntakeReceiptLogModal from 'components/widgets/IntakeLog/IntakeReceiptLogModal';
+import omit from 'lodash.omit';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -8,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/intakeReceiptLog/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
-import { getColorIntakeLog, getIconIntakeLog } from 'utils/highlighting';
+import { getColorIntakeLog } from 'utils/highlighting';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -56,13 +58,23 @@ const IntakeReceiptLog = () => {
   const handleChangeIntake = useCallback(
     async (record) => {
       const fieldValues = await form.validateFields();
-      const { company_name, company_short, ...rest } = fieldValues;
+
+      const formattedValues = {
+        ...omit(fieldValues, ['company_name', 'company_short']),
+        shipped_on: moment(fieldValues.shipped_on).format('YYYY-MM-DD'),
+        shipping_violations: fieldValues.shipping_violations?.map((item) => ({
+          violation: item,
+        })),
+      };
 
       if (record) {
         dispatch({
           type: actions.PATCH_INTAKE_REQUEST,
           payload: {
-            intake: { ...rest, id: record.id },
+            intake: {
+              ...formattedValues,
+              id: record.id,
+            },
             resetForm: handleReset,
           },
         });
@@ -70,7 +82,7 @@ const IntakeReceiptLog = () => {
         dispatch({
           type: actions.CREATE_INTAKE_REQUEST,
           payload: {
-            intake: rest,
+            intake: formattedValues,
             resetForm: handleReset,
           },
         });
@@ -85,6 +97,10 @@ const IntakeReceiptLog = () => {
         form.setFieldsValue({
           ...record.company,
           ...record,
+          shipped_on: moment(record.shipped_on),
+          shipping_violations: record.shipping_violations?.map(
+            (item) => item.violation,
+          ),
         });
       }
 
@@ -112,10 +128,10 @@ const IntakeReceiptLog = () => {
   const columns = [
     {
       title: 'Log DateTime',
-      dataIndex: 'modified',
+      dataIndex: 'created',
       sorter: true,
-      render: (_, record) => {
-        return moment(record.modified).format('lll');
+      render: (value) => {
+        return value ? moment(value).format('lll') : '-';
       },
     },
     {
@@ -159,32 +175,63 @@ const IntakeReceiptLog = () => {
     {
       title: 'Shipping Condition',
       dataIndex: 'shipping_condition',
+      // eslint-disable-next-line camelcase
+      render: (value, { shipping_violations }) => {
+        const taggedValue = <Tag color={getColorIntakeLog(value)}>{value}</Tag>;
+        if (shipping_violations.length) {
+          return (
+            <Popover
+              content={shipping_violations
+                ?.map((item) => item.violation)
+                .join(', ')}
+              title="Violations"
+              trigger="hover"
+              placement="top"
+              overlayClassName={styles.popover}
+            >
+              <div className={styles.comments}>
+                {taggedValue}
+                <CommentOutlined />
+              </div>
+            </Popover>
+          );
+        }
+        return taggedValue;
+      },
     },
     {
       title: 'Packing Slip Condition',
       dataIndex: 'packing_slip_condition',
+      render: (value) => {
+        return <Tag color={getColorIntakeLog(value)}>{value}</Tag>;
+      },
     },
     {
-      title: 'Total number of packing slips submitted',
+      title: 'Total packing slips',
       dataIndex: 'total_packing_slips',
     },
     {
       title: 'Sample Condition',
       dataIndex: 'sample_condition',
-      render: (value) => (
-        <Tag color={getColorIntakeLog(value)} icon={getIconIntakeLog(value)}>
-          {value}
-        </Tag>
-      ),
-    },
-    {
-      title: 'Comments',
-      dataIndex: 'comments',
-      width: '350px',
-      wordWrap: 'break-word',
-      wordBreak: 'break-word',
-      render: (_, record) => {
-        return record.comments ?? '-';
+      render: (value, { comments }) => {
+        const taggedValue = <Tag color={getColorIntakeLog(value)}>{value}</Tag>;
+        if (comments) {
+          return (
+            <Popover
+              content={comments}
+              title="Comments"
+              trigger="hover"
+              placement="top"
+              overlayClassName={styles.popover}
+            >
+              <div className={styles.comments}>
+                {taggedValue}
+                <CommentOutlined />
+              </div>
+            </Popover>
+          );
+        }
+        return taggedValue;
       },
     },
     {

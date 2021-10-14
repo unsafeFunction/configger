@@ -10,3 +10,13 @@
     align-items: baseline;
   }
 }
+
+.comments {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popover {
+  max-width: 400px;
+}

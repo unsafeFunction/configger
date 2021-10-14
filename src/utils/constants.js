@@ -102,45 +102,45 @@ export const constants = {
   shippingConditions: [
     {
       label: 'Satisfactory',
-      value: 'satisfactory',
+      value: 'Satisfactory',
     },
     {
       label: 'Unsatisfactory',
-      value: 'unsatisfactory',
+      value: 'Unsatisfactory',
     },
   ],
   shippingViolations: [
     {
       label: 'Individually-bagged',
-      value: 'individually_bagged',
+      value: 'Individually-bagged',
     },
     {
       label: 'Contains PHI',
-      value: 'contains_phi',
+      value: 'Contains PHI',
     },
     {
       label: 'No biohazard bag',
-      value: 'no_biohazard_bag',
+      value: 'No biohazard bag',
     },
     {
       label: 'No absorbent sheet',
-      value: 'no_absorbent_sheet',
+      value: 'No absorbent sheet',
     },
     {
       label: 'Leaky or wet bag',
-      value: 'leaky_or_wet_bag',
+      value: 'Leaky or wet bag',
     },
     {
       label: 'Damaged tube',
-      value: 'damaged_tube',
+      value: 'Damaged tube',
     },
     {
       label: 'Wrong cap',
-      value: 'wrong_cap',
+      value: 'Wrong cap',
     },
     {
       label: 'Expired',
-      value: 'expired',
+      value: 'Expired',
     },
   ],
   sampleConditions: [
