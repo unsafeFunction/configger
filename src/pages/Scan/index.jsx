@@ -640,17 +640,15 @@ const Scan = () => {
               editMode={scan?.status !== completed}
             />
           </div>
-          <ScanStatistic scan={scan} />
-          <Row>
-            <Col sm={24}>
-              <SingleSessionTable
-                session={session}
-                scansInWork={scansInWork}
-                handleCancelScan={handleCancelScan}
-                loadScan={loadScan}
-              />
-            </Col>
-          </Row>
+          <div className="mb-4">
+            <ScanStatistic scan={scan} />
+          </div>
+          <SingleSessionTable
+            session={session}
+            scansInWork={scansInWork}
+            handleCancelScan={handleCancelScan}
+            loadScan={loadScan}
+          />
         </Col>
         <Col xs={24} md={18} lg={8} xl={10}>
           <div className={styles.companyDetails}>

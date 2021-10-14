@@ -1,5 +1,5 @@
-import { DownOutlined, CommentOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Form, Menu, Space, Popover, Table,Tag } from 'antd';
+import { CommentOutlined, DownOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Form, Menu, Popover, Space, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import IntakeReceiptLogModal from 'components/widgets/IntakeLog/IntakeReceiptLogModal';
 import omit from 'lodash.omit';
@@ -311,24 +311,23 @@ const IntakeReceiptLog = () => {
       title: 'Actions',
       dataIndex: 'actions',
       fixed: 'right',
-      // width: 70,
       render: (_, record) => {
         return (
           <Space>
             <Button type="primary" onClick={() => handleModalToggle(record)}>
               Edit
             </Button>
-            {/* {moment(record.created).isSame(moment(), 'day') && ( */}
-            <Dropdown overlay={scannerMenu(record.id)} trigger="click">
-              <Button
-                type="primary"
-                loading={isSessionLoading || scanners.isLoading}
-              >
-                Start session
-                <DownOutlined />
-              </Button>
-            </Dropdown>
-            {/* )} */}
+            {moment(record.created).isSame(moment(), 'day') && (
+              <Dropdown overlay={scannerMenu(record.id)} trigger="click">
+                <Button
+                  type="primary"
+                  loading={isSessionLoading || scanners.isLoading}
+                >
+                  Start session
+                  <DownOutlined />
+                </Button>
+              </Dropdown>
+            )}
           </Space>
         );
       },
