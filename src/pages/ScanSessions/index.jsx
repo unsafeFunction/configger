@@ -6,6 +6,7 @@ import {
   Dropdown,
   Input,
   Menu,
+  Popconfirm,
   Row,
   Table,
   Tag,
@@ -236,6 +237,16 @@ const ScanSessions = () => {
     [dispatch],
   );
 
+  const handleDelete = useCallback(
+    async ({ poolId, sessionId }) => {
+      await dispatch({
+        type: actions.DELETE_SCAN_BY_ID_REQUEST,
+        payload: { id: poolId, sessionId },
+      });
+    },
+    [dispatch],
+  );
+
   const getPoolName = useCallback((scan) => {
     if (scan?.isLoading) {
       return '-';
@@ -308,13 +319,21 @@ const ScanSessions = () => {
                       >
                         Export pool
                       </Button>
-                      <Button
-                        onClick={() => console.log('Delete')}
-                        className="mr-3"
-                        type="primary"
+                      <Popconfirm
+                        title="Are you sure to delete this tube?"
+                        okText="Yes"
+                        cancelText="No"
+                        onConfirm={() =>
+                          handleDelete({
+                            poolId: scan.id,
+                            sessionId: record.id,
+                          })
+                        }
                       >
-                        Delete pool
-                      </Button>
+                        <Button className="mr-3" type="primary">
+                          Delete pool
+                        </Button>
+                      </Popconfirm>
                     </>
                   ),
                 };

@@ -466,6 +466,27 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
 
+    case actions.DELETE_SCAN_BY_ID_REQUEST: {
+      return {
+        ...state,
+        ...initialSingleSession,
+        isLoading: true,
+      };
+    }
+    case actions.DELETE_SCAN_BY_ID_SUCCESS: {
+      console.log(state);
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case actions.DELETE_SCAN_BY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
     default:
       return state;
   }

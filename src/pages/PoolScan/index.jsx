@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { Button, Col, Dropdown, Menu, Row, Statistic } from 'antd';
+import { Button, Col, Dropdown, Menu, Popconfirm, Row, Statistic } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import PoolStatistic from 'components/widgets/Scans/PoolStatistic';
 import moment from 'moment-timezone';
@@ -79,14 +79,25 @@ const PoolScan = () => {
     [scan, session],
   );
 
+  const handleDelete = useCallback(() => {
+    dispatch({
+      type: actions.DELETE_SCAN_BY_ID_REQUEST,
+      payload: { id: scan?.id },
+    });
+    history.push('/pool-scans');
+  }, [dispatch, scan, history]);
+
   const scanMenu = (
     <Menu>
-      <Menu.Item
-        key="1"
-        icon={<CloseOutlined />}
-        onClick={() => console.log('delete')}
-      >
-        Delete scan
+      <Menu.Item key="1" icon={<CloseOutlined />}>
+        <Popconfirm
+          title="Are you sure to delete Scan?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={handleDelete}
+        >
+          Delete scan
+        </Popconfirm>
       </Menu.Item>
     </Menu>
   );
