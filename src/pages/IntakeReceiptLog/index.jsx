@@ -317,7 +317,7 @@ const IntakeReceiptLog = () => {
             <Button type="primary" onClick={() => handleModalToggle(record)}>
               Edit
             </Button>
-            {moment(record.created).isSame(moment(), 'day') && (
+            {moment().diff(moment(record.created), 'hours') <= 24 && (
               <Dropdown overlay={scannerMenu(record.id)} trigger="click">
                 <Button
                   type="primary"
