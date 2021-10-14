@@ -16,7 +16,7 @@ import actions from './actions';
 const cookie = cookieStorage();
 
 export function* callLogin({ payload }) {
-  const { email, password, toScanSession } = payload;
+  const { email, password, callback } = payload;
   try {
     const response = yield call(login, email, password);
 
@@ -29,7 +29,7 @@ export function* callLogin({ payload }) {
       description: 'You have successfully logged in!',
     });
 
-    return yield call(toScanSession);
+    return yield call(callback);
   } catch (error) {
     const errorData = error.response.data.non_field_errors;
 

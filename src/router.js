@@ -76,10 +76,6 @@ const routes = [
     Component: loadable(() => import('pages/Scan')),
   },
   {
-    path: '/session',
-    Component: loadable(() => import('pages/ScanSession')),
-  },
-  {
     path: '/pool-scans/:sessionId/:scanId',
     Component: loadable(() => import('pages/PoolScan')),
   },
@@ -167,7 +163,7 @@ class Router extends React.Component {
               exact
               path="/"
               render={() => {
-                return <Redirect to="/session" />;
+                return <Redirect to="/intake-receipt-log" />;
               }}
             />
             {routes.map(({ path, Component, exact = false }) => (

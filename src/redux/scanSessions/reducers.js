@@ -176,28 +176,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
 
-    case actions.FETCH_COMPANY_INFO_REQUEST: {
-      return {
-        ...state,
-        companyInfoLoading: true,
-        error: null,
-      };
-    }
-    case actions.FETCH_COMPANY_INFO_SUCCESS: {
-      return {
-        ...state,
-        companyInfoLoading: false,
-        intakeLogs: action.payload.data,
-      };
-    }
-    case actions.FETCH_COMPANY_INFO_FAILURE: {
-      return {
-        ...state,
-        companyInfoLoading: false,
-        intakeLogs: [],
-      };
-    }
-
     case actions.FETCH_ACTIVE_SCANS_REQUEST: {
       return {
         ...state,

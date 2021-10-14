@@ -11,8 +11,16 @@
   }
 }
 
-.spin {
-  text-align: center;
-  padding: 30px 50px;
-  margin: 20px 0;
+.disabledScanner {
+  color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.comments {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popover {
+  max-width: 400px;
 }
