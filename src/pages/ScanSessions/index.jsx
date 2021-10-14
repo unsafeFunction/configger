@@ -1,5 +1,15 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { Button, Col, DatePicker, Input, Row, Table, Tag } from 'antd';
+import { CloseOutlined, DownOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Dropdown,
+  Input,
+  Menu,
+  Row,
+  Table,
+  Tag,
+} from 'antd';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
@@ -290,12 +300,20 @@ const ScanSessions = () => {
                         View pool
                       </Button>
                       <Button
+                        className="mr-3"
                         onClick={() => {
                           return exportPool({ poolId: scan.id });
                         }}
                         type="primary"
                       >
                         Export pool
+                      </Button>
+                      <Button
+                        onClick={() => console.log('Delete')}
+                        className="mr-3"
+                        type="primary"
+                      >
+                        Delete pool
                       </Button>
                     </>
                   ),
