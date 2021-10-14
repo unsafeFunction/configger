@@ -99,6 +99,64 @@ export const constants = {
   intakeLog: {
     itemsLoadingCount: 25,
   },
+  shippingConditions: [
+    {
+      label: 'Satisfactory',
+      value: 'Satisfactory',
+    },
+    {
+      label: 'Unsatisfactory',
+      value: 'Unsatisfactory',
+    },
+  ],
+  shippingViolations: [
+    {
+      label: 'Individually-bagged',
+      value: 'Individually-bagged',
+    },
+    {
+      label: 'Contains PHI',
+      value: 'Contains PHI',
+    },
+    {
+      label: 'No biohazard bag',
+      value: 'No biohazard bag',
+    },
+    {
+      label: 'No absorbent sheet',
+      value: 'No absorbent sheet',
+    },
+    {
+      label: 'Leaky or wet bag',
+      value: 'Leaky or wet bag',
+    },
+    {
+      label: 'Damaged tube',
+      value: 'Damaged tube',
+    },
+    {
+      label: 'Wrong cap',
+      value: 'Wrong cap',
+    },
+    {
+      label: 'Expired',
+      value: 'Expired',
+    },
+  ],
+  sampleConditions: [
+    {
+      label: 'Acceptable',
+      value: 'Acceptable',
+    },
+    {
+      label: 'Unacceptable',
+      value: 'Unacceptable',
+    },
+    {
+      label: 'Other (see Comments)',
+      value: 'Other',
+    },
+  ],
   runStatuses: {
     qpcr: 'QPCR',
     analysis: 'ANALYSIS',
