@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.7.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.7.1...v7.7.2) (2021-10-14)
+
+### Features
+
+- update logic for dowlload all files ([cf24378](https://github.com/mokkapps/changelog-generator-demo/commits/cf2437824fab3838194e3095ec97b2d9e1a77e44))
+
 ### [7.7.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.7.0...v7.7.1) (2021-10-13)
 
 ### Features
