@@ -55,7 +55,6 @@ const RackScans = () => {
         payload: {
           link: `/scans/rack/${poolId}/export/`,
           instanceId: poolId,
-          contentType: 'text/csv',
         },
       });
     },

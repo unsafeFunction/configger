@@ -230,7 +230,6 @@ const ScanSessions = () => {
         payload: {
           link: `/scans/pool/${poolId}/export/`,
           instanceId: poolId,
-          contentType: 'text/csv',
         },
       });
     },

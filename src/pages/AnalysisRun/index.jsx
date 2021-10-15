@@ -193,7 +193,6 @@ const AnalysisRun = () => {
         payload: {
           link: `/runs/${runId}/export/`,
           instanceId: runId,
-          contentType: 'application/pdf',
         },
       });
     },

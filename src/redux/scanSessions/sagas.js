@@ -2,10 +2,9 @@ import { notification } from 'antd';
 import sortBy from 'lodash.sortby';
 import moment from 'moment-timezone';
 import { all, call, put, select, takeEvery } from 'redux-saga/effects';
-import { callFetchCompanyShort } from 'redux/companies/sagas';
 import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
-import { fetchIntakeReceiptLog } from 'services/intakeReceiptLog';
+import { fetchScannerById } from 'services/scanners';
 import {
   deleteScan,
   deleteTube,
@@ -22,7 +21,6 @@ import {
   fetchSessions,
   updateSession,
 } from 'services/scanSessions';
-import { fetchScannerById } from 'services/scanners';
 import { constants } from 'utils/constants';
 import { emptyPositionsArr, incorrectPositionsArr } from 'utils/tubesRules';
 import actions from './actions';
@@ -677,7 +675,6 @@ export default function* rootSaga() {
     takeEvery(actions.CREATE_SESSION_REQUEST, callCreateSession),
     takeEvery(actions.FETCH_SESSION_ID_REQUEST, callFetchSessionId),
     takeEvery(actions.CANCEL_SCAN_BY_ID_REQUEST, callCancelScan),
-    takeEvery(actions.FETCH_COMPANY_INFO_REQUEST, callFetchCompanyInfo),
     takeEvery(actions.FETCH_ACTIVE_SCANS_REQUEST, callFetchActiveScans),
     takeEvery(
       actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST,

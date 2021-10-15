@@ -10,7 +10,7 @@ import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { isReservedSample, roundValue } from 'utils/analysisRules';
 import { constants } from 'utils/constants';
-import { getColor } from 'utils/highlightingResult';
+import { getColor } from 'utils/highlighting';
 
 const { Option } = Select;
 

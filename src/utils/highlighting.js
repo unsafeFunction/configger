@@ -115,3 +115,20 @@ export const getStatusText = (status) => {
       return status.toUpperCase();
   }
 };
+
+export const getColorIntakeLog = (status) => {
+  switch (status) {
+    case 'Acceptable':
+    case 'Satisfactory': {
+      return 'success';
+    }
+    case 'Unacceptable': {
+      return 'error';
+    }
+    case 'Unsatisfactory': {
+      return 'warning';
+    }
+    default:
+      return 'default';
+  }
+};
