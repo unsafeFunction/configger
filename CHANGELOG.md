@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.9.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.9.0...v7.9.1) (2021-10-15)
+
+### Bug Fixes
+
+- pool size, samples, rack id ([bc661e1](https://github.com/mokkapps/changelog-generator-demo/commits/bc661e1856eb38f69f102505df9ff22dd4f0731b))
+
 ## [7.9.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.8.1...v7.9.0) (2021-10-15)
 
 ### Features
