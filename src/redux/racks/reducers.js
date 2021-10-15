@@ -56,7 +56,6 @@ const racksReducer = (state = initialState, action) => {
       };
     }
     case actions.DELETE_RACK_BY_ID_SUCCESS: {
-      console.log(state, action.payload);
       return {
         ...state,
         items: state.items.filter((item) => item.id !== action.payload.id),
