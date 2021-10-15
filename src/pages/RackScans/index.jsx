@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Row, Table, Tag } from 'antd';
+import { Button, Col, DatePicker, Popconfirm, Row, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -74,6 +74,16 @@ const RackScans = () => {
     [history],
   );
 
+  const handleDelete = useCallback(
+    async ({ poolId }) => {
+      await dispatch({
+        type: actions.DELETE_RACK_BY_ID_REQUEST,
+        payload: { id: poolId, fetchRacks: true },
+      });
+    },
+    [dispatch],
+  );
+
   const columns = [
     {
       title: 'PoolRack Name',
@@ -132,6 +142,7 @@ const RackScans = () => {
               View rack
             </Button>
             <Button
+              className="mr-3"
               onClick={() => {
                 return exportRack({ poolId: record.id });
               }}
@@ -139,6 +150,20 @@ const RackScans = () => {
             >
               Export rack
             </Button>
+            <Popconfirm
+              title="Are you sure to delete this Rack?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() =>
+                handleDelete({
+                  poolId: record.id,
+                })
+              }
+            >
+              <Button className="mr-3" type="primary">
+                Delete rack
+              </Button>
+            </Popconfirm>
           </div>
         );
       },

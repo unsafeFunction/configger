@@ -38,3 +38,11 @@ export const updateRackScan = async ({
     throw new Error(error?.response?.data.non_field_errors);
   }
 };
+
+export const deleteRack = async ({ id }) => {
+  try {
+    return await axiosClient.delete(`/scans/rack/${id}/`);
+  } catch (error) {
+    throw new Error(error);
+  }
+};

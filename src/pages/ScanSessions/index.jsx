@@ -1,5 +1,16 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { Button, Col, DatePicker, Input, Row, Table, Tag } from 'antd';
+import { CloseOutlined, DownOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Dropdown,
+  Input,
+  Menu,
+  Popconfirm,
+  Row,
+  Table,
+  Tag,
+} from 'antd';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
@@ -225,6 +236,16 @@ const ScanSessions = () => {
     [dispatch],
   );
 
+  const handleDelete = useCallback(
+    async ({ poolId, sessionId }) => {
+      await dispatch({
+        type: actions.DELETE_SCAN_BY_ID_REQUEST,
+        payload: { id: poolId, sessionId },
+      });
+    },
+    [dispatch],
+  );
+
   const getPoolName = useCallback((scan) => {
     if (scan?.isLoading) {
       return '-';
@@ -289,6 +310,7 @@ const ScanSessions = () => {
                         View pool
                       </Button>
                       <Button
+                        className="mr-3"
                         onClick={() => {
                           return exportPool({ poolId: scan.id });
                         }}
@@ -296,6 +318,21 @@ const ScanSessions = () => {
                       >
                         Export pool
                       </Button>
+                      <Popconfirm
+                        title="Are you sure to delete this tube?"
+                        okText="Yes"
+                        cancelText="No"
+                        onConfirm={() =>
+                          handleDelete({
+                            poolId: scan.id,
+                            sessionId: record.id,
+                          })
+                        }
+                      >
+                        <Button className="mr-3" type="primary">
+                          Delete pool
+                        </Button>
+                      </Popconfirm>
                     </>
                   ),
                 };

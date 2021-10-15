@@ -589,6 +589,33 @@ export function* callVoidScan({ payload }) {
   }
 }
 
+export function* callDeleteScan({ payload }) {
+  try {
+    yield call(deleteScan, payload);
+
+    yield put({ type: actions.DELETE_SCAN_BY_ID_SUCCESS });
+    if (payload.sessionId) {
+      yield put({
+        type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
+        payload: { sessionId: payload.sessionId },
+      });
+    }
+
+    notification.success({
+      message: 'Scan was deleted successfully!',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.DELETE_SCAN_BY_ID_FAILURE,
+      payload: {
+        error,
+      },
+    });
+
+    throw new Error(error);
+  }
+}
+
 export function* callFetchActiveScans({ payload }) {
   try {
     const response = yield call(fetchActiveScans, payload);
@@ -628,5 +655,6 @@ export default function* rootSaga() {
       actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST,
       callScannerStatusById,
     ),
+    takeEvery(actions.DELETE_SCAN_BY_ID_REQUEST, callDeleteScan),
   ]);
 }

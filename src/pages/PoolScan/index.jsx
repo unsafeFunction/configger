@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
-import { Button, Col, Row, Statistic } from 'antd';
+import { Button, Col, Dropdown, Menu, Popconfirm, Row, Statistic } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import PoolStatistic from 'components/widgets/Scans/PoolStatistic';
 import moment from 'moment-timezone';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import actions from 'redux/scanSessions/actions';
+import classNames from 'classnames';
+import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -77,6 +79,29 @@ const PoolScan = () => {
     [scan, session],
   );
 
+  const handleDelete = useCallback(() => {
+    dispatch({
+      type: actions.DELETE_SCAN_BY_ID_REQUEST,
+      payload: { id: scan?.id },
+    });
+    history.push('/pool-scans');
+  }, [dispatch, scan, history]);
+
+  const scanMenu = (
+    <Menu>
+      <Menu.Item key="1" icon={<CloseOutlined />}>
+        <Popconfirm
+          title="Are you sure to delete Scan?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={handleDelete}
+        >
+          Delete scan
+        </Popconfirm>
+      </Menu.Item>
+    </Menu>
+  );
+
   const useFetching = () => {
     useEffect(() => {
       // TODO: in some cases this request is unnecessary
@@ -96,6 +121,15 @@ const PoolScan = () => {
 
   return (
     <>
+      <div className={classNames('air__utils__heading', styles.page__header)}>
+        <h4>Pool scan</h4>
+        <Dropdown overlay={scanMenu} overlayClassName={styles.actionsOverlay}>
+          <Button type="primary">
+            Scan Actions
+            <DownOutlined />
+          </Button>
+        </Dropdown>
+      </div>
       <Row gutter={[48, 40]} justify="center">
         <Col xs={24} md={18} lg={16} xl={14}>
           <div className="mb-4">
