@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.9.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.8.1...v7.9.0) (2021-10-15)
+
+### Features
+
+- delete pool scan ([5e6fdeb](https://github.com/mokkapps/changelog-generator-demo/commits/5e6fdebee259fe741e56aaeff2c45ec677c41eb3))
+- delete rack from table ([8607693](https://github.com/mokkapps/changelog-generator-demo/commits/8607693a3a6ef12173d4f8c0962a42a0c2c78225))
+- delete scan template ([72ff5f2](https://github.com/mokkapps/changelog-generator-demo/commits/72ff5f2a15c1788b4d4f651275868c0e27fa752c))
+
+### Bug Fixes
+
+- rack delete single ([b8e891e](https://github.com/mokkapps/changelog-generator-demo/commits/b8e891e4cbddeb6efb8e09d48a2378e40be7bc50))
+- rejected status color ([7b0a197](https://github.com/mokkapps/changelog-generator-demo/commits/7b0a197df46840b073fdfe652ba7c9256026fb57))
+- resolve conflict from dev ([4ba35bd](https://github.com/mokkapps/changelog-generator-demo/commits/4ba35bd481413834e08146834dde7e6342e34360))
+
 ### [7.8.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.8.0...v7.8.1) (2021-10-14)
 
 ### Bug Fixes
