@@ -11,59 +11,52 @@ import TwoToneComponent from 'assets/TwoTone';
 import React from 'react';
 
 export const getColor = (status) => {
-  switch (status) {
-    case 'COVID-19 Detected':
-    case 'DETECTED': {
+  switch (status?.toLowerCase()) {
+    case 'covid-19 detected':
+    case 'detected':
+    case 'rejected': {
       return 'red';
     }
-    case 'Not Detected':
-    case 'NOT_DETECTED': {
+    case 'not detected':
+    case 'not_detected': {
       return 'green';
     }
-    case 'Inconclusive':
-    case 'INCONCLUSIVE': {
+    case 'inconclusive': {
       return 'orange';
     }
-    case 'In Progress':
-    case 'IN_PROGRESS': {
+    case 'in progress':
+    case 'in_progress': {
       return 'blue';
     }
-    case 'Invalid':
-    case 'INVALID':
-    case 'Processing': {
-      return 'default';
-    }
     default:
-      return 'Unknown';
+      return 'default';
   }
 };
 
 export const getIcon = (status) => {
-  switch (status) {
-    case 'COVID-19 Detected':
-    case 'DETECTED': {
+  switch (status?.toLowerCase()) {
+    case 'covid-19 detected':
+    case 'detected': {
       return <PlusCircleFilled />;
     }
-    case 'Not Detected':
-    case 'NOT_DETECTED': {
+    case 'not detected':
+    case 'not_detected': {
       return <MinusCircleFilled />;
     }
-    case 'Inconclusive':
-    case 'INCONCLUSIVE': {
+    case 'inconclusive': {
       return <TwoToneComponent />;
     }
-    case 'In Progress':
-    case 'IN_PROGRESS': {
+    case 'in progress':
+    case 'in_progress': {
       return <ClockCircleFilled />;
     }
-    case 'Invalid':
-    case 'INVALID': {
+    case 'invalid': {
       return <ExclamationCircleFilled />;
     }
-    case 'Processing': {
+    case 'processing': {
       return <SyncOutlined />;
     }
-    case 'Rejected': {
+    case 'rejected': {
       return <StopOutlined />;
     }
     default:
