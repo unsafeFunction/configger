@@ -95,10 +95,17 @@ const ScanSessions = () => {
       },
     },
     {
-      title: 'Pools Count',
+      title: 'Total Pools Count',
       dataIndex: 'pool_size',
       render: (_, value) => {
         return value?.scans.length || '-';
+      },
+    },
+    {
+      title: 'Total Samples Count',
+      dataIndex: 'samples_count',
+      render: (_, value) => {
+        return value?.samples_count || '-';
       },
     },
     {
@@ -123,6 +130,8 @@ const ScanSessions = () => {
     const columns = [
       { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
       { title: 'Pool Name', dataIndex: 'scan_name', key: 'scan_name' },
+      { title: 'Pool Size', dataIndex: 'pool_size', key: 'pool_size' },
+      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id' },
       {
         title: 'Scan time',
         dataIndex: 'scan_time',
@@ -294,6 +303,8 @@ const ScanSessions = () => {
                     ? moment(scan.scan_timestamp).format('LLLL')
                     : '-',
                   scan_name: poolName,
+                  pool_size: scan.tubes_count,
+                  rack_id: scan.rack_id,
                   scanner: scan.scanner ?? '-',
                   action: (
                     <>
