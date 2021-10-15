@@ -616,31 +616,6 @@ export function* callDeleteScan({ payload }) {
   }
 }
 
-export function* callFetchCompanyInfo(payload) {
-  try {
-    yield call(callFetchCompanyShort, payload);
-
-    const response = yield call(fetchIntakeReceiptLog, {
-      created_after: moment()
-        .subtract(24, 'hours')
-        .format('YYYY-MM-DD'),
-      created_before: moment().format('YYYY-MM-DD'),
-      company_id: payload.payload.id,
-    });
-
-    yield put({
-      type: actions.FETCH_COMPANY_INFO_SUCCESS,
-      payload: {
-        data: response.data.results,
-      },
-    });
-  } catch (error) {
-    yield put({
-      type: actions.FETCH_COMPANY_INFO_FAILURE,
-    });
-  }
-}
-
 export function* callFetchActiveScans({ payload }) {
   try {
     const response = yield call(fetchActiveScans, payload);

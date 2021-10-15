@@ -1,9 +1,15 @@
 import { all, takeEvery, put, call, select } from 'redux-saga/effects';
 import { notification } from 'antd';
-import { fetchRackScans, fetchRackScan, updateRackScan } from 'services/racks';
+import {
+  fetchRackScans,
+  fetchRackScan,
+  updateRackScan,
+  deleteRack,
+} from 'services/racks';
 import modalActions from 'redux/modal/actions';
 import { getRackScan } from './selectors';
 import actions from './actions';
+import { callDeleteScan } from '../scanSessions/sagas';
 
 export function* callFetchRacks({ payload }) {
   try {
@@ -109,10 +115,37 @@ export function* callUpdateRack({ payload }) {
   }
 }
 
+export function* callDeleteRack({ payload }) {
+  try {
+    yield call(deleteRack, payload);
+
+    yield put({
+      type: actions.DELETE_RACK_BY_ID_SUCCESS,
+      payload: {
+        id: payload.id,
+      },
+    });
+
+    notification.success({
+      message: 'Rack was deleted successfully!',
+    });
+  } catch (error) {
+    yield put({
+      type: actions.DELETE_RACK_BY_ID_FAILURE,
+      payload: {
+        error,
+      },
+    });
+
+    throw new Error(error);
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_RACKS_REQUEST, callFetchRacks),
     takeEvery(actions.GET_RACK_REQUEST, callFetchRack),
     takeEvery(actions.UPDATE_RACK_REQUEST, callUpdateRack),
+    takeEvery(actions.DELETE_RACK_BY_ID_REQUEST, callDeleteRack),
   ]);
 }

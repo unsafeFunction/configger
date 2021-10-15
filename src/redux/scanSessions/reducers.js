@@ -452,7 +452,6 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
     case actions.DELETE_SCAN_BY_ID_SUCCESS: {
-      console.log(state);
       return {
         ...state,
         isLoading: false,
