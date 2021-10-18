@@ -11,8 +11,7 @@ const { Text } = Typography;
 const PoolRackDetail = ({ id }) => {
   const dispatch = useDispatch();
 
-  const [highlightedTube, setTube] = useState('');
-  console.log('highlightedTube', highlightedTube);
+  const [highlightedTubeId, setTube] = useState(null);
 
   const poolRack = useSelector((state) => state.racks.singleRack);
 
@@ -54,7 +53,7 @@ const PoolRackDetail = ({ id }) => {
             rackboard={poolRack}
             scanId={poolRack.id}
             editMode={false}
-            highlightedTube
+            highlightedTubeId={highlightedTubeId}
           />
         </Col>
         <Col xs={24} lg={12}>
@@ -63,13 +62,16 @@ const PoolRackDetail = ({ id }) => {
             dataSource={poolRack.pools}
             loading={poolRack.isLoading}
             pagination={false}
-            scroll={{ x: 'max-content' }}
+            scroll={{ x: 'max-content', y: '60vh' }}
             bordered
             rowKey={(record) => record.id}
-            onRow={(record, rowIndex) => {
+            onRow={(record) => {
               return {
-                onMouseEnter: (event) => {
-                  setTube(record.position);
+                onMouseEnter: () => {
+                  setTube(record.id);
+                },
+                onMouseLeave: () => {
+                  setTube(null);
                 },
               };
             }}

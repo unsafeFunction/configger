@@ -15,7 +15,7 @@ const Rackboard = ({
   session,
   isRack = false,
   editMode = true,
-  highlightedTube = '',
+  highlightedTubeId = null,
 }) => {
   const { tubes } = constants;
 
@@ -139,7 +139,6 @@ const Rackboard = ({
     title: `${i + 1}`,
     dataIndex: `col${i + 1}`,
     align: 'center',
-    // shouldCellUpdate: (record, prevRecord) => {},
     render: (_, record) => {
       const recordStatus = record?.[`col${i + 1}`]?.status;
       const isCanValidate =
@@ -154,7 +153,7 @@ const Rackboard = ({
       const isTubeEmpty = rackboard?.empty_positions?.find(
         (position) => position === record?.[`col${i + 1}`]?.position,
       );
-      const recordPosition = record?.[`col${i + 1}`]?.position;
+      const recordId = record?.[`col${i + 1}`]?.id;
 
       const renderCell = () => {
         if (record[`col${i + 1}`] && recordStatus !== tubes.blank.status) {
@@ -301,12 +300,11 @@ const Rackboard = ({
           );
         }
       };
-
       return {
         props: {
-          className:
-            recordPosition === highlightedTube && styles.highlightedTube,
-          // recordPosition === 'B4' && styles.highlightedTube,
+          className: classNames(
+            recordId === highlightedTubeId && styles.highlightedTube,
+          ),
         },
         children: renderCell(),
       };
@@ -325,7 +323,6 @@ const Rackboard = ({
 
   return (
     <>
-      {highlightedTube}
       <Table
         columns={columns}
         dataSource={rackboard?.items ?? initialRackboard}
@@ -344,7 +341,7 @@ const Rackboard = ({
 Rackboard.propTypes = {
   rackboard: PropTypes.shape({}),
   editMode: PropTypes.bool,
-  highlightedTube: PropTypes.string,
+  highlightedTubeId: PropTypes.string,
 };
 
 export default Rackboard;
