@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.9.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.9.1...v7.9.2) (2021-10-18)
+
+### Bug Fixes
+
+- table actions ([ced545b](https://github.com/mokkapps/changelog-generator-demo/commits/ced545be0f74c7b2ec0c99553b9276394d5727ea))
+
 ### [7.9.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.9.0...v7.9.1) (2021-10-15)
 
 ### Bug Fixes
