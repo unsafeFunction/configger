@@ -13,7 +13,7 @@ export const constants = {
     itemsLoadingCount: 25,
   },
   scanSessions: {
-    itemsLoadingCount: 12,
+    itemsLoadingCount: 20,
   },
   poolRacks: {
     itemsLoadingCount: 25,
