@@ -15,6 +15,7 @@ const Rackboard = ({
   session,
   isRack = false,
   editMode = true,
+  highlightedTubeId = null,
 }) => {
   const { tubes } = constants;
 
@@ -152,143 +153,159 @@ const Rackboard = ({
       const isTubeEmpty = rackboard?.empty_positions?.find(
         (position) => position === record?.[`col${i + 1}`]?.position,
       );
+      const recordId = record?.[`col${i + 1}`]?.id;
 
-      if (record[`col${i + 1}`] && recordStatus !== tubes.blank.status) {
-        return (
-          <Popover
-            title={
-              <>
-                <Tag color="purple">{record?.[`col${i + 1}`]?.position}</Tag>
-                <Tag color="purple">{recordStatus}</Tag>
-              </>
-            }
-            visible={
-              popoverVisible?.id === record?.[`col${i + 1}`]?.id && editMode
-            }
-            content={
-              <div className={styles.popoverWrapper}>
-                <Input
-                  size="large"
-                  placeholder="Tube barcode"
-                  value={currentTubeID}
-                  defaultValue={record?.[`col${i + 1}`]?.tube_id}
-                  className={classNames(styles.tubeInput, 'mb-4')}
-                  onChange={handleChangeTubeID}
-                  allowClear
-                />
+      const renderCell = () => {
+        if (record[`col${i + 1}`] && recordStatus !== tubes.blank.status) {
+          return (
+            <Popover
+              title={
+                <>
+                  <Tag color="purple">{record?.[`col${i + 1}`]?.position}</Tag>
+                  <Tag color="purple">{recordStatus}</Tag>
+                </>
+              }
+              visible={
+                popoverVisible?.id === record?.[`col${i + 1}`]?.id && editMode
+              }
+              content={
+                <div className={styles.popoverWrapper}>
+                  <Input
+                    size="large"
+                    placeholder="Tube barcode"
+                    value={currentTubeID}
+                    defaultValue={record?.[`col${i + 1}`]?.tube_id}
+                    className={classNames(styles.tubeInput, 'mb-4')}
+                    onChange={handleChangeTubeID}
+                    allowClear
+                  />
 
-                <Popconfirm
-                  disabled={!currentTubeID}
-                  title="Are you sure to update this tube?"
-                  okText="Yes"
-                  cancelText="No"
-                  onConfirm={() => handleSave(record?.[`col${i + 1}`])}
-                >
-                  <Button
-                    disabled={!currentTubeID}
-                    className={styles.popoverBtn}
-                    type="primary"
-                  >
-                    Save
-                  </Button>
-                </Popconfirm>
-                {(isRack &&
-                  recordStatus !== tubes.deleted.status &&
-                  recordStatus !== tubes.missing.status &&
-                  recordStatus !== tubes.negativeControl.status &&
-                  recordStatus !== tubes.positiveControl.status) ||
-                (!isRack &&
-                  recordStatus !== tubes.deleted.status &&
-                  recordStatus !== tubes.missing.status &&
-                  recordStatus !== tubes.pooling.status) ? (
                   <Popconfirm
-                    title="Are you sure to delete this tube?"
+                    disabled={!currentTubeID}
+                    title="Are you sure to update this tube?"
                     okText="Yes"
                     cancelText="No"
-                    onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
+                    onConfirm={() => handleSave(record?.[`col${i + 1}`])}
                   >
-                    <Button className={styles.popoverBtn} danger>
-                      Delete
+                    <Button
+                      disabled={!currentTubeID}
+                      className={styles.popoverBtn}
+                      type="primary"
+                    >
+                      Save
                     </Button>
                   </Popconfirm>
-                ) : null}
-                {!isRack && (
-                  <>
-                    {isCanValidate ? (
-                      <Popconfirm
-                        disabled={!currentTubeID}
-                        title="Are you sure to validate this tube?"
-                        okText="Yes"
-                        cancelText="No"
-                        onConfirm={() => validate(record?.[`col${i + 1}`])}
-                      >
-                        <Button
+                  {(isRack &&
+                    recordStatus !== tubes.deleted.status &&
+                    recordStatus !== tubes.missing.status &&
+                    recordStatus !== tubes.negativeControl.status &&
+                    recordStatus !== tubes.positiveControl.status) ||
+                  (!isRack &&
+                    recordStatus !== tubes.deleted.status &&
+                    recordStatus !== tubes.missing.status &&
+                    recordStatus !== tubes.pooling.status) ? (
+                    <Popconfirm
+                      title="Are you sure to delete this tube?"
+                      okText="Yes"
+                      cancelText="No"
+                      onConfirm={() => handleDelete(record?.[`col${i + 1}`])}
+                    >
+                      <Button className={styles.popoverBtn} danger>
+                        Delete
+                      </Button>
+                    </Popconfirm>
+                  ) : null}
+                  {!isRack && (
+                    <>
+                      {isCanValidate ? (
+                        <Popconfirm
                           disabled={!currentTubeID}
-                          type="primary"
-                          className={styles.popoverBtn}
+                          title="Are you sure to validate this tube?"
+                          okText="Yes"
+                          cancelText="No"
+                          onConfirm={() => validate(record?.[`col${i + 1}`])}
                         >
-                          Validate
-                        </Button>
-                      </Popconfirm>
-                    ) : (
-                      recordStatus !== tubes.missing.status &&
-                      recordStatus !== tubes.pooling.status &&
-                      recordStatus !== tubes.deleted.status && (
-                        <Button
-                          className={styles.popoverBtn}
-                          onClick={() =>
-                            handleInvalidateAction(record?.[`col${i + 1}`])
-                          }
-                        >
-                          Invalidate
-                        </Button>
-                      )
-                    )}
-                  </>
-                )}
-                <Button
-                  onClick={handleClosePopover}
-                  className={styles.popoverBtn}
-                >
-                  Cancel
-                </Button>
-              </div>
-            }
-            trigger="click"
-            onVisibleChange={(value) => {
-              if (value) {
-                setPopoverVisible(record?.[`col${i + 1}`]);
-              } else {
-                setPopoverVisible(null);
+                          <Button
+                            disabled={!currentTubeID}
+                            type="primary"
+                            className={styles.popoverBtn}
+                          >
+                            Validate
+                          </Button>
+                        </Popconfirm>
+                      ) : (
+                        recordStatus !== tubes.missing.status &&
+                        recordStatus !== tubes.pooling.status &&
+                        recordStatus !== tubes.deleted.status && (
+                          <Button
+                            className={styles.popoverBtn}
+                            onClick={() =>
+                              handleInvalidateAction(record?.[`col${i + 1}`])
+                            }
+                          >
+                            Invalidate
+                          </Button>
+                        )
+                      )}
+                    </>
+                  )}
+                  <Button
+                    onClick={handleClosePopover}
+                    className={styles.popoverBtn}
+                  >
+                    Cancel
+                  </Button>
+                </div>
               }
-              setCurrentTubeID(record?.[`col${i + 1}`]?.tube_id);
-            }}
-          >
+              trigger="click"
+              onVisibleChange={(value) => {
+                if (value) {
+                  setPopoverVisible(record?.[`col${i + 1}`]);
+                } else {
+                  setPopoverVisible(null);
+                }
+                setCurrentTubeID(record?.[`col${i + 1}`]?.tube_id);
+              }}
+            >
+              <Button
+                shape="circle"
+                className={styles.tube}
+                style={{
+                  backgroundColor:
+                    (isTubeIncorrect ||
+                      (!isIncorrectPositions && isTubeEmpty)) &&
+                    modalId === 'saveScan'
+                      ? '#ff0000'
+                      : record[`col${i + 1}`]?.color,
+                  borderColor:
+                    (isTubeIncorrect ||
+                      (!isIncorrectPositions && isTubeEmpty)) &&
+                    modalId === 'saveScan'
+                      ? '#ff0000'
+                      : record[`col${i + 1}`]?.color === '#ffffff'
+                      ? '#000000'
+                      : record[`col${i + 1}`]?.color,
+                }}
+              />
+            </Popover>
+          );
+        } else {
+          return (
             <Button
+              type="primary"
               shape="circle"
               className={styles.tube}
-              style={{
-                backgroundColor:
-                  (isTubeIncorrect || (!isIncorrectPositions && isTubeEmpty)) &&
-                  modalId === 'saveScan'
-                    ? '#ff0000'
-                    : record[`col${i + 1}`]?.color,
-                borderColor:
-                  (isTubeIncorrect || (!isIncorrectPositions && isTubeEmpty)) &&
-                  modalId === 'saveScan'
-                    ? '#ff0000'
-                    : record[`col${i + 1}`]?.color === '#ffffff'
-                    ? '#000000'
-                    : record[`col${i + 1}`]?.color,
-              }}
+              ghost
             />
-          </Popover>
-        );
-      } else {
-        return (
-          <Button type="primary" shape="circle" className={styles.tube} ghost />
-        );
-      }
+          );
+        }
+      };
+      return {
+        props: {
+          className: recordId === highlightedTubeId && styles.highlightedTube,
+        },
+        children: renderCell(),
+      };
     },
   }));
 
@@ -301,6 +318,7 @@ const Rackboard = ({
     },
     ...restColumns,
   ];
+
   return (
     <>
       <Table
@@ -321,6 +339,7 @@ const Rackboard = ({
 Rackboard.propTypes = {
   rackboard: PropTypes.shape({}),
   editMode: PropTypes.bool,
+  highlightedTubeId: PropTypes.string,
 };
 
 export default Rackboard;
