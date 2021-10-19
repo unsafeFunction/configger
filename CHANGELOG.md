@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.10.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.9.2...v7.10.0) (2021-10-19)
+
+### Features
+
+- highlight tube on rackboard ([867119e](https://github.com/mokkapps/changelog-generator-demo/commits/867119eed889e5bb4efaa2b5a21f960b958cfb7a))
+
+### Bug Fixes
+
+- highlighted items ([ff04776](https://github.com/mokkapps/changelog-generator-demo/commits/ff04776252f313bea0add45aa6b9cd8f9ba6b89f))
+- remove classNames ([227d622](https://github.com/mokkapps/changelog-generator-demo/commits/227d6223f9919adbbd00d7af6ed368c3d6b3946b))
+
 ### [7.9.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.9.1...v7.9.2) (2021-10-18)
 
 ### Bug Fixes
