@@ -302,9 +302,7 @@ const Rackboard = ({
       };
       return {
         props: {
-          className: classNames(
-            recordId === highlightedTubeId && styles.highlightedTube,
-          ),
+          className: recordId === highlightedTubeId && styles.highlightedTube,
         },
         children: renderCell(),
       };
