@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.10.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.0...v7.10.1) (2021-10-20)
+
+### Features
+
+- do-not-publish option ([d49fef0](https://github.com/mokkapps/changelog-generator-demo/commits/d49fef08d64d771212c3a5185170cfe7a0a2b091))
+
 ## [7.10.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.9.2...v7.10.0) (2021-10-19)
 
 ### Features
