@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
-import { Checkbox, Select, Tooltip, Typography } from 'antd';
+import { Radio, Select, Tooltip, Typography } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -77,7 +77,7 @@ Target.propTypes = {
   value: PropTypes.string,
 };
 
-const Actions = ({ record, field, value }) => {
+const Actions = ({ record, field, value = '' }) => {
   const dispatch = useDispatch();
 
   const { status: runStatus } = useSelector(
@@ -86,30 +86,48 @@ const Actions = ({ record, field, value }) => {
 
   const options = [
     {
+      label: 'None',
+      value: '',
+    },
+    {
       label: 'Reflex SC',
       value: 'REFLEX_SC',
-      disabled: value.length && value[0] !== 'REFLEX_SC',
     },
     {
       label: 'Reflex SD',
       value: 'REFLEX_SD',
-      disabled: value.length && value[0] !== 'REFLEX_SD',
     },
     {
       label: 'Rerun',
       value: 'RERUN',
-      disabled: value.length && value[0] !== 'RERUN',
+    },
+    {
+      label: 'Do not publish',
+      value: 'DO_NOT_PUBLISH',
     },
   ];
 
   const onSampleUpdate = useCallback(
     (id, field, value) => {
+      const formatValues = () => {
+        if (value === 'DO_NOT_PUBLISH') {
+          return {
+            rerun_action: '',
+            auto_publish: false,
+          };
+        }
+        return {
+          rerun_action: value,
+          auto_publish: true,
+        };
+      };
+
       dispatch({
         type: actions.UPDATE_SAMPLE_REQUEST,
         payload: {
           id,
           field,
-          value: value ?? '',
+          values: formatValues(),
         },
       });
     },
@@ -117,13 +135,15 @@ const Actions = ({ record, field, value }) => {
   );
 
   const onModalToggle = useCallback(
-    (id, field, sample) => (checkedValues) => {
+    (id, field, sample) => (e) => {
+      const { value } = e.target;
+
       dispatch({
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
           title: 'Confirm action',
-          onOk: () => onSampleUpdate(id, field, checkedValues[0]),
+          onOk: () => onSampleUpdate(id, field, value),
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
@@ -131,8 +151,8 @@ const Actions = ({ record, field, value }) => {
           okText: 'Update sample',
           message: () =>
             `Are you sure you would like to ${
-              checkedValues[0] ? `set ${checkedValues[0]}` : 'unset'
-            } action for ${sample} sample?`,
+              value ? `set ${value.replaceAll('_', ' ')}` : 'unset'
+            } option for ${sample} sample?`,
         },
       });
     },
@@ -142,7 +162,7 @@ const Actions = ({ record, field, value }) => {
   return (
     <>
       {record.children && (
-        <Checkbox.Group
+        <Radio.Group
           value={value}
           options={options}
           disabled={
@@ -154,6 +174,7 @@ const Actions = ({ record, field, value }) => {
             field,
             record.display_sample_id,
           )}
+          optionType="button"
         />
       )}
     </>
@@ -163,7 +184,7 @@ const Actions = ({ record, field, value }) => {
 Actions.propTypes = {
   record: PropTypes.shape({}).isRequired,
   field: PropTypes.string.isRequired,
-  value: PropTypes.arrayOf(PropTypes.string).isRequired,
+  value: PropTypes.string,
 };
 
 const resultList = Object.values(constants.poolResults).map((item) => {
@@ -189,7 +210,9 @@ const ResultSelect = ({ record, field }) => {
         payload: {
           id,
           field,
-          value,
+          values: {
+            [field]: value,
+          },
         },
       });
     },
@@ -354,14 +377,14 @@ const columns = [
   },
   {
     title: 'Actions',
-    dataIndex: 'rerun_action',
-    width: 300,
-    render: (value, record) => {
+    dataIndex: 'actions',
+    width: 460,
+    render: (_, record) => {
       return (
         <Actions
           record={record}
-          field="rerun_action"
-          value={value ? [value] : []}
+          field="actions"
+          value={record.auto_publish ? record.rerun_action : 'DO_NOT_PUBLISH'}
         />
       );
     },
