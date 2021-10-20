@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.10.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.1...v7.10.2) (2021-10-20)
+
+### Bug Fixes
+
+- inventory table scroll ([5aa5ee3](https://github.com/mokkapps/changelog-generator-demo/commits/5aa5ee383ffa7d9c290d4b2fd39daedaebf0d1bb))
+
 ### [7.10.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.0...v7.10.1) (2021-10-20)
 
 ### Features
