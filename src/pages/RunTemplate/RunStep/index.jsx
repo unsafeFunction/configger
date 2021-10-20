@@ -117,7 +117,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
       title: 'Sort',
       dataIndex: 'sort',
       width: 30,
-      className: styles.dragVisible,
       align: 'center',
       render: () => <DragHandle />,
     },
@@ -125,7 +124,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
       title: 'PoolRack Name',
       dataIndex: 'scan_name',
       ellipsis: true,
-      className: styles.dragVisible,
     },
     {
       title: 'PoolRack RackID',
@@ -149,7 +147,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   ];
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
-    console.log('ON SORT END', oldIndex, newIndex);
     const dataSource = runState.poolRacks;
     if (oldIndex !== newIndex) {
       const newData = arrayMove(
@@ -157,8 +154,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         oldIndex,
         newIndex,
       ).filter((el) => !!el);
-
-      console.log('Sorted items: ', newData);
 
       componentDispatch({
         type: 'setValue',
@@ -181,12 +176,10 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   );
 
   const DraggableBodyRow = ({ className, style, ...restProps }) => {
-    console.log('HERE !!!!!!!', restProps['data-row-key']);
     const dataSource = runState.poolRacks;
     const index = dataSource.findIndex(
       (x) => x.id === restProps['data-row-key'],
     );
-    console.log('HERE2222 !!!!!!!', index);
     return <SortableItem index={index} {...restProps} />;
   };
 
@@ -369,7 +362,6 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
             dataSource={runState.poolRacks}
             pagination={false}
             scroll={{ x: 'max-content' }}
-            bordered
             rowKey={(record) => record.id}
             className="mt-3"
             locale={{
