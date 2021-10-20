@@ -1,13 +1,9 @@
-import { combineReducers } from 'redux';
-import single from 'redux/factories/single';
 import actions from './actions';
 
 const initialState = {
   items: [],
   error: null,
   isLoading: false,
-  total: 0,
-  page: 1,
 };
 
 const timelineReducer = (state = initialState, action) => {
@@ -22,7 +18,7 @@ const timelineReducer = (state = initialState, action) => {
       const { data } = action.payload;
 
       return {
-        items: data,
+        items: data.results,
         isLoading: true,
       };
     }
@@ -37,29 +33,4 @@ const timelineReducer = (state = initialState, action) => {
   }
 };
 
-const initialSingleCampaign = {
-  error: null,
-  isLoading: false,
-};
-
-export default combineReducers({
-  all: timelineReducer,
-  singleCampaign: single({
-    types: [],
-  })((state = initialSingleCampaign, action = {}) => {
-    switch (action.type) {
-      case 'modal/HIDE_MODAL': {
-        return {
-          ...initialState,
-        };
-      }
-      case actions.ON_COMPANY_DATA_CHANGE:
-        return Object.assign({}, state, {
-          [action?.payload?.name]: action?.payload?.value,
-        });
-      default: {
-        return state;
-      }
-    }
-  }),
-});
+export default timelineReducer;

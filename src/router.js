@@ -76,10 +76,6 @@ const routes = [
     Component: loadable(() => import('pages/Scan')),
   },
   {
-    path: '/session',
-    Component: loadable(() => import('pages/ScanSession')),
-  },
-  {
     path: '/pool-scans/:sessionId/:scanId',
     Component: loadable(() => import('pages/PoolScan')),
   },
@@ -100,8 +96,20 @@ const routes = [
     Component: loadable(() => import('pages/IntakeReceiptLog')),
   },
   {
+    path: '/analysis-runs/:id/:type?',
+    Component: loadable(() => import('pages/AnalysisRun')),
+  },
+  {
     path: '/analysis-runs',
     Component: loadable(() => import('pages/AnalysisRuns')),
+  },
+  {
+    path: '/reflex-list/:sampleId',
+    Component: loadable(() => import('pages/ReflexDetails')),
+  },
+  {
+    path: '/reflex-list',
+    Component: loadable(() => import('pages/ReflexList')),
   },
   // {
   //   path: '/management',
@@ -155,7 +163,7 @@ class Router extends React.Component {
               exact
               path="/"
               render={() => {
-                return <Redirect to="/session" />;
+                return <Redirect to="/intake-receipt-log" />;
               }}
             />
             {routes.map(({ path, Component, exact = false }) => (

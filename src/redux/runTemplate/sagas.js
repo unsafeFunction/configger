@@ -22,7 +22,7 @@ export function* callCreateTemplate({ payload }) {
       plate: kfpParam,
       start_column: startColumn,
       title: runNumber,
-      run_type: runType,
+      type: runType,
       qs_machine: qsMachine,
       scans_ids: poolRacks
         .map((poolRack) => poolRack.id)

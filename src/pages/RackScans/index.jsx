@@ -1,4 +1,14 @@
-import { Button, Col, DatePicker, Row, Table, Tag } from 'antd';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Dropdown,
+  Menu,
+  Popconfirm,
+  Row,
+  Table,
+  Tag,
+} from 'antd';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -8,6 +18,7 @@ import { useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
 import actions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
+import { DownOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -55,7 +66,6 @@ const RackScans = () => {
         payload: {
           link: `/scans/rack/${poolId}/export/`,
           instanceId: poolId,
-          contentType: 'text/csv',
         },
       });
     },
@@ -73,6 +83,46 @@ const RackScans = () => {
       });
     },
     [history],
+  );
+
+  const handleDelete = useCallback(
+    async ({ poolId }) => {
+      await dispatch({
+        type: actions.DELETE_RACK_BY_ID_REQUEST,
+        payload: { id: poolId, fetchRacks: true },
+      });
+    },
+    [dispatch],
+  );
+
+  const menu = (record) => (
+    <Menu>
+      <Menu.Item onClick={() => navigateToScan(record.id)} key="1">
+        View rack
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          return exportRack({ poolId: record.id });
+        }}
+        key="2"
+      >
+        Export rack
+      </Menu.Item>
+      <Menu.Item key="3">
+        <Popconfirm
+          title="Are you sure to delete this rack?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={() =>
+            handleDelete({
+              poolId: record.id,
+            })
+          }
+        >
+          Delete rack
+        </Popconfirm>
+      </Menu.Item>
+    </Menu>
   );
 
   const columns = [
@@ -124,23 +174,12 @@ const RackScans = () => {
       width: 150,
       render: (_, record) => {
         return (
-          <div className={styles.actions}>
-            <Button
-              className="mr-3"
-              onClick={() => navigateToScan(record.id)}
-              type="primary"
-            >
-              View rack
+          <Dropdown overlay={menu(record)}>
+            <Button type="primary">
+              Actions
+              <DownOutlined />
             </Button>
-            <Button
-              onClick={() => {
-                return exportRack({ poolId: record.id });
-              }}
-              type="primary"
-            >
-              Export rack
-            </Button>
-          </div>
+          </Dropdown>
         );
       },
     },

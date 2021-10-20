@@ -1,14 +1,14 @@
-import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
-import {
-  fetchPoolsByRunId,
-  fetchPoolsByCompanyId,
-  publishPool,
-  fetchResultList,
-  updatePoolResult,
-  fetchPools,
-} from 'services/pools';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 import modalActions from 'redux/modal/actions';
+import {
+  fetchPools,
+  fetchPoolsByCompanyId,
+  fetchPoolsByRunId,
+  fetchResultList,
+  publishPool,
+  updatePoolResult,
+} from 'services/pools';
 import actions from './actions';
 
 export function* callLoadPoolsByRunId({ payload }) {
@@ -39,7 +39,10 @@ export function* callLoadPoolsByCompanyId({ payload }) {
       },
     });
   } catch (error) {
-    notification.error(error);
+    yield put({ type: actions.FETCH_POOLS_BY_COMPANY_ID_FAILURE });
+    notification.error({
+      message: error.message,
+    });
   }
 }
 
@@ -126,7 +129,10 @@ export function* callFetchAllPools({ payload }) {
       },
     });
   } catch (error) {
-    notification.error(error);
+    yield put({ type: actions.FETCH_ALL_POOLS_FAILURE });
+    notification.error({
+      message: error.message,
+    });
   }
 }
 

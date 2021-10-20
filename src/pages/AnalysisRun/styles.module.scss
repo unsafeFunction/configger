@@ -1,0 +1,28 @@
+@import 'assets/styles/mixins.scss';
+
+.page__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cancelBtn {
+  display: none;
+}
+
+.search {
+  max-width: 300px;
+  @media (max-width: 574px) {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  @media (max-width: 574px) {
+    display: block;
+  }
+}

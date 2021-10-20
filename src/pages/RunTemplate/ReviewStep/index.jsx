@@ -21,17 +21,17 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
   const { isLoading } = useSelector((state) => state.runTemplate);
 
   const openModalDetail = useCallback(
-    (poolRackId) => {
+    (poolRack) => {
       dispatch({
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
-          title: 'PoolRack',
+          title: `PoolRack ${poolRack.rack_id}`,
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
           },
-          message: () => <PoolRackDetail id={poolRackId} />,
+          message: () => <PoolRackDetail id={poolRack.id} />,
           width: '100%',
           footer: null,
         },
@@ -100,7 +100,7 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
                 // eslint-disable-next-line react/jsx-wrap-multilines
                 <a
                   className="text-primary"
-                  onClick={() => openModalDetail(poolRack.id)}
+                  onClick={() => openModalDetail(poolRack)}
                 >
                   View plate
                 </a>
@@ -128,7 +128,9 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
         <Button type="primary" onClick={generateRun} loading={isLoading}>
           Generate run
         </Button>
-        <Button onClick={handlePrevious}>Edit run</Button>
+        <Button onClick={handlePrevious} disabled={isLoading}>
+          Edit run
+        </Button>
       </Space>
     </div>
   );

@@ -1,0 +1,51 @@
+@import 'assets/styles/mixins.scss';
+
+.letterColumn {
+  background: $gray-1;
+  width: 36px;
+}
+
+.tube {
+  width: 32px !important;
+  height: 32px !important;
+  visibility: visible !important;
+}
+
+.tubeInput {
+  width: 250px;
+}
+
+.modalButton {
+  width: 100px;
+}
+
+.row:hover > td:first-child {
+  background: #eceff1 !important;
+}
+.row:hover > td:not(:first-child) {
+  background: unset !important;
+}
+
+.popoverBtn {
+  display: flex;
+  max-width: 250px;
+  width: 100% !important;
+  margin-bottom: 1rem;
+  justify-content: center;
+
+  button {
+    width: 100% !important;
+  }
+}
+
+.popoverWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.infiniteLoadingIcon {
+  height: 60px;
+  width: 200px;
+  text-align: center;
+  padding-top: 10px;
+}

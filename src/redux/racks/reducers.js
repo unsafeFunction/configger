@@ -16,7 +16,7 @@ const racksReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        search: action.payload.search,
+        search: action.payload?.search,
       };
     }
     case actions.FETCH_RACKS_SUCCESS: {
@@ -49,6 +49,25 @@ const racksReducer = (state = initialState, action) => {
         error: action.payload.error,
       };
     }
+    case actions.DELETE_RACK_BY_ID_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.DELETE_RACK_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        items: state.items.filter((item) => item.id !== action.payload.id),
+        isLoading: false,
+      };
+    }
+    case actions.DELETE_RACK_BY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
     default:
       return state;
   }
@@ -72,6 +91,7 @@ const singleRackReducer = (state = initialSingleRackState, action) => {
     }
     case actions.GET_RACK_SUCCESS: {
       return {
+        ...state,
         isLoading: false,
         ...action.payload,
       };

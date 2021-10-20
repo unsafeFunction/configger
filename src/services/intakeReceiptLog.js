@@ -1,4 +1,5 @@
 import axiosClient from 'utils/axiosClient';
+import errorOutput from 'utils/errorOutput';
 
 export const fetchIntakeReceiptLog = async (query) => {
   try {
@@ -20,14 +21,13 @@ export const createIntake = async (payload) => {
     });
     return intake;
   } catch (error) {
-    const err = error?.response?.data.field_errors;
-    throw new Error(err ? JSON.stringify(err) : error);
+    throw new Error(errorOutput(error));
   }
 };
 
 export const updateIntake = async (payload) => {
   try {
-    const intake = await axiosClient.patch(`/intake-logs/${payload.id}`, {
+    const intake = await axiosClient.patch(`/intake-logs/${payload.id}/`, {
       ...payload,
       tracking_numbers: payload.tracking_numbers?.[0].length
         ? payload.tracking_numbers
@@ -35,7 +35,6 @@ export const updateIntake = async (payload) => {
     });
     return intake;
   } catch (error) {
-    const err = error?.response?.data.field_errors;
-    throw new Error(err ? JSON.stringify(err) : error);
+    throw new Error(errorOutput(error));
   }
 };

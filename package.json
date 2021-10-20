@@ -1,6 +1,6 @@
 {
   "name": "mirimus-admin",
-  "version": "6.0.0",
+  "version": "7.10.2",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
@@ -38,8 +38,8 @@
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
     "@sentry/react": "^5.29.2",
-    "antd": "^4.9.4",
     "array-move": "^3.0.1",
+    "antd": "4.16.13",
     "axios": "^0.19.2",
     "bootstrap-css-only": "^4.3.1",
     "classnames": "^2.2.6",
@@ -57,7 +57,9 @@
     "lodash.isempty": "^4.4.0",
     "lodash.map": "^4.6.0",
     "lodash.merge": "^4.6.2",
+    "lodash.omit": "^4.5.0",
     "lodash.orderby": "^4.6.0",
+    "lodash.round": "^4.0.4",
     "lodash.sortby": "^4.7.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.32",

@@ -32,7 +32,7 @@ const AppLayout = (props) => {
 
   useEffect(() => {
     dispatch({ type: actions.PROFILE_REQUEST });
-  }, [dispatch, role]);
+  }, [dispatch]);
 
   return (
     <Layout

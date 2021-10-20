@@ -23,23 +23,23 @@ export const startColumns = (start = 1, end = 23) => {
 export const runTypes = [
   {
     label: 'Pools',
-    value: 'pools',
+    value: 'Pools',
   },
   {
     label: 'Reflex',
-    value: 'reflex',
+    value: 'Reflex',
   },
   {
     label: 'Validation',
-    value: 'validation',
+    value: 'Validation',
   },
   {
     label: 'R&D',
-    value: 'rd',
+    value: 'R&D',
   },
   {
     label: 'Other',
-    value: 'other',
+    value: 'Other',
   },
 ];
 

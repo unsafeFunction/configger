@@ -1,5 +1,16 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { Button, Col, DatePicker, Input, Row, Table, Tag } from 'antd';
+import { CloseOutlined, DownOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Dropdown,
+  Input,
+  Menu,
+  Popconfirm,
+  Row,
+  Table,
+  Tag,
+} from 'antd';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
@@ -84,10 +95,17 @@ const ScanSessions = () => {
       },
     },
     {
-      title: 'Pools Count',
+      title: 'Total Pools Count',
       dataIndex: 'pool_size',
       render: (_, value) => {
         return value?.scans.length || '-';
+      },
+    },
+    {
+      title: 'Total Samples Count',
+      dataIndex: 'samples_count',
+      render: (_, value) => {
+        return value?.samples_count || '-';
       },
     },
     {
@@ -110,8 +128,18 @@ const ScanSessions = () => {
 
   const expandedRow = (scan) => {
     const columns = [
-      { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id' },
-      { title: 'Pool Name', dataIndex: 'scan_name', key: 'scan_name' },
+      { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id', width: 100 },
+      {
+        title: 'Pool Name',
+        dataIndex: 'scan_name',
+        key: 'scan_name',
+      },
+      {
+        title: 'Pool Size',
+        dataIndex: 'pool_size',
+        key: 'pool_size',
+      },
+      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
       {
         title: 'Scan time',
         dataIndex: 'scan_time',
@@ -119,7 +147,12 @@ const ScanSessions = () => {
         width: 300,
       },
       { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
-      { title: 'Action', dataIndex: 'action', key: 'action' },
+      {
+        title: 'Actions',
+        dataIndex: 'actions',
+        key: 'actions',
+        width: 100,
+      },
     ];
 
     return (
@@ -219,8 +252,17 @@ const ScanSessions = () => {
         payload: {
           link: `/scans/pool/${poolId}/export/`,
           instanceId: poolId,
-          contentType: 'text/csv',
         },
+      });
+    },
+    [dispatch],
+  );
+
+  const handleDelete = useCallback(
+    async ({ poolId, sessionId }) => {
+      await dispatch({
+        type: actions.DELETE_SCAN_BY_ID_REQUEST,
+        payload: { id: poolId, sessionId },
       });
     },
     [dispatch],
@@ -238,6 +280,45 @@ const ScanSessions = () => {
     }
     return '-';
   }, []);
+
+  const menu = (record, scan) => (
+    <Menu>
+      <Menu.Item
+        onClick={() =>
+          navigateToScan({
+            sessionId: record.id,
+            scanId: scan.id,
+          })
+        }
+        key="1"
+      >
+        View pool
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          return exportPool({ poolId: scan.id });
+        }}
+        key="2"
+      >
+        Export pool
+      </Menu.Item>
+      <Menu.Item key="3">
+        <Popconfirm
+          title="Are you sure to delete this pool?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={() =>
+            handleDelete({
+              poolId: scan.id,
+              sessionId: record.id,
+            })
+          }
+        >
+          Delete pool
+        </Popconfirm>
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <>
@@ -274,29 +355,17 @@ const ScanSessions = () => {
                     ? moment(scan.scan_timestamp).format('LLLL')
                     : '-',
                   scan_name: poolName,
+                  pool_size: scan.tubes_count,
+                  rack_id: scan.rack_id,
                   scanner: scan.scanner ?? '-',
-                  action: (
+                  actions: (
                     <>
-                      <Button
-                        onClick={() =>
-                          navigateToScan({
-                            sessionId: record.id,
-                            scanId: scan.id,
-                          })
-                        }
-                        className="mr-3"
-                        type="primary"
-                      >
-                        View pool
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          return exportPool({ poolId: scan.id });
-                        }}
-                        type="primary"
-                      >
-                        Export pool
-                      </Button>
+                      <Dropdown overlay={menu(record, scan)}>
+                        <Button type="primary">
+                          Actions
+                          <DownOutlined />
+                        </Button>
+                      </Dropdown>
                     </>
                   ),
                 };

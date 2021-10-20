@@ -2,10 +2,9 @@ import { notification } from 'antd';
 import sortBy from 'lodash.sortby';
 import moment from 'moment-timezone';
 import { all, call, put, select, takeEvery } from 'redux-saga/effects';
-import { callFetchCompanyShort } from 'redux/companies/sagas';
 import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
-import { fetchIntakeReceiptLog } from 'services/intakeReceiptLog';
+import { fetchScannerById } from 'services/scanners';
 import {
   deleteScan,
   deleteTube,
@@ -43,7 +42,7 @@ const formatResponseScanTubes = (response) => {
           {},
           ...response?.slice(idx, rightIdx)?.map?.((obj) => ({
             letter: obj?.position?.[0],
-            [`col${obj?.position?.[1]}`]: {
+            [`col${obj?.position?.substr(1)}`]: {
               ...obj,
               status: obj?.status,
             },
@@ -183,6 +182,27 @@ export function* callFetchScanById({ payload }) {
   } catch (error) {
     yield put({
       type: actions.FETCH_SCAN_BY_ID_FAILURE,
+    });
+
+    notification.error({
+      message: error.message,
+    });
+  }
+}
+
+export function* callScannerStatusById({ payload }) {
+  try {
+    const { data } = yield call(fetchScannerById, payload.scannerId);
+
+    yield put({
+      type: actions.CHECK_SCANNER_STATUS_BY_ID_SUCCESS,
+      payload: {
+        data,
+      },
+    });
+  } catch (error) {
+    yield put({
+      type: actions.CHECK_SCANNER_STATUS_BY_ID_FAILURE,
     });
 
     notification.error({
@@ -569,28 +589,30 @@ export function* callVoidScan({ payload }) {
   }
 }
 
-export function* callFetchCompanyInfo(payload) {
+export function* callDeleteScan({ payload }) {
   try {
-    yield call(callFetchCompanyShort, payload);
+    yield call(deleteScan, payload);
 
-    const response = yield call(fetchIntakeReceiptLog, {
-      created_after: moment()
-        .subtract(24, 'hours')
-        .format('YYYY-MM-DD'),
-      created_before: moment().format('YYYY-MM-DD'),
-      company_id: payload.payload.id,
-    });
+    yield put({ type: actions.DELETE_SCAN_BY_ID_SUCCESS });
+    if (payload.sessionId) {
+      yield put({
+        type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
+        payload: { sessionId: payload.sessionId },
+      });
+    }
 
-    yield put({
-      type: actions.FETCH_COMPANY_INFO_SUCCESS,
-      payload: {
-        data: response.data.results,
-      },
+    notification.success({
+      message: 'Scan was deleted successfully!',
     });
   } catch (error) {
     yield put({
-      type: actions.FETCH_COMPANY_INFO_FAILURE,
+      type: actions.DELETE_SCAN_BY_ID_FAILURE,
+      payload: {
+        error,
+      },
     });
+
+    throw new Error(error);
   }
 }
 
@@ -628,7 +650,11 @@ export default function* rootSaga() {
     takeEvery(actions.CREATE_SESSION_REQUEST, callCreateSession),
     takeEvery(actions.FETCH_SESSION_ID_REQUEST, callFetchSessionId),
     takeEvery(actions.CANCEL_SCAN_BY_ID_REQUEST, callCancelScan),
-    takeEvery(actions.FETCH_COMPANY_INFO_REQUEST, callFetchCompanyInfo),
     takeEvery(actions.FETCH_ACTIVE_SCANS_REQUEST, callFetchActiveScans),
+    takeEvery(
+      actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST,
+      callScannerStatusById,
+    ),
+    takeEvery(actions.DELETE_SCAN_BY_ID_REQUEST, callDeleteScan),
   ]);
 }

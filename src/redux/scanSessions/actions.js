@@ -6,7 +6,7 @@ const actions = {
   ...generateRequestActions(['fetch'], 'sessions', 'scan_session_by_id_short'),
   ...generateRequestActions(['update', 'create'], 'sessions', 'session'),
   ...generateRequestActions(
-    ['fetch', 'update', 'void', 'cancel'],
+    ['fetch', 'update', 'void', 'cancel', 'delete'],
     'scan',
     'scan_by_id',
   ),
@@ -16,6 +16,7 @@ const actions = {
   ...generateRequestActions(['fetch'], 'scan', 'session_id'),
   ...generateRequestActions(['fetch'], 'session', 'company_info'),
   ...generateRequestActions(['fetch'], 'scans', 'active_scans'),
+  ...generateRequestActions(['check'], 'scans', 'scanner_status_by_id'),
   CHANGE_SESSION_DATA: 'session/CHANGE_SESSION_DATA',
   RESET_SCAN: 'scan/RESET_SCAN',
 };

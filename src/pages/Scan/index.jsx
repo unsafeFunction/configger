@@ -34,11 +34,13 @@ import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
+import PulseCircle from '../../components/widgets/Pools/PulseCircle';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
 const { Paragraph } = Typography;
+const { Countdown } = Statistic;
 
 const Scan = () => {
   const dispatch = useDispatch();
@@ -89,6 +91,15 @@ const Scan = () => {
         }),
     ]);
   }, [scans, started, invalid, completed]);
+
+  useEffect(() => {
+    if (scan.scanner_id) {
+      dispatch({
+        type: actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST,
+        payload: { scannerId: scan?.scanner_id },
+      });
+    }
+  }, [scan.scanner_id]);
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
@@ -166,7 +177,7 @@ const Scan = () => {
     updateSession({
       id: sessionId,
       isSaveSession: false,
-      callback: () => history.push('/session'),
+      callback: () => history.push('/intake-receipt-log'),
     });
   }, [updateSession, sessionId, history]);
 
@@ -175,7 +186,7 @@ const Scan = () => {
       data: { status: 'COMPLETED' },
       id: sessionId,
       isSaveSession: true,
-      callback: () => history.push('/session'),
+      callback: () => history.push('/intake-receipt-log'),
     });
   }, [updateSession, sessionId, history]);
 
@@ -280,12 +291,16 @@ const Scan = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, scansInWork[0]?.id]);
 
+  const checkSession = useCallback(() => {
+    return dispatch({
+      type: actions.FETCH_SESSION_ID_REQUEST,
+    });
+  }, []);
+
   const useFetching = () => {
     useEffect(() => {
       if (!session?.activeSessionId) {
-        dispatch({
-          type: actions.FETCH_SESSION_ID_REQUEST,
-        });
+        checkSession();
       }
     }, []);
   };
@@ -300,7 +315,7 @@ const Scan = () => {
         history.push(`/session/${session?.activeSessionId}`);
       }
     } else if (session?.activeSessionId === undefined) {
-      history.push('/session');
+      history.push('/intake-receipt-log');
     }
   }, [session.activeSessionId, sessionId]);
 
@@ -495,12 +510,27 @@ const Scan = () => {
   );
 
   return (
-    <>
+    <div>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Typography.Title level={4} className="font-weight-normal">
           {`Scan on ${moment(scan?.scan_timestamp)?.format('LLLL') ?? ''}`}
         </Typography.Title>
         <Row>
+          <Row style={{ marginRight: 30 }}>
+            {session.started_on_day && (
+              <Countdown
+                className={styles.timer}
+                title="The session will end in: "
+                // This one second needed to close session after 30 minutes. Because on 30:00 we can do smth, but on 30:01 - can't
+                value={moment(session.started_on_day).add({
+                  minutes: 30,
+                  seconds: 1,
+                })}
+                format="mm:ss"
+                onFinish={checkSession}
+              />
+            )}
+          </Row>
           <Dropdown
             overlay={sessionMenu}
             overlayClassName={styles.actionsOverlay}
@@ -610,20 +640,29 @@ const Scan = () => {
               editMode={scan?.status !== completed}
             />
           </div>
-          <ScanStatistic scan={scan} />
-          <Row>
-            <Col sm={24}>
-              <SingleSessionTable
-                session={session}
-                scansInWork={scansInWork}
-                handleCancelScan={handleCancelScan}
-                loadScan={loadScan}
-              />
-            </Col>
-          </Row>
+          <div className="mb-4">
+            <ScanStatistic scan={scan} />
+          </div>
+          <SingleSessionTable
+            session={session}
+            scansInWork={scansInWork}
+            handleCancelScan={handleCancelScan}
+            loadScan={loadScan}
+          />
         </Col>
         <Col xs={24} md={18} lg={8} xl={10}>
           <div className={styles.companyDetails}>
+            <Statistic
+              className={styles.companyDetailsStat}
+              title="Scanner status:"
+              formatter={() =>
+                scan?.scannerObj?.id ? (
+                  <PulseCircle scanner={scan?.scannerObj} />
+                ) : (
+                  '-'
+                )
+              }
+            />
             <Statistic
               className={styles.companyDetailsStat}
               title="Company name:"
@@ -692,7 +731,7 @@ const Scan = () => {
           />
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 

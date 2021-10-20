@@ -176,28 +176,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
 
-    case actions.FETCH_COMPANY_INFO_REQUEST: {
-      return {
-        ...state,
-        companyInfoLoading: true,
-        error: null,
-      };
-    }
-    case actions.FETCH_COMPANY_INFO_SUCCESS: {
-      return {
-        ...state,
-        companyInfoLoading: false,
-        intakeLogs: action.payload.data,
-      };
-    }
-    case actions.FETCH_COMPANY_INFO_FAILURE: {
-      return {
-        ...state,
-        companyInfoLoading: false,
-        intakeLogs: [],
-      };
-    }
-
     case actions.FETCH_ACTIVE_SCANS_REQUEST: {
       return {
         ...state,
@@ -257,6 +235,7 @@ const initialScan = {
   incorrect_positions: [],
   status: null,
   scanner: {},
+  scannerObj: {},
   scan_timestamp: null,
   scanned_by: null,
   last_modified_by: null,
@@ -295,6 +274,26 @@ const scanReducer = (state = initialScan, action) => {
       };
     }
     case actions.FETCH_SCAN_BY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
+    case actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.CHECK_SCANNER_STATUS_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        scannerObj: action.payload.data,
+      };
+    }
+    case actions.CHECK_SCANNER_STATUS_BY_ID_FAILURE: {
       return {
         ...state,
         isLoading: false,
@@ -439,6 +438,26 @@ const scanReducer = (state = initialScan, action) => {
     case actions.UPDATE_SCAN_BY_ID_FAILURE:
     case actions.CANCEL_SCAN_BY_ID_FAILURE:
     case actions.VOID_SCAN_BY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
+    case actions.DELETE_SCAN_BY_ID_REQUEST: {
+      return {
+        ...state,
+        ...initialSingleSession,
+        isLoading: true,
+      };
+    }
+    case actions.DELETE_SCAN_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case actions.DELETE_SCAN_BY_ID_FAILURE: {
       return {
         ...state,
         isLoading: false,

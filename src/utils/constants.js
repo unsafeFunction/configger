@@ -13,7 +13,7 @@ export const constants = {
     itemsLoadingCount: 25,
   },
   scanSessions: {
-    itemsLoadingCount: 12,
+    itemsLoadingCount: 20,
   },
   poolRacks: {
     itemsLoadingCount: 25,
@@ -97,6 +97,80 @@ export const constants = {
     itemsLoadingCount: 100,
   },
   intakeLog: {
+    itemsLoadingCount: 25,
+  },
+  shippingConditions: [
+    {
+      label: 'Satisfactory',
+      value: 'Satisfactory',
+    },
+    {
+      label: 'Unsatisfactory',
+      value: 'Unsatisfactory',
+    },
+  ],
+  shippingViolations: [
+    {
+      label: 'Individually-bagged',
+      value: 'Individually-bagged',
+    },
+    {
+      label: 'Contains PHI',
+      value: 'Contains PHI',
+    },
+    {
+      label: 'No biohazard bag',
+      value: 'No biohazard bag',
+    },
+    {
+      label: 'No absorbent sheet',
+      value: 'No absorbent sheet',
+    },
+    {
+      label: 'Leaky or wet bag',
+      value: 'Leaky or wet bag',
+    },
+    {
+      label: 'Damaged tube',
+      value: 'Damaged tube',
+    },
+    {
+      label: 'Wrong cap',
+      value: 'Wrong cap',
+    },
+    {
+      label: 'Expired',
+      value: 'Expired',
+    },
+  ],
+  sampleConditions: [
+    {
+      label: 'Acceptable',
+      value: 'Acceptable',
+    },
+    {
+      label: 'Unacceptable',
+      value: 'Unacceptable',
+    },
+    {
+      label: 'Other (see Comments)',
+      value: 'Other',
+    },
+  ],
+  runStatuses: {
+    qpcr: 'QPCR',
+    analysis: 'ANALYSIS',
+    review: 'REVIEW',
+    published: 'PUBLISHED',
+  },
+  poolResults: {
+    notDetected: 'NOT_DETECTED',
+    detected: 'DETECTED',
+    inconclusive: 'INCONCLUSIVE',
+    invalid: 'INVALID',
+    inProgress: 'IN_PROGRESS',
+  },
+  reflexList: {
     itemsLoadingCount: 25,
   },
   USstates: [

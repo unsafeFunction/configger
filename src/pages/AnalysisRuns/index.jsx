@@ -1,21 +1,23 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, DatePicker, Table, Upload } from 'antd';
+import classNames from 'classnames';
+import ResultTag from 'components/widgets/ResultTag';
+import moment from 'moment-timezone';
+import qs from 'qs';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import classNames from 'classnames';
-import { Table, DatePicker } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/analysisRuns/actions';
-import moment from 'moment-timezone';
+import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
-import qs from 'qs';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
 const { RangePicker } = DatePicker;
 
-const ScanSessions = () => {
+const AnalysisRuns = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [dates, setDates] = useState([]);
@@ -23,7 +25,7 @@ const ScanSessions = () => {
   const stateRef = useRef();
   stateRef.current = dates;
 
-  const runs = useSelector((state) => state.analysisRuns);
+  const runs = useSelector((state) => state.analysisRuns.all);
 
   const { from, to } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -33,7 +35,11 @@ const ScanSessions = () => {
     useEffect(() => {
       const params =
         from && to
-          ? { from, to, limit: constants?.runs?.itemsLoadingCount }
+          ? {
+              created_after: from,
+              created_before: to,
+              limit: constants?.runs?.itemsLoadingCount,
+            }
           : { limit: constants?.runs?.itemsLoadingCount };
       dispatch({
         type: actions.FETCH_RUNS_REQUEST,
@@ -48,6 +54,69 @@ const ScanSessions = () => {
 
   const runsItems = runs?.items;
 
+  const onUploadRun = useCallback(
+    (id, options) => {
+      dispatch({
+        type: actions.UPLOAD_RUN_RESULT_REQUEST,
+        payload: {
+          id,
+          options,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const handleSubmit = useCallback(() => {
+    dispatch({
+      type: modalActions.HIDE_MODAL,
+    });
+  }, []);
+
+  const onUploadClick = useCallback(
+    (id) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Upload run result',
+          onOk: handleSubmit,
+          message: () => (
+            <Upload.Dragger
+              customRequest={(options) => onUploadRun(id, options)}
+              maxCount={1}
+              name="runFile"
+              accept=".csv"
+              // Need to parse .csv before upload for render preview
+              // beforeUpload={(file) => {
+              //   const reader = new FileReader();
+
+              //   reader.onload = (e) => {
+              //     console.log(e.target.result);
+              //   };
+              //   reader.readAsText(file);
+
+              //   // Prevent upload
+              //   return false;
+              // }}
+            >
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                Support for a single upload. You can upload only csv files.
+              </p>
+            </Upload.Dragger>
+          ),
+        },
+      });
+    },
+    [dispatch, onUploadRun, handleSubmit],
+  );
+
   const columns = [
     {
       title: 'Run Title',
@@ -60,59 +129,72 @@ const ScanSessions = () => {
     },
     {
       title: 'Creation Date',
-      dataIndex: 'date',
+      dataIndex: 'created',
+      render: (value) =>
+        value ? moment(value).format('YYYY-MM-DD hh:mm A') : '-',
     },
     {
       title: 'Samples',
-      dataIndex: 'scans_ids',
-      render: (_, record) => {
-        return record?.scans_ids?.length || '-';
-      },
+      dataIndex: 'samples_count',
     },
     {
       title: `Status`,
       dataIndex: 'status',
+      align: 'center',
+      render: (_, record) => {
+        return <ResultTag status={record?.status} type="run" />;
+      },
     },
     {
-      title: 'Last updated',
-      dataIndex: 'last_updated',
+      title: 'Last Updated',
+      dataIndex: 'modified',
+      render: (value) =>
+        value ? moment(value).format('YYYY-MM-DD hh:mm A') : '-',
     },
     {
-      title: 'User',
+      title: 'Created By',
       dataIndex: 'user',
     },
     {
-      title: 'Reflex Run',
-      dataIndex: 'reflexed',
-      align: 'center',
-      render: (_, record) =>
-        record?.reflexed ? <CheckOutlined /> : <CloseOutlined />,
+      title: 'Run Type',
+      dataIndex: 'type',
     },
     {
-      title: 'Validation Run',
-      dataIndex: 'validated',
-      align: 'center',
-      render: (_, record) =>
-        record?.validated ? <CheckOutlined /> : <CloseOutlined />,
+      title: 'Actions',
+      render: (_, run) => (
+        <Button
+          onClick={() => onUploadClick(run.id)}
+          icon={<UploadOutlined />}
+          type="link"
+          disabled={run.status === constants.runStatuses.published}
+        >
+          Upload result
+        </Button>
+      ),
     },
   ];
 
-  const onDatesChange = useCallback((dates, dateStrings) => {
-    if (dates) {
-      history.push({ search: `?from=${dateStrings[0]}&to=${dateStrings[1]}` });
-      setDates(dateStrings);
-    } else {
-      history.push({ search: '' });
-      setDates([]);
-    }
-  }, []);
+  const onDatesChange = useCallback(
+    (dates, dateStrings) => {
+      if (dates) {
+        history.push({
+          search: `?from=${dateStrings[0]}&to=${dateStrings[1]}`,
+        });
+        setDates(dateStrings);
+      } else {
+        history.push({ search: '' });
+        setDates([]);
+      }
+    },
+    [history],
+  );
 
   const loadMore = useCallback(() => {
     const params =
       from && to
         ? {
-            from,
-            to,
+            created_after: from,
+            created_before: to,
             limit: constants?.runs?.itemsLoadingCount,
             offset: runs.offset,
           }
@@ -153,7 +235,7 @@ const ScanSessions = () => {
         <Table
           dataSource={runsItems}
           columns={columns}
-          scroll={{ x: 1000 }}
+          scroll={{ x: 1200 }}
           bordered
           loading={runs?.isLoading}
           align="center"
@@ -165,4 +247,4 @@ const ScanSessions = () => {
   );
 };
 
-export default ScanSessions;
+export default AnalysisRuns;
