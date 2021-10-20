@@ -58,10 +58,10 @@ export const fetchWellplate = async ({ id }) => {
   }
 };
 
-export const updateSample = async ({ id, field, value }) => {
+export const updateSample = async ({ id, values }) => {
   try {
     const sample = await axiosClient.patch(`/runs/results/sample/${id}/`, {
-      [field]: value,
+      ...values,
     });
     return sample;
   } catch (error) {
