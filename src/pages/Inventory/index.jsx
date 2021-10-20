@@ -6,7 +6,6 @@ import { ControlTubeModal } from 'components/widgets/Inventory';
 import debounce from 'lodash.debounce';
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import companyActions from 'redux/companies/actions';
 import actions from 'redux/inventory/actions';
 import modalActions from 'redux/modal/actions';
 
@@ -18,7 +17,7 @@ import styles from './styles.module.scss';
 const Inventory = () => {
   const { isMobile, isTablet } = useWindowSize();
 
-  const dispatchCompaniesData = useDispatch();
+  const dispatch = useDispatch();
   const [searchName, setSearchName] = useState('');
   const [form] = Form.useForm();
 
@@ -31,14 +30,14 @@ const Inventory = () => {
 
   const createControlTube = useCallback(async () => {
     const fieldValues = await form.validateFields();
-    dispatchCompaniesData({
+    dispatch({
       type: actions.CREATE_INVENTORY_ITEM_REQUEST,
       payload: {
         item: fieldValues,
         resetForm: handleReset,
       },
     });
-  }, [form, dispatchCompaniesData]);
+  }, [form, dispatch]);
 
   const columns = [
     {
@@ -76,7 +75,7 @@ const Inventory = () => {
 
   const useFetching = () => {
     useEffect(() => {
-      dispatchCompaniesData({
+      dispatch({
         type: actions.FETCH_INVENTORY_REQUEST,
         payload: {
           limit: constants.companies.itemsLoadingCount,
@@ -89,7 +88,7 @@ const Inventory = () => {
   useFetching();
 
   const onModalToggle = useCallback(() => {
-    dispatchCompaniesData({
+    dispatch({
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
@@ -107,25 +106,25 @@ const Inventory = () => {
         message: () => <ControlTubeModal form={form} />,
       },
     });
-  }, [dispatchCompaniesData]);
+  }, [dispatch]);
 
   const loadMore = useCallback(() => {
-    dispatchCompaniesData({
-      type: companyActions.FETCH_COMPANIES_REQUEST,
+    dispatch({
+      type: actions.FETCH_INVENTORY_REQUEST,
       payload: {
-        limit: constants.companies.itemsLoadingCount,
+        limit: constants.inventory.itemsLoadingCount,
         offset: inventory.offset,
         search: searchName,
       },
     });
-  }, [dispatchCompaniesData, inventory]);
+  }, [dispatch, inventory]);
 
   const sendQuery = useCallback(
     (query) => {
-      dispatchCompaniesData({
-        type: companyActions.FETCH_COMPANIES_REQUEST,
+      dispatch({
+        type: actions.FETCH_INVENTORY_REQUEST,
         payload: {
-          limit: constants.companies.itemsLoadingCount,
+          limit: constants.inventory.itemsLoadingCount,
           search: query,
         },
       });
