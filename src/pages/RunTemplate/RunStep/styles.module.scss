@@ -29,3 +29,11 @@
 .runNumber {
   height: 32px;
 }
+
+.rowDragging {
+  background: #fafafa;
+  border: 1px solid #ccc;
+  td {
+    padding: 12px;
+  }
+}
