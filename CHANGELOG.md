@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.10.3](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.2...v7.10.3) (2021-10-21)
+
+### Features
+
+- sortable table rows ([3512c7b](https://github.com/mokkapps/changelog-generator-demo/commits/3512c7b79a0c6a68e7b9ad58f390178497f79720))
+
+### Bug Fixes
+
+- sortable table rows ([e555f98](https://github.com/mokkapps/changelog-generator-demo/commits/e555f981d9fdda9b86bbc948749b0faa6a5cbe8c))
+
 ### [7.10.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.1...v7.10.2) (2021-10-20)
 
 ### Bug Fixes
