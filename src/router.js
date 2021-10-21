@@ -127,7 +127,7 @@ const routes = [
 
 const mapStateToProps = ({ settings }) => ({ settings });
 
-// @connect(mapStateToProps)
+@connect(mapStateToProps)
 class Router extends React.Component {
   render() {
     const {
