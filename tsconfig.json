@@ -7,6 +7,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
+    "baseUrl": "src",
     "declaration": true,
     "pretty": true,
     "newLine": "lf",
@@ -19,15 +20,15 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
+    "experimentalDecorators": true,
     "noEmitOnError": true,
     "useDefineForClassFields": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "rootDir": "src/",
     "allowJs": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
