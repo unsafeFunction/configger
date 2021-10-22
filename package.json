@@ -1,6 +1,6 @@
 {
   "name": "mirimus-admin",
-  "version": "7.10.3",
+  "version": "7.10.4",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",

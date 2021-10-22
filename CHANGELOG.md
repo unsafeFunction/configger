@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.10.4](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.3...v7.10.4) (2021-10-22)
+
+### Features
+
+- barcode lookup ([b40fcc3](https://github.com/mokkapps/changelog-generator-demo/commits/b40fcc37ec8e5923bdd6aee319b65e354eb5d3ab))
+
 ### [7.10.3](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.2...v7.10.3) (2021-10-21)
 
 ### Features
