@@ -69,13 +69,13 @@ export async function getMenuData() {
     //   url: '/packing-slip',
     //   icon: 'fe fe-download',
     // },
-    // {
-    //   title: 'Barcode Lookup',
-    //   key: 'search',
-    //   icon: 'fe fe-search',
-    //   url: '/barcode-lookup',
-    //   isAlpha: true,
-    // },
+    {
+      title: 'Barcode Lookup',
+      key: 'search',
+      icon: 'fe fe-search',
+      url: '/barcode-lookup',
+      isAlpha: true,
+    },
     {
       title: 'Inventory',
       key: 'inventory',
