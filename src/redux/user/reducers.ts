@@ -1,5 +1,27 @@
 import actions from './actions';
 
+type ProfileProps = {
+  phone_number: string;
+  role: string;
+};
+
+type PayloadProps = {
+  data: any;
+  profile: ProfileProps;
+  role: string;
+};
+
+type ActionProps = {
+  type: string;
+  payload: PayloadProps;
+};
+
+export type UserState = {
+  authorized: boolean;
+  role: string;
+  profile: ProfileProps;
+};
+
 const initialState = {
   profile: {},
   authorized: false,
@@ -13,7 +35,7 @@ const initialState = {
   role: null,
 };
 
-export default function userReducer(state = initialState, action) {
+export default function userReducer(state = initialState, action: ActionProps) {
   switch (action.type) {
     case actions.LOGIN_REQUEST:
       return { ...state, isLoggingIn: true };

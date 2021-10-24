@@ -10,12 +10,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/user/actions';
 import sessionActions from 'redux/scanSessions/actions';
-import styles from './styles.module.scss';
+import { RootState } from 'redux/reducers';
+import { UserState, SettingState } from 'redux/storeTypes';
+// import styles from './styles.module.scss';
 
-const AppLayout = (props) => {
+type AppProps = {
+  children: React.ReactChild;
+};
+
+const AppLayout = ({ children }: AppProps) => {
   const dispatch = useDispatch();
-  const settings = useSelector((state) => state.settings);
-  const { role, profile } = useSelector((state) => state.user);
+  const settings = useSelector<RootState, SettingState>(
+    (state) => state.settings,
+  );
+  const { role, profile } = useSelector<RootState, UserState>(
+    (state) => state.user,
+  );
   const {
     menuLayoutType,
     isContentNoMaxWidth,
@@ -27,7 +37,6 @@ const AppLayout = (props) => {
     isTopbarFixed,
     isGrayTopbar,
   } = settings;
-  const { children } = props;
 
   const location = useLocation();
 
@@ -54,7 +63,7 @@ const AppLayout = (props) => {
     >
       {role === 'company-admin' && !profile?.phone_number && (
         <Alert
-          className={styles.phoneWarning}
+          // className={styles.phoneWarning}
           message="Informational Notes!"
           description="Receive text message notifications for DETECTED pool results. Go to Profile and enter your mobile phone number to begin receiving text message notifications."
           type="warning"

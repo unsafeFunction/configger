@@ -1,10 +1,30 @@
 import store from 'store';
-
 import actions from './actions';
 
-const STORED_SETTINGS = (storedSettings) => {
-  const settings = {};
-  Object.keys(storedSettings).forEach((key) => {
+type PayloadProps = {
+  data: any;
+};
+
+type ActionProps = {
+  type: string;
+  payload: PayloadProps;
+};
+
+export type SettingState = {
+  menuLayoutType: string;
+  isContentNoMaxWidth: boolean;
+  isAppMaxWidth: boolean;
+  isGrayBackground: boolean;
+  isSquaredBorders: boolean;
+  isCardShadow: boolean;
+  isBorderless: boolean;
+  isTopbarFixed: boolean;
+  isGrayTopbar: boolean;
+};
+
+const STORED_SETTINGS = (storedSettings: any) => {
+  const settings: any = {};
+  Object.keys(storedSettings).forEach((key: any) => {
     const item = store.get(`app.settings.${key}`);
     settings[key] = typeof item !== 'undefined' ? item : storedSettings[key];
   });
@@ -37,7 +57,10 @@ const initialState = {
   }),
 };
 
-export default function settingsReducer(state = initialState, action) {
+export default function settingsReducer(
+  state = initialState,
+  action: ActionProps,
+) {
   switch (action.type) {
     case actions.SET_STATE:
       return { ...state, ...action.payload };

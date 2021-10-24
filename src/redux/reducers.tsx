@@ -20,8 +20,9 @@ import settings from './settings/reducers';
 import timeline from './timeline/reducers';
 import user from './user/reducers';
 import userSettings from './userSettings/reducers';
+import * as types from './storeTypes';
 
-export default (history) =>
+const rootReducer = (history: any) =>
   combineReducers({
     router: connectRouter(history),
     user,
@@ -45,3 +46,9 @@ export default (history) =>
     timeline,
     reflex,
   });
+
+export default rootReducer;
+export type RootState = {
+  user: types.UserState;
+  settings: types.SettingState;
+};
