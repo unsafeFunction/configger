@@ -20,6 +20,7 @@ import actions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
 import { DownOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
+import TableFooter from '../../components/layout/TableFooterLoader';
 
 moment.tz.setDefault('America/New_York');
 
@@ -217,58 +218,57 @@ const RackScans = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>PoolRack Scans</h4>
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={racksItems.length < racks?.total}
-        dataLength={racksItems?.length}
-      >
-        <Table
-          dataSource={racksItems}
-          columns={columns}
-          bordered
-          loading={racks?.isLoading}
-          align="center"
-          pagination={false}
-          rowKey={(record) => record.id}
-          title={() => (
-            <Row gutter={16}>
-              <Col
-                xs={{ span: 24 }}
-                sm={{ span: 12 }}
-                md={{ span: 9, offset: 6 }}
-                lg={{ span: 7, offset: 10 }}
-                xl={{ span: 6, offset: 12 }}
-                xxl={{ span: 7, offset: 12 }}
+      <Table
+        dataSource={racksItems}
+        columns={columns}
+        bordered
+        loading={racks?.isLoading}
+        align="center"
+        pagination={false}
+        rowKey={(record) => record.id}
+        title={() => (
+          <Row gutter={16}>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 12 }}
+              md={{ span: 9, offset: 6 }}
+              lg={{ span: 7, offset: 10 }}
+              xl={{ span: 6, offset: 12 }}
+              xxl={{ span: 7, offset: 12 }}
+            />
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 12 }}
+              md={{ span: 9 }}
+              lg={{ span: 7 }}
+              xl={{ span: 6 }}
+              xxl={{ span: 5 }}
+            >
+              <RangePicker
+                format="YYYY-MM-DD"
+                ranges={{
+                  Today: [moment(), moment()],
+                  'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                  'This Month': [
+                    moment().startOf('month'),
+                    moment().endOf('month'),
+                  ],
+                }}
+                onChange={onDatesChange}
+                className={classNames(
+                  styles.tableHeaderItem,
+                  styles.rangePicker,
+                )}
               />
-              <Col
-                xs={{ span: 24 }}
-                sm={{ span: 12 }}
-                md={{ span: 9 }}
-                lg={{ span: 7 }}
-                xl={{ span: 6 }}
-                xxl={{ span: 5 }}
-              >
-                <RangePicker
-                  format="YYYY-MM-DD"
-                  ranges={{
-                    Today: [moment(), moment()],
-                    'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-                    'This Month': [
-                      moment().startOf('month'),
-                      moment().endOf('month'),
-                    ],
-                  }}
-                  onChange={onDatesChange}
-                  className={classNames(
-                    styles.tableHeaderItem,
-                    styles.rangePicker,
-                  )}
-                />
-              </Col>
-            </Row>
-          )}
-        />
-      </InfiniteScroll>
+            </Col>
+          </Row>
+        )}
+      />
+      <TableFooter
+        loading={racks?.isLoading}
+        disabled={racksItems.length >= racks?.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

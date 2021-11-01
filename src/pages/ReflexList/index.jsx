@@ -11,6 +11,7 @@ import actions from 'redux/reflex/actions';
 import { constants } from 'utils/constants';
 import columns from './components';
 import styles from './styles.module.scss';
+import TableFooter from '../../components/layout/TableFooterLoader';
 
 moment.tz.setDefault('America/New_York');
 
@@ -73,33 +74,32 @@ const ReflexList = () => {
 
       <h5 className="mb-3">{moment(date).format('LL')}</h5>
 
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={reflexList.items.length < reflexList.total}
-        dataLength={reflexList.items.length}
-      >
-        <Table
-          className="mb-5"
-          pagination={false}
-          columns={columns}
-          dataSource={reflexList.items}
-          scroll={{ x: 2000 }}
-          rowKey={(record) => record.sample_id}
-          bordered
-          locale={{
-            emptyText: () => (
-              <Empty
-                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                imageStyle={{
-                  height: 80,
-                }}
-                description={<span>No samples to reflex for this date</span>}
-                className="mt-2 mb-2"
-              />
-            ),
-          }}
-        />
-      </InfiniteScroll>
+      <Table
+        className="mb-5"
+        pagination={false}
+        columns={columns}
+        dataSource={reflexList.items}
+        scroll={{ x: 2000 }}
+        rowKey={(record) => record.sample_id}
+        bordered
+        locale={{
+          emptyText: () => (
+            <Empty
+              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              imageStyle={{
+                height: 80,
+              }}
+              description={<span>No samples to reflex for this date</span>}
+              className="mt-2 mb-2"
+            />
+          ),
+        }}
+      />
+      <TableFooter
+        loading={reflexList?.isLoading}
+        disabled={reflexList.items.length >= reflexList.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

@@ -12,6 +12,7 @@ import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
+import TableFooter from '../../components/layout/TableFooterLoader';
 
 moment.tz.setDefault('America/New_York');
 
@@ -227,22 +228,21 @@ const AnalysisRuns = () => {
         />
       </div>
 
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={runsItems.length < runs?.total}
-        dataLength={runsItems?.length}
-      >
-        <Table
-          dataSource={runsItems}
-          columns={columns}
-          scroll={{ x: 1200 }}
-          bordered
-          loading={runs?.isLoading}
-          align="center"
-          pagination={false}
-          rowKey={(record) => record.id}
-        />
-      </InfiniteScroll>
+      <Table
+        dataSource={runsItems}
+        columns={columns}
+        scroll={{ x: 1200 }}
+        bordered
+        loading={runs?.isLoading}
+        align="center"
+        pagination={false}
+        rowKey={(record) => record.id}
+      />
+      <TableFooter
+        loading={runs?.isLoading}
+        disabled={runsItems.length >= runs?.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

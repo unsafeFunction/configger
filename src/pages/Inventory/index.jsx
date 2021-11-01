@@ -13,6 +13,7 @@ import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
 import moment from 'moment-timezone';
 import styles from './styles.module.scss';
+import TableFooter from '../../components/layout/TableFooterLoader';
 
 const Inventory = () => {
   const { isMobile, isTablet } = useWindowSize();
@@ -198,22 +199,21 @@ const Inventory = () => {
           </>
         )}
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={inventory?.items?.length < inventory?.total}
-        loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
-        dataLength={inventory?.items?.length}
-      >
-        <Table
-          dataSource={inventory?.items}
-          columns={columns}
-          scroll={{ x: 1200 }}
-          bordered
-          loading={inventory?.isLoading}
-          align="center"
-          pagination={false}
-        />
-      </InfiniteScroll>
+
+      <Table
+        dataSource={inventory?.items}
+        columns={columns}
+        scroll={{ x: 1200 }}
+        bordered
+        loading={inventory?.isLoading}
+        align="center"
+        pagination={false}
+      />
+      <TableFooter
+        loading={inventory?.isLoading}
+        disabled={inventory?.items?.length >= inventory?.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

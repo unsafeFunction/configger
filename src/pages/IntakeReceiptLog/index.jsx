@@ -377,7 +377,7 @@ const IntakeReceiptLog = () => {
       />
       <TableFooter
         loading={intakeLog.isLoading}
-        disabled={intakeLog.items.length > intakeLog.total}
+        disabled={intakeLog.items.length >= intakeLog.total}
         loadMore={loadMore}
       />
     </>

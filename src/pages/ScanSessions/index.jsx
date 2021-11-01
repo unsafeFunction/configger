@@ -22,6 +22,7 @@ import helperActions from 'redux/helpers/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
+import TableFooter from '../../components/layout/TableFooterLoader';
 
 moment.tz.setDefault('America/New_York');
 
@@ -326,99 +327,98 @@ const ScanSessions = () => {
         <h4>Pool Scans</h4>
       </div>
 
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={sessionItems.length < total}
-        dataLength={sessionItems?.length}
-      >
-        <Table
-          dataSource={sessionItems}
-          columns={columns}
-          scroll={{ x: 1000 }}
-          bordered
-          loading={!isLoading}
-          align="center"
-          pagination={false}
-          rowKey={(record) => record.id}
-          expandRowByClick
-          expandedRowKeys={openedRow}
-          onExpand={handleExpand}
-          expandedRowRender={(record) => {
-            return expandedRow(
-              scans.map((scan) => {
-                const poolName = getPoolName(scan);
+      <Table
+        dataSource={sessionItems}
+        columns={columns}
+        scroll={{ x: 1000 }}
+        bordered
+        loading={!isLoading}
+        align="center"
+        pagination={false}
+        rowKey={(record) => record.id}
+        expandRowByClick
+        expandedRowKeys={openedRow}
+        onExpand={handleExpand}
+        expandedRowRender={(record) => {
+          return expandedRow(
+            scans.map((scan) => {
+              const poolName = getPoolName(scan);
 
-                return {
-                  key: scan.id,
-                  pool_id: scan.pool_id,
-                  scan_time: scan.scan_timestamp
-                    ? moment(scan.scan_timestamp).format('LLLL')
-                    : '-',
-                  scan_name: poolName,
-                  pool_size: scan.tubes_count,
-                  rack_id: scan.rack_id,
-                  scanner: scan.scanner ?? '-',
-                  actions: (
-                    <>
-                      <Dropdown overlay={menu(record, scan)}>
-                        <Button type="primary">
-                          Actions
-                          <DownOutlined />
-                        </Button>
-                      </Dropdown>
-                    </>
-                  ),
-                };
-              }),
-            );
-          }}
-          title={() => (
-            <Row gutter={16}>
-              <Col
-                xs={{ span: 24 }}
-                sm={{ span: 12 }}
-                md={{ span: 9, offset: 6 }}
-                lg={{ span: 7, offset: 10 }}
-                xl={{ span: 6, offset: 12 }}
-                xxl={{ span: 7, offset: 12 }}
-              >
-                <Input
-                  prefix={<SearchOutlined />}
-                  placeholder="Search..."
-                  value={searchName}
-                  onChange={onChangeSearch}
-                  className={classNames(styles.tableHeaderItem, styles.search)}
-                />
-              </Col>
-              <Col
-                xs={{ span: 24 }}
-                sm={{ span: 12 }}
-                md={{ span: 9 }}
-                lg={{ span: 7 }}
-                xl={{ span: 6 }}
-                xxl={{ span: 5 }}
-              >
-                <RangePicker
-                  format="YYYY-MM-DD"
-                  ranges={{
-                    Today: [moment(), moment()],
-                    'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-                    'This Month': [
-                      moment().startOf('month'),
-                      moment().endOf('month'),
-                    ],
-                  }}
-                  onChange={onDatesChange}
-                  className={classNames(
-                    styles.tableHeaderItem,
-                    styles.rangePicker,
-                  )}
-                />
-              </Col>
-            </Row>
-          )}
-        />
-      </InfiniteScroll>
+              return {
+                key: scan.id,
+                pool_id: scan.pool_id,
+                scan_time: scan.scan_timestamp
+                  ? moment(scan.scan_timestamp).format('LLLL')
+                  : '-',
+                scan_name: poolName,
+                pool_size: scan.tubes_count,
+                rack_id: scan.rack_id,
+                scanner: scan.scanner ?? '-',
+                actions: (
+                  <>
+                    <Dropdown overlay={menu(record, scan)}>
+                      <Button type="primary">
+                        Actions
+                        <DownOutlined />
+                      </Button>
+                    </Dropdown>
+                  </>
+                ),
+              };
+            }),
+          );
+        }}
+        title={() => (
+          <Row gutter={16}>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 12 }}
+              md={{ span: 9, offset: 6 }}
+              lg={{ span: 7, offset: 10 }}
+              xl={{ span: 6, offset: 12 }}
+              xxl={{ span: 7, offset: 12 }}
+            >
+              <Input
+                prefix={<SearchOutlined />}
+                placeholder="Search..."
+                value={searchName}
+                onChange={onChangeSearch}
+                className={classNames(styles.tableHeaderItem, styles.search)}
+              />
+            </Col>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 12 }}
+              md={{ span: 9 }}
+              lg={{ span: 7 }}
+              xl={{ span: 6 }}
+              xxl={{ span: 5 }}
+            >
+              <RangePicker
+                format="YYYY-MM-DD"
+                ranges={{
+                  Today: [moment(), moment()],
+                  'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                  'This Month': [
+                    moment().startOf('month'),
+                    moment().endOf('month'),
+                  ],
+                }}
+                onChange={onDatesChange}
+                className={classNames(
+                  styles.tableHeaderItem,
+                  styles.rangePicker,
+                )}
+              />
+            </Col>
+          </Row>
+        )}
+      />
+      <TableFooter
+        loading={!isLoading}
+        disabled={sessionItems.length >= total}
+        loadMore={loadMore}
+      />
     </>
   );
 };
