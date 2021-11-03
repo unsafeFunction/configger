@@ -52,7 +52,7 @@ const SingleSessionTable = ({
       scan_name: scan.scan_name,
       pool_id: scan.pool_id,
       status: scan.status,
-      scan_time: moment(scan.scan_timestamp).format('llll'),
+      scan_time: moment(scan.scan_timestamp).format('lll'),
       rack_id: scan.rack_id,
       scanner: scan.scanner ?? '-',
       action: (

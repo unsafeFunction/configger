@@ -103,7 +103,7 @@ const PoolRackTable = ({ setSelectedRows, runState, limit }) => {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
       render: (_, value) => {
-        return moment(value?.scan_timestamp).format('llll') ?? '-';
+        return moment(value?.scan_timestamp).format('lll') ?? '-';
       },
     },
   ];
@@ -151,7 +151,6 @@ const PoolRackTable = ({ setSelectedRows, runState, limit }) => {
           loading={poolRacks.isLoading}
           pagination={false}
           scroll={{ x: 'max-content' }}
-          bordered
           rowKey={(record) => record.id}
           title={() => (
             <div className={styles.tableHeader}>

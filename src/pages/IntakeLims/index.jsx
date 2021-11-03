@@ -98,7 +98,6 @@ const IntakeList = () => {
           dataSource={data}
           pagination={false}
           scroll={{ x: 1000 }}
-          bordered
           loading={intakeList.isLoading}
         />
       </InfiniteScroll>

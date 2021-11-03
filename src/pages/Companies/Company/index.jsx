@@ -244,7 +244,6 @@ const CompanyProfile = () => {
             dataSource={singleCompany?.results_contacts}
             scroll={{ x: 1200 }}
             loading={!singleCompany.isLoading}
-            bordered
             pagination={{
               pageSize: singleCompany?.results_contacts?.length,
               hideOnSinglePage: true,

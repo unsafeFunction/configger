@@ -1,4 +1,4 @@
-import { CloseOutlined, DownOutlined, SearchOutlined } from '@ant-design/icons';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   Button,
   Col,
@@ -17,7 +17,7 @@ import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
@@ -113,7 +113,7 @@ const ScanSessions = () => {
       dataIndex: 'completed_timestamp',
       render: (_, value) => {
         return value?.completed_timestamp
-          ? moment(value.completed_timestamp).format('llll')
+          ? moment(value.completed_timestamp).format('lll')
           : '-';
       },
     },
@@ -128,7 +128,12 @@ const ScanSessions = () => {
 
   const expandedRow = (scan) => {
     const columns = [
-      { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id', width: 100 },
+      {
+        title: 'Pool ID',
+        dataIndex: 'pool_id',
+        key: 'pool_id',
+        width: 100,
+      },
       {
         title: 'Pool Name',
         dataIndex: 'scan_name',
@@ -325,7 +330,6 @@ const ScanSessions = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Pool Scans</h4>
       </div>
-
       <InfiniteScroll
         next={loadMore}
         hasMore={sessionItems.length < total}
@@ -335,9 +339,7 @@ const ScanSessions = () => {
           dataSource={sessionItems}
           columns={columns}
           scroll={{ x: 1000 }}
-          bordered
           loading={!isLoading}
-          align="center"
           pagination={false}
           rowKey={(record) => record.id}
           expandRowByClick
@@ -350,9 +352,16 @@ const ScanSessions = () => {
 
                 return {
                   key: scan.id,
-                  pool_id: scan.pool_id,
+                  pool_id: (
+                    <Link
+                      className="table-link"
+                      to={`/pool-scans/${record.id}/${scan.id}`}
+                    >
+                      {scan.pool_id}
+                    </Link>
+                  ),
                   scan_time: scan.scan_timestamp
-                    ? moment(scan.scan_timestamp).format('LLLL')
+                    ? moment(scan.scan_timestamp).format('lll')
                     : '-',
                   scan_name: poolName,
                   pool_size: scan.tubes_count,
@@ -383,11 +392,11 @@ const ScanSessions = () => {
                 xxl={{ span: 7, offset: 12 }}
               >
                 <Input
+                  size="middle"
                   prefix={<SearchOutlined />}
                   placeholder="Search..."
                   value={searchName}
                   onChange={onChangeSearch}
-                  className={classNames(styles.tableHeaderItem, styles.search)}
                 />
               </Col>
               <Col

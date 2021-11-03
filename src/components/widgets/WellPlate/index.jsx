@@ -150,7 +150,6 @@ const WellPlate = ({ wellplate, runId }) => {
                 loading={wellplate?.isLoading}
                 pagination={false}
                 scroll={{ x: 'max-content' }}
-                bordered
                 rowClassName={styles.row}
                 rowKey={(record) => record.letter}
                 size="small"

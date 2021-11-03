@@ -327,7 +327,6 @@ const Rackboard = ({
         loading={session?.isLoading || rackboard?.isLoading}
         pagination={false}
         scroll={{ x: 'max-content' }}
-        bordered
         rowClassName={styles.row}
         rowKey={(record) => record.letter}
         size="small"

@@ -187,7 +187,7 @@ const PoolScan = () => {
             title="Scanned on:"
             value={
               scan?.scan_timestamp
-                ? moment(scan.scan_timestamp).format('llll')
+                ? moment(scan.scan_timestamp).format('lll')
                 : '–'
             }
           />
@@ -201,7 +201,7 @@ const PoolScan = () => {
             title="Last modified on:"
             value={
               scan?.last_modified_on
-                ? moment(scan.last_modified_on).format('llll')
+                ? moment(scan.last_modified_on).format('lll')
                 : '–'
             }
           />
