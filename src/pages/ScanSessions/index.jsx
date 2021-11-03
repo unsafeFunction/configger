@@ -15,14 +15,13 @@ import classNames from 'classnames';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
+import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
-import TableFooter from '../../components/layout/TableFooterLoader';
 
 moment.tz.setDefault('America/New_York');
 

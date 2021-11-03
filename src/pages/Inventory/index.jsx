@@ -5,15 +5,14 @@ import { Table, Button, Input, Form } from 'antd';
 import { ControlTubeModal } from 'components/widgets/Inventory';
 import debounce from 'lodash.debounce';
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/inventory/actions';
 import modalActions from 'redux/modal/actions';
 
 import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
 import moment from 'moment-timezone';
+import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
-import TableFooter from '../../components/layout/TableFooterLoader';
 
 const Inventory = () => {
   const { isMobile, isTablet } = useWindowSize();

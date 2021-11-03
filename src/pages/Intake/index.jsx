@@ -8,8 +8,8 @@ import moment from 'moment-timezone';
 import classNames from 'classnames';
 import { useHistory, useLocation } from 'react-router-dom';
 import qs from 'qs';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { constants } from 'utils/constants';
+import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -166,25 +166,18 @@ const Runs = () => {
           className={styles.rangePicker}
         />
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={runs.items.length < runs.total}
-        loader={
-          <div className={styles.spin}>
-            <Spin />
-          </div>
-        }
-        dataLength={runs.items.length}
-      >
-        <Table
-          columns={columns}
-          // dataSource={data}
-          loading={runs.isLoading}
-          pagination={false}
-          scroll={{ x: 1000 }}
-          bordered
-        />
-      </InfiniteScroll>
+      <Table
+        columns={columns}
+        loading={runs.isLoading}
+        pagination={false}
+        scroll={{ x: 1000 }}
+        bordered
+      />
+      <TableFooter
+        loading={runs.isLoading}
+        disabled={runs.items.length >= runs.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

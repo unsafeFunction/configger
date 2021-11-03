@@ -98,18 +98,7 @@ const ContactResultModal = ({}) => {
           dropdownClassName={classNames({ [styles.hide]: !searchName })}
           dropdownRender={(menu) => {
             return searchName ? (
-              <div className={styles.dropDown}>
-                {/* <InfiniteScroll
-                  pageStart={1}
-                  loadMore={loadPage}
-                  dataLength={users.length}
-                  hasMore={!isLoading && users.length < total}
-                  threshold={50}
-                  useWindow={false}
-                > */}
-                {menu}
-                {/* </InfiniteScroll> */}
-              </div>
+              <div className={styles.dropDown}>{menu}</div>
             ) : null;
           }}
         />

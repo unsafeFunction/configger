@@ -4,10 +4,10 @@ import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import poolRackActions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
+import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -132,52 +132,44 @@ const PoolRackTable = ({ setSelectedRows, runState, limit }) => {
 
   return (
     <>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={poolRacks.items.length < poolRacks.total}
-        loader={
-          // eslint-disable-next-line react/jsx-wrap-multilines
-          <div className={styles.spin}>
-            <Spin />
-          </div>
-        }
-        dataLength={poolRacks.items.length}
-        height="70vh"
-      >
-        <Table
-          rowSelection={rowSelection}
-          columns={columns}
-          dataSource={data}
-          loading={poolRacks.isLoading}
-          pagination={false}
-          scroll={{ x: 'max-content' }}
-          bordered
-          rowKey={(record) => record.id}
-          title={() => (
-            <div className={styles.tableHeader}>
-              <Typography.Text strong>
-                {selectedRowKeys.length
-                  ? `Selected ${selectedRowKeys.length} items`
-                  : ''}
-              </Typography.Text>
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={data}
+        loading={poolRacks.isLoading}
+        pagination={false}
+        scroll={{ x: 'max-content' }}
+        bordered
+        rowKey={(record) => record.id}
+        title={() => (
+          <div className={styles.tableHeader}>
+            <Typography.Text strong>
+              {selectedRowKeys.length
+                ? `Selected ${selectedRowKeys.length} items`
+                : ''}
+            </Typography.Text>
 
-              <RangePicker
-                format="YYYY-MM-DD"
-                ranges={{
-                  Today: [moment(), moment()],
-                  'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-                  'This Month': [
-                    moment().startOf('month'),
-                    moment().endOf('month'),
-                  ],
-                }}
-                onChange={onDatesChange}
-                className={styles.rangePicker}
-              />
-            </div>
-          )}
-        />
-      </InfiniteScroll>
+            <RangePicker
+              format="YYYY-MM-DD"
+              ranges={{
+                Today: [moment(), moment()],
+                'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                'This Month': [
+                  moment().startOf('month'),
+                  moment().endOf('month'),
+                ],
+              }}
+              onChange={onDatesChange}
+              className={styles.rangePicker}
+            />
+          </div>
+        )}
+      />
+      <TableFooter
+        loading={poolRacks.isLoading}
+        disabled={poolRacks.items.length >= poolRacks.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

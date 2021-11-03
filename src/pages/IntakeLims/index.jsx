@@ -3,11 +3,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/intakeLims/actions';
-import { Table, Spin } from 'antd';
+import { Table } from 'antd';
 import moment from 'moment-timezone';
-import classNames from 'classnames';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { constants } from 'utils/constants';
+import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -83,25 +82,19 @@ const IntakeList = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Intake</h4>
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={intakeList.items.length < intakeList.total}
-        loader={
-          <div className={styles.spin}>
-            <Spin />
-          </div>
-        }
-        dataLength={intakeList.items.length}
-      >
-        <Table
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-          scroll={{ x: 1000 }}
-          bordered
-          loading={intakeList.isLoading}
-        />
-      </InfiniteScroll>
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={false}
+        scroll={{ x: 1000 }}
+        bordered
+        loading={intakeList.isLoading}
+      />
+      <TableFooter
+        loading={intakeList.isLoading}
+        disabled={intakeList.items.length >= intakeList.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

@@ -5,14 +5,13 @@ import ResultTag from 'components/widgets/ResultTag';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
+import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
-import TableFooter from '../../components/layout/TableFooterLoader';
 
 moment.tz.setDefault('America/New_York');
 
