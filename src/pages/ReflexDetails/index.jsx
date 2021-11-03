@@ -59,7 +59,6 @@ const ReflexDetails = () => {
             <Tag color="green">Not detected: 3</Tag>
           </div>
         )}
-        bordered
       />
     </>
   );

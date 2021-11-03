@@ -178,11 +178,9 @@ const Runs = () => {
       >
         <Table
           columns={columns}
-          // dataSource={data}
           loading={runs.isLoading}
           pagination={false}
           scroll={{ x: 1000 }}
-          bordered
         />
       </InfiniteScroll>
     </>

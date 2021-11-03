@@ -23,7 +23,7 @@ moment.tz.setDefault('America/New_York');
 
 const { Option } = Select;
 
-const PoolTable = ({ loadMore }) => {
+const PoolTable = ({ loadMore, searchInput }) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
@@ -91,8 +91,7 @@ const PoolTable = ({ loadMore }) => {
       title: 'Receipt Timestamp',
       dataIndex: 'test_receipt_timestamp',
       width: 180,
-      render: (value) =>
-        value ? moment(value).format('YYYY-MM-DD hh:mm A') : '–',
+      render: (value) => (value ? moment(value).format('lll') : '–'),
     },
     {
       title: 'Run Title',
@@ -173,11 +172,10 @@ const PoolTable = ({ loadMore }) => {
                     : record.result.toUpperCase()}
                 </Tag>
               }
-              style={{ width: 178 }}
+              // style={{ width: 178 }}
               loading={record.resultIsUpdating}
               onSelect={onModalToggle(record.id, record.pool_id)}
               disabled={record.resultIsUpdating}
-              bordered={false}
             >
               {resutList?.items
                 ?.filter((option) => option.value !== record.result)
@@ -264,8 +262,8 @@ const PoolTable = ({ loadMore }) => {
         loading={pools.isLoading}
         pagination={false}
         scroll={{ x: 1400 }}
-        bordered
         rowKey={(record) => record.id}
+        title={() => <div className="d-flex">{searchInput}</div>}
       />
     </InfiniteScroll>
   );

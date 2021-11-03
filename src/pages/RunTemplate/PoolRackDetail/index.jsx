@@ -63,7 +63,6 @@ const PoolRackDetail = ({ id }) => {
             loading={poolRack.isLoading}
             pagination={false}
             scroll={{ x: 'max-content', y: '60vh' }}
-            bordered
             rowKey={(record) => record.id}
             onRow={(record) => {
               return {

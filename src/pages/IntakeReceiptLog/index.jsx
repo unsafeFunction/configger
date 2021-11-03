@@ -89,7 +89,8 @@ const IntakeReceiptLog = () => {
           }
         >
           <p style={{ margin: 0 }}>
-            {item.scanner_id} – model:{item.model}{' '}
+            {item.scanner_id} – model:
+            {item.model}{' '}
             {!item.is_online ? (
               <span style={{ color: 'red' }}>(offline)</span>
             ) : (
@@ -228,7 +229,7 @@ const IntakeReceiptLog = () => {
       title: 'Shipped On',
       dataIndex: 'shipped_on',
       render: (value) => {
-        return value ? moment(value).format('YYYY-MM-DD') : '-';
+        return value ? moment(value).format('lll') : '-';
       },
     },
     {
@@ -357,16 +358,9 @@ const IntakeReceiptLog = () => {
   }
 
   return (
-    <>
+    <div>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Intake Receipt Log</h4>
-        <Button
-          type="primary"
-          onClick={() => handleModalToggle(null)}
-          className="mb-2"
-        >
-          Add New Log
-        </Button>
       </div>
       <InfiniteScroll
         next={loadMore}
@@ -378,13 +372,26 @@ const IntakeReceiptLog = () => {
           dataSource={data}
           pagination={false}
           scroll={{ x: 'max-content' }}
-          bordered
           loading={intakeLog.isLoading}
           rowKey={(record) => record.id}
           onChange={handleTableChange}
+          title={() => {
+            return (
+              <div className="d-flex">
+                <Button
+                  size="middle"
+                  type="primary"
+                  onClick={() => handleModalToggle(null)}
+                  className="ml-auto"
+                >
+                  Add New Log
+                </Button>
+              </div>
+            );
+          }}
         />
       </InfiniteScroll>
-    </>
+    </div>
   );
 };
 

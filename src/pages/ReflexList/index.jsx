@@ -61,17 +61,10 @@ const ReflexList = () => {
   }, [dispatch, date, reflexList]);
 
   return (
-    <>
+    <div>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Reflex List</h4>
-        <DatePicker
-          defaultValue={date ? moment(date) : null}
-          format="YYYY-MM-DD"
-          onChange={onDateChange}
-        />
       </div>
-
-      <h5 className="mb-3">{moment(date).format('LL')}</h5>
 
       <InfiniteScroll
         next={loadMore}
@@ -85,7 +78,19 @@ const ReflexList = () => {
           dataSource={reflexList.items}
           scroll={{ x: 2000 }}
           rowKey={(record) => record.sample_id}
-          bordered
+          title={() => {
+            return (
+              <div className="d-flex">
+                <h5>{moment(date).format('LL')}</h5>
+                <DatePicker
+                  className="ml-auto"
+                  defaultValue={date ? moment(date) : null}
+                  format="YYYY-MM-DD"
+                  onChange={onDateChange}
+                />
+              </div>
+            );
+          }}
           locale={{
             emptyText: () => (
               <Empty
@@ -100,7 +105,7 @@ const ReflexList = () => {
           }}
         />
       </InfiniteScroll>
-    </>
+    </div>
   );
 };
 

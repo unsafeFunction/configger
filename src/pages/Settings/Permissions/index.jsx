@@ -11,7 +11,6 @@ const columns = [
       <div>
         <Input
           className={styles.searchInput}
-          bordered={false}
           suffix={<SearchOutlined />}
           size="middle"
           placeholder="Enter a role or permission name"
@@ -310,7 +309,6 @@ const UserPermissions = () => {
         pagination={false}
         sticky
         scroll={{ x: 850 }}
-        bordered
       />
     </div>
   );
