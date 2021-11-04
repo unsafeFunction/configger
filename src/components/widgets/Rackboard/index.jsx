@@ -330,6 +330,7 @@ const Rackboard = ({
         rowClassName={styles.row}
         rowKey={(record) => record.letter}
         size="small"
+        bordered
       />
     </>
   );

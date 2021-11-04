@@ -229,7 +229,7 @@ const IntakeReceiptLog = () => {
       title: 'Shipped On',
       dataIndex: 'shipped_on',
       render: (value) => {
-        return value ? moment(value).format('lll') : '-';
+        return value ? moment(value).format(constants.dateFormat) : '-';
       },
     },
     {
