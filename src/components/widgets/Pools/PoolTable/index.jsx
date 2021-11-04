@@ -172,10 +172,11 @@ const PoolTable = ({ loadMore, searchInput }) => {
                     : record.result.toUpperCase()}
                 </Tag>
               }
-              // style={{ width: 178 }}
               loading={record.resultIsUpdating}
               onSelect={onModalToggle(record.id, record.pool_id)}
               disabled={record.resultIsUpdating}
+              bordered={false}
+              dropdownMatchSelectWidth={200}
             >
               {resutList?.items
                 ?.filter((option) => option.value !== record.result)

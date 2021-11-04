@@ -247,7 +247,6 @@ const ResultSelect = ({ record, field }) => {
   return (
     <Select
       value={<ResultTag status={record[field]} type="sample" />}
-      style={{ width: 175 }}
       onSelect={onModalToggle(
         record.sample_id,
         field,
@@ -259,6 +258,8 @@ const ResultSelect = ({ record, field }) => {
         runStatus === runStatuses.published ||
         isReservedSample(record.display_sample_id)
       }
+      bordered={false}
+      dropdownMatchSelectWidth={200}
     >
       {resultList
         ?.filter((option) => option.value !== record[field])
@@ -383,7 +384,7 @@ const columns = [
         <Actions
           record={record}
           field="actions"
-          value={record.auto_publish ? record.rerun_action : ''}
+          value={record.auto_publish ? record.rerun_action : 'DO_NOT_PUBLISH'}
         />
       );
     },

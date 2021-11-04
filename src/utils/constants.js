@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/prefer-default-export
 export const constants = {
+  dateFormat: 'll',
+  dateTimeFormat: 'lll',
   customers: {
     itemsLoadingCount: 25,
   },
