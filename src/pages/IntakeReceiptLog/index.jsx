@@ -5,7 +5,6 @@ import IntakeReceiptLogModal from 'components/widgets/IntakeLog/IntakeReceiptLog
 import omit from 'lodash.omit';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import actions from 'redux/intakeReceiptLog/actions';
@@ -14,6 +13,7 @@ import scannersActions from 'redux/scanners/actions';
 import sessionActions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import { getColorIntakeLog } from 'utils/highlighting';
+import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -26,12 +26,9 @@ const IntakeReceiptLog = () => {
 
   const intakeLog = useSelector((state) => state.intakeReceiptLog);
 
-  const {
-    activeSessionId,
-    isLoading: isSessionLoading,
-    intakeLogs,
-    companyInfoLoading,
-  } = useSelector((state) => state.scanSessions.singleSession);
+  const { activeSessionId, isLoading: isSessionLoading } = useSelector(
+    (state) => state.scanSessions.singleSession,
+  );
 
   const scanners = useSelector((state) => state.scanners.all);
 
@@ -362,35 +359,34 @@ const IntakeReceiptLog = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Intake Receipt Log</h4>
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={intakeLog.items.length < intakeLog.total}
-        dataLength={intakeLog.items.length}
-      >
-        <Table
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-          scroll={{ x: 'max-content' }}
-          loading={intakeLog.isLoading}
-          rowKey={(record) => record.id}
-          onChange={handleTableChange}
-          title={() => {
-            return (
-              <div className="d-flex">
-                <Button
-                  size="middle"
-                  type="primary"
-                  onClick={() => handleModalToggle(null)}
-                  className="ml-auto"
-                >
-                  Add New Log
-                </Button>
-              </div>
-            );
-          }}
-        />
-      </InfiniteScroll>
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={false}
+        scroll={{ x: 'max-content' }}
+        loading={intakeLog.isLoading}
+        rowKey={(record) => record.id}
+        onChange={handleTableChange}
+        title={() => {
+          return (
+            <div className="d-flex">
+              <Button
+                size="middle"
+                type="primary"
+                onClick={() => handleModalToggle(null)}
+                className="ml-auto"
+              >
+                Add New Log
+              </Button>
+            </div>
+          );
+        }}
+      />
+      <TableFooter
+        loading={intakeLog.isLoading}
+        disabled={intakeLog.items.length >= intakeLog.total}
+        loadMore={loadMore}
+      />
     </div>
   );
 };

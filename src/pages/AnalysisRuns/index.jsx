@@ -5,12 +5,12 @@ import ResultTag from 'components/widgets/ResultTag';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
+import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -210,43 +210,43 @@ const AnalysisRuns = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Runs</h4>
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={runsItems.length < runs?.total}
-        dataLength={runsItems?.length}
-      >
-        <Table
-          dataSource={runsItems}
-          columns={columns}
-          scroll={{ x: 1200 }}
-          loading={runs?.isLoading}
-          align="center"
-          pagination={false}
-          rowKey={(record) => record.id}
-          title={() => (
-            <div className="d-flex">
-              <RangePicker
-                defaultValue={
-                  from && to
-                    ? [moment(from), moment(to)]
-                    : [moment().subtract(7, 'days'), moment()]
-                }
-                format="YYYY-MM-DD"
-                ranges={{
-                  Today: [moment(), moment()],
-                  'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-                  'This Month': [
-                    moment().startOf('month'),
-                    moment().endOf('month'),
-                  ],
-                }}
-                className="ml-auto"
-                onChange={onDatesChange}
-              />
-            </div>
-          )}
-        />
-      </InfiniteScroll>
+
+      <Table
+        dataSource={runsItems}
+        columns={columns}
+        scroll={{ x: 1200 }}
+        loading={runs?.isLoading}
+        align="center"
+        pagination={false}
+        rowKey={(record) => record.id}
+        title={() => (
+          <div className="d-flex">
+            <RangePicker
+              defaultValue={
+                from && to
+                  ? [moment(from), moment(to)]
+                  : [moment().subtract(7, 'days'), moment()]
+              }
+              format="YYYY-MM-DD"
+              ranges={{
+                Today: [moment(), moment()],
+                'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                'This Month': [
+                  moment().startOf('month'),
+                  moment().endOf('month'),
+                ],
+              }}
+              className="ml-auto"
+              onChange={onDatesChange}
+            />
+          </div>
+        )}
+      />
+      <TableFooter
+        loading={runs?.isLoading}
+        disabled={runsItems.length >= runs?.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

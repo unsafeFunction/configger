@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import React, { useCallback, useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import TableFooter from 'components/layout/TableFooterLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/runs/actions';
@@ -158,45 +158,38 @@ const Runs = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Runs</h4>
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={runs.items.length < runs.total}
-        loader={
-          // eslint-disable-next-line react/jsx-wrap-multilines
-          <div className={styles.spin}>
-            <Spin />
-          </div>
-        }
-        dataLength={runs.items.length}
-      >
-        <Table
-          columns={columns}
-          dataSource={data}
-          loading={runs.isLoading}
-          pagination={false}
-          scroll={{ x: 1000 }}
-          title={() => (
-            <RangePicker
-              defaultValue={
-                from && to
-                  ? [moment(from), moment(to)]
-                  : [moment().subtract(7, 'days'), moment()]
-              }
-              format="YYYY-MM-DD"
-              ranges={{
-                Today: [moment(), moment()],
-                'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-                'This Month': [
-                  moment().startOf('month'),
-                  moment().endOf('month'),
-                ],
-              }}
-              onChange={onDatesChange}
-              className={styles.rangePicker}
-            />
-          )}
-        />
-      </InfiniteScroll>
+      <Table
+        columns={columns}
+        dataSource={data}
+        loading={runs.isLoading}
+        pagination={false}
+        scroll={{ x: 1000 }}
+        title={() => (
+          <RangePicker
+            defaultValue={
+              from && to
+                ? [moment(from), moment(to)]
+                : [moment().subtract(7, 'days'), moment()]
+            }
+            format="YYYY-MM-DD"
+            ranges={{
+              Today: [moment(), moment()],
+              'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+              'This Month': [
+                moment().startOf('month'),
+                moment().endOf('month'),
+              ],
+            }}
+            onChange={onDatesChange}
+            className={styles.rangePicker}
+          />
+        )}
+      />
+      <TableFooter
+        loading={runs.isLoading}
+        disabled={runs.items.length >= runs.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

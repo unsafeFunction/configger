@@ -5,13 +5,13 @@ import { Table, Button, Input, Form } from 'antd';
 import { ControlTubeModal } from 'components/widgets/Inventory';
 import debounce from 'lodash.debounce';
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/inventory/actions';
 import modalActions from 'redux/modal/actions';
 
 import { constants } from 'utils/constants';
 import useWindowSize from 'hooks/useWindowSize';
 import moment from 'moment-timezone';
+import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 const Inventory = () => {
@@ -198,21 +198,20 @@ const Inventory = () => {
           </>
         )}
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={inventory?.items?.length < inventory?.total}
-        loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
-        dataLength={inventory?.items?.length}
-      >
-        <Table
-          dataSource={inventory?.items}
-          columns={columns}
-          scroll={{ x: 1200 }}
-          loading={inventory?.isLoading}
-          align="center"
-          pagination={false}
-        />
-      </InfiniteScroll>
+
+      <Table
+        dataSource={inventory?.items}
+        columns={columns}
+        scroll={{ x: 1200 }}
+        loading={inventory?.isLoading}
+        align="center"
+        pagination={false}
+      />
+      <TableFooter
+        loading={inventory?.isLoading}
+        disabled={inventory?.items?.length >= inventory?.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

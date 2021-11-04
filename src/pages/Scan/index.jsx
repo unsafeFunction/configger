@@ -34,7 +34,7 @@ import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
-import PulseCircle from '../../components/widgets/Pools/PulseCircle';
+import PulseCircle from 'components/widgets/Pools/PulseCircle';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
