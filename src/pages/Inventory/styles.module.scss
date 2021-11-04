@@ -22,12 +22,6 @@
 .tableActionsWrapper {
   display: flex;
   justify-content: space-between;
-  width: 55%;
-
-  .search {
-    width: 65%;
-    margin-bottom: 1em;
-  }
 }
 
 .mobileTableHeaderWrapper {
@@ -37,13 +31,7 @@
 
   .mobileTableHeaderRow {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 1em;
     align-items: center;
-
-    .search {
-      width: 100%;
-    }
   }
 }
 

@@ -146,38 +146,26 @@ const Inventory = () => {
   );
 
   return (
-    <>
-      <div className={classNames('air__utils__heading', styles.page__header)}>
-        {isTablet ? (
-          <div className={styles.mobileTableHeaderWrapper}>
-            <div className={styles.mobileTableHeaderRow}>
+    <div>
+      <Table
+        dataSource={inventory?.items}
+        columns={columns}
+        scroll={{ x: 1200 }}
+        loading={inventory?.isLoading}
+        align="center"
+        pagination={false}
+        title={() => {
+          return isTablet ? (
+            <div className={styles.mobileTableHeaderWrapper}>
               <h4>Inventory</h4>
               <Button
                 onClick={onModalToggle}
-                size="large"
+                size="middle"
                 type="primary"
                 className={!isTablet && 'ml-3'}
               >
                 Add Control Tube
               </Button>
-            </div>
-            <Input
-              size="middle"
-              prefix={<SearchOutlined />}
-              className={styles.search}
-              placeholder="Search..."
-              value={searchName}
-              onChange={onChangeSearch}
-            />
-          </div>
-        ) : (
-          <>
-            <h4>Inventory</h4>
-            <div
-              className={classNames(styles.tableActionsWrapper, {
-                [styles.tabletActionsWrapper]: isTablet,
-              })}
-            >
               <Input
                 size="middle"
                 prefix={<SearchOutlined />}
@@ -186,33 +174,42 @@ const Inventory = () => {
                 value={searchName}
                 onChange={onChangeSearch}
               />
-              <Button
-                onClick={onModalToggle}
-                size="large"
-                type="primary"
-                className={!isMobile && 'ml-3'}
-              >
-                Add Control Tube
-              </Button>
             </div>
-          </>
-        )}
-      </div>
-
-      <Table
-        dataSource={inventory?.items}
-        columns={columns}
-        scroll={{ x: 1200 }}
-        loading={inventory?.isLoading}
-        align="center"
-        pagination={false}
+          ) : (
+            <>
+              <h4>Inventory</h4>
+              <div
+                className={classNames(styles.tableActionsWrapper, {
+                  [styles.tabletActionsWrapper]: isTablet,
+                })}
+              >
+                <Input
+                  size="middle"
+                  prefix={<SearchOutlined />}
+                  className={styles.search}
+                  placeholder="Search..."
+                  value={searchName}
+                  onChange={onChangeSearch}
+                />
+                <Button
+                  onClick={onModalToggle}
+                  size="large"
+                  type="primary"
+                  className={!isMobile && 'ml-3'}
+                >
+                  Add Control Tube
+                </Button>
+              </div>
+            </>
+          );
+        }}
       />
       <TableFooter
         loading={inventory?.isLoading}
         disabled={inventory?.items?.length >= inventory?.total}
         loadMore={loadMore}
       />
-    </>
+    </div>
   );
 };
 
