@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.4...v8.0.0) (2021-11-04)
+
+### Features
+
+- big batch of UX updates ([6acd009](https://github.com/mokkapps/changelog-generator-demo/commits/6acd009de306c2992f6c6c8b9d2de7a1023dbe8b))
+- load more button ([5eca05e](https://github.com/mokkapps/changelog-generator-demo/commits/5eca05e9f529fea04e3d683f2b1db7bf2f127026))
+- select first item submenu ([00c64bd](https://github.com/mokkapps/changelog-generator-demo/commits/00c64bd5a93474a06d1dc45e5cc6a72737da2a70))
+- tooltip ([f26540d](https://github.com/mokkapps/changelog-generator-demo/commits/f26540d947034201aadc1ae9583d99d084cb8410))
+
+### Bug Fixes
+
+- date format, borders, sample actions fixes ([6e1f193](https://github.com/mokkapps/changelog-generator-demo/commits/6e1f1930cc5623c2f15fc2472a58f35286fc1285))
+- inventory fix ([3d4e66e](https://github.com/mokkapps/changelog-generator-demo/commits/3d4e66ed4b5057a3d2bf0c40ad06aa89cf62717c))
+- load more instead infinite scroll ([797fb79](https://github.com/mokkapps/changelog-generator-demo/commits/797fb791446f17156b7de6947406eb665e11875e))
+- load more tables ([6a7369d](https://github.com/mokkapps/changelog-generator-demo/commits/6a7369de720f72ecf3fc3b260bf48dd9add923f2))
+- resolve conflict from dev ([3005fab](https://github.com/mokkapps/changelog-generator-demo/commits/3005fabb5dd78760208250bba318dbc9c9b8c07f))
+
 ### [7.10.4](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.3...v7.10.4) (2021-10-22)
 
 ### Features
