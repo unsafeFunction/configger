@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { SearchOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import classNames from 'classnames';
@@ -67,7 +68,9 @@ const Pools = () => {
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Pools</h4>
-        <div className={styles.tableActionsWrapper}>
+      </div>
+      <PoolTable
+        searchInput={
           <Input
             size="middle"
             prefix={<SearchOutlined />}
@@ -76,9 +79,9 @@ const Pools = () => {
             value={searchName}
             onChange={onChangeSearch}
           />
-        </div>
-      </div>
-      <PoolTable loadMore={loadMore} />
+        }
+        loadMore={loadMore}
+      />
     </>
   );
 };

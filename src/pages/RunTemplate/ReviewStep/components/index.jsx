@@ -53,7 +53,6 @@ const ReviewTable = ({ data }) => {
         dataSource={data}
         pagination={false}
         scroll={{ x: 'max-content' }}
-        bordered
         rowKey={(record) => record.id}
       />
     </>

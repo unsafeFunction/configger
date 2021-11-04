@@ -11,7 +11,6 @@ import {
   LoadingOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/companies/actions';
 import modalActions from 'redux/modal/actions';
 
@@ -257,7 +256,6 @@ const Companies = () => {
         dataSource={allCompanies?.items}
         columns={columns}
         scroll={{ x: 1200 }}
-        bordered
         loading={!allCompanies?.isLoading}
         align="center"
         pagination={false}

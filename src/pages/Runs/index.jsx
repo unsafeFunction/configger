@@ -157,21 +157,6 @@ const Runs = () => {
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Runs</h4>
-        <RangePicker
-          defaultValue={
-            from && to
-              ? [moment(from), moment(to)]
-              : [moment().subtract(7, 'days'), moment()]
-          }
-          format="YYYY-MM-DD"
-          ranges={{
-            Today: [moment(), moment()],
-            'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-          }}
-          onChange={onDatesChange}
-          className={styles.rangePicker}
-        />
       </div>
       <Table
         columns={columns}
@@ -179,7 +164,26 @@ const Runs = () => {
         loading={runs.isLoading}
         pagination={false}
         scroll={{ x: 1000 }}
-        bordered
+        title={() => (
+          <RangePicker
+            defaultValue={
+              from && to
+                ? [moment(from), moment(to)]
+                : [moment().subtract(7, 'days'), moment()]
+            }
+            format="YYYY-MM-DD"
+            ranges={{
+              Today: [moment(), moment()],
+              'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+              'This Month': [
+                moment().startOf('month'),
+                moment().endOf('month'),
+              ],
+            }}
+            onChange={onDatesChange}
+            className={styles.rangePicker}
+          />
+        )}
       />
       <TableFooter
         loading={runs.isLoading}

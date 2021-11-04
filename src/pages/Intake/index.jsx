@@ -171,7 +171,6 @@ const Runs = () => {
         loading={runs.isLoading}
         pagination={false}
         scroll={{ x: 1000 }}
-        bordered
       />
       <TableFooter
         loading={runs.isLoading}

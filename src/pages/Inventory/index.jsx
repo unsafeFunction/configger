@@ -61,7 +61,7 @@ const Inventory = () => {
       title: 'Created On',
       dataIndex: 'created',
       render: (_, value) => {
-        return moment(value?.created).format('llll') || '-';
+        return moment(value?.created).format('lll') || '-';
       },
     },
     {
@@ -203,7 +203,6 @@ const Inventory = () => {
         dataSource={inventory?.items}
         columns={columns}
         scroll={{ x: 1200 }}
-        bordered
         loading={inventory?.isLoading}
         align="center"
         pagination={false}

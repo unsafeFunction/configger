@@ -259,7 +259,6 @@ const ResultSelect = ({ record, field }) => {
         runStatus === runStatuses.published ||
         isReservedSample(record.display_sample_id)
       }
-      bordered={false}
     >
       {resultList
         ?.filter((option) => option.value !== record[field])
@@ -384,7 +383,7 @@ const columns = [
         <Actions
           record={record}
           field="actions"
-          value={record.auto_publish ? record.rerun_action : 'DO_NOT_PUBLISH'}
+          value={record.auto_publish ? record.rerun_action : ''}
         />
       );
     },

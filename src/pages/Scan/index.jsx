@@ -513,7 +513,7 @@ const Scan = () => {
     <div>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Typography.Title level={4} className="font-weight-normal">
-          {`Scan on ${moment(scan?.scan_timestamp)?.format('LLLL') ?? ''}`}
+          {`Scan on ${moment(scan?.scan_timestamp)?.format('lll') ?? ''}`}
         </Typography.Title>
         <Row>
           <Row style={{ marginRight: 30 }}>

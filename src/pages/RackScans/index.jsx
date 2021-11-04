@@ -157,7 +157,7 @@ const RackScans = () => {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
       render: (_, value) => {
-        return moment(value?.scan_timestamp).format('llll') ?? '-';
+        return moment(value?.scan_timestamp).format('lll') ?? '-';
       },
     },
     {
@@ -220,7 +220,6 @@ const RackScans = () => {
       <Table
         dataSource={racksItems}
         columns={columns}
-        bordered
         loading={racks?.isLoading}
         align="center"
         pagination={false}

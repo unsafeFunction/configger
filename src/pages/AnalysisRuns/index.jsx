@@ -126,12 +126,12 @@ const AnalysisRuns = () => {
           {record.title}
         </Link>
       ),
+      width: 100,
     },
     {
       title: 'Creation Date',
       dataIndex: 'created',
-      render: (value) =>
-        value ? moment(value).format('YYYY-MM-DD hh:mm A') : '-',
+      render: (value) => (value ? moment(value).format('lll') : '-'),
     },
     {
       title: 'Samples',
@@ -140,7 +140,6 @@ const AnalysisRuns = () => {
     {
       title: `Status`,
       dataIndex: 'status',
-      align: 'center',
       render: (_, record) => {
         return <ResultTag status={record?.status} type="run" />;
       },
@@ -148,8 +147,7 @@ const AnalysisRuns = () => {
     {
       title: 'Last Updated',
       dataIndex: 'modified',
-      render: (value) =>
-        value ? moment(value).format('YYYY-MM-DD hh:mm A') : '-',
+      render: (value) => (value ? moment(value).format('lll') : '-'),
     },
     {
       title: 'Created By',
@@ -211,31 +209,38 @@ const AnalysisRuns = () => {
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Runs</h4>
-        <RangePicker
-          defaultValue={
-            from && to
-              ? [moment(from), moment(to)]
-              : [moment().subtract(7, 'days'), moment()]
-          }
-          format="YYYY-MM-DD"
-          ranges={{
-            Today: [moment(), moment()],
-            'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-          }}
-          onChange={onDatesChange}
-        />
       </div>
 
       <Table
         dataSource={runsItems}
         columns={columns}
         scroll={{ x: 1200 }}
-        bordered
         loading={runs?.isLoading}
         align="center"
         pagination={false}
         rowKey={(record) => record.id}
+        title={() => (
+          <div className="d-flex">
+            <RangePicker
+              defaultValue={
+                from && to
+                  ? [moment(from), moment(to)]
+                  : [moment().subtract(7, 'days'), moment()]
+              }
+              format="YYYY-MM-DD"
+              ranges={{
+                Today: [moment(), moment()],
+                'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                'This Month': [
+                  moment().startOf('month'),
+                  moment().endOf('month'),
+                ],
+              }}
+              className="ml-auto"
+              onChange={onDatesChange}
+            />
+          </div>
+        )}
       />
       <TableFooter
         loading={runs?.isLoading}
