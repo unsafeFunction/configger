@@ -1,12 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { Form, Select } from 'antd';
 import classNames from 'classnames';
-import { Select, Form } from 'antd';
 import debounce from 'lodash.debounce';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import customersActions from 'redux/customers/actions';
-import styles from './styles.module.scss';
 import { LoadingNode, NotFoundNode } from './components';
+import styles from './styles.module.scss';
 
 const ContactResultModal = ({}) => {
   const { Item } = Form;
@@ -48,10 +48,7 @@ const ContactResultModal = ({}) => {
     }
   }, []);
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = debounce((q) => sendQuery(q), 500);
 
   const onChangeSearch = useCallback((value) => {
     setLoading(true);

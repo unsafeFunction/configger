@@ -47,10 +47,7 @@ const Run = () => {
     [dispatch, searchName, runId],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = debounce((q) => sendQuery(q), 500);
 
   const onChangeSearch = useCallback((event) => {
     setSearchName(event.target.value);
