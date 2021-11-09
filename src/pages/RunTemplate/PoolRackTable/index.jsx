@@ -1,4 +1,5 @@
-import { DatePicker, Spin, Table, Typography } from 'antd';
+import { DatePicker, Table, Typography } from 'antd';
+import TableFooter from 'components/layout/TableFooterLoader';
 import differenceBy from 'lodash.differenceby';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -7,7 +8,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import poolRackActions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
-import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
