@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-closing-tag-location */
+import { Table } from 'antd';
+import classNames from 'classnames';
+import TableFooter from 'components/layout/TableFooterLoader';
+import moment from 'moment-timezone';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/intakeLims/actions';
-import { Table } from 'antd';
-import moment from 'moment-timezone';
 import { constants } from 'utils/constants';
-import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -24,7 +25,7 @@ const IntakeList = () => {
           limit: constants?.runs?.itemsLoadingCount,
         },
       });
-    }, [dispatch]);
+    }, []);
   };
 
   useFetching();
@@ -62,11 +63,6 @@ const IntakeList = () => {
     },
   ];
 
-  const data = intakeList?.items?.map?.((intakeItem) => ({
-    ...intakeItem,
-    key: intakeItem.company_id,
-  }));
-
   const loadMore = useCallback(() => {
     dispatch({
       type: actions.FETCH_INTAKE_REQUEST,
@@ -84,10 +80,11 @@ const IntakeList = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={intakeList?.items}
         pagination={false}
         scroll={{ x: 1000 }}
         loading={intakeList.isLoading}
+        rowKey={(record) => record.company_id}
       />
       <TableFooter
         loading={intakeList.isLoading}

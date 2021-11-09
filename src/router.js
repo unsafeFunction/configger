@@ -63,15 +63,6 @@ const routes = [
     Component: loadable(() => import('pages/Pools')),
   },
   {
-    path: '/runs',
-    Component: loadable(() => import('pages/Runs')),
-    exact: true,
-  },
-  {
-    path: '/runs/:id',
-    Component: loadable(() => import('pages/Runs/run')),
-  },
-  {
     path: '/session/:id',
     Component: loadable(() => import('pages/Scan')),
   },

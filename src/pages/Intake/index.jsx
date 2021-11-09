@@ -1,15 +1,15 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-closing-tag-location */
-import React, { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/intake/actions';
-import { Table, DatePicker, Spin } from 'antd';
-import moment from 'moment-timezone';
+import { DatePicker, Table } from 'antd';
 import classNames from 'classnames';
-import { useHistory, useLocation } from 'react-router-dom';
-import qs from 'qs';
-import { constants } from 'utils/constants';
 import TableFooter from 'components/layout/TableFooterLoader';
+import moment from 'moment-timezone';
+import qs from 'qs';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import actions from 'redux/intake/actions';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -103,20 +103,6 @@ const Runs = () => {
     //   ),
     // },
   ];
-
-  const data = runs?.items?.map?.((run) => ({
-    ...run,
-    key: run.unique_id,
-    companies: run.companies
-      .reduce((accumulator, currentValue) => {
-        if (currentValue?.name) {
-          accumulator.push(currentValue.name.trim());
-        }
-        return accumulator;
-      }, [])
-      .join(', '),
-    date: moment(run.results_timestamp).format('YYYY-MM-DD HH:mm'),
-  }));
 
   const onDatesChange = useCallback((dates, dateStrings) => {
     if (dates) {
