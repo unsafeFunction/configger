@@ -1,35 +1,24 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames';
 import {
-  Table,
-  Button,
-  Tag,
-  Input,
-  Form,
-  Tooltip,
-  Switch,
-  Dropdown,
-  Menu,
-  Tabs,
-} from 'antd';
-import { CompanyModal } from 'components/widgets/companies';
-import debounce from 'lodash.debounce';
-import {
+  BankOutlined,
+  DownOutlined,
+  FileOutlined,
   LoadingOutlined,
   SearchOutlined,
-  BankOutlined,
-  FileOutlined,
-  DownOutlined,
 } from '@ant-design/icons';
+import { Button, Dropdown, Form, Input, Menu, Table, Tabs, Tag } from 'antd';
+import classNames from 'classnames';
+import TableFooter from 'components/layout/TableFooterLoader';
+import { CompanyModal } from 'components/widgets/companies';
+import useWindowSize from 'hooks/useWindowSize';
+import debounce from 'lodash.debounce';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import companyActions from 'redux/companies/actions';
 import modalActions from 'redux/modal/actions';
-
-import styles from './styles.module.scss';
 import { constants } from 'utils/constants';
-import useWindowSize from 'hooks/useWindowSize';
-import TableFooter from 'components/layout/TableFooterLoader';
+import styles from './styles.module.scss';
+
 const { TabPane } = Tabs;
 
 const Management = () => {
@@ -255,10 +244,7 @@ const Management = () => {
     [searchName],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = debounce((q) => sendQuery(q), 500);
 
   const onChangeSearch = useCallback((event) => {
     setSearchName(event.target.value);

@@ -1,17 +1,16 @@
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Table } from 'antd';
+import classNames from 'classnames';
+import TableFooter from 'components/layout/TableFooterLoader';
+import { ControlTubeModal } from 'components/widgets/Inventory';
+import useWindowSize from 'hooks/useWindowSize';
+import debounce from 'lodash.debounce';
+import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import classNames from 'classnames';
-import { Table, Button, Input, Form } from 'antd';
-import { ControlTubeModal } from 'components/widgets/Inventory';
-import debounce from 'lodash.debounce';
-import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import actions from 'redux/inventory/actions';
 import modalActions from 'redux/modal/actions';
-
 import { constants } from 'utils/constants';
-import useWindowSize from 'hooks/useWindowSize';
-import moment from 'moment-timezone';
-import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 const Inventory = () => {
@@ -132,10 +131,7 @@ const Inventory = () => {
     [searchName],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = debounce((q) => sendQuery(q), 500);
 
   const onChangeSearch = useCallback(
     (event) => {

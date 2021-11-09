@@ -1,25 +1,16 @@
-import {
-  Popconfirm,
-  Popover,
-  Select,
-  Spin,
-  Switch,
-  Table,
-  Tag,
-  Tooltip,
-} from 'antd';
+import { Popconfirm, Popover, Select, Switch, Table, Tag, Tooltip } from 'antd';
+import TableFooter from 'components/layout/TableFooterLoader';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
 /* eslint-disable react/jsx-wrap-multilines */
+// eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
 import { getColor, getIcon, getStatusText } from 'utils/highlighting';
 import styles from './styles.module.scss';
-import TableFooter from '../../../layout/TableFooterLoader';
 
 moment.tz.setDefault('America/New_York');
 
@@ -120,6 +111,11 @@ const PoolTable = ({ loadMore, searchInput }) => {
       ),
     },
     {
+      title: 'Company ID',
+      dataIndex: ['company', 'company_id'],
+      width: 100,
+    },
+    {
       title: 'Pool Title',
       dataIndex: 'title',
       render: (value) => {
@@ -156,7 +152,7 @@ const PoolTable = ({ loadMore, searchInput }) => {
             title={
               record.result === 'Rejected' && (
                 <span>
-                  <b>REJECTED</b> - Your samples were<b>not tested</b> due to
+                  <b>REJECTED</b> - Your samples were <b>not tested</b> due to
                   poor sample quality. The samples may be contaminated, empty,
                   improperly collected, or have insufficient volume.
                 </span>
