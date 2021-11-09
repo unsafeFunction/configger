@@ -101,12 +101,36 @@ export const constants = {
   intakeLog: {
     itemsLoadingCount: 25,
   },
+  shippingBy: [
+    {
+      text: 'FedEx',
+      label: 'FedEx',
+      value: 'FedEx',
+    },
+    {
+      text: 'UPS',
+      label: 'UPS',
+      value: 'UPS',
+    },
+    {
+      text: 'Dropoff',
+      label: 'Dropoff',
+      value: 'Dropoff',
+    },
+    {
+      text: 'Drop Box',
+      label: 'Drop Box',
+      value: 'Drop Box',
+    },
+  ],
   shippingConditions: [
     {
+      text: 'Satisfactory',
       label: 'Satisfactory',
       value: 'Satisfactory',
     },
     {
+      text: 'Unsatisfactory',
       label: 'Unsatisfactory',
       value: 'Unsatisfactory',
     },
@@ -147,14 +171,17 @@ export const constants = {
   ],
   sampleConditions: [
     {
+      text: 'Acceptable',
       label: 'Acceptable',
       value: 'Acceptable',
     },
     {
+      text: 'Unacceptable',
       label: 'Unacceptable',
       value: 'Unacceptable',
     },
     {
+      text: 'Other',
       label: 'Other (see Comments)',
       value: 'Other',
     },
