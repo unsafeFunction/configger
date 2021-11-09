@@ -170,24 +170,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
               showSearch
               getPopupContainer={(triggerNode) => triggerNode.parentNode}
               optionFilterProp="label"
-              options={[
-                {
-                  label: 'FedEx',
-                  value: 'FedEx',
-                },
-                {
-                  label: 'UPS',
-                  value: 'UPS',
-                },
-                {
-                  label: 'Dropoff',
-                  value: 'Dropoff',
-                },
-                {
-                  label: 'Drop Box',
-                  value: 'Drop Box',
-                },
-              ]}
+              options={constants.shippingBy}
             />
           </Item>
           <Item

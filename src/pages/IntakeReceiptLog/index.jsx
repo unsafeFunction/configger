@@ -1,7 +1,9 @@
 import { CommentOutlined, DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Form, Menu, Popover, Space, Table, Tag } from 'antd';
 import classNames from 'classnames';
-import IntakeReceiptLogModal from 'components/widgets/IntakeLog/IntakeReceiptLogModal';
+import TableFooter from 'components/layout/TableFooterLoader';
+import IntakeReceiptLogModal from 'components/widgets/Intake/IntakeReceiptLogModal';
+import mapValues from 'lodash.mapvalues';
 import omit from 'lodash.omit';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -13,7 +15,6 @@ import scannersActions from 'redux/scanners/actions';
 import sessionActions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import { getColorIntakeLog } from 'utils/highlighting';
-import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -23,6 +24,7 @@ const IntakeReceiptLog = () => {
   const [form] = Form.useForm();
 
   const [sortBy, setSortBy] = useState(undefined);
+  const [filters, setFilters] = useState({});
 
   const intakeLog = useSelector((state) => state.intakeReceiptLog);
 
@@ -45,10 +47,11 @@ const IntakeReceiptLog = () => {
         payload: {
           limit: constants?.intakeLog?.itemsLoadingCount,
           sort_by: sortBy,
+          ...filters,
         },
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sortBy]);
+    }, [sortBy, filters]);
 
     useEffect(() => {
       dispatch({
@@ -100,16 +103,19 @@ const IntakeReceiptLog = () => {
   );
 
   const handleTableChange = (pagination, filters, sorter) => {
-    if (sorter) {
-      setSortBy(
-        // eslint-disable-next-line no-nested-ternary
-        sorter.order
-          ? sorter.order === 'ascend'
-            ? `${sorter.field}`
-            : `-${sorter.field}`
-          : undefined,
-      );
-    }
+    const formattedFilters = mapValues(filters, (value) => {
+      return value ? value[0] : undefined;
+    });
+    setFilters(formattedFilters);
+
+    setSortBy(
+      // eslint-disable-next-line no-nested-ternary
+      sorter.order
+        ? sorter.order === 'ascend'
+          ? `${sorter.field}`
+          : `-${sorter.field}`
+        : undefined,
+    );
   };
 
   const handleReset = useCallback(() => {
@@ -232,6 +238,8 @@ const IntakeReceiptLog = () => {
     {
       title: 'Shipping By',
       dataIndex: 'shipment',
+      filters: constants.shippingBy,
+      filterMultiple: false,
     },
     {
       title: 'Shipping Condition',
@@ -259,6 +267,8 @@ const IntakeReceiptLog = () => {
         }
         return taggedValue;
       },
+      filters: constants.shippingConditions,
+      filterMultiple: false,
     },
     {
       title: 'Packing Slip Condition',
@@ -266,6 +276,8 @@ const IntakeReceiptLog = () => {
       render: (value) => {
         return <Tag color={getColorIntakeLog(value)}>{value}</Tag>;
       },
+      filters: constants.shippingConditions,
+      filterMultiple: false,
     },
     {
       title: 'Total packing slips',
@@ -294,6 +306,8 @@ const IntakeReceiptLog = () => {
         }
         return taggedValue;
       },
+      filters: constants.sampleConditions,
+      filterMultiple: false,
     },
     {
       title: 'Tracking Number',
@@ -346,9 +360,10 @@ const IntakeReceiptLog = () => {
         limit: constants?.intakeLog?.itemsLoadingCount,
         offset: intakeLog.offset,
         sort_by: sortBy,
+        ...filters,
       },
     });
-  }, [dispatch, intakeLog, sortBy]);
+  }, [dispatch, intakeLog, sortBy, filters]);
 
   if (!isSessionLoading && activeSessionId) {
     return <Redirect to={`/session/${activeSessionId}`} />;
