@@ -11,13 +11,6 @@ export async function getMenuData() {
           url: '/intake-receipt-log',
           icon: 'fe fe-list',
         },
-      ],
-    },
-    {
-      title: 'Pools',
-      key: 'poolSection',
-      icon: 'fe fe-folder',
-      children: [
         {
           title: 'Pool Scans',
           key: 'pool-scans',
@@ -30,13 +23,13 @@ export async function getMenuData() {
           url: '/rack-scans',
           icon: 'fe fe-box',
         },
-        {
-          title: 'Pools',
-          key: 'pools',
-          url: '/pools',
-          icon: 'fe fe-folder',
-        },
       ],
+    },
+    {
+      title: 'Pools',
+      key: 'pools',
+      url: '/pools',
+      icon: 'fe fe-folder',
     },
     {
       title: 'Runs',
