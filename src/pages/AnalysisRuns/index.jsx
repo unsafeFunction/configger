@@ -1,7 +1,10 @@
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, DatePicker, Table, Upload } from 'antd';
 import classNames from 'classnames';
+import TableFooter from 'components/layout/TableFooterLoader';
 import ResultTag from 'components/widgets/ResultTag';
+import map from 'lodash.map';
+import mapValues from 'lodash.mapvalues';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -10,7 +13,6 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
-import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -21,6 +23,7 @@ const AnalysisRuns = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [dates, setDates] = useState([]);
+  const [filters, setFilters] = useState({});
   const location = useLocation();
   const stateRef = useRef();
   stateRef.current = dates;
@@ -45,9 +48,11 @@ const AnalysisRuns = () => {
         type: actions.FETCH_RUNS_REQUEST,
         payload: {
           ...params,
+          ...filters,
         },
       });
-    }, [dispatch, from, to, history]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, from, to, history, filters]);
   };
 
   useFetching();
@@ -71,7 +76,7 @@ const AnalysisRuns = () => {
     dispatch({
       type: modalActions.HIDE_MODAL,
     });
-  }, []);
+  }, [dispatch]);
 
   const onUploadClick = useCallback(
     (id) => {
@@ -140,9 +145,16 @@ const AnalysisRuns = () => {
     {
       title: `Status`,
       dataIndex: 'status',
-      render: (_, record) => {
-        return <ResultTag status={record?.status} type="run" />;
+      render: (value) => {
+        return <ResultTag status={value} type="run" />;
       },
+      filters: map(constants.runStatuses, (value) => {
+        return {
+          text: value,
+          value,
+        };
+      }),
+      filterMultiple: false,
     },
     {
       title: 'Last Updated',
@@ -196,14 +208,25 @@ const AnalysisRuns = () => {
             limit: constants?.runs?.itemsLoadingCount,
             offset: runs.offset,
           }
-        : { limit: constants?.runs?.itemsLoadingCount, offset: runs.offset };
+        : {
+            limit: constants?.runs?.itemsLoadingCount,
+            offset: runs.offset,
+          };
     dispatch({
       type: actions.FETCH_RUNS_REQUEST,
       payload: {
         ...params,
+        ...filters,
       },
     });
-  }, [dispatch, from, to, runs]);
+  }, [dispatch, from, to, runs, filters]);
+
+  const handleTableChange = (pagination, filters) => {
+    const formattedFilters = mapValues(filters, (value) => {
+      return value ? value[0] : undefined;
+    });
+    setFilters(formattedFilters);
+  };
 
   return (
     <>
@@ -219,6 +242,7 @@ const AnalysisRuns = () => {
         align="center"
         pagination={false}
         rowKey={(record) => record.id}
+        onChange={handleTableChange}
         title={() => (
           <div className="d-flex">
             <RangePicker
