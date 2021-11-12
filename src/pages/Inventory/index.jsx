@@ -21,7 +21,6 @@ const Inventory = () => {
   const [form] = Form.useForm();
 
   const inventory = useSelector((state) => state.inventory);
-  const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
   const handleReset = useCallback(() => {
     form.resetFields();
@@ -128,7 +127,7 @@ const Inventory = () => {
         },
       });
     },
-    [searchName],
+    [dispatch],
   );
 
   const delayedQuery = useCallback(
