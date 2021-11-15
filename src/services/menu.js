@@ -11,19 +11,6 @@ export async function getMenuData() {
           url: '/intake-receipt-log',
           icon: 'fe fe-list',
         },
-      ],
-    },
-    {
-      title: 'Pools',
-      key: 'poolSection',
-      icon: 'fe fe-folder',
-      children: [
-        {
-          title: 'Session',
-          key: 'session',
-          url: '/session',
-          icon: 'fe fe-minimize',
-        },
         {
           title: 'Pool Scans',
           key: 'pool-scans',
@@ -36,13 +23,13 @@ export async function getMenuData() {
           url: '/rack-scans',
           icon: 'fe fe-box',
         },
-        {
-          title: 'Pools',
-          key: 'pools',
-          url: '/pools',
-          icon: 'fe fe-folder',
-        },
       ],
+    },
+    {
+      title: 'Pools',
+      key: 'pools',
+      url: '/pools',
+      icon: 'fe fe-folder',
     },
     {
       title: 'Runs',
@@ -75,13 +62,13 @@ export async function getMenuData() {
     //   url: '/packing-slip',
     //   icon: 'fe fe-download',
     // },
-    // {
-    //   title: 'Barcode Lookup',
-    //   key: 'search',
-    //   icon: 'fe fe-search',
-    //   url: '/barcode-lookup',
-    //   isAlpha: true,
-    // },
+    {
+      title: 'Barcode Lookup',
+      key: 'search',
+      icon: 'fe fe-search',
+      url: '/barcode-lookup',
+      isAlpha: true,
+    },
     {
       title: 'Inventory',
       key: 'inventory',
@@ -141,7 +128,6 @@ export async function getRolePermissions() {
         '/intake-receipt-log',
         '/pool-scans',
         '/session',
-        '/runs',
         '/pools',
         '/rack-scans',
         '/generate-run',
@@ -150,7 +136,7 @@ export async function getRolePermissions() {
         '/analysis-runs',
         '/reflex-list',
       ],
-      default: '/session',
+      default: '/intake-receipt-log',
     },
     staff: {
       permitted: [
@@ -162,7 +148,6 @@ export async function getRolePermissions() {
         '/intake-receipt-log',
         '/pool-scans',
         '/session',
-        '/runs',
         '/pools',
         '/rack-scans',
         // '/management',
@@ -170,11 +155,11 @@ export async function getRolePermissions() {
         '/analysis-runs',
         '/reflex-list',
       ],
-      default: '/session',
+      default: '/intake-receipt-log',
     },
     'company-admin': {
       permitted: ['/profile', '/session', '/intake-receipt-log'],
-      default: '/session',
+      default: '/intake-receipt-log',
     },
   };
 }

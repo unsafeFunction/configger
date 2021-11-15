@@ -8,6 +8,14 @@
   overflow: auto;
 }
 
+.ant-table-title {
+  padding: 12px 0px !important;
+}
+
+.ant-picker {
+  height: 39px;
+}
+
 .air__utils {
   &__scrollTable {
     white-space: nowrap !important;
@@ -19,7 +27,7 @@
   // main container
   &__content {
     padding: rem(30);
-    max-width: 100rem;
+    max-width: 184rem;
     margin: 0 auto;
 
     @media (max-width: $sm-max-width) {

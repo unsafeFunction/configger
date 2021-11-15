@@ -1,4 +1,5 @@
-import { Button, Input, Popover, Table, Tag, Tabs, Empty } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Button, Empty, Input, Popover, Table, Tabs, Tag } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -6,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/analysisRuns/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
-import { LoadingOutlined } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 
@@ -150,10 +150,10 @@ const WellPlate = ({ wellplate, runId }) => {
                 loading={wellplate?.isLoading}
                 pagination={false}
                 scroll={{ x: 'max-content' }}
-                bordered
                 rowClassName={styles.row}
                 rowKey={(record) => record.letter}
                 size="small"
+                bordered
               />
             </TabPane>
           ))}

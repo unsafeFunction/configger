@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-closing-tag-location */
+import { Table } from 'antd';
+import classNames from 'classnames';
+import TableFooter from 'components/layout/TableFooterLoader';
+import moment from 'moment-timezone';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/intakeLims/actions';
-import { Table, Spin } from 'antd';
-import moment from 'moment-timezone';
-import classNames from 'classnames';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -25,7 +25,7 @@ const IntakeList = () => {
           limit: constants?.runs?.itemsLoadingCount,
         },
       });
-    }, [dispatch]);
+    }, []);
   };
 
   useFetching();
@@ -63,11 +63,6 @@ const IntakeList = () => {
     },
   ];
 
-  const data = intakeList?.items?.map?.((intakeItem) => ({
-    ...intakeItem,
-    key: intakeItem.company_id,
-  }));
-
   const loadMore = useCallback(() => {
     dispatch({
       type: actions.FETCH_INTAKE_REQUEST,
@@ -83,25 +78,19 @@ const IntakeList = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Intake</h4>
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={intakeList.items.length < intakeList.total}
-        loader={
-          <div className={styles.spin}>
-            <Spin />
-          </div>
-        }
-        dataLength={intakeList.items.length}
-      >
-        <Table
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-          scroll={{ x: 1000 }}
-          bordered
-          loading={intakeList.isLoading}
-        />
-      </InfiniteScroll>
+      <Table
+        columns={columns}
+        dataSource={intakeList?.items}
+        pagination={false}
+        scroll={{ x: 1000 }}
+        loading={intakeList.isLoading}
+        rowKey={(record) => record.company_id}
+      />
+      <TableFooter
+        loading={intakeList.isLoading}
+        disabled={intakeList.items.length >= intakeList.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

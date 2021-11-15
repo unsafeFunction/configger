@@ -2,6 +2,133 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.4...v8.0.0) (2021-11-04)
+
+### Features
+
+- big batch of UX updates ([6acd009](https://github.com/mokkapps/changelog-generator-demo/commits/6acd009de306c2992f6c6c8b9d2de7a1023dbe8b))
+- load more button ([5eca05e](https://github.com/mokkapps/changelog-generator-demo/commits/5eca05e9f529fea04e3d683f2b1db7bf2f127026))
+- select first item submenu ([00c64bd](https://github.com/mokkapps/changelog-generator-demo/commits/00c64bd5a93474a06d1dc45e5cc6a72737da2a70))
+- tooltip ([f26540d](https://github.com/mokkapps/changelog-generator-demo/commits/f26540d947034201aadc1ae9583d99d084cb8410))
+
+### Bug Fixes
+
+- date format, borders, sample actions fixes ([6e1f193](https://github.com/mokkapps/changelog-generator-demo/commits/6e1f1930cc5623c2f15fc2472a58f35286fc1285))
+- inventory fix ([3d4e66e](https://github.com/mokkapps/changelog-generator-demo/commits/3d4e66ed4b5057a3d2bf0c40ad06aa89cf62717c))
+- load more instead infinite scroll ([797fb79](https://github.com/mokkapps/changelog-generator-demo/commits/797fb791446f17156b7de6947406eb665e11875e))
+- load more tables ([6a7369d](https://github.com/mokkapps/changelog-generator-demo/commits/6a7369de720f72ecf3fc3b260bf48dd9add923f2))
+- resolve conflict from dev ([3005fab](https://github.com/mokkapps/changelog-generator-demo/commits/3005fabb5dd78760208250bba318dbc9c9b8c07f))
+
+### [7.10.4](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.3...v7.10.4) (2021-10-22)
+
+### Features
+
+- barcode lookup ([b40fcc3](https://github.com/mokkapps/changelog-generator-demo/commits/b40fcc37ec8e5923bdd6aee319b65e354eb5d3ab))
+
+### [7.10.3](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.2...v7.10.3) (2021-10-21)
+
+### Features
+
+- sortable table rows ([3512c7b](https://github.com/mokkapps/changelog-generator-demo/commits/3512c7b79a0c6a68e7b9ad58f390178497f79720))
+
+### Bug Fixes
+
+- sortable table rows ([e555f98](https://github.com/mokkapps/changelog-generator-demo/commits/e555f981d9fdda9b86bbc948749b0faa6a5cbe8c))
+
+### [7.10.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.1...v7.10.2) (2021-10-20)
+
+### Bug Fixes
+
+- inventory table scroll ([5aa5ee3](https://github.com/mokkapps/changelog-generator-demo/commits/5aa5ee383ffa7d9c290d4b2fd39daedaebf0d1bb))
+
+### [7.10.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.0...v7.10.1) (2021-10-20)
+
+### Features
+
+- do-not-publish option ([d49fef0](https://github.com/mokkapps/changelog-generator-demo/commits/d49fef08d64d771212c3a5185170cfe7a0a2b091))
+
+## [7.10.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.9.2...v7.10.0) (2021-10-19)
+
+### Features
+
+- highlight tube on rackboard ([867119e](https://github.com/mokkapps/changelog-generator-demo/commits/867119eed889e5bb4efaa2b5a21f960b958cfb7a))
+
+### Bug Fixes
+
+- highlighted items ([ff04776](https://github.com/mokkapps/changelog-generator-demo/commits/ff04776252f313bea0add45aa6b9cd8f9ba6b89f))
+- remove classNames ([227d622](https://github.com/mokkapps/changelog-generator-demo/commits/227d6223f9919adbbd00d7af6ed368c3d6b3946b))
+
+### [7.9.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.9.1...v7.9.2) (2021-10-18)
+
+### Bug Fixes
+
+- table actions ([ced545b](https://github.com/mokkapps/changelog-generator-demo/commits/ced545be0f74c7b2ec0c99553b9276394d5727ea))
+
+### [7.9.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.9.0...v7.9.1) (2021-10-15)
+
+### Bug Fixes
+
+- pool size, samples, rack id ([bc661e1](https://github.com/mokkapps/changelog-generator-demo/commits/bc661e1856eb38f69f102505df9ff22dd4f0731b))
+
+## [7.9.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.8.1...v7.9.0) (2021-10-15)
+
+### Features
+
+- delete pool scan ([5e6fdeb](https://github.com/mokkapps/changelog-generator-demo/commits/5e6fdebee259fe741e56aaeff2c45ec677c41eb3))
+- delete rack from table ([8607693](https://github.com/mokkapps/changelog-generator-demo/commits/8607693a3a6ef12173d4f8c0962a42a0c2c78225))
+- delete scan template ([72ff5f2](https://github.com/mokkapps/changelog-generator-demo/commits/72ff5f2a15c1788b4d4f651275868c0e27fa752c))
+
+### Bug Fixes
+
+- rack delete single ([b8e891e](https://github.com/mokkapps/changelog-generator-demo/commits/b8e891e4cbddeb6efb8e09d48a2378e40be7bc50))
+- rejected status color ([7b0a197](https://github.com/mokkapps/changelog-generator-demo/commits/7b0a197df46840b073fdfe652ba7c9256026fb57))
+- resolve conflict from dev ([4ba35bd](https://github.com/mokkapps/changelog-generator-demo/commits/4ba35bd481413834e08146834dde7e6342e34360))
+
+### [7.8.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.8.0...v7.8.1) (2021-10-14)
+
+### Bug Fixes
+
+- initial shipping violations value ([d7352b3](https://github.com/mokkapps/changelog-generator-demo/commits/d7352b30637c5496d1070ed05fd5119e88b2bd6d))
+
+## [7.8.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.7.2...v7.8.0) (2021-10-14)
+
+### Features
+
+- add new fields to Intake Log ([88e16e2](https://github.com/mokkapps/changelog-generator-demo/commits/88e16e2a3d7a5afea0cc694fbebe9d44e98becf0))
+- allow to start session only for the current day ([d94624e](https://github.com/mokkapps/changelog-generator-demo/commits/d94624e3705844c2008bee0785b87b53241961eb))
+- move session opening to intake log ([7d36dbe](https://github.com/mokkapps/changelog-generator-demo/commits/7d36dbeaac180270b9d5f007cb44f84b570ddf90))
+- new intake log columns ([fa2e44f](https://github.com/mokkapps/changelog-generator-demo/commits/fa2e44f640b98aca1479179464953fd5e5639029))
+
+### Bug Fixes
+
+- allow to start session within 24 hours ([377afa8](https://github.com/mokkapps/changelog-generator-demo/commits/377afa853273ee8f8cf5d0060f357474a51ba2c8))
+- fix patch intake log ([d5c1fb4](https://github.com/mokkapps/changelog-generator-demo/commits/d5c1fb4f57289b6b08725d6204569f8a99e6b5bc))
+
+### [7.7.2](https://github.com/mokkapps/changelog-generator-demo/compare/v7.7.1...v7.7.2) (2021-10-14)
+
+### Features
+
+- update logic for dowlload all files ([cf24378](https://github.com/mokkapps/changelog-generator-demo/commits/cf2437824fab3838194e3095ec97b2d9e1a77e44))
+
+### [7.7.1](https://github.com/mokkapps/changelog-generator-demo/compare/v7.7.0...v7.7.1) (2021-10-13)
+
+### Features
+
+- update csv format ([dd8576b](https://github.com/mokkapps/changelog-generator-demo/commits/dd8576b9383edeb1ede0f334a4897a624fda07ca))
+
+### Bug Fixes
+
+- round instead floor ([a937c3f](https://github.com/mokkapps/changelog-generator-demo/commits/a937c3f4a038c6dc42dbd06ad89756101c741d75))
+- update conainer styles for better ui ([b9c3bfc](https://github.com/mokkapps/changelog-generator-demo/commits/b9c3bfcd5ad9bc1cc860e2ac25bd0ff567181672))
+
+## [7.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.6.0...v7.7.0) (2021-10-12)
+
+### Bug Fixes
+
+- replace status scanner ([6d61039](https://github.com/mokkapps/changelog-generator-demo/commits/6d61039395cce41aa7e691496e075ebad9577842))
+- typo reflex ([0fbb934](https://github.com/mokkapps/changelog-generator-demo/commits/0fbb934851a7db513b8d8af6250b9df5b48a5f50))
+- wellplate modal ([15bf731](https://github.com/mokkapps/changelog-generator-demo/commits/15bf731fdd980112c358ddc8dd612899d1f8e521))
+
 ## [7.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.5.0...v7.6.0) (2021-09-27)
 
 ### Features

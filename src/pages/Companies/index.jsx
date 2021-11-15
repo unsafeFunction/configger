@@ -1,23 +1,17 @@
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Table, Tag } from 'antd';
+import classNames from 'classnames';
+import TableFooter from 'components/layout/TableFooterLoader';
+import { CompanyModal } from 'components/widgets/companies';
+import useWindowSize from 'hooks/useWindowSize';
+import debounce from 'lodash.debounce';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames';
-import { Table, Button, Tag, Input, Form } from 'antd';
-import { CompanyModal } from 'components/widgets/companies';
-import debounce from 'lodash.debounce';
-import {
-  PlusCircleOutlined,
-  DeleteOutlined,
-  LoadingOutlined,
-  SearchOutlined,
-} from '@ant-design/icons';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import actions from 'redux/companies/actions';
 import modalActions from 'redux/modal/actions';
-
-import styles from './styles.module.scss';
 import { constants } from 'utils/constants';
-import useWindowSize from 'hooks/useWindowSize';
+import styles from './styles.module.scss';
 
 const Companies = () => {
   const { isMobile, isTablet } = useWindowSize();
@@ -252,22 +246,19 @@ const Companies = () => {
           </>
         )}
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={allCompanies?.items?.length < allCompanies?.total}
-        loader={<div className={styles.infiniteLoadingIcon}>{spinIcon}</div>}
-        dataLength={allCompanies?.items?.length}
-      >
-        <Table
-          dataSource={allCompanies?.items}
-          columns={columns}
-          scroll={{ x: 1200 }}
-          bordered
-          loading={!allCompanies?.isLoading}
-          align="center"
-          pagination={false}
-        />
-      </InfiniteScroll>
+      <Table
+        dataSource={allCompanies?.items}
+        columns={columns}
+        scroll={{ x: 1200 }}
+        loading={!allCompanies?.isLoading}
+        align="center"
+        pagination={false}
+      />
+      <TableFooter
+        loading={!allCompanies?.isLoading}
+        disabled={allCompanies?.items?.length >= allCompanies?.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

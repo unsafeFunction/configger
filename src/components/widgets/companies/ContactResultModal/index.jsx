@@ -1,12 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { Form, Select } from 'antd';
 import classNames from 'classnames';
-import { Select, Form } from 'antd';
 import debounce from 'lodash.debounce';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import customersActions from 'redux/customers/actions';
-import styles from './styles.module.scss';
 import { LoadingNode, NotFoundNode } from './components';
+import styles from './styles.module.scss';
 
 const ContactResultModal = ({}) => {
   const { Item } = Form;
@@ -98,18 +98,7 @@ const ContactResultModal = ({}) => {
           dropdownClassName={classNames({ [styles.hide]: !searchName })}
           dropdownRender={(menu) => {
             return searchName ? (
-              <div className={styles.dropDown}>
-                {/* <InfiniteScroll
-                  pageStart={1}
-                  loadMore={loadPage}
-                  dataLength={users.length}
-                  hasMore={!isLoading && users.length < total}
-                  threshold={50}
-                  useWindow={false}
-                > */}
-                {menu}
-                {/* </InfiniteScroll> */}
-              </div>
+              <div className={styles.dropDown}>{menu}</div>
             ) : null;
           }}
         />

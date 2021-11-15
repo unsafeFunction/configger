@@ -2,12 +2,23 @@ import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/racks/actions';
 import modalActions from 'redux/modal/actions';
-import { Row, Col, Button, Typography, Input, Form } from 'antd';
+import {
+  Row,
+  Col,
+  Button,
+  Typography,
+  Input,
+  Form,
+  Dropdown,
+  Menu,
+  Popconfirm,
+} from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
+import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -82,13 +93,42 @@ const RackScan = () => {
     });
   }, [dispatch, saveRack]);
 
+  const handleDelete = useCallback(() => {
+    dispatch({
+      type: actions.DELETE_RACK_BY_ID_REQUEST,
+      payload: { id: rackId },
+    });
+    history.push('/rack-scans');
+  }, [dispatch, history, rackId]);
+
+  const rackMenu = (
+    <Menu>
+      <Menu.Item key="1" icon={<CloseOutlined />}>
+        <Popconfirm
+          title="Are you sure to delete Rack?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={handleDelete}
+        >
+          Delete rack
+        </Popconfirm>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <>
       <Form form={form} onFinish={onSaveScanModalToggle}>
         <div className={classNames('air__utils__heading', styles.page__header)}>
           <Typography.Title level={4} className="font-weight-normal">
-            {`Scan on ${moment(rack?.scan_timestamp)?.format('LLLL') ?? ''}`}
+            {`Scan on ${moment(rack?.scan_timestamp)?.format('lll') ?? ''}`}
           </Typography.Title>
+          <Dropdown overlay={rackMenu} overlayClassName={styles.actionsOverlay}>
+            <Button type="primary">
+              Rack Actions
+              <DownOutlined />
+            </Button>
+          </Dropdown>
         </div>
         <Row gutter={[48, 40]} justify="center">
           <Col xs={24} md={18} lg={16} xl={14}>

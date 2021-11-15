@@ -1,13 +1,24 @@
-import { Button, Col, DatePicker, Row, Table, Tag } from 'antd';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Dropdown,
+  Menu,
+  Popconfirm,
+  Row,
+  Table,
+  Tag,
+} from 'antd';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
 import actions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
+import { DownOutlined } from '@ant-design/icons';
+import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -55,7 +66,6 @@ const RackScans = () => {
         payload: {
           link: `/scans/rack/${poolId}/export/`,
           instanceId: poolId,
-          contentType: 'text/csv',
         },
       });
     },
@@ -73,6 +83,46 @@ const RackScans = () => {
       });
     },
     [history],
+  );
+
+  const handleDelete = useCallback(
+    async ({ poolId }) => {
+      await dispatch({
+        type: actions.DELETE_RACK_BY_ID_REQUEST,
+        payload: { id: poolId, fetchRacks: true },
+      });
+    },
+    [dispatch],
+  );
+
+  const menu = (record) => (
+    <Menu>
+      <Menu.Item onClick={() => navigateToScan(record.id)} key="1">
+        View rack
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          return exportRack({ poolId: record.id });
+        }}
+        key="2"
+      >
+        Export rack
+      </Menu.Item>
+      <Menu.Item key="3">
+        <Popconfirm
+          title="Are you sure to delete this rack?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={() =>
+            handleDelete({
+              poolId: record.id,
+            })
+          }
+        >
+          Delete rack
+        </Popconfirm>
+      </Menu.Item>
+    </Menu>
   );
 
   const columns = [
@@ -107,7 +157,7 @@ const RackScans = () => {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
       render: (_, value) => {
-        return moment(value?.scan_timestamp).format('llll') ?? '-';
+        return moment(value?.scan_timestamp).format('lll') ?? '-';
       },
     },
     {
@@ -124,23 +174,12 @@ const RackScans = () => {
       width: 150,
       render: (_, record) => {
         return (
-          <div className={styles.actions}>
-            <Button
-              className="mr-3"
-              onClick={() => navigateToScan(record.id)}
-              type="primary"
-            >
-              View rack
+          <Dropdown overlay={menu(record)}>
+            <Button type="primary">
+              Actions
+              <DownOutlined />
             </Button>
-            <Button
-              onClick={() => {
-                return exportRack({ poolId: record.id });
-              }}
-              type="primary"
-            >
-              Export rack
-            </Button>
-          </div>
+          </Dropdown>
         );
       },
     },
@@ -178,58 +217,56 @@ const RackScans = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>PoolRack Scans</h4>
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={racksItems.length < racks?.total}
-        dataLength={racksItems?.length}
-      >
-        <Table
-          dataSource={racksItems}
-          columns={columns}
-          bordered
-          loading={racks?.isLoading}
-          align="center"
-          pagination={false}
-          rowKey={(record) => record.id}
-          title={() => (
-            <Row gutter={16}>
-              <Col
-                xs={{ span: 24 }}
-                sm={{ span: 12 }}
-                md={{ span: 9, offset: 6 }}
-                lg={{ span: 7, offset: 10 }}
-                xl={{ span: 6, offset: 12 }}
-                xxl={{ span: 7, offset: 12 }}
+      <Table
+        dataSource={racksItems}
+        columns={columns}
+        loading={racks?.isLoading}
+        align="center"
+        pagination={false}
+        rowKey={(record) => record.id}
+        title={() => (
+          <Row gutter={16}>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 12 }}
+              md={{ span: 9, offset: 6 }}
+              lg={{ span: 7, offset: 10 }}
+              xl={{ span: 6, offset: 12 }}
+              xxl={{ span: 7, offset: 12 }}
+            />
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 12 }}
+              md={{ span: 9 }}
+              lg={{ span: 7 }}
+              xl={{ span: 6 }}
+              xxl={{ span: 5 }}
+            >
+              <RangePicker
+                format="YYYY-MM-DD"
+                ranges={{
+                  Today: [moment(), moment()],
+                  'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                  'This Month': [
+                    moment().startOf('month'),
+                    moment().endOf('month'),
+                  ],
+                }}
+                onChange={onDatesChange}
+                className={classNames(
+                  styles.tableHeaderItem,
+                  styles.rangePicker,
+                )}
               />
-              <Col
-                xs={{ span: 24 }}
-                sm={{ span: 12 }}
-                md={{ span: 9 }}
-                lg={{ span: 7 }}
-                xl={{ span: 6 }}
-                xxl={{ span: 5 }}
-              >
-                <RangePicker
-                  format="YYYY-MM-DD"
-                  ranges={{
-                    Today: [moment(), moment()],
-                    'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-                    'This Month': [
-                      moment().startOf('month'),
-                      moment().endOf('month'),
-                    ],
-                  }}
-                  onChange={onDatesChange}
-                  className={classNames(
-                    styles.tableHeaderItem,
-                    styles.rangePicker,
-                  )}
-                />
-              </Col>
-            </Row>
-          )}
-        />
-      </InfiniteScroll>
+            </Col>
+          </Row>
+        )}
+      />
+      <TableFooter
+        loading={racks?.isLoading}
+        disabled={racksItems.length >= racks?.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

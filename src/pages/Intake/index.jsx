@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-closing-tag-location */
-import React, { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/intake/actions';
-import { Table, DatePicker, Spin } from 'antd';
-import moment from 'moment-timezone';
+import { DatePicker, Table } from 'antd';
 import classNames from 'classnames';
-import { useHistory, useLocation } from 'react-router-dom';
+import TableFooter from 'components/layout/TableFooterLoader';
+import moment from 'moment-timezone';
 import qs from 'qs';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import actions from 'redux/intake/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -104,20 +104,6 @@ const Runs = () => {
     // },
   ];
 
-  const data = runs?.items?.map?.((run) => ({
-    ...run,
-    key: run.unique_id,
-    companies: run.companies
-      .reduce((accumulator, currentValue) => {
-        if (currentValue?.name) {
-          accumulator.push(currentValue.name.trim());
-        }
-        return accumulator;
-      }, [])
-      .join(', '),
-    date: moment(run.results_timestamp).format('YYYY-MM-DD HH:mm'),
-  }));
-
   const onDatesChange = useCallback((dates, dateStrings) => {
     if (dates) {
       history.push({ search: `?from=${dateStrings[0]}&to=${dateStrings[1]}` });
@@ -166,25 +152,17 @@ const Runs = () => {
           className={styles.rangePicker}
         />
       </div>
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={runs.items.length < runs.total}
-        loader={
-          <div className={styles.spin}>
-            <Spin />
-          </div>
-        }
-        dataLength={runs.items.length}
-      >
-        <Table
-          columns={columns}
-          // dataSource={data}
-          loading={runs.isLoading}
-          pagination={false}
-          scroll={{ x: 1000 }}
-          bordered
-        />
-      </InfiniteScroll>
+      <Table
+        columns={columns}
+        loading={runs.isLoading}
+        pagination={false}
+        scroll={{ x: 1000 }}
+      />
+      <TableFooter
+        loading={runs.isLoading}
+        disabled={runs.items.length >= runs.total}
+        loadMore={loadMore}
+      />
     </>
   );
 };

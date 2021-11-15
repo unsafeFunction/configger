@@ -6,7 +6,7 @@ const actions = {
   ...generateRequestActions(['fetch'], 'sessions', 'scan_session_by_id_short'),
   ...generateRequestActions(['update', 'create'], 'sessions', 'session'),
   ...generateRequestActions(
-    ['fetch', 'update', 'void', 'cancel'],
+    ['fetch', 'update', 'void', 'cancel', 'delete'],
     'scan',
     'scan_by_id',
   ),

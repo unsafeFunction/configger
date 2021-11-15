@@ -1,9 +1,18 @@
-@import 'assets/styles/mixins.scss';
+.datePicker {
+  height: 39px !important;
+  width: 100%;
+}
 
-.formItem {
-  input {
-    height: 39px;
+.radioGroup {
+  width: 100%;
+  column-count: 2;
+  label {
+    display: flex;
   }
+}
+
+.refSamples > div > label {
+  white-space: nowrap;
 }
 
 .trackingWrapper {

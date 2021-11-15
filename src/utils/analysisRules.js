@@ -1,4 +1,4 @@
-import floor from 'lodash.floor';
+import round from 'lodash.round';
 
 export const isReservedSample = (value = '') => {
   const reservedSamples = ['H20', 'H2O', 'HBSS', 'PC'];
@@ -15,7 +15,7 @@ export const isUnusedSample = (value = '') => {
 export const roundValue = (value) => {
   // eslint-disable-next-line no-restricted-globals
   if (value && !isNaN(value)) {
-    return floor(value, 2);
+    return round(value, 2);
   }
   return null;
 };

@@ -1,29 +1,22 @@
-import {
-  Popconfirm,
-  Popover,
-  Select,
-  Spin,
-  Switch,
-  Table,
-  Tag,
-  Tooltip,
-} from 'antd';
+import { Popconfirm, Popover, Select, Switch, Table, Tag, Tooltip } from 'antd';
+import TableFooter from 'components/layout/TableFooterLoader';
 import moment from 'moment-timezone';
+// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable react/jsx-wrap-multilines */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
-import { getColor, getIcon, getStatusText } from 'utils/highlightingResult';
+import { getColor, getIcon, getStatusText } from 'utils/highlighting';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
 const { Option } = Select;
 
-const PoolTable = ({ loadMore }) => {
+const PoolTable = ({ loadMore, searchInput }) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
@@ -91,8 +84,7 @@ const PoolTable = ({ loadMore }) => {
       title: 'Receipt Timestamp',
       dataIndex: 'test_receipt_timestamp',
       width: 180,
-      render: (value) =>
-        value ? moment(value).format('YYYY-MM-DD hh:mm A') : '–',
+      render: (value) => (value ? moment(value).format('lll') : '–'),
     },
     {
       title: 'Run Title',
@@ -117,6 +109,11 @@ const PoolTable = ({ loadMore }) => {
           {value ?? '–'}
         </Popover>
       ),
+    },
+    {
+      title: 'Company ID',
+      dataIndex: ['company', 'company_id'],
+      width: 100,
     },
     {
       title: 'Pool Title',
@@ -173,11 +170,11 @@ const PoolTable = ({ loadMore }) => {
                     : record.result.toUpperCase()}
                 </Tag>
               }
-              style={{ width: 178 }}
               loading={record.resultIsUpdating}
               onSelect={onModalToggle(record.id, record.pool_id)}
               disabled={record.resultIsUpdating}
               bordered={false}
+              dropdownMatchSelectWidth={200}
             >
               {resutList?.items
                 ?.filter((option) => option.value !== record.result)
@@ -248,26 +245,22 @@ const PoolTable = ({ loadMore }) => {
   ];
 
   return (
-    <InfiniteScroll
-      next={loadMore}
-      hasMore={pools.items.length < pools.total}
-      loader={
-        <div className={styles.spin}>
-          <Spin />
-        </div>
-      }
-      dataLength={pools.items.length}
-    >
+    <>
       <Table
         columns={columns}
         dataSource={pools.items}
         loading={pools.isLoading}
         pagination={false}
         scroll={{ x: 1400 }}
-        bordered
         rowKey={(record) => record.id}
+        title={() => <div className="d-flex">{searchInput}</div>}
       />
-    </InfiniteScroll>
+      <TableFooter
+        loading={pools.isLoading}
+        disabled={pools.items.length >= pools.total}
+        loadMore={loadMore}
+      />
+    </>
   );
 };
 

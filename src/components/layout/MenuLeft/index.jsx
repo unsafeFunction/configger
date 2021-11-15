@@ -85,14 +85,21 @@ class MenuLeft extends React.Component {
   };
 
   handleSubmenuClick = (key) => {
-    const { activeSubmenu } = this.state;
-    const { flyoutActive } = this.props;
+    const { activeSubmenu, activeItem } = this.state;
+    const { flyoutActive, menuData, history } = this.props;
     if (flyoutActive) {
       return;
     }
+    const activeSubmenuItem = menuData.find((menuItem) => menuItem.key === key);
+    const firstChild = activeSubmenuItem?.children?.[0];
     this.setState({
       activeSubmenu: activeSubmenu === key ? '' : key,
+      activeItem:
+        activeSubmenu !== key && activeSubmenu ? firstChild.key : activeItem,
     });
+    if (activeSubmenu !== key && activeSubmenu) {
+      history.push(firstChild.url);
+    }
   };
 
   handleFlyoutOver = (event, key, items) => {

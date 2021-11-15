@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import React, { useCallback, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/reflex/actions';
 import { constants } from 'utils/constants';
+import TableFooter from 'components/layout/TableFooterLoader';
 import columns from './components';
 import styles from './styles.module.scss';
 
@@ -61,46 +61,50 @@ const ReflexList = () => {
   }, [dispatch, date, reflexList]);
 
   return (
-    <>
+    <div>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Reflex List</h4>
-        <DatePicker
-          defaultValue={date ? moment(date) : null}
-          format="YYYY-MM-DD"
-          onChange={onDateChange}
-        />
       </div>
 
-      <h5 className="mb-3">{moment(date).format('LL')}</h5>
-
-      <InfiniteScroll
-        next={loadMore}
-        hasMore={reflexList.items.length < reflexList.total}
-        dataLength={reflexList.items.length}
-      >
-        <Table
-          className="mb-5"
-          pagination={false}
-          columns={columns}
-          dataSource={reflexList.items}
-          scroll={{ x: 2000 }}
-          rowKey={(record) => record.sample_id}
-          bordered
-          locale={{
-            emptyText: () => (
-              <Empty
-                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                imageStyle={{
-                  height: 80,
-                }}
-                description={<span>No samples to reflex for this date</span>}
-                className="mt-2 mb-2"
+      <Table
+        className="mb-5"
+        pagination={false}
+        columns={columns}
+        dataSource={reflexList.items}
+        scroll={{ x: 2000 }}
+        rowKey={(record) => record.sample_id}
+        title={() => {
+          return (
+            <div className="d-flex">
+              <h5>{moment(date).format('LL')}</h5>
+              <DatePicker
+                className="ml-auto"
+                defaultValue={date ? moment(date) : null}
+                format="YYYY-MM-DD"
+                onChange={onDateChange}
               />
-            ),
-          }}
-        />
-      </InfiniteScroll>
-    </>
+            </div>
+          );
+        }}
+        locale={{
+          emptyText: () => (
+            <Empty
+              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              imageStyle={{
+                height: 80,
+              }}
+              description={<span>No samples to reflex for this date</span>}
+              className="mt-2 mb-2"
+            />
+          ),
+        }}
+      />
+      <TableFooter
+        loading={reflexList?.isLoading}
+        disabled={reflexList.items.length >= reflexList.total}
+        loadMore={loadMore}
+      />
+    </div>
   );
 };
 

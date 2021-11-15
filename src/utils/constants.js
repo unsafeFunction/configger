@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/prefer-default-export
 export const constants = {
+  dateFormat: 'll',
+  dateTimeFormat: 'lll',
   customers: {
     itemsLoadingCount: 25,
   },
@@ -13,7 +15,7 @@ export const constants = {
     itemsLoadingCount: 25,
   },
   scanSessions: {
-    itemsLoadingCount: 12,
+    itemsLoadingCount: 20,
   },
   poolRacks: {
     itemsLoadingCount: 25,
@@ -99,6 +101,91 @@ export const constants = {
   intakeLog: {
     itemsLoadingCount: 25,
   },
+  shippingBy: [
+    {
+      text: 'FedEx',
+      label: 'FedEx',
+      value: 'FedEx',
+    },
+    {
+      text: 'UPS',
+      label: 'UPS',
+      value: 'UPS',
+    },
+    {
+      text: 'Dropoff',
+      label: 'Dropoff',
+      value: 'Dropoff',
+    },
+    {
+      text: 'Drop Box',
+      label: 'Drop Box',
+      value: 'Drop Box',
+    },
+  ],
+  shippingConditions: [
+    {
+      text: 'Satisfactory',
+      label: 'Satisfactory',
+      value: 'Satisfactory',
+    },
+    {
+      text: 'Unsatisfactory',
+      label: 'Unsatisfactory',
+      value: 'Unsatisfactory',
+    },
+  ],
+  shippingViolations: [
+    {
+      label: 'Individually-bagged',
+      value: 'Individually-bagged',
+    },
+    {
+      label: 'Contains PHI',
+      value: 'Contains PHI',
+    },
+    {
+      label: 'No biohazard bag',
+      value: 'No biohazard bag',
+    },
+    {
+      label: 'No absorbent sheet',
+      value: 'No absorbent sheet',
+    },
+    {
+      label: 'Leaky or wet bag',
+      value: 'Leaky or wet bag',
+    },
+    {
+      label: 'Damaged tube',
+      value: 'Damaged tube',
+    },
+    {
+      label: 'Wrong cap',
+      value: 'Wrong cap',
+    },
+    {
+      label: 'Expired',
+      value: 'Expired',
+    },
+  ],
+  sampleConditions: [
+    {
+      text: 'Acceptable',
+      label: 'Acceptable',
+      value: 'Acceptable',
+    },
+    {
+      text: 'Unacceptable',
+      label: 'Unacceptable',
+      value: 'Unacceptable',
+    },
+    {
+      text: 'Other',
+      label: 'Other (see Comments)',
+      value: 'Other',
+    },
+  ],
   runStatuses: {
     qpcr: 'QPCR',
     analysis: 'ANALYSIS',

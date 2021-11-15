@@ -2,12 +2,14 @@ import { Col, Row, Table, Tag } from 'antd';
 import Rackboard from 'components/widgets/Rackboard';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import poolRackActions from 'redux/racks/actions';
 
 const PoolRackDetail = ({ id }) => {
   const dispatch = useDispatch();
+
+  const [highlightedTubeId, setTube] = useState(null);
 
   const poolRack = useSelector((state) => state.racks.singleRack);
 
@@ -57,6 +59,7 @@ const PoolRackDetail = ({ id }) => {
             rackboard={poolRack}
             scanId={poolRack.id}
             editMode={false}
+            highlightedTubeId={highlightedTubeId}
           />
         </Col>
         <Col xs={24} lg={12}>
@@ -65,9 +68,18 @@ const PoolRackDetail = ({ id }) => {
             dataSource={poolRack.pools}
             loading={poolRack.isLoading}
             pagination={false}
-            scroll={{ x: 'max-content' }}
-            bordered
+            scroll={{ x: 'max-content', y: '60vh' }}
             rowKey={(record) => record.id}
+            onRow={(record) => {
+              return {
+                onMouseEnter: () => {
+                  setTube(record.id);
+                },
+                onMouseLeave: () => {
+                  setTube(null);
+                },
+              };
+            }}
           />
         </Col>
       </Row>

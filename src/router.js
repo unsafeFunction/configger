@@ -63,21 +63,8 @@ const routes = [
     Component: loadable(() => import('pages/Pools')),
   },
   {
-    path: '/runs',
-    Component: loadable(() => import('pages/Runs')),
-    exact: true,
-  },
-  {
-    path: '/runs/:id',
-    Component: loadable(() => import('pages/Runs/run')),
-  },
-  {
     path: '/session/:id',
     Component: loadable(() => import('pages/Scan')),
-  },
-  {
-    path: '/session',
-    Component: loadable(() => import('pages/ScanSession')),
   },
   {
     path: '/pool-scans/:sessionId/:scanId',
@@ -167,7 +154,7 @@ class Router extends React.Component {
               exact
               path="/"
               render={() => {
-                return <Redirect to="/session" />;
+                return <Redirect to="/intake-receipt-log" />;
               }}
             />
             {routes.map(({ path, Component, exact = false }) => (
