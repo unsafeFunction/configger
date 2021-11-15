@@ -13,6 +13,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
+import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -22,11 +23,17 @@ const { RangePicker } = DatePicker;
 const AnalysisRuns = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [dates, setDates] = useState([]);
   const [filters, setFilters] = useState({});
   const location = useLocation();
   const stateRef = useRef();
-  stateRef.current = dates;
+
+  const initialFiltersState = {
+    dates: [],
+  };
+
+  const [filtersState, filtersDispatch] = useCustomFilters(initialFiltersState);
+
+  stateRef.current = filtersState.dates;
 
   const runs = useSelector((state) => state.analysisRuns.all);
 
@@ -190,11 +197,16 @@ const AnalysisRuns = () => {
         history.push({
           search: `?from=${dateStrings[0]}&to=${dateStrings[1]}`,
         });
-        setDates(dateStrings);
       } else {
         history.push({ search: '' });
-        setDates([]);
       }
+      return filtersDispatch({
+        type: 'setValue',
+        payload: {
+          name: 'dates',
+          value: dates ? dateStrings : [],
+        },
+      });
     },
     [history],
   );
