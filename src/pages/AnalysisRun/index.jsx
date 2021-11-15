@@ -1,18 +1,18 @@
 import { DownOutlined, InboxOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   Button,
+  Drawer,
   Dropdown,
   Input,
   Menu,
   Popconfirm,
   Table,
   Upload,
-  Drawer,
 } from 'antd';
 import classNames from 'classnames';
 import ResultTag from 'components/widgets/ResultTag';
-import WellPlate from 'components/widgets/WellPlate';
 import RunTimeline from 'components/widgets/Timeline';
+import WellPlate from 'components/widgets/WellPlate';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -20,8 +20,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import helperActions from 'redux/helpers/actions';
-import timelineActions from 'redux/timeline/actions';
 import modalActions from 'redux/modal/actions';
+import timelineActions from 'redux/timeline/actions';
 import { constants } from 'utils/constants';
 import columns from './components';
 import styles from './styles.module.scss';
