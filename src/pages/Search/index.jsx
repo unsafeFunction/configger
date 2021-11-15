@@ -7,6 +7,7 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/search/actions';
 import styles from './styles.module.scss';
+import useCustomFilters from '../../utils/useCustomFilters';
 
 moment.tz.setDefault('America/New_York');
 
@@ -14,7 +15,12 @@ const { Step } = Steps;
 
 const Search = () => {
   const dispatch = useDispatch();
-  const [searchName, setSearchName] = useState('');
+
+  const initialFiltersState = {
+    search: '',
+  };
+
+  const [filtersState, filtersDispatch] = useCustomFilters(initialFiltersState);
 
   const search = useSelector((state) => state.search);
 
@@ -38,8 +44,17 @@ const Search = () => {
   );
 
   const onChangeSearch = useCallback((event) => {
-    setSearchName(event.target.value);
-    delayedQuery(event.target.value);
+    const { target } = event;
+
+    filtersDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'search',
+        value: target.value,
+      },
+    });
+
+    return delayedQuery(target.value);
   }, []);
 
   return (
@@ -49,17 +64,17 @@ const Search = () => {
         prefix={<SearchOutlined />}
         className={styles.search}
         placeholder="Enter barcode..."
-        value={searchName}
+        value={filtersState.search}
         onChange={onChangeSearch}
       />
-      {!searchName && (
+      {!filtersState.search && (
         <div className={styles.emptyPlaceholder}>
           <p>
             Start typing for search <SearchOutlined />
           </p>
         </div>
       )}
-      {searchName && search?.items?.length > 0 && !search.isLoading && (
+      {filtersState.search && search?.items?.length > 0 && !search.isLoading && (
         <Steps
           direction="vertical"
           current={search.current}
@@ -93,8 +108,8 @@ const Search = () => {
           ))}
         </Steps>
       )}
-      {searchName && search.isLoading && <Loader />}
-      {searchName && !search?.items?.length && !search.isLoading && (
+      {filtersState.search && search.isLoading && <Loader />}
+      {filtersState.search && !search?.items?.length && !search.isLoading && (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
       )}
     </>
