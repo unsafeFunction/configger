@@ -244,7 +244,10 @@ const Management = () => {
     [searchName],
   );
 
-  const delayedQuery = debounce((q) => sendQuery(q), 500);
+  const delayedQuery = useCallback(
+    debounce((q) => sendQuery(q), 500),
+    [],
+  );
 
   const onChangeSearch = useCallback((event) => {
     setSearchName(event.target.value);

@@ -12,15 +12,15 @@ import {
   Tag,
 } from 'antd';
 import classNames from 'classnames';
+import TableFooter from 'components/layout/TableFooterLoader';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
-import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -218,7 +218,10 @@ const ScanSessions = () => {
     [dispatch],
   );
 
-  const delayedQuery = debounce((q) => sendQuery(q), 500);
+  const delayedQuery = useCallback(
+    debounce((q) => sendQuery(q), 500),
+    [],
+  );
 
   const onChangeSearch = useCallback(
     (e) => {

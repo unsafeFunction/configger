@@ -131,7 +131,10 @@ const Inventory = () => {
     [searchName],
   );
 
-  const delayedQuery = debounce((q) => sendQuery(q), 500);
+  const delayedQuery = useCallback(
+    debounce((q) => sendQuery(q), 500),
+    [],
+  );
 
   const onChangeSearch = useCallback(
     (event) => {
