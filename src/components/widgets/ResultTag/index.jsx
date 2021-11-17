@@ -27,7 +27,7 @@ const ResultTag = ({ color = '', icon = null, status, type }) => {
     case 'sample': {
       return (
         <Tag color={color || getColor(status)} icon={getIcon(status)}>
-          {status.replaceAll('_', ' ').toUpperCase()}
+          {status?.replaceAll('_', ' ')?.toUpperCase()}
         </Tag>
       );
     }
