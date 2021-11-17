@@ -28,6 +28,7 @@ const PoolRackDetail = ({ id }) => {
     {
       title: 'Position',
       dataIndex: 'position',
+      width: 70,
     },
     {
       title: 'Tube ID',
@@ -68,7 +69,7 @@ const PoolRackDetail = ({ id }) => {
             dataSource={poolRack.pools}
             loading={poolRack.isLoading}
             pagination={false}
-            scroll={{ x: 'max-content', y: '60vh' }}
+            scroll={{ x: 550, y: '60vh' }}
             rowKey={(record) => record.id}
             onRow={(record) => {
               return {
