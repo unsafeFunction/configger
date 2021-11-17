@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.1.0...v8.2.0) (2021-11-17)
+
+### Bug Fixes
+
+- firefox download issue ([19041e9](https://github.com/mokkapps/changelog-generator-demo/commits/19041e9e8216b9d1620a6d7c62663b53fe2031c9))
+- reflex comparison ([abe2f08](https://github.com/mokkapps/changelog-generator-demo/commits/abe2f08c454c608988b2752d856756c01d0a09aa))
+
 ## [8.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.0.0...v8.1.0) (2021-11-17)
 
 ### Features
