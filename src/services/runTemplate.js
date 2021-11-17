@@ -9,9 +9,6 @@ export const createTemplate = async (payload) => {
     const contentType = 'text/csv';
     const response = await axiosClient.post('/runs/', {
       ...payload,
-      // headers: {
-      //   'Content-Type': contentType,
-      // },
       responseType: 'blob',
     });
 
@@ -23,7 +20,7 @@ export const createTemplate = async (payload) => {
 
     saveBlobAs(
       blobData,
-      nameWithExtension(parsedName || 'Unknown', contentType),
+      nameWithExtension(`${parsedName}.xls` || 'Unknown', contentType),
     );
     return response;
   } catch (error) {

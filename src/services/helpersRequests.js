@@ -9,20 +9,20 @@ export const downloadFile = async ({ link, instanceId }) => {
       responseType: 'blob',
     });
 
-    const requestContentTYpe = response.headers['content-type'];
+    const requestContentType = response.headers['content-type'];
     const parsedName = response.headers['content-disposition']
       ?.split(';')[1]
       ?.split('="')[1]
       ?.split('.')[0];
     const blobData = new Blob([response.data], {
-      type: requestContentTYpe,
+      type: requestContentType,
     });
 
     saveBlobAs(
       blobData,
       nameWithExtension(
-        parsedName || `Unknown_${instanceId}`,
-        requestContentTYpe,
+        `${parsedName}.xls` || `Unknown_${instanceId}`,
+        requestContentType,
       ),
     );
 
