@@ -1,10 +1,11 @@
-import { Descriptions, Table, Divider, Tag } from 'antd';
+import { Descriptions, Divider, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/reflex/actions';
+import { constants } from 'utils/constants';
 import columns from './components';
 import styles from './styles.module.scss';
 
@@ -14,8 +15,23 @@ const ReflexDetails = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const reflex = useSelector((state) => state.reflex.singleReflex);
+  const { items: reflexList, isLoading } = useSelector(
+    (state) => state.reflex.singleReflex,
+  );
   const reflexId = location.pathname.split('/')[2];
+
+  const amountOfDetected = reflexList.filter(
+    (item) => item.result === constants.poolResults.detected,
+  ).length;
+  const amountOfInconclusive = reflexList.filter(
+    (item) => item.result === constants.poolResults.inconclusive,
+  ).length;
+  const amountOfInvalid = reflexList.filter(
+    (item) => item.result === constants.poolResults.invalid,
+  ).length;
+  const amountOfNotDetected = reflexList.filter(
+    (item) => item.result === constants.poolResults.notDetected,
+  ).length;
 
   const useFetching = () => {
     useEffect(() => {
@@ -36,27 +52,28 @@ const ReflexDetails = () => {
         <h4>Reflex Comparison</h4>
       </div>
       <Table
-        className="mb-5"
-        pagination={false}
         columns={columns}
-        dataSource={reflex.items}
+        dataSource={reflexList}
         scroll={{ x: 1000 }}
+        loading={isLoading}
+        pagination={false}
+        rowKey={(record) => record.tube_id}
         title={() => (
           <div className={styles.tableHeader}>
             <Descriptions title="MIRIPOOL F1" size="small">
               <Descriptions.Item>
-                Pool Size: 5
+                Pool Size: –
                 <br />
-                Total tubes run: 4
+                Total tubes run: –
                 <br />
-                Rejected/Invalidated: 1
+                Rejected/Invalidated: –
               </Descriptions.Item>
             </Descriptions>
             <Divider orientation="left">Results</Divider>
-            <Tag color="red">Detected: 1</Tag>
-            <Tag color="orange">Inconclusive: 0</Tag>
-            <Tag color="default">Invalid: 0</Tag>
-            <Tag color="green">Not detected: 3</Tag>
+            <Tag color="red">{`Detected: ${amountOfDetected}`}</Tag>
+            <Tag color="orange">{`Inconclusive: ${amountOfInconclusive}`}</Tag>
+            <Tag color="default">{`Invalid: ${amountOfInvalid}`}</Tag>
+            <Tag color="green">{`Not detected: ${amountOfNotDetected}`}</Tag>
           </div>
         )}
       />

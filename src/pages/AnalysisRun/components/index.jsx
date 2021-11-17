@@ -318,7 +318,7 @@ const columns = [
     title: 'Interpreted Result',
     dataIndex: 'result_interpreted',
     render: (value) => {
-      const formattedResult = value?.replaceAll('_', ' ').toLowerCase();
+      const formattedResult = value?.replaceAll('_', ' ')?.toLowerCase();
       return (
         <Typography.Text
           style={{

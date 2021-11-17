@@ -107,6 +107,7 @@ const singleReflexReducer = (state = initialSingleState, action) => {
       return {
         ...state,
         isLoading: false,
+        items: action.payload.data,
       };
     }
     case actions.FETCH_REFLEX_DETAILS_FAILURE: {

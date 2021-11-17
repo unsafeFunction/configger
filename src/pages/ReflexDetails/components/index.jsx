@@ -33,7 +33,7 @@ const columns = [
   },
   {
     title: 'Result',
-    dataIndex: 'analysis_result',
+    dataIndex: 'result',
     width: 150,
     render: (value) => {
       return <ResultTag status={value} type="sample" />;
