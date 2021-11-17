@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.0.0...v8.1.0) (2021-11-17)
+
+### Features
+
+- add company id column to pool table ([86f1f6e](https://github.com/mokkapps/changelog-generator-demo/commits/86f1f6e0c8493d5deaca283d3173726413a79eb7))
+- add company short, pool name to poolrack scan ([d29e9ba](https://github.com/mokkapps/changelog-generator-demo/commits/d29e9ba5558fbf001ea707dd816289c2d61ed742))
+- filter by run status ([9e425e2](https://github.com/mokkapps/changelog-generator-demo/commits/9e425e24bc30affa18625a45ce6f641533708672))
+- filters hook ([dac5d4c](https://github.com/mokkapps/changelog-generator-demo/commits/dac5d4cb9e84d5e3238734248878e3f1fde54f2f))
+- Intake filters ([0362714](https://github.com/mokkapps/changelog-generator-demo/commits/036271459bf85598e54d676e9674fbb75f91882a))
+
+### Bug Fixes
+
+- analysis runs filters ([233cf10](https://github.com/mokkapps/changelog-generator-demo/commits/233cf10e7502c8f8ae35f1f3fcca3ffab57b3cab))
+- debounce ([f103e6a](https://github.com/mokkapps/changelog-generator-demo/commits/f103e6ab298a929ab5d1c1f324d84aeea3233c3a))
+- filters pools ([9b1b7b4](https://github.com/mokkapps/changelog-generator-demo/commits/9b1b7b4ff582ed547cc4deb42db73b22d552a514))
+- inventory filters ([747b341](https://github.com/mokkapps/changelog-generator-demo/commits/747b341b0b742cdc2dc2f25c286a254d18e9f543))
+- pool rack scans filters ([bd90974](https://github.com/mokkapps/changelog-generator-demo/commits/bd90974034b2931b5661d0209dcd8ae5140950cb))
+- position column width ([b0822de](https://github.com/mokkapps/changelog-generator-demo/commits/b0822de5b9bebf6604b8e32398e3e860c779e05a))
+- remove unused useCallback ([dcc56e7](https://github.com/mokkapps/changelog-generator-demo/commits/dcc56e77fcd3b71ae0fa828f2fb51ded70708c86))
+- search page filters ([c780420](https://github.com/mokkapps/changelog-generator-demo/commits/c780420d71970edf1623bd37ee3682ef67aa9696))
+- update menu ([7d5cab2](https://github.com/mokkapps/changelog-generator-demo/commits/7d5cab222dfd7d8ceeadb8eb6d3381101efdcda0))
+
 ## [8.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v7.10.4...v8.0.0) (2021-11-04)
 
 ### Features
