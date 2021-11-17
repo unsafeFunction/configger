@@ -1,4 +1,4 @@
-import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Table } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
@@ -6,22 +6,27 @@ import { ControlTubeModal } from 'components/widgets/Inventory';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/inventory/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
+import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
 
 const Inventory = () => {
   const { isMobile, isTablet } = useWindowSize();
 
   const dispatch = useDispatch();
-  const [searchName, setSearchName] = useState('');
   const [form] = Form.useForm();
 
+  const initialFiltersState = {
+    search: '',
+  };
+
+  const [filtersState, filtersDispatch] = useCustomFilters(initialFiltersState);
+
   const inventory = useSelector((state) => state.inventory);
-  const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
 
   const handleReset = useCallback(() => {
     form.resetFields();
@@ -78,7 +83,7 @@ const Inventory = () => {
         type: actions.FETCH_INVENTORY_REQUEST,
         payload: {
           limit: constants.companies.itemsLoadingCount,
-          search: searchName,
+          search: filtersState.search,
         },
       });
     }, []);
@@ -113,7 +118,7 @@ const Inventory = () => {
       payload: {
         limit: constants.inventory.itemsLoadingCount,
         offset: inventory.offset,
-        search: searchName,
+        search: filtersState.search,
       },
     });
   }, [dispatch, inventory]);
@@ -128,7 +133,7 @@ const Inventory = () => {
         },
       });
     },
-    [searchName],
+    [dispatch],
   );
 
   const delayedQuery = useCallback(
@@ -138,8 +143,17 @@ const Inventory = () => {
 
   const onChangeSearch = useCallback(
     (event) => {
-      setSearchName(event.target.value);
-      delayedQuery(event.target.value);
+      const { target } = event;
+
+      filtersDispatch({
+        type: 'setValue',
+        payload: {
+          name: 'search',
+          value: target.value,
+        },
+      });
+
+      return delayedQuery(target.value);
     },
     [delayedQuery],
   );
@@ -170,7 +184,7 @@ const Inventory = () => {
                 prefix={<SearchOutlined />}
                 className={styles.search}
                 placeholder="Search..."
-                value={searchName}
+                value={filtersState.search}
                 onChange={onChangeSearch}
               />
             </div>
@@ -187,7 +201,7 @@ const Inventory = () => {
                   prefix={<SearchOutlined />}
                   className={styles.search}
                   placeholder="Search..."
-                  value={searchName}
+                  value={filtersState.search}
                   onChange={onChangeSearch}
                 />
                 <Button

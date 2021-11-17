@@ -21,6 +21,7 @@ import { Link, useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
+import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -31,10 +32,18 @@ const ScanSessions = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [openedRow, setOpenedRow] = useState([]);
-  const [searchName, setSearchName] = useState('');
-  const [dates, setDates] = useState([]);
   const stateRef = useRef();
-  stateRef.current = dates;
+
+  const initialFiltersState = {
+    search: '',
+    dates: [],
+  };
+
+  const [filtersState, filtersDispatch, isEmpty] = useCustomFilters(
+    initialFiltersState,
+  );
+
+  stateRef.current = filtersState.dates;
 
   const { items: sessionItems, isLoading, total, offset } = useSelector(
     (state) => state.scanSessions.sessions,
@@ -48,13 +57,13 @@ const ScanSessions = () => {
     useEffect(() => {
       const filteringParams = {
         limit: constants.scanSessions.itemsLoadingCount,
-        search: searchName,
+        search: filtersState.search,
       };
 
-      const params = dates.length
+      const params = filtersState.dates.length
         ? {
-            completed_timestamp_after: dates[0],
-            completed_timestamp_before: dates[1],
+            completed_timestamp_after: filtersState.dates[0],
+            completed_timestamp_before: filtersState.dates[1],
             ...filteringParams,
           }
         : filteringParams;
@@ -66,7 +75,13 @@ const ScanSessions = () => {
         },
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dates]);
+    }, [filtersState.dates]);
+  };
+
+  const handleResetFilters = () => {
+    return filtersDispatch({
+      type: 'reset',
+    });
   };
 
   useFetching();
@@ -174,13 +189,13 @@ const ScanSessions = () => {
     const filteringParams = {
       limit: constants.scanSessions.itemsLoadingCount,
       offset,
-      search: searchName,
+      search: filtersState.search,
     };
 
-    const params = dates.length
+    const params = filtersState.dates.length
       ? {
-          completed_timestamp_after: dates[0],
-          completed_timestamp_before: dates[1],
+          completed_timestamp_after: filtersState.dates[0],
+          completed_timestamp_before: filtersState.dates[1],
           ...filteringParams,
         }
       : filteringParams;
@@ -191,7 +206,7 @@ const ScanSessions = () => {
         ...params,
       },
     });
-  }, [dispatch, searchName, dates, offset]);
+  }, [dispatch, filtersState, offset]);
 
   const sendQuery = useCallback(
     (query) => {
@@ -227,7 +242,13 @@ const ScanSessions = () => {
     (e) => {
       const { target } = e;
 
-      setSearchName(target.value);
+      filtersDispatch({
+        type: 'setValue',
+        payload: {
+          name: 'search',
+          value: target.value,
+        },
+      });
 
       return delayedQuery(target.value);
     },
@@ -235,7 +256,13 @@ const ScanSessions = () => {
   );
 
   const onDatesChange = useCallback((dates, dateStrings) => {
-    return dates ? setDates(dateStrings) : setDates([]);
+    return filtersDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'dates',
+        value: dates ? dateStrings : [],
+      },
+    });
   }, []);
 
   const handleExpand = useCallback(
@@ -328,6 +355,11 @@ const ScanSessions = () => {
     </Menu>
   );
 
+  const rangePickerValue =
+    filtersState.dates.length > 0
+      ? [moment(filtersState.dates[0]), moment(filtersState.dates[1])]
+      : [];
+
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
@@ -384,23 +416,24 @@ const ScanSessions = () => {
           <Row gutter={16}>
             <Col
               xs={{ span: 24 }}
-              sm={{ span: 12 }}
-              md={{ span: 9, offset: 6 }}
-              lg={{ span: 7, offset: 10 }}
-              xl={{ span: 6, offset: 12 }}
-              xxl={{ span: 7, offset: 12 }}
+              sm={{ span: 10 }}
+              md={{ span: 9, offset: 2 }}
+              lg={{ span: 7, offset: 8 }}
+              xl={{ span: 6, offset: 10 }}
+              xxl={{ span: 7 }}
             >
               <Input
                 size="middle"
                 prefix={<SearchOutlined />}
                 placeholder="Search..."
-                value={searchName}
+                value={filtersState.search}
+                allowClear
                 onChange={onChangeSearch}
               />
             </Col>
             <Col
               xs={{ span: 24 }}
-              sm={{ span: 12 }}
+              sm={{ span: 10 }}
               md={{ span: 9 }}
               lg={{ span: 7 }}
               xl={{ span: 6 }}
@@ -416,12 +449,24 @@ const ScanSessions = () => {
                     moment().endOf('month'),
                   ],
                 }}
+                value={rangePickerValue}
                 onChange={onDatesChange}
                 className={classNames(
                   styles.tableHeaderItem,
                   styles.rangePicker,
                 )}
               />
+            </Col>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 4 }}
+              md={{ span: 4 }}
+              lg={{ span: 2 }}
+              className={styles.resetFilters}
+            >
+              <Button onClick={handleResetFilters} disabled={isEmpty}>
+                Reset
+              </Button>
             </Col>
           </Row>
         )}

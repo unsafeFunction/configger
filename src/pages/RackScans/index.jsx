@@ -20,6 +20,7 @@ import { constants } from 'utils/constants';
 import { DownOutlined } from '@ant-design/icons';
 import TableFooter from 'components/layout/TableFooterLoader';
 import styles from './styles.module.scss';
+import useCustomFilters from '../../utils/useCustomFilters';
 
 moment.tz.setDefault('America/New_York');
 
@@ -28,10 +29,15 @@ const { RangePicker } = DatePicker;
 const RackScans = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [searchName, setSearchName] = useState('');
-  const [dates, setDates] = useState([]);
   const stateRef = useRef();
-  stateRef.current = dates;
+
+  const initialFiltersState = {
+    dates: [],
+  };
+
+  const [filtersState, filtersDispatch] = useCustomFilters(initialFiltersState);
+
+  stateRef.current = filtersState.dates;
 
   const racks = useSelector((state) => state.racks.racks);
 
@@ -39,13 +45,12 @@ const RackScans = () => {
     useEffect(() => {
       const filteringParams = {
         limit: constants.poolRacks.itemsLoadingCount,
-        search: searchName,
       };
 
-      const params = dates.length
+      const params = filtersState.dates.length
         ? {
-            scan_timestamp_after: dates[0],
-            scan_timestamp_before: dates[1],
+            scan_timestamp_after: filtersState.dates[0],
+            scan_timestamp_before: filtersState.dates[1],
             ...filteringParams,
           }
         : filteringParams;
@@ -56,7 +61,7 @@ const RackScans = () => {
           ...params,
         },
       });
-    }, [dates]);
+    }, [filtersState.dates]);
   };
 
   const exportRack = useCallback(
@@ -189,13 +194,12 @@ const RackScans = () => {
     const filteringParams = {
       limit: constants.poolRacks.itemsLoadingCount,
       offset: racks.offset,
-      search: searchName,
     };
 
-    const params = dates.length
+    const params = filtersState.dates.length
       ? {
-          scan_timestamp_after: dates[0],
-          scan_timestamp_before: dates[1],
+          scan_timestamp_after: filtersState.dates[0],
+          scan_timestamp_before: filtersState.dates[1],
           ...filteringParams,
         }
       : filteringParams;
@@ -206,10 +210,16 @@ const RackScans = () => {
         ...params,
       },
     });
-  }, [dispatch, racks, searchName, dates]);
+  }, [dispatch, racks, filtersState.dates]);
 
   const onDatesChange = useCallback((dates, dateStrings) => {
-    return dates ? setDates(dateStrings) : setDates([]);
+    return filtersDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'dates',
+        value: dates ? dateStrings : [],
+      },
+    });
   }, []);
 
   return (

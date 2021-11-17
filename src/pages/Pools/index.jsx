@@ -9,10 +9,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
+import useCustomFilters from '../../utils/useCustomFilters';
 
 const Pools = () => {
   const dispatch = useDispatch();
-  const [searchName, setSearchName] = useState('');
+
+  const initialFiltersState = {
+    search: '',
+  };
+
+  const [filtersState, filtersDispatch] = useCustomFilters(initialFiltersState);
 
   const pools = useSelector((state) => state.pools);
 
@@ -22,7 +28,7 @@ const Pools = () => {
         type: actions.FETCH_ALL_POOLS_REQUEST,
         payload: {
           limit: constants.pools.itemsLoadingCount,
-          search: searchName,
+          search: filtersState.search,
         },
       });
     }, []);
@@ -36,10 +42,10 @@ const Pools = () => {
       payload: {
         limit: constants.pools.itemsLoadingCount,
         offset: pools.offset,
-        search: searchName,
+        search: filtersState.search,
       },
     });
-  }, [dispatch, pools, searchName]);
+  }, [dispatch, pools, filtersState.search]);
 
   const sendQuery = useCallback(
     (query) => {
@@ -61,10 +67,19 @@ const Pools = () => {
 
   const onChangeSearch = useCallback(
     (event) => {
-      setSearchName(event.target.value);
-      delayedQuery(event.target.value);
+      const { target } = event;
+
+      filtersDispatch({
+        type: 'setValue',
+        payload: {
+          name: 'search',
+          value: target.value,
+        },
+      });
+
+      return delayedQuery(target.value);
     },
-    [delayedQuery],
+    [filtersDispatch, delayedQuery],
   );
 
   return (
@@ -79,8 +94,9 @@ const Pools = () => {
             prefix={<SearchOutlined />}
             className={styles.search}
             placeholder="Search..."
-            value={searchName}
+            value={filtersState.search}
             onChange={onChangeSearch}
+            allowClear
           />
         }
         loadMore={loadMore}
