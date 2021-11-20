@@ -1,15 +1,14 @@
-import { all, takeEvery, put, call, select } from 'redux-saga/effects';
 import { notification } from 'antd';
-import {
-  fetchRackScans,
-  fetchRackScan,
-  updateRackScan,
-  deleteRack,
-} from 'services/racks';
+import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import modalActions from 'redux/modal/actions';
-import { getRackScan } from './selectors';
+import {
+  deleteRack,
+  fetchRackScan,
+  fetchRackScans,
+  updateRackScan,
+} from 'services/racks';
 import actions from './actions';
-import { callDeleteScan } from '../scanSessions/sagas';
+import { getRackScan } from './selectors';
 
 export function* callFetchRacks({ payload }) {
   try {
@@ -52,7 +51,7 @@ export function* callFetchRack({ payload }) {
       );
     };
 
-    const tubesInfo = data?.pools;
+    const tubesInfo = data?.tubes;
 
     const preparedResponse = [
       formatResponse(tubesInfo?.slice?.(0, 8)),
