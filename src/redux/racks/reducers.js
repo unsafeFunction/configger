@@ -75,7 +75,7 @@ const racksReducer = (state = initialState, action) => {
 
 const initialSingleRackState = {
   items: [],
-  pools: [],
+  tubes: [],
   isLoading: false,
   error: null,
 };

@@ -66,7 +66,7 @@ const PoolRackDetail = ({ id }) => {
         <Col xs={24} lg={12}>
           <Table
             columns={columns}
-            dataSource={poolRack.pools}
+            dataSource={poolRack.tubes}
             loading={poolRack.isLoading}
             pagination={false}
             scroll={{ x: 550, y: '60vh' }}
