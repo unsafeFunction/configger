@@ -28,6 +28,12 @@ class Layout extends React.PureComponent {
     }
   }
 
+  componentWillReceiveProps() {
+    const favicon = document.getElementById('favicon');
+
+    favicon.href = `/resources/images/${process.env.REACT_APP_LAB_ID}.svg`;
+  }
+
   render() {
     const {
       children,
