@@ -7,6 +7,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import labConfig from 'utils/labConfig';
 import style from './style.module.scss';
 
 const { Sider } = Layout;
@@ -417,11 +418,13 @@ class MenuLeft extends React.Component {
             </div>
             <div role="presentation" className={style.air__menuLeft__logo}>
               <img
-                src="/resources/images/mirimus-light.svg"
-                alt="Mirimus Inc."
+                src={`/resources/images/${process.env.REACT_APP_LAB_ID}.svg`}
+                alt="Lab logo"
                 className={style.logo}
               />
-              <div className={style.air__menuLeft__logo__name}>Mirimus</div>
+              <div className={style.air__menuLeft__logo__name}>
+                {labConfig[process.env.REACT_APP_LAB_ID].name}
+              </div>
               <div className={style.air__menuLeft__logo__descr}>
                 Clinical Labs
               </div>

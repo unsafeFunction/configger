@@ -4,6 +4,7 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import actions from 'redux/user/actions';
+import labConfig from 'utils/labConfig';
 import style from '../style.module.scss';
 
 const Login = () => {
@@ -30,8 +31,8 @@ const Login = () => {
     <div className={style.auth}>
       <div className={`${style.container}`}>
         <img
-          src="/resources/images/mirimus.svg"
-          alt="Mirimus Inc."
+          src={`/resources/images/${process.env.REACT_APP_LAB_ID}.svg`}
+          alt="Logo"
           className={style.logo}
         />
         <Form layout="vertical" onFinish={onSubmit}>
@@ -89,7 +90,11 @@ const Login = () => {
           </a>
         </div>
         <div className={style.copyright}>
-          Copyright © {moment().year()} Mirimus Inc.
+          <div className={style.copyright}>
+            {`Copyright © ${moment().year()} ${
+              labConfig[process.env.REACT_APP_LAB_ID].name
+            } Inc.`}
+          </div>
         </div>
       </div>
     </div>

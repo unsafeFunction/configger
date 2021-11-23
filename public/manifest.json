@@ -1,6 +1,6 @@
 {
-  "short_name": "Mirimus dashboard",
-  "name": "Mirimus covid-19",
+  "short_name": "Lab dashboard",
+  "name": "Lab covid-19",
   "icons": [
     {
       "src": "favicon.svg",

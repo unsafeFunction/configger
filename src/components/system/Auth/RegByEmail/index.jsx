@@ -5,6 +5,7 @@ import { Form, Input, Button, Empty, Spin } from 'antd';
 import actions from 'redux/user/actions';
 import moment from 'moment';
 import { Empty as Img } from 'assets';
+import labConfig from 'utils/labConfig';
 import style from '../style.module.scss';
 
 const RegByEmail = () => {
@@ -47,10 +48,11 @@ const RegByEmail = () => {
             image={<Img />}
             description={
               <span>
-                <Spin className="mr-3" /> Email verification
+                <Spin className="mr-3" />
+                Email verification
               </span>
             }
-          ></Empty>
+          />
         )}
 
         {user.isVerifyingEmail === 'succeeded' && (
@@ -115,7 +117,11 @@ const RegByEmail = () => {
               </Form.Item>
             </Form>
             <div className={style.copyright}>
-              Copyright © {moment().year()} Mirimus Inc.
+              <div className={style.copyright}>
+                {`Copyright © ${moment().year()} ${
+                  labConfig[process.env.REACT_APP_LAB_ID].name
+                } Inc.`}
+              </div>
             </div>
           </>
         )}
@@ -124,7 +130,7 @@ const RegByEmail = () => {
           <Empty
             image={<Img />}
             description={<span className="text-danger">{user.error}</span>}
-          ></Empty>
+          />
         )}
       </div>
     </div>

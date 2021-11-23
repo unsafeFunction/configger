@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
 import moment from 'moment';
+import labConfig from 'utils/labConfig';
 import style from '../style.module.scss';
 
 const ForgotPassword = () => {
@@ -65,7 +66,11 @@ const ForgotPassword = () => {
           Back to login
         </Button>
         <div className={style.copyright}>
-          Copyright © {moment().year()} Mirimus Inc.
+          <div className={style.copyright}>
+            {`Copyright © ${moment().year()} ${
+              labConfig[process.env.REACT_APP_LAB_ID].name
+            } Inc.`}
+          </div>
         </div>
       </div>
     </div>
