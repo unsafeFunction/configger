@@ -271,7 +271,9 @@ class MenuLeft extends React.Component {
           )}
           {!item.url && item.key === 'contactUs' && (
             <a
-              href="mailto:testingsupport@mirimus.com"
+              href={`mailto:${
+                labConfig[process.env.REACT_APP_LAB_ID].contacts.email
+              }`}
               className={style.air__menuLeft__link}
             >
               {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}

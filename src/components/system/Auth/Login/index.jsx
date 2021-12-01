@@ -84,7 +84,9 @@ const Login = () => {
           </Button> */}
           <a
             className={style.linkButton}
-            href="mailto:testingsupport@mirimus.com"
+            href={`mailto:${
+              labConfig[process.env.REACT_APP_LAB_ID].contacts.email
+            }`}
           >
             Email Support
           </a>
