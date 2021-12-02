@@ -14,7 +14,7 @@ import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
 
-const ReflexDetails = () => {
+const ReflexComparison = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -42,7 +42,7 @@ const ReflexDetails = () => {
   const useFetching = () => {
     useEffect(() => {
       dispatch({
-        type: actions.FETCH_REFLEX_DETAILS_REQUEST,
+        type: actions.FETCH_REFLEX_COMPARISON_REQUEST,
         payload: {
           id: reflexId,
         },
@@ -105,4 +105,4 @@ const ReflexDetails = () => {
   );
 };
 
-export default ReflexDetails;
+export default ReflexComparison;
