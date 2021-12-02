@@ -104,10 +104,12 @@ const singleReflexReducer = (state = initialSingleState, action) => {
       };
     }
     case actions.FETCH_REFLEX_DETAILS_SUCCESS: {
+      const { results, ...poolInfo } = action.payload.data;
       return {
         ...state,
         isLoading: false,
-        items: action.payload.data,
+        items: results,
+        ...poolInfo,
       };
     }
     case actions.FETCH_REFLEX_DETAILS_FAILURE: {

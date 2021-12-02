@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+import { ExclamationCircleTwoTone } from '@ant-design/icons';
 import { Descriptions, Divider, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
@@ -15,22 +17,37 @@ const ReflexDetails = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { items: reflexList, isLoading } = useSelector(
-    (state) => state.reflex.singleReflex,
-  );
+  const {
+    items: reflexList,
+    isLoading,
+    company_short,
+    pool_size,
+    pool_name,
+  } = useSelector((state) => state.reflex.singleReflex);
   const reflexId = location.pathname.split('/')[2];
 
   const amountOfDetected = reflexList.filter(
-    (item) => item.result === constants.poolResults.detected,
+    (item) =>
+      item.result === constants.poolResults.detected &&
+      item.tube_type === 'Individual',
   ).length;
   const amountOfInconclusive = reflexList.filter(
-    (item) => item.result === constants.poolResults.inconclusive,
+    (item) =>
+      item.result === constants.poolResults.inconclusive &&
+      item.tube_type === 'Individual',
   ).length;
   const amountOfInvalid = reflexList.filter(
-    (item) => item.result === constants.poolResults.invalid,
+    (item) =>
+      item.result === constants.poolResults.invalid &&
+      item.tube_type === 'Individual',
   ).length;
   const amountOfNotDetected = reflexList.filter(
-    (item) => item.result === constants.poolResults.notDetected,
+    (item) =>
+      item.result === constants.poolResults.notDetected &&
+      item.tube_type === 'Individual',
+  ).length;
+  const amountOfIndividual = reflexList.filter(
+    (item) => item.tube_type === 'Individual',
   ).length;
 
   const useFetching = () => {
@@ -60,14 +77,24 @@ const ReflexDetails = () => {
         rowKey={(record) => record.tube_id}
         title={() => (
           <div className={styles.tableHeader}>
-            <Descriptions title="MIRIPOOL F1" size="small">
+            <Descriptions
+              title={`${company_short} ${pool_name}`}
+              size="small"
+              column={1}
+            >
               <Descriptions.Item>
-                Pool Size: –
+                Pool Size: {pool_size}
+                {amountOfIndividual > 0 &&
+                  pool_size > 0 &&
+                  amountOfIndividual !== pool_size && (
+                    <ExclamationCircleTwoTone
+                      twoToneColor="orange"
+                      className={styles.warning}
+                    />
+                  )}
                 <br />
-                Total tubes run: –
-                <br />
-                Rejected/Invalidated: –
               </Descriptions.Item>
+              <Descriptions.Item>Rejected/Invalidated: –</Descriptions.Item>
             </Descriptions>
             <Divider orientation="left">Results</Divider>
             <Tag color="red">{`Detected: ${amountOfDetected}`}</Tag>
