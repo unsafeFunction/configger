@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.3.0...v8.4.0) (2021-12-02)
+
+### Bug Fixes
+
+- rename reflex comparison ([21b1de6](https://github.com/mokkapps/changelog-generator-demo/commits/21b1de60fd3c6bc21aee52cfe0a5524cb66469d5))
+- tube types constants ([c62b7fe](https://github.com/mokkapps/changelog-generator-demo/commits/c62b7febf89e9f75a36b72a66c728ff9973cb87c))
+- update reflex comparison ([fc6ca1b](https://github.com/mokkapps/changelog-generator-demo/commits/fc6ca1b9440af828b25f24a5e64a655e3f015faf))
+
 ## [8.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.2.0...v8.3.0) (2021-11-20)
 
 ### Bug Fixes
