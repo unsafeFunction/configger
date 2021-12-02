@@ -79,6 +79,10 @@ const columns = [
       return <Target record={record} field="RP" />;
     },
   },
+  {
+    title: 'Run',
+    dataIndex: 'run',
+  },
 ];
 
 export default columns;

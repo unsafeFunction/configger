@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
-  fetchReflexDetails,
+  fetchReflexComparison,
   fetchReflexList,
   updateSample,
 } from 'services/reflex';
@@ -55,18 +55,18 @@ export function* callUpdateSample({ payload }) {
   }
 }
 
-export function* callLoadReflexDetails({ payload }) {
+export function* callLoadReflexComparison({ payload }) {
   try {
-    const response = yield call(fetchReflexDetails, payload);
+    const response = yield call(fetchReflexComparison, payload);
 
     yield put({
-      type: actions.FETCH_REFLEX_DETAILS_SUCCESS,
+      type: actions.FETCH_REFLEX_COMPARISON_SUCCESS,
       payload: {
         data: response?.data,
       },
     });
   } catch (error) {
-    yield put({ type: actions.FETCH_REFLEX_DETAILS_FAILURE });
+    yield put({ type: actions.FETCH_REFLEX_COMPARISON_FAILURE });
 
     notification.error({
       message: error.message,
@@ -78,6 +78,9 @@ export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_REFLEX_LIST_REQUEST, callLoadReflexList),
     takeEvery(actions.UPDATE_REFLEX_SAMPLE_REQUEST, callUpdateSample),
-    takeEvery(actions.FETCH_REFLEX_DETAILS_REQUEST, callLoadReflexDetails),
+    takeEvery(
+      actions.FETCH_REFLEX_COMPARISON_REQUEST,
+      callLoadReflexComparison,
+    ),
   ]);
 }

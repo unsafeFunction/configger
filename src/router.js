@@ -96,7 +96,7 @@ const routes = [
   },
   {
     path: '/reflex-list/:sampleId',
-    Component: loadable(() => import('pages/ReflexDetails')),
+    Component: loadable(() => import('pages/ReflexComparison')),
   },
   {
     path: '/reflex-list',

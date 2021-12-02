@@ -97,20 +97,22 @@ const initialSingleState = {
 
 const singleReflexReducer = (state = initialSingleState, action) => {
   switch (action.type) {
-    case actions.FETCH_REFLEX_DETAILS_REQUEST: {
+    case actions.FETCH_REFLEX_COMPARISON_REQUEST: {
       return {
         ...initialSingleState,
         isLoading: true,
       };
     }
-    case actions.FETCH_REFLEX_DETAILS_SUCCESS: {
+    case actions.FETCH_REFLEX_COMPARISON_SUCCESS: {
+      const { results, ...poolInfo } = action.payload.data;
       return {
         ...state,
         isLoading: false,
-        items: action.payload.data,
+        items: results,
+        ...poolInfo,
       };
     }
-    case actions.FETCH_REFLEX_DETAILS_FAILURE: {
+    case actions.FETCH_REFLEX_COMPARISON_FAILURE: {
       return {
         ...state,
         isLoading: false,

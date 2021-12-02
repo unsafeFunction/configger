@@ -24,7 +24,7 @@ export const updateSample = async ({ id, isCompleted }) => {
   }
 };
 
-export const fetchReflexDetails = async ({ id }) => {
+export const fetchReflexComparison = async ({ id }) => {
   try {
     return await axiosClient.get(`/runs/results/rerun/${id}/compare/`);
   } catch (error) {

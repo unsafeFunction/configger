@@ -198,6 +198,7 @@ export const constants = {
     inconclusive: 'INCONCLUSIVE',
     invalid: 'INVALID',
     inProgress: 'IN_PROGRESS',
+    rejected: 'REJECTED',
   },
   reflexList: {
     itemsLoadingCount: 25,
@@ -481,4 +482,8 @@ export const constants = {
       value: 'NEGATIVE_CONTROL',
     },
   ],
+  tubeTypes: {
+    pool: 'Pool',
+    individual: 'Individual',
+  },
 };
