@@ -1,6 +1,7 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable camelcase */
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
-import { Descriptions, Divider, Table, Tag } from 'antd';
+import { Descriptions, Divider, Table, Tag, Typography } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment-timezone';
 import React, { useEffect } from 'react';
@@ -26,29 +27,17 @@ const ReflexDetails = () => {
   } = useSelector((state) => state.reflex.singleReflex);
   const reflexId = location.pathname.split('/')[2];
 
-  const amountOfDetected = reflexList.filter(
-    (item) =>
-      item.result === constants.poolResults.detected &&
-      item.tube_type === 'Individual',
-  ).length;
-  const amountOfInconclusive = reflexList.filter(
-    (item) =>
-      item.result === constants.poolResults.inconclusive &&
-      item.tube_type === 'Individual',
-  ).length;
-  const amountOfInvalid = reflexList.filter(
-    (item) =>
-      item.result === constants.poolResults.invalid &&
-      item.tube_type === 'Individual',
-  ).length;
-  const amountOfNotDetected = reflexList.filter(
-    (item) =>
-      item.result === constants.poolResults.notDetected &&
-      item.tube_type === 'Individual',
-  ).length;
-  const amountOfIndividual = reflexList.filter(
-    (item) => item.tube_type === 'Individual',
-  ).length;
+  const { poolResults, tubeTypes } = constants;
+
+  const numberOfSamples = (result) => {
+    const samples = reflexList.filter((sample) =>
+      result
+        ? sample.result === poolResults[result] &&
+          sample.tube_type === tubeTypes.individual
+        : sample.tube_type === tubeTypes.individual,
+    );
+    return samples.length;
+  };
 
   const useFetching = () => {
     useEffect(() => {
@@ -84,23 +73,31 @@ const ReflexDetails = () => {
             >
               <Descriptions.Item>
                 Pool Size: {pool_size}
-                {amountOfIndividual > 0 &&
-                  pool_size > 0 &&
-                  amountOfIndividual !== pool_size && (
+                {numberOfSamples() > 0 && numberOfSamples() !== pool_size && (
+                  <Typography.Text type="secondary" italic>
                     <ExclamationCircleTwoTone
                       twoToneColor="orange"
                       className={styles.warning}
                     />
-                  )}
-                <br />
+                    pool size does not match the number of individual samples
+                  </Typography.Text>
+                )}
               </Descriptions.Item>
-              <Descriptions.Item>Rejected/Invalidated: –</Descriptions.Item>
+              <Descriptions.Item>
+                Rejected/Invalidated:{' '}
+                {numberOfSamples('rejected') + numberOfSamples('invalid')}
+              </Descriptions.Item>
             </Descriptions>
             <Divider orientation="left">Results</Divider>
-            <Tag color="red">{`Detected: ${amountOfDetected}`}</Tag>
-            <Tag color="orange">{`Inconclusive: ${amountOfInconclusive}`}</Tag>
-            <Tag color="default">{`Invalid: ${amountOfInvalid}`}</Tag>
-            <Tag color="green">{`Not detected: ${amountOfNotDetected}`}</Tag>
+            <Tag color="red">Detected: {numberOfSamples('detected')}</Tag>
+            <Tag color="orange">
+              Inconclusive: {numberOfSamples('inconclusive')}
+            </Tag>
+            <Tag color="default">Invalid: {numberOfSamples('invalid')}</Tag>
+            <Tag color="green">
+              Not detected: {numberOfSamples('notDetected')}
+            </Tag>
+            <Tag color="default">Rejected: {numberOfSamples('rejected')}</Tag>
           </div>
         )}
       />
