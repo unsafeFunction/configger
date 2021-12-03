@@ -80,6 +80,14 @@ const columns = [
     },
   },
   {
+    title: 'N1',
+    dataIndex: 'N1',
+    width: 100,
+    render: (_, record) => {
+      return <Target record={record} field="N1" />;
+    },
+  },
+  {
     title: 'Run',
     dataIndex: 'run',
   },
