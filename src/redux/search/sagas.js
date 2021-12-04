@@ -1,5 +1,5 @@
-import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { fetchInfo } from 'services/search';
 import actions from './actions';
 
@@ -17,10 +17,10 @@ export function* callFetchInfo({ payload }) {
     yield put({
       type: actions.FETCH_INFO_FAILURE,
       payload: {
-        data: error?.response?.data?.error,
+        data: error.message,
       },
     });
-    notification.error({ message: error?.response?.data?.error });
+    notification.error({ message: error.message });
   }
 }
 

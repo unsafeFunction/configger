@@ -3,6 +3,10 @@ const errorOutput = (error) => {
     const err = error.response.data.detail;
     return err;
   }
+  if (error?.response?.data.details) {
+    const err = error.response.data.details;
+    return err;
+  }
   if (error?.response?.data.field_errors) {
     const err = error.response.data.field_errors;
     return Object.values(err).join(' ');
