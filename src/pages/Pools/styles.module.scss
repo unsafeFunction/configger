@@ -13,9 +13,27 @@
 }
 
 .search {
-  width: 25%;
   margin-left: auto;
   @media (max-width: $sm-max-width) {
     width: 100%;
+  }
+}
+
+.tableActionsWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+
+  @media (max-width: $sm-max-width) {
+    width: 100%;
+  }
+}
+
+.popoverWrapper {
+  max-width: 350px;
+  width: 100%;
+
+  p:first-child {
+    margin-bottom: 0;
   }
 }
