@@ -3,11 +3,11 @@ import { Empty, Input, Steps } from 'antd';
 import Loader from 'components/layout/Loader';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/search/actions';
+import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
-import useCustomFilters from '../../utils/useCustomFilters';
 
 moment.tz.setDefault('America/New_York');
 
@@ -77,7 +77,7 @@ const Search = () => {
       {filtersState.search && search?.items?.length > 0 && !search.isLoading && (
         <Steps
           direction="vertical"
-          current={search.current}
+          current={search.current - 1}
           className={styles.stages}
         >
           {search?.items?.map((step, stepIdx) => (
@@ -87,11 +87,11 @@ const Search = () => {
               description={
                 <div>
                   {step.data.map((info) => (
-                    <p>
+                    <p key={info.title}>
                       {info.title}
                       <span
                         className={`ml-3 ${
-                          stepIdx !== search.current
+                          stepIdx !== search.current - 1
                             ? 'text-muted'
                             : 'text-primary'
                         }`}

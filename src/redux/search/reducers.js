@@ -11,7 +11,7 @@ export default function searchReducer(state = initialState, action) {
   switch (action.type) {
     case actions.FETCH_INFO_REQUEST: {
       return {
-        ...state,
+        ...initialState,
         isLoading: true,
       };
     }
