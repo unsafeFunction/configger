@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.4.0...v8.5.0) (2021-12-06)
+
+### Bug Fixes
+
+- add N1 target to reflex comparison ([a0ef401](https://github.com/mokkapps/changelog-generator-demo/commits/a0ef401053db7104a4f435b8a98859c90d81f958))
+
 ## [8.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.3.0...v8.4.0) (2021-12-02)
 
 ### Bug Fixes
