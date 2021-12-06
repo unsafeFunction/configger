@@ -321,6 +321,10 @@
         background: $primary;
         color: $white;
 
+        > span {
+          color: $white !important;
+        }
+
         .air__menuLeft__icon {
           color: $white;
         }
@@ -653,6 +657,10 @@
 
         &__link {
           color: $text;
+
+          > span {
+            color: $text;
+          }
         }
 
         &__item {

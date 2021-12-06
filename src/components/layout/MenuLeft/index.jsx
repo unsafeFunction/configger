@@ -42,7 +42,7 @@ class MenuLeft extends React.Component {
 
   componentWillReceiveProps(newProps) {
     const { pathname } = newProps.location;
-    if (this.currentLocation !== pathname) {
+    if (this.currentLocation.split('/')[1] !== pathname.split('/')[1]) {
       this.setActiveItems(newProps);
       this.currentLocation = pathname;
     }
@@ -94,10 +94,9 @@ class MenuLeft extends React.Component {
     const firstChild = activeSubmenuItem?.children?.[0];
     this.setState({
       activeSubmenu: activeSubmenu === key ? '' : key,
-      activeItem:
-        activeSubmenu !== key && activeSubmenu ? firstChild.key : activeItem,
+      activeItem: activeSubmenu !== key ? firstChild.key : activeItem,
     });
-    if (activeSubmenu !== key && activeSubmenu) {
+    if (activeSubmenu !== key) {
       history.push(firstChild.url);
     }
   };
@@ -211,7 +210,7 @@ class MenuLeft extends React.Component {
         });
       }
       return key;
-    });
+    }, '');
     this.setState({
       activeItem: get(activeItem, 'key', null),
       activeSubmenu: activeSubmenu.key,
@@ -236,7 +235,6 @@ class MenuLeft extends React.Component {
           <li
             className={classNames(style.air__menuLeft__item, {
               [style.air__menuLeft__item__active]: activeItem === key,
-              [style.firstHelpItem]: item.key === 'contactUs',
             })}
             key={key}
           >
