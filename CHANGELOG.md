@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.5.0...v8.6.0) (2021-12-06)
+
+### Features
+
+- pools_popover ([93a5540](https://github.com/mokkapps/changelog-generator-demo/commits/93a5540af103b94dfd1ac39e3b2c3c2253e1a7ee))
+
+### Bug Fixes
+
+- handle barcode lookup errors ([9d4b182](https://github.com/mokkapps/changelog-generator-demo/commits/9d4b1822947c41e7d2f33c22db2647c36bb6671a))
+- remove intake log filters without backend ([768c707](https://github.com/mokkapps/changelog-generator-demo/commits/768c707d58cab6d58e3a0d7e63cf2f0d890e1c3d))
+- remove N1 target column from reflex comparison ([01b154b](https://github.com/mokkapps/changelog-generator-demo/commits/01b154bb3e70838859dd5bd26daf87559d140c9d))
+
 ## [8.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.4.0...v8.5.0) (2021-12-06)
 
 ### Bug Fixes
