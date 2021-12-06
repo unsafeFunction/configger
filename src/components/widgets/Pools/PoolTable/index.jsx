@@ -1,4 +1,4 @@
-import { Popconfirm, Popover, Select, Switch, Table, Tag, Tooltip } from 'antd';
+import { Popconfirm, Select, Switch, Popover, Table, Tag, Tooltip } from 'antd';
 import TableFooter from 'components/layout/TableFooterLoader';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -16,7 +16,7 @@ moment.tz.setDefault('America/New_York');
 
 const { Option } = Select;
 
-const PoolTable = ({ loadMore, searchInput }) => {
+const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
@@ -152,7 +152,7 @@ const PoolTable = ({ loadMore, searchInput }) => {
             title={
               record.result === 'Rejected' && (
                 <span>
-                  <b>REJECTED</b> - Your samples were <b>not tested</b> due to
+                  <b>REJECTED</b> - Your samples were<b>not tested</b> due to
                   poor sample quality. The samples may be contaminated, empty,
                   improperly collected, or have insufficient volume.
                 </span>
@@ -253,7 +253,6 @@ const PoolTable = ({ loadMore, searchInput }) => {
         pagination={false}
         scroll={{ x: 1400 }}
         rowKey={(record) => record.id}
-        title={() => <div className="d-flex">{searchInput}</div>}
       />
       <TableFooter
         loading={pools.isLoading}

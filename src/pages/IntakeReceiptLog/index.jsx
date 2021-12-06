@@ -267,8 +267,6 @@ const IntakeReceiptLog = () => {
         }
         return taggedValue;
       },
-      filters: constants.shippingConditions,
-      filterMultiple: false,
     },
     {
       title: 'Packing Slip Condition',
@@ -276,8 +274,6 @@ const IntakeReceiptLog = () => {
       render: (value) => {
         return <Tag color={getColorIntakeLog(value)}>{value}</Tag>;
       },
-      filters: constants.shippingConditions,
-      filterMultiple: false,
     },
     {
       title: 'Total packing slips',
@@ -306,8 +302,6 @@ const IntakeReceiptLog = () => {
         }
         return taggedValue;
       },
-      filters: constants.sampleConditions,
-      filterMultiple: false,
     },
     {
       title: 'Tracking Number',

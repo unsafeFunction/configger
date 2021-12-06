@@ -1,4 +1,6 @@
+/* eslint-disable import/prefer-default-export */
 import axiosClient from 'utils/axiosClient';
+import errorOutput from 'utils/errorOutput';
 
 export const fetchInfo = async ({ search }) => {
   try {
@@ -9,6 +11,6 @@ export const fetchInfo = async ({ search }) => {
     });
     return searchInfo;
   } catch (error) {
-    return error?.response?.data?.error;
+    throw new Error(errorOutput(error));
   }
 };

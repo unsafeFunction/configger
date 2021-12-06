@@ -79,7 +79,8 @@ const ReflexComparison = () => {
                       twoToneColor="orange"
                       className={styles.warning}
                     />
-                    pool size does not match the number of individual samples
+                    pool size isn`t coinciding with the number of individual
+                    samples
                   </Typography.Text>
                 )}
               </Descriptions.Item>
