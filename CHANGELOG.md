@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.6.0...v8.7.0) (2021-12-07)
+
+### Bug Fixes
+
+- menu ([265c364](https://github.com/mokkapps/changelog-generator-demo/commits/265c364586fa18e505d1173a9cf37c75bfd6d919))
+- menu nesting ([65682e3](https://github.com/mokkapps/changelog-generator-demo/commits/65682e3250efea538f563d592bef4dfe7e66ad9f))
+
 ## [8.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.5.0...v8.6.0) (2021-12-06)
 
 ### Features
