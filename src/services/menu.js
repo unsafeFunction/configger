@@ -67,7 +67,6 @@ export async function getMenuData() {
       key: 'search',
       icon: 'fe fe-search',
       url: '/barcode-lookup',
-      isAlpha: true,
     },
     {
       title: 'Inventory',
