@@ -86,7 +86,7 @@ const Search = () => {
               key={step.title}
               description={
                 <div>
-                  {step.data.map((info) => (
+                  {step.data?.map?.((info) => (
                     <p key={info.title}>
                       {info.title}
                       <span
