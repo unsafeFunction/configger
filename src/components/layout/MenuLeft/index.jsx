@@ -1,4 +1,4 @@
-import { Badge, Layout } from 'antd';
+import { Layout } from 'antd';
 import classNames from 'classnames';
 import find from 'lodash.find';
 import get from 'lodash.get';
@@ -230,23 +230,6 @@ class MenuLeft extends React.Component {
           </li>
         );
       }
-      if (item.isAlpha) {
-        return (
-          <li
-            className={classNames(style.air__menuLeft__item, {
-              [style.air__menuLeft__item__active]: activeItem === key,
-            })}
-            key={key}
-          >
-            <Link to="/barcode-lookup" className={style.air__menuLeft__link}>
-              {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
-              <Badge offset={[15, -2]} count="Alpha">
-                <span>{title}</span>
-              </Badge>
-            </Link>
-          </li>
-        );
-      }
       return (
         <li
           className={classNames(style.air__menuLeft__item, {
@@ -272,14 +255,6 @@ class MenuLeft extends React.Component {
                   {item.count}
                 </span>
               )}
-            </Link>
-          )}
-          {item.key === 'search' && (
-            <Link to="/barcode-lookup" className={style.air__menuLeft__link}>
-              {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
-              <Badge offset={[15, -2]} count="Alpha">
-                <span>{title}</span>
-              </Badge>
             </Link>
           )}
           {!item.url && item.key === 'helpCenter' && (
