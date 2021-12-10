@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [8.7.1](https://github.com/mokkapps/changelog-generator-demo/compare/v8.7.0...v8.7.1) (2021-12-10)
+
+### Bug Fixes
+
+- barcode lookup fix for future backend updates ([7f634ea](https://github.com/mokkapps/changelog-generator-demo/commits/7f634eafe067b87cb46b7efe33e8138fbfc7b7dc))
+- disable closing opened submenu ([2bd6f52](https://github.com/mokkapps/changelog-generator-demo/commits/2bd6f52cb524b7c06fdc9b1cf5372314b25b0ac2))
+- remove alpha badge from barcode lookup menu item ([ef3b585](https://github.com/mokkapps/changelog-generator-demo/commits/ef3b5854d129acce8bef2f6c6366a27fc25ed6e9))
+
 ## [8.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.6.0...v8.7.0) (2021-12-07)
 
 ### Bug Fixes
