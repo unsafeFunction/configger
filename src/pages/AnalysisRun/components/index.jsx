@@ -37,7 +37,8 @@ const Target = ({ record, field, value }) => {
     if (record[field] && !isNaN(record[field])) {
       const cqConfidence = roundValue(record[`${field}_cq_confidence`]);
       const inconclusiveAmpStatus =
-        record[`${field}_amp_status`] === constants.poolResults.inconclusive;
+        record[`${field}_amp_status`]?.toUpperCase() ===
+        constants.poolResults.inconclusive;
 
       if (cqConfidence > 0 && cqConfidence <= 0.7 && inconclusiveAmpStatus) {
         return (
