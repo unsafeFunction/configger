@@ -275,7 +275,7 @@ const AnalysisRun = () => {
       <Table
         dataSource={samples}
         columns={columns}
-        scroll={{ x: 2000 }}
+        scroll={{ x: 2000, y: 684 }}
         loading={run.isLoading}
         pagination={false}
         rowKey={(record) => {
