@@ -12,7 +12,7 @@ export const fetchScanById = async (scanId) => {
 
 export const fetchActiveScans = async (query) => {
   try {
-    const scans = await axiosClient.get(`scans/sessions/active/refresh`, {
+    const scans = await axiosClient.get(`scans/sessions/active/refresh/`, {
       params: {
         pool_ids: query?.join(),
       },

@@ -201,13 +201,13 @@ const AnalysisRun = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item onClick={onTimelineOpenClose} key="1">
+      <Menu.Item onClick={onTimelineOpenClose} key="timeline">
         View Timeline
       </Menu.Item>
-      <Menu.Item onClick={handleShowWellplate} key="2">
+      <Menu.Item onClick={handleShowWellplate} key="96-well-plate">
         View 96-well Plate
       </Menu.Item>
-      <Menu.Item key="3">
+      <Menu.Item key="dataconnect">
         <a
           href="https://apps.thermofisher.com/apps/spa/#/dataconnect"
           target="_blank"
@@ -218,14 +218,14 @@ const AnalysisRun = () => {
       </Menu.Item>
       <Menu.Item
         onClick={onUploadClick}
-        key="4"
+        key="upload-result"
         disabled={run.status === constants.runStatuses.published}
       >
         Upload Result
       </Menu.Item>
       <Menu.Item
         disabled
-        key="4"
+        key="print"
         onClick={() => {
           return exportRun({ runId });
         }}
@@ -275,7 +275,7 @@ const AnalysisRun = () => {
       <Table
         dataSource={samples}
         columns={columns}
-        scroll={{ x: 2000 }}
+        scroll={{ x: 2000, y: 684 }}
         loading={run.isLoading}
         pagination={false}
         rowKey={(record) => {
