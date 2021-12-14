@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.8.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.7.1...v8.8.0) (2021-12-14)
+
+### Bug Fixes
+
+- fix action menu keys ([31d5a1d](https://github.com/mokkapps/changelog-generator-demo/commits/31d5a1d5688bbcd03bb08594a88e485230424254))
+- fix warning flags for inconclusive amp status ([f6fbae8](https://github.com/mokkapps/changelog-generator-demo/commits/f6fbae8a189c2ca529bdb27f1d2ae3bbab621ac9))
+- trailing slash ([c0e4fa4](https://github.com/mokkapps/changelog-generator-demo/commits/c0e4fa4f360c9f84826fcd4823355974d38c0537))
+- trailing slash to timeline request ([86da8b8](https://github.com/mokkapps/changelog-generator-demo/commits/86da8b8fffb78b770e5a92f9d491a0d07b89ae84))
+- y scroll for analysis ([c73dafb](https://github.com/mokkapps/changelog-generator-demo/commits/c73dafbee1075dfae5dd0a81e159737c26a5aeb0))
+
 ### [8.7.1](https://github.com/mokkapps/changelog-generator-demo/compare/v8.7.0...v8.7.1) (2021-12-10)
 
 ### Bug Fixes
