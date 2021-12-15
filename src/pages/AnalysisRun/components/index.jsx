@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import { ExclamationCircleTwoTone } from '@ant-design/icons';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Radio, Select, Tooltip, Typography } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -13,70 +13,6 @@ import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlighting';
 
 const { Option } = Select;
-
-const Warning = ({ message, targetValue }) => (
-  <Tooltip placement="right" title={message}>
-    {targetValue}
-    <ExclamationCircleTwoTone twoToneColor="orange" className="ml-1" />
-  </Tooltip>
-);
-
-Warning.propTypes = {
-  message: PropTypes.string.isRequired,
-  targetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
-};
-
-const Target = ({ record, field, value }) => {
-  const targetValue = () => {
-    if (record?.mean) {
-      const mean = roundValue(record?.mean?.[field]);
-      const deviation = roundValue(record?.standard_deviation?.[field]) ?? 'NA';
-      return mean ? `${mean} (${deviation})` : null;
-    }
-    if (record[field] && !isNaN(record[field])) {
-      const cqConfidence = roundValue(record[`${field}_cq_confidence`]);
-      const inconclusiveAmpStatus =
-        record[`${field}_amp_status`]?.toUpperCase() ===
-        constants.poolResults.inconclusive;
-
-      if (cqConfidence > 0 && cqConfidence <= 0.7 && inconclusiveAmpStatus) {
-        return (
-          <Warning
-            message={`Cq confidence is low! (${cqConfidence}) Amplification is inconclusive`}
-            targetValue={roundValue(value)}
-          />
-        );
-      }
-      if (cqConfidence > 0 && cqConfidence <= 0.7) {
-        return (
-          <Warning
-            message={`Cq confidence is low! (${cqConfidence})`}
-            targetValue={roundValue(value)}
-          />
-        );
-      }
-      if (inconclusiveAmpStatus) {
-        return (
-          <Warning
-            message="Amplification is inconclusive"
-            targetValue={roundValue(value)}
-          />
-        );
-      }
-      return roundValue(value);
-    }
-    return null;
-  };
-
-  return targetValue();
-};
-
-Target.propTypes = {
-  record: PropTypes.shape({}).isRequired,
-  field: PropTypes.string.isRequired,
-  value: PropTypes.string,
-};
 
 const Actions = ({ record, field, value = '' }) => {
   const dispatch = useDispatch();
@@ -278,6 +214,34 @@ ResultSelect.propTypes = {
   field: PropTypes.string.isRequired,
 };
 
+const targetColumns = constants.targets.map((target) => {
+  return {
+    title: target,
+    dataIndex: target,
+    width: 100,
+    render: (_, record) => {
+      if (record.mean) {
+        const mean = roundValue(record.mean?.[target]);
+        const standardDeviation =
+          roundValue(record.standard_deviation?.[target]) ?? 'NA';
+        return mean ? `${mean} (${standardDeviation})` : null;
+      }
+      if (record[target] && record[`${target}_warning_msg`]) {
+        return (
+          <Tooltip placement="right" title={record[`${target}_warning_msg`]}>
+            {roundValue(record[target])}
+            <ExclamationCircleFilled
+              style={{ color: '#f39834' }}
+              className="ml-1"
+            />
+          </Tooltip>
+        );
+      }
+      return roundValue(record[target]);
+    },
+  };
+});
+
 const columns = [
   {
     title: 'Company Short',
@@ -335,47 +299,21 @@ const columns = [
   {
     title: 'Wells',
     dataIndex: 'wells',
+    render: (value, record) => (
+      <Typography.Text className="text-primary">
+        {value}
+        {record.warning_flag && (
+          <sup>
+            <ExclamationCircleFilled
+              style={{ color: '#f39834' }}
+              className="ml-1"
+            />
+          </sup>
+        )}
+      </Typography.Text>
+    ),
   },
-  {
-    title: 'MS2',
-    dataIndex: 'MS2',
-    width: 100,
-    render: (value, record) => {
-      return <Target record={record} field="MS2" value={value} />;
-    },
-  },
-  {
-    title: 'N gene',
-    dataIndex: 'N gene',
-    width: 100,
-    render: (value, record) => {
-      return <Target record={record} field="N gene" value={value} />;
-    },
-  },
-  {
-    title: 'S gene',
-    dataIndex: 'S gene',
-    width: 100,
-    render: (value, record) => {
-      return <Target record={record} field="S gene" value={value} />;
-    },
-  },
-  {
-    title: 'Orf1ab',
-    dataIndex: 'ORF1ab',
-    width: 100,
-    render: (value, record) => {
-      return <Target record={record} field="ORF1ab" value={value} />;
-    },
-  },
-  {
-    title: 'RP',
-    dataIndex: 'RP',
-    width: 100,
-    render: (value, record) => {
-      return <Target record={record} field="RP" value={value} />;
-    },
-  },
+  ...targetColumns,
   {
     title: 'Actions',
     dataIndex: 'actions',
