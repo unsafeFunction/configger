@@ -121,7 +121,9 @@ const RackScan = () => {
       <Form form={form} onFinish={onSaveScanModalToggle}>
         <div className={classNames('air__utils__heading', styles.page__header)}>
           <Typography.Title level={4} className="font-weight-normal">
-            {`Scan on ${moment(rack?.scan_timestamp)?.format('lll') ?? ''}`}
+            {rack?.scan_timestamp
+              ? `Scan on ${moment(rack?.scan_timestamp)?.format('lll') ?? ''}`
+              : ''}
           </Typography.Title>
           <Dropdown overlay={rackMenu} overlayClassName={styles.actionsOverlay}>
             <Button type="primary">
