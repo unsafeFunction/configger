@@ -84,9 +84,9 @@ const excludeReservedSamples = (items) =>
     });
 
 const formatResults = (items = []) => {
-  const cleanedItems = excludeReservedSamples(items);
+  const samples = excludeReservedSamples(items);
 
-  return cleanedItems.map((parentRow) => {
+  return samples.map((parentRow) => {
     let warning_flag = false;
 
     const formattedWells = parentRow.children?.map((childRow) => {

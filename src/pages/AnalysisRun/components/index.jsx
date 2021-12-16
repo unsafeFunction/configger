@@ -312,6 +312,13 @@ const columns = [
         )}
       </Typography.Text>
     ),
+    filters: [
+      {
+        text: 'Samples with warnings',
+        value: true,
+      },
+    ],
+    onFilter: (value, record) => record.warning_flag,
   },
   ...targetColumns,
   {

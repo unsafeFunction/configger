@@ -57,7 +57,6 @@ const AnalysisRun = () => {
 
   useFetching();
 
-  // TODO: почему я так сделала?
   useEffect(() => {
     setSamples(run.items);
   }, [run.items]);
