@@ -112,6 +112,7 @@ const ScanSessions = () => {
     {
       title: 'Total Pools Count',
       dataIndex: 'pool_size',
+      width: 100,
       render: (_, value) => {
         return value?.scans.length || '-';
       },
@@ -119,6 +120,7 @@ const ScanSessions = () => {
     {
       title: 'Total Samples Count',
       dataIndex: 'samples_count',
+      width: 110,
       render: (_, value) => {
         return value?.samples_count || '-';
       },
@@ -126,6 +128,7 @@ const ScanSessions = () => {
     {
       title: `Scanned on`,
       dataIndex: 'completed_timestamp',
+      width: 160,
       render: (_, value) => {
         return value?.completed_timestamp
           ? moment(value.completed_timestamp).format('lll')
@@ -392,7 +395,7 @@ const ScanSessions = () => {
                   </Link>
                 ),
                 scan_time: scan.scan_timestamp
-                  ? moment(scan.scan_timestamp).format('LLLL')
+                  ? moment(scan.scan_timestamp).format('llll')
                   : '-',
                 scan_name: poolName,
                 pool_size: scan.tubes_count,

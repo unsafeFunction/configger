@@ -278,9 +278,7 @@ const AnalysisRun = () => {
         scroll={{ x: 2000, y: 684 }}
         loading={run.isLoading}
         pagination={false}
-        rowKey={(record) => {
-          return record.sample_id ?? record.wells;
-        }}
+        rowKey={(record) => record.wells}
         title={() => (
           <div className={styles.tableHeader}>
             <Input
@@ -289,6 +287,7 @@ const AnalysisRun = () => {
               placeholder="Enter Sample ID"
               value={searchName}
               onChange={onChangeSearch}
+              allowClear
             />
 
             <div>

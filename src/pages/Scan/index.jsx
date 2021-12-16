@@ -21,6 +21,7 @@ import {
   Typography,
 } from 'antd';
 import classNames from 'classnames';
+import PulseCircle from 'components/widgets/Pools/PulseCircle';
 import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
@@ -34,7 +35,6 @@ import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
-import PulseCircle from 'components/widgets/Pools/PulseCircle';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');
@@ -513,7 +513,9 @@ const Scan = () => {
     <div>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Typography.Title level={4} className="font-weight-normal">
-          {`Scan on ${moment(scan?.scan_timestamp)?.format('lll') ?? ''}`}
+          {scan?.scan_timestamp
+            ? `Scan on ${moment(scan.scan_timestamp).format('lll')}`
+            : ''}
         </Typography.Title>
         <Row>
           <Row style={{ marginRight: 30 }}>
