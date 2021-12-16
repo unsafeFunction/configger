@@ -1,6 +1,10 @@
 import omit from 'lodash.omit';
 import { combineReducers } from 'redux';
-import { isReservedSample, isUnusedSample } from 'utils/analysisRules';
+import {
+  isReservedSample,
+  isUnusedSample,
+  roundValue,
+} from 'utils/analysisRules';
 import { constants } from 'utils/constants';
 import actions from './actions';
 
@@ -69,30 +73,89 @@ const initialRunState = {
   wellplates: [],
 };
 
+const excludeReservedSamples = (items) =>
+  items
+    .filter?.((item) => !isUnusedSample(item.display_sample_id))
+    .map?.((item) => {
+      if (isReservedSample(item.display_sample_id)) {
+        return omit(item, ['children', 'rerun_action']);
+      }
+      return item;
+    });
+
+const formatResults = (items = []) => {
+  const samples = excludeReservedSamples(items);
+
+  return samples.map((parentRow) => {
+    let warning_flag = false;
+
+    const formattedWells = parentRow.children?.map((childRow) => {
+      let targetProps = {};
+
+      constants.targets.map((target) => {
+        if (childRow[target] && !isNaN(childRow[target])) {
+          const cqConfidence = roundValue(childRow[`${target}_cq_confidence`]);
+          const inconclusiveAmpStatus =
+            childRow[`${target}_amp_status`].toLowerCase() ===
+            constants.ampStatuses.inconclusive;
+          if (
+            cqConfidence > 0 &&
+            cqConfidence <= 0.7 &&
+            inconclusiveAmpStatus
+          ) {
+            warning_flag = true;
+            targetProps = {
+              ...targetProps,
+              [`${target}_warning_msg`]: `Cq confidence is low! (${cqConfidence}) Amplification is inconclusive`,
+            };
+          }
+          if (cqConfidence > 0 && cqConfidence <= 0.7) {
+            warning_flag = true;
+            targetProps = {
+              ...targetProps,
+              [`${target}_warning_msg`]: `Cq confidence is low! (${cqConfidence})`,
+            };
+          }
+          if (inconclusiveAmpStatus) {
+            warning_flag = true;
+            targetProps = {
+              ...targetProps,
+              [`${target}_warning_msg`]: 'Amplification is inconclusive',
+            };
+          }
+        }
+      });
+
+      return {
+        ...childRow,
+        ...targetProps,
+      };
+    });
+
+    return {
+      ...parentRow,
+      warning_flag,
+      children: formattedWells,
+    };
+  });
+};
+
 const singleRunReducer = (state = initialRunState, action) => {
   switch (action.type) {
     case actions.FETCH_RUN_REQUEST: {
       return {
-        ...state,
         ...initialRunState,
         isLoading: true,
       };
     }
     case actions.FETCH_RUN_SUCCESS: {
-      const formattedResults = action.payload.data?.items
-        ?.filter?.((item) => !isUnusedSample(item.display_sample_id))
-        .map?.((item) => {
-          if (isReservedSample(item.display_sample_id)) {
-            return omit(item, ['children', 'rerun_action']);
-          }
-          return item;
-        });
+      const { items } = action.payload.data;
 
       return {
         ...state,
         isLoading: false,
         ...action.payload.data,
-        items: formattedResults ?? [],
+        items: formatResults(items),
       };
     }
     case actions.FETCH_RUN_FAILURE: {
@@ -190,19 +253,12 @@ const singleRunReducer = (state = initialRunState, action) => {
     }
 
     case actions.UPLOAD_RUN_RESULT_SUCCESS: {
-      const formattedResults = action.payload?.items
-        ?.filter?.((item) => !isUnusedSample(item.display_sample_id))
-        .map?.((item) => {
-          if (isReservedSample(item.display_sample_id)) {
-            return omit(item, ['children', 'rerun_action']);
-          }
-          return item;
-        });
+      const { items } = action.payload;
 
       return {
         ...initialRunState,
         ...action.payload,
-        items: formattedResults ?? [],
+        items: formatResults(items),
       };
     }
 

@@ -486,4 +486,8 @@ export const constants = {
     pool: 'Pool',
     individual: 'Individual',
   },
+  targets: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'RP'],
+  ampStatuses: {
+    inconclusive: 'inconclusive',
+  },
 };
