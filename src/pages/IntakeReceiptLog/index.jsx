@@ -8,7 +8,7 @@ import omit from 'lodash.omit';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import actions from 'redux/intakeReceiptLog/actions';
 import modalActions from 'redux/modal/actions';
 import scannersActions from 'redux/scanners/actions';
@@ -21,6 +21,7 @@ moment.tz.setDefault('America/New_York');
 
 const IntakeReceiptLog = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [form] = Form.useForm();
 
   const [sortBy, setSortBy] = useState(undefined);
@@ -28,9 +29,11 @@ const IntakeReceiptLog = () => {
 
   const intakeLog = useSelector((state) => state.intakeReceiptLog);
 
-  const { activeSessionId, isLoading: isSessionLoading } = useSelector(
-    (state) => state.scanSessions.singleSession,
-  );
+  const {
+    activeSessionId,
+    id: sessionId,
+    isLoading: isSessionLoading,
+  } = useSelector((state) => state.scanSessions.singleSession);
 
   const scanners = useSelector((state) => state.scanners.all);
 
@@ -39,6 +42,11 @@ const IntakeReceiptLog = () => {
       type: scannersActions.FETCH_SCANNERS_REQUEST,
     });
   }, [dispatch]);
+
+  const redirectToSession = useCallback(() => {
+    console.log('here ', sessionId);
+    history.push(`/session/${sessionId}/`);
+  }, [sessionId]);
 
   const useFetching = () => {
     useEffect(() => {
@@ -72,6 +80,7 @@ const IntakeReceiptLog = () => {
         payload: {
           intakeLog: logId,
           scanner: key,
+          callback: redirectToSession,
         },
       });
     },
@@ -323,17 +332,18 @@ const IntakeReceiptLog = () => {
             <Button type="primary" onClick={() => handleModalToggle(record)}>
               Edit
             </Button>
-            {moment().diff(moment(record.created), 'hours') <= 24 && (
-              <Dropdown overlay={scannerMenu(record.id)} trigger="click">
-                <Button
-                  type="primary"
-                  loading={isSessionLoading || scanners.isLoading}
-                >
-                  Start session
-                  <DownOutlined />
-                </Button>
-              </Dropdown>
-            )}
+            {moment().diff(moment(record.created), 'hours') <= 24 &&
+              !sessionId && (
+                <Dropdown overlay={scannerMenu(record.id)} trigger="click">
+                  <Button
+                    type="primary"
+                    loading={isSessionLoading || scanners.isLoading}
+                  >
+                    Start session
+                    <DownOutlined />
+                  </Button>
+                </Dropdown>
+              )}
           </Space>
         );
       },
@@ -359,9 +369,9 @@ const IntakeReceiptLog = () => {
     });
   }, [dispatch, intakeLog, sortBy, filters]);
 
-  if (!isSessionLoading && activeSessionId) {
-    return <Redirect to={`/session/${activeSessionId}`} />;
-  }
+  // if (!isSessionLoading && activeSessionId) {
+  //   return <Redirect to={`/session/${activeSessionId}`} />;
+  // }
 
   return (
     <div>

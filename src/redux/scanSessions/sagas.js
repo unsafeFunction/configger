@@ -463,6 +463,10 @@ export function* callCreateSession({ payload }) {
         sessionId: response?.data?.id,
       },
     });
+    console.log(response);
+    if (payload?.callback && response?.data?.id) {
+      yield call(payload.callback);
+    }
 
     notification.success({
       message: 'Session was created.',
