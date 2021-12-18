@@ -1,14 +1,15 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import { Statistic } from 'antd';
-import pulseCircle from 'components/widgets/Pools/PulseCircle/styles.module.scss';
+import sessionActions from 'redux/scanSessions/actions';
 import UserMenu from './UserMenu';
 import styles from './style.module.scss';
 
-const TopBar = () => {
+const TopBar = React.memo(() => {
   const { Countdown } = Statistic;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -17,7 +18,13 @@ const TopBar = () => {
     history.push(`/session/${session.id}`);
   };
   const isActiveSession = session?.id;
-  console.log(session);
+
+  const onFinish = () => {
+    dispatch({
+      type: sessionActions.FETCH_SESSION_ID_REQUEST,
+    });
+  };
+
   return (
     <div className={styles.topbar}>
       <div className={styles.info}>
@@ -34,23 +41,25 @@ const TopBar = () => {
       </div>
       {isActiveSession && (
         <div
-          className={classNames(
-            pulseCircle.circleWrapper,
-            styles.activeWrapper,
-          )}
+          role="presentation"
+          className={classNames(styles.circleWrapper, styles.activeWrapper)}
           onClick={handleClickActiveSession}
         >
-          <div className={pulseCircle.pulsatingCircle} />
+          <div className={styles.pulsatingCircle} />
           <Countdown
             className={styles.timer}
-            title="Active session"
-            // This one second needed to close session after 30 minutes. Because on 30:00 we can do smth, but on 30:01 - can't
+            title={
+              <span>
+                Active session for <b>{session.company_short.name}</b>
+              </span>
+            }
+            valueStyle={{ fontSize: '1.2rem' }}
             value={moment(session.started_on_day).add({
-              minutes: 30,
+              minutes: session.sessionLength || 30,
               seconds: 1,
             })}
             format="mm:ss"
-            onFinish={() => console.log('hehe')}
+            onFinish={onFinish}
           />
         </div>
       )}
@@ -59,6 +68,6 @@ const TopBar = () => {
       </div>
     </div>
   );
-};
+});
 
 export default TopBar;

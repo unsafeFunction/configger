@@ -164,6 +164,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
+        ...action.payload,
         activeSessionId: action.payload.sessionId
           ? action.payload.sessionId
           : undefined,

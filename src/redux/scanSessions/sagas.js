@@ -438,6 +438,7 @@ export function* callFetchSessionId({ payload }) {
       type: actions.FETCH_SESSION_ID_SUCCESS,
       payload: {
         sessionId: response?.data?.session_id,
+        sessionLength: response?.data?.session_length,
       },
     });
 

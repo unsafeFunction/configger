@@ -29,11 +29,9 @@ const IntakeReceiptLog = () => {
 
   const intakeLog = useSelector((state) => state.intakeReceiptLog);
 
-  const {
-    activeSessionId,
-    id: sessionId,
-    isLoading: isSessionLoading,
-  } = useSelector((state) => state.scanSessions.singleSession);
+  const { id: sessionId, isLoading: isSessionLoading } = useSelector(
+    (state) => state.scanSessions.singleSession,
+  );
 
   const scanners = useSelector((state) => state.scanners.all);
 
@@ -44,7 +42,6 @@ const IntakeReceiptLog = () => {
   }, [dispatch]);
 
   const redirectToSession = useCallback(() => {
-    console.log('here ', sessionId);
     history.push(`/session/${sessionId}/`);
   }, [sessionId]);
 

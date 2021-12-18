@@ -519,7 +519,7 @@ const Scan = () => {
         </Typography.Title>
         <Row>
           <Row style={{ marginRight: 30 }}>
-            {session.started_on_day && (
+            {/* {session.started_on_day && (
               <Countdown
                 className={styles.timer}
                 title="The session will end in: "
@@ -531,7 +531,7 @@ const Scan = () => {
                 format="mm:ss"
                 onFinish={checkSession}
               />
-            )}
+            )} */}
           </Row>
           <Dropdown
             overlay={sessionMenu}
