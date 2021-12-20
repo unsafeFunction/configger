@@ -14,6 +14,10 @@ import { getColor } from 'utils/highlighting';
 
 const { Option } = Select;
 
+const warningFlag = (
+  <ExclamationCircleFilled style={{ color: '#f39834' }} className="ml-1" />
+);
+
 const Actions = ({ record, field, value = '' }) => {
   const dispatch = useDispatch();
 
@@ -230,10 +234,7 @@ const targetColumns = constants.targets.map((target) => {
         return (
           <Tooltip placement="right" title={record[`${target}_warning_msg`]}>
             {roundValue(record[target])}
-            <ExclamationCircleFilled
-              style={{ color: '#f39834' }}
-              className="ml-1"
-            />
+            {warningFlag}
           </Tooltip>
         );
       }
@@ -302,23 +303,17 @@ const columns = [
     render: (value, record) => (
       <Typography.Text className="text-primary">
         {value}
-        {record.warning_flag && (
-          <sup>
-            <ExclamationCircleFilled
-              style={{ color: '#f39834' }}
-              className="ml-1"
-            />
-          </sup>
-        )}
+        {record.warning_flag && <sup>{warningFlag}</sup>}
       </Typography.Text>
     ),
     filters: [
       {
-        text: 'Samples with warnings',
+        text: <Typography.Text>With warnings {warningFlag}</Typography.Text>,
         value: true,
       },
     ],
-    onFilter: (value, record) => record.warning_flag,
+    filterMultiple: false,
+    onFilter: (_, record) => record.warning_flag,
   },
   ...targetColumns,
   {
