@@ -30,7 +30,7 @@ const Inventory = () => {
 
   const inventory = useSelector((state) => state.inventory);
 
-  const handleReset = useCallback(() => {
+  const handleResetForm = useCallback(() => {
     form.resetFields();
   }, [form]);
 
@@ -40,10 +40,10 @@ const Inventory = () => {
       type: actions.CREATE_INVENTORY_ITEM_REQUEST,
       payload: {
         item: fieldValues,
-        resetForm: handleReset,
+        resetForm: handleResetForm,
       },
     });
-  }, [form, dispatch]);
+  }, [form, dispatch, handleResetForm]);
 
   const columns = [
     {
@@ -109,9 +109,10 @@ const Inventory = () => {
         },
         okText: 'Create',
         message: () => <ControlTubeModal form={form} />,
+        onCancel: handleResetForm,
       },
     });
-  }, [dispatch]);
+  }, [dispatch, handleResetForm, form, createControlTube]);
 
   const loadMore = useCallback(() => {
     dispatch({
