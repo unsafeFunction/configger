@@ -3,7 +3,7 @@ import { Form, Input, Select } from 'antd';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { constants } from 'utils/constants';
-import rules from 'utils/rules';
+import rules from 'utils/formRules';
 import styles from './styles.module.scss';
 
 const ControlTubeModal = ({ form }) => {
