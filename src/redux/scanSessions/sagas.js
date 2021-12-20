@@ -434,20 +434,10 @@ export function* callFetchSessionId({ payload }) {
   try {
     const response = yield call(fetchSessionId);
 
-    yield put({
-      type: actions.FETCH_SESSION_ID_SUCCESS,
-      payload: {
-        sessionId: response?.data?.session_id,
-        sessionLength: response?.data?.session_length,
-      },
-    });
-
-    //TODO: duplicate active/scanners request.
-
     if (payload?.callback) {
       yield call(payload.callback);
     }
-    if (payload?.loadSessionCallback && response?.data?.session_id) {
+    if (payload?.loadSessionCallback) {
       yield call(payload.loadSessionCallback, response?.data?.session_id);
     }
   } catch (error) {
@@ -469,7 +459,7 @@ export function* callCreateSession({ payload }) {
         sessionId: response?.data?.id,
       },
     });
-    console.log(response);
+
     if (payload?.callback && response?.data?.id) {
       yield call(payload.callback, response?.data?.id);
     }
