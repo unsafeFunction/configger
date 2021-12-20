@@ -26,7 +26,7 @@ const ControlTubeModal = ({ form }) => {
           rules={[rules.required]}
         >
           <Select
-            placeholder="Control"
+            placeholder="Control Type"
             size="middle"
             options={constants.controlTypes}
             showArrow
