@@ -56,31 +56,19 @@ const AppLayout = (props) => {
     });
   }, [dispatch]);
 
-  const isAllowedPaths = !location.pathname.includes(
-    constants.disabledPathsSession.session,
-  );
-
-  const isIntakePage = !location.pathname.includes(
+  const isIntakePage = location.pathname.includes(
     constants.disabledPathsSession.intake,
   );
 
   useEffect(() => {
-    if (isAllowedPaths) {
-      dispatch({
-        type: sessionActions.FETCH_SESSION_ID_REQUEST,
-        payload: {
-          callback: !isIntakePage ? fetchScanners : null,
-        },
-      });
-    }
+    dispatch({
+      type: sessionActions.FETCH_SESSION_ID_REQUEST,
+      payload: {
+        callback: isIntakePage ? fetchScanners : null,
+        loadSessionCallback: loadSession,
+      },
+    });
   }, [location]);
-
-  useEffect(() => {
-    if (session?.activeSessionId && isAllowedPaths) {
-      console.log('here');
-      loadSession(session?.activeSessionId);
-    }
-  }, [session]);
 
   return (
     <Layout

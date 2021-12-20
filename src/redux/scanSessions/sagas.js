@@ -442,8 +442,13 @@ export function* callFetchSessionId({ payload }) {
       },
     });
 
-    if (payload?.callback && !response?.data?.session_id) {
+    //TODO: duplicate active/scanners request.
+
+    if (payload?.callback) {
       yield call(payload.callback);
+    }
+    if (payload?.loadSessionCallback && response?.data?.session_id) {
+      yield call(payload.loadSessionCallback, response?.data?.session_id);
     }
   } catch (error) {
     notification.error({
@@ -466,7 +471,7 @@ export function* callCreateSession({ payload }) {
     });
     console.log(response);
     if (payload?.callback && response?.data?.id) {
-      yield call(payload.callback);
+      yield call(payload.callback, response?.data?.id);
     }
 
     notification.success({

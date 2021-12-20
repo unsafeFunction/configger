@@ -34,9 +34,9 @@ const IntakeReceiptLog = () => {
 
   const scanners = useSelector((state) => state.scanners.all);
 
-  const redirectToSession = useCallback(() => {
-    history.push(`/session/${sessionId}/`);
-  }, [sessionId]);
+  const redirectToSession = useCallback((id) => {
+    history.push(`/session/${id}/`);
+  }, []);
 
   const useFetching = () => {
     useEffect(() => {
@@ -65,7 +65,7 @@ const IntakeReceiptLog = () => {
         },
       });
     },
-    [dispatch],
+    [dispatch, redirectToSession],
   );
 
   const scannerMenu = (logId) => (
