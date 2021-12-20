@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.9.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.8.0...v8.9.0) (2021-12-20)
+
+### Features
+
+- warning flags from inconclusive amps and low Cq confidence ([94b6fcb](https://github.com/mokkapps/changelog-generator-demo/commits/94b6fcb034eb3e1723b42470da3d7312f8e5cd33))
+
+### Bug Fixes
+
+- fix scan header inside active session ([c4dfc52](https://github.com/mokkapps/changelog-generator-demo/commits/c4dfc5206a512b77260142c1a4b93fc742fa3c98))
+- fix scan_timestamp format ([172d8ff](https://github.com/mokkapps/changelog-generator-demo/commits/172d8fffd506340f4b20a1b5f11a747a49813ace))
+- invalid date issue ([728b2d4](https://github.com/mokkapps/changelog-generator-demo/commits/728b2d4b31fc794c18b6a11cc2a01c5c94e69a69))
+- reflex comparison target columns, filter by warning wells ([a5f955e](https://github.com/mokkapps/changelog-generator-demo/commits/a5f955eb9ac4afc00f14aeebeda7bff84bedf7d9))
+- rename the form rules utility ([de3ba6f](https://github.com/mokkapps/changelog-generator-demo/commits/de3ba6fc7cde0653863d4406bbcefca4228a4e48))
+- reset inventory form on cancel ([8d83d7e](https://github.com/mokkapps/changelog-generator-demo/commits/8d83d7ea6366b35426aacc48c15897e53bd8cd8b))
+- update control tube form titles ([720fe09](https://github.com/mokkapps/changelog-generator-demo/commits/720fe09d140aa36d5a9173baea057f1ea9b2dda7))
+
 ## [8.8.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.7.1...v8.8.0) (2021-12-14)
 
 ### Bug Fixes
