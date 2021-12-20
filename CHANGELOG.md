@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.10.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.9.0...v8.10.0) (2021-12-20)
+
+### Features
+
+- active session template ([4940c02](https://github.com/mokkapps/changelog-generator-demo/commits/4940c02657cad5c8af5dbc527f55dbfbd34abc2c))
+- add session length time ([9e207ca](https://github.com/mokkapps/changelog-generator-demo/commits/9e207cad2ede10a7ac4d29ff15c8021dd164f7f6))
+
+### Bug Fixes
+
+- control type placeholder ([bae8a99](https://github.com/mokkapps/changelog-generator-demo/commits/bae8a991f837e614ea17b88aea2c2050453f3e52))
+- duplicate session request ([03d4d97](https://github.com/mokkapps/changelog-generator-demo/commits/03d4d97afce9ca7ca074a3451fb0df98ca8900eb))
+- extra requests ([8b1e1f8](https://github.com/mokkapps/changelog-generator-demo/commits/8b1e1f87ee9e8caabb2fcbbb82162de9c1be623b))
+- move warning flag to const ([c95e67c](https://github.com/mokkapps/changelog-generator-demo/commits/c95e67c414027fe89ed42c9fd8bfdadb139c2bf4))
+- remove duplicate requests when close session ([2a47ea6](https://github.com/mokkapps/changelog-generator-demo/commits/2a47ea6dc0bebf3ad2f248f4b53b4c3ad353da15))
+
 ## [8.9.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.8.0...v8.9.0) (2021-12-20)
 
 ### Features
