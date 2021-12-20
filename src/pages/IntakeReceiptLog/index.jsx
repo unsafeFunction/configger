@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import actions from 'redux/intakeReceiptLog/actions';
 import modalActions from 'redux/modal/actions';
-import scannersActions from 'redux/scanners/actions';
 import sessionActions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import { getColorIntakeLog } from 'utils/highlighting';
@@ -35,12 +34,6 @@ const IntakeReceiptLog = () => {
 
   const scanners = useSelector((state) => state.scanners.all);
 
-  const fetchScanners = useCallback(() => {
-    dispatch({
-      type: scannersActions.FETCH_SCANNERS_REQUEST,
-    });
-  }, [dispatch]);
-
   const redirectToSession = useCallback(() => {
     history.push(`/session/${sessionId}/`);
   }, [sessionId]);
@@ -57,15 +50,6 @@ const IntakeReceiptLog = () => {
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sortBy, filters]);
-
-    useEffect(() => {
-      dispatch({
-        type: sessionActions.FETCH_SESSION_ID_REQUEST,
-        payload: {
-          callback: fetchScanners,
-        },
-      });
-    }, []);
   };
 
   useFetching();

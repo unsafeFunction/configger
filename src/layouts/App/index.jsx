@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/user/actions';
 import sessionActions from 'redux/scanSessions/actions';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 import scannersActions from '../../redux/scanners/actions';
 
@@ -37,12 +38,6 @@ const AppLayout = (props) => {
     dispatch({ type: actions.PROFILE_REQUEST });
   }, [dispatch]);
 
-  // const fetchScanners = useCallback(() => {
-  //   dispatch({
-  //     type: scannersActions.FETCH_SCANNERS_REQUEST,
-  //   });
-  // }, [dispatch]);
-
   const loadSession = useCallback(
     (sessionId) => {
       dispatch({
@@ -55,17 +50,34 @@ const AppLayout = (props) => {
     [dispatch],
   );
 
-  useEffect(() => {
+  const fetchScanners = useCallback(() => {
     dispatch({
-      type: sessionActions.FETCH_SESSION_ID_REQUEST,
-      // payload: {
-      //   callback: fetchScanners,
-      // },
+      type: scannersActions.FETCH_SCANNERS_REQUEST,
     });
+  }, [dispatch]);
+
+  const isAllowedPaths = !location.pathname.includes(
+    constants.disabledPathsSession.session,
+  );
+
+  const isIntakePage = !location.pathname.includes(
+    constants.disabledPathsSession.intake,
+  );
+
+  useEffect(() => {
+    if (isAllowedPaths) {
+      dispatch({
+        type: sessionActions.FETCH_SESSION_ID_REQUEST,
+        payload: {
+          callback: !isIntakePage ? fetchScanners : null,
+        },
+      });
+    }
   }, [location]);
 
   useEffect(() => {
-    if (session?.activeSessionId) {
+    if (session?.activeSessionId && isAllowedPaths) {
+      console.log('here');
       loadSession(session?.activeSessionId);
     }
   }, [session]);
