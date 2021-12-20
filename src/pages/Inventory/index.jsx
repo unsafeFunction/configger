@@ -14,6 +14,8 @@ import { constants } from 'utils/constants';
 import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
 
+moment.tz.setDefault('America/New_York');
+
 const Inventory = () => {
   const { isMobile, isTablet } = useWindowSize();
 
@@ -28,7 +30,7 @@ const Inventory = () => {
 
   const inventory = useSelector((state) => state.inventory);
 
-  const handleReset = useCallback(() => {
+  const handleResetForm = useCallback(() => {
     form.resetFields();
   }, [form]);
 
@@ -38,17 +40,17 @@ const Inventory = () => {
       type: actions.CREATE_INVENTORY_ITEM_REQUEST,
       payload: {
         item: fieldValues,
-        resetForm: handleReset,
+        resetForm: handleResetForm,
       },
     });
-  }, [form, dispatch]);
+  }, [form, dispatch, handleResetForm]);
 
   const columns = [
     {
       title: 'Tube ID',
       dataIndex: 'tube_id',
       render: (value) => {
-        return value || '-';
+        return value ?? '-';
       },
     },
     {
@@ -56,7 +58,7 @@ const Inventory = () => {
       dataIndex: 'control',
       render: (value) => {
         return (
-          constants.controlTypes.find((type) => type.value === value)?.label ||
+          constants.controlTypes.find((type) => type.value === value)?.label ??
           '-'
         );
       },
@@ -64,15 +66,14 @@ const Inventory = () => {
     {
       title: 'Created On',
       dataIndex: 'created',
-      render: (_, value) => {
-        return moment(value?.created).format('lll') || '-';
-      },
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'User',
       dataIndex: 'user',
       render: (value) => {
-        return value || '-';
+        return value ?? '-';
       },
     },
   ];
@@ -108,9 +109,10 @@ const Inventory = () => {
         },
         okText: 'Create',
         message: () => <ControlTubeModal form={form} />,
+        onCancel: handleResetForm,
       },
     });
-  }, [dispatch]);
+  }, [dispatch, handleResetForm, form, createControlTube]);
 
   const loadMore = useCallback(() => {
     dispatch({
@@ -163,10 +165,11 @@ const Inventory = () => {
       <Table
         dataSource={inventory?.items}
         columns={columns}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 800 }}
         loading={inventory?.isLoading}
         align="center"
         pagination={false}
+        rowKey={(record) => record.created}
         title={() => {
           return isTablet ? (
             <div className={styles.mobileTableHeaderWrapper}>

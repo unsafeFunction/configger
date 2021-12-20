@@ -1,7 +1,7 @@
 const rules = {
   required: {
     required: true,
-    message: 'Required',
+    message: 'This field is required',
   },
 };
 

@@ -20,7 +20,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/companies/actions';
 import { constants } from 'utils/constants';
-import rules from 'utils/rules';
+import rules from 'utils/formRules';
 import styles from './styles.module.scss';
 
 moment.tz.setDefault('America/New_York');

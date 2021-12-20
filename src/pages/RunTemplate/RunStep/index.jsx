@@ -24,7 +24,7 @@ import {
   sortableHandle,
 } from 'react-sortable-hoc';
 import modalActions from 'redux/modal/actions';
-import rules from 'utils/rules';
+import rules from 'utils/formRules';
 import layoutHook from '../layoutHook';
 import { qsMachines, runTypes, startColumns, values } from '../params';
 import PoolRackDetail from '../PoolRackDetail';

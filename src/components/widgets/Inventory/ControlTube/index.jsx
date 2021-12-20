@@ -1,7 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies */
+import { Form, Input, Select } from 'antd';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import PropTypes from 'prop-types';
 import React from 'react';
-import { Input, Select, Form } from 'antd';
 import { constants } from 'utils/constants';
+import rules from 'utils/formRules';
 import styles from './styles.module.scss';
 
 const ControlTubeModal = ({ form }) => {
@@ -10,28 +12,18 @@ const ControlTubeModal = ({ form }) => {
     <Form form={form} layout="vertical" className={styles.companyModalWrapper}>
       <div>
         <Item
-          label="Name"
+          label="Tube ID"
           name="tube_id"
           className={styles.formItem}
-          rules={[
-            {
-              required: true,
-              message: 'This field is required.',
-            },
-          ]}
+          rules={[rules.required]}
         >
           <Input placeholder="Tube ID" />
         </Item>
         <Item
           name="control"
           className={styles.formItem}
-          label="Control"
-          rules={[
-            {
-              required: true,
-              message: 'This field is required.',
-            },
-          ]}
+          label="Control Type"
+          rules={[rules.required]}
         >
           <Select
             placeholder="Control"
@@ -46,6 +38,10 @@ const ControlTubeModal = ({ form }) => {
       </div>
     </Form>
   );
+};
+
+ControlTubeModal.propTypes = {
+  form: PropTypes.shape({}).isRequired,
 };
 
 export default ControlTubeModal;
