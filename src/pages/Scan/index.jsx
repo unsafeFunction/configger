@@ -291,30 +291,8 @@ const Scan = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, scansInWork[0]?.id]);
 
-  const checkSession = useCallback(() => {
-    return dispatch({
-      type: actions.FETCH_SESSION_ID_REQUEST,
-    });
-  }, []);
-
-  const useFetching = () => {
-    useEffect(() => {
-      if (!session?.activeSessionId) {
-        checkSession();
-      }
-    }, []);
-  };
-
-  useFetching();
-
   useEffect(() => {
-    if (session?.activeSessionId && sessionId) {
-      if (session?.activeSessionId === sessionId) {
-        loadSession();
-      } else if (session?.activeSessionId) {
-        history.push(`/session/${session?.activeSessionId}`);
-      }
-    } else if (session?.activeSessionId === undefined) {
+    if (session?.activeSessionId === undefined) {
       history.push('/intake-receipt-log');
     }
   }, [session.activeSessionId, sessionId]);
@@ -519,7 +497,7 @@ const Scan = () => {
         </Typography.Title>
         <Row>
           <Row style={{ marginRight: 30 }}>
-            {session.started_on_day && (
+            {/* {session.started_on_day && (
               <Countdown
                 className={styles.timer}
                 title="The session will end in: "
@@ -531,7 +509,7 @@ const Scan = () => {
                 format="mm:ss"
                 onFinish={checkSession}
               />
-            )}
+            )} */}
           </Row>
           <Dropdown
             overlay={sessionMenu}

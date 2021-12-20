@@ -490,4 +490,8 @@ export const constants = {
   ampStatuses: {
     inconclusive: 'inconclusive',
   },
+  disabledPathsSession: {
+    intake: 'intake-receipt-log',
+    session: '/session/',
+  },
 };

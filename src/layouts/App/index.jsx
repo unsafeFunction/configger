@@ -5,15 +5,19 @@ import SubBar from 'components/layout/SubBar';
 import TopBar from 'components/layout/TopBar';
 import Drawer from 'components/widgets/Drawers';
 import Modal from 'components/widgets/Modals';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/user/actions';
+import sessionActions from 'redux/scanSessions/actions';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
+import scannersActions from '../../redux/scanners/actions';
 
 const AppLayout = (props) => {
   const dispatch = useDispatch();
   const settings = useSelector((state) => state.settings);
+  const session = useSelector((state) => state.scanSessions.singleSession);
   const { role, profile } = useSelector((state) => state.user);
   const {
     menuLayoutType,
@@ -33,6 +37,38 @@ const AppLayout = (props) => {
   useEffect(() => {
     dispatch({ type: actions.PROFILE_REQUEST });
   }, [dispatch]);
+
+  const loadSession = useCallback(
+    (sessionId) => {
+      dispatch({
+        type: sessionActions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
+        payload: {
+          sessionId,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const fetchScanners = useCallback(() => {
+    dispatch({
+      type: scannersActions.FETCH_SCANNERS_REQUEST,
+    });
+  }, [dispatch]);
+
+  const isIntakePage = location.pathname.includes(
+    constants.disabledPathsSession.intake,
+  );
+
+  useEffect(() => {
+    dispatch({
+      type: sessionActions.FETCH_SESSION_ID_REQUEST,
+      payload: {
+        callback: isIntakePage ? fetchScanners : null,
+        loadSessionCallback: loadSession,
+      },
+    });
+  }, [location]);
 
   return (
     <Layout

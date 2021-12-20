@@ -434,15 +434,11 @@ export function* callFetchSessionId({ payload }) {
   try {
     const response = yield call(fetchSessionId);
 
-    yield put({
-      type: actions.FETCH_SESSION_ID_SUCCESS,
-      payload: {
-        sessionId: response?.data?.session_id,
-      },
-    });
-
-    if (payload?.callback && !response?.data?.session_id) {
+    if (payload?.callback) {
       yield call(payload.callback);
+    }
+    if (payload?.loadSessionCallback) {
+      yield call(payload.loadSessionCallback, response?.data?.session_id);
     }
   } catch (error) {
     notification.error({
@@ -463,6 +459,10 @@ export function* callCreateSession({ payload }) {
         sessionId: response?.data?.id,
       },
     });
+
+    if (payload?.callback && response?.data?.id) {
+      yield call(payload.callback, response?.data?.id);
+    }
 
     notification.success({
       message: 'Session was created.',
