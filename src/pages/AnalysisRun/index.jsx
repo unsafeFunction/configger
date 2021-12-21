@@ -14,7 +14,6 @@ import ResultTag from 'components/widgets/ResultTag';
 import RunTimeline from 'components/widgets/Timeline';
 import WellPlate from 'components/widgets/WellPlate';
 import debounce from 'lodash.debounce';
-import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
@@ -25,8 +24,6 @@ import timelineActions from 'redux/timeline/actions';
 import { constants } from 'utils/constants';
 import columns from './components';
 import styles from './styles.module.scss';
-
-moment.tz.setDefault('America/New_York');
 
 const AnalysisRun = () => {
   const dispatch = useDispatch();

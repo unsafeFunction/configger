@@ -1,16 +1,14 @@
-import React, { useCallback, useEffect } from 'react';
+import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import { Button, Col, Dropdown, Menu, Popconfirm, Row, Statistic } from 'antd';
+import classNames from 'classnames';
 import Rackboard from 'components/widgets/Rackboard';
 import PoolStatistic from 'components/widgets/Scans/PoolStatistic';
 import moment from 'moment-timezone';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/scanSessions/actions';
-import classNames from 'classnames';
-import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
-
-moment.tz.setDefault('America/New_York');
 
 const PoolScan = () => {
   const dispatch = useDispatch();

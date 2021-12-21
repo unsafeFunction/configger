@@ -23,8 +23,6 @@ import { constants } from 'utils/constants';
 import rules from 'utils/formRules';
 import styles from './styles.module.scss';
 
-moment.tz.setDefault('America/New_York');
-
 const IntakeReceiptLogModal = ({ form, edit }) => {
   const [isCommentsSelected, setCommentsSelected] = useState(false);
   const dispatch = useDispatch();

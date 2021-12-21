@@ -9,8 +9,6 @@ import actions from 'redux/runTemplate/actions';
 import PoolRackDetail from '../PoolRackDetail';
 import ReviewTable from './components';
 
-moment.tz.setDefault('America/New_York');
-
 const ReviewStep = ({ runState, componentDispatch, form }) => {
   const { kfpParam, replicationParam, poolRacks } = runState;
 

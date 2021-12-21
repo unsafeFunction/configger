@@ -12,8 +12,6 @@ import actions from 'redux/intake/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
-moment.tz.setDefault('America/New_York');
-
 const { RangePicker } = DatePicker;
 
 const Runs = () => {

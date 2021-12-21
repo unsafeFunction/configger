@@ -1,4 +1,4 @@
-import { Popconfirm, Select, Switch, Popover, Table, Tag, Tooltip } from 'antd';
+import { Popconfirm, Popover, Select, Switch, Table, Tag, Tooltip } from 'antd';
 import TableFooter from 'components/layout/TableFooterLoader';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -11,8 +11,6 @@ import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
 import { getColor, getIcon, getStatusText } from 'utils/highlighting';
 import styles from './styles.module.scss';
-
-moment.tz.setDefault('America/New_York');
 
 const { Option } = Select;
 

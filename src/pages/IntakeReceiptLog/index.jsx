@@ -16,8 +16,6 @@ import { constants } from 'utils/constants';
 import { getColorIntakeLog } from 'utils/highlighting';
 import styles from './styles.module.scss';
 
-moment.tz.setDefault('America/New_York');
-
 const IntakeReceiptLog = () => {
   const dispatch = useDispatch();
   const history = useHistory();

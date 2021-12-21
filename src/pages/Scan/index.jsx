@@ -37,8 +37,6 @@ import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
-moment.tz.setDefault('America/New_York');
-
 const { Paragraph } = Typography;
 const { Countdown } = Statistic;
 

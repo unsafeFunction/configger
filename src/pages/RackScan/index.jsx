@@ -1,27 +1,25 @@
-import React, { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import actions from 'redux/racks/actions';
-import modalActions from 'redux/modal/actions';
+import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import {
-  Row,
-  Col,
   Button,
-  Typography,
-  Input,
-  Form,
+  Col,
   Dropdown,
+  Form,
+  Input,
   Menu,
   Popconfirm,
+  Row,
+  Typography,
 } from 'antd';
+import classNames from 'classnames';
 import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
-import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
 import moment from 'moment-timezone';
-import { CloseOutlined, DownOutlined } from '@ant-design/icons';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import modalActions from 'redux/modal/actions';
+import actions from 'redux/racks/actions';
 import styles from './styles.module.scss';
-
-moment.tz.setDefault('America/New_York');
 
 const RackScan = () => {
   const dispatch = useDispatch();
