@@ -182,8 +182,8 @@ const AnalysisRun = () => {
   }, [id, dispatch, handleWellplateClose]);
 
   const onTimelineOpenClose = () => {
-    onLoadTimeline();
     setOpen(!isTimelineOpen);
+    if (!isTimelineOpen) onLoadTimeline();
   };
 
   const exportRun = useCallback(
