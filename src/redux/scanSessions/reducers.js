@@ -99,6 +99,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         ...initialSingleSession,
+        sessionLength: action.payload.sessionLength,
         isLoading: true,
       };
     }
@@ -151,6 +152,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
+        sessionLength: action.payload.session_length,
         activeSessionId: action.payload.sessionId,
       };
     }

@@ -20,9 +20,14 @@ const TopBar = React.memo(() => {
   const isActiveSession = session?.id;
 
   const onFinish = () => {
-    // dispatch({
-    //   type: sessionActions.FETCH_SESSION_ID_REQUEST,
-    // });
+    dispatch({
+      type: sessionActions.FETCH_SESSION_ID_REQUEST,
+      payload: {
+        redirectCallback: () => {
+          history.push('/intake-receipt-log');
+        },
+      },
+    });
   };
 
   return (

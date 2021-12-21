@@ -90,6 +90,7 @@ export function* callFetchScanSessionById({ payload }) {
         data: {
           ...response?.data,
           scans: sortedScans,
+          sessionLength: payload.sessionLength,
         },
       },
     });
@@ -433,12 +434,20 @@ export function* callDeleteTube({ payload }) {
 export function* callFetchSessionId({ payload }) {
   try {
     const response = yield call(fetchSessionId);
-
     if (payload?.callback) {
       yield call(payload.callback);
     }
+
+    if (payload?.redirectCallback) {
+      return payload?.redirectCallback();
+    }
+
     if (payload?.loadSessionCallback) {
-      yield call(payload.loadSessionCallback, response?.data?.session_id);
+      yield call(
+        payload.loadSessionCallback,
+        response?.data?.session_id,
+        response?.data?.session_length,
+      );
     }
   } catch (error) {
     notification.error({
