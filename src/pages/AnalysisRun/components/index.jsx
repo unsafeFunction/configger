@@ -108,6 +108,7 @@ const Actions = ({ record, field, value = '' }) => {
           options={options}
           disabled={
             record[`${field}IsUpdating`] ||
+            runStatus === constants.runStatuses.qpcr ||
             runStatus === constants.runStatuses.published
           }
           onChange={onModalToggle(
@@ -196,6 +197,7 @@ const ResultSelect = ({ record, field }) => {
       loading={record[`${field}IsUpdating`]}
       disabled={
         record[`${field}IsUpdating`] ||
+        runStatus === runStatuses.qpcr ||
         runStatus === runStatuses.published ||
         isReservedSample(record.display_sample_id)
       }
