@@ -9,8 +9,6 @@ import actions from 'redux/search/actions';
 import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
 
-moment.tz.setDefault('America/New_York');
-
 const { Step } = Steps;
 
 const Search = () => {

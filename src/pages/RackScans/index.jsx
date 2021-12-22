@@ -1,3 +1,4 @@
+import { DownOutlined } from '@ant-design/icons';
 import {
   Button,
   Col,
@@ -10,19 +11,16 @@ import {
   Tag,
 } from 'antd';
 import classNames from 'classnames';
+import TableFooter from 'components/layout/TableFooterLoader';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
 import actions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
-import { DownOutlined } from '@ant-design/icons';
-import TableFooter from 'components/layout/TableFooterLoader';
-import styles from './styles.module.scss';
 import useCustomFilters from '../../utils/useCustomFilters';
-
-moment.tz.setDefault('America/New_York');
+import styles from './styles.module.scss';
 
 const { RangePicker } = DatePicker;
 

@@ -10,8 +10,6 @@ import poolRackActions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
-moment.tz.setDefault('America/New_York');
-
 const { RangePicker } = DatePicker;
 
 const PoolRackTable = ({ setSelectedRows, runState, limit }) => {

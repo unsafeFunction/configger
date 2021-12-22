@@ -31,8 +31,6 @@ import PoolRackDetail from '../PoolRackDetail';
 import PoolRackTable from '../PoolRackTable';
 import styles from './styles.module.scss';
 
-moment.tz.setDefault('America/New_York');
-
 const SortableItem = sortableElement((props) => <tr {...props} />);
 const SortableContainer = sortableContainer((props) => <tbody {...props} />);
 

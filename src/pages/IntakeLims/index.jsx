@@ -3,14 +3,11 @@
 import { Table } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
-import moment from 'moment-timezone';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/intakeLims/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
-
-moment.tz.setDefault('America/New_York');
 
 const IntakeList = () => {
   const dispatch = useDispatch();

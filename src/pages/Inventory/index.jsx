@@ -14,8 +14,6 @@ import { constants } from 'utils/constants';
 import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
 
-moment.tz.setDefault('America/New_York');
-
 const Inventory = () => {
   const { isMobile, isTablet } = useWindowSize();
 

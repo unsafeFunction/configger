@@ -1,6 +1,5 @@
 import { notification } from 'antd';
 import sortBy from 'lodash.sortby';
-import moment from 'moment-timezone';
 import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
@@ -29,8 +28,6 @@ import {
   getIncorrectPositions,
   getSelectedCode,
 } from './selectors';
-
-moment.tz.setDefault('America/New_York');
 
 const formatResponseScanTubes = (response) => {
   const colsNumber = 8;

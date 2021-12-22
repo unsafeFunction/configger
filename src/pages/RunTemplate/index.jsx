@@ -1,14 +1,11 @@
 import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import { Button, Divider, Dropdown, Form, Menu, Steps } from 'antd';
 import classNames from 'classnames';
-import moment from 'moment-timezone';
 import React, { useReducer } from 'react';
 import { values } from './params';
 import ReviewStep from './ReviewStep';
 import RunStep from './RunStep';
 import styles from './styles.module.scss';
-
-moment.tz.setDefault('America/New_York');
 
 const { Step } = Steps;
 

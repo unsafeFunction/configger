@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import { DatePicker, Empty, Table } from 'antd';
 import classNames from 'classnames';
+import TableFooter from 'components/layout/TableFooterLoader';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import React, { useCallback, useEffect } from 'react';
@@ -8,11 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/reflex/actions';
 import { constants } from 'utils/constants';
-import TableFooter from 'components/layout/TableFooterLoader';
 import columns from './components';
 import styles from './styles.module.scss';
-
-moment.tz.setDefault('America/New_York');
 
 const ReflexList = () => {
   const dispatch = useDispatch();

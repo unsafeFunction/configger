@@ -1,20 +1,23 @@
+import * as Sentry from '@sentry/react';
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
+import moment from 'moment-timezone';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createBrowserHistory } from 'history';
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { logger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware } from 'connected-react-router';
-import * as Sentry from '@sentry/react';
-
+// app styles
+import './global.scss';
 import reducers from './redux/reducers';
 import sagas from './redux/sagas';
 import Router from './router';
 import * as serviceWorker from './serviceWorker';
-// app styles
-import './global.scss';
+
+moment.tz.setDefault('America/New_York');
 
 // middlewared
 const history = createBrowserHistory();
