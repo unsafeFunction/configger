@@ -278,7 +278,9 @@ const AnalysisRun = () => {
         scroll={{ x: 2000, y: 684 }}
         loading={run.isLoading}
         pagination={false}
-        rowKey={(record) => record.wells}
+        rowKey={(record) => {
+          return record.sample_id ?? record.wells;
+        }}
         title={() => (
           <div className={styles.tableHeader}>
             <Input
