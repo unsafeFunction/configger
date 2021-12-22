@@ -5,6 +5,7 @@ import { Form, Input, Button } from 'antd';
 import actions from 'redux/user/actions';
 import moment from 'moment';
 import qs from 'qs';
+import labConfig from 'utils/labConfig';
 import style from '../style.module.scss';
 
 const RestorePassword = () => {
@@ -100,7 +101,9 @@ const RestorePassword = () => {
           Back to login
         </Button>
         <div className={style.copyright}>
-          Copyright © {moment().year()} Mirimus Inc.
+          {`Copyright © ${moment().year()} ${
+            labConfig[process.env.REACT_APP_LAB_ID].name
+          } Inc.`}
         </div>
       </div>
     </div>
