@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.11.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.10.0...v8.11.0) (2021-12-22)
+
+### Bug Fixes
+
+- fix analysis run keys ([860ddb1](https://github.com/mokkapps/changelog-generator-demo/commits/860ddb167c4d6bfa3cb7452d1cb81e6e994d9e48))
+- remove extra request on timeline ([8b20550](https://github.com/mokkapps/changelog-generator-demo/commits/8b205503a4eddfc717ff0688fe5b5ee923810705))
+- scaner timeout ([24e0982](https://github.com/mokkapps/changelog-generator-demo/commits/24e0982a7b9950ed9f6b995db411e38de3609565))
+- trailing slash ([f7479a7](https://github.com/mokkapps/changelog-generator-demo/commits/f7479a77d2f8b23fc62b571eeffe822b0bb90832))
+
 ## [8.10.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.9.0...v8.10.0) (2021-12-20)
 
 ### Features
