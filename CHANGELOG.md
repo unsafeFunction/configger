@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.11.0...v9.0.0) (2021-12-22)
+
+### Features
+
+- add favicon depend on env ([07a7348](https://github.com/mokkapps/changelog-generator-demo/commits/07a734837497300d94145a6873a0620a40513802))
+- update contact for accelevir ([f6972c9](https://github.com/mokkapps/changelog-generator-demo/commits/f6972c966c0a1c6d20ef5777fca5af074da11819))
+
+### Bug Fixes
+
+- add lab configuration ([db81ed9](https://github.com/mokkapps/changelog-generator-demo/commits/db81ed905b591cd92876b29d6e2f8cdfef5b0ead))
+- default timezone ([27d2638](https://github.com/mokkapps/changelog-generator-demo/commits/27d2638c3367d620e27e0b3e0436033625d1361a))
+
 ## [8.11.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.10.0...v8.11.0) (2021-12-22)
 
 ### Bug Fixes
