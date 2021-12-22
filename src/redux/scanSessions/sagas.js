@@ -439,12 +439,20 @@ export function* callFetchSessionId({ payload }) {
       return payload?.redirectCallback();
     }
 
-    if (payload?.loadSessionCallback) {
+    if (payload?.loadSessionCallback && response?.data?.session_id) {
       yield call(
         payload.loadSessionCallback,
         response?.data?.session_id,
         response?.data?.session_length,
       );
+    } else {
+      yield put({
+        type: actions.FETCH_SESSION_ID_SUCCESS,
+        payload: {
+          sessionId: response?.data?.session_id,
+          sessionLength: response?.data?.session_length,
+        },
+      });
     }
   } catch (error) {
     notification.error({

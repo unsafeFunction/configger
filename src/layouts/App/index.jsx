@@ -17,7 +17,9 @@ import scannersActions from '../../redux/scanners/actions';
 const AppLayout = (props) => {
   const dispatch = useDispatch();
   const settings = useSelector((state) => state.settings);
-  const session = useSelector((state) => state.scanSessions.singleSession);
+  const { activeSessionId } = useSelector(
+    (state) => state.scanSessions.singleSession,
+  );
   const { role, profile } = useSelector((state) => state.user);
   const {
     menuLayoutType,
@@ -69,7 +71,7 @@ const AppLayout = (props) => {
         loadSessionCallback: loadSession,
       },
     });
-  }, [location]);
+  }, [location.pathname]);
 
   return (
     <Layout
