@@ -15,7 +15,7 @@ export const fetchReflexList = async (query) => {
 
 export const updateSample = async ({ id, isCompleted }) => {
   try {
-    const sample = await axiosClient.put(`/runs/results/rerun/${id}`, {
+    const sample = await axiosClient.put(`/runs/results/rerun/${id}/`, {
       isCompleted,
     });
     return sample;

@@ -3,9 +3,9 @@ import { Popconfirm, Switch } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import actions from 'redux/reflex/actions';
 
 const ReflexStatus = ({ value, record }) => {
@@ -31,7 +31,6 @@ const ReflexStatus = ({ value, record }) => {
       }?`}
       onConfirm={() => handleUpdate(record.id, !value)}
       placement="topRight"
-      // TODO: uncomment when API endpoint will be ready
       disabled={value}
     >
       <Switch
