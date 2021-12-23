@@ -318,7 +318,7 @@ const IntakeReceiptLog = () => {
                     type="primary"
                     loading={isSessionLoading || scanners.isLoading}
                   >
-                    Start session
+                    Start Session
                     <DownOutlined />
                   </Button>
                 </Dropdown>
@@ -374,7 +374,7 @@ const IntakeReceiptLog = () => {
                 onClick={() => handleModalToggle(null)}
                 className="ml-auto"
               >
-                Add New Log
+                Add New Log Item
               </Button>
             </div>
           );
