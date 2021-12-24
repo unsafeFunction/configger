@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.0.0...v9.1.0) (2021-12-24)
+
+### Bug Fixes
+
+- disable reflex actions and updating results for qpcr ([9e59b56](https://github.com/mokkapps/changelog-generator-demo/commits/9e59b5664040fd18250f8eeb0a625cd5bb39e865))
+- fix filter function in reflex comparison ([1246815](https://github.com/mokkapps/changelog-generator-demo/commits/1246815341c10b4ef11a5daa2ae08e1046659444))
+- remove poolrack scan status from ui ([4807fe2](https://github.com/mokkapps/changelog-generator-demo/commits/4807fe252d922fcc317615c6a9f1e816c3f6acf6))
+- remove useCallback ([2b7785c](https://github.com/mokkapps/changelog-generator-demo/commits/2b7785c285cf230917c3162f81d40d8f172c2c77))
+- rename log item inside the modal ([b88d48a](https://github.com/mokkapps/changelog-generator-demo/commits/b88d48a6b6b48e6db353884180c7887fc9073c37))
+- type session button ([9df9340](https://github.com/mokkapps/changelog-generator-demo/commits/9df9340ea676b429d6ea31e64cf484ef2efd29c6))
+
 ## [9.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v8.11.0...v9.0.0) (2021-12-22)
 
 ### Features
