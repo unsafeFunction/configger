@@ -17,7 +17,8 @@ const SubBar = ({ location }) => {
         pathArray[0] === 'session' ||
         pathArray[0] === 'pool-scans' ||
         pathArray[0] === 'rack-scans' ||
-        pathArray[0] === 'analysis-runs' ? (
+        pathArray[0] === 'analysis-runs' ||
+        pathArray[0] === 'reflex-list' ? (
           <li className={styles.breadcrumb}>
             <Link to={`/${pathArray[0]}`} className={styles.breadcrumbLink}>
               {pathArray[0].replace('-', ' ')}
