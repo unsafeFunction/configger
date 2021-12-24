@@ -163,14 +163,14 @@ const IntakeReceiptLog = () => {
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
-          title: `${record ? 'Edit' : 'New'} Log`,
+          title: `${record ? 'Edit' : 'Add New'} Log Item`,
           onOk: () => handleChangeIntake(record),
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
           },
           width: '100%',
-          okText: `${record ? 'Edit' : 'New'} Log`,
+          okText: `${record ? 'Edit' : 'Add New'} Log Item`,
           message: () => <IntakeReceiptLogModal form={form} edit={!!record} />,
           maskClosable: false,
           onCancel: handleReset,
