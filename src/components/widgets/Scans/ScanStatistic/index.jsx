@@ -20,7 +20,7 @@ const ScanStatistic = ({ scan, isRack = false }) => {
             <Statistic
               title={isRack ? 'PoolRack ID' : 'Rack ID'}
               groupSeparator=""
-              value={scan?.rack_id ?? '–'}
+              value={scan?.rack_id ?? '-'}
               formatter={(value) => <Tag color="blue">{value}</Tag>}
               className={classNames(styles.statistic, styles.ellipsis)}
             />
@@ -28,43 +28,43 @@ const ScanStatistic = ({ scan, isRack = false }) => {
         </Card>
       </Col>
       {!isRack && (
-        <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
-          <Card className={styles.card}>
-            <Statistic
-              title="Pool ID"
-              groupSeparator=""
-              value={scan?.pool_id ?? '–'}
-              formatter={(value) => <Tag color="geekblue">{value}</Tag>}
-              className={classNames(styles.statistic, styles.ellipsis)}
-            />
-          </Card>
-        </Col>
-      )}
-      <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
-        <Card className={styles.card}>
-          <Statistic
-            title="Status"
-            value={scan?.status?.toLowerCase() ?? '-'}
-            formatter={(value) => (
-              <Tag icon={<ArrowUpOutlined />} color="purple">
-                {value}
-              </Tag>
-            )}
-            className={classNames(styles.statistic, styles.ellipsis)}
-          />
-        </Card>
-      </Col>
-      {!isRack && (
-        <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
-          <Card className={styles.card}>
-            <Statistic
-              title="Total Tubes"
-              value={tubesTotal?.length}
-              formatter={(value) => <Tag color="cyan">{value || '-'}</Tag>}
-              className={classNames(styles.statistic, styles.ellipsis)}
-            />
-          </Card>
-        </Col>
+        <>
+          <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
+            <Card className={styles.card}>
+              <Statistic
+                title="Pool ID"
+                groupSeparator=""
+                value={scan?.pool_id ?? '-'}
+                formatter={(value) => <Tag color="geekblue">{value}</Tag>}
+                className={classNames(styles.statistic, styles.ellipsis)}
+              />
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
+            <Card className={styles.card}>
+              <Statistic
+                title="Status"
+                value={scan?.status?.toLowerCase() ?? '-'}
+                formatter={(value) => (
+                  <Tag icon={<ArrowUpOutlined />} color="purple">
+                    {value}
+                  </Tag>
+                )}
+                className={classNames(styles.statistic, styles.ellipsis)}
+              />
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={12} lg={12} xl={12} xxl={5}>
+            <Card className={styles.card}>
+              <Statistic
+                title="Total Tubes"
+                value={tubesTotal?.length}
+                formatter={(value) => <Tag color="cyan">{value || '-'}</Tag>}
+                className={classNames(styles.statistic, styles.ellipsis)}
+              />
+            </Card>
+          </Col>
+        </>
       )}
     </Row>
   );

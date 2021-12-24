@@ -27,7 +27,7 @@ const ReflexComparison = () => {
   const { poolResults, tubeTypes } = constants;
 
   const numberOfSamples = (result) => {
-    const samples = reflexList.filter((sample) =>
+    const samples = reflexList?.filter?.((sample) =>
       result
         ? sample.result === poolResults[result] &&
           sample.tube_type === tubeTypes.individual
