@@ -8,7 +8,6 @@ import {
   Popconfirm,
   Row,
   Table,
-  Tag,
 } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
@@ -140,20 +139,9 @@ const RackScans = () => {
     {
       title: 'Pools Count',
       dataIndex: 'scan_pools_count',
+      width: 100,
       render: (value) => {
         return value ?? '-';
-      },
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      width: 90,
-      render: (text) => {
-        return (
-          <Tag color="blue" className={styles.sessionStatus}>
-            {text.toLowerCase()}
-          </Tag>
-        );
       },
     },
     {
@@ -231,6 +219,7 @@ const RackScans = () => {
         loading={racks?.isLoading}
         align="center"
         pagination={false}
+        scroll={{ x: 800 }}
         rowKey={(record) => record.id}
         title={() => (
           <Row gutter={16}>
@@ -261,10 +250,7 @@ const RackScans = () => {
                   ],
                 }}
                 onChange={onDatesChange}
-                className={classNames(
-                  styles.tableHeaderItem,
-                  styles.rangePicker,
-                )}
+                className={styles.rangePicker}
               />
             </Col>
           </Row>

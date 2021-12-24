@@ -452,10 +452,7 @@ const ScanSessions = () => {
                 }}
                 value={rangePickerValue}
                 onChange={onDatesChange}
-                className={classNames(
-                  styles.tableHeaderItem,
-                  styles.rangePicker,
-                )}
+                className={styles.rangePicker}
               />
             </Col>
             <Col
