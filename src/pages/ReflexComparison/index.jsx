@@ -3,7 +3,7 @@
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 import { Descriptions, Divider, Table, Tag, Typography } from 'antd';
 import classNames from 'classnames';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/reflex/actions';
@@ -26,18 +26,15 @@ const ReflexComparison = () => {
 
   const { poolResults, tubeTypes } = constants;
 
-  const numberOfSamples = useCallback(
-    (result) => {
-      const samples = reflexList?.filter?.((sample) =>
-        result
-          ? sample.result === poolResults[result] &&
-            sample.tube_type === tubeTypes.individual
-          : sample.tube_type === tubeTypes.individual,
-      );
-      return samples.length;
-    },
-    [reflexList, poolResults, tubeTypes],
-  );
+  const numberOfSamples = (result) => {
+    const samples = reflexList?.filter?.((sample) =>
+      result
+        ? sample.result === poolResults[result] &&
+          sample.tube_type === tubeTypes.individual
+        : sample.tube_type === tubeTypes.individual,
+    );
+    return samples.length;
+  };
 
   const useFetching = () => {
     useEffect(() => {
