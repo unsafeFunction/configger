@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.1.0...v9.2.0) (2021-12-27)
+
+### Features
+
+- laboratory timezone ([b1852d2](https://github.com/mokkapps/changelog-generator-demo/commits/b1852d2382ec1ac3f10f2a41b3d084fed1e5582f))
+
+### Bug Fixes
+
+- active session ([2b6b6c9](https://github.com/mokkapps/changelog-generator-demo/commits/2b6b6c9c4c281e72489ddec65037c7b616a3b8b9))
+- delete extra session request ([a76a70b](https://github.com/mokkapps/changelog-generator-demo/commits/a76a70ba4d81eb0cf93f3ff2b401d0f02ecae2b7))
+- duplicate logo for wynn ([ff54350](https://github.com/mokkapps/changelog-generator-demo/commits/ff543501eba2de144896b559cc2fa38687e291b2))
+- session info top bar ([2a2a426](https://github.com/mokkapps/changelog-generator-demo/commits/2a2a4267f1a4afd6ef5685a94425115f47192ab7))
+
 ## [9.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.0.0...v9.1.0) (2021-12-24)
 
 ### Bug Fixes
