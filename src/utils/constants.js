@@ -29,6 +29,10 @@ export const constants = {
     completed: 'COMPLETED',
     invalid: 'INVALID',
   },
+  sessionStatuses: {
+    started: 'STARTED',
+    completed: 'COMPLETED',
+  },
   tubes: {
     // default
     blank: {

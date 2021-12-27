@@ -6,6 +6,7 @@ import { useHistory, Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import { Statistic } from 'antd';
 import sessionActions from 'redux/scanSessions/actions';
+import { constants } from 'utils/constants';
 import UserMenu from './UserMenu';
 import styles from './style.module.scss';
 
@@ -17,7 +18,7 @@ const TopBar = React.memo(() => {
   const handleClickActiveSession = () => {
     history.push(`/session/${session.id}`);
   };
-  const isActiveSession = session?.id;
+  const isActiveSession = session?.status === constants.sessionStatuses.started;
 
   const onFinish = () => {
     dispatch({
