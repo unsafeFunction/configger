@@ -5,6 +5,7 @@ const config = {
     contacts: {
       email: 'testingsupport@mirimus.com',
     },
+    timezone: 'America/New_York',
   },
   aclv: {
     name: 'Accelevir',
@@ -12,6 +13,15 @@ const config = {
     contacts: {
       email: 'mhays@accelevir.com',
     },
+    timezone: 'America/New_York',
+  },
+  wynn: {
+    name: 'Mirimus',
+    id: 'wynn',
+    contacts: {
+      email: 'testingsupport@mirimus.com',
+    },
+    timezone: 'America/Los_Angeles',
   },
 };
 
