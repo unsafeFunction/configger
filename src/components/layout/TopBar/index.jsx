@@ -6,7 +6,6 @@ import { useHistory, Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import { Statistic } from 'antd';
 import sessionActions from 'redux/scanSessions/actions';
-import { constants } from 'utils/constants';
 import UserMenu from './UserMenu';
 import styles from './style.module.scss';
 
@@ -16,9 +15,9 @@ const TopBar = React.memo(() => {
   const history = useHistory();
   const session = useSelector((state) => state.scanSessions.singleSession);
   const handleClickActiveSession = () => {
-    history.push(`/session/${session.id}`);
+    history.push(`/session/${session.activeSessionId}`);
   };
-  const isActiveSession = session?.status === constants.sessionStatuses.started;
+  const isActiveSession = session?.activeSessionId;
 
   const onFinish = () => {
     dispatch({
@@ -56,7 +55,7 @@ const TopBar = React.memo(() => {
             className={styles.timer}
             title={
               <span>
-                Active session for <b>{session.company_short.name}</b>
+                Active session for <b>{session.company_name}</b>
               </span>
             }
             valueStyle={{ fontSize: '1.2rem' }}

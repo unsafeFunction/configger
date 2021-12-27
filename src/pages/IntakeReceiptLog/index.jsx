@@ -15,6 +15,7 @@ import sessionActions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import { getColorIntakeLog } from 'utils/highlighting';
 import styles from './styles.module.scss';
+import scannersActions from '../../redux/scanners/actions';
 
 const IntakeReceiptLog = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const IntakeReceiptLog = () => {
 
   const intakeLog = useSelector((state) => state.intakeReceiptLog);
 
-  const { id: sessionId, isLoading: isSessionLoading } = useSelector(
+  const { activeSessionId, isLoading: isSessionLoading } = useSelector(
     (state) => state.scanSessions.singleSession,
   );
 
@@ -45,6 +46,9 @@ const IntakeReceiptLog = () => {
           sort_by: sortBy,
           ...filters,
         },
+      });
+      dispatch({
+        type: scannersActions.FETCH_SCANNERS_REQUEST,
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sortBy, filters]);
@@ -312,7 +316,7 @@ const IntakeReceiptLog = () => {
               Edit
             </Button>
             {moment().diff(moment(record.created), 'hours') <= 24 &&
-              !sessionId && (
+              !activeSessionId && (
                 <Dropdown overlay={scannerMenu(record.id)} trigger="click">
                   <Button
                     type="primary"
@@ -347,10 +351,6 @@ const IntakeReceiptLog = () => {
       },
     });
   }, [dispatch, intakeLog, sortBy, filters]);
-
-  // if (!isSessionLoading && activeSessionId) {
-  //   return <Redirect to={`/session/${activeSessionId}`} />;
-  // }
 
   return (
     <div>

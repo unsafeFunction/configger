@@ -166,10 +166,9 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
-        ...action.payload,
-        activeSessionId: action.payload.sessionId
-          ? action.payload.sessionId
-          : undefined,
+        ...action.payload.data,
+        activeSessionId: action.payload?.data?.session_id,
+        sessionLength: action.payload?.data?.session_length,
       };
     }
     case actions.FETCH_SESSION_ID_FAILURE: {
