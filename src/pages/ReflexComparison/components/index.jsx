@@ -21,6 +21,7 @@ const columns = [
   {
     title: 'Tube Type',
     dataIndex: 'tube_type',
+    width: 100,
   },
   {
     title: 'Tube ID',

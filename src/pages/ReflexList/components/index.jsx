@@ -38,7 +38,6 @@ const ReflexStatus = ({ value, record }) => {
         checkedChildren={<CheckOutlined />}
         unCheckedChildren={<CloseOutlined />}
         loading={record.isUpdating}
-        // TODO: uncomment when API endpoint will be ready
         disabled={value}
       />
     </Popconfirm>
