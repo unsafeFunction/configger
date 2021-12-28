@@ -70,7 +70,7 @@ const ReflexList = () => {
         columns={columns}
         dataSource={reflexList.items}
         scroll={{ x: 2000 }}
-        rowKey={(record) => record.sample_id}
+        rowKey={(record) => record.id}
         title={() => {
           return (
             <div className="d-flex">

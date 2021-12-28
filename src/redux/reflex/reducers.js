@@ -93,6 +93,8 @@ const reflexReducer = (state = initialState, action) => {
 const initialSingleState = {
   items: [],
   isLoading: false,
+  pool_size: 0,
+  rejected_count: 0,
 };
 
 const singleReflexReducer = (state = initialSingleState, action) => {

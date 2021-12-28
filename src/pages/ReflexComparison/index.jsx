@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable camelcase */
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
-import { Descriptions, Divider, Table, Tag, Typography } from 'antd';
+import { Descriptions, Divider, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +21,7 @@ const ReflexComparison = () => {
     company_short,
     pool_size,
     pool_name,
+    rejected_count,
   } = useSelector((state) => state.reflex.singleReflex);
   const reflexId = location.pathname.split('/')[2];
 
@@ -60,7 +61,7 @@ const ReflexComparison = () => {
         scroll={{ x: 1000 }}
         loading={isLoading}
         pagination={false}
-        rowKey={(record) => record.tube_id}
+        rowKey={(record) => record.uuid}
         title={() => (
           <div className={styles.tableHeader}>
             <Descriptions
@@ -71,19 +72,19 @@ const ReflexComparison = () => {
               <Descriptions.Item>
                 Pool Size: {pool_size}
                 {numberOfSamples() > 0 && numberOfSamples() !== pool_size && (
-                  <Typography.Text type="secondary" italic>
+                  <span className={styles.warning}>
                     <ExclamationCircleTwoTone
                       twoToneColor="orange"
-                      className={styles.warning}
+                      className={styles.icon}
                     />
-                    pool size isn`t coinciding with the number of individual
+                    pool size is not coinciding with the number of individual
                     samples
-                  </Typography.Text>
+                  </span>
                 )}
               </Descriptions.Item>
               <Descriptions.Item>
                 Rejected/Invalidated:{' '}
-                {numberOfSamples('rejected') + numberOfSamples('invalid')}
+                {rejected_count + numberOfSamples('invalid')}
               </Descriptions.Item>
             </Descriptions>
             <Divider orientation="left">Results</Divider>
@@ -95,7 +96,7 @@ const ReflexComparison = () => {
             <Tag color="green">
               Not detected: {numberOfSamples('notDetected')}
             </Tag>
-            <Tag color="default">Rejected: {numberOfSamples('rejected')}</Tag>
+            <Tag color="default">Rejected: {rejected_count}</Tag>
           </div>
         )}
       />
