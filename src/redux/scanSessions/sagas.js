@@ -621,7 +621,7 @@ export function* callDeleteScan({ payload }) {
 export function* callFetchActiveScans({ payload }) {
   try {
     const response = yield call(fetchActiveScans, payload);
-    console.log(response);
+
     yield put({
       type: actions.FETCH_ACTIVE_SCANS_SUCCESS,
       payload: {
