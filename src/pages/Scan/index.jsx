@@ -307,7 +307,7 @@ const Scan = () => {
           return scan.pool_id;
         }),
       });
-    }, 7000);
+    }, 60000);
 
     return () => {
       clearInterval(refreshInterval);
