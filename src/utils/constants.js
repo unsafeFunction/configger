@@ -23,6 +23,9 @@ export const constants = {
   inventory: {
     itemsLoadingCount: 25,
   },
+  scan: {
+    emptyPoolId: 'AAA',
+  },
   scanStatuses: {
     voided: 'VOIDED',
     started: 'STARTED',

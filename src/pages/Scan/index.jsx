@@ -11,6 +11,7 @@ import {
 import {
   Alert,
   Button,
+  Checkbox,
   Col,
   Dropdown,
   Input,
@@ -59,6 +60,8 @@ const Scan = () => {
   const session = useSelector((state) => state.scanSessions.singleSession);
   const scans = session?.scans;
   const scan = useSelector((state) => state.scanSessions.scan);
+
+  const [isDiagnostic, setDiagnostic] = useState(false);
 
   const { started, invalid, completed } = constants.scanStatuses;
 
@@ -297,6 +300,7 @@ const Scan = () => {
 
   useEffect(() => {
     setChangedPoolName(scan?.scan_name);
+    setDiagnostic(scan?.is_diagnostic);
   }, [scan]);
 
   useEffect(() => {
@@ -692,6 +696,22 @@ const Scan = () => {
                   : '-'
               }
             />
+            <div className={styles.statisticReplacement}>
+              <div className={styles.statisticReplacementContent}>
+                <span className={styles.statisticReplacementValue}>
+                  <Checkbox
+                    className="mb-1"
+                    disabled={
+                      scan?.pool_id.split('-')[0] === constants.scan.emptyPoolId
+                    }
+                    value={isDiagnostic}
+                    onChange={() => setDiagnostic(!isDiagnostic)}
+                  >
+                    This scan is diagnostic
+                  </Checkbox>
+                </span>
+              </div>
+            </div>
           </div>
           <SessionStatistic
             refPools={refPoolsCount}
