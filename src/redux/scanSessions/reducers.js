@@ -71,6 +71,7 @@ const initialSingleSession = {
   companyInfoLoading: false,
   reference_pools_count: 0,
   reference_samples_count: 0,
+  requestStatus: 200,
 };
 
 const getScanName = (scan) => {
@@ -181,6 +182,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     case actions.FETCH_ACTIVE_SCANS_REQUEST: {
       return {
         ...state,
+        requestStatus: null,
       };
     }
     case actions.FETCH_ACTIVE_SCANS_SUCCESS: {
@@ -193,6 +195,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
 
       return {
         ...state,
+        requestStatus: action.payload.status,
         scans: [...state.scans, ...freshScans],
       };
     }

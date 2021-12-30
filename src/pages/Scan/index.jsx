@@ -301,18 +301,26 @@ const Scan = () => {
 
   useEffect(() => {
     const refreshInterval = setInterval(() => {
-      dispatch({
-        type: actions.FETCH_ACTIVE_SCANS_REQUEST,
-        payload: scans.map((scan) => {
-          return scan.pool_id;
-        }),
-      });
-    }, 60000);
+      if (session.requestStatus) {
+        dispatch({
+          type: actions.FETCH_ACTIVE_SCANS_REQUEST,
+          payload: scans.map((scan) => {
+            return scan.pool_id;
+          }),
+        });
+      }
+    }, 7000);
 
     return () => {
       clearInterval(refreshInterval);
     };
-  }, [session.reference_pools_count, actualPoolsCount, scans, dispatch]);
+  }, [
+    session.reference_pools_count,
+    actualPoolsCount,
+    scans,
+    dispatch,
+    session.requestStatus,
+  ]);
 
   const handleSwitchVisibleActions = useCallback(() => {
     setVisibleActions(!visibleActions);
