@@ -99,7 +99,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         ...initialSingleSession,
-        sessionLength: action.payload.sessionLength,
         isLoading: true,
       };
     }
@@ -112,6 +111,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
           ...scan,
           scan_name: getScanName(scan),
         })),
+        activeSessionId: action.payload.data.id,
       };
     }
     case actions.FETCH_SCAN_SESSION_BY_ID_FAILURE: {
@@ -152,7 +152,6 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
-        sessionLength: action.payload.session_length,
         activeSessionId: action.payload.sessionId,
       };
     }
@@ -168,6 +167,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         isLoading: false,
         ...action.payload.data,
         activeSessionId: action.payload?.data?.session_id,
+        activeSessionStarted: action.payload?.data?.started_on_day,
         sessionLength: action.payload?.data?.session_length,
       };
     }

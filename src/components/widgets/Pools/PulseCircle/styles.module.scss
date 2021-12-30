@@ -1,0 +1,15 @@
+@import 'assets/styles/mixins.scss';
+
+.online {
+  color: $success;
+  font-size: 18px !important;
+}
+
+.offline {
+  color: $danger;
+  font-size: 18px !important;
+}
+
+.statusWrapper {
+  margin-bottom: 0;
+}

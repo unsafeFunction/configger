@@ -91,13 +91,13 @@ const Scan = () => {
   }, [scans, started, invalid, completed]);
 
   useEffect(() => {
-    if (scan.scanner_id) {
+    if (session.scanner_id) {
       dispatch({
         type: actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST,
-        payload: { scannerId: scan?.scanner_id },
+        payload: { scannerId: session?.scanner_id },
       });
     }
-  }, [scan.scanner_id]);
+  }, [session.scanner_id]);
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
@@ -289,11 +289,19 @@ const Scan = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, scansInWork[0]?.id]);
 
+  const useFetching = () => {
+    useEffect(() => {
+      loadSession();
+    }, []);
+  };
+
+  useFetching();
+
   useEffect(() => {
     if (session?.activeSessionId === undefined) {
       history.push('/intake-receipt-log');
     }
-  }, [session.activeSessionId, sessionId]);
+  }, [session.activeSessionId]);
 
   useEffect(() => {
     setChangedPoolName(scan?.scan_name);

@@ -80,14 +80,12 @@ export function* callFetchScanSessionById({ payload }) {
     const response = yield call(fetchSessionById, sessionId);
 
     const sortedScans = [...sortBy(response?.data?.scans, 'scan_order')];
-
     yield put({
       type: actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS,
       payload: {
         data: {
           ...response?.data,
           scans: sortedScans,
-          sessionLength: payload.sessionLength,
         },
       },
     });
