@@ -59,7 +59,7 @@ const TopBar = React.memo(() => {
               </span>
             }
             valueStyle={{ fontSize: '1.2rem' }}
-            value={moment(session.started_on_day).add({
+            value={moment(session.activeSessionStarted).add({
               minutes: session.sessionLength || 30,
               seconds: 1,
             })}

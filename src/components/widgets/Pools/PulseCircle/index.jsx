@@ -7,8 +7,11 @@ const PulseCircle = ({ scanner }) => {
   const onlineStatus = scanner?.is_online;
   return (
     <div className={styles.circleWrapper}>
-      <p>
-        {scanner.model} {onlineStatus ? 'Online' : 'Offline'}
+      <p className={styles.statusWrapper}>
+        {scanner.model}{' '}
+        <span className={onlineStatus ? styles.online : styles.offline}>
+          {onlineStatus ? 'Online' : 'Offline'}
+        </span>
       </p>
       <div
         className={`${styles.pulsatingCircle} ${
