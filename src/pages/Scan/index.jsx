@@ -11,6 +11,7 @@ import {
 import {
   Alert,
   Button,
+  Checkbox,
   Col,
   Dropdown,
   Input,
@@ -59,6 +60,8 @@ const Scan = () => {
   const session = useSelector((state) => state.scanSessions.singleSession);
   const scans = session?.scans;
   const scan = useSelector((state) => state.scanSessions.scan);
+
+  const [isDiagnostic, setDiagnostic] = useState(true);
 
   const { started, invalid, completed } = constants.scanStatuses;
 
@@ -305,6 +308,7 @@ const Scan = () => {
 
   useEffect(() => {
     setChangedPoolName(scan?.scan_name);
+    setDiagnostic(scan?.is_diagnostic);
   }, [scan]);
 
   useEffect(() => {
@@ -384,7 +388,7 @@ const Scan = () => {
         title: 'Save scan',
         modalId: 'saveScan',
         onOk: () => {
-          updateScan({ status: completed });
+          updateScan({ status: completed, is_diagnostic: isDiagnostic });
         },
         bodyStyle: {
           maxHeight: '70vh',
@@ -408,13 +412,18 @@ const Scan = () => {
                 ) : null
               }
             />
+          ) : isDiagnostic ? (
+            <Paragraph>
+              Continuing will categorize all tubes as diagnostic. Are you sure
+              to save the scan as diagnostic?
+            </Paragraph>
           ) : (
             <Paragraph>Are you sure to save scan?</Paragraph>
           );
         },
       },
     });
-  }, [dispatch, updateScan, incorrectPositions, completed]);
+  }, [dispatch, updateScan, incorrectPositions, completed, isDiagnostic]);
 
   useEffect(() => {
     if (
@@ -546,12 +555,12 @@ const Scan = () => {
                 type="primary"
                 htmlType="submit"
                 className={styles.saveScanBtn}
-                disabled={
-                  session?.isLoading ||
-                  scans.length === 0 ||
-                  scan?.isLoading ||
-                  scan?.status === completed
-                }
+                // disabled={
+                //   session?.isLoading ||
+                //   scans.length === 0 ||
+                //   scan?.isLoading ||
+                //   scan?.status === completed
+                // }
               >
                 Save Scan
               </Button>
@@ -708,6 +717,23 @@ const Scan = () => {
                   : '-'
               }
             />
+            <div className={styles.statisticReplacement}>
+              <div className={styles.statisticReplacementContent}>
+                <span className={styles.statisticReplacementValue}>
+                  <Checkbox
+                    className="mb-1"
+                    disabled={
+                      scan?.pool_id?.split?.('-')?.[0] ===
+                      constants.scan.emptyPoolId
+                    }
+                    value={isDiagnostic}
+                    onChange={() => setDiagnostic(!isDiagnostic)}
+                  >
+                    This scan is diagnostic
+                  </Checkbox>
+                </span>
+              </div>
+            </div>
           </div>
           <SessionStatistic
             refPools={refPoolsCount}
