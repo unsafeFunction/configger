@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.2.0...v9.3.0) (2022-01-02)
+
+### Features
+
+- diagnostic template ([c5d416b](https://github.com/mokkapps/changelog-generator-demo/commits/c5d416bc35f43c8668ea77a2d3fa23d24f4d5bf7))
+- run request when next is finish ([db53c4d](https://github.com/mokkapps/changelog-generator-demo/commits/db53c4d344cb89b8fa0ec4adfa90a4b8dc33eac3))
+
+### Bug Fixes
+
+- active session values ([fe5e287](https://github.com/mokkapps/changelog-generator-demo/commits/fe5e287ba5e49ad559524046827b606d40995b0c))
+- fetch timeout ([7f4b81e](https://github.com/mokkapps/changelog-generator-demo/commits/7f4b81e310b5426d04421ef09b86a970986e8e62))
+- modal diagnostic ([f81cae9](https://github.com/mokkapps/changelog-generator-demo/commits/f81cae95dd6980db052d67850a613a3036e269a1))
+- request beautify ([90c879e](https://github.com/mokkapps/changelog-generator-demo/commits/90c879ec286ae3d0bca1b8f3340ff7dfa3eaa442))
+- run pooling permamently ([4dd0360](https://github.com/mokkapps/changelog-generator-demo/commits/4dd0360982c9907d744ef307a330e14352d3d092))
+- take the number of rejected samples from the back in reflex comparison ([44adb59](https://github.com/mokkapps/changelog-generator-demo/commits/44adb5946e55c84a573db3c92541119a68cf1dc8))
+
 ## [9.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.1.0...v9.2.0) (2021-12-27)
 
 ### Features
