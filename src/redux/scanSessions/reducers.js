@@ -202,6 +202,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     case actions.FETCH_ACTIVE_SCANS_FAILURE: {
       return {
         ...state,
+        requestStatus: action.payload.status,
       };
     }
 
