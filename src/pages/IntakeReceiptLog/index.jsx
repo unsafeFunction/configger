@@ -3,6 +3,7 @@ import { Button, Dropdown, Form, Menu, Popover, Space, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import IntakeReceiptLogModal from 'components/widgets/Intake/IntakeReceiptLogModal';
+import isEmpty from 'lodash.isempty';
 import mapValues from 'lodash.mapvalues';
 import omit from 'lodash.omit';
 import moment from 'moment-timezone';
@@ -11,11 +12,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import actions from 'redux/intakeReceiptLog/actions';
 import modalActions from 'redux/modal/actions';
+import scannersActions from 'redux/scanners/actions';
 import sessionActions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import { getColorIntakeLog } from 'utils/highlighting';
 import styles from './styles.module.scss';
-import scannersActions from '../../redux/scanners/actions';
 
 const IntakeReceiptLog = () => {
   const dispatch = useDispatch();
@@ -316,7 +317,8 @@ const IntakeReceiptLog = () => {
               Edit
             </Button>
             {moment().diff(moment(record.created), 'hours') <= 24 &&
-              !activeSessionId && (
+              !activeSessionId &&
+              isEmpty(record.session) && (
                 <Dropdown overlay={scannerMenu(record.id)} trigger="click">
                   <Button
                     type="primary"
