@@ -555,12 +555,12 @@ const Scan = () => {
                 type="primary"
                 htmlType="submit"
                 className={styles.saveScanBtn}
-                // disabled={
-                //   session?.isLoading ||
-                //   scans.length === 0 ||
-                //   scan?.isLoading ||
-                //   scan?.status === completed
-                // }
+                disabled={
+                  session?.isLoading ||
+                  scans.length === 0 ||
+                  scan?.isLoading ||
+                  scan?.status === completed
+                }
               >
                 Save Scan
               </Button>
