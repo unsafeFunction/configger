@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.4.0...v9.5.0) (2022-01-05)
+
+### Bug Fixes
+
+- active session loading ([69a4c7e](https://github.com/mokkapps/changelog-generator-demo/commits/69a4c7e5083dfddf22ffdabecd4e7a3848f6ebd2))
+- allow to open session only for innocent intake log items ([368a741](https://github.com/mokkapps/changelog-generator-demo/commits/368a74173280f1a1b20461d5e87836b9e9c623e3))
+- in some cases disable "save scan" btn ([dd5eafc](https://github.com/mokkapps/changelog-generator-demo/commits/dd5eafc2c62807d51f541c77b2794ea64a51a650))
+- lock files ([73a0eb0](https://github.com/mokkapps/changelog-generator-demo/commits/73a0eb0029754b5ff38b7cb8156bed5f6a4db012))
+- update session refresh request ([62d5c81](https://github.com/mokkapps/changelog-generator-demo/commits/62d5c814f7712e83d0876818a69c36056a847c13))
+
 ## [9.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.3.0...v9.4.0) (2022-01-04)
 
 ### Bug Fixes
