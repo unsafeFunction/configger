@@ -10,13 +10,16 @@ export const fetchScanById = async (scanId) => {
   }
 };
 
-export const fetchActiveScans = async (query) => {
+export const fetchActiveScans = async ({ existingScans, sessionId }) => {
   try {
-    const scans = await axiosClient.get(`scans/sessions/active/refresh/`, {
-      params: {
-        pool_ids: query?.join(),
+    const scans = await axiosClient.get(
+      `scans/sessions/${sessionId}/refresh/`,
+      {
+        params: {
+          pool_ids: existingScans?.join(),
+        },
       },
-    });
+    );
 
     return scans;
   } catch (error) {

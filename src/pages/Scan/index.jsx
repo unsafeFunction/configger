@@ -316,9 +316,12 @@ const Scan = () => {
       if (session.requestStatus) {
         dispatch({
           type: actions.FETCH_ACTIVE_SCANS_REQUEST,
-          payload: scans.map((scan) => {
-            return scan.pool_id;
-          }),
+          payload: {
+            sessionId,
+            existingScans: scans.map((scan) => {
+              return scan.pool_id;
+            }),
+          },
         });
       }
     }, 7000);
