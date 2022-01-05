@@ -101,6 +101,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         ...state,
         ...initialSingleSession,
         isLoading: true,
+        activeSessionId: state.activeSessionId,
       };
     }
     case actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS: {
@@ -108,11 +109,11 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         ...state,
         isLoading: false,
         ...action.payload.data,
+        session_id: action.payload.data.id,
         scans: action.payload.data.scans?.map((scan) => ({
           ...scan,
           scan_name: getScanName(scan),
         })),
-        activeSessionId: action.payload.data.id,
       };
     }
     case actions.FETCH_SCAN_SESSION_BY_ID_FAILURE: {
@@ -141,8 +142,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       };
     }
 
-    case actions.CREATE_SESSION_REQUEST:
-    case actions.FETCH_SESSION_ID_REQUEST: {
+    case actions.CREATE_SESSION_REQUEST: {
       return {
         ...state,
         ...initialSingleSession,
@@ -162,10 +162,17 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
         isLoading: false,
       };
     }
+    case actions.FETCH_SESSION_ID_REQUEST: {
+      return {
+        ...state,
+        ...initialSingleSession,
+        activeSessionLoading: true,
+      };
+    }
     case actions.FETCH_SESSION_ID_SUCCESS: {
       return {
         ...state,
-        isLoading: false,
+        activeSessionLoading: false,
         ...action.payload.data,
         activeSessionId: action.payload?.data?.session_id,
         activeSessionStarted: action.payload?.data?.started_on_day,
@@ -175,7 +182,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
     case actions.FETCH_SESSION_ID_FAILURE: {
       return {
         ...state,
-        isLoading: false,
+        activeSessionLoading: false,
       };
     }
 

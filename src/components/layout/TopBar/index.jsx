@@ -18,7 +18,6 @@ const TopBar = React.memo(() => {
     history.push(`/session/${session.activeSessionId}`);
   };
   const isActiveSession = session?.activeSessionId;
-
   const onFinish = () => {
     dispatch({
       type: sessionActions.FETCH_SESSION_ID_REQUEST,
