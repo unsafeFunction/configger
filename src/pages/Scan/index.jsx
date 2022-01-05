@@ -729,7 +729,7 @@ const Scan = () => {
                       scan?.pool_id?.split?.('-')?.[0] ===
                       constants.scan.emptyPoolId
                     }
-                    value={isDiagnostic}
+                    checked={isDiagnostic}
                     onChange={() => setDiagnostic(!isDiagnostic)}
                   >
                     This scan is diagnostic
