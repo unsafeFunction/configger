@@ -6,7 +6,6 @@ import intake from './intake/sagas';
 import intakeLims from './intakeLims/sagas';
 import intakeReceiptLog from './intakeReceiptLog/sagas';
 import inventory from './inventory/sagas';
-import management from './management/sagas';
 import menu from './menu/sagas';
 import pools from './pools/sagas';
 import racks from './racks/sagas';
@@ -33,7 +32,6 @@ export default function* rootSaga() {
     intakeLims(),
     intakeReceiptLog(),
     scan(),
-    management(),
     inventory(),
     racks(),
     runTemplate(),

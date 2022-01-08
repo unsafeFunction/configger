@@ -102,6 +102,15 @@ const routes = [
     path: '/reflex-list',
     Component: loadable(() => import('pages/ReflexList')),
   },
+  {
+    path: '/companies',
+    Component: loadable(() => import('pages/Companies')),
+    exact: true,
+  },
+  {
+    path: '/companies/:id',
+    Component: loadable(() => import('pages/Companies/Company')),
+  },
   // {
   //   path: '/management',
   //   Component: loadable(() => import('pages/Management')),

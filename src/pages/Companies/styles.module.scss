@@ -22,10 +22,8 @@
 .tableActionsWrapper {
   display: flex;
   justify-content: space-between;
-  width: 40%;
 
   .search {
-    width: 65%;
     margin-bottom: 1em;
   }
 }
@@ -48,10 +46,7 @@
 }
 
 .tabletActionsWrapper {
-  width: 60%;
-  .search {
-    width: 68%;
-  }
+  width: 40%;
 }
 
 .modalButton {

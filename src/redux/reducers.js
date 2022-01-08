@@ -8,7 +8,6 @@ import intake from './intake/reducers';
 import intakeLims from './intakeLims/reducers';
 import intakeReceiptLog from './intakeReceiptLog/reducers';
 import inventory from './inventory/reducers';
-import management from './management/reducers';
 import menu from './menu/reducers';
 import modal from './modal/reducers';
 import pools from './pools/reducers';
@@ -41,7 +40,6 @@ export default (history) =>
     intakeLims,
     intakeReceiptLog,
     scanSessions,
-    management,
     inventory,
     racks,
     runTemplate,

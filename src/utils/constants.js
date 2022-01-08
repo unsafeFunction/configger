@@ -14,6 +14,9 @@ export const constants = {
   pools: {
     itemsLoadingCount: 25,
   },
+  poolsByCompany: {
+    itemsLoadingCount: 3,
+  },
   scanSessions: {
     itemsLoadingCount: 20,
   },

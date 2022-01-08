@@ -1,15 +1,14 @@
-import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Table, Tag } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+import { Form, Input, Table } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
-import { CompanyModal } from 'components/widgets/companies';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
-import React, { useCallback, useEffect, useState } from 'react';
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import actions from 'redux/companies/actions';
-import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -21,25 +20,6 @@ const Companies = () => {
   const [form] = Form.useForm();
 
   const allCompanies = useSelector((state) => state.companies.all);
-  const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
-
-  const getStatus = (status) => {
-    switch (status) {
-      case 'COMPLETED':
-        return <Tag color="#32CD32">{status}</Tag>;
-      case 'SCHEDULED':
-        return <Tag color="#1B55e3">{status}</Tag>;
-      case 'DRAFT':
-        return <Tag color="#6c757d">{status}</Tag>;
-      case 'DELIVERED':
-        return <Tag color="#28a745">{status}</Tag>;
-      case 'FAILED':
-        return <Tag color="#dc3545">{status}</Tag>;
-      default:
-        return <Tag color="#fd7e14">{status}</Tag>;
-    }
-  };
-
   const setCompanyId = useCallback(
     (value) => {
       dispatchCompaniesData({
@@ -66,14 +46,6 @@ const Companies = () => {
     }
   }, [allCompanies.error]);
 
-  const createCompany = useCallback(async () => {
-    const fieldValues = await form.validateFields();
-    dispatchCompaniesData({
-      type: actions.CREATE_COMPANY_REQUEST,
-      payload: { ...fieldValues },
-    });
-  }, []);
-
   const columns = [
     {
       title: 'Company Name',
@@ -82,9 +54,9 @@ const Companies = () => {
         return (
           <Link
             onClick={() => {
-              setCompanyId(company?.unique_id);
+              setCompanyId(company?.id);
             }}
-            to={`/companies/${company?.unique_id}`}
+            to={`/companies/${company?.id}`}
             className="text-blue"
           >
             {`${name || '-'}`}
@@ -93,24 +65,25 @@ const Companies = () => {
       },
     },
     {
-      title: 'Short Name',
+      title: 'Company Short',
       dataIndex: 'name_short',
       render: (value) => {
         return value || '-';
       },
     },
     {
-      title: 'Code',
-      dataIndex: 'code',
+      title: 'Company ID',
+      dataIndex: 'company_id',
       render: (value) => {
         return value || '-';
       },
     },
     {
-      title: 'Company Id',
-      dataIndex: 'company_id',
+      title: 'Added On',
+      sorter: true,
+      dataIndex: 'added_on',
       render: (value) => {
-        return value || '-';
+        return value ? moment(value).format(constants.dateFormat) : '–';
       },
     },
   ];
@@ -127,37 +100,23 @@ const Companies = () => {
     }, []);
   };
 
-  const onPageChange = (page) => {
-    dispatchCompaniesData({
-      type: actions.LOAD_CAMPAIGN_REQUEST,
-      payload: {
-        page,
-      },
-    });
+  const handleTableChange = (pagination, filters, sorter) => {
+    if (sorter) {
+      dispatchCompaniesData({
+        type: actions.FETCH_COMPANIES_REQUEST,
+        payload: {
+          offset: allCompanies.offset,
+          sort_by: sorter?.order
+            ? sorter.order === 'ascend'
+              ? `${sorter?.column?.dataIndex}`
+              : `-${sorter?.column?.dataIndex}`
+            : undefined,
+        },
+      });
+    }
   };
 
   useFetching();
-
-  const onModalToggle = useCallback(() => {
-    dispatchCompaniesData({
-      type: modalActions.SHOW_MODAL,
-      modalType: 'COMPLIANCE_MODAL',
-      modalProps: {
-        title: 'Add company',
-        onOk: createCompany,
-        cancelButtonProps: { className: styles.modalButton },
-        okButtonProps: {
-          className: styles.modalButton,
-        },
-        bodyStyle: {
-          maxHeight: '70vh',
-          overflow: 'scroll',
-        },
-        okText: 'Create',
-        message: () => <CompanyModal form={form} />,
-      },
-    });
-  }, [dispatchCompaniesData]);
 
   const loadMore = useCallback(() => {
     dispatchCompaniesData({
@@ -200,14 +159,6 @@ const Companies = () => {
           <div className={styles.mobileTableHeaderWrapper}>
             <div className={styles.mobileTableHeaderRow}>
               <h4>Companies</h4>
-              <Button
-                onClick={onModalToggle}
-                size="large"
-                type="primary"
-                className={!isMobile && 'ml-3'}
-              >
-                Add Company
-              </Button>
             </div>
             <Input
               size="middle"
@@ -234,14 +185,6 @@ const Companies = () => {
                 value={searchName}
                 onChange={onChangeSearch}
               />
-              <Button
-                onClick={onModalToggle}
-                size="large"
-                type="primary"
-                className={!isMobile && 'ml-3'}
-              >
-                Add Company
-              </Button>
             </div>
           </>
         )}
@@ -249,10 +192,13 @@ const Companies = () => {
       <Table
         dataSource={allCompanies?.items}
         columns={columns}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1000 }}
+        bordered
         loading={!allCompanies?.isLoading}
         align="center"
+        onChange={handleTableChange}
         pagination={false}
+        rowKey={(record) => record.unique_id}
       />
       <TableFooter
         loading={!allCompanies?.isLoading}

@@ -1,0 +1,40 @@
+@import 'assets/styles/mixins.scss';
+
+.popover {
+  max-width: 290px;
+}
+
+.modalButton {
+  width: 130px;
+}
+
+.resultsStyle {
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}
+
+.poolPartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: $sm-max-width) {
+    flex-direction: column-reverse;
+    align-items: baseline;
+  }
+
+  h5 {
+    @media (max-width: $sm-max-width) {
+      margin-top: 10px;
+    }
+  }
+}
+
+.poolsTable {
+  margin-bottom: 25px;
+}

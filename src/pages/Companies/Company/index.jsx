@@ -1,17 +1,27 @@
 import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  DeleteOutlined,
-  SearchOutlined,
+  DownOutlined,
+  EditOutlined,
+  IdcardOutlined,
+  LinkOutlined,
 } from '@ant-design/icons';
-import { Button, Form, Input, Space, Table, Tabs, Tag } from 'antd';
-import { ContactResultModal } from 'components/widgets/companies';
-import PoolTable from 'components/widgets/Pools/PoolTable';
-import useWindowSize from 'hooks/useWindowSize';
-import debounce from 'lodash.debounce';
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Form,
+  Menu,
+  notification,
+  Row,
+  Statistic,
+  Tabs,
+  Tooltip,
+} from 'antd';
+import PoolTableByDays from 'components/widgets/Pools/PoolTableByDays';
+import SyncModal from 'components/widgets/Pools/SyncModal';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import actions from 'redux/companies/actions';
 import modalActions from 'redux/modal/actions';
 import { default as poolsActions } from 'redux/pools/actions';
@@ -22,13 +32,13 @@ const { TabPane } = Tabs;
 
 const CompanyProfile = () => {
   const [searchName, setSearchName] = useState('');
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const singleCompany = useSelector((state) => state.companies.singleCompany);
-  const pools = useSelector((state) => state.pools);
+  const pools = useSelector((state) => state.pools.allByDays);
   const dispatch = useDispatch();
   const history = useHistory();
   const idFromUrl = history.location.pathname.split('/')[2];
-  const [form] = Form.useForm();
-  const { isMobile } = useWindowSize();
+  const [syncForm] = Form.useForm();
 
   const useFetching = () => {
     useEffect(() => {
@@ -45,7 +55,7 @@ const CompanyProfile = () => {
         type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
         payload: {
           companyId: idFromUrl,
-          limit: constants.pools.itemsLoadingCount,
+          limit: constants.poolsByCompany.itemsLoadingCount,
         },
       });
     }, []);
@@ -53,221 +63,148 @@ const CompanyProfile = () => {
 
   useFetching();
 
-  const sendQuery = useCallback(
-    (query) => {
-      dispatch({
-        type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
-        payload: {
-          companyId: idFromUrl,
-          limit: constants?.pools?.itemsLoadingCount,
-          search: query,
-        },
-      });
-    },
-    [dispatch, searchName, idFromUrl],
-  );
-
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
-
-  const onChangeSearch = useCallback((event) => {
-    setSearchName(event.target.value);
-    delayedQuery(event.target.value);
-  }, []);
-
-  const handleSubmit = useCallback(() => {
-    const modalResultContacts = form.getFieldValue('results_contacts');
-    dispatch({
-      type: actions.UPDATE_USERS_REQUEST,
-      payload: {
-        id: singleCompany?.unique_id,
-        results_contacts: [
-          ...modalResultContacts,
-          ...singleCompany?.results_contacts?.map((user) => user.id),
-        ],
-      },
-    });
-    form.resetFields();
-  }, [singleCompany]);
-
-  const onModalToggle = useCallback(() => {
-    dispatch({
-      type: modalActions.SHOW_MODAL,
-      modalType: 'COMPLIANCE_MODAL',
-      modalProps: {
-        title: 'Add Results Contact',
-        onOk: handleSubmit,
-        cancelButtonProps: { className: styles.modalButton },
-        okButtonProps: {
-          className: styles.modalButton,
-        },
-        message: () => (
-          <ContactResultModal
-            form={form}
-            existUsers={singleCompany?.results_contacts}
-          />
-        ),
-      },
-    });
-  }, [handleSubmit, dispatch]);
-
-  const removeUser = useCallback(
-    (userId) => {
-      dispatch({
-        type: actions.UPDATE_USERS_REQUEST,
-        payload: {
-          id: singleCompany?.unique_id,
-          results_contacts: singleCompany?.results_contacts
-            ?.filter(({ id }) => id !== userId)
-            .map((user) => user.id),
-        },
-      });
-    },
-    [dispatch, singleCompany],
-  );
-
   const loadMore = useCallback(() => {
-    const idFromUrl = history.location.pathname.split('/')[2];
     dispatch({
       type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
       payload: {
         companyId: idFromUrl,
-        limit: constants?.pools?.itemsLoadingCount,
+        limit: constants?.poolsByCompany?.itemsLoadingCount,
         offset: pools.offset,
         search: searchName,
       },
     });
-  }, [dispatch, pools, searchName]);
+  }, [dispatch, pools, searchName, idFromUrl]);
 
-  const contactsColumns = [
-    {
-      title: 'Full name',
-      dataIndex: 'fullname',
-      render: (_, record) => (
-        <Link to={`/users/${record.id}`} className="text-blue">
-          {record.first_name} {record.last_name}
-        </Link>
-      ),
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
-    {
-      title: 'Confirmation status',
-      dataIndex: 'verified',
-      align: 'center',
-      render: (_, record) =>
-        record.verified ? (
-          <Tag icon={<CheckCircleOutlined />} color="processing">
-            Email confirmed
-          </Tag>
-        ) : (
-          <Tag icon={<CloseCircleOutlined />} color="error">
-            Email not confirmed
-          </Tag>
+  const formatStatBlock = ({ value, link }) => (
+    <Tooltip title={value} placement="topLeft">
+      {link ? (
+        <a href={value} target="_blank">
+          {value}
+        </a>
+      ) : (
+        value
+      )}
+    </Tooltip>
+  );
+
+  const handleSync = useCallback(async () => {
+    const fieldValues = await syncForm.validateFields();
+    return dispatch({
+      type: poolsActions.SYNC_POOLS_REQUEST,
+      payload: {
+        poolIds: selectedRowKeys,
+        companyId: singleCompany.unique_id,
+        ...fieldValues,
+        closeBtn: (key) => (
+          <Button
+            type="primary"
+            size="small"
+            onClick={() => notification.close(key)}
+          >
+            GOT IT
+          </Button>
         ),
-    },
-    {
-      title: 'Role',
-      dataIndex: 'role',
-    },
-    {
-      title: 'Terms accepted',
-      dataIndex: 'terms_accepted',
-      align: 'center',
-      render: (_, record) =>
-        record.terms_accepted ? (
-          <Tag icon={<CheckCircleOutlined />} color="processing">
-            Terms accepted
-          </Tag>
-        ) : (
-          <Tag icon={<CloseCircleOutlined />} color="volcano">
-            Terms not accepted
-          </Tag>
-        ),
-    },
-    {
-      title: 'Actions',
-      fixed: 'right',
-      dataIndex: 'actions',
-      align: 'center',
-      width: isMobile ? 100 : 150,
-      render: (value, user) => {
-        return (
-          <Space size="middle">
-            <Button
-              type="danger"
-              ghost
-              icon={<DeleteOutlined />}
-              onClick={() =>
-                dispatch({
-                  type: modalActions.SHOW_MODAL,
-                  modalType: 'WARNING_MODAL',
-                  modalProps: {
-                    message: () => (
-                      <>
-                        <p className={styles.modalWarningMessage}>
-                          You try to delete <span>{user.first_name}</span>{' '}
-                          <span>{user.last_name}</span> from{' '}
-                          <span>{singleCompany?.name}</span>.
-                        </p>
-                        <p className={styles.modalWarningMessage}>
-                          Are you sure?
-                        </p>
-                      </>
-                    ),
-                    title: 'Confirm action',
-                    onOk: () => removeUser(user.id),
-                  },
-                })
-              }
-            />
-          </Space>
-        );
       },
+    });
+  }, [selectedRowKeys]);
+
+  const handleModalSync = useCallback(
+    (record) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Sync options',
+          cancelButtonProps: { className: styles.modalButton },
+          okButtonProps: {
+            className: styles.modalButton,
+          },
+          onOk: handleSync,
+          okText: 'Sync',
+          message: () => <SyncModal form={syncForm} />,
+        },
+      });
     },
-  ];
+    [dispatch, handleSync],
+  );
+
+  const menu = (record) => (
+    <Menu>
+      <Menu.Item
+        onClick={handleModalSync}
+        key="1"
+        disabled={!selectedRowKeys.length}
+      >
+        Sync with Google Sheets
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <>
+      <Row className="mb-3" gutter={16}>
+        <Col xs={24} sm={8}>
+          <Card className={styles.statCart}>
+            <Statistic
+              className={styles.locationName}
+              title="Short name"
+              value={singleCompany?.short_name || '-'}
+              formatter={(value) => formatStatBlock({ value })}
+              prefix={<EditOutlined className={styles.statisticIcon} />}
+              loading={!singleCompany.isLoading}
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Card className={styles.statCart}>
+            <Statistic
+              className={styles.locationName}
+              title="Company id"
+              value={singleCompany?.company_id || '-'}
+              formatter={(value) => formatStatBlock({ value })}
+              prefix={<IdcardOutlined className={styles.statisticIcon} />}
+              loading={!singleCompany.isLoading}
+            />
+          </Card>
+        </Col>
+        {singleCompany.gdrive_enabled && (
+          <Col xs={24} sm={8}>
+            <Card className={styles.statCart}>
+              <Statistic
+                className={styles.locationName}
+                title="Google Drive sheet link"
+                value={singleCompany?.gdrive_sheet_url || '-'}
+                formatter={(value) =>
+                  formatStatBlock({
+                    value,
+                    link: !!singleCompany?.gdrive_sheet_url,
+                  })
+                }
+                prefix={<LinkOutlined className={styles.statisticIcon} />}
+                loading={!singleCompany.isLoading}
+              />
+            </Card>
+          </Col>
+        )}
+      </Row>
       <Tabs defaultActiveKey={1}>
-        <TabPane
-          className={styles.campaignStatistics}
-          tab="Results Contacts"
-          key={1}
-        >
-          <Table
-            columns={contactsColumns}
-            dataSource={singleCompany?.results_contacts}
-            scroll={{ x: 1200 }}
-            loading={!singleCompany.isLoading}
-            pagination={{
-              pageSize: singleCompany?.results_contacts?.length,
-              hideOnSinglePage: true,
-            }}
-            title={() => (
-              <span className="d-flex">
-                <Button className="ml-auto mr-2" onClick={onModalToggle}>
-                  Add Results Contact
+        <TabPane tab="Pools" key={1}>
+          {singleCompany.gdrive_enabled && (
+            <div className="d-flex">
+              <Dropdown className="ml-auto" overlay={menu()}>
+                <Button type="primary">
+                  Actions
+                  <DownOutlined />
                 </Button>
-              </span>
-            )}
-            align="center"
+              </Dropdown>
+            </div>
+          )}
+          <PoolTableByDays
+            gdriveEnabled={singleCompany.gdrive_enabled}
+            loadMore={loadMore}
+            selectedRowKeys={selectedRowKeys}
+            setSelectedRowKeys={setSelectedRowKeys}
           />
-        </TabPane>
-        <TabPane tab="Pools" key={2}>
-          <Input
-            size="middle"
-            prefix={<SearchOutlined />}
-            className={styles.search}
-            placeholder="Search..."
-            value={searchName}
-            onChange={onChangeSearch}
-          />
-          <PoolTable loadMore={loadMore} />
         </TabPane>
       </Tabs>
     </>

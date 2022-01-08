@@ -3,7 +3,6 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
   createCompany,
   fetchCompanies,
-  fetchCompanyShort,
   getSingleCompany,
   updateUsers,
 } from 'services/companies';
@@ -11,10 +10,18 @@ import modalActions from '../modal/actions';
 import actions from './actions';
 
 export function* callFetchCompanies({ payload }) {
+  const { redirectToTimeline, ...query } = payload;
   try {
-    const response = yield call(fetchCompanies, payload);
+    const response = yield call(fetchCompanies, query);
 
-    yield put({
+    if (redirectToTimeline && response.data.count === 1) {
+      return yield call(
+        redirectToTimeline,
+        response.data.results[0]?.company_id,
+      );
+    }
+
+    return yield put({
       type: actions.FETCH_COMPANIES_SUCCESS,
       payload: {
         data: response.data.results,
@@ -23,7 +30,9 @@ export function* callFetchCompanies({ payload }) {
       },
     });
   } catch (error) {
-    notification.error(error);
+    return notification.error({
+      message: error.message,
+    });
   }
 }
 
@@ -73,29 +82,6 @@ export function* callGetCompany({ payload }) {
   }
 }
 
-export function* callFetchCompanyShort({ payload }) {
-  try {
-    const response = yield call(fetchCompanyShort, payload.id);
-
-    yield put({
-      type: actions.FETCH_COMPANY_SHORT_SUCCESS,
-      payload: {
-        data: response.data,
-      },
-    });
-  } catch (error) {
-    yield put({
-      type: actions.FETCH_COMPANY_SHORT_FAILURE,
-      payload: {
-        data: error.message ?? null,
-      },
-    });
-    notification.error({
-      message: error.message ?? 'Сompany not found',
-    });
-  }
-}
-
 export function* callUpdateUsers({ payload }) {
   try {
     const response = yield call(updateUsers, payload);
@@ -121,7 +107,6 @@ export function* callUpdateUsers({ payload }) {
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_COMPANIES_REQUEST, callFetchCompanies),
-    takeEvery(actions.FETCH_COMPANY_SHORT_REQUEST, callFetchCompanyShort),
     takeEvery(actions.CREATE_COMPANY_REQUEST, callCreateCompany),
     takeEvery(actions.GET_COMPANY_REQUEST, callGetCompany),
     takeEvery(actions.UPDATE_USERS_REQUEST, callUpdateUsers),
