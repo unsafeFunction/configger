@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Radio, Select, Tooltip, Typography } from 'antd';
+import { Popover, Radio, Select, Tooltip, Typography } from 'antd';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -11,6 +11,7 @@ import modalActions from 'redux/modal/actions';
 import { isReservedSample, roundValue } from 'utils/analysisRules';
 import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlighting';
+import styles from './styles.module.scss';
 
 const { Option } = Select;
 
@@ -302,12 +303,29 @@ const columns = [
   {
     title: 'Wells',
     dataIndex: 'wells',
-    render: (value, record) => (
-      <Typography.Text className="text-primary">
-        {value}
-        {record.warning_flag && <sup>{warningFlag}</sup>}
-      </Typography.Text>
-    ),
+    ellipsis: true,
+    render: (value, record) => {
+      const wells = (
+        <Typography.Text className="text-primary">
+          {value}
+          {record.warning_flag && <sup>{warningFlag}</sup>}
+        </Typography.Text>
+      );
+
+      if (value.length > 20) {
+        return (
+          <Popover
+            content={value}
+            trigger="hover"
+            overlayClassName={styles.popover}
+            placement="right"
+          >
+            {wells}
+          </Popover>
+        );
+      }
+      return wells;
+    },
     filters: [
       {
         text: <Typography.Text>With warnings {warningFlag}</Typography.Text>,

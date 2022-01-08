@@ -1,10 +1,6 @@
 import omit from 'lodash.omit';
 import { combineReducers } from 'redux';
-import {
-  isReservedSample,
-  isUnusedSample,
-  roundValue,
-} from 'utils/analysisRules';
+import { isReservedSample, roundValue } from 'utils/analysisRules';
 import { constants } from 'utils/constants';
 import actions from './actions';
 
@@ -74,14 +70,12 @@ const initialRunState = {
 };
 
 const excludeReservedSamples = (items) =>
-  items
-    .filter?.((item) => !isUnusedSample(item.display_sample_id))
-    .map?.((item) => {
-      if (isReservedSample(item.display_sample_id)) {
-        return omit(item, ['children', 'rerun_action']);
-      }
-      return item;
-    });
+  items.map?.((item) => {
+    if (isReservedSample(item.display_sample_id)) {
+      return omit(item, ['children', 'rerun_action']);
+    }
+    return item;
+  });
 
 const formatResults = (items = []) => {
   const samples = excludeReservedSamples(items);
