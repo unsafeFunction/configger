@@ -1,15 +1,9 @@
 import round from 'lodash.round';
 
 export const isReservedSample = (value = '') => {
-  const reservedSamples = ['H20', 'H2O', 'HBSS', 'PC'];
+  const reservedSamples = ['H20', 'H2O', 'HBSS', 'PC', 'BLANKS', 'EMPTY'];
 
   return reservedSamples.some((sample) => value.includes(sample));
-};
-
-export const isUnusedSample = (value = '') => {
-  const unusedSamples = ['BLANKS', 'EMPTY'];
-
-  return unusedSamples.includes(value);
 };
 
 export const roundValue = (value) => {
