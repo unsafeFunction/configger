@@ -26,6 +26,12 @@ export async function getMenuData() {
       ],
     },
     {
+      title: 'Companies',
+      key: 'companies',
+      icon: 'fe fe-briefcase',
+      url: '/companies',
+    },
+    {
       title: 'Pools',
       key: 'pools',
       url: '/pools',
@@ -130,6 +136,7 @@ export async function getRolePermissions() {
         '/pools',
         '/rack-scans',
         '/generate-run',
+        '/companies',
         // '/management',
         '/inventory',
         '/analysis-runs',
@@ -148,6 +155,7 @@ export async function getRolePermissions() {
         '/pool-scans',
         '/session',
         '/pools',
+        '/companies',
         '/rack-scans',
         // '/management',
         '/inventory',

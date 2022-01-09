@@ -1,6 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { Form, Select } from 'antd';
 import classNames from 'classnames';
+import TableFooter from 'components/layout/TableFooterLoader';
+import 'emoji-mart/css/emoji-mart.css';
 import debounce from 'lodash.debounce';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,14 +10,14 @@ import customersActions from 'redux/customers/actions';
 import { LoadingNode, NotFoundNode } from './components';
 import styles from './styles.module.scss';
 
-const ContactResultModal = ({}) => {
+const ContactResultModal = ({ form, existUsers }) => {
   const { Item } = Form;
   const [page, setPage] = useState(1);
   const [formattedUsers, setFormattedUsers] = useState([]);
   const [searchName, setSearchName] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { items: users } = useSelector((state) => state.customers);
+  const { items: users, total } = useSelector((state) => state.customers);
 
   useEffect(() => {
     setFormattedUsers(
@@ -40,6 +42,12 @@ const ContactResultModal = ({}) => {
       },
     });
   }, []);
+
+  const loadPage = useCallback(() => {
+    setLoading(true);
+    setPage(page + 1);
+    loadUsers({ page: page + 1, search: searchName });
+  }, [searchName, page]);
 
   const sendQuery = useCallback((query) => {
     if (query) {
@@ -98,7 +106,14 @@ const ContactResultModal = ({}) => {
           dropdownClassName={classNames({ [styles.hide]: !searchName })}
           dropdownRender={(menu) => {
             return searchName ? (
-              <div className={styles.dropDown}>{menu}</div>
+              <div className={styles.dropDown}>
+                {menu}
+                <TableFooter
+                  loading={isLoading}
+                  disabled={users.length >= total}
+                  loadMore={loadPage}
+                />
+              </div>
             ) : null;
           }}
         />

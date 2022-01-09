@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
-import { Input, Select, Form, Space, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Select, Space } from 'antd';
+import 'emoji-mart/css/emoji-mart.css';
+import React from 'react';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 

@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import { constants } from 'utils/constants';
 import actions from './actions';
 
@@ -15,7 +16,7 @@ const initialState = {
   },
 };
 
-export default function poolsReducer(state = initialState, action) {
+const poolsReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.FETCH_POOLS_BY_RUN_ID_REQUEST: {
       return {
@@ -218,4 +219,190 @@ export default function poolsReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+const poolsByDaysReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case actions.FETCH_POOLS_BY_COMPANY_ID_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_POOLS_BY_COMPANY_ID_SUCCESS: {
+      return {
+        ...state,
+        items: action.payload.firstPage
+          ? action.payload.data.results
+          : [...state.items, ...action.payload.data.results],
+        total: action.payload.data.count,
+        isLoading: false,
+        offset: action.payload.firstPage
+          ? constants?.poolsByCompany?.itemsLoadingCount
+          : state.offset + constants?.poolsByCompany?.itemsLoadingCount,
+      };
+    }
+    case actions.FETCH_POOLS_BY_COMPANY_ID_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
+    case actions.UPDATE_POOL_RESULT_BY_DAY_REQUEST: {
+      const updatedPoolData = action.payload;
+
+      return {
+        ...state,
+        items: state.items.map((dateItem) => {
+          const poolDate = Object.keys(dateItem)[0];
+          if (poolDate === updatedPoolData.receiptDate) {
+            return {
+              [poolDate]: dateItem[poolDate].map((poolItem) => {
+                if (poolItem.unique_id === updatedPoolData.poolId) {
+                  return {
+                    ...poolItem,
+                    resultIsUpdating: true,
+                  };
+                }
+                return poolItem;
+              }),
+            };
+          }
+          return dateItem;
+        }),
+      };
+    }
+    case actions.UPDATE_POOL_RESULT_BY_DAY_SUCCESS: {
+      const updatedPoolData = action.payload.data;
+
+      return {
+        ...state,
+        items: state.items.map((dateItem) => {
+          const poolDate = Object.keys(dateItem)[0];
+          if (poolDate === updatedPoolData.receipt_date) {
+            return {
+              [poolDate]: dateItem[poolDate].map((poolItem) => {
+                if (poolItem.unique_id === updatedPoolData.unique_id) {
+                  return {
+                    ...poolItem,
+                    ...updatedPoolData,
+                    resultIsUpdating: false,
+                  };
+                }
+                return poolItem;
+              }),
+            };
+          }
+          return dateItem;
+        }),
+      };
+    }
+    case actions.UPDATE_POOL_RESULT_BY_DAY_FAILURE: {
+      const updatedPoolData = action.payload;
+
+      return {
+        ...state,
+        items: state.items.map((dateItem) => {
+          const poolDate = Object.keys(dateItem)[0];
+          if (poolDate === updatedPoolData.receiptDate) {
+            return {
+              [poolDate]: dateItem[poolDate].map((poolItem) => {
+                if (poolItem.unique_id === updatedPoolData.poolId) {
+                  return {
+                    ...poolItem,
+                    resultIsUpdating: false,
+                  };
+                }
+                return poolItem;
+              }),
+            };
+          }
+          return dateItem;
+        }),
+      };
+    }
+
+    case actions.PUBLISH_POOL_BY_DAY_REQUEST: {
+      const updatedPoolData = action.payload;
+
+      return {
+        ...state,
+        items: state.items.map((dateItem) => {
+          const poolDate = Object.keys(dateItem)[0];
+          if (poolDate === updatedPoolData.receiptDate) {
+            return {
+              [poolDate]: dateItem[poolDate].map((poolItem) => {
+                if (poolItem.unique_id === updatedPoolData.poolId) {
+                  return {
+                    ...poolItem,
+                    isUpdating: true,
+                  };
+                }
+                return poolItem;
+              }),
+            };
+          }
+          return dateItem;
+        }),
+      };
+    }
+    case actions.PUBLISH_POOL_BY_DAY_SUCCESS: {
+      const updatedPoolData = action.payload.data;
+
+      return {
+        ...state,
+        items: state.items.map((dateItem) => {
+          const poolDate = Object.keys(dateItem)[0];
+          if (poolDate === updatedPoolData.receipt_date) {
+            return {
+              [poolDate]: dateItem[poolDate].map((poolItem) => {
+                if (poolItem.unique_id === updatedPoolData.unique_id) {
+                  return {
+                    ...poolItem,
+                    ...updatedPoolData,
+                    isUpdating: false,
+                  };
+                }
+                return poolItem;
+              }),
+            };
+          }
+          return dateItem;
+        }),
+      };
+    }
+    case actions.PUBLISH_POOL_BY_DAY_FAILURE: {
+      const updatedPoolData = action.payload;
+
+      return {
+        ...state,
+        items: state.items.map((dateItem) => {
+          const poolDate = Object.keys(dateItem)[0];
+          if (poolDate === updatedPoolData.receiptDate) {
+            return {
+              [poolDate]: dateItem[poolDate].map((poolItem) => {
+                if (poolItem.unique_id === updatedPoolData.poolId) {
+                  return {
+                    ...poolItem,
+                    isUpdating: false,
+                  };
+                }
+                return poolItem;
+              }),
+            };
+          }
+          return dateItem;
+        }),
+      };
+    }
+
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  all: poolsReducer,
+  allByDays: poolsByDaysReducer,
+});

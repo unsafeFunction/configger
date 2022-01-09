@@ -23,7 +23,7 @@ export const fetchPoolsByCompanyId = async ({
   search,
 }) => {
   try {
-    const pools = await axiosClient.get(`/companies/${companyId}/pools/`, {
+    const pools = await axiosClient.get(`/pools/${companyId}/pools/`, {
       params: {
         limit,
         offset,

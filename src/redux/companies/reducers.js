@@ -1,4 +1,3 @@
-import isEmpty from 'lodash.isempty';
 import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
 import { constants } from 'utils/constants';
@@ -10,7 +9,6 @@ const initialState = {
   isLoading: false,
   offset: 0,
   total: 0,
-  page: 1,
   search: '',
 };
 
@@ -90,12 +88,8 @@ const companiesReducer = (state = initialState, action) => {
 
 const initialSingleCompany = {
   unique_id: '',
-  company_id: '',
-  name: '',
-  name_short: '',
   results_contacts: [],
-  isLoadingCompany: false,
-  error: null,
+  name: '',
 };
 
 export default combineReducers({
@@ -105,39 +99,9 @@ export default combineReducers({
       actions.GET_COMPANY_REQUEST,
       actions.GET_COMPANY_SUCCESS,
       actions.GET_COMPANY_FAILURE,
-      actions.FETCH_COMPANY_SHORT_REQUEST,
-      actions.FETCH_COMPANY_SHORT_SUCCESS,
-      actions.FETCH_COMPANY_SHORT_FAILURE,
     ],
   })((state = initialSingleCompany, action = {}) => {
     switch (action.type) {
-      case 'modal/SHOW_MODAL':
-      case 'modal/HIDE_MODAL': {
-        return {
-          ...initialSingleCompany,
-        };
-      }
-      case actions.FETCH_COMPANY_SHORT_REQUEST:
-        return {
-          ...state,
-          isLoadingCompany: true,
-          error: null,
-        };
-      case actions.FETCH_COMPANY_SHORT_SUCCESS:
-        const company = !isEmpty(action.payload.data)
-          ? action.payload.data
-          : initialSingleCompany;
-        return {
-          ...state,
-          isLoadingCompany: false,
-          ...company,
-        };
-      case actions.FETCH_COMPANY_SHORT_FAILURE:
-        return {
-          ...state,
-          ...initialSingleCompany,
-          error: action.payload.data,
-        };
       case actions.START_CAMPAIGN_REQUEST:
         return {
           ...state,
