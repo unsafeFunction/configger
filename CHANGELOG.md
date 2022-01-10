@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.5.1](https://github.com/mokkapps/changelog-generator-demo/compare/v9.5.0...v9.5.1) (2022-01-10)
+
+### Features
+
+- companies ([0757dd6](https://github.com/mokkapps/changelog-generator-demo/commits/0757dd63a9b2def921be3ca04d03aad0d9dd49c0))
+
+### Bug Fixes
+
+- display empty / blank samples ([13f0181](https://github.com/mokkapps/changelog-generator-demo/commits/13f0181993a1527fe56f7a013f5e66b8ce7bba5f))
+- is diagnostic ([c76486c](https://github.com/mokkapps/changelog-generator-demo/commits/c76486c0e6e5d0c56076a3c3ff9f247244e42ada))
+
 ## [9.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.4.0...v9.5.0) (2022-01-05)
 
 ### Bug Fixes
