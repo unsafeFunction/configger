@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.5.2](https://github.com/mokkapps/changelog-generator-demo/compare/v9.5.1...v9.5.2) (2022-01-10)
+
+### Features
+
+- runs ([4ef00fd](https://github.com/mokkapps/changelog-generator-demo/commits/4ef00fd5a191d6d185988df902f3776dcd129cec))
+
+### Bug Fixes
+
+- handle errors in pools and runs ([a70a858](https://github.com/mokkapps/changelog-generator-demo/commits/a70a8584f7dc7e7fb5959c5229b2f22f421eebb3))
+- hardcode txt ext for racs ([96cc65d](https://github.com/mokkapps/changelog-generator-demo/commits/96cc65dabb72f7cdc6abb08d608999f4edd37c75))
+- remove user role validation in pools and runs ([6a6fd5b](https://github.com/mokkapps/changelog-generator-demo/commits/6a6fd5ba07a9cbc36826428e80343cb0dfa5662e))
+
 ### [9.5.1](https://github.com/mokkapps/changelog-generator-demo/compare/v9.5.0...v9.5.1) (2022-01-10)
 
 ### Features
