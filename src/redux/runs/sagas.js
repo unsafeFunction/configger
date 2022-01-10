@@ -1,5 +1,5 @@
-import { all, takeEvery, put, call } from 'redux-saga/effects';
 import { notification } from 'antd';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { fetchRuns, publishRun } from 'services/runs';
 import actions from './actions';
 
@@ -15,7 +15,10 @@ export function* callLoadRuns({ payload }) {
       },
     });
   } catch (error) {
-    notification.error(error);
+    yield put({ type: actions.FETCH_RUNS_FAILURE });
+    notification.error({
+      message: error.message,
+    });
   }
 }
 
@@ -39,7 +42,9 @@ export function* callPublishRun({ payload }) {
         runId: payload.runId,
       },
     });
-    notification.error(error);
+    notification.error({
+      message: error.message,
+    });
   }
 }
 

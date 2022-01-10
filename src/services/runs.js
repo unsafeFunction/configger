@@ -1,4 +1,5 @@
 import axiosClient from 'utils/axiosClient';
+import errorOutput from 'utils/errorOutput';
 
 export const fetchRuns = async (query) => {
   try {
@@ -9,7 +10,7 @@ export const fetchRuns = async (query) => {
     });
     return runs;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
@@ -20,6 +21,6 @@ export const publishRun = async (payload) => {
     });
     return run;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };

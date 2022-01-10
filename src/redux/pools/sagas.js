@@ -25,7 +25,10 @@ export function* callLoadPoolsByRunId({ payload }) {
       },
     });
   } catch (error) {
-    notification.error(error);
+    yield put({ type: actions.FETCH_POOLS_BY_RUN_ID_FAILURE });
+    notification.error({
+      message: error.message,
+    });
   }
 }
 
@@ -77,7 +80,9 @@ export function* callPublishPool({
         receiptDate,
       },
     });
-    notification.error(error);
+    notification.error({
+      message: error.message,
+    });
   }
 }
 
@@ -128,7 +133,9 @@ export function* callUpdatePoolResult({
         receiptDate,
       },
     });
-    notification.error(error);
+    notification.error({
+      message: error.message,
+    });
   }
 }
 

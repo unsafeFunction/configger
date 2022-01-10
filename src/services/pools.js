@@ -12,7 +12,7 @@ export const fetchPoolsByRunId = async ({ runId, limit, offset, search }) => {
     });
     return pools;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
@@ -43,7 +43,7 @@ export const publishPool = async (payload) => {
     });
     return pool;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
@@ -63,7 +63,7 @@ export const updatePoolResult = async (payload) => {
     });
     return pool;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
