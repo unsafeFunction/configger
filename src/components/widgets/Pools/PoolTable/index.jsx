@@ -18,8 +18,7 @@ const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
-  const pools = useSelector((state) => state.pools);
-  const resutList = useSelector((state) => state.pools.resultList);
+  const { all: pools, resultList } = useSelector((state) => state.pools);
 
   const useFetching = () => {
     useEffect(() => {
@@ -174,7 +173,7 @@ const PoolTable = ({ loadMore }) => {
               bordered={false}
               dropdownMatchSelectWidth={200}
             >
-              {resutList?.items
+              {resultList.items
                 ?.filter((option) => option.value !== record.result)
                 .map((item) => (
                   <Option key={item.key} value={item.value}>

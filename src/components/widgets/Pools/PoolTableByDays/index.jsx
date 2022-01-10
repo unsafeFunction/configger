@@ -1,13 +1,13 @@
 import {
+  Button,
   Popconfirm,
   Popover,
+  Result,
   Select,
   Switch,
   Table,
   Tag,
   Tooltip,
-  Result,
-  Button,
 } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
@@ -16,12 +16,12 @@ import moment from 'moment-timezone';
 import PropTypes from 'prop-types';
 import React, { Fragment, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import { getColor, getIcon, getStatusText } from 'utils/highlightingResult';
 import styles from './styles.module.scss';
-import { useHistory } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -199,7 +199,7 @@ const PoolTableByDays = ({
               disabled={record.resultIsUpdating}
               bordered={false}
             >
-              {resultList?.items
+              {resultList.items
                 ?.filter((option) => option.value !== record.result)
                 .map((item) => (
                   <Option key={item.key} value={item.value}>

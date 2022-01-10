@@ -9,11 +9,6 @@ const initialState = {
   total: 0,
   offset: 0,
   error: null,
-  resultList: {
-    items: [],
-    isLoading: false,
-    error: null,
-  },
 };
 
 const poolsReducer = (state = initialState, action) => {
@@ -37,34 +32,7 @@ const poolsReducer = (state = initialState, action) => {
           : state.offset + constants.poolsByRun.itemsLoadingCount,
       };
     }
-
     case actions.FETCH_POOLS_BY_RUN_ID_FAILURE: {
-      return {
-        ...state,
-        isLoading: false,
-      };
-    }
-
-    case actions.FETCH_POOLS_BY_COMPANY_ID_REQUEST: {
-      return {
-        ...state,
-        isLoading: true,
-      };
-    }
-    case actions.FETCH_POOLS_BY_COMPANY_ID_SUCCESS: {
-      return {
-        ...state,
-        items: action.payload.firstPage
-          ? action.payload.data.results
-          : [...state.items, ...action.payload.data.results],
-        total: action.payload.data.count,
-        isLoading: false,
-        offset: action.payload.firstPage
-          ? constants?.pools?.itemsLoadingCount
-          : state.offset + constants?.pools?.itemsLoadingCount,
-      };
-    }
-    case actions.FETCH_POOLS_BY_COMPANY_ID_FAILURE: {
       return {
         ...state,
         isLoading: false,
@@ -138,37 +106,6 @@ const poolsReducer = (state = initialState, action) => {
           }
           return pool;
         }),
-      };
-    }
-
-    case actions.FETCH_RESULT_LIST_REQUEST: {
-      return {
-        ...state,
-        resultList: {
-          ...state.resultList,
-          items: [],
-          isLoading: true,
-          error: null,
-        },
-      };
-    }
-    case actions.FETCH_RESULT_LIST_SUCCESS: {
-      return {
-        ...state,
-        resultList: {
-          ...state.resultList,
-          isLoading: false,
-          items: action.payload.data,
-        },
-      };
-    }
-    case actions.FETCH_RESULT_LIST_FAILURE: {
-      return {
-        ...state,
-        resultList: {
-          ...state.resultList,
-          isLoading: false,
-        },
       };
     }
 
@@ -402,7 +339,40 @@ const poolsByDaysReducer = (state = initialState, action) => {
   }
 };
 
+const initialResultListState = {
+  items: [],
+  isLoading: false,
+};
+
+const resultListReducer = (state = initialResultListState, action) => {
+  switch (action.type) {
+    case actions.FETCH_RESULT_LIST_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case actions.FETCH_RESULT_LIST_SUCCESS: {
+      return {
+        ...state,
+        items: action.payload.data,
+        isLoading: false,
+      };
+    }
+    case actions.FETCH_RESULT_LIST_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   all: poolsReducer,
   allByDays: poolsByDaysReducer,
+  resultList: resultListReducer,
 });

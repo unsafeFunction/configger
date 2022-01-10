@@ -1,13 +1,11 @@
-import actions from './actions';
 import { constants } from 'utils/constants';
+import actions from './actions';
 
 const initialState = {
   items: [],
   isLoading: false,
   total: 0,
   offset: 0,
-  search: '',
-  error: null,
 };
 
 export default function runsReducer(state = initialState, action) {
@@ -35,7 +33,6 @@ export default function runsReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        // error: action.payload.data,
       };
     }
 
@@ -80,7 +77,6 @@ export default function runsReducer(state = initialState, action) {
           }
           return run;
         }),
-        // error: action.payload.data,
       };
     }
     default:
