@@ -27,7 +27,6 @@ const Runs = () => {
   const location = useLocation();
   const [dates, setDates] = useState([]);
 
-  const user = useSelector((state) => state.user);
   const runs = useSelector((state) => state.runs);
 
   const { from, to } = qs.parse(location.search, {
@@ -125,14 +124,12 @@ const Runs = () => {
             onPublishChange(record.id, !(record.pools_unpublished === 0))
           }
           placement="topRight"
-          disabled={user.role === 'staff'}
         >
           <Switch
             checkedChildren="Published"
             unCheckedChildren="Unpublished"
             checked={record.pools_unpublished === 0}
             loading={record.isUpdating}
-            disabled={user.role === 'staff'}
           />
         </Popconfirm>
       ),
