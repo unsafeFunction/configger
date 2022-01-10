@@ -1,13 +1,13 @@
 import {
+  Button,
   Popconfirm,
   Popover,
+  Result,
   Select,
   Switch,
   Table,
   Tag,
   Tooltip,
-  Result,
-  Button,
 } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
@@ -16,12 +16,12 @@ import moment from 'moment-timezone';
 import PropTypes from 'prop-types';
 import React, { Fragment, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import { getColor, getIcon, getStatusText } from 'utils/highlightingResult';
 import styles from './styles.module.scss';
-import { useHistory } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -34,7 +34,6 @@ const PoolTableByDays = ({
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const user = useSelector((state) => state.user);
   const { allByDays: pools, resultList } = useSelector((state) => state.pools);
 
   const useFetching = () => {
@@ -168,56 +167,48 @@ const PoolTableByDays = ({
         compare: (a, b) =>
           a.result < b.result ? -1 : a.result > b.result ? 1 : 0,
       },
-      render: (_, record) =>
-        user.role === 'admin' ? (
-          <Tooltip
-            placement="bottom"
-            title={
-              record.result === 'Rejected' && (
-                <span>
-                  <b>REJECTED</b> - Your samples were <b>not tested</b> due to
-                  poor sample quality. The samples may be contaminated, empty,
-                  improperly collected, or have insufficient volume.
-                </span>
-              )
+      render: (_, record) => (
+        <Tooltip
+          placement="bottom"
+          title={
+            record.result === 'Rejected' && (
+              <span>
+                <b>REJECTED</b> - Your samples were <b>not tested</b> due to
+                poor sample quality. The samples may be contaminated, empty,
+                improperly collected, or have insufficient volume.
+              </span>
+            )
+          }
+        >
+          <Select
+            value={
+              <Tag
+                color={getColor(record.result)}
+                icon={getIcon(record.result)}
+              >
+                {record.result === 'COVID-19 Detected'
+                  ? 'DETECTED'
+                  : record.result.toUpperCase()}
+              </Tag>
             }
+            style={{ width: 178 }}
+            loading={record.resultIsUpdating}
+            onSelect={onModalToggle(record)}
+            disabled={record.resultIsUpdating}
+            bordered={false}
           >
-            <Select
-              value={
-                <Tag
-                  color={getColor(record.result)}
-                  icon={getIcon(record.result)}
-                >
-                  {record.result === 'COVID-19 Detected'
-                    ? 'DETECTED'
-                    : record.result.toUpperCase()}
-                </Tag>
-              }
-              style={{ width: 178 }}
-              loading={record.resultIsUpdating}
-              onSelect={onModalToggle(record)}
-              disabled={record.resultIsUpdating}
-              bordered={false}
-            >
-              {resultList?.items
-                ?.filter((option) => option.value !== record.result)
-                .map((item) => (
-                  <Option key={item.key} value={item.value}>
-                    <Tag
-                      color={getColor(item.value)}
-                      icon={getIcon(item.value)}
-                    >
-                      {getStatusText(item.value)}
-                    </Tag>
-                  </Option>
-                ))}
-            </Select>
-          </Tooltip>
-        ) : (
-          <Tag color={getColor(record.result)} icon={getIcon(record.result)}>
-            {getStatusText(record.result)}
-          </Tag>
-        ),
+            {resultList.items
+              ?.filter((option) => option.value !== record.result)
+              .map((item) => (
+                <Option key={item.key} value={item.value}>
+                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
+                    {getStatusText(item.value)}
+                  </Tag>
+                </Option>
+              ))}
+          </Select>
+        </Tooltip>
+      ),
     },
     {
       title: 'Pool Size',
@@ -253,14 +244,12 @@ const PoolTableByDays = ({
           }?`}
           onConfirm={() => handlePublish(record)}
           placement="topRight"
-          disabled={user.role === 'staff'}
         >
           <Switch
             checkedChildren="Published"
             unCheckedChildren="Unpublished"
             checked={record.is_published}
             loading={record.isUpdating}
-            disabled={user.role === 'staff'}
           />
         </Popconfirm>
       ),

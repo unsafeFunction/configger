@@ -46,10 +46,6 @@ const routes = [
     Component: loadable(() => import('pages/Profile')),
     exact: true,
   },
-  // {
-  //   path: '/packing-slip',
-  //   Component: loadable(() => import('pages/Intake')),
-  // },
   {
     path: '/barcode-lookup',
     Component: loadable(() => import('pages/Search')),
@@ -122,6 +118,14 @@ const routes = [
   {
     path: '/generate-run',
     Component: loadable(() => import('pages/RunTemplate')),
+  },
+  {
+    path: '/runs/:id',
+    Component: loadable(() => import('pages/Runs/Run')),
+  },
+  {
+    path: '/runs',
+    Component: loadable(() => import('pages/Runs')),
   },
   {
     path: '/settings/permission',

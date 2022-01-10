@@ -3,13 +3,13 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Input, Popover } from 'antd';
 import classNames from 'classnames';
 import PoolTable from 'components/widgets/Pools/PoolTable';
+import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import useCustomFilters from 'utils/useCustomFilters';
-import useWindowSize from 'hooks/useWindowSize';
 import styles from './styles.module.scss';
 
 const Pools = () => {
@@ -22,7 +22,7 @@ const Pools = () => {
 
   const [filtersState, filtersDispatch] = useCustomFilters(initialFiltersState);
 
-  const pools = useSelector((state) => state.pools);
+  const pools = useSelector((state) => state.pools.all);
 
   const useFetching = () => {
     useEffect(() => {

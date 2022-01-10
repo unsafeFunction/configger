@@ -12,7 +12,7 @@ export const fetchPoolsByRunId = async ({ runId, limit, offset, search }) => {
     });
     return pools;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
@@ -43,7 +43,7 @@ export const publishPool = async (payload) => {
     });
     return pool;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
@@ -63,7 +63,7 @@ export const updatePoolResult = async (payload) => {
     });
     return pool;
   } catch (error) {
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
@@ -76,6 +76,21 @@ export const fetchPools = async ({ limit, offset, search }) => {
         search,
       },
     });
+    return pools;
+  } catch (error) {
+    throw new Error(errorOutput(error));
+  }
+};
+
+export const syncPools = async ({ poolIds, companyId, ...syncOptions }) => {
+  try {
+    const pools = await axiosClient.post(
+      `/companies/${companyId}/pools/gdrive-sync/`,
+      {
+        pool_ids: poolIds,
+        ...syncOptions,
+      },
+    );
     return pools;
   } catch (error) {
     throw new Error(errorOutput(error));
