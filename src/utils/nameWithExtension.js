@@ -3,6 +3,9 @@ const nameWithExtension = (name = '', contentType = 'application/json') => {
     case 'text/csv': {
       return `${name}.csv`;
     }
+    case 'text/plain': {
+      return `${name}.txt`;
+    }
 
     default:
       return name;

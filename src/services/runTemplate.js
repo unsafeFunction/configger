@@ -6,7 +6,8 @@ import saveBlobAs from 'utils/saveAsBlob';
 // eslint-disable-next-line import/prefer-default-export
 export const createTemplate = async (payload) => {
   try {
-    const contentType = 'text/csv';
+    // need to change depend on variant
+    const contentType = 'text/plain';
     const response = await axiosClient.post('/runs/', {
       ...payload,
       responseType: 'blob',
@@ -20,7 +21,7 @@ export const createTemplate = async (payload) => {
 
     saveBlobAs(
       blobData,
-      nameWithExtension(`${parsedName}.xls` || 'Unknown', contentType),
+      nameWithExtension(parsedName || 'Unknown', contentType),
     );
     return response;
   } catch (error) {
