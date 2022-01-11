@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.5.2...v9.6.0) (2022-01-11)
+
+### Bug Fixes
+
+- fix unique_id ([26585fa](https://github.com/mokkapps/changelog-generator-demo/commits/26585fa383b465173ea7c96c9e6083c90e682358))
+- remove unused packing slip and intake files ([bae06b4](https://github.com/mokkapps/changelog-generator-demo/commits/bae06b418cff2a8cf5da0cadd1fd5f76d7c9ac01))
+
 ### [9.5.2](https://github.com/mokkapps/changelog-generator-demo/compare/v9.5.1...v9.5.2) (2022-01-10)
 
 ### Features
