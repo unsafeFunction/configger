@@ -1,4 +1,3 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Form, Input, Table } from 'antd';
 import classNames from 'classnames';
@@ -6,6 +5,7 @@ import TableFooter from 'components/layout/TableFooterLoader';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
 import moment from 'moment';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import actions from 'redux/companies/actions';
@@ -198,7 +198,7 @@ const Companies = () => {
         align="center"
         onChange={handleTableChange}
         pagination={false}
-        rowKey={(record) => record.unique_id}
+        rowKey={(record) => record.id}
       />
       <TableFooter
         loading={!allCompanies?.isLoading}

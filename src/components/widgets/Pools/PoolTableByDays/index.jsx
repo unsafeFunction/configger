@@ -49,7 +49,7 @@ const PoolTableByDays = ({
       dispatch({
         type: actions.PUBLISH_POOL_BY_DAY_REQUEST,
         payload: {
-          poolId: record.unique_id,
+          poolId: record.id,
           isPublished: !record.is_published,
           byDay: true,
           receiptDate: record.receipt_date,
@@ -64,7 +64,7 @@ const PoolTableByDays = ({
       dispatch({
         type: actions.UPDATE_POOL_RESULT_BY_DAY_REQUEST,
         payload: {
-          poolId: record.unique_id,
+          poolId: record.id,
           result: value,
           byDay: true,
           receiptDate: record.receipt_date,
