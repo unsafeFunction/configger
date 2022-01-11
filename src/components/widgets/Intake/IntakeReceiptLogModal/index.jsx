@@ -46,7 +46,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
     if (!edit) {
       form.setFieldsValue({
         company_name: company.name,
-        company_short: company.name_short,
+        company_short: company.short_name,
       });
     }
   }, [form, company, edit]);
