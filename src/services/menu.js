@@ -126,9 +126,7 @@ export async function getRolePermissions() {
     admin: {
       permitted: [
         '/profile',
-        '/packing-slip',
         '/barcode-lookup',
-        '/intake',
         '/settings',
         '/intake-receipt-log',
         '/pool-scans',
@@ -148,9 +146,7 @@ export async function getRolePermissions() {
     staff: {
       permitted: [
         '/profile',
-        '/packing-slip',
         '/barcode-lookup',
-        '/intake',
         '/settings',
         '/intake-receipt-log',
         '/pool-scans',

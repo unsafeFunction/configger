@@ -50,10 +50,6 @@ const routes = [
     path: '/barcode-lookup',
     Component: loadable(() => import('pages/Search')),
   },
-  // {
-  //   path: '/intake',
-  //   Component: loadable(() => import('pages/IntakeLims')),
-  // },
   {
     path: '/pools',
     Component: loadable(() => import('pages/Pools')),
