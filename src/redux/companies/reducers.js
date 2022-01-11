@@ -87,7 +87,7 @@ const companiesReducer = (state = initialState, action) => {
 };
 
 const initialSingleCompany = {
-  unique_id: '',
+  id: '',
   results_contacts: [],
   name: '',
 };

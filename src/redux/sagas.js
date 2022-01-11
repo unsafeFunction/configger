@@ -2,8 +2,6 @@ import { all } from 'redux-saga/effects';
 import analysisRuns from './analysisRuns/sagas';
 import companies from './companies/sagas';
 import helpers from './helpers/sagas';
-import intake from './intake/sagas';
-import intakeLims from './intakeLims/sagas';
 import intakeReceiptLog from './intakeReceiptLog/sagas';
 import inventory from './inventory/sagas';
 import menu from './menu/sagas';
@@ -27,9 +25,7 @@ export default function* rootSaga() {
     runs(),
     companies(),
     pools(),
-    intake(),
     search(),
-    intakeLims(),
     intakeReceiptLog(),
     scan(),
     inventory(),

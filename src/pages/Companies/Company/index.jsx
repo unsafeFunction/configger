@@ -93,7 +93,7 @@ const CompanyProfile = () => {
       type: poolsActions.SYNC_POOLS_REQUEST,
       payload: {
         poolIds: selectedRowKeys,
-        companyId: singleCompany.unique_id,
+        companyId: singleCompany.id,
         ...fieldValues,
         closeBtn: (key) => (
           <Button

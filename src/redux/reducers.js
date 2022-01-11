@@ -4,8 +4,6 @@ import analysisRuns from './analysisRuns/reducers';
 import companies from './companies/reducers';
 import drawer from './drawer/reducers';
 import helpersReducer from './helpers/reducers';
-import intake from './intake/reducers';
-import intakeLims from './intakeLims/reducers';
 import intakeReceiptLog from './intakeReceiptLog/reducers';
 import inventory from './inventory/reducers';
 import menu from './menu/reducers';
@@ -35,9 +33,7 @@ export default (history) =>
     companies,
     runs,
     pools,
-    intake,
     search,
-    intakeLims,
     intakeReceiptLog,
     scanSessions,
     inventory,

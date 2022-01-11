@@ -196,7 +196,7 @@ const poolsByDaysReducer = (state = initialState, action) => {
           if (poolDate === updatedPoolData.receiptDate) {
             return {
               [poolDate]: dateItem[poolDate].map((poolItem) => {
-                if (poolItem.unique_id === updatedPoolData.poolId) {
+                if (poolItem.id === updatedPoolData.poolId) {
                   return {
                     ...poolItem,
                     resultIsUpdating: true,
@@ -220,7 +220,7 @@ const poolsByDaysReducer = (state = initialState, action) => {
           if (poolDate === updatedPoolData.receipt_date) {
             return {
               [poolDate]: dateItem[poolDate].map((poolItem) => {
-                if (poolItem.unique_id === updatedPoolData.unique_id) {
+                if (poolItem.id === updatedPoolData.id) {
                   return {
                     ...poolItem,
                     ...updatedPoolData,
@@ -245,7 +245,7 @@ const poolsByDaysReducer = (state = initialState, action) => {
           if (poolDate === updatedPoolData.receiptDate) {
             return {
               [poolDate]: dateItem[poolDate].map((poolItem) => {
-                if (poolItem.unique_id === updatedPoolData.poolId) {
+                if (poolItem.id === updatedPoolData.poolId) {
                   return {
                     ...poolItem,
                     resultIsUpdating: false,
@@ -270,7 +270,7 @@ const poolsByDaysReducer = (state = initialState, action) => {
           if (poolDate === updatedPoolData.receiptDate) {
             return {
               [poolDate]: dateItem[poolDate].map((poolItem) => {
-                if (poolItem.unique_id === updatedPoolData.poolId) {
+                if (poolItem.id === updatedPoolData.poolId) {
                   return {
                     ...poolItem,
                     isUpdating: true,
@@ -294,7 +294,7 @@ const poolsByDaysReducer = (state = initialState, action) => {
           if (poolDate === updatedPoolData.receipt_date) {
             return {
               [poolDate]: dateItem[poolDate].map((poolItem) => {
-                if (poolItem.unique_id === updatedPoolData.unique_id) {
+                if (poolItem.id === updatedPoolData.id) {
                   return {
                     ...poolItem,
                     ...updatedPoolData,
@@ -319,7 +319,7 @@ const poolsByDaysReducer = (state = initialState, action) => {
           if (poolDate === updatedPoolData.receiptDate) {
             return {
               [poolDate]: dateItem[poolDate].map((poolItem) => {
-                if (poolItem.unique_id === updatedPoolData.poolId) {
+                if (poolItem.id === updatedPoolData.poolId) {
                   return {
                     ...poolItem,
                     isUpdating: false,

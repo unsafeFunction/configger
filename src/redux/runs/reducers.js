@@ -40,7 +40,7 @@ export default function runsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map((run) => {
-          if (run.unique_id === action.payload.runId) {
+          if (run.id === action.payload.runId) {
             return {
               ...run,
               isUpdating: true,
@@ -54,7 +54,7 @@ export default function runsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map((run) => {
-          if (run.unique_id === action.payload.data.unique_id) {
+          if (run.id === action.payload.data.id) {
             return {
               ...run,
               ...action.payload.data,
@@ -69,7 +69,7 @@ export default function runsReducer(state = initialState, action) {
       return {
         ...state,
         items: state.items.map((run) => {
-          if (run.unique_id === action?.payload?.runId) {
+          if (run.id === action?.payload?.runId) {
             return {
               ...run,
               isUpdating: false,
