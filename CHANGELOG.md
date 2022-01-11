@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.6.0...v9.7.0) (2022-01-11)
+
+### Bug Fixes
+
+- ext fix ([874a385](https://github.com/mokkapps/changelog-generator-demo/commits/874a385effc65cbaf64be51ad2b6c95c1eb59d38))
+- ext fixes ([d609460](https://github.com/mokkapps/changelog-generator-demo/commits/d6094606891559204275ea59a3f053949b921710))
+- short company ([72a652d](https://github.com/mokkapps/changelog-generator-demo/commits/72a652dea178779998931fe228166b13253ec686))
+
 ## [9.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.5.2...v9.6.0) (2022-01-11)
 
 ### Bug Fixes
