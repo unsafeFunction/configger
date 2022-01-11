@@ -21,7 +21,7 @@ export const downloadFile = async ({ link, instanceId }) => {
     saveBlobAs(
       blobData,
       nameWithExtension(
-        `${parsedName}.xls` || `Unknown_${instanceId}`,
+        parsedName || `Unknown_${instanceId}`,
         requestContentType,
       ),
     );
