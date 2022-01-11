@@ -6,12 +6,11 @@ import saveBlobAs from 'utils/saveAsBlob';
 // eslint-disable-next-line import/prefer-default-export
 export const createTemplate = async (payload) => {
   try {
-    // need to change depend on variant
-    const contentType = 'text/plain';
     const response = await axiosClient.post('/runs/', {
       ...payload,
       responseType: 'blob',
     });
+    const contentType = response.headers['content-type'];
 
     const blobData = new Blob([response.data], { type: contentType });
     const parsedName = response.headers['content-disposition']
