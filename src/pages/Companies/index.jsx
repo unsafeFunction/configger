@@ -66,7 +66,7 @@ const Companies = () => {
     },
     {
       title: 'Company Short',
-      dataIndex: 'name_short',
+      dataIndex: 'short_name',
       render: (value) => {
         return value || '-';
       },
