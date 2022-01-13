@@ -18,6 +18,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
+import { constants } from 'utils/constants';
 import actions from 'redux/racks/actions';
 import styles from './styles.module.scss';
 
@@ -139,11 +140,11 @@ const RackScan = () => {
           </Col>
           <Col xs={24} md={18} lg={8} xl={10}>
             <Row className="mb-3">
-              <Typography.Text>PoolRack Name</Typography.Text>
+              <Typography.Text>{constants.names.poolRack} Name</Typography.Text>
               <Input
                 onChange={onDataChange}
                 name="scan_name"
-                placeholder="PoolRack name"
+                placeholder={`${constants.names.poolRack} name`}
                 value={rack.scan_name}
               />
             </Row>

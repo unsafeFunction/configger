@@ -504,4 +504,7 @@ export const constants = {
     intake: 'intake-receipt-log',
     session: '/session/',
   },
+  names: {
+    poolRack: process.env.REACT_APP_LAB_ID === 'wynn' ? 'QS Rack' : 'PoolRack',
+  },
 };

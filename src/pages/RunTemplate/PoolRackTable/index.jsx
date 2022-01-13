@@ -85,12 +85,12 @@ const PoolRackTable = ({ setSelectedRows, runState, limit }) => {
 
   const columns = [
     {
-      title: 'PoolRack Name',
+      title: `${constants.names.poolRack} Name`,
       dataIndex: 'scan_name',
       ellipsis: true,
     },
     {
-      title: 'PoolRack RackID',
+      title: `${constants.names.poolRack} RackID`,
       dataIndex: 'rack_id',
     },
     {
