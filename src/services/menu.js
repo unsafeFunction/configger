@@ -1,3 +1,5 @@
+import { constants } from 'utils/constants';
+
 export async function getMenuData() {
   return [
     {
@@ -18,7 +20,7 @@ export async function getMenuData() {
           icon: 'fe fe-maximize',
         },
         {
-          title: 'PoolRack Scans',
+          title: `${constants.names.poolRack} Scans`,
           key: 'rack-scans',
           url: '/rack-scans',
           icon: 'fe fe-box',

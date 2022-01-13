@@ -129,7 +129,7 @@ const RackScans = () => {
 
   const columns = [
     {
-      title: 'PoolRack Name',
+      title: `${constants.names.poolRack} Name`,
       dataIndex: 'scan_name',
     },
     {
@@ -211,7 +211,7 @@ const RackScans = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>PoolRack Scans</h4>
+        <h4>{constants.names.poolRack} Scans</h4>
       </div>
       <Table
         dataSource={racksItems}
