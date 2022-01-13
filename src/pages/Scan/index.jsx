@@ -27,6 +27,7 @@ import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
+import InfoButton from 'components/layout/InfoButton';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -39,7 +40,6 @@ import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const { Paragraph } = Typography;
-const { Countdown } = Statistic;
 
 const Scan = () => {
   const dispatch = useDispatch();
@@ -513,7 +513,7 @@ const Scan = () => {
             ? `Scan on ${moment(scan.scan_timestamp).format('lll')}`
             : ''}
         </Typography.Title>
-        <Row>
+        <Row className={styles.actionsWrapper}>
           <Row style={{ marginRight: 30 }}>
             {/* {session.started_on_day && (
               <Countdown
@@ -541,12 +541,14 @@ const Scan = () => {
               }
             }}
             disabled={session?.isLoading}
+            className={styles.actions}
           >
             <Button type="primary">
               Session Actions
               <DownOutlined />
             </Button>
           </Dropdown>
+          <InfoButton />
         </Row>
       </div>
       <Row gutter={[48, 40]} justify="center">
