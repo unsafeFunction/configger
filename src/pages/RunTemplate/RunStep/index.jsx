@@ -26,7 +26,6 @@ import {
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import rules from 'utils/formRules';
-import { constants } from 'utils/constants';
 import layoutHook from '../layoutHook';
 import { qsMachines, runTypes, startColumns, values } from '../params';
 import PoolRackDetail from '../PoolRackDetail';
