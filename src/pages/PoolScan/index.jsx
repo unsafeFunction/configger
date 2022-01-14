@@ -8,6 +8,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/scanSessions/actions';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const PoolScan = () => {
@@ -184,22 +185,22 @@ const PoolScan = () => {
             title="Scanned on:"
             value={
               scan?.scan_timestamp
-                ? moment(scan.scan_timestamp).format('lll')
-                : '–'
+                ? moment(scan.scan_timestamp).format(constants.dateTimeFormat)
+                : '-'
             }
           />
           <Statistic
             className={styles.scanStat}
             title="Scanned by:"
-            value={session?.scanned_by ?? '–'}
+            value={session?.scanned_by ?? '-'}
           />
           <Statistic
             className={styles.scanStat}
             title="Last modified on:"
             value={
               scan?.last_modified_on
-                ? moment(scan.last_modified_on).format('lll')
-                : '–'
+                ? moment(scan.last_modified_on).format(constants.dateTimeFormat)
+                : '-'
             }
           />
           <Statistic

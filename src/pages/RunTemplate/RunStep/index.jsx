@@ -24,6 +24,7 @@ import {
   sortableHandle,
 } from 'react-sortable-hoc';
 import modalActions from 'redux/modal/actions';
+import { constants } from 'utils/constants';
 import rules from 'utils/formRules';
 import layoutHook from '../layoutHook';
 import { qsMachines, runTypes, startColumns, values } from '../params';
@@ -130,9 +131,8 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
     {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
-      render: (_, value) => {
-        return moment(value?.scan_timestamp).format('llll') ?? '-';
-      },
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Actions',

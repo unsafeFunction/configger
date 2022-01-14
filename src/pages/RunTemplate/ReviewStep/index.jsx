@@ -6,6 +6,7 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/runTemplate/actions';
+import { constants } from 'utils/constants';
 import PoolRackDetail from '../PoolRackDetail';
 import ReviewTable from './components';
 
@@ -115,7 +116,9 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
               <p>
                 <Text type="secondary">Updated Time: </Text>
                 {poolRack.scan_timestamp
-                  ? moment(poolRack.scan_timestamp).format('lll')
+                  ? moment(poolRack.scan_timestamp).format(
+                      constants.dateTimeFormat,
+                    )
                   : '-'}
               </p>
             </Card>

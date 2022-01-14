@@ -111,34 +111,27 @@ const ScanSessions = () => {
       title: 'Total Pools Count',
       dataIndex: 'pool_size',
       width: 100,
-      render: (_, value) => {
-        return value?.scans.length || '-';
+      render: (_, record) => {
+        return record?.scans.length ?? '-';
       },
     },
     {
       title: 'Total Samples Count',
       dataIndex: 'samples_count',
       width: 110,
-      render: (_, value) => {
-        return value?.samples_count || '-';
-      },
+      render: (value) => value ?? '-',
     },
     {
       title: `Scanned on`,
       dataIndex: 'completed_timestamp',
-      width: 160,
-      render: (_, value) => {
-        return value?.completed_timestamp
-          ? moment(value.completed_timestamp).format('lll')
-          : '-';
-      },
+      width: 190,
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Scanned by',
       dataIndex: 'scanned_by',
-      render: (value) => {
-        return value || '-';
-      },
+      render: (value) => value ?? '-',
     },
   ];
 
@@ -148,7 +141,6 @@ const ScanSessions = () => {
         title: 'Pool ID',
         dataIndex: 'pool_id',
         key: 'pool_id',
-        width: 100,
       },
       {
         title: 'Pool Name',
@@ -165,7 +157,7 @@ const ScanSessions = () => {
         title: 'Scan time',
         dataIndex: 'scan_time',
         key: 'scan_time',
-        width: 300,
+        width: 190,
       },
       { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
       {
@@ -393,7 +385,7 @@ const ScanSessions = () => {
                   </Link>
                 ),
                 scan_time: scan.scan_timestamp
-                  ? moment(scan.scan_timestamp).format('llll')
+                  ? moment(scan.scan_timestamp).format(constants.dateTimeFormat)
                   : '-',
                 scan_name: poolName,
                 pool_size: scan.tubes_count,

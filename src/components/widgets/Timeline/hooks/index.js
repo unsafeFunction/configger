@@ -1,7 +1,8 @@
 import moment from 'moment';
+import { constants } from 'utils/constants';
 
 const useTimelineStatus = (timelineItem) => {
-  const time = moment(timelineItem.created).format('YYYY-MM-DD hh:mm');
+  const time = moment(timelineItem.created).format(constants.dateTimeFormat);
 
   switch (timelineItem.action) {
     case 'RUN_UPLOAD_RAW_FILE': {

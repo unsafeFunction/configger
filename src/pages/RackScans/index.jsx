@@ -131,6 +131,7 @@ const RackScans = () => {
     {
       title: 'PoolRack Name',
       dataIndex: 'scan_name',
+      render: (value) => value ?? '-',
     },
     {
       title: 'Rack ID',
@@ -140,23 +141,17 @@ const RackScans = () => {
       title: 'Pools Count',
       dataIndex: 'scan_pools_count',
       width: 100,
-      render: (value) => {
-        return value ?? '-';
-      },
+      render: (value) => value ?? '-',
     },
     {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
-      render: (_, value) => {
-        return moment(value?.scan_timestamp).format('lll') ?? '-';
-      },
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Logged By',
       dataIndex: 'scanned_by',
-      render: (value) => {
-        return value ?? '-';
-      },
     },
     {
       title: 'Actions',
