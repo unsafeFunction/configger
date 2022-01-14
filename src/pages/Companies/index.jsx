@@ -184,7 +184,6 @@ const Companies = () => {
         dataSource={allCompanies?.items}
         columns={columns}
         scroll={{ x: 800 }}
-        bordered
         loading={!allCompanies?.isLoading}
         align="center"
         onChange={handleTableChange}

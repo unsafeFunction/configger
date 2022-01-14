@@ -300,7 +300,6 @@ const PoolTableByDays = ({
               loading={pools.isLoading}
               pagination={false}
               scroll={{ x: 1300 }}
-              bordered
             />
           </Fragment>
         );

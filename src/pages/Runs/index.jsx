@@ -189,7 +189,6 @@ const Runs = () => {
         loading={runs.isLoading}
         pagination={false}
         scroll={{ x: 1200 }}
-        bordered
         rowKey={(record) => record.id}
       />
       <TableFooter
