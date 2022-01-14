@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.8.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.7.0...v9.8.0) (2022-01-14)
+
+### Features
+
+- qs rack scans ([2aa8fee](https://github.com/mokkapps/changelog-generator-demo/commits/2aa8fee3db43bf8d0a582926b58dd462bef7fe48))
+- tz abbreviations ([3a98dfb](https://github.com/mokkapps/changelog-generator-demo/commits/3a98dfb429ae797a2c1bc35cc01b6808c59c6222))
+
+### Bug Fixes
+
+- remove table borders ([ae7913a](https://github.com/mokkapps/changelog-generator-demo/commits/ae7913ad93f51d9782f1d8c2ec1483d76abef48a))
+- short name companies ([ce7acdf](https://github.com/mokkapps/changelog-generator-demo/commits/ce7acdfe8d0ec52fe3adb01049368d813cd6d273))
+
 ## [9.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.6.0...v9.7.0) (2022-01-11)
 
 ### Bug Fixes
