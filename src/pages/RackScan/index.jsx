@@ -20,7 +20,6 @@ import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import actions from 'redux/racks/actions';
-import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const RackScan = () => {
