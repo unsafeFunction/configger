@@ -106,10 +106,9 @@ const Runs = () => {
     {
       title: 'Results Timestamp',
       dataIndex: 'results_timestamp',
-      width: 150,
-      render: (value) => {
-        return value ? moment(value).format(constants.dateTimeFormat) : '-';
-      },
+      width: 190,
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Action',
@@ -189,8 +188,7 @@ const Runs = () => {
         dataSource={runs.items}
         loading={runs.isLoading}
         pagination={false}
-        scroll={{ x: 'max-content' }}
-        bordered
+        scroll={{ x: 1200 }}
         rowKey={(record) => record.id}
       />
       <TableFooter

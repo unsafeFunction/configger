@@ -20,6 +20,7 @@ import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import actions from 'redux/racks/actions';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const RackScan = () => {
@@ -121,7 +122,9 @@ const RackScan = () => {
         <div className={classNames('air__utils__heading', styles.page__header)}>
           <Typography.Title level={4} className="font-weight-normal">
             {rack?.scan_timestamp
-              ? `Scan on ${moment(rack?.scan_timestamp)?.format('lll') ?? ''}`
+              ? `Scan on ${moment(rack?.scan_timestamp)?.format(
+                  constants.dateTimeFormat,
+                ) ?? ''}`
               : ''}
           </Typography.Title>
           <Dropdown overlay={rackMenu} overlayClassName={styles.actionsOverlay}>

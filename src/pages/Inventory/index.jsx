@@ -70,9 +70,7 @@ const Inventory = () => {
     {
       title: 'User',
       dataIndex: 'user',
-      render: (value) => {
-        return value ?? '-';
-      },
+      render: (value) => value ?? '-',
     },
   ];
 

@@ -103,10 +103,9 @@ const PoolTableByDays = ({
     {
       title: 'Results Timestamp',
       dataIndex: 'results_updated_on',
-      width: 180,
-      render: (value) => {
-        return value ? moment(value).format(constants.dateTimeFormat) : '–';
-      },
+      width: 190,
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Run Title',
@@ -301,7 +300,6 @@ const PoolTableByDays = ({
               loading={pools.isLoading}
               pagination={false}
               scroll={{ x: 1300 }}
-              bordered
             />
           </Fragment>
         );

@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
-import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -76,14 +75,6 @@ const Companies = () => {
       dataIndex: 'company_id',
       render: (value) => {
         return value || '-';
-      },
-    },
-    {
-      title: 'Added On',
-      sorter: true,
-      dataIndex: 'added_on',
-      render: (value) => {
-        return value ? moment(value).format(constants.dateFormat) : '–';
       },
     },
   ];
@@ -192,8 +183,7 @@ const Companies = () => {
       <Table
         dataSource={allCompanies?.items}
         columns={columns}
-        scroll={{ x: 1000 }}
-        bordered
+        scroll={{ x: 800 }}
         loading={!allCompanies?.isLoading}
         align="center"
         onChange={handleTableChange}

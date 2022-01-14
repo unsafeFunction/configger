@@ -88,6 +88,7 @@ const PoolRackTable = ({ setSelectedRows, runState, limit }) => {
       title: `${constants.names.poolRack} Name`,
       dataIndex: 'scan_name',
       ellipsis: true,
+      render: (value) => value ?? '-',
     },
     {
       title: `${constants.names.poolRack} RackID`,
@@ -100,9 +101,8 @@ const PoolRackTable = ({ setSelectedRows, runState, limit }) => {
     {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
-      render: (_, value) => {
-        return moment(value?.scan_timestamp).format('lll') ?? '-';
-      },
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
   ];
 

@@ -94,6 +94,7 @@ const Search = () => {
                             : 'text-primary'
                         }`}
                       >
+                        {/* TODO: When does it occur? fix format. Is it nessesary? */}
                         {info.id === 'company_date'
                           ? moment(info.value).format('YYYY-MM-DD')
                           : info.value}

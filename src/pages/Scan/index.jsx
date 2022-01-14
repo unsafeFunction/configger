@@ -510,7 +510,9 @@ const Scan = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Typography.Title level={4} className="font-weight-normal">
           {scan?.scan_timestamp
-            ? `Scan on ${moment(scan.scan_timestamp).format('lll')}`
+            ? `Scan on ${moment(scan.scan_timestamp).format(
+                constants.dateTimeFormat,
+              )}`
             : ''}
         </Typography.Title>
         <Row>
@@ -716,7 +718,9 @@ const Scan = () => {
                 scansInWork[1]
                   ? `${session?.company_short?.name_short}
                     ${scansInWork[1]?.scan_name}
-                    on ${moment(scansInWork[1].scan_timestamp)?.format('lll')}`
+                    on ${moment(scansInWork[1].scan_timestamp)?.format(
+                      constants.dateTimeFormat,
+                    )}`
                   : '-'
               }
             />
