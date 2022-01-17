@@ -505,6 +505,7 @@ export const constants = {
     session: '/session/',
   },
   names: {
-    poolRack: process.env.REACT_APP_LAB_ID === 'wynn' ? 'QS Rack' : 'PoolRack',
+    poolRack:
+      process.env.REACT_APP_LAB_ID === 'wynn' ? 'KingFisher Rack' : 'PoolRack',
   },
 };

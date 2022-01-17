@@ -333,7 +333,7 @@ const IntakeReceiptLog = () => {
   const data = intakeLog.items.map?.((intakeItem) => ({
     ...intakeItem,
     company_name: intakeItem.company?.name,
-    company_short: intakeItem.company?.short_name,
+    company_short: intakeItem.company?.name_short,
     company_id: intakeItem.company?.company_id,
   }));
 
