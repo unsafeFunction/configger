@@ -53,12 +53,16 @@ ReflexStatus.propTypes = {
 const columns = [
   {
     title: 'Company Short',
-    dataIndex: 'company_name_short',
+    dataIndex: 'company_short_name',
   },
   {
     title: 'Pool Name',
     dataIndex: 'pool_name',
     width: 100,
+  },
+  {
+    title: 'PoolScan Rack ID',
+    dataIndex: 'poolrack_id',
   },
   {
     title: 'Tube Type',
