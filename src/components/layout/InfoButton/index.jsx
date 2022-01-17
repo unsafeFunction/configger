@@ -13,7 +13,7 @@ const InfoButton = () => {
       type: modalActions.SHOW_MODAL,
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
-        title: 'Info',
+        title: 'Session tips',
         message: () => <InfoModal />,
       },
     });
