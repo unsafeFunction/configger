@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.9.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.8.0...v9.9.0) (2022-01-17)
+
+### Bug Fixes
+
+- delete management, company id ([5da824c](https://github.com/mokkapps/changelog-generator-demo/commits/5da824c6a4cdae9da1c53b4e4e1c59a0207460db))
+- remove duplicate var ([9251923](https://github.com/mokkapps/changelog-generator-demo/commits/9251923b8bf24057eaf4f821675bd5f40507075c))
+- remove duplicate var ([dc46f39](https://github.com/mokkapps/changelog-generator-demo/commits/dc46f39654370492ae5b47aa40987457f31279bc))
+- typo name short, king fisher ([deacc55](https://github.com/mokkapps/changelog-generator-demo/commits/deacc55dd5ca5bcb8a1cc06b37f67d2aadf5ee14))
+
 ## [9.8.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.7.0...v9.8.0) (2022-01-14)
 
 ### Features
