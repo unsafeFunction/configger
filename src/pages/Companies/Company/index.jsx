@@ -148,7 +148,7 @@ const CompanyProfile = () => {
             <Statistic
               className={styles.locationName}
               title="Short name"
-              value={singleCompany?.short_name || '-'}
+              value={singleCompany?.name_short || '-'}
               formatter={(value) => formatStatBlock({ value })}
               prefix={<EditOutlined className={styles.statisticIcon} />}
               loading={!singleCompany.isLoading}

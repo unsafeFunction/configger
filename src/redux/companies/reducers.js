@@ -92,7 +92,7 @@ const initialSingleCompany = {
   results_contacts: [],
   name: '',
   company_id: '',
-  short_name: '',
+  name_short: '',
   isLoadingCompany: false,
   error: null,
 };

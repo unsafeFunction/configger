@@ -53,7 +53,7 @@ ReflexStatus.propTypes = {
 const columns = [
   {
     title: 'Company Short',
-    dataIndex: 'company_short_name',
+    dataIndex: 'company_name_short',
   },
   {
     title: 'Pool Name',
