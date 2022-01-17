@@ -69,7 +69,7 @@ const Runs = () => {
       dataIndex: 'companies',
       render: (companies, record) =>
         companies.map((company) => (
-          <div key={company.id} className={styles.company}>
+          <div key={company.company_id} className={styles.company}>
             <Space size="middle">
               <Link to={`/runs/${record.id}`}>
                 <Text className="text-blue">{company.name}</Text>

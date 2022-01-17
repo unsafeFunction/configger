@@ -82,29 +82,6 @@ export async function getMenuData() {
       url: '/inventory',
       icon: 'fe fe-bar-chart',
     },
-    // {
-    //   title: 'Management',
-    //   key: 'management',
-    //   url: '/management',
-    //   icon: 'fe fe-bar-chart',
-    // },
-    // {
-    //   category: true,
-    //   title: 'Settings',
-    // },
-    // {
-    //   title: 'Users',
-    //   key: 'usersSettings',
-    //   icon: 'fe fe-settings',
-    //   children: [
-    //     {
-    //       title: 'User permission',
-    //       key: 'permission',
-    //       url: '/settings/permission',
-    //       icon: 'fe fe-lock',
-    //     },
-    //   ],
-    // },
     {
       title: 'Email Support',
       key: 'contactUs',
@@ -137,7 +114,6 @@ export async function getRolePermissions() {
         '/rack-scans',
         '/generate-run',
         '/companies',
-        // '/management',
         '/inventory',
         '/analysis-runs',
         '/reflex-list',
@@ -156,7 +132,6 @@ export async function getRolePermissions() {
         '/pools',
         '/companies',
         '/rack-scans',
-        // '/management',
         '/inventory',
         '/analysis-runs',
         '/reflex-list',

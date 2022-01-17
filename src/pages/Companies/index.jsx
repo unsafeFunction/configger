@@ -53,9 +53,9 @@ const Companies = () => {
         return (
           <Link
             onClick={() => {
-              setCompanyId(company?.id);
+              setCompanyId(company?.company_id);
             }}
-            to={`/companies/${company?.id}`}
+            to={`/companies/${company?.company_id}`}
             className="text-blue"
           >
             {`${name || '-'}`}

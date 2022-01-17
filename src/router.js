@@ -103,10 +103,6 @@ const routes = [
     path: '/companies/:id',
     Component: loadable(() => import('pages/Companies/Company')),
   },
-  // {
-  //   path: '/management',
-  //   Component: loadable(() => import('pages/Management')),
-  // },
   {
     path: '/inventory',
     Component: loadable(() => import('pages/Inventory')),
