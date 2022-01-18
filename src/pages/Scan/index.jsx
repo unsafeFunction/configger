@@ -569,6 +569,7 @@ const Scan = () => {
               >
                 Save Scan
               </Button>
+              {/* <InfoButton /> */}
               <div>
                 {scansInWork.length > 1 && (
                   <>
@@ -630,6 +631,7 @@ const Scan = () => {
                     <DownOutlined />
                   </Button>
                 </Dropdown>
+                <InfoButton />
               </div>
             </div>
             {/* TODO: why is using separately scanId */}

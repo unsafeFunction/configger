@@ -14,13 +14,17 @@ const InfoButton = () => {
       modalType: 'COMPLIANCE_MODAL',
       modalProps: {
         title: 'Session tips',
+        bodyStyle: {
+          height: '40vh',
+          overflow: 'auto',
+        },
         message: () => <InfoModal />,
       },
     });
   };
 
   return (
-    <Tooltip title="info">
+    <Tooltip title="Click to view tips">
       <Button
         onClick={() => handleClick()}
         shape="circle"
