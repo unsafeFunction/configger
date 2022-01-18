@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.9.1](https://github.com/mokkapps/changelog-generator-demo/compare/v9.9.0...v9.9.1) (2022-01-18)
+
+### Features
+
+- poolrack id ([3629099](https://github.com/mokkapps/changelog-generator-demo/commits/36290999fa2a0370d88c7ffa9ae27805fe366d04))
+
+### Bug Fixes
+
+- search button intake log ([a2f6a5e](https://github.com/mokkapps/changelog-generator-demo/commits/a2f6a5e4ae8cd7500a8f98882a6375fb8a6387fe))
+- update logic of send request for search company ([dad54f7](https://github.com/mokkapps/changelog-generator-demo/commits/dad54f79a9d09d5f7f8d86f244061a96339a99c7))
+
 ## [9.9.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.8.0...v9.9.0) (2022-01-17)
 
 ### Bug Fixes
