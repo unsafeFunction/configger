@@ -2,6 +2,7 @@ import {
   LoadingOutlined,
   MinusCircleOutlined,
   PlusOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import {
   Button,
@@ -14,9 +15,10 @@ import {
   Radio,
   Row,
   Select,
+  Tooltip,
 } from 'antd';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/companies/actions';
 import { constants } from 'utils/constants';
@@ -55,7 +57,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
     setCommentsSelected(isSampleConditionValueOther);
   }, [setCommentsSelected, isSampleConditionValueOther]);
 
-  const handleBlurCompany = useCallback(
+  const handleSearchCompany = useCallback(
     (e) => {
       const { value } = e.target;
 
@@ -86,11 +88,19 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
       <Row gutter={{ md: 32, lg: 48 }}>
         <Col xs={24} md={12}>
           <Item label="Company ID" name="company_id" rules={[rules.required]}>
-            <Input
-              disabled={edit}
-              placeholder="Company ID"
-              onBlur={handleBlurCompany}
-            />
+            <Input.Group className={styles.companyIdWrapper} compact>
+              <Input
+                disabled={edit}
+                placeholder="Company ID"
+                onBlur={handleSearchCompany}
+              />
+              <Tooltip title="Search company by ID">
+                <Button
+                  onClick={handleSearchCompany}
+                  icon={<SearchOutlined />}
+                />
+              </Tooltip>
+            </Input.Group>
           </Item>
           <Item
             label="Company name"
