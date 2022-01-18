@@ -2,8 +2,8 @@ import {
   LoadingOutlined,
   MinusCircleOutlined,
   PlusOutlined,
-  SearchOutlined,
 } from '@ant-design/icons';
+import debounce from 'lodash.debounce';
 import {
   Button,
   Checkbox,
@@ -15,10 +15,9 @@ import {
   Radio,
   Row,
   Select,
-  Tooltip,
 } from 'antd';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/companies/actions';
 import { constants } from 'utils/constants';
@@ -44,6 +43,38 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
 
   const company = useSelector((state) => state.companies.singleCompany);
 
+  const sendQuery = useCallback(
+    (value) => {
+      if (value) {
+        dispatch({
+          type: actions.FETCH_COMPANY_SHORT_REQUEST,
+          payload: { id: value },
+        });
+      }
+    },
+    [dispatch],
+  );
+
+  const delayedQuery = useCallback(
+    debounce((q) => sendQuery(q), 400),
+    [],
+  );
+
+  const handleSearchCompany = useCallback(
+    (e) => {
+      const { value } = e.target;
+      delayedQuery(value);
+    },
+    [delayedQuery],
+  );
+
+  const onSearchCompany = useCallback(() => {
+    dispatch({
+      type: actions.FETCH_COMPANY_SHORT_REQUEST,
+      payload: { id: form.getFieldValue('company_id') },
+    });
+  }, [form, dispatch]);
+
   useEffect(() => {
     if (!edit) {
       form.setFieldsValue({
@@ -57,20 +88,6 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
     setCommentsSelected(isSampleConditionValueOther);
   }, [setCommentsSelected, isSampleConditionValueOther]);
 
-  const handleSearchCompany = useCallback(
-    (e) => {
-      const { value } = e.target;
-
-      if (value) {
-        dispatch({
-          type: actions.FETCH_COMPANY_SHORT_REQUEST,
-          payload: { id: value },
-        });
-      }
-    },
-    [dispatch],
-  );
-
   return (
     <Form
       form={form}
@@ -82,25 +99,21 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
         shipping_violations: [],
         packing_slip_condition: 'Satisfactory',
         sample_condition: 'Acceptable',
+        company_id: '',
       }}
       scrollToFirstError
     >
       <Row gutter={{ md: 32, lg: 48 }}>
         <Col xs={24} md={12}>
-          <Item label="Company ID" name="company_id" rules={[rules.required]}>
-            <Input.Group className={styles.companyIdWrapper} compact>
-              <Input
-                disabled={edit}
-                placeholder="Company ID"
-                onBlur={handleSearchCompany}
-              />
-              <Tooltip title="Search company by ID">
-                <Button
-                  onClick={handleSearchCompany}
-                  icon={<SearchOutlined />}
-                />
-              </Tooltip>
-            </Input.Group>
+          <Item label="Company ID" name="company_id">
+            <Input.Search
+              disabled={edit}
+              placeholder="Company ID"
+              onChange={handleSearchCompany}
+              loading={company.isLoadingCompany}
+              enterButton
+              onSearch={onSearchCompany}
+            />
           </Item>
           <Item
             label="Company name"
