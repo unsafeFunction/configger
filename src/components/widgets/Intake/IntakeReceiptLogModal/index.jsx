@@ -3,6 +3,7 @@ import {
   MinusCircleOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
+import debounce from 'lodash.debounce';
 import {
   Button,
   Checkbox,
@@ -42,6 +43,38 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
 
   const company = useSelector((state) => state.companies.singleCompany);
 
+  const sendQuery = useCallback(
+    (value) => {
+      if (value) {
+        dispatch({
+          type: actions.FETCH_COMPANY_SHORT_REQUEST,
+          payload: { id: value },
+        });
+      }
+    },
+    [dispatch],
+  );
+
+  const delayedQuery = useCallback(
+    debounce((q) => sendQuery(q), 400),
+    [],
+  );
+
+  const handleSearchCompany = useCallback(
+    (e) => {
+      const { value } = e.target;
+      delayedQuery(value);
+    },
+    [delayedQuery],
+  );
+
+  const onSearchCompany = useCallback(() => {
+    dispatch({
+      type: actions.FETCH_COMPANY_SHORT_REQUEST,
+      payload: { id: form.getFieldValue('company_id') },
+    });
+  }, [form, dispatch]);
+
   useEffect(() => {
     if (!edit) {
       form.setFieldsValue({
@@ -55,20 +88,6 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
     setCommentsSelected(isSampleConditionValueOther);
   }, [setCommentsSelected, isSampleConditionValueOther]);
 
-  const handleBlurCompany = useCallback(
-    (e) => {
-      const { value } = e.target;
-
-      if (value) {
-        dispatch({
-          type: actions.FETCH_COMPANY_SHORT_REQUEST,
-          payload: { id: value },
-        });
-      }
-    },
-    [dispatch],
-  );
-
   return (
     <Form
       form={form}
@@ -80,16 +99,20 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
         shipping_violations: [],
         packing_slip_condition: 'Satisfactory',
         sample_condition: 'Acceptable',
+        company_id: '',
       }}
       scrollToFirstError
     >
       <Row gutter={{ md: 32, lg: 48 }}>
         <Col xs={24} md={12}>
-          <Item label="Company ID" name="company_id" rules={[rules.required]}>
-            <Input
+          <Item label="Company ID" name="company_id">
+            <Input.Search
               disabled={edit}
               placeholder="Company ID"
-              onBlur={handleBlurCompany}
+              onChange={handleSearchCompany}
+              loading={company.isLoadingCompany}
+              enterButton
+              onSearch={onSearchCompany}
             />
           </Item>
           <Item
