@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import single from 'redux/factories/single';
 import { constants } from 'utils/constants';
-import isEmpty from 'lodash.isempty';
 import actions from './actions';
 
 const initialState = {
@@ -104,9 +103,6 @@ export default combineReducers({
       actions.GET_COMPANY_REQUEST,
       actions.GET_COMPANY_SUCCESS,
       actions.GET_COMPANY_FAILURE,
-      actions.FETCH_COMPANY_SHORT_REQUEST,
-      actions.FETCH_COMPANY_SHORT_SUCCESS,
-      actions.FETCH_COMPANY_SHORT_FAILURE,
     ],
   })((state = initialSingleCompany, action = {}) => {
     switch (action.type) {
@@ -116,27 +112,6 @@ export default combineReducers({
           ...initialSingleCompany,
         };
       }
-      case actions.FETCH_COMPANY_SHORT_REQUEST:
-        return {
-          ...state,
-          isLoadingCompany: true,
-          error: null,
-        };
-      case actions.FETCH_COMPANY_SHORT_SUCCESS:
-        const company = !isEmpty(action.payload.data)
-          ? action.payload.data
-          : initialSingleCompany;
-        return {
-          ...state,
-          isLoadingCompany: false,
-          ...company,
-        };
-      case actions.FETCH_COMPANY_SHORT_FAILURE:
-        return {
-          ...state,
-          ...initialSingleCompany,
-          error: action.payload.data,
-        };
       case actions.START_CAMPAIGN_REQUEST:
         return {
           ...state,
