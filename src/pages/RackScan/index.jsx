@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -38,7 +39,7 @@ const RackScan = () => {
     form.setFieldsValue({
       orientation_sign_off,
     });
-  }, [orientation_sign_off]);
+  }, [orientation_sign_off, form]);
 
   const onDataChange = useCallback(
     (event) => {

@@ -39,7 +39,6 @@ import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const { Paragraph } = Typography;
-const { Countdown } = Statistic;
 
 const Scan = () => {
   const dispatch = useDispatch();
@@ -97,10 +96,10 @@ const Scan = () => {
     if (session.scanner_id) {
       dispatch({
         type: actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST,
-        payload: { scannerId: session?.scanner_id },
+        payload: { scannerId: session.scanner_id },
       });
     }
-  }, [session.scanner_id]);
+  }, [session.scanner_id, dispatch]);
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 

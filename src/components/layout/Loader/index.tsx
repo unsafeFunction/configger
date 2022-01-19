@@ -2,9 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 import styles from './style.module.scss';
 
-const Loader = ({ spinning = true, fullScreen }) => (
+type AppProps = {
+  spinning: boolean;
+  fullScreen: boolean;
+};
+
+const Loader = ({ spinning = true, fullScreen }: AppProps) => (
   <div
-    className={classNames(styles.loader, {
+    className={classNames(styles?.loader, {
       [styles.hidden]: !spinning,
       [styles.fullScreen]: fullScreen,
     })}

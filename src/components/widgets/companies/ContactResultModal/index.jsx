@@ -2,7 +2,6 @@
 import { Form, Select } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
-import 'emoji-mart/css/emoji-mart.css';
 import debounce from 'lodash.debounce';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

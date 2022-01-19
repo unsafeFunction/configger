@@ -80,10 +80,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
     });
   };
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = debounce((q) => sendQuery(q), 500);
 
   const handleSearch = (value) => {
     setSearchName(value);

@@ -1,4 +1,7 @@
-const nameWithExtension = (name = '', contentType = 'application/json') => {
+const nameWithExtension = (
+  name: string = '',
+  contentType: string = 'application/json',
+): string => {
   switch (contentType) {
     case 'text/csv': {
       return `${name}.csv`;

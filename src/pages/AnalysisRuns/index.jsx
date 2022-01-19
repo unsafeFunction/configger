@@ -97,18 +97,6 @@ const AnalysisRuns = () => {
               maxCount={1}
               name="runFile"
               accept=".csv"
-              // Need to parse .csv before upload for render preview
-              // beforeUpload={(file) => {
-              //   const reader = new FileReader();
-
-              //   reader.onload = (e) => {
-              //     console.log(e.target.result);
-              //   };
-              //   reader.readAsText(file);
-
-              //   // Prevent upload
-              //   return false;
-              // }}
             >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
@@ -208,7 +196,7 @@ const AnalysisRuns = () => {
         },
       });
     },
-    [history],
+    [history, filtersDispatch],
   );
 
   const loadMore = useCallback(() => {

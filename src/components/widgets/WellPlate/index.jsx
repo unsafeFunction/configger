@@ -1,7 +1,5 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Empty, Input, Popover, Table, Tabs, Tag } from 'antd';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/analysisRuns/actions';
@@ -16,10 +14,7 @@ const WellPlate = ({ wellplate, runId }) => {
   const dispatch = useDispatch();
   const [currentTubeID, setCurrentTubeID] = useState('');
   const [popoverVisible, setPopoverVisible] = useState(null);
-  const spinIcon = <LoadingOutlined style={{ fontSize: 36 }} spin />;
   const { wellplates } = useSelector((state) => state.analysisRuns.singleRun);
-  const { modalId } = useSelector((state) => state.modal.modalProps);
-  const isIncorrectPositions = wellplate?.incorrect_positions?.length > 0;
 
   const useFetching = () => {
     useEffect(() => {
@@ -161,10 +156,6 @@ const WellPlate = ({ wellplate, runId }) => {
       )}
     </>
   );
-};
-
-WellPlate.propTypes = {
-  wellplate: PropTypes.shape({}),
 };
 
 export default WellPlate;

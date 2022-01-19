@@ -110,7 +110,7 @@ const Inventory = () => {
     });
   }, [dispatch, handleResetForm, form, createControlTube]);
 
-  const loadMore = useCallback(() => {
+  const loadMore = () => {
     dispatch({
       type: actions.FETCH_INVENTORY_REQUEST,
       payload: {
@@ -119,7 +119,7 @@ const Inventory = () => {
         search: filtersState.search,
       },
     });
-  }, [dispatch, inventory]);
+  };
 
   const sendQuery = useCallback(
     (query) => {
@@ -134,27 +134,21 @@ const Inventory = () => {
     [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = debounce((q) => sendQuery(q), 500);
 
-  const onChangeSearch = useCallback(
-    (event) => {
-      const { target } = event;
+  const onChangeSearch = (event) => {
+    const { target } = event;
 
-      filtersDispatch({
-        type: 'setValue',
-        payload: {
-          name: 'search',
-          value: target.value,
-        },
-      });
+    filtersDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'search',
+        value: target.value,
+      },
+    });
 
-      return delayedQuery(target.value);
-    },
-    [delayedQuery],
-  );
+    return delayedQuery(target.value);
+  };
 
   return (
     <div>

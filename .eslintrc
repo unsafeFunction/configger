@@ -40,7 +40,10 @@
       }
     ],
     "indent": ["error", 2, { "SwitchCase": 1 }],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [
+      1,
+      { "extensions": [".js", ".jsx", ".tsx"] }
+    ],
     "no-const-assign": "warn",
     "no-this-before-super": "warn",
     "no-undef": "warn",

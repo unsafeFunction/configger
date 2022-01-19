@@ -48,7 +48,7 @@ const AppLayout = ({ children }: AppProps) => {
     dispatch({
       type: sessionActions.FETCH_SESSION_ID_REQUEST,
     });
-  }, [location.pathname]);
+  }, [location.pathname, dispatch]);
 
   return (
     <Layout
@@ -63,7 +63,6 @@ const AppLayout = ({ children }: AppProps) => {
     >
       {role === 'company-admin' && !profile?.phone_number && (
         <Alert
-          // className={styles.phoneWarning}
           message="Informational Notes!"
           description="Receive text message notifications for DETECTED pool results. Go to Profile and enter your mobile phone number to begin receiving text message notifications."
           type="warning"

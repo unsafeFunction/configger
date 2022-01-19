@@ -28,7 +28,6 @@ import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const CompanyProfile = () => {
-  const [searchName, setSearchName] = useState('');
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const singleCompany = useSelector((state) => state.companies.singleCompany);
   const pools = useSelector((state) => state.pools.allByDays);
@@ -67,15 +66,14 @@ const CompanyProfile = () => {
         companyId: idFromUrl,
         limit: constants?.poolsByCompany?.itemsLoadingCount,
         offset: pools.offset,
-        search: searchName,
       },
     });
-  }, [dispatch, pools, searchName, idFromUrl]);
+  }, [dispatch, pools, idFromUrl]);
 
   const formatStatBlock = ({ value, link }) => (
     <Tooltip title={value} placement="topLeft">
       {link ? (
-        <a href={value} target="_blank">
+        <a href={value} rel="noopener noreferrer" target="_blank">
           {value}
         </a>
       ) : (
@@ -103,29 +101,26 @@ const CompanyProfile = () => {
         ),
       },
     });
-  }, [selectedRowKeys]);
+  }, [selectedRowKeys, dispatch, singleCompany.company_id, syncForm]);
 
-  const handleModalSync = useCallback(
-    (record) => {
-      dispatch({
-        type: modalActions.SHOW_MODAL,
-        modalType: 'COMPLIANCE_MODAL',
-        modalProps: {
-          title: 'Sync options',
-          cancelButtonProps: { className: styles.modalButton },
-          okButtonProps: {
-            className: styles.modalButton,
-          },
-          onOk: handleSync,
-          okText: 'Sync',
-          message: () => <SyncModal form={syncForm} />,
+  const handleModalSync = useCallback(() => {
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'COMPLIANCE_MODAL',
+      modalProps: {
+        title: 'Sync options',
+        cancelButtonProps: { className: styles.modalButton },
+        okButtonProps: {
+          className: styles.modalButton,
         },
-      });
-    },
-    [dispatch, handleSync],
-  );
+        onOk: handleSync,
+        okText: 'Sync',
+        message: () => <SyncModal form={syncForm} />,
+      },
+    });
+  }, [dispatch, handleSync, syncForm]);
 
-  const menu = (record) => (
+  const menu = () => (
     <Menu>
       <Menu.Item
         onClick={handleModalSync}

@@ -19,7 +19,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
-    "noPropertyAccessFromIndexSignature": true,
     "experimentalDecorators": true,
     "noEmitOnError": true,
     "useDefineForClassFields": true,
@@ -30,6 +29,5 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["src"]
-  // "include": ["src/**/*"]
+  "include": ["src/**/*"]
 }

@@ -71,10 +71,7 @@ const AnalysisRun = () => {
     [run],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [run],
-  );
+  const delayedQuery = debounce((q) => sendQuery(q), 500);
 
   const onChangeSearch = useCallback(
     (event) => {

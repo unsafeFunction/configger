@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -185,29 +186,23 @@ const ScanSessions = () => {
     [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = debounce((q) => sendQuery(q), 500);
 
-  const onChangeSearch = useCallback(
-    (e) => {
-      const { target } = e;
+  const onChangeSearch = (e) => {
+    const { target } = e;
 
-      filtersDispatch({
-        type: 'setValue',
-        payload: {
-          name: 'search',
-          value: target.value,
-        },
-      });
+    filtersDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'search',
+        value: target.value,
+      },
+    });
 
-      return delayedQuery(target.value);
-    },
-    [delayedQuery],
-  );
+    return delayedQuery(target.value);
+  };
 
-  const onDatesChange = useCallback((dates, dateStrings) => {
+  const onDatesChange = (dates, dateStrings) => {
     return filtersDispatch({
       type: 'setValue',
       payload: {
@@ -215,7 +210,7 @@ const ScanSessions = () => {
         value: dates ? dateStrings : [],
       },
     });
-  }, []);
+  };
 
   const handleExpand = useCallback(
     (expanded, record) => {

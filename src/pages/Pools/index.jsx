@@ -62,10 +62,7 @@ const Pools = () => {
     [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = debounce((q) => sendQuery(q), 500);
 
   const onChangeSearch = useCallback(
     (event) => {

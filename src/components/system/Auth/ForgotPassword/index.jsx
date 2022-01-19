@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
@@ -11,18 +11,15 @@ const ForgotPassword = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const onSubmit = useCallback(
-    (values) => {
-      dispatch({
-        type: actions.FORGOT_REQUEST,
-        payload: {
-          ...values,
-          redirect: () => history.push('/system/login'),
-        },
-      });
-    },
-    [dispatch],
-  );
+  const onSubmit = (values) => {
+    dispatch({
+      type: actions.FORGOT_REQUEST,
+      payload: {
+        ...values,
+        redirect: () => history.push('/system/login'),
+      },
+    });
+  };
 
   const user = useSelector((state) => state.user);
 
