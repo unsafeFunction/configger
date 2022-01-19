@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.9.2](https://github.com/mokkapps/changelog-generator-demo/compare/v9.9.1...v9.9.2) (2022-01-19)
+
+### Features
+
+- company autocomplete when creating intake log item ([4185663](https://github.com/mokkapps/changelog-generator-demo/commits/41856633d4811d8ff4f6591360c25fae532e0664))
+
+### Bug Fixes
+
+- modal message function ([6d60bef](https://github.com/mokkapps/changelog-generator-demo/commits/6d60befafb7618c6b61ffcc55928eb0e1944f91d))
+- refactor save scan modal content ([d07d539](https://github.com/mokkapps/changelog-generator-demo/commits/d07d539ad4c5f002a332b062087aaa793bdbf2cc))
+- remove company short request ([43061e8](https://github.com/mokkapps/changelog-generator-demo/commits/43061e82108325633ff519994f057663a3c674f8))
+- remove redirectToTimeline prop ([e02c4c3](https://github.com/mokkapps/changelog-generator-demo/commits/e02c4c3cbce4a19107c2e7e3cfccf0f28c3b7f39))
+
 ### [9.9.1](https://github.com/mokkapps/changelog-generator-demo/compare/v9.9.0...v9.9.1) (2022-01-18)
 
 ### Features
