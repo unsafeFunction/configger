@@ -438,7 +438,7 @@ const Scan = () => {
           disabled: isIncorrectTubes,
         },
         okText: 'Save',
-        message: modalContent(),
+        message: modalContent,
       },
     });
   }, [dispatch, updateScan, incorrectPositions, completed, isDiagnostic]);
