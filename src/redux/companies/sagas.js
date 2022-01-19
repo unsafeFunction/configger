@@ -10,16 +10,8 @@ import modalActions from '../modal/actions';
 import actions from './actions';
 
 export function* callFetchCompanies({ payload }) {
-  const { redirectToTimeline, ...query } = payload;
   try {
-    const response = yield call(fetchCompanies, query);
-
-    if (redirectToTimeline && response.data.count === 1) {
-      return yield call(
-        redirectToTimeline,
-        response.data.results[0]?.company_id,
-      );
-    }
+    const response = yield call(fetchCompanies, payload);
 
     return yield put({
       type: actions.FETCH_COMPANIES_SUCCESS,
