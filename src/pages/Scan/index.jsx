@@ -283,6 +283,43 @@ const Scan = () => {
     [dispatch, reverseScanDrawer],
   );
 
+  const modalContent = () => {
+    const isIncorrect = isIncorrectTubes || isEmptyTubes;
+    return (
+      <div>
+        {isIncorrect && (
+          <Alert
+            showIcon
+            type="warning"
+            message="Warning"
+            description={
+              isIncorrectTubes ? (
+                <Paragraph>
+                  {`IT IS IMPOSSIBLE TO SAVE SCAN
+                     BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}
+                </Paragraph>
+              ) : (
+                <Paragraph>
+                  {`ARE YOU SURE THE RED
+                     (${emptyPosition}) POSITIONS ARE EMPTY?`}
+                </Paragraph>
+              )
+            }
+          />
+        )}
+        {isDiagnostic && !isIncorrectTubes && (
+          <Paragraph>
+            Continuing will categorize all tubes as diagnostic. Are you sure to
+            save the scan as diagnostic?
+          </Paragraph>
+        )}
+        {!isDiagnostic && !isIncorrect && (
+          <Paragraph>Are you sure to save scan?</Paragraph>
+        )}
+      </div>
+    );
+  };
+
   useEffect(() => {
     if (scansInWork[0]?.id) {
       loadScan(scansInWork[0]?.id);
@@ -401,29 +438,7 @@ const Scan = () => {
           disabled: isIncorrectTubes,
         },
         okText: 'Save',
-        message: () => {
-          return isIncorrectTubes || isEmptyTubes ? (
-            <Alert
-              showIcon
-              type="warning"
-              message="Warning"
-              description={
-                isIncorrectTubes ? (
-                  <Paragraph>{`IT IS IMPOSSIBLE TO SAVE SCAN BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}</Paragraph>
-                ) : isEmptyTubes ? (
-                  <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>
-                ) : null
-              }
-            />
-          ) : isDiagnostic ? (
-            <Paragraph>
-              Continuing will categorize all tubes as diagnostic. Are you sure
-              to save the scan as diagnostic?
-            </Paragraph>
-          ) : (
-            <Paragraph>Are you sure to save scan?</Paragraph>
-          );
-        },
+        message: modalContent(),
       },
     });
   }, [dispatch, updateScan, incorrectPositions, completed, isDiagnostic]);
@@ -516,21 +531,6 @@ const Scan = () => {
             : ''}
         </Typography.Title>
         <Row>
-          <Row style={{ marginRight: 30 }}>
-            {/* {session.started_on_day && (
-              <Countdown
-                className={styles.timer}
-                title="The session will end in: "
-                // This one second needed to close session after 30 minutes. Because on 30:00 we can do smth, but on 30:01 - can't
-                value={moment(session.started_on_day).add({
-                  minutes: 30,
-                  seconds: 1,
-                })}
-                format="mm:ss"
-                onFinish={checkSession}
-              />
-            )} */}
-          </Row>
           <Dropdown
             overlay={sessionMenu}
             overlayClassName={styles.actionsOverlay}
