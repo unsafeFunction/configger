@@ -29,7 +29,9 @@ const { RangePicker } = DatePicker;
 const ScanSessions = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [openedRow, setOpenedRow] = useState([]);
+  const [openedRows, setOpenedRows] = useState([]);
+  const [loadingRowId, setLoadingRow] = useState(null);
+  const [allScans, setAllScans] = useState([]);
   const stateRef = useRef();
 
   const initialFiltersState = {
@@ -47,7 +49,7 @@ const ScanSessions = () => {
     (state) => state.scanSessions.sessions,
   );
 
-  const { scans, isLoading: scansIsLoading } = useSelector(
+  const { scans, isLoading: scansIsLoading, id: sessionId } = useSelector(
     (state) => state.scanSessions.singleSession,
   );
 
@@ -135,49 +137,6 @@ const ScanSessions = () => {
     },
   ];
 
-  const expandedRow = (scan) => {
-    const columns = [
-      {
-        title: 'Pool ID',
-        dataIndex: 'pool_id',
-        key: 'pool_id',
-      },
-      {
-        title: 'Pool Name',
-        dataIndex: 'scan_name',
-        key: 'scan_name',
-      },
-      {
-        title: 'Pool Size',
-        dataIndex: 'pool_size',
-        key: 'pool_size',
-      },
-      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
-      {
-        title: 'Scan time',
-        dataIndex: 'scan_time',
-        key: 'scan_time',
-        width: 190,
-      },
-      { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
-      {
-        title: 'Actions',
-        dataIndex: 'actions',
-        key: 'actions',
-        width: 100,
-      },
-    ];
-
-    return (
-      <Table
-        columns={columns}
-        dataSource={scan}
-        pagination={false}
-        loading={scansIsLoading}
-      />
-    );
-  };
-
   const loadMore = useCallback(() => {
     const filteringParams = {
       limit: constants.scanSessions.itemsLoadingCount,
@@ -261,16 +220,17 @@ const ScanSessions = () => {
   const handleExpand = useCallback(
     (expanded, record) => {
       if (expanded) {
-        setOpenedRow([record.id]);
+        setOpenedRows([...openedRows, record.id]);
+        setLoadingRow(record.id);
         dispatch({
           type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
           payload: { sessionId: record.id },
         });
       } else {
-        setOpenedRow([]);
+        setOpenedRows(openedRows.filter((id) => id !== record.id));
       }
     },
-    [dispatch],
+    [dispatch, openedRows],
   );
 
   const exportPool = useCallback(
@@ -309,12 +269,12 @@ const ScanSessions = () => {
     return '-';
   }, []);
 
-  const menu = (record, scan) => (
+  const menu = (sessionId, scan) => (
     <Menu>
       <Menu.Item
         onClick={() =>
           navigateToScan({
-            sessionId: record.id,
+            sessionId,
             scanId: scan.id,
           })
         }
@@ -338,7 +298,7 @@ const ScanSessions = () => {
           onConfirm={() =>
             handleDelete({
               poolId: scan.id,
-              sessionId: record.id,
+              sessionId,
             })
           }
         >
@@ -347,6 +307,94 @@ const ScanSessions = () => {
       </Menu.Item>
     </Menu>
   );
+
+  useEffect(() => {
+    const formattedScans = scans.map((scan) => {
+      const poolName = getPoolName(scan);
+
+      return {
+        key: scan.id,
+        pool_id: (
+          <Link
+            className="table-link"
+            to={`/pool-scans/${sessionId}/${scan.id}`}
+          >
+            {scan.pool_id}
+          </Link>
+        ),
+        scan_time: scan.scan_timestamp
+          ? moment(scan.scan_timestamp).format(constants.dateTimeFormat)
+          : '-',
+        scan_name: poolName,
+        pool_size: scan.tubes_count,
+        rack_id: scan.rack_id,
+        scanner: scan.scanner ?? '-',
+        actions: (
+          <>
+            <Dropdown overlay={menu(sessionId, scan)}>
+              <Button type="primary">
+                Actions
+                <DownOutlined />
+              </Button>
+            </Dropdown>
+          </>
+        ),
+      };
+    });
+
+    setAllScans([
+      ...allScans,
+      {
+        id: sessionId,
+        data: formattedScans,
+      },
+    ]);
+  }, [scans]);
+
+  const expandedRow = (record) => {
+    const columns = [
+      {
+        title: 'Pool ID',
+        dataIndex: 'pool_id',
+        key: 'pool_id',
+      },
+      {
+        title: 'Pool Name',
+        dataIndex: 'scan_name',
+        key: 'scan_name',
+      },
+      {
+        title: 'Pool Size',
+        dataIndex: 'pool_size',
+        key: 'pool_size',
+      },
+      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
+      {
+        title: 'Scan time',
+        dataIndex: 'scan_time',
+        key: 'scan_time',
+        width: 190,
+      },
+      { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
+      {
+        title: 'Actions',
+        dataIndex: 'actions',
+        key: 'actions',
+        width: 100,
+      },
+    ];
+
+    return (
+      <Table
+        columns={columns}
+        dataSource={
+          allScans?.find((recordScans) => recordScans?.id === record.id)?.data
+        }
+        pagination={false}
+        loading={record.id === loadingRowId ? scansIsLoading : false}
+      />
+    );
+  };
 
   const rangePickerValue =
     filtersState.dates.length > 0
@@ -367,43 +415,10 @@ const ScanSessions = () => {
         pagination={false}
         rowKey={(record) => record.id}
         expandRowByClick
-        expandedRowKeys={openedRow}
+        expandedRowKeys={openedRows}
         onExpand={handleExpand}
         expandedRowRender={(record) => {
-          return expandedRow(
-            scans.map((scan) => {
-              const poolName = getPoolName(scan);
-
-              return {
-                key: scan.id,
-                pool_id: (
-                  <Link
-                    className="table-link"
-                    to={`/pool-scans/${record.id}/${scan.id}`}
-                  >
-                    {scan.pool_id}
-                  </Link>
-                ),
-                scan_time: scan.scan_timestamp
-                  ? moment(scan.scan_timestamp).format(constants.dateTimeFormat)
-                  : '-',
-                scan_name: poolName,
-                pool_size: scan.tubes_count,
-                rack_id: scan.rack_id,
-                scanner: scan.scanner ?? '-',
-                actions: (
-                  <>
-                    <Dropdown overlay={menu(record, scan)}>
-                      <Button type="primary">
-                        Actions
-                        <DownOutlined />
-                      </Button>
-                    </Dropdown>
-                  </>
-                ),
-              };
-            }),
-          );
+          return expandedRow(record);
         }}
         title={() => (
           <Row gutter={16}>
