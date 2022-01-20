@@ -3,7 +3,7 @@ import { Form, Select } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import debounce from 'lodash.debounce';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import customersActions from 'redux/customers/actions';
 import { LoadingNode, NotFoundNode } from './components';
@@ -48,17 +48,25 @@ const ContactResultModal = ({ form, existUsers }) => {
     loadUsers({ page: page + 1, search: searchName });
   }, [searchName, page]);
 
-  const sendQuery = useCallback((query) => {
-    if (query) {
-      loadUsers({ page: 1, search: query });
-      setPage(1);
-    }
-  }, []);
-
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
+  const sendQuery = useCallback(
+    (query) => {
+      if (query) {
+        loadUsers({ page: 1, search: query });
+        setPage(1);
+      }
+    },
+    [loadUsers],
   );
+
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
 
   const onChangeSearch = useCallback((value) => {
     setLoading(true);

@@ -16,7 +16,13 @@ import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
@@ -186,7 +192,15 @@ const ScanSessions = () => {
     [dispatch],
   );
 
-  const delayedQuery = debounce((q) => sendQuery(q), 500);
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
 
   const onChangeSearch = (e) => {
     const { target } = e;

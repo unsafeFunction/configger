@@ -14,7 +14,7 @@ import ResultTag from 'components/widgets/ResultTag';
 import RunTimeline from 'components/widgets/Timeline';
 import WellPlate from 'components/widgets/WellPlate';
 import debounce from 'lodash.debounce';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
@@ -71,7 +71,15 @@ const AnalysisRun = () => {
     [run],
   );
 
-  const delayedQuery = debounce((q) => sendQuery(q), 500);
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
 
   const onChangeSearch = useCallback(
     (event) => {
