@@ -2,7 +2,6 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Empty, Input, Steps } from 'antd';
 import Loader from 'components/layout/Loader';
 import debounce from 'lodash.debounce';
-import moment from 'moment-timezone';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/search/actions';
@@ -41,7 +40,7 @@ const Search = () => {
     [],
   );
 
-  const onChangeSearch = useCallback((event) => {
+  const onChangeSearch = (event) => {
     const { target } = event;
 
     filtersDispatch({
@@ -53,7 +52,7 @@ const Search = () => {
     });
 
     return delayedQuery(target.value);
-  }, []);
+  };
 
   return (
     <>
@@ -94,10 +93,7 @@ const Search = () => {
                             : 'text-primary'
                         }`}
                       >
-                        {/* TODO: When does it occur? fix format. Is it nessesary? */}
-                        {info.id === 'company_date'
-                          ? moment(info.value).format('YYYY-MM-DD')
-                          : info.value}
+                        {info.value}
                       </span>
                     </p>
                   ))}
