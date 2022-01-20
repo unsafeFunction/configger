@@ -1,18 +1,19 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
+import { CookieStorage } from 'cookie-storage';
 import cookieStorage from 'utils/cookie';
 
-const cookie = cookieStorage();
+const cookie: CookieStorage | null = cookieStorage();
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
-    Authorization: cookie.getItem('accessToken'),
+    Authorization: cookie?.getItem('accessToken') ?? '',
   },
 });
 
 API.interceptors.request.use(
-  (config) => {
-    const storedToken = cookie.getItem('accessToken');
+  (config: AxiosRequestConfig) => {
+    const storedToken = cookie?.getItem('accessToken') ?? '';
     if (!config.headers.authorization && storedToken) {
       config.headers.Authorization = `Token ${storedToken}`;
     }
