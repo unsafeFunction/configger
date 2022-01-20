@@ -1,10 +1,18 @@
 import filter from 'lodash.filter';
 import { constants } from 'utils/constants';
 
+type TubeType = {
+  position?: string;
+  status?: string;
+};
+
 export const countedPoolTubes = filter(constants.tubes, 'countedForPool');
 
-export const emptyPositionsArr = (positionsArr = [], tube = {}) => {
-  if (!constants.tubes.incorrectLetters.includes(tube?.position?.[0])) {
+export const emptyPositionsArr = (
+  positionsArr: string[] = [],
+  tube: TubeType = {},
+) => {
+  if (!constants.tubes.incorrectLetters.includes(tube?.position?.[0] ?? '')) {
     if (tube?.status === constants.tubes.deleted.status) {
       return [...positionsArr, tube?.position];
     }
@@ -14,9 +22,12 @@ export const emptyPositionsArr = (positionsArr = [], tube = {}) => {
   return positionsArr;
 };
 
-export const incorrectPositionsArr = (positionsArr = [], tube = {}) => {
+export const incorrectPositionsArr = (
+  positionsArr: string[] = [],
+  tube: TubeType = {},
+) => {
   if (
-    constants.tubes.incorrectLetters.includes(tube?.position?.[0]) &&
+    constants.tubes.incorrectLetters.includes(tube?.position?.[0] ?? '') &&
     constants.tubes.referenceTubePosition !== tube?.position
   ) {
     if (tube?.status === constants.tubes.deleted.status) {

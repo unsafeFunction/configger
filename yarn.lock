@@ -1897,6 +1897,13 @@
   dependencies:
     "@types/lodash" "*"
 
+"@types/lodash.filter@^4.6.6":
+  "integrity" "sha512-K9oEglaInmu7pnQnZYdciNePpKe0W7O9yssnCza9mLjpq5N5Ju8RIMwTvp9tovb8V5yemxFTJqHzG+tIkAl1xw=="
+  "resolved" "https://registry.npmjs.org/@types/lodash.filter/-/lodash.filter-4.6.6.tgz"
+  "version" "4.6.6"
+  dependencies:
+    "@types/lodash" "*"
+
 "@types/lodash.round@^4.0.6":
   "integrity" "sha512-4/fs+g0BRnsJZMg0Nl5zHbx4rvo2J6KeDBPsgNvDZ1WKl4/wPOn3yiA7VURP+W0ZgUUQHEpEuLCFRfdW/h5ONg=="
   "resolved" "https://registry.npmjs.org/@types/lodash.round/-/lodash.round-4.0.6.tgz"
