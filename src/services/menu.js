@@ -45,16 +45,16 @@ export async function getMenuData() {
       icon: 'fe fe-box',
       children: [
         {
-          title: 'Generate Run',
-          key: 'runTemplate',
-          url: '/generate-run',
-          icon: 'fe fe-layers',
-        },
-        {
           title: 'Analysis Runs',
           key: 'analysisRuns',
           url: '/analysis-runs',
           icon: 'fe fe-bar-chart-2',
+        },
+        {
+          title: 'Generate Run',
+          key: 'runTemplate',
+          url: '/generate-run',
+          icon: 'fe fe-layers',
         },
         {
           title: 'Reflex List',
