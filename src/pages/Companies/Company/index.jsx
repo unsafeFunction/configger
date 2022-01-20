@@ -14,7 +14,6 @@ import {
   notification,
   Row,
   Statistic,
-  Tabs,
   Tooltip,
 } from 'antd';
 import PoolTableByDays from 'components/widgets/Pools/PoolTableByDays';
@@ -27,8 +26,6 @@ import modalActions from 'redux/modal/actions';
 import { default as poolsActions } from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
-
-const { TabPane } = Tabs;
 
 const CompanyProfile = () => {
   const [searchName, setSearchName] = useState('');
@@ -142,7 +139,7 @@ const CompanyProfile = () => {
 
   return (
     <>
-      <Row className="mb-3" gutter={16}>
+      <Row className="mb-5" gutter={16}>
         <Col xs={24} sm={8}>
           <Card className={styles.statCart}>
             <Statistic
@@ -187,26 +184,25 @@ const CompanyProfile = () => {
           </Col>
         )}
       </Row>
-      <Tabs defaultActiveKey={1}>
-        <TabPane tab="Pools" key={1}>
-          {singleCompany.gdrive_enabled && (
-            <div className="d-flex">
-              <Dropdown className="ml-auto" overlay={menu()}>
-                <Button type="primary">
-                  Actions
-                  <DownOutlined />
-                </Button>
-              </Dropdown>
-            </div>
-          )}
-          <PoolTableByDays
-            gdriveEnabled={singleCompany.gdrive_enabled}
-            loadMore={loadMore}
-            selectedRowKeys={selectedRowKeys}
-            setSelectedRowKeys={setSelectedRowKeys}
-          />
-        </TabPane>
-      </Tabs>
+
+      <div>
+        {singleCompany.gdrive_enabled && (
+          <div className="d-flex">
+            <Dropdown className="ml-auto" overlay={menu()}>
+              <Button type="primary">
+                Actions
+                <DownOutlined />
+              </Button>
+            </Dropdown>
+          </div>
+        )}
+        <PoolTableByDays
+          gdriveEnabled={singleCompany.gdrive_enabled}
+          loadMore={loadMore}
+          selectedRowKeys={selectedRowKeys}
+          setSelectedRowKeys={setSelectedRowKeys}
+        />
+      </div>
     </>
   );
 };
