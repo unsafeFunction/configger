@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import sortBy from 'lodash.sortby';
+import moment from 'moment';
 import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
@@ -79,7 +79,11 @@ export function* callFetchScanSessionById({ payload }) {
   try {
     const response = yield call(fetchSessionById, sessionId);
 
-    const sortedScans = [...sortBy(response?.data?.scans, 'scan_timestamp')];
+    const sortedScans = response?.data?.scans.sort((a, b) => {
+      return moment(new Date(a.scan_timestamp)).diff(
+        moment(new Date(b.scan_timestamp)),
+      );
+    });
     yield put({
       type: actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS,
       payload: {
