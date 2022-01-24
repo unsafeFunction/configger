@@ -79,7 +79,7 @@ const PoolTable = ({ loadMore }) => {
   const columns = [
     {
       title: 'Receipt Timestamp',
-      dataIndex: 'test_receipt_timestamp',
+      dataIndex: 'receipt_date',
       width: 190,
       render: (value) =>
         value ? moment(value).format(constants.dateTimeFormat) : '-',
