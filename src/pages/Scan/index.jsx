@@ -205,18 +205,78 @@ const Scan = () => {
     </Menu>
   );
 
+  const handleSwitchVisibleActions = useCallback(() => {
+    setVisibleActions(!visibleActions);
+  }, [visibleActions]);
+
+  const handleSessionActionVisible = useCallback(() => {
+    setSessionActionVisible(!isSessionActionsVisible);
+  }, [setSessionActionVisible, isSessionActionsVisible]);
+
+  const onSaveSessionModalToggle = useCallback(
+    (refPoolsCount, refSamplesCount, actualPoolsCount, actualSamplesCount) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Save session',
+          onOk: markCompleteSession,
+          bodyStyle: {
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          },
+          okText: 'Save',
+          message: () => {
+            if (
+              refPoolsCount === actualPoolsCount &&
+              refSamplesCount === actualSamplesCount
+            ) {
+              return <span>Are you sure to save session?</span>;
+            }
+            return (
+              <Alert
+                showIcon
+                type="warning"
+                message="Warning"
+                description={
+                  <>
+                    <Paragraph>Are you sure to save session?</Paragraph>
+                    {refPoolsCount !== actualPoolsCount && (
+                      <Paragraph>
+                        Reference pools ({refPoolsCount}) don't match actual
+                        pools ({actualPoolsCount})
+                      </Paragraph>
+                    )}
+                    {refSamplesCount !== actualSamplesCount && (
+                      <Paragraph>
+                        Reference samples ({refSamplesCount}) don't match actual
+                        samples ({actualSamplesCount})
+                      </Paragraph>
+                    )}
+                  </>
+                }
+              />
+            );
+          },
+        },
+      });
+    },
+    [dispatch, markCompleteSession],
+  );
+
   const sessionMenu = (
     <Menu>
       <Menu.Item
         className="mb-4"
-        onClick={() =>
+        onClick={() => {
           onSaveSessionModalToggle(
             refPoolsCount,
             refSamplesCount,
             actualPoolsCount,
             actualSamplesCount,
-          )
-        }
+          );
+          return handleSessionActionVisible();
+        }}
         key="1"
         icon={<CheckOutlined />}
       >
@@ -373,14 +433,6 @@ const Scan = () => {
     session.requestStatus,
   ]);
 
-  const handleSwitchVisibleActions = useCallback(() => {
-    setVisibleActions(!visibleActions);
-  }, [visibleActions]);
-
-  const handleSessionActionVisible = useCallback(() => {
-    setSessionActionVisible(!isSessionActionsVisible);
-  }, [setSessionActionVisible]);
-
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
     if (isEditOpen) {
@@ -467,57 +519,6 @@ const Scan = () => {
     session?.isLoading,
     scans.length,
   ]);
-
-  const onSaveSessionModalToggle = useCallback(
-    (refPoolsCount, refSamplesCount, actualPoolsCount, actualSamplesCount) => {
-      dispatch({
-        type: modalActions.SHOW_MODAL,
-        modalType: 'COMPLIANCE_MODAL',
-        modalProps: {
-          title: 'Save session',
-          onOk: markCompleteSession,
-          bodyStyle: {
-            maxHeight: '70vh',
-            overflow: 'scroll',
-          },
-          okText: 'Save',
-          message: () => {
-            if (
-              refPoolsCount === actualPoolsCount &&
-              refSamplesCount === actualSamplesCount
-            ) {
-              return <span>Are you sure to save session?</span>;
-            }
-            return (
-              <Alert
-                showIcon
-                type="warning"
-                message="Warning"
-                description={
-                  <>
-                    <Paragraph>Are you sure to save session?</Paragraph>
-                    {refPoolsCount !== actualPoolsCount && (
-                      <Paragraph>
-                        Reference pools ({refPoolsCount}) don't match actual
-                        pools ({actualPoolsCount})
-                      </Paragraph>
-                    )}
-                    {refSamplesCount !== actualSamplesCount && (
-                      <Paragraph>
-                        Reference samples ({refSamplesCount}) don't match actual
-                        samples ({actualSamplesCount})
-                      </Paragraph>
-                    )}
-                  </>
-                }
-              />
-            );
-          },
-        },
-      });
-    },
-    [dispatch, markCompleteSession],
-  );
 
   return (
     <div>

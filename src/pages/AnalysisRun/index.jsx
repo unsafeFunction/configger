@@ -242,7 +242,7 @@ const AnalysisRun = () => {
       case 'analysis':
         return 'Finish Analysis';
       case 'review':
-        return 'Publish';
+        return 'Finalize';
       default:
         return '';
     }
