@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -15,7 +16,13 @@ import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
@@ -185,29 +192,31 @@ const ScanSessions = () => {
     [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
 
-  const onChangeSearch = useCallback(
-    (e) => {
-      const { target } = e;
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
 
-      filtersDispatch({
-        type: 'setValue',
-        payload: {
-          name: 'search',
-          value: target.value,
-        },
-      });
+  const onChangeSearch = (e) => {
+    const { target } = e;
 
-      return delayedQuery(target.value);
-    },
-    [delayedQuery],
-  );
+    filtersDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'search',
+        value: target.value,
+      },
+    });
 
-  const onDatesChange = useCallback((dates, dateStrings) => {
+    return delayedQuery(target.value);
+  };
+
+  const onDatesChange = (dates, dateStrings) => {
     return filtersDispatch({
       type: 'setValue',
       payload: {
@@ -215,7 +224,7 @@ const ScanSessions = () => {
         value: dates ? dateStrings : [],
       },
     });
-  }, []);
+  };
 
   const handleExpand = useCallback(
     (expanded, record) => {

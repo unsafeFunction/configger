@@ -6,7 +6,7 @@ import { ControlTubeModal } from 'components/widgets/Inventory';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/inventory/actions';
 import modalActions from 'redux/modal/actions';
@@ -110,7 +110,7 @@ const Inventory = () => {
     });
   }, [dispatch, handleResetForm, form, createControlTube]);
 
-  const loadMore = useCallback(() => {
+  const loadMore = () => {
     dispatch({
       type: actions.FETCH_INVENTORY_REQUEST,
       payload: {
@@ -119,7 +119,7 @@ const Inventory = () => {
         search: filtersState.search,
       },
     });
-  }, [dispatch, inventory]);
+  };
 
   const sendQuery = useCallback(
     (query) => {
@@ -134,27 +134,29 @@ const Inventory = () => {
     [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
 
-  const onChangeSearch = useCallback(
-    (event) => {
-      const { target } = event;
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
 
-      filtersDispatch({
-        type: 'setValue',
-        payload: {
-          name: 'search',
-          value: target.value,
-        },
-      });
+  const onChangeSearch = (event) => {
+    const { target } = event;
 
-      return delayedQuery(target.value);
-    },
-    [delayedQuery],
-  );
+    filtersDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'search',
+        value: target.value,
+      },
+    });
+
+    return delayedQuery(target.value);
+  };
 
   return (
     <div>

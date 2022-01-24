@@ -97,12 +97,13 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
               title={`PoolRack ${index + 1}`}
               extra={
                 // eslint-disable-next-line react/jsx-wrap-multilines
-                <a
+                <div
+                  role="presentation"
                   className="text-primary"
                   onClick={() => openModalDetail(poolRack)}
                 >
                   View plate
-                </a>
+                </div>
               }
             >
               <p>

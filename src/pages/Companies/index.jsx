@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import actions from 'redux/companies/actions';
@@ -133,10 +133,15 @@ const Companies = () => {
     [searchName],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
 
   const onChangeSearch = useCallback((event) => {
     setSearchName(event.target.value);

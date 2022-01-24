@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import PoolTable from 'components/widgets/Pools/PoolTable';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
@@ -62,10 +62,15 @@ const Pools = () => {
     [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
 
   const onChangeSearch = useCallback(
     (event) => {

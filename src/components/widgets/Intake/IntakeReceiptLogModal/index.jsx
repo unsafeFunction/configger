@@ -15,7 +15,7 @@ import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/companies/actions';
@@ -70,20 +70,28 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
     });
   };
 
-  const sendQuery = (query) => {
-    dispatch({
-      type: actions.FETCH_COMPANIES_REQUEST,
-      payload: {
-        limit: constants.companies.itemsLoadingCount,
-        search: query,
-      },
-    });
-  };
-
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
+  const sendQuery = useCallback(
+    (query) => {
+      dispatch({
+        type: actions.FETCH_COMPANIES_REQUEST,
+        payload: {
+          limit: constants.companies.itemsLoadingCount,
+          search: query,
+        },
+      });
+    },
+    [dispatch],
   );
+
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
 
   const handleSearch = (value) => {
     setSearchName(value);
