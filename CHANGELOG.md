@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.9.2...v10.0.0) (2022-01-24)
+
+### Features
+
+- add ys ([0b7ca9b](https://github.com/mokkapps/changelog-generator-demo/commits/0b7ca9bd49f78d6a5463e3761759d8d15bb6d305))
+- add ys ([46149ec](https://github.com/mokkapps/changelog-generator-demo/commits/46149ecd4cd172dde032ba2113adfafe6294c391))
+- bunch of redux typing, type App component ([8de7db0](https://github.com/mokkapps/changelog-generator-demo/commits/8de7db02b111caa7adf54556cccef76aa2fc1c01))
+- ts to utils [#4](https://gitlab.com/make-lite/lims-admin/issues/4) ([1777772](https://github.com/mokkapps/changelog-generator-demo/commits/1777772df9355917469421d8ba89d470bbcddd7a))
+- tubeRules to ts ([6d060fd](https://github.com/mokkapps/changelog-generator-demo/commits/6d060fddf642ef5b319400a2a7385c53a41925d8))
+- utils to ts ([1d7d8ef](https://github.com/mokkapps/changelog-generator-demo/commits/1d7d8effe17e7f6091df6527df6caa7b46df41db))
+
+### Bug Fixes
+
+- clear redux ([a53b93b](https://github.com/mokkapps/changelog-generator-demo/commits/a53b93b27cf91c4d2b609198ed9565cd194c114a))
+- fix date format in active session ([1f6a17c](https://github.com/mokkapps/changelog-generator-demo/commits/1f6a17c549c6ac029d1e95b53ad96df1a9360d6b))
+- refactor scans table, menu ([e9f2138](https://github.com/mokkapps/changelog-generator-demo/commits/e9f213862d50b9049c7b06b50fdd94364feb8d77))
+- tsconfig ([fefbbf7](https://github.com/mokkapps/changelog-generator-demo/commits/fefbbf7257bc00c6f870cb6f99f0da0616adda34))
+- tsconfig ([c44e74a](https://github.com/mokkapps/changelog-generator-demo/commits/c44e74a936dc558da00a7177fcaec93365633fa1))
+- update all debounce logic ([cacb332](https://github.com/mokkapps/changelog-generator-demo/commits/cacb33206b2bf6d93a72f9fa501806a1a1d1fb3b))
+
 ### [9.9.2](https://github.com/mokkapps/changelog-generator-demo/compare/v9.9.1...v9.9.2) (2022-01-19)
 
 ### Features
