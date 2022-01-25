@@ -10,6 +10,7 @@ const useTip = (type) => {
           <div>
             <b className={styles.modalTitle}>Save session</b>
             <img
+              className={styles.image}
               src="https://qa.media.lims.mirimus.com/save-session.gif"
               alt="save-session"
             />
@@ -23,6 +24,7 @@ const useTip = (type) => {
           <div>
             <b className={styles.modalTitle}>Cancel session</b>
             <img
+              className={styles.image}
               src="https://qa.media.lims.mirimus.com/close-session.gif"
               alt="cancel-session"
             />
@@ -42,6 +44,7 @@ const useTip = (type) => {
         <div>
           <b className={styles.modalTitle}>Void scan</b>
           <img
+            className={styles.image}
             src="https://qa.media.lims.mirimus.com/void-scan.gif"
             alt="void-scan"
           />
@@ -59,6 +62,7 @@ const useTip = (type) => {
         <div>
           <b className={styles.modalTitle}>Save scan</b>
           <img
+            className={styles.image}
             src="https://qa.media.lims.mirimus.com/save-scan.gif"
             alt="void-scan"
           />

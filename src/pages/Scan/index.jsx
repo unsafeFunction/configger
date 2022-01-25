@@ -94,23 +94,33 @@ const Scan = () => {
     ]);
   }, [scans, started, invalid, completed]);
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: modalActions.SHOW_MODAL,
-  //     modalType: 'COMPLIANCE_MODAL',
-  //     modalProps: {
-  //       title: 'Session tips',
-  //       bodyStyle: {
-  //         height: '50vh',
-  //         overflow: 'auto',
-  //       },
-  //       width: '60%',
-  //       message: () => (
-  //         <SessionEntryModal type={session?.session_timeout_in_minutes} />
-  //       ),
-  //     },
-  //   });
-  // }, []);
+  const handleCloseModal = () => {
+    dispatch({
+      type: modalActions.HIDE_MODAL,
+    });
+  };
+
+  useEffect(() => {
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'COMPLIANCE_MODAL',
+      modalProps: {
+        title: 'Session tips',
+        bodyStyle: {
+          height: '50vh',
+          overflow: 'auto',
+        },
+        cancelButtonProps: {
+          className: styles.hiddenButton,
+        },
+        onOk: handleCloseModal,
+        width: '60%',
+        message: () => (
+          <SessionEntryModal type={session?.session_timeout_in_minutes} />
+        ),
+      },
+    });
+  }, []);
 
   useEffect(() => {
     if (session.scanner_id) {

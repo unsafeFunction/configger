@@ -8,6 +8,12 @@ import styles from './style.module.scss';
 
 const InfoButton = ({ type }) => {
   const dispatch = useDispatch();
+
+  const handleCloseModal = () => {
+    dispatch({
+      type: modalActions.HIDE_MODAL,
+    });
+  };
   const handleClick = () => {
     dispatch({
       type: modalActions.SHOW_MODAL,
@@ -18,6 +24,8 @@ const InfoButton = ({ type }) => {
           height: '40vh',
           overflow: 'auto',
         },
+        onOk: handleCloseModal,
+        cancelButtonProps: { className: styles.hiddenButton },
         message: () => <InfoModal type={type} />,
       },
     });
