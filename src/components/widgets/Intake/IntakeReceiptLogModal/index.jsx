@@ -15,7 +15,7 @@ import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/companies/actions';
@@ -132,7 +132,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
               placeholder="Company name"
               options={companies.items.map((item) => {
                 return {
-                  label: item.name,
+                  label: `${item.name} ${item.company_id}`,
                   value: item.name,
                   company: item,
                 };
