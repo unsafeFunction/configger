@@ -6,7 +6,7 @@ import InfoModal from 'components/widgets/InfoModal';
 import modalActions from 'redux/modal/actions';
 import styles from './style.module.scss';
 
-const InfoButton = () => {
+const InfoButton = ({ type }) => {
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch({
@@ -18,7 +18,7 @@ const InfoButton = () => {
           height: '40vh',
           overflow: 'auto',
         },
-        message: () => <InfoModal />,
+        message: () => <InfoModal type={type} />,
       },
     });
   };

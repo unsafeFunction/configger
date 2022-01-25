@@ -169,53 +169,50 @@ const UserPermissions = () => {
     [userPermission, onPermissionChange],
   );
 
-  const getRoleColumn = useCallback(
-    (role) => {
-      return [
-        {
-          key: `pre_scan_${role}`,
-          role: <span>Can Pre Scan </span>,
-          ...getUserPermissionCheckbox(role, 'pre_scan'),
-        },
-        {
-          key: `pool_scan_${role}`,
-          role: <span>Can Pool Scan </span>,
-          ...getUserPermissionCheckbox(role, 'pool_scan'),
-        },
-        {
-          key: `pool_rack_${role}`,
-          role: <span>Can Pool Rack </span>,
-          ...getUserPermissionCheckbox(role, 'pool_rack'),
-        },
-        {
-          key: `prepare_test_${role}`,
-          role: <span>Can Prepare Test</span>,
-          ...getUserPermissionCheckbox(role, 'prepare_test'),
-        },
-        {
-          key: `review_results_${role}`,
-          role: <span>Can Review Results</span>,
-          ...getUserPermissionCheckbox(role, 'review_results'),
-        },
-        {
-          key: `management_${role}`,
-          role: <span>Can Management</span>,
-          ...getUserPermissionCheckbox(role, 'management'),
-        },
-        {
-          key: `view_dashboard_${role}`,
-          role: <span>Can View Dashboard</span>,
-          ...getUserPermissionCheckbox(role, 'view_dashboard'),
-        },
-        {
-          key: `edit_settings_${role}`,
-          role: <span>Can Edit Settings</span>,
-          ...getUserPermissionCheckbox(role, 'edit_settings'),
-        },
-      ];
-    },
-    [userPermission],
-  );
+  const getRoleColumn = (role) => {
+    return [
+      {
+        key: `pre_scan_${role}`,
+        role: <span>Can Pre Scan </span>,
+        ...getUserPermissionCheckbox(role, 'pre_scan'),
+      },
+      {
+        key: `pool_scan_${role}`,
+        role: <span>Can Pool Scan </span>,
+        ...getUserPermissionCheckbox(role, 'pool_scan'),
+      },
+      {
+        key: `pool_rack_${role}`,
+        role: <span>Can Pool Rack </span>,
+        ...getUserPermissionCheckbox(role, 'pool_rack'),
+      },
+      {
+        key: `prepare_test_${role}`,
+        role: <span>Can Prepare Test</span>,
+        ...getUserPermissionCheckbox(role, 'prepare_test'),
+      },
+      {
+        key: `review_results_${role}`,
+        role: <span>Can Review Results</span>,
+        ...getUserPermissionCheckbox(role, 'review_results'),
+      },
+      {
+        key: `management_${role}`,
+        role: <span>Can Management</span>,
+        ...getUserPermissionCheckbox(role, 'management'),
+      },
+      {
+        key: `view_dashboard_${role}`,
+        role: <span>Can View Dashboard</span>,
+        ...getUserPermissionCheckbox(role, 'view_dashboard'),
+      },
+      {
+        key: `edit_settings_${role}`,
+        role: <span>Can Edit Settings</span>,
+        ...getUserPermissionCheckbox(role, 'edit_settings'),
+      },
+    ];
+  };
 
   const getRoleHeaderCheckbox = (userRole) => {
     return {

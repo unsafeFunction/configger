@@ -24,6 +24,7 @@ import {
   sortableHandle,
 } from 'react-sortable-hoc';
 import modalActions from 'redux/modal/actions';
+import { constants } from 'utils/constants';
 import rules from 'utils/formRules';
 import layoutHook from '../layoutHook';
 import { qsMachines, runTypes, startColumns, values } from '../params';
@@ -92,7 +93,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
-          title: `PoolRack ${poolRack.rack_id}`,
+          title: `${constants.names.poolRack} ${poolRack.rack_id}`,
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
@@ -119,20 +120,19 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
       render: () => <DragHandle />,
     },
     {
-      title: 'PoolRack Name',
+      title: `${constants.names.poolRack} Name`,
       dataIndex: 'scan_name',
       ellipsis: true,
     },
     {
-      title: 'PoolRack RackID',
+      title: `${constants.names.poolRack} RackID`,
       dataIndex: 'rack_id',
     },
     {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
-      render: (_, value) => {
-        return moment(value?.scan_timestamp).format('llll') ?? '-';
-      },
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Actions',
@@ -203,7 +203,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
-          title: 'Select PoolRacks',
+          title: `Select ${constants.names.poolRack}s`,
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
@@ -230,8 +230,8 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
       runState.poolRacks.length > poolRackLimit.max
     ) {
       return notification.error({
-        message: 'Wrong number of PoolRacks per run',
-        description: `Select ${poolRackLimit.min} – ${poolRackLimit.max} PoolRacks`,
+        message: `Wrong number of ${constants.names.poolRack}s per run`,
+        description: `Select ${poolRackLimit.min} – ${poolRackLimit.max} ${constants.names.poolRack}s`,
       });
     }
     return componentDispatch({
@@ -350,7 +350,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
               type="primary"
               onClick={() => openModalList(runState, poolRackLimit)}
             >
-              Edit PoolRacks List
+              Edit {constants.names.poolRack}s List
             </Button>
           </div>
         )}
@@ -369,14 +369,19 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
                   imageStyle={{
                     height: 60,
                   }}
-                  description={<span>No PoolRacks selected</span>}
+                  description={
+                    <span>
+                      No
+                      {constants.names.poolRack}s selected
+                    </span>
+                  }
                 >
                   <Button
                     type="primary"
                     className="mb-3"
                     onClick={() => openModalList(runState, poolRackLimit)}
                   >
-                    Select PoolRacks
+                    Select {constants.names.poolRack}s
                   </Button>
                 </Empty>
               ),

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { DownOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -129,8 +130,9 @@ const RackScans = () => {
 
   const columns = [
     {
-      title: 'PoolRack Name',
+      title: `${constants.names.poolRack} Name`,
       dataIndex: 'scan_name',
+      render: (value) => value ?? '-',
     },
     {
       title: 'Rack ID',
@@ -140,23 +142,17 @@ const RackScans = () => {
       title: 'Pools Count',
       dataIndex: 'scan_pools_count',
       width: 100,
-      render: (value) => {
-        return value ?? '-';
-      },
+      render: (value) => value ?? '-',
     },
     {
       title: `Scan Timestamp`,
       dataIndex: 'scan_timestamp',
-      render: (_, value) => {
-        return moment(value?.scan_timestamp).format('lll') ?? '-';
-      },
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Logged By',
       dataIndex: 'scanned_by',
-      render: (value) => {
-        return value ?? '-';
-      },
     },
     {
       title: 'Actions',
@@ -211,7 +207,7 @@ const RackScans = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>PoolRack Scans</h4>
+        <h4>{constants.names.poolRack} Scans</h4>
       </div>
       <Table
         dataSource={racksItems}

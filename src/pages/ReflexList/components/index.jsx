@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { constants } from 'utils/constants';
 import actions from 'redux/reflex/actions';
 
 const ReflexStatus = ({ value, record }) => {
@@ -60,6 +61,10 @@ const columns = [
     width: 100,
   },
   {
+    title: 'PoolScan Rack ID',
+    dataIndex: 'poolrack_id',
+  },
+  {
     title: 'Tube Type',
     dataIndex: 'tube_type',
   },
@@ -94,7 +99,7 @@ const columns = [
     dataIndex: 'tube_type',
   },
   {
-    title: 'PoolRack Position',
+    title: `${constants.names.poolRack} Position`,
     dataIndex: 'rack_position',
   },
   {

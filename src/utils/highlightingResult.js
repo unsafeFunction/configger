@@ -24,6 +24,8 @@ export const getColor = (status) => {
     case 'In Progress': {
       return 'blue';
     }
+    default:
+      return null;
   }
 };
 
@@ -50,7 +52,21 @@ export const getIcon = (status) => {
     case 'Rejected': {
       return <StopOutlined />;
     }
+    default:
+      return null;
   }
+};
+
+const StatusText = () => {
+  return (
+    <span>
+      <b>REJECTED</b>
+      <span>- Your samples were</span>
+      <b>not tested</b>
+      due to poor sample quality. The samples may be contaminated, empty,
+      improperly collected, or have insufficient volume.
+    </span>
+  );
 };
 
 export const getStatusText = (status) => {
@@ -60,16 +76,7 @@ export const getStatusText = (status) => {
     }
     case 'Rejected': {
       return (
-        <Tooltip
-          placement="bottom"
-          title={
-            <span>
-              <b>REJECTED</b> - Your samples were <b>not tested</b> due to poor
-              sample quality. The samples may be contaminated, empty, improperly
-              collected, or have insufficient volume.
-            </span>
-          }
-        >
+        <Tooltip placement="bottom" title={StatusText}>
           Rejected
         </Tooltip>
       );

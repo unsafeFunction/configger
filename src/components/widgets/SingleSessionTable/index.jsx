@@ -4,6 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
 const SingleSessionTable = ({
@@ -52,7 +53,7 @@ const SingleSessionTable = ({
       scan_name: scan.scan_name,
       pool_id: scan.pool_id,
       status: scan.status,
-      scan_time: moment(scan.scan_timestamp).format('lll'),
+      scan_time: moment(scan.scan_timestamp).format(constants.dateTimeFormat),
       rack_id: scan.rack_id,
       scanner: scan.scanner ?? '-',
       action: (

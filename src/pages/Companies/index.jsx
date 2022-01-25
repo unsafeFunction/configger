@@ -4,8 +4,7 @@ import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
-import moment from 'moment';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import actions from 'redux/companies/actions';
@@ -54,9 +53,9 @@ const Companies = () => {
         return (
           <Link
             onClick={() => {
-              setCompanyId(company?.id);
+              setCompanyId(company?.company_id);
             }}
-            to={`/companies/${company?.id}`}
+            to={`/companies/${company?.company_id}`}
             className="text-blue"
           >
             {`${name || '-'}`}
@@ -66,7 +65,7 @@ const Companies = () => {
     },
     {
       title: 'Company Short',
-      dataIndex: 'short_name',
+      dataIndex: 'name_short',
       render: (value) => {
         return value || '-';
       },
@@ -76,14 +75,6 @@ const Companies = () => {
       dataIndex: 'company_id',
       render: (value) => {
         return value || '-';
-      },
-    },
-    {
-      title: 'Added On',
-      sorter: true,
-      dataIndex: 'added_on',
-      render: (value) => {
-        return value ? moment(value).format(constants.dateFormat) : '–';
       },
     },
   ];
@@ -142,10 +133,15 @@ const Companies = () => {
     [searchName],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
 
   const onChangeSearch = useCallback((event) => {
     setSearchName(event.target.value);
@@ -192,8 +188,7 @@ const Companies = () => {
       <Table
         dataSource={allCompanies?.items}
         columns={columns}
-        scroll={{ x: 1000 }}
-        bordered
+        scroll={{ x: 800 }}
         loading={!allCompanies?.isLoading}
         align="center"
         onChange={handleTableChange}

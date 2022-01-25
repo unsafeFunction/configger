@@ -1,8 +1,4 @@
-import {
-  LoadingOutlined,
-  MinusCircleOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   Button,
   Checkbox,
@@ -15,8 +11,12 @@ import {
   Row,
   Select,
 } from 'antd';
+import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/companies/actions';
 import { constants } from 'utils/constants';
@@ -24,10 +24,12 @@ import rules from 'utils/formRules';
 import styles from './styles.module.scss';
 
 const IntakeReceiptLogModal = ({ form, edit }) => {
-  const [isCommentsSelected, setCommentsSelected] = useState(false);
-  const dispatch = useDispatch();
   const { Item } = Form;
   const { TextArea } = Input;
+  const dispatch = useDispatch();
+
+  const [isCommentsSelected, setCommentsSelected] = useState(false);
+  const [searchName, setSearchName] = useState(undefined);
 
   const isSampleConditionValueOther =
     form.getFieldValue('sample_condition') === 'Other';
@@ -40,34 +42,68 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
     [setCommentsSelected],
   );
 
-  const company = useSelector((state) => state.companies.singleCompany);
+  const companies = useSelector((state) => state.companies.all);
 
   useEffect(() => {
     if (!edit) {
-      form.setFieldsValue({
-        company_name: company.name,
-        company_short: company.short_name,
+      dispatch({
+        type: actions.FETCH_COMPANIES_REQUEST,
+        payload: {
+          limit: constants.companies.itemsLoadingCount,
+        },
       });
     }
-  }, [form, company, edit]);
+  }, [dispatch, edit]);
 
   useEffect(() => {
     setCommentsSelected(isSampleConditionValueOther);
   }, [setCommentsSelected, isSampleConditionValueOther]);
 
-  const handleBlurCompany = useCallback(
-    (e) => {
-      const { value } = e.target;
+  const loadMore = () => {
+    dispatch({
+      type: actions.FETCH_COMPANIES_REQUEST,
+      payload: {
+        limit: constants?.companies?.itemsLoadingCount,
+        offset: companies.offset,
+        search: searchName,
+      },
+    });
+  };
 
-      if (value) {
-        dispatch({
-          type: actions.FETCH_COMPANY_SHORT_REQUEST,
-          payload: { id: value },
-        });
-      }
+  const sendQuery = useCallback(
+    (query) => {
+      dispatch({
+        type: actions.FETCH_COMPANIES_REQUEST,
+        payload: {
+          limit: constants.companies.itemsLoadingCount,
+          search: query,
+        },
+      });
     },
     [dispatch],
   );
+
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
+
+  const handleSearch = (value) => {
+    setSearchName(value);
+    delayedQuery(value);
+  };
+
+  const handleCompanyNameChange = (_, objectValue) => {
+    form.setFieldsValue({
+      company_short: objectValue.company.name_short,
+      company_id: objectValue.company.company_id,
+    });
+  };
 
   return (
     <Form
@@ -80,42 +116,70 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
         shipping_violations: [],
         packing_slip_condition: 'Satisfactory',
         sample_condition: 'Acceptable',
+        company_id: '',
       }}
       scrollToFirstError
     >
       <Row gutter={{ md: 32, lg: 48 }}>
         <Col xs={24} md={12}>
-          <Item label="Company ID" name="company_id" rules={[rules.required]}>
-            <Input
-              disabled={edit}
-              placeholder="Company ID"
-              onBlur={handleBlurCompany}
-            />
-          </Item>
           <Item
             label="Company name"
             name="company_name"
-            rules={[
-              {
-                required: true,
-                message: `The company with this ID wasn't found`,
-              },
-            ]}
+            rules={[rules.required]}
           >
-            <Input
-              disabled
+            <Select
+              disabled={edit}
               placeholder="Company name"
-              suffix={company.isLoadingCompany && <LoadingOutlined />}
+              options={companies.items.map((item) => {
+                return {
+                  label: item.name,
+                  value: item.name,
+                  company: item,
+                };
+              })}
+              loading={!companies.isLoading}
+              dropdownStyle={{
+                maxHeight: 300,
+                overflowY: 'hidden',
+                overflowX: 'scroll',
+              }}
+              showSearch
+              listHeight={0}
+              dropdownMatchSelectWidth={false}
+              dropdownRender={(menu) => (
+                <InfiniteScroll
+                  next={loadMore}
+                  hasMore={companies.items.length < companies.total}
+                  dataLength={companies.items.length}
+                  height={300}
+                >
+                  {menu}
+                </InfiniteScroll>
+              )}
+              optionFilterProp="label"
+              size="large"
+              onSearch={handleSearch}
+              searchValue={searchName}
+              onChange={handleCompanyNameChange}
             />
           </Item>
-          <Item label="Company short" name="company_short">
-            <Input
-              disabled
-              placeholder="Company short"
-              suffix={company.isLoadingCompany && <LoadingOutlined />}
-            />
-          </Item>
-          <Row gutter={8}>
+          <Row gutter={16}>
+            <Col xs={24} sm={12}>
+              <Item label="Company short" name="company_short">
+                <Input disabled placeholder="Company short" />
+              </Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <Item
+                label="Company ID"
+                name="company_id"
+                rules={[rules.required]}
+              >
+                <Input disabled placeholder="Company ID" />
+              </Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
             <Col xs={24} sm={12}>
               <Item
                 label="Reference pools count"
@@ -143,6 +207,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
                       if (value >= pools * 2 && value <= pools * 24) {
                         return Promise.resolve();
                       }
+                      // eslint-disable-next-line prefer-promise-reject-errors
                       return Promise.reject('2 - 24 tubes per rack');
                     },
                   }),
@@ -299,6 +364,11 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
       </Row>
     </Form>
   );
+};
+
+IntakeReceiptLogModal.propTypes = {
+  form: PropTypes.shape({}).isRequired,
+  edit: PropTypes.bool.isRequired,
 };
 
 export default IntakeReceiptLogModal;

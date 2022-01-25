@@ -1,4 +1,3 @@
-import Loader from 'components/layout/Loader';
 import Layout from 'layouts';
 import NotFoundPage from 'pages/system/404';
 import React from 'react';
@@ -7,6 +6,7 @@ import { connect } from 'react-redux';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import Switch from 'react-router-transition-switch';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import Loader from 'components/layout/Loader';
 
 const loadable = (loader) =>
   Loadable({
@@ -103,10 +103,6 @@ const routes = [
     path: '/companies/:id',
     Component: loadable(() => import('pages/Companies/Company')),
   },
-  // {
-  //   path: '/management',
-  //   Component: loadable(() => import('pages/Management')),
-  // },
   {
     path: '/inventory',
     Component: loadable(() => import('pages/Inventory')),

@@ -1,3 +1,5 @@
+import { constants } from 'utils/constants';
+
 export async function getMenuData() {
   return [
     {
@@ -18,7 +20,7 @@ export async function getMenuData() {
           icon: 'fe fe-maximize',
         },
         {
-          title: 'PoolRack Scans',
+          title: `${constants.names.poolRack} Scans`,
           key: 'rack-scans',
           url: '/rack-scans',
           icon: 'fe fe-box',
@@ -43,16 +45,16 @@ export async function getMenuData() {
       icon: 'fe fe-box',
       children: [
         {
-          title: 'Generate Run',
-          key: 'runTemplate',
-          url: '/generate-run',
-          icon: 'fe fe-layers',
-        },
-        {
           title: 'Analysis Runs',
           key: 'analysisRuns',
           url: '/analysis-runs',
           icon: 'fe fe-bar-chart-2',
+        },
+        {
+          title: 'Generate Run',
+          key: 'runTemplate',
+          url: '/generate-run',
+          icon: 'fe fe-layers',
         },
         {
           title: 'Reflex List',
@@ -80,29 +82,6 @@ export async function getMenuData() {
       url: '/inventory',
       icon: 'fe fe-bar-chart',
     },
-    // {
-    //   title: 'Management',
-    //   key: 'management',
-    //   url: '/management',
-    //   icon: 'fe fe-bar-chart',
-    // },
-    // {
-    //   category: true,
-    //   title: 'Settings',
-    // },
-    // {
-    //   title: 'Users',
-    //   key: 'usersSettings',
-    //   icon: 'fe fe-settings',
-    //   children: [
-    //     {
-    //       title: 'User permission',
-    //       key: 'permission',
-    //       url: '/settings/permission',
-    //       icon: 'fe fe-lock',
-    //     },
-    //   ],
-    // },
     {
       title: 'Email Support',
       key: 'contactUs',
@@ -135,7 +114,6 @@ export async function getRolePermissions() {
         '/rack-scans',
         '/generate-run',
         '/companies',
-        // '/management',
         '/inventory',
         '/analysis-runs',
         '/reflex-list',
@@ -154,7 +132,6 @@ export async function getRolePermissions() {
         '/pools',
         '/companies',
         '/rack-scans',
-        // '/management',
         '/inventory',
         '/analysis-runs',
         '/reflex-list',

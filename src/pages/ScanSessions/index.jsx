@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -15,7 +16,13 @@ import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
@@ -29,7 +36,9 @@ const { RangePicker } = DatePicker;
 const ScanSessions = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [openedRow, setOpenedRow] = useState([]);
+  const [openedRows, setOpenedRows] = useState([]);
+  const [loadingRowId, setLoadingRow] = useState(null);
+  const [allScans, setAllScans] = useState([]);
   const stateRef = useRef();
 
   const initialFiltersState = {
@@ -47,7 +56,7 @@ const ScanSessions = () => {
     (state) => state.scanSessions.sessions,
   );
 
-  const { scans, isLoading: scansIsLoading } = useSelector(
+  const { scans, isLoading: scansIsLoading, id: sessionId } = useSelector(
     (state) => state.scanSessions.singleSession,
   );
 
@@ -111,80 +120,29 @@ const ScanSessions = () => {
       title: 'Total Pools Count',
       dataIndex: 'pool_size',
       width: 100,
-      render: (_, value) => {
-        return value?.scans.length || '-';
+      render: (_, record) => {
+        return record?.scans.length ?? '-';
       },
     },
     {
       title: 'Total Samples Count',
       dataIndex: 'samples_count',
       width: 110,
-      render: (_, value) => {
-        return value?.samples_count || '-';
-      },
+      render: (value) => value ?? '-',
     },
     {
       title: `Scanned on`,
       dataIndex: 'completed_timestamp',
-      width: 160,
-      render: (_, value) => {
-        return value?.completed_timestamp
-          ? moment(value.completed_timestamp).format('lll')
-          : '-';
-      },
+      width: 190,
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Scanned by',
       dataIndex: 'scanned_by',
-      render: (value) => {
-        return value || '-';
-      },
+      render: (value) => value ?? '-',
     },
   ];
-
-  const expandedRow = (scan) => {
-    const columns = [
-      {
-        title: 'Pool ID',
-        dataIndex: 'pool_id',
-        key: 'pool_id',
-        width: 100,
-      },
-      {
-        title: 'Pool Name',
-        dataIndex: 'scan_name',
-        key: 'scan_name',
-      },
-      {
-        title: 'Pool Size',
-        dataIndex: 'pool_size',
-        key: 'pool_size',
-      },
-      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
-      {
-        title: 'Scan time',
-        dataIndex: 'scan_time',
-        key: 'scan_time',
-        width: 300,
-      },
-      { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
-      {
-        title: 'Actions',
-        dataIndex: 'actions',
-        key: 'actions',
-        width: 100,
-      },
-    ];
-
-    return (
-      <Table
-        columns={columns}
-        dataSource={scan}
-        pagination={false}
-        loading={scansIsLoading}
-      />
-    );
-  };
 
   const loadMore = useCallback(() => {
     const filteringParams = {
@@ -234,29 +192,31 @@ const ScanSessions = () => {
     [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
 
-  const onChangeSearch = useCallback(
-    (e) => {
-      const { target } = e;
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
 
-      filtersDispatch({
-        type: 'setValue',
-        payload: {
-          name: 'search',
-          value: target.value,
-        },
-      });
+  const onChangeSearch = (e) => {
+    const { target } = e;
 
-      return delayedQuery(target.value);
-    },
-    [delayedQuery],
-  );
+    filtersDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'search',
+        value: target.value,
+      },
+    });
 
-  const onDatesChange = useCallback((dates, dateStrings) => {
+    return delayedQuery(target.value);
+  };
+
+  const onDatesChange = (dates, dateStrings) => {
     return filtersDispatch({
       type: 'setValue',
       payload: {
@@ -264,21 +224,22 @@ const ScanSessions = () => {
         value: dates ? dateStrings : [],
       },
     });
-  }, []);
+  };
 
   const handleExpand = useCallback(
     (expanded, record) => {
       if (expanded) {
-        setOpenedRow([record.id]);
+        setOpenedRows([...openedRows, record.id]);
+        setLoadingRow(record.id);
         dispatch({
           type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
           payload: { sessionId: record.id },
         });
       } else {
-        setOpenedRow([]);
+        setOpenedRows(openedRows.filter((id) => id !== record.id));
       }
     },
-    [dispatch],
+    [dispatch, openedRows],
   );
 
   const exportPool = useCallback(
@@ -317,12 +278,12 @@ const ScanSessions = () => {
     return '-';
   }, []);
 
-  const menu = (record, scan) => (
+  const menu = (sessionId, scan) => (
     <Menu>
       <Menu.Item
         onClick={() =>
           navigateToScan({
-            sessionId: record.id,
+            sessionId,
             scanId: scan.id,
           })
         }
@@ -346,7 +307,7 @@ const ScanSessions = () => {
           onConfirm={() =>
             handleDelete({
               poolId: scan.id,
-              sessionId: record.id,
+              sessionId,
             })
           }
         >
@@ -355,6 +316,94 @@ const ScanSessions = () => {
       </Menu.Item>
     </Menu>
   );
+
+  useEffect(() => {
+    const formattedScans = scans.map((scan) => {
+      const poolName = getPoolName(scan);
+
+      return {
+        key: scan.id,
+        pool_id: (
+          <Link
+            className="table-link"
+            to={`/pool-scans/${sessionId}/${scan.id}`}
+          >
+            {scan.pool_id}
+          </Link>
+        ),
+        scan_time: scan.scan_timestamp
+          ? moment(scan.scan_timestamp).format(constants.dateTimeFormat)
+          : '-',
+        scan_name: poolName,
+        pool_size: scan.tubes_count,
+        rack_id: scan.rack_id,
+        scanner: scan.scanner ?? '-',
+        actions: (
+          <>
+            <Dropdown overlay={menu(sessionId, scan)}>
+              <Button type="primary">
+                Actions
+                <DownOutlined />
+              </Button>
+            </Dropdown>
+          </>
+        ),
+      };
+    });
+
+    setAllScans([
+      ...allScans,
+      {
+        id: sessionId,
+        data: formattedScans,
+      },
+    ]);
+  }, [scans]);
+
+  const expandedRow = (record) => {
+    const columns = [
+      {
+        title: 'Pool ID',
+        dataIndex: 'pool_id',
+        key: 'pool_id',
+      },
+      {
+        title: 'Pool Name',
+        dataIndex: 'scan_name',
+        key: 'scan_name',
+      },
+      {
+        title: 'Pool Size',
+        dataIndex: 'pool_size',
+        key: 'pool_size',
+      },
+      { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
+      {
+        title: 'Scan time',
+        dataIndex: 'scan_time',
+        key: 'scan_time',
+        width: 190,
+      },
+      { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
+      {
+        title: 'Actions',
+        dataIndex: 'actions',
+        key: 'actions',
+        width: 100,
+      },
+    ];
+
+    return (
+      <Table
+        columns={columns}
+        dataSource={
+          allScans?.find((recordScans) => recordScans?.id === record.id)?.data
+        }
+        pagination={false}
+        loading={record.id === loadingRowId ? scansIsLoading : false}
+      />
+    );
+  };
 
   const rangePickerValue =
     filtersState.dates.length > 0
@@ -375,43 +424,10 @@ const ScanSessions = () => {
         pagination={false}
         rowKey={(record) => record.id}
         expandRowByClick
-        expandedRowKeys={openedRow}
+        expandedRowKeys={openedRows}
         onExpand={handleExpand}
         expandedRowRender={(record) => {
-          return expandedRow(
-            scans.map((scan) => {
-              const poolName = getPoolName(scan);
-
-              return {
-                key: scan.id,
-                pool_id: (
-                  <Link
-                    className="table-link"
-                    to={`/pool-scans/${record.id}/${scan.id}`}
-                  >
-                    {scan.pool_id}
-                  </Link>
-                ),
-                scan_time: scan.scan_timestamp
-                  ? moment(scan.scan_timestamp).format('llll')
-                  : '-',
-                scan_name: poolName,
-                pool_size: scan.tubes_count,
-                rack_id: scan.rack_id,
-                scanner: scan.scanner ?? '-',
-                actions: (
-                  <>
-                    <Dropdown overlay={menu(record, scan)}>
-                      <Button type="primary">
-                        Actions
-                        <DownOutlined />
-                      </Button>
-                    </Dropdown>
-                  </>
-                ),
-              };
-            }),
-          );
+          return expandedRow(record);
         }}
         title={() => (
           <Row gutter={16}>

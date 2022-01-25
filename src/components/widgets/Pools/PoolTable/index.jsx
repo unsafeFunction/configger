@@ -9,6 +9,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
+import { constants } from 'utils/constants';
 import { getColor, getIcon, getStatusText } from 'utils/highlighting';
 import styles from './styles.module.scss';
 
@@ -78,9 +79,10 @@ const PoolTable = ({ loadMore }) => {
   const columns = [
     {
       title: 'Receipt Timestamp',
-      dataIndex: 'test_receipt_timestamp',
-      width: 180,
-      render: (value) => (value ? moment(value).format('lll') : '–'),
+      dataIndex: 'receipt_date',
+      width: 190,
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Run Title',
@@ -102,7 +104,7 @@ const PoolTable = ({ loadMore }) => {
           overlayClassName={styles.popover}
           placement="topLeft"
         >
-          {value ?? '–'}
+          {value ?? '-'}
         </Popover>
       ),
     },
@@ -237,7 +239,7 @@ const PoolTable = ({ loadMore }) => {
         dataSource={pools.items}
         loading={pools.isLoading}
         pagination={false}
-        scroll={{ x: 1400 }}
+        scroll={{ x: 1500 }}
         rowKey={(record) => record.id}
       />
       <TableFooter

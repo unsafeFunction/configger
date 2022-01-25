@@ -14,7 +14,6 @@ import {
   notification,
   Row,
   Statistic,
-  Tabs,
   Tooltip,
 } from 'antd';
 import PoolTableByDays from 'components/widgets/Pools/PoolTableByDays';
@@ -28,10 +27,7 @@ import { default as poolsActions } from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
-const { TabPane } = Tabs;
-
 const CompanyProfile = () => {
-  const [searchName, setSearchName] = useState('');
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const singleCompany = useSelector((state) => state.companies.singleCompany);
   const pools = useSelector((state) => state.pools.allByDays);
@@ -70,15 +66,14 @@ const CompanyProfile = () => {
         companyId: idFromUrl,
         limit: constants?.poolsByCompany?.itemsLoadingCount,
         offset: pools.offset,
-        search: searchName,
       },
     });
-  }, [dispatch, pools, searchName, idFromUrl]);
+  }, [dispatch, pools, idFromUrl]);
 
   const formatStatBlock = ({ value, link }) => (
     <Tooltip title={value} placement="topLeft">
       {link ? (
-        <a href={value} target="_blank">
+        <a href={value} rel="noopener noreferrer" target="_blank">
           {value}
         </a>
       ) : (
@@ -93,7 +88,7 @@ const CompanyProfile = () => {
       type: poolsActions.SYNC_POOLS_REQUEST,
       payload: {
         poolIds: selectedRowKeys,
-        companyId: singleCompany.id,
+        companyId: singleCompany.company_id,
         ...fieldValues,
         closeBtn: (key) => (
           <Button
@@ -106,29 +101,26 @@ const CompanyProfile = () => {
         ),
       },
     });
-  }, [selectedRowKeys]);
+  }, [selectedRowKeys, dispatch, singleCompany.company_id, syncForm]);
 
-  const handleModalSync = useCallback(
-    (record) => {
-      dispatch({
-        type: modalActions.SHOW_MODAL,
-        modalType: 'COMPLIANCE_MODAL',
-        modalProps: {
-          title: 'Sync options',
-          cancelButtonProps: { className: styles.modalButton },
-          okButtonProps: {
-            className: styles.modalButton,
-          },
-          onOk: handleSync,
-          okText: 'Sync',
-          message: () => <SyncModal form={syncForm} />,
+  const handleModalSync = useCallback(() => {
+    dispatch({
+      type: modalActions.SHOW_MODAL,
+      modalType: 'COMPLIANCE_MODAL',
+      modalProps: {
+        title: 'Sync options',
+        cancelButtonProps: { className: styles.modalButton },
+        okButtonProps: {
+          className: styles.modalButton,
         },
-      });
-    },
-    [dispatch, handleSync],
-  );
+        onOk: handleSync,
+        okText: 'Sync',
+        message: () => <SyncModal form={syncForm} />,
+      },
+    });
+  }, [dispatch, handleSync, syncForm]);
 
-  const menu = (record) => (
+  const menu = () => (
     <Menu>
       <Menu.Item
         onClick={handleModalSync}
@@ -142,13 +134,13 @@ const CompanyProfile = () => {
 
   return (
     <>
-      <Row className="mb-3" gutter={16}>
+      <Row className="mb-5" gutter={16}>
         <Col xs={24} sm={8}>
           <Card className={styles.statCart}>
             <Statistic
               className={styles.locationName}
               title="Short name"
-              value={singleCompany?.short_name || '-'}
+              value={singleCompany?.name_short || '-'}
               formatter={(value) => formatStatBlock({ value })}
               prefix={<EditOutlined className={styles.statisticIcon} />}
               loading={!singleCompany.isLoading}
@@ -187,26 +179,25 @@ const CompanyProfile = () => {
           </Col>
         )}
       </Row>
-      <Tabs defaultActiveKey={1}>
-        <TabPane tab="Pools" key={1}>
-          {singleCompany.gdrive_enabled && (
-            <div className="d-flex">
-              <Dropdown className="ml-auto" overlay={menu()}>
-                <Button type="primary">
-                  Actions
-                  <DownOutlined />
-                </Button>
-              </Dropdown>
-            </div>
-          )}
-          <PoolTableByDays
-            gdriveEnabled={singleCompany.gdrive_enabled}
-            loadMore={loadMore}
-            selectedRowKeys={selectedRowKeys}
-            setSelectedRowKeys={setSelectedRowKeys}
-          />
-        </TabPane>
-      </Tabs>
+
+      <div>
+        {singleCompany.gdrive_enabled && (
+          <div className="d-flex">
+            <Dropdown className="ml-auto" overlay={menu()}>
+              <Button type="primary">
+                Actions
+                <DownOutlined />
+              </Button>
+            </Dropdown>
+          </div>
+        )}
+        <PoolTableByDays
+          gdriveEnabled={singleCompany.gdrive_enabled}
+          loadMore={loadMore}
+          selectedRowKeys={selectedRowKeys}
+          setSelectedRowKeys={setSelectedRowKeys}
+        />
+      </div>
     </>
   );
 };

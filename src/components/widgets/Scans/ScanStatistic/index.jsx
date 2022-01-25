@@ -1,3 +1,4 @@
+import { constants } from 'utils/constants';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Statistic, Tag, Tooltip } from 'antd';
 import classNames from 'classnames';
@@ -18,7 +19,7 @@ const ScanStatistic = ({ scan, isRack = false }) => {
         <Card className={styles.card}>
           <Tooltip placement="bottom" title={scan?.rack_id}>
             <Statistic
-              title={isRack ? 'PoolRack ID' : 'Rack ID'}
+              title={isRack ? `${constants.names.poolRack} ID` : 'Rack ID'}
               groupSeparator=""
               value={scan?.rack_id ?? '-'}
               formatter={(value) => <Tag color="blue">{value}</Tag>}

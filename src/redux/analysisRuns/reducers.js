@@ -86,7 +86,7 @@ const formatResults = (items = []) => {
     const formattedWells = parentRow.children?.map((childRow) => {
       let targetProps = {};
 
-      constants.targets.map((target) => {
+      constants.targets.forEach((target) => {
         if (childRow[target] && !isNaN(childRow[target])) {
           const cqConfidence = roundValue(childRow[`${target}_cq_confidence`]);
           const inconclusiveAmpStatus =

@@ -27,6 +27,7 @@ import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
+import SessionEntryModal from 'components/widgets/SessionEntryModal';
 import InfoButton from 'components/layout/InfoButton';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
@@ -93,14 +94,32 @@ const Scan = () => {
     ]);
   }, [scans, started, invalid, completed]);
 
+  // useEffect(() => {
+  //   dispatch({
+  //     type: modalActions.SHOW_MODAL,
+  //     modalType: 'COMPLIANCE_MODAL',
+  //     modalProps: {
+  //       title: 'Session tips',
+  //       bodyStyle: {
+  //         height: '50vh',
+  //         overflow: 'auto',
+  //       },
+  //       width: '60%',
+  //       message: () => (
+  //         <SessionEntryModal type={session?.session_timeout_in_minutes} />
+  //       ),
+  //     },
+  //   });
+  // }, []);
+
   useEffect(() => {
     if (session.scanner_id) {
       dispatch({
         type: actions.CHECK_SCANNER_STATUS_BY_ID_REQUEST,
-        payload: { scannerId: session?.scanner_id },
+        payload: { scannerId: session.scanner_id },
       });
     }
-  }, [session.scanner_id]);
+  }, [session.scanner_id, dispatch]);
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
@@ -206,18 +225,78 @@ const Scan = () => {
     </Menu>
   );
 
+  const handleSwitchVisibleActions = useCallback(() => {
+    setVisibleActions(!visibleActions);
+  }, [visibleActions]);
+
+  const handleSessionActionVisible = useCallback(() => {
+    setSessionActionVisible(!isSessionActionsVisible);
+  }, [setSessionActionVisible, isSessionActionsVisible]);
+
+  const onSaveSessionModalToggle = useCallback(
+    (refPoolsCount, refSamplesCount, actualPoolsCount, actualSamplesCount) => {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Save session',
+          onOk: markCompleteSession,
+          bodyStyle: {
+            maxHeight: '70vh',
+            overflow: 'scroll',
+          },
+          okText: 'Save',
+          message: () => {
+            if (
+              refPoolsCount === actualPoolsCount &&
+              refSamplesCount === actualSamplesCount
+            ) {
+              return <span>Are you sure to save session?</span>;
+            }
+            return (
+              <Alert
+                showIcon
+                type="warning"
+                message="Warning"
+                description={
+                  <>
+                    <Paragraph>Are you sure to save session?</Paragraph>
+                    {refPoolsCount !== actualPoolsCount && (
+                      <Paragraph>
+                        Reference pools ({refPoolsCount}) don't match actual
+                        pools ({actualPoolsCount})
+                      </Paragraph>
+                    )}
+                    {refSamplesCount !== actualSamplesCount && (
+                      <Paragraph>
+                        Reference samples ({refSamplesCount}) don't match actual
+                        samples ({actualSamplesCount})
+                      </Paragraph>
+                    )}
+                  </>
+                }
+              />
+            );
+          },
+        },
+      });
+    },
+    [dispatch, markCompleteSession],
+  );
+
   const sessionMenu = (
     <Menu>
       <Menu.Item
         className="mb-4"
-        onClick={() =>
+        onClick={() => {
           onSaveSessionModalToggle(
             refPoolsCount,
             refSamplesCount,
             actualPoolsCount,
             actualSamplesCount,
-          )
-        }
+          );
+          return handleSessionActionVisible();
+        }}
         key="1"
         icon={<CheckOutlined />}
       >
@@ -283,6 +362,43 @@ const Scan = () => {
     [dispatch, reverseScanDrawer],
   );
 
+  const modalContent = () => {
+    const isIncorrect = isIncorrectTubes || isEmptyTubes;
+    return (
+      <div>
+        {isIncorrect && (
+          <Alert
+            showIcon
+            type="warning"
+            message="Warning"
+            description={
+              isIncorrectTubes ? (
+                <Paragraph>
+                  {`IT IS IMPOSSIBLE TO SAVE SCAN
+                     BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}
+                </Paragraph>
+              ) : (
+                <Paragraph>
+                  {`ARE YOU SURE THE RED
+                     (${emptyPosition}) POSITIONS ARE EMPTY?`}
+                </Paragraph>
+              )
+            }
+          />
+        )}
+        {isDiagnostic && !isIncorrectTubes && (
+          <Paragraph>
+            Continuing will categorize all tubes as diagnostic. Are you sure to
+            save the scan as diagnostic?
+          </Paragraph>
+        )}
+        {!isDiagnostic && !isIncorrect && (
+          <Paragraph>Are you sure to save scan?</Paragraph>
+        )}
+      </div>
+    );
+  };
+
   useEffect(() => {
     if (scansInWork[0]?.id) {
       loadScan(scansInWork[0]?.id);
@@ -336,14 +452,6 @@ const Scan = () => {
     dispatch,
     session.requestStatus,
   ]);
-
-  const handleSwitchVisibleActions = useCallback(() => {
-    setVisibleActions(!visibleActions);
-  }, [visibleActions]);
-
-  const handleSessionActionVisible = useCallback(() => {
-    setSessionActionVisible(!isSessionActionsVisible);
-  }, [setSessionActionVisible]);
 
   const handleOpenEdit = useCallback(() => {
     setEditOpen(!isEditOpen);
@@ -401,29 +509,7 @@ const Scan = () => {
           disabled: isIncorrectTubes,
         },
         okText: 'Save',
-        message: () => {
-          return isIncorrectTubes || isEmptyTubes ? (
-            <Alert
-              showIcon
-              type="warning"
-              message="Warning"
-              description={
-                isIncorrectTubes ? (
-                  <Paragraph>{`IT IS IMPOSSIBLE TO SAVE SCAN BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}</Paragraph>
-                ) : isEmptyTubes ? (
-                  <Paragraph>{`ARE YOU SURE THE RED (${emptyPosition}) POSITIONS ARE EMPTY?`}</Paragraph>
-                ) : null
-              }
-            />
-          ) : isDiagnostic ? (
-            <Paragraph>
-              Continuing will categorize all tubes as diagnostic. Are you sure
-              to save the scan as diagnostic?
-            </Paragraph>
-          ) : (
-            <Paragraph>Are you sure to save scan?</Paragraph>
-          );
-        },
+        message: modalContent,
       },
     });
   }, [dispatch, updateScan, incorrectPositions, completed, isDiagnostic]);
@@ -454,81 +540,18 @@ const Scan = () => {
     scans.length,
   ]);
 
-  const onSaveSessionModalToggle = useCallback(
-    (refPoolsCount, refSamplesCount, actualPoolsCount, actualSamplesCount) => {
-      dispatch({
-        type: modalActions.SHOW_MODAL,
-        modalType: 'COMPLIANCE_MODAL',
-        modalProps: {
-          title: 'Save session',
-          onOk: markCompleteSession,
-          bodyStyle: {
-            maxHeight: '70vh',
-            overflow: 'scroll',
-          },
-          okText: 'Save',
-          message: () => {
-            if (
-              refPoolsCount === actualPoolsCount &&
-              refSamplesCount === actualSamplesCount
-            ) {
-              return <span>Are you sure to save session?</span>;
-            }
-            return (
-              <Alert
-                showIcon
-                type="warning"
-                message="Warning"
-                description={
-                  <>
-                    <Paragraph>Are you sure to save session?</Paragraph>
-                    {refPoolsCount !== actualPoolsCount && (
-                      <Paragraph>
-                        Reference pools ({refPoolsCount}) don't match actual
-                        pools ({actualPoolsCount})
-                      </Paragraph>
-                    )}
-                    {refSamplesCount !== actualSamplesCount && (
-                      <Paragraph>
-                        Reference samples ({refSamplesCount}) don't match actual
-                        samples ({actualSamplesCount})
-                      </Paragraph>
-                    )}
-                  </>
-                }
-              />
-            );
-          },
-        },
-      });
-    },
-    [dispatch, markCompleteSession],
-  );
-
   return (
     <div>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <Typography.Title level={4} className="font-weight-normal">
           {scan?.scan_timestamp
-            ? `Scan on ${moment(scan.scan_timestamp).format('lll')}`
+            ? `Scan on ${moment(scan.scan_timestamp).format(
+                constants.dateTimeFormat,
+              )}`
             : ''}
         </Typography.Title>
         <Row className={styles.actionsWrapper}>
-          <Row style={{ marginRight: 30 }}>
-            {/* {session.started_on_day && (
-              <Countdown
-                className={styles.timer}
-                title="The session will end in: "
-                // This one second needed to close session after 30 minutes. Because on 30:00 we can do smth, but on 30:01 - can't
-                value={moment(session.started_on_day).add({
-                  minutes: 30,
-                  seconds: 1,
-                })}
-                format="mm:ss"
-                onFinish={checkSession}
-              />
-            )} */}
-          </Row>
+          <Row style={{ marginRight: 30 }} />
           <Dropdown
             overlay={sessionMenu}
             overlayClassName={styles.actionsOverlay}
@@ -548,28 +571,30 @@ const Scan = () => {
               <DownOutlined />
             </Button>
           </Dropdown>
-          <InfoButton />
+          <InfoButton type="sessionActions" />
         </Row>
       </div>
       <Row gutter={[48, 40]} justify="center">
         <Col xs={24} md={18} lg={16} xl={14}>
           <div className="mb-4">
             <div className={styles.navigationWrapper}>
-              <Button
-                onClick={onSaveScanModalToggle}
-                type="primary"
-                htmlType="submit"
-                className={styles.saveScanBtn}
-                disabled={
-                  session?.isLoading ||
-                  scans.length === 0 ||
-                  scan?.isLoading ||
-                  scan?.status === completed
-                }
-              >
-                Save Scan
-              </Button>
-              {/* <InfoButton /> */}
+              <div>
+                <Button
+                  onClick={onSaveScanModalToggle}
+                  type="primary"
+                  htmlType="submit"
+                  className={styles.saveScanBtn}
+                  disabled={
+                    session?.isLoading ||
+                    scans.length === 0 ||
+                    scan?.isLoading ||
+                    scan?.status === completed
+                  }
+                >
+                  Save Scan
+                </Button>
+                <InfoButton type="saveScan" />
+              </div>
               <div>
                 {scansInWork.length > 1 && (
                   <>
@@ -631,7 +656,7 @@ const Scan = () => {
                     <DownOutlined />
                   </Button>
                 </Dropdown>
-                <InfoButton />
+                <InfoButton type="scanActions" />
               </div>
             </div>
             {/* TODO: why is using separately scanId */}
@@ -720,7 +745,9 @@ const Scan = () => {
                 scansInWork[1]
                   ? `${session?.company_short?.name_short}
                     ${scansInWork[1]?.scan_name}
-                    on ${moment(scansInWork[1].scan_timestamp)?.format('lll')}`
+                    on ${moment(scansInWork[1].scan_timestamp)?.format(
+                      constants.dateTimeFormat,
+                    )}`
                   : '-'
               }
             />

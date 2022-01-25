@@ -2,6 +2,79 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.9.2...v10.0.0) (2022-01-24)
+
+### Features
+
+- add ys ([0b7ca9b](https://github.com/mokkapps/changelog-generator-demo/commits/0b7ca9bd49f78d6a5463e3761759d8d15bb6d305))
+- add ys ([46149ec](https://github.com/mokkapps/changelog-generator-demo/commits/46149ecd4cd172dde032ba2113adfafe6294c391))
+- bunch of redux typing, type App component ([8de7db0](https://github.com/mokkapps/changelog-generator-demo/commits/8de7db02b111caa7adf54556cccef76aa2fc1c01))
+- ts to utils [#4](https://gitlab.com/make-lite/lims-admin/issues/4) ([1777772](https://github.com/mokkapps/changelog-generator-demo/commits/1777772df9355917469421d8ba89d470bbcddd7a))
+- tubeRules to ts ([6d060fd](https://github.com/mokkapps/changelog-generator-demo/commits/6d060fddf642ef5b319400a2a7385c53a41925d8))
+- utils to ts ([1d7d8ef](https://github.com/mokkapps/changelog-generator-demo/commits/1d7d8effe17e7f6091df6527df6caa7b46df41db))
+
+### Bug Fixes
+
+- clear redux ([a53b93b](https://github.com/mokkapps/changelog-generator-demo/commits/a53b93b27cf91c4d2b609198ed9565cd194c114a))
+- fix date format in active session ([1f6a17c](https://github.com/mokkapps/changelog-generator-demo/commits/1f6a17c549c6ac029d1e95b53ad96df1a9360d6b))
+- refactor scans table, menu ([e9f2138](https://github.com/mokkapps/changelog-generator-demo/commits/e9f213862d50b9049c7b06b50fdd94364feb8d77))
+- tsconfig ([fefbbf7](https://github.com/mokkapps/changelog-generator-demo/commits/fefbbf7257bc00c6f870cb6f99f0da0616adda34))
+- tsconfig ([c44e74a](https://github.com/mokkapps/changelog-generator-demo/commits/c44e74a936dc558da00a7177fcaec93365633fa1))
+- update all debounce logic ([cacb332](https://github.com/mokkapps/changelog-generator-demo/commits/cacb33206b2bf6d93a72f9fa501806a1a1d1fb3b))
+
+### [9.9.2](https://github.com/mokkapps/changelog-generator-demo/compare/v9.9.1...v9.9.2) (2022-01-19)
+
+### Features
+
+- company autocomplete when creating intake log item ([4185663](https://github.com/mokkapps/changelog-generator-demo/commits/41856633d4811d8ff4f6591360c25fae532e0664))
+
+### Bug Fixes
+
+- modal message function ([6d60bef](https://github.com/mokkapps/changelog-generator-demo/commits/6d60befafb7618c6b61ffcc55928eb0e1944f91d))
+- refactor save scan modal content ([d07d539](https://github.com/mokkapps/changelog-generator-demo/commits/d07d539ad4c5f002a332b062087aaa793bdbf2cc))
+- remove company short request ([43061e8](https://github.com/mokkapps/changelog-generator-demo/commits/43061e82108325633ff519994f057663a3c674f8))
+- remove redirectToTimeline prop ([e02c4c3](https://github.com/mokkapps/changelog-generator-demo/commits/e02c4c3cbce4a19107c2e7e3cfccf0f28c3b7f39))
+
+### [9.9.1](https://github.com/mokkapps/changelog-generator-demo/compare/v9.9.0...v9.9.1) (2022-01-18)
+
+### Features
+
+- poolrack id ([3629099](https://github.com/mokkapps/changelog-generator-demo/commits/36290999fa2a0370d88c7ffa9ae27805fe366d04))
+
+### Bug Fixes
+
+- search button intake log ([a2f6a5e](https://github.com/mokkapps/changelog-generator-demo/commits/a2f6a5e4ae8cd7500a8f98882a6375fb8a6387fe))
+- update logic of send request for search company ([dad54f7](https://github.com/mokkapps/changelog-generator-demo/commits/dad54f79a9d09d5f7f8d86f244061a96339a99c7))
+
+## [9.9.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.8.0...v9.9.0) (2022-01-17)
+
+### Bug Fixes
+
+- delete management, company id ([5da824c](https://github.com/mokkapps/changelog-generator-demo/commits/5da824c6a4cdae9da1c53b4e4e1c59a0207460db))
+- remove duplicate var ([9251923](https://github.com/mokkapps/changelog-generator-demo/commits/9251923b8bf24057eaf4f821675bd5f40507075c))
+- remove duplicate var ([dc46f39](https://github.com/mokkapps/changelog-generator-demo/commits/dc46f39654370492ae5b47aa40987457f31279bc))
+- typo name short, king fisher ([deacc55](https://github.com/mokkapps/changelog-generator-demo/commits/deacc55dd5ca5bcb8a1cc06b37f67d2aadf5ee14))
+
+## [9.8.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.7.0...v9.8.0) (2022-01-14)
+
+### Features
+
+- qs rack scans ([2aa8fee](https://github.com/mokkapps/changelog-generator-demo/commits/2aa8fee3db43bf8d0a582926b58dd462bef7fe48))
+- tz abbreviations ([3a98dfb](https://github.com/mokkapps/changelog-generator-demo/commits/3a98dfb429ae797a2c1bc35cc01b6808c59c6222))
+
+### Bug Fixes
+
+- remove table borders ([ae7913a](https://github.com/mokkapps/changelog-generator-demo/commits/ae7913ad93f51d9782f1d8c2ec1483d76abef48a))
+- short name companies ([ce7acdf](https://github.com/mokkapps/changelog-generator-demo/commits/ce7acdfe8d0ec52fe3adb01049368d813cd6d273))
+
+## [9.7.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.6.0...v9.7.0) (2022-01-11)
+
+### Bug Fixes
+
+- ext fix ([874a385](https://github.com/mokkapps/changelog-generator-demo/commits/874a385effc65cbaf64be51ad2b6c95c1eb59d38))
+- ext fixes ([d609460](https://github.com/mokkapps/changelog-generator-demo/commits/d6094606891559204275ea59a3f053949b921710))
+- short company ([72a652d](https://github.com/mokkapps/changelog-generator-demo/commits/72a652dea178779998931fe228166b13253ec686))
+
 ## [9.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.5.2...v9.6.0) (2022-01-11)
 
 ### Bug Fixes

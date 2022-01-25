@@ -190,9 +190,8 @@ const IntakeReceiptLog = () => {
       title: 'Log DateTime',
       dataIndex: 'created',
       sorter: true,
-      render: (value) => {
-        return value ? moment(value).format('lll') : '-';
-      },
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Company Name',
@@ -217,16 +216,12 @@ const IntakeReceiptLog = () => {
     {
       title: 'Logged By',
       dataIndex: 'logged_by',
-      render: (_, record) => {
-        return record.logged_by ?? '-';
-      },
     },
     {
       title: 'Shipped On',
       dataIndex: 'shipped_on',
-      render: (value) => {
-        return value ? moment(value).format(constants.dateFormat) : '-';
-      },
+      render: (value) =>
+        value ? moment(value).format(constants.dateFormat) : '-',
     },
     {
       title: 'Shipping By',
@@ -338,7 +333,7 @@ const IntakeReceiptLog = () => {
   const data = intakeLog.items.map?.((intakeItem) => ({
     ...intakeItem,
     company_name: intakeItem.company?.name,
-    company_short: intakeItem.company?.short_name,
+    company_short: intakeItem.company?.name_short,
     company_id: intakeItem.company?.company_id,
   }));
 

@@ -22,6 +22,18 @@
       }
     }
   },
+  "globals": {
+    "React": true,
+    "google": true,
+    "mount": true,
+    "mountWithRouter": true,
+    "shallow": true,
+    "shallowWithRouter": true,
+    "context": true,
+    "expect": true,
+    "jsdom": true,
+    "JSX": true
+  },
   "rules": {
     "linebreak-style": 0,
     "max-len": [
@@ -40,7 +52,10 @@
       }
     ],
     "indent": ["error", 2, { "SwitchCase": 1 }],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [
+      1,
+      { "extensions": [".js", ".jsx", ".tsx"] }
+    ],
     "no-const-assign": "warn",
     "no-this-before-super": "warn",
     "no-undef": "warn",

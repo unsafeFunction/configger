@@ -97,18 +97,6 @@ const AnalysisRuns = () => {
               maxCount={1}
               name="runFile"
               accept=".csv"
-              // Need to parse .csv before upload for render preview
-              // beforeUpload={(file) => {
-              //   const reader = new FileReader();
-
-              //   reader.onload = (e) => {
-              //     console.log(e.target.result);
-              //   };
-              //   reader.readAsText(file);
-
-              //   // Prevent upload
-              //   return false;
-              // }}
             >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
@@ -136,12 +124,13 @@ const AnalysisRuns = () => {
           {record.title}
         </Link>
       ),
-      width: 100,
+      width: 150,
     },
     {
       title: 'Creation Date',
       dataIndex: 'created',
-      render: (value) => (value ? moment(value).format('lll') : '-'),
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Samples',
@@ -164,7 +153,8 @@ const AnalysisRuns = () => {
     {
       title: 'Last Updated',
       dataIndex: 'modified',
-      render: (value) => (value ? moment(value).format('lll') : '-'),
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Created By',
@@ -206,7 +196,7 @@ const AnalysisRuns = () => {
         },
       });
     },
-    [history],
+    [history, filtersDispatch],
   );
 
   const loadMore = useCallback(() => {
@@ -247,7 +237,7 @@ const AnalysisRuns = () => {
       <Table
         dataSource={runsItems}
         columns={columns}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1250 }}
         loading={runs?.isLoading}
         align="center"
         pagination={false}

@@ -2,8 +2,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Empty, Input, Steps } from 'antd';
 import Loader from 'components/layout/Loader';
 import debounce from 'lodash.debounce';
-import moment from 'moment-timezone';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/search/actions';
 import useCustomFilters from 'utils/useCustomFilters';
@@ -36,12 +35,17 @@ const Search = () => {
     [dispatch],
   );
 
-  const delayedQuery = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
 
-  const onChangeSearch = useCallback((event) => {
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
+
+  const onChangeSearch = (event) => {
     const { target } = event;
 
     filtersDispatch({
@@ -53,7 +57,7 @@ const Search = () => {
     });
 
     return delayedQuery(target.value);
-  }, []);
+  };
 
   return (
     <>
@@ -94,9 +98,7 @@ const Search = () => {
                             : 'text-primary'
                         }`}
                       >
-                        {info.id === 'company_date'
-                          ? moment(info.value).format('YYYY-MM-DD')
-                          : info.value}
+                        {info.value}
                       </span>
                     </p>
                   ))}
