@@ -1,9 +1,21 @@
 import React from 'react';
 import { Checkbox } from 'antd';
-
+import cookieStorage from 'utils/cookie';
 import styles from './styles.module.scss';
 
+const cookie = cookieStorage();
+
 const SessionEntryModal = (): JSX.Element => {
+  const handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+
+    if (checked) {
+      cookie?.setItem('disableSessionModal', 'true');
+    } else {
+      cookie?.setItem('disableSessionModal', 'false');
+    }
+  };
+
   return (
     <div className={styles.sessionInfoModal}>
       <b className={styles.title}>General info</b>
@@ -26,7 +38,9 @@ const SessionEntryModal = (): JSX.Element => {
         alt="tips"
         className={styles.image}
       />
-      <Checkbox className={styles.checkbox}>Don't show modal again</Checkbox>
+      <Checkbox className={styles.checkbox} onChange={handleSelection}>
+        Don't show modal again
+      </Checkbox>
     </div>
   );
 };
