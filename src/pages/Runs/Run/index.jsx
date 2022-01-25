@@ -44,7 +44,7 @@ const Run = () => {
         },
       });
     },
-    [dispatch, searchName, runId],
+    [dispatch, runId],
   );
 
   const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
