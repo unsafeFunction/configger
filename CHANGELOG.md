@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.2](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.1...v10.0.2) (2022-01-25)
+
+### Features
+
+- add search by barcode in completed runs ([dbb2f81](https://github.com/mokkapps/changelog-generator-demo/commits/dbb2f81c098d46fb48889499fdf1225826c41d75))
+
+### Bug Fixes
+
+- deps error ([27a43c1](https://github.com/mokkapps/changelog-generator-demo/commits/27a43c117b02deeea061aae7d4e09d27e6314397))
+
 ### [10.0.1](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.0...v10.0.1) (2022-01-25)
 
 ### Bug Fixes
