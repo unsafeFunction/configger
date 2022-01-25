@@ -6,12 +6,17 @@ import {
   Table,
   Tooltip,
   Typography,
+  Row,
+  Col,
+  Input,
 } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import debounce from 'lodash.debounce';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import moment from 'moment-timezone';
 import qs from 'qs';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/runs/actions';
@@ -26,6 +31,7 @@ const Runs = () => {
   const history = useHistory();
   const location = useLocation();
   const [dates, setDates] = useState([]);
+  const [searchName, setSearchName] = useState('');
 
   const runs = useSelector((state) => state.runs);
 
@@ -57,6 +63,18 @@ const Runs = () => {
         payload: {
           runId,
           isPublished: checked,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const sendQuery = useCallback(
+    (query) => {
+      dispatch({
+        type: actions.FETCH_RUNS_REQUEST,
+        payload: {
+          search: query,
         },
       });
     },
@@ -163,25 +181,57 @@ const Runs = () => {
     });
   }, [dispatch, from, to, runs]);
 
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
+
+  const onChangeSearch = useCallback((event) => {
+    setSearchName(event.target.value);
+    delayedQuery(event.target.value);
+  }, []);
+
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Runs</h4>
-        <RangePicker
-          defaultValue={
-            from && to
-              ? [moment(from), moment(to)]
-              : [moment().subtract(7, 'days'), moment()]
-          }
-          format="YYYY-MM-DD"
-          ranges={{
-            Today: [moment(), moment()],
-            'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-          }}
-          onChange={onDatesChange}
-          className={styles.rangePicker}
-        />
+        <Row>
+          <Col className="mr-3">
+            <Input
+              size="middle"
+              onChange={onChangeSearch}
+              value={searchName}
+              prefix={<SearchOutlined />}
+              className={styles.search}
+              placeholder="Search by barcode..."
+            />
+          </Col>
+          <Col>
+            <RangePicker
+              defaultValue={
+                from && to
+                  ? [moment(from), moment(to)]
+                  : [moment().subtract(7, 'days'), moment()]
+              }
+              format="YYYY-MM-DD"
+              ranges={{
+                Today: [moment(), moment()],
+                'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                'This Month': [
+                  moment().startOf('month'),
+                  moment().endOf('month'),
+                ],
+              }}
+              onChange={onDatesChange}
+              className={styles.rangePicker}
+            />
+          </Col>
+        </Row>
       </div>
       <Table
         columns={columns}
