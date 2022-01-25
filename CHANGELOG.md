@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.1](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.0...v10.0.1) (2022-01-25)
+
+### Bug Fixes
+
+- change receipt timestamp field ([d76b26e](https://github.com/mokkapps/changelog-generator-demo/commits/d76b26e18eaa61c793a75a5012aa57b7d9964295))
+- close popover save session ([e307770](https://github.com/mokkapps/changelog-generator-demo/commits/e3077705b8f3b52b3b42fac995c11c399f17a2ea))
+- rename publish button ([a87e9b4](https://github.com/mokkapps/changelog-generator-demo/commits/a87e9b4e704dfa10edda606073c7aa490a5cb96f))
+- search by company id ([8bd4682](https://github.com/mokkapps/changelog-generator-demo/commits/8bd46826843427e61b9e0628552d9d9a9d3c5e7f))
+
 ## [10.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.9.2...v10.0.0) (2022-01-24)
 
 ### Features
