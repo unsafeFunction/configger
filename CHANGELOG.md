@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.6](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.5...v10.0.6) (2022-01-26)
+
+### Bug Fixes
+
+- failure status pooler ([7e0e60d](https://github.com/mokkapps/changelog-generator-demo/commits/7e0e60d34c173f4af4c9a072eb45921927974cd7))
+
 ### [10.0.5](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.4...v10.0.5) (2022-01-26)
 
 ### [10.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.3...v10.0.4) (2022-01-26)
