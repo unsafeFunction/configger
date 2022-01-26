@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.3](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.2...v10.0.3) (2022-01-26)
+
+### Bug Fixes
+
+- disable reflex for individual tubes, company select styles ([0dbd5f0](https://github.com/mokkapps/changelog-generator-demo/commits/0dbd5f055617a927c6fe1b2f4e3e692f9e20aa16))
+- name short reflex ([2afc190](https://github.com/mokkapps/changelog-generator-demo/commits/2afc1904dedd9d78b0a0c841ab2ffd23964c3a90))
+
 ### [10.0.2](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.1...v10.0.2) (2022-01-25)
 
 ### Features
