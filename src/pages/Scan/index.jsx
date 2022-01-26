@@ -38,13 +38,16 @@ import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
+import cookieStorage from 'utils/cookie';
 import styles from './styles.module.scss';
 
 const { Paragraph } = Typography;
+const cookie = cookieStorage();
 
 const Scan = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const modalStatus = cookie.getItem('disableSessionModal');
 
   const [visibleActions, setVisibleActions] = useState(false);
   const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
@@ -101,26 +104,28 @@ const Scan = () => {
   };
 
   useEffect(() => {
-    dispatch({
-      type: modalActions.SHOW_MODAL,
-      modalType: 'COMPLIANCE_MODAL',
-      modalProps: {
-        title: 'Session tips',
-        bodyStyle: {
-          height: '50vh',
-          overflow: 'auto',
+    if (modalStatus !== constants.tipsModalStatuses.hide) {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Session tips',
+          bodyStyle: {
+            height: '50vh',
+            overflow: 'auto',
+          },
+          cancelButtonProps: {
+            className: styles.hiddenButton,
+          },
+          onOk: handleCloseModal,
+          width: '60%',
+          message: () => (
+            <SessionEntryModal type={session?.session_timeout_in_minutes} />
+          ),
         },
-        cancelButtonProps: {
-          className: styles.hiddenButton,
-        },
-        onOk: handleCloseModal,
-        width: '60%',
-        message: () => (
-          <SessionEntryModal type={session?.session_timeout_in_minutes} />
-        ),
-      },
-    });
-  }, []);
+      });
+    }
+  }, [modalStatus]);
 
   useEffect(() => {
     if (session.scanner_id) {

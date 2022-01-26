@@ -6,13 +6,13 @@ import styles from './styles.module.scss';
 const cookie = cookieStorage();
 
 const SessionEntryModal = (): JSX.Element => {
-  const handleSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelection = (e: any) => {
     const { checked } = e.target;
 
     if (checked) {
-      cookie?.setItem('disableSessionModal', 'true');
+      cookie?.setItem('disableSessionModal', 'hide');
     } else {
-      cookie?.setItem('disableSessionModal', 'false');
+      cookie?.setItem('disableSessionModal', '');
     }
   };
 

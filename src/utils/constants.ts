@@ -508,4 +508,7 @@ export const constants = {
     poolRack:
       process.env.REACT_APP_LAB_ID === 'wynn' ? 'KingFisher Rack' : 'PoolRack',
   },
+  tipsModalStatuses: {
+    hide: 'hide',
+  },
 };
