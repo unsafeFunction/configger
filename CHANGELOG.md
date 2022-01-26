@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.3...v10.0.4) (2022-01-26)
+
+### Bug Fixes
+
+- remove serviceWorker registration ([c60b354](https://github.com/mokkapps/changelog-generator-demo/commits/c60b3547b8453478de20e0b2d99d103593370508))
+
 ### [10.0.3](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.2...v10.0.3) (2022-01-26)
 
 ### Bug Fixes
