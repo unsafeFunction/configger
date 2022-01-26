@@ -493,7 +493,7 @@ export const constants = {
     },
   ],
   tubeTypes: {
-    pool: 'Pool',
+    pooling: 'Pooling',
     individual: 'Individual',
   },
   targets: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'RP'],

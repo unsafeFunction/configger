@@ -10,6 +10,7 @@ import {
   Radio,
   Row,
   Select,
+  Typography,
 } from 'antd';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
@@ -129,12 +130,20 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
           >
             <Select
               disabled={edit}
-              placeholder="Company name"
+              placeholder="Enter company name or company ID"
               options={companies.items.map((item) => {
                 return {
-                  label: `${item.name} ${item.company_id}`,
+                  label: (
+                    <>
+                      {item.name}
+                      <Typography.Text type="secondary" className="ml-3">
+                        {item.company_id}
+                      </Typography.Text>
+                    </>
+                  ),
                   value: item.name,
                   company: item,
+                  searchby: `${item.name} ${item.company_id}`,
                 };
               })}
               loading={!companies.isLoading}
@@ -156,7 +165,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
                   {menu}
                 </InfiniteScroll>
               )}
-              optionFilterProp="label"
+              optionFilterProp="searchby"
               size="large"
               onSearch={handleSearch}
               searchValue={searchName}

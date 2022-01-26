@@ -39,6 +39,7 @@ export function* callCreateTemplate({ payload }) {
 
     notification.error({
       message: error.message ?? 'Template not generated',
+      duration: null,
     });
   }
 }
