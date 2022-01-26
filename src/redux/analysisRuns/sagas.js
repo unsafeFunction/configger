@@ -44,7 +44,7 @@ export function* callUploadRunResult({ payload }) {
 
 export function* callLoadRun({ payload }) {
   try {
-    const response = yield call(fetchRun, payload);
+    const response = yield call(fetchRun, payload.id);
 
     yield put({
       type: actions.FETCH_RUN_SUCCESS,
@@ -63,7 +63,7 @@ export function* callLoadRun({ payload }) {
 
 export function* callFetchWellplate({ payload }) {
   try {
-    const { data } = yield call(fetchWellplate, payload);
+    const { data } = yield call(fetchWellplate, payload.id);
 
     const formatResponse = (response) => {
       return Object.assign(

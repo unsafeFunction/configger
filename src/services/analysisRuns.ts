@@ -1,7 +1,13 @@
 import axiosClient from 'utils/axiosClient';
 import errorOutput from 'utils/errorOutput';
 
-export const fetchRuns = async (query) => {
+type QueryParams = {
+  limit: number;
+  offset: number;
+  search: string;
+};
+
+export const fetchRuns = async (query: QueryParams) => {
   try {
     const runs = await axiosClient.get('/runs/', {
       params: {
@@ -14,7 +20,23 @@ export const fetchRuns = async (query) => {
   }
 };
 
-export const uploadRunResult = async (payload) => {
+export const uploadRunResult = async (payload: {
+  id: string;
+  options: {
+    action: string;
+    filename: string;
+    data: {};
+    // file: {
+    //   uid: string;
+    // };
+    file: string | Blob;
+    headers: {};
+    withCredentials: boolean;
+    method: string;
+    // onSuccess: ;
+    // onError: ;
+  };
+}) => {
   const { file, onSuccess, onError } = payload?.options;
 
   try {
@@ -38,7 +60,7 @@ export const uploadRunResult = async (payload) => {
   }
 };
 
-export const fetchRun = async ({ id }) => {
+export const fetchRun = async (id: string) => {
   try {
     const run = await axiosClient.get(`/runs/results/${id}/entries`);
     return run;
@@ -47,7 +69,7 @@ export const fetchRun = async ({ id }) => {
   }
 };
 
-export const fetchWellplate = async ({ id }) => {
+export const fetchWellplate = async (id: string) => {
   try {
     return await axiosClient.get(`/runs/${id}/tubes/`);
   } catch (error) {
@@ -55,7 +77,17 @@ export const fetchWellplate = async ({ id }) => {
   }
 };
 
-export const updateSample = async ({ id, values }) => {
+export const updateSample = async ({
+  id,
+  values,
+}: {
+  id: string;
+  values: {
+    analysis_result: string;
+    rerun_action: string;
+    auto_publish: boolean;
+  };
+}) => {
   try {
     const sample = await axiosClient.patch(`/runs/results/sample/${id}/`, {
       ...values,
@@ -66,7 +98,15 @@ export const updateSample = async ({ id, values }) => {
   }
 };
 
-export const updateRun = async ({ id, field, value }) => {
+export const updateRun = async ({
+  id,
+  field,
+  value,
+}: {
+  id: string;
+  field: string;
+  value: string;
+}) => {
   try {
     const run = await axiosClient.patch(`/runs/${id}/status/`, {
       [field]: value,
