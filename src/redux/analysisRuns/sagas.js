@@ -35,11 +35,10 @@ export function* callUploadRunResult({ payload }) {
       type: actions.UPLOAD_RUN_RESULT_SUCCESS,
       payload: data,
     });
+
+    notification.success({ message: 'Successfully loaded' });
   } catch (error) {
-    yield put({
-      type: actions.UPLOAD_RUN_RESULT_ERROR,
-    });
-    notification.error(error);
+    notification.error({ message: error.message, duration: null });
   }
 }
 

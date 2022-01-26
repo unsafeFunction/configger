@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import axiosClient from 'utils/axiosClient';
 import errorOutput from 'utils/errorOutput';
 
@@ -32,12 +31,10 @@ export const uploadRunResult = async (payload) => {
       },
     );
     onSuccess(uploadedRun);
-    notification.success({ message: 'Successfully loaded' });
     return uploadedRun;
   } catch (error) {
-    notification.error({ message: 'Something went wrong.' });
     onError(error);
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
