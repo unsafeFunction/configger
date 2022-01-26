@@ -78,7 +78,7 @@ const PoolTable = ({ loadMore }) => {
 
   const columns = [
     {
-      title: 'Receipt Timestamp',
+      title: 'Receipt Date',
       dataIndex: 'receipt_date',
       width: 190,
       render: (value) =>

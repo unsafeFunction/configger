@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/jsx-one-expression-per-line */
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Popover, Radio, Select, Tooltip, Typography } from 'antd';
@@ -20,6 +21,7 @@ const warningFlag = (
 );
 
 const Actions = ({ record, field, value = '' }) => {
+  const { runStatuses, tubeTypes } = constants;
   const dispatch = useDispatch();
 
   const { status: runStatus } = useSelector(
@@ -34,10 +36,12 @@ const Actions = ({ record, field, value = '' }) => {
     {
       label: 'Reflex SC',
       value: 'REFLEX_SC',
+      disabled: record.tube_type === tubeTypes.individual,
     },
     {
       label: 'Reflex SD',
       value: 'REFLEX_SD',
+      disabled: record.tube_type === tubeTypes.individual,
     },
     {
       label: 'Rerun',
@@ -109,8 +113,8 @@ const Actions = ({ record, field, value = '' }) => {
           options={options}
           disabled={
             record[`${field}IsUpdating`] ||
-            runStatus === constants.runStatuses.qpcr ||
-            runStatus === constants.runStatuses.published
+            runStatus === runStatuses.qpcr ||
+            runStatus === runStatuses.published
           }
           onChange={onModalToggle(
             record.sample_id,
@@ -254,21 +258,21 @@ const columns = [
   {
     title: 'Pool Name',
     dataIndex: 'pool_name',
-    // TODO: future feature
-    // render: (value, record) => {
-    //   return (
-    //     <Tooltip
-    //       placement="right"
-    //       title={`Pool size: ${record.pool_size ?? 'Unknown'}`}
-    //     >
-    //       {value}
-    //     </Tooltip>
-    //   );
-    // },
   },
   {
     title: 'Sample ID',
     dataIndex: 'display_sample_id',
+    render: (value, { tube_type }) => {
+      return (
+        <Popover
+          content={tube_type ? `${tube_type} tube` : 'Undetermined tube type'}
+          trigger="hover"
+          placement="right"
+        >
+          {value}
+        </Popover>
+      );
+    },
   },
   {
     title: 'Result',
