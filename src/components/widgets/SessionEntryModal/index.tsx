@@ -1,19 +1,19 @@
 import React from 'react';
-import { Checkbox } from 'antd';
+import { Checkbox, CheckboxChangeEvent } from 'antd';
+import { CookieStorage } from 'cookie-storage';
 import cookieStorage from 'utils/cookie';
 import styles from './styles.module.scss';
 
-const cookie = cookieStorage();
+const cookie: CookieStorage | null = cookieStorage();
 
 const SessionEntryModal = (): JSX.Element => {
-  const handleSelection = (e: any) => {
+  const handleSelection = (e: any): void => {
     const { checked } = e.target;
 
     if (checked) {
-      cookie?.setItem('disableSessionModal', 'hide');
-    } else {
-      cookie?.setItem('disableSessionModal', '');
+      return cookie?.setItem('disableSessionModal', 'hide');
     }
+    return cookie?.setItem('disableSessionModal', '');
   };
 
   return (
