@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { constants } from 'utils/constants';
 import actions from 'redux/reflex/actions';
+import labConfig from 'utils/labConfig';
 
 const ReflexStatus = ({ value, record }) => {
   const dispatch = useDispatch();
@@ -99,7 +99,7 @@ const columns = [
     dataIndex: 'tube_type',
   },
   {
-    title: `${constants.names.poolRack} Position`,
+    title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Position`,
     dataIndex: 'rack_position',
   },
   {

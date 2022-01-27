@@ -1,10 +1,10 @@
-import { constants } from 'utils/constants';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Statistic, Tag, Tooltip } from 'antd';
 import classNames from 'classnames';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React from 'react';
+import labConfig from 'utils/labConfig';
 import { countedPoolTubes } from 'utils/tubesRules';
 import styles from '../styles.module.scss';
 
@@ -19,7 +19,11 @@ const ScanStatistic = ({ scan, isRack = false }) => {
         <Card className={styles.card}>
           <Tooltip placement="bottom" title={scan?.rack_id}>
             <Statistic
-              title={isRack ? `${constants.names.poolRack} ID` : 'Rack ID'}
+              title={
+                isRack
+                  ? `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} ID`
+                  : 'Rack ID'
+              }
               groupSeparator=""
               value={scan?.rack_id ?? '-'}
               formatter={(value) => <Tag color="blue">{value}</Tag>}

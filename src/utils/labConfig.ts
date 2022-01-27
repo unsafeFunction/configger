@@ -6,6 +6,9 @@ const config = {
       email: 'testingsupport@mirimus.com',
     },
     timezone: 'America/New_York',
+    naming: {
+      rack: 'PoolRack',
+    },
   },
   aclv: {
     name: 'Accelevir',
@@ -14,6 +17,9 @@ const config = {
       email: 'mhays@accelevir.com',
     },
     timezone: 'America/New_York',
+    naming: {
+      rack: 'PoolRack',
+    },
   },
   wynn: {
     name: 'Mirimus',
@@ -22,6 +28,9 @@ const config = {
       email: 'testingsupport@mirimus.com',
     },
     timezone: 'America/Los_Angeles',
+    naming: {
+      rack: 'KingFisher Rack',
+    },
   },
 };
 
