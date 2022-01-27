@@ -43,6 +43,20 @@ const sessionsReducer = (state = initialState, action) => {
       };
     }
 
+    case actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS: {
+      const { data } = action.payload;
+
+      return {
+        ...state,
+        items: state.items.map((session) => {
+          if (session.id === data.id) {
+            session.samples_count = data.samples_count;
+          }
+          return session;
+        }),
+      };
+    }
+
     case actions.DELETE_SCAN_BY_ID_SUCCESS: {
       const { sessionId, scanId } = action.payload;
 
