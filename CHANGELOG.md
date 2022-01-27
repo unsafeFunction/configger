@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.8](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.6...v10.0.8) (2022-01-27)
+
+### Features
+
+- recalculate sample count from backend ([bc9477a](https://github.com/mokkapps/changelog-generator-demo/commits/bc9477ab00beedbf9459c0635dd4164aebc39c6d))
+
+### Bug Fixes
+
+- move rack naming to lab config, fix misspellings ([57a837c](https://github.com/mokkapps/changelog-generator-demo/commits/57a837ca0d6854fba377194e03048d98d3211f14))
+- update total pool size when delete it ([4037fe6](https://github.com/mokkapps/changelog-generator-demo/commits/4037fe699834c53d521b1c8f40882deaf07b26e0))
+
 ### [10.0.7](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.6...v10.0.7) (2022-01-26)
 
 ### [10.0.6](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.5...v10.0.6) (2022-01-26)
