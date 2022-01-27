@@ -593,7 +593,10 @@ export function* callDeleteScan({ payload }) {
   try {
     yield call(deleteScan, payload);
 
-    yield put({ type: actions.DELETE_SCAN_BY_ID_SUCCESS });
+    yield put({
+      type: actions.DELETE_SCAN_BY_ID_SUCCESS,
+      payload: { sessionId: payload.sessionId, scanId: payload.id },
+    });
     if (payload.sessionId) {
       yield put({
         type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
