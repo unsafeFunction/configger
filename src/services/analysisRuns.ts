@@ -20,23 +20,27 @@ export const fetchRuns = async (query: QueryParams) => {
   }
 };
 
-export const uploadRunResult = async (payload: {
+type OptionsProps = {
+  action: string;
+  filename: string;
+  data: {};
+  // file: {
+  //   uid: string;
+  // };
+  file: string | Blob;
+  headers: {};
+  withCredentials: boolean;
+  method: string;
+  onSuccess: void;
+  onError: void;
+};
+
+type FileProps = {
   id: string;
-  options: {
-    action: string;
-    filename: string;
-    data: {};
-    // file: {
-    //   uid: string;
-    // };
-    file: string | Blob;
-    headers: {};
-    withCredentials: boolean;
-    method: string;
-    // onSuccess: ;
-    // onError: ;
-  };
-}) => {
+  options: OptionsProps;
+};
+
+export const uploadRunResult = async (payload: FileProps) => {
   const { file, onSuccess, onError } = payload?.options;
 
   try {
@@ -77,17 +81,16 @@ export const fetchWellplate = async (id: string) => {
   }
 };
 
-export const updateSample = async ({
-  id,
-  values,
-}: {
+type SampleProps = {
   id: string;
   values: {
     analysis_result: string;
     rerun_action: string;
     auto_publish: boolean;
   };
-}) => {
+};
+
+export const updateSample = async ({ id, values }: SampleProps) => {
   try {
     const sample = await axiosClient.patch(`/runs/results/sample/${id}/`, {
       ...values,
@@ -98,15 +101,13 @@ export const updateSample = async ({
   }
 };
 
-export const updateRun = async ({
-  id,
-  field,
-  value,
-}: {
+type RunProps = {
   id: string;
   field: string;
   value: string;
-}) => {
+};
+
+export const updateRun = async ({ id, field, value }: RunProps) => {
   try {
     const run = await axiosClient.patch(`/runs/${id}/status/`, {
       [field]: value,
