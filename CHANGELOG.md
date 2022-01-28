@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.9](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.8...v10.0.9) (2022-01-28)
+
+### Bug Fixes
+
+- remove delete butotn ([fe81ce0](https://github.com/mokkapps/changelog-generator-demo/commits/fe81ce09b4d6f11abc473394adbe87260565f5e6))
+
 ### [10.0.8](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.6...v10.0.8) (2022-01-27)
 
 ### Features
