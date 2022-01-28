@@ -31,8 +31,8 @@ type OptionsProps = {
   headers: {};
   withCredentials: boolean;
   method: string;
-  onSuccess: void;
-  onError: void;
+  onSuccess: (value: any) => void;
+  onError: (value: any) => void;
 };
 
 type FileProps = {
