@@ -299,8 +299,9 @@ const ScanSessions = () => {
       >
         Export pool
       </Menu.Item>
-      <Menu.Item key="3">
+      {/* <Menu.Item key="3">
         <Popconfirm
+      // TODO: if required uncomment
           title="Are you sure to delete this pool?"
           okText="Yes"
           cancelText="No"
@@ -313,7 +314,7 @@ const ScanSessions = () => {
         >
           Delete pool
         </Popconfirm>
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
 
