@@ -1,13 +1,13 @@
 import axiosClient from 'utils/axiosClient';
 import errorOutput from 'utils/errorOutput';
 
-type QueryParams = {
+type QueryParamsType = {
   limit: number;
   offset: number;
   search: string;
 };
 
-export const fetchRuns = async (query: QueryParams) => {
+export const fetchRuns = async (query: QueryParamsType) => {
   try {
     const runs = await axiosClient.get('/runs/', {
       params: {
@@ -20,13 +20,10 @@ export const fetchRuns = async (query: QueryParams) => {
   }
 };
 
-type OptionsProps = {
+type OptionsType = {
   action: string;
   filename: string;
   data: {};
-  // file: {
-  //   uid: string;
-  // };
   file: string | Blob;
   headers: {};
   withCredentials: boolean;
@@ -35,12 +32,12 @@ type OptionsProps = {
   onError: (value: any) => void;
 };
 
-type FileProps = {
+type FileType = {
   id: string;
-  options: OptionsProps;
+  options: OptionsType;
 };
 
-export const uploadRunResult = async (payload: FileProps) => {
+export const uploadRunResult = async (payload: FileType) => {
   const { file, onSuccess, onError } = payload?.options;
 
   try {
@@ -81,16 +78,18 @@ export const fetchWellplate = async (id: string) => {
   }
 };
 
-type SampleProps = {
+type ValuesType = {
+  analysis_result: string;
+  rerun_action: string;
+  auto_publish: boolean;
+}
+
+type SampleTypes = {
   id: string;
-  values: {
-    analysis_result: string;
-    rerun_action: string;
-    auto_publish: boolean;
-  };
+  values: ValuesType
 };
 
-export const updateSample = async ({ id, values }: SampleProps) => {
+export const updateSample = async ({ id, values }: SampleTypes) => {
   try {
     const sample = await axiosClient.patch(`/runs/results/sample/${id}/`, {
       ...values,
@@ -101,13 +100,13 @@ export const updateSample = async ({ id, values }: SampleProps) => {
   }
 };
 
-type RunProps = {
+type RunType = {
   id: string;
   field: string;
   value: string;
 };
 
-export const updateRun = async ({ id, field, value }: RunProps) => {
+export const updateRun = async ({ id, field, value }: RunType) => {
   try {
     const run = await axiosClient.patch(`/runs/${id}/status/`, {
       [field]: value,
