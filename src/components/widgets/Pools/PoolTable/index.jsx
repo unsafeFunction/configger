@@ -80,9 +80,9 @@ const PoolTable = ({ loadMore }) => {
     {
       title: 'Receipt Date',
       dataIndex: 'receipt_date',
-      width: 190,
+      width: 140,
       render: (value) =>
-        value ? moment(value).format(constants.dateTimeFormat) : '-',
+        value ? moment(value).format(constants.dateFormat) : '-',
     },
     {
       title: 'Run Title',
@@ -189,6 +189,7 @@ const PoolTable = ({ loadMore }) => {
     {
       title: 'Pool Size',
       dataIndex: 'pool_size',
+      width: 80,
     },
     {
       title: 'Tube IDs',
@@ -239,7 +240,7 @@ const PoolTable = ({ loadMore }) => {
         dataSource={pools.items}
         loading={pools.isLoading}
         pagination={false}
-        scroll={{ x: 1500 }}
+        scroll={{ x: 1400 }}
         rowKey={(record) => record.id}
       />
       <TableFooter

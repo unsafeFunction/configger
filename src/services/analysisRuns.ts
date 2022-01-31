@@ -1,8 +1,13 @@
-import { notification } from 'antd';
 import axiosClient from 'utils/axiosClient';
 import errorOutput from 'utils/errorOutput';
 
-export const fetchRuns = async (query) => {
+type QueryParamsType = {
+  limit: number;
+  offset: number;
+  search: string;
+};
+
+export const fetchRuns = async (query: QueryParamsType) => {
   try {
     const runs = await axiosClient.get('/runs/', {
       params: {
@@ -15,7 +20,24 @@ export const fetchRuns = async (query) => {
   }
 };
 
-export const uploadRunResult = async (payload) => {
+type OptionsType = {
+  action: string;
+  filename: string;
+  data: {};
+  file: string | Blob;
+  headers: {};
+  withCredentials: boolean;
+  method: string;
+  onSuccess: (value: any) => void;
+  onError: (value: any) => void;
+};
+
+type FileType = {
+  id: string;
+  options: OptionsType;
+};
+
+export const uploadRunResult = async (payload: FileType) => {
   const { file, onSuccess, onError } = payload?.options;
 
   try {
@@ -32,16 +54,14 @@ export const uploadRunResult = async (payload) => {
       },
     );
     onSuccess(uploadedRun);
-    notification.success({ message: 'Successfully loaded' });
     return uploadedRun;
   } catch (error) {
-    notification.error({ message: 'Something went wrong.' });
     onError(error);
-    return error;
+    throw new Error(errorOutput(error));
   }
 };
 
-export const fetchRun = async ({ id }) => {
+export const fetchRun = async (id: string) => {
   try {
     const run = await axiosClient.get(`/runs/results/${id}/entries`);
     return run;
@@ -50,7 +70,7 @@ export const fetchRun = async ({ id }) => {
   }
 };
 
-export const fetchWellplate = async ({ id }) => {
+export const fetchWellplate = async (id: string) => {
   try {
     return await axiosClient.get(`/runs/${id}/tubes/`);
   } catch (error) {
@@ -58,7 +78,18 @@ export const fetchWellplate = async ({ id }) => {
   }
 };
 
-export const updateSample = async ({ id, values }) => {
+type ValuesType = {
+  analysis_result: string;
+  rerun_action: string;
+  auto_publish: boolean;
+}
+
+type SampleTypes = {
+  id: string;
+  values: ValuesType
+};
+
+export const updateSample = async ({ id, values }: SampleTypes) => {
   try {
     const sample = await axiosClient.patch(`/runs/results/sample/${id}/`, {
       ...values,
@@ -69,7 +100,13 @@ export const updateSample = async ({ id, values }) => {
   }
 };
 
-export const updateRun = async ({ id, field, value }) => {
+type RunType = {
+  id: string;
+  field: string;
+  value: string;
+};
+
+export const updateRun = async ({ id, field, value }: RunType) => {
   try {
     const run = await axiosClient.patch(`/runs/${id}/status/`, {
       [field]: value,
