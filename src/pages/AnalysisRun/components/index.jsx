@@ -14,8 +14,6 @@ import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlighting';
 import styles from './styles.module.scss';
 
-const { Option } = Select;
-
 const warningFlag = (
   <ExclamationCircleFilled style={{ color: '#f39834' }} className="ml-1" />
 );
@@ -173,7 +171,7 @@ const ResultSelect = ({ record, field }) => {
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
           title: 'Confirm action',
-          onOk: () => onResultUpdate(id, field, option.key),
+          onOk: () => onResultUpdate(id, field, option.value),
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
@@ -193,7 +191,13 @@ const ResultSelect = ({ record, field }) => {
 
   return (
     <Select
-      value={<ResultTag status={record[field]} type="sample" />}
+      value={record[field]}
+      options={resultList.map((item) => {
+        return {
+          label: <ResultTag status={item.value} type="sample" />,
+          value: item.value,
+        };
+      })}
       onSelect={onModalToggle(
         record.sample_id,
         field,
@@ -208,15 +212,7 @@ const ResultSelect = ({ record, field }) => {
       }
       bordered={false}
       dropdownMatchSelectWidth={200}
-    >
-      {resultList
-        ?.filter((option) => option.value !== record[field])
-        .map((item) => (
-          <Option key={item.value} value={item.value}>
-            <ResultTag status={item.value} type="sample" />
-          </Option>
-        ))}
-    </Select>
+    />
   );
 };
 

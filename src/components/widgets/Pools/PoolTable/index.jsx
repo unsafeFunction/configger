@@ -1,7 +1,6 @@
 import { Popconfirm, Popover, Select, Switch, Table, Tag, Tooltip } from 'antd';
 import TableFooter from 'components/layout/TableFooterLoader';
 import moment from 'moment-timezone';
-// eslint-disable-next-line import/no-extraneous-dependencies
 /* eslint-disable react/jsx-wrap-multilines */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -12,8 +11,6 @@ import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import { getColor, getIcon, getStatusText } from 'utils/highlighting';
 import styles from './styles.module.scss';
-
-const { Option } = Select;
 
 const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();
@@ -143,7 +140,7 @@ const PoolTable = ({ loadMore }) => {
       ),
       dataIndex: 'result',
       width: 195,
-      render: (_, record) => (
+      render: (value, record) => (
         <Tooltip
           placement="bottom"
           title={
@@ -157,32 +154,24 @@ const PoolTable = ({ loadMore }) => {
           }
         >
           <Select
-            value={
-              <Tag
-                color={getColor(record.result)}
-                icon={getIcon(record.result)}
-              >
-                {record.result === 'COVID-19 Detected'
-                  ? 'DETECTED'
-                  : record.result.toUpperCase()}
-              </Tag>
-            }
+            value={value}
+            options={resultList.items.map((item) => {
+              return {
+                label: (
+                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
+                    {getStatusText(item.value)}
+                  </Tag>
+                ),
+                value: item.value,
+                key: item.key,
+              };
+            })}
             loading={record.resultIsUpdating}
             onSelect={onModalToggle(record.id, record.pool_id)}
             disabled={record.resultIsUpdating}
             bordered={false}
             dropdownMatchSelectWidth={200}
-          >
-            {resultList.items
-              ?.filter((option) => option.value !== record.result)
-              .map((item) => (
-                <Option key={item.key} value={item.value}>
-                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
-                    {getStatusText(item.value)}
-                  </Tag>
-                </Option>
-              ))}
-          </Select>
+          />
         </Tooltip>
       ),
     },
