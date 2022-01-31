@@ -1,7 +1,6 @@
 import { Popconfirm, Popover, Select, Switch, Table, Tag, Tooltip } from 'antd';
 import TableFooter from 'components/layout/TableFooterLoader';
 import moment from 'moment-timezone';
-// eslint-disable-next-line import/no-extraneous-dependencies
 /* eslint-disable react/jsx-wrap-multilines */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -12,8 +11,6 @@ import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import { getColor, getIcon, getStatusText } from 'utils/highlighting';
 import styles from './styles.module.scss';
-
-const { Option } = Select;
 
 const PoolTable = ({ loadMore }) => {
   const dispatch = useDispatch();
@@ -158,22 +155,17 @@ const PoolTable = ({ loadMore }) => {
         >
           <Select
             value={value}
-            options={resultList.items
-              // .filter((item) => item.value !== value)
-              .map((item) => {
-                return {
-                  label: (
-                    <Tag
-                      color={getColor(item.value)}
-                      icon={getIcon(item.value)}
-                    >
-                      {getStatusText(item.value)}
-                    </Tag>
-                  ),
-                  value: item.value,
-                  key: item.key,
-                };
-              })}
+            options={resultList.items.map((item) => {
+              return {
+                label: (
+                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
+                    {getStatusText(item.value)}
+                  </Tag>
+                ),
+                value: item.value,
+                key: item.key,
+              };
+            })}
             loading={record.resultIsUpdating}
             onSelect={onModalToggle(record.id, record.pool_id)}
             disabled={record.resultIsUpdating}

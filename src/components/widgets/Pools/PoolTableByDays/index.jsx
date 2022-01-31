@@ -23,8 +23,6 @@ import { constants } from 'utils/constants';
 import { getColor, getIcon, getStatusText } from 'utils/highlightingResult';
 import styles from './styles.module.scss';
 
-const { Option } = Select;
-
 const PoolTableByDays = ({
   loadMore,
   selectedRowKeys,
@@ -166,7 +164,7 @@ const PoolTableByDays = ({
         compare: (a, b) =>
           a.result < b.result ? -1 : a.result > b.result ? 1 : 0,
       },
-      render: (_, record) => (
+      render: (value, record) => (
         <Tooltip
           placement="bottom"
           title={
@@ -180,32 +178,24 @@ const PoolTableByDays = ({
           }
         >
           <Select
-            value={
-              <Tag
-                color={getColor(record.result)}
-                icon={getIcon(record.result)}
-              >
-                {record.result === 'COVID-19 Detected'
-                  ? 'DETECTED'
-                  : record.result.toUpperCase()}
-              </Tag>
-            }
+            value={value}
+            options={resultList.items.map((item) => {
+              return {
+                label: (
+                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
+                    {getStatusText(item.value)}
+                  </Tag>
+                ),
+                value: item.value,
+                key: item.key,
+              };
+            })}
             style={{ width: 178 }}
             loading={record.resultIsUpdating}
             onSelect={onModalToggle(record)}
             disabled={record.resultIsUpdating}
             bordered={false}
-          >
-            {resultList.items
-              ?.filter((option) => option.value !== record.result)
-              .map((item) => (
-                <Option key={item.key} value={item.value}>
-                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
-                    {getStatusText(item.value)}
-                  </Tag>
-                </Option>
-              ))}
-          </Select>
+          />
         </Tooltip>
       ),
     },
