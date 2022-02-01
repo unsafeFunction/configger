@@ -504,4 +504,7 @@ export const constants = {
     intake: 'intake-receipt-log',
     session: '/session/',
   },
+  tipsModalStatuses: {
+    hide: 'hide',
+  },
 };

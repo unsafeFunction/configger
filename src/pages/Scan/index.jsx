@@ -27,6 +27,8 @@ import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
+import SessionEntryModal from 'components/widgets/SessionEntryModal';
+import InfoButton from 'components/layout/InfoButton';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -36,13 +38,16 @@ import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
+import cookieStorage from 'utils/cookie';
 import styles from './styles.module.scss';
 
 const { Paragraph } = Typography;
+const cookie = cookieStorage();
 
 const Scan = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const modalStatus = cookie.getItem('disableSessionModal');
 
   const [visibleActions, setVisibleActions] = useState(false);
   const [isSessionActionsVisible, setSessionActionVisible] = useState(false);
@@ -91,6 +96,36 @@ const Scan = () => {
         }),
     ]);
   }, [scans, started, invalid, completed]);
+
+  const handleCloseModal = () => {
+    dispatch({
+      type: modalActions.HIDE_MODAL,
+    });
+  };
+
+  useEffect(() => {
+    if (modalStatus !== constants.tipsModalStatuses.hide) {
+      dispatch({
+        type: modalActions.SHOW_MODAL,
+        modalType: 'COMPLIANCE_MODAL',
+        modalProps: {
+          title: 'Session tips',
+          bodyStyle: {
+            height: '50vh',
+            overflow: 'auto',
+          },
+          cancelButtonProps: {
+            className: styles.hiddenButton,
+          },
+          onOk: handleCloseModal,
+          width: '60%',
+          message: () => (
+            <SessionEntryModal type={session?.session_timeout_in_minutes} />
+          ),
+        },
+      });
+    }
+  }, [modalStatus]);
 
   useEffect(() => {
     if (session.scanner_id) {
@@ -530,7 +565,8 @@ const Scan = () => {
               )}`
             : ''}
         </Typography.Title>
-        <Row>
+        <Row className={styles.actionsWrapper}>
+          <Row style={{ marginRight: 30 }} />
           <Dropdown
             overlay={sessionMenu}
             overlayClassName={styles.actionsOverlay}
@@ -543,32 +579,37 @@ const Scan = () => {
               }
             }}
             disabled={session?.isLoading}
+            className={styles.actions}
           >
             <Button type="primary">
               Session Actions
               <DownOutlined />
             </Button>
           </Dropdown>
+          <InfoButton type="sessionActions" />
         </Row>
       </div>
       <Row gutter={[48, 40]} justify="center">
         <Col xs={24} md={18} lg={16} xl={14}>
           <div className="mb-4">
             <div className={styles.navigationWrapper}>
-              <Button
-                onClick={onSaveScanModalToggle}
-                type="primary"
-                htmlType="submit"
-                className={styles.saveScanBtn}
-                disabled={
-                  session?.isLoading ||
-                  scans.length === 0 ||
-                  scan?.isLoading ||
-                  scan?.status === completed
-                }
-              >
-                Save Scan
-              </Button>
+              <div>
+                <Button
+                  onClick={onSaveScanModalToggle}
+                  type="primary"
+                  htmlType="submit"
+                  className={styles.saveScanBtn}
+                  disabled={
+                    session?.isLoading ||
+                    scans.length === 0 ||
+                    scan?.isLoading ||
+                    scan?.status === completed
+                  }
+                >
+                  Save Scan
+                </Button>
+                <InfoButton type="saveScan" />
+              </div>
               <div>
                 {scansInWork.length > 1 && (
                   <>
@@ -630,6 +671,7 @@ const Scan = () => {
                     <DownOutlined />
                   </Button>
                 </Dropdown>
+                <InfoButton type="scanActions" />
               </div>
             </div>
             {/* TODO: why is using separately scanId */}

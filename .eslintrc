@@ -23,6 +23,18 @@
       }
     }
   },
+  "globals": {
+    "React": true,
+    "google": true,
+    "mount": true,
+    "mountWithRouter": true,
+    "shallow": true,
+    "shallowWithRouter": true,
+    "context": true,
+    "expect": true,
+    "jsdom": true,
+    "JSX": true
+  },
   "rules": {
     "linebreak-style": 0,
     "max-len": [
