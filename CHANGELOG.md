@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.10](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.9...v10.0.10) (2022-02-01)
+
+### Features
+
+- add eslint fixes, fix types ([0d9e397](https://github.com/mokkapps/changelog-generator-demo/commits/0d9e397b55be909c262b40477a073932daedf1f9))
+- analysis run services to ts ([13d2e72](https://github.com/mokkapps/changelog-generator-demo/commits/13d2e72edd09b43bb7cdc47d25b9670f6917e878))
+
+### Bug Fixes
+
+- fix errorOutput ts ([682fafa](https://github.com/mokkapps/changelog-generator-demo/commits/682fafad5a971e341aa0fbd4ae478f1e3c3a2706))
+- fix selects with tags ([06b4a4f](https://github.com/mokkapps/changelog-generator-demo/commits/06b4a4f02309daea512593302555c04910d21c0c))
+- handle upload results error ([e19ac1c](https://github.com/mokkapps/changelog-generator-demo/commits/e19ac1c769dd9a65cd41e8f9a685a867d8fada55))
+- move type definitions from functions ([90dc339](https://github.com/mokkapps/changelog-generator-demo/commits/90dc33987be76d04a3b39526888c6c07db789c82))
+- pool result select ([de012e7](https://github.com/mokkapps/changelog-generator-demo/commits/de012e7f7ebe92a8bfde04b4df27a37b3e6f0b97))
+- remove unused add contacts modal ([12f7fec](https://github.com/mokkapps/changelog-generator-demo/commits/12f7fec4a8e4f48cf1efb4783de3c73f61f64098))
+
 ### [10.0.9](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.8...v10.0.9) (2022-01-28)
 
 ### Bug Fixes
