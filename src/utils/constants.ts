@@ -496,7 +496,7 @@ export const constants = {
     pooling: 'Pooling',
     individual: 'Individual',
   },
-  targets: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'RP'],
+  targets: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'N1', 'RP'],
   ampStatuses: {
     inconclusive: 'inconclusive',
   },

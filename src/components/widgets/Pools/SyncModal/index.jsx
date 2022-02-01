@@ -1,22 +1,13 @@
-import { Form, Radio, Space } from 'antd';
+import { Checkbox, Form } from 'antd';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React from 'react';
-import rules from 'utils/formRules';
+import styles from './styles.module.scss';
 
 const SyncModal = ({ form }) => {
-  const { Item } = Form;
-
-  const notificationOptions = [
-    { label: 'do not notify', value: 'do_not_notify' },
-    { label: 'notify everyone', value: 'notify_everyone' },
-    {
-      label: 'notify result contacts (admins)',
-      value: 'notify_result_contacts',
-    },
-    { label: 'notify testing contacts', value: 'notify_testing_contacts' },
-    { label: 'notify with detected result', value: 'notify_detected' },
-    { label: 'notify these barcodes only', value: 'notify_barcodes' },
+  const options = [
+    { label: 'Results contacts', value: 'results_contacts' },
+    { label: 'Testing contacts', value: 'testing_contacts' },
   ];
 
   return (
@@ -24,20 +15,12 @@ const SyncModal = ({ form }) => {
       form={form}
       layout="vertical"
       initialValues={{
-        notification_option: 'notify_everyone',
+        notify: ['results_contacts', 'testing_contacts'],
       }}
     >
-      <Item name="notification_option" rules={[rules.required]}>
-        <Radio.Group>
-          <Space direction="vertical">
-            {notificationOptions.map((option) => (
-              <Radio key={option.value} value={option.value}>
-                {option.label}
-              </Radio>
-            ))}
-          </Space>
-        </Radio.Group>
-      </Item>
+      <Form.Item name="notify" label="Notifications will be sent to">
+        <Checkbox.Group options={options} className={styles.notifications} />
+      </Form.Item>
     </Form>
   );
 };

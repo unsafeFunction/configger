@@ -159,13 +159,19 @@ export function* callFetchAllPools({ payload }) {
   }
 }
 
-export function* callSyncPools({ payload: { closeBtn, ...payload } }) {
+export function* callSyncPools({
+  payload: { closeBtn, resetForm, ...payload },
+}) {
   try {
     const response = yield call(syncPools, payload);
 
     yield put({
       type: actions.SYNC_POOLS_SUCCESS,
       payload: response,
+    });
+
+    yield put({
+      type: modalActions.HIDE_MODAL,
     });
 
     const messages = groupBy(response.data, 'message');
@@ -176,11 +182,14 @@ export function* callSyncPools({ payload: { closeBtn, ...payload } }) {
         description: `${message}: [${messages[message]
           .map((syncMessage) => syncMessage.pool_id)
           .join(', ')}]`,
-        duration: null,
-        btn: closeBtn(message),
+        duration: 8,
+        // TODO: future feature
+        // btn: closeBtn(message),
         key: message,
       });
     });
+
+    return yield call(resetForm);
   } catch (error) {
     yield put({ type: actions.SYNC_POOLS_FAILURE });
 
