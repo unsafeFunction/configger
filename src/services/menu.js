@@ -1,4 +1,4 @@
-import { constants } from 'utils/constants';
+import labConfig from 'utils/labConfig';
 
 export async function getMenuData() {
   return [
@@ -20,7 +20,7 @@ export async function getMenuData() {
           icon: 'fe fe-maximize',
         },
         {
-          title: `${constants.names.poolRack} Scans`,
+          title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Scans`,
           key: 'rack-scans',
           url: '/rack-scans',
           icon: 'fe fe-box',

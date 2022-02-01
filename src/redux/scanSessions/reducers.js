@@ -42,6 +42,34 @@ const sessionsReducer = (state = initialState, action) => {
           : state.offset + scanSessions.itemsLoadingCount,
       };
     }
+
+    case actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS: {
+      const { data } = action.payload;
+
+      return {
+        ...state,
+        items: state.items.map((session) => {
+          if (session.id === data.id) {
+            session.samples_count = data.samples_count;
+          }
+          return session;
+        }),
+      };
+    }
+
+    case actions.DELETE_SCAN_BY_ID_SUCCESS: {
+      const { sessionId, scanId } = action.payload;
+
+      return {
+        ...state,
+        items: state.items.map((session) => {
+          if (session.id === sessionId) {
+            session.scans = session.scans.filter((id) => id !== scanId);
+          }
+          return session;
+        }),
+      };
+    }
     case actions.FETCH_SCAN_SESSIONS_FAILURE: {
       return {
         ...state,
@@ -202,14 +230,14 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
 
       return {
         ...state,
-        requestStatus: action.payload.status,
+        requestStatus: action.payload?.status,
         scans: [...state.scans, ...freshScans],
       };
     }
     case actions.FETCH_ACTIVE_SCANS_FAILURE: {
       return {
         ...state,
-        requestStatus: action.payload.status,
+        requestStatus: 'failure_status',
       };
     }
 

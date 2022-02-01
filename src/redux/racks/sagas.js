@@ -7,6 +7,7 @@ import {
   fetchRackScans,
   updateRackScan,
 } from 'services/racks';
+import labConfig from 'utils/labConfig';
 import actions from './actions';
 import { getRackScan } from './selectors';
 
@@ -93,7 +94,7 @@ export function* callUpdateRack({ payload }) {
     });
 
     notification.success({
-      message: 'PoolRack updated',
+      message: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} updated`,
     });
 
     if (payload.callback) {
@@ -109,7 +110,9 @@ export function* callUpdateRack({ payload }) {
     });
 
     notification.error({
-      message: error.message ?? 'PoolRack not updated',
+      message:
+        error.message ??
+        `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} not updated`,
     });
   }
 }

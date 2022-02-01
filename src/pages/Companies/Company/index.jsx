@@ -82,6 +82,10 @@ const CompanyProfile = () => {
     </Tooltip>
   );
 
+  const handleFormReset = () => {
+    syncForm.resetFields();
+  };
+
   const handleSync = useCallback(async () => {
     const fieldValues = await syncForm.validateFields();
     return dispatch({
@@ -90,6 +94,7 @@ const CompanyProfile = () => {
         poolIds: selectedRowKeys,
         companyId: singleCompany.company_id,
         ...fieldValues,
+        resetForm: handleFormReset,
         closeBtn: (key) => (
           <Button
             type="primary"
@@ -116,6 +121,11 @@ const CompanyProfile = () => {
         onOk: handleSync,
         okText: 'Sync',
         message: () => <SyncModal form={syncForm} />,
+        onCancel: handleFormReset,
+        bodyStyle: {
+          maxHeight: '70vh',
+          overflow: 'scroll',
+        },
       },
     });
   }, [dispatch, handleSync, syncForm]);

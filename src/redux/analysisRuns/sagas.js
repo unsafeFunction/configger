@@ -35,17 +35,16 @@ export function* callUploadRunResult({ payload }) {
       type: actions.UPLOAD_RUN_RESULT_SUCCESS,
       payload: data,
     });
+
+    notification.success({ message: 'Successfully loaded' });
   } catch (error) {
-    yield put({
-      type: actions.UPLOAD_RUN_RESULT_ERROR,
-    });
-    notification.error(error);
+    notification.error({ message: error.message, duration: null });
   }
 }
 
 export function* callLoadRun({ payload }) {
   try {
-    const response = yield call(fetchRun, payload);
+    const response = yield call(fetchRun, payload.id);
 
     yield put({
       type: actions.FETCH_RUN_SUCCESS,
@@ -64,7 +63,7 @@ export function* callLoadRun({ payload }) {
 
 export function* callFetchWellplate({ payload }) {
   try {
-    const { data } = yield call(fetchWellplate, payload);
+    const { data } = yield call(fetchWellplate, payload.id);
 
     const formatResponse = (response) => {
       return Object.assign(

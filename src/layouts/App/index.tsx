@@ -12,7 +12,6 @@ import actions from 'redux/user/actions';
 import sessionActions from 'redux/scanSessions/actions';
 import { RootState } from 'redux/reducers';
 import { UserState, SettingState } from 'redux/storeTypes';
-// import styles from './styles.module.scss';
 
 type AppProps = {
   children: React.ReactChild;

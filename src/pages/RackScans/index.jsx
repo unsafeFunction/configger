@@ -19,6 +19,7 @@ import { useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
 import actions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
+import labConfig from 'utils/labConfig';
 import useCustomFilters from '../../utils/useCustomFilters';
 import styles from './styles.module.scss';
 
@@ -130,7 +131,7 @@ const RackScans = () => {
 
   const columns = [
     {
-      title: `${constants.names.poolRack} Name`,
+      title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Name`,
       dataIndex: 'scan_name',
       render: (value) => value ?? '-',
     },
@@ -207,7 +208,9 @@ const RackScans = () => {
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
-        <h4>{constants.names.poolRack} Scans</h4>
+        <h4>
+          {`${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Scans`}
+        </h4>
       </div>
       <Table
         dataSource={racksItems}

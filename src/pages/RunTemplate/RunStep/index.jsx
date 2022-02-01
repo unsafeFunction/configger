@@ -26,6 +26,7 @@ import {
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import rules from 'utils/formRules';
+import labConfig from 'utils/labConfig';
 import layoutHook from '../layoutHook';
 import { qsMachines, runTypes, startColumns, values } from '../params';
 import PoolRackDetail from '../PoolRackDetail';
@@ -93,7 +94,9 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
-          title: `${constants.names.poolRack} ${poolRack.rack_id}`,
+          title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} ${
+            poolRack.rack_id
+          }`,
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
@@ -120,12 +123,12 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
       render: () => <DragHandle />,
     },
     {
-      title: `${constants.names.poolRack} Name`,
+      title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Name`,
       dataIndex: 'scan_name',
       ellipsis: true,
     },
     {
-      title: `${constants.names.poolRack} RackID`,
+      title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} RackID`,
       dataIndex: 'rack_id',
     },
     {
@@ -203,7 +206,9 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
-          title: `Select ${constants.names.poolRack}s`,
+          title: `Select ${
+            labConfig[process.env.REACT_APP_LAB_ID].naming.rack
+          }s`,
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
@@ -230,8 +235,13 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
       runState.poolRacks.length > poolRackLimit.max
     ) {
       return notification.error({
-        message: `Wrong number of ${constants.names.poolRack}s per run`,
-        description: `Select ${poolRackLimit.min} – ${poolRackLimit.max} ${constants.names.poolRack}s`,
+        message: `Wrong number of ${
+          labConfig[process.env.REACT_APP_LAB_ID].naming.rack
+        }s per run`,
+        description: `Select ${poolRackLimit.min} - ${poolRackLimit.max} ${
+          labConfig[process.env.REACT_APP_LAB_ID].naming.rack
+        }s`,
+        duration: 0,
       });
     }
     return componentDispatch({
@@ -244,163 +254,157 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   }, [componentDispatch, runState, poolRackLimit]);
 
   return (
-    <>
-      <Form
-        form={form}
-        layout="vertical"
-        initialValues={{
-          kfpParam,
-          replicationParam,
-          runNumber: '',
-        }}
-        onFinish={onSubmit}
-      >
-        <Row gutter={[24, 16]}>
-          <Col xs={{ span: 24 }} sm={24} md={12}>
-            <Item name="method" rules={[rules.required]}>
-              <Radio.Group name="method" buttonStyle="solid">
-                <Radio.Button
-                  value={values.SalivaClear}
-                  className={styles.radio}
-                >
-                  SalivaClear
-                </Radio.Button>
-                <Radio.Button
-                  value={values.SalivaDirect}
-                  className={styles.radio}
-                >
-                  SalivaDirect
-                </Radio.Button>
-              </Radio.Group>
-            </Item>
-            <Item name="kfpParam" rules={[rules.required]}>
-              <Radio.Group
-                name="kfpParam"
-                onChange={handleChangeLayout}
-                buttonStyle="solid"
+    <Form
+      form={form}
+      layout="vertical"
+      initialValues={{
+        kfpParam,
+        replicationParam,
+        runNumber: '',
+      }}
+      onFinish={onSubmit}
+    >
+      <Row gutter={[24, 16]}>
+        <Col xs={{ span: 24 }} sm={24} md={12}>
+          <Item name="method" rules={[rules.required]}>
+            <Radio.Group name="method" buttonStyle="solid">
+              <Radio.Button value={values.SalivaClear} className={styles.radio}>
+                SalivaClear
+              </Radio.Button>
+              <Radio.Button
+                value={values.SalivaDirect}
+                className={styles.radio}
               >
-                <Radio.Button value={values.oneKFP} className={styles.radio}>
-                  1 KingFisher Plate
-                </Radio.Button>
-                <Radio.Button value={values.twoKFPs} className={styles.radio}>
-                  2 KingFisher Plate
-                </Radio.Button>
-              </Radio.Group>
-            </Item>
-            <Item name="replicationParam" rules={[rules.required]}>
-              <Radio.Group
-                name="replicationParam"
-                onChange={handleChangeLayout}
-                buttonStyle="solid"
-              >
-                <Radio.Button value={values.duplicate} className={styles.radio}>
-                  Duplicate
-                </Radio.Button>
-                <Radio.Button
-                  value={values.triplicate}
-                  className={styles.radio}
-                  disabled={runState.kfpParam === values.twoKFPs}
-                >
-                  Triplicate
-                </Radio.Button>
-              </Radio.Group>
-            </Item>
-          </Col>
-          <Col xs={{ span: 24 }} sm={24} md={6}>
-            <Item name="startColumn" rules={[rules.required]}>
-              <Select
-                placeholder="Start column"
-                showArrow
-                optionFilterProp="label"
-                allowClear
-                showSearch
-                options={startColumns(1, 23)}
-              />
-            </Item>
-            <Item name="runNumber" rules={[rules.required]}>
-              <Input placeholder="Run number" className={styles.runNumber} />
-            </Item>
-          </Col>
-          <Col xs={{ span: 24 }} sm={24} md={6}>
-            <Item name="runType" rules={[rules.required]}>
-              <Select
-                placeholder="Run type"
-                showArrow
-                optionFilterProp="label"
-                allowClear
-                showSearch
-                options={runTypes}
-              />
-            </Item>
-            <Item name="qsMachine" rules={[rules.required]}>
-              <Select
-                placeholder="QS machine"
-                showArrow
-                optionFilterProp="label"
-                allowClear
-                showSearch
-                options={qsMachines}
-              />
-            </Item>
-          </Col>
-        </Row>
-        {isPoolsSelected && (
-          <div className={styles.editPoolRacks}>
-            <Button
-              type="primary"
-              onClick={() => openModalList(runState, poolRackLimit)}
+                SalivaDirect
+              </Radio.Button>
+            </Radio.Group>
+          </Item>
+          <Item name="kfpParam" rules={[rules.required]}>
+            <Radio.Group
+              name="kfpParam"
+              onChange={handleChangeLayout}
+              buttonStyle="solid"
             >
-              Edit {constants.names.poolRack}s List
-            </Button>
-          </div>
-        )}
-        <Item>
-          <Table
-            columns={columns}
-            dataSource={runState.poolRacks}
-            pagination={false}
-            scroll={{ x: 'max-content' }}
-            rowKey={(record) => record.id}
-            className="mt-3"
-            locale={{
-              emptyText: () => (
-                <Empty
-                  image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                  imageStyle={{
-                    height: 60,
-                  }}
-                  description={
-                    <span>
-                      No
-                      {constants.names.poolRack}s selected
-                    </span>
-                  }
-                >
-                  <Button
-                    type="primary"
-                    className="mb-3"
-                    onClick={() => openModalList(runState, poolRackLimit)}
-                  >
-                    Select {constants.names.poolRack}s
-                  </Button>
-                </Empty>
-              ),
-            }}
-            components={{
-              body: {
-                wrapper: DraggableContainer,
-                row: DraggableBodyRow,
-              },
-            }}
-          />
-        </Item>
-        <Item>
-          <Button disabled={!isPoolsSelected} type="primary" htmlType="submit">
-            Review run
+              <Radio.Button value={values.oneKFP} className={styles.radio}>
+                1 KingFisher Plate
+              </Radio.Button>
+              <Radio.Button value={values.twoKFPs} className={styles.radio}>
+                2 KingFisher Plate
+              </Radio.Button>
+            </Radio.Group>
+          </Item>
+          <Item name="replicationParam" rules={[rules.required]}>
+            <Radio.Group
+              name="replicationParam"
+              onChange={handleChangeLayout}
+              buttonStyle="solid"
+            >
+              <Radio.Button value={values.duplicate} className={styles.radio}>
+                Duplicate
+              </Radio.Button>
+              <Radio.Button
+                value={values.triplicate}
+                className={styles.radio}
+                disabled={runState.kfpParam === values.twoKFPs}
+              >
+                Triplicate
+              </Radio.Button>
+            </Radio.Group>
+          </Item>
+        </Col>
+        <Col xs={{ span: 24 }} sm={24} md={6}>
+          <Item name="startColumn" rules={[rules.required]}>
+            <Select
+              placeholder="Start column"
+              showArrow
+              optionFilterProp="label"
+              allowClear
+              showSearch
+              options={startColumns(1, 23)}
+            />
+          </Item>
+          <Item name="runNumber" rules={[rules.required]}>
+            <Input placeholder="Run number" className={styles.runNumber} />
+          </Item>
+        </Col>
+        <Col xs={{ span: 24 }} sm={24} md={6}>
+          <Item name="runType" rules={[rules.required]}>
+            <Select
+              placeholder="Run type"
+              showArrow
+              optionFilterProp="label"
+              allowClear
+              showSearch
+              options={runTypes}
+            />
+          </Item>
+          <Item name="qsMachine" rules={[rules.required]}>
+            <Select
+              placeholder="QS machine"
+              showArrow
+              optionFilterProp="label"
+              allowClear
+              showSearch
+              options={qsMachines}
+            />
+          </Item>
+        </Col>
+      </Row>
+      {isPoolsSelected && (
+        <div className={styles.editPoolRacks}>
+          <Button
+            type="primary"
+            onClick={() => openModalList(runState, poolRackLimit)}
+          >
+            {`Edit ${
+              labConfig[process.env.REACT_APP_LAB_ID].naming.rack
+            }s List`}
           </Button>
-        </Item>
-      </Form>
-    </>
+        </div>
+      )}
+      <Item>
+        <Table
+          columns={columns}
+          dataSource={runState.poolRacks}
+          pagination={false}
+          scroll={{ x: 'max-content' }}
+          rowKey={(record) => record.id}
+          className="mt-3"
+          locale={{
+            emptyText: () => (
+              <Empty
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{ height: 60 }}
+                description={`No ${
+                  labConfig[process.env.REACT_APP_LAB_ID].naming.rack
+                }s selected`}
+              >
+                <Button
+                  type="primary"
+                  className="mb-3"
+                  onClick={() => openModalList(runState, poolRackLimit)}
+                >
+                  {`Select ${
+                    labConfig[process.env.REACT_APP_LAB_ID].naming.rack
+                  }s`}
+                </Button>
+              </Empty>
+            ),
+          }}
+          components={{
+            body: {
+              wrapper: DraggableContainer,
+              row: DraggableBodyRow,
+            },
+          }}
+        />
+      </Item>
+      <Item>
+        <Button disabled={!isPoolsSelected} type="primary" htmlType="submit">
+          Review run
+        </Button>
+      </Item>
+    </Form>
   );
 };
 

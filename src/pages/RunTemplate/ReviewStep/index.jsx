@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/runTemplate/actions';
 import { constants } from 'utils/constants';
+import labConfig from 'utils/labConfig';
 import PoolRackDetail from '../PoolRackDetail';
 import ReviewTable from './components';
 
@@ -25,7 +26,9 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
-          title: `PoolRack ${poolRack.rack_id}`,
+          title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} ${
+            poolRack.rack_id
+          }`,
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
@@ -94,7 +97,9 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
             key={poolRack.id}
           >
             <Card
-              title={`PoolRack ${index + 1}`}
+              title={`${
+                labConfig[process.env.REACT_APP_LAB_ID].naming.rack
+              } ${index + 1}`}
               extra={
                 // eslint-disable-next-line react/jsx-wrap-multilines
                 <div
@@ -107,11 +112,19 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
               }
             >
               <p>
-                <Text type="secondary">PoolRack ID: </Text>
+                <Text type="secondary">
+                  {`${
+                    labConfig[process.env.REACT_APP_LAB_ID].naming.rack
+                  } ID: `}
+                </Text>
                 {poolRack.rack_id ?? '-'}
               </p>
               <p>
-                <Text type="secondary">PoolRack Name: </Text>
+                <Text type="secondary">
+                  {`${
+                    labConfig[process.env.REACT_APP_LAB_ID].naming.rack
+                  } Name: `}
+                </Text>
                 {poolRack.scan_name ?? '-'}
               </p>
               <p>

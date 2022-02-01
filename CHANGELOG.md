@@ -2,6 +2,81 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.10](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.9...v10.0.10) (2022-02-01)
+
+### Features
+
+- add eslint fixes, fix types ([0d9e397](https://github.com/mokkapps/changelog-generator-demo/commits/0d9e397b55be909c262b40477a073932daedf1f9))
+- analysis run services to ts ([13d2e72](https://github.com/mokkapps/changelog-generator-demo/commits/13d2e72edd09b43bb7cdc47d25b9670f6917e878))
+
+### Bug Fixes
+
+- fix errorOutput ts ([682fafa](https://github.com/mokkapps/changelog-generator-demo/commits/682fafad5a971e341aa0fbd4ae478f1e3c3a2706))
+- fix selects with tags ([06b4a4f](https://github.com/mokkapps/changelog-generator-demo/commits/06b4a4f02309daea512593302555c04910d21c0c))
+- handle upload results error ([e19ac1c](https://github.com/mokkapps/changelog-generator-demo/commits/e19ac1c769dd9a65cd41e8f9a685a867d8fada55))
+- move type definitions from functions ([90dc339](https://github.com/mokkapps/changelog-generator-demo/commits/90dc33987be76d04a3b39526888c6c07db789c82))
+- pool result select ([de012e7](https://github.com/mokkapps/changelog-generator-demo/commits/de012e7f7ebe92a8bfde04b4df27a37b3e6f0b97))
+- remove unused add contacts modal ([12f7fec](https://github.com/mokkapps/changelog-generator-demo/commits/12f7fec4a8e4f48cf1efb4783de3c73f61f64098))
+
+### [10.0.9](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.8...v10.0.9) (2022-01-28)
+
+### Bug Fixes
+
+- remove delete butotn ([fe81ce0](https://github.com/mokkapps/changelog-generator-demo/commits/fe81ce09b4d6f11abc473394adbe87260565f5e6))
+
+### [10.0.8](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.6...v10.0.8) (2022-01-27)
+
+### Features
+
+- recalculate sample count from backend ([bc9477a](https://github.com/mokkapps/changelog-generator-demo/commits/bc9477ab00beedbf9459c0635dd4164aebc39c6d))
+
+### Bug Fixes
+
+- move rack naming to lab config, fix misspellings ([57a837c](https://github.com/mokkapps/changelog-generator-demo/commits/57a837ca0d6854fba377194e03048d98d3211f14))
+- update total pool size when delete it ([4037fe6](https://github.com/mokkapps/changelog-generator-demo/commits/4037fe699834c53d521b1c8f40882deaf07b26e0))
+
+### [10.0.7](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.6...v10.0.7) (2022-01-26)
+
+### [10.0.6](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.5...v10.0.6) (2022-01-26)
+
+### Bug Fixes
+
+- failure status pooler ([7e0e60d](https://github.com/mokkapps/changelog-generator-demo/commits/7e0e60d34c173f4af4c9a072eb45921927974cd7))
+
+### [10.0.5](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.4...v10.0.5) (2022-01-26)
+
+### [10.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.3...v10.0.4) (2022-01-26)
+
+### Bug Fixes
+
+- remove serviceWorker registration ([c60b354](https://github.com/mokkapps/changelog-generator-demo/commits/c60b3547b8453478de20e0b2d99d103593370508))
+
+### [10.0.3](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.2...v10.0.3) (2022-01-26)
+
+### Bug Fixes
+
+- disable reflex for individual tubes, company select styles ([0dbd5f0](https://github.com/mokkapps/changelog-generator-demo/commits/0dbd5f055617a927c6fe1b2f4e3e692f9e20aa16))
+- name short reflex ([2afc190](https://github.com/mokkapps/changelog-generator-demo/commits/2afc1904dedd9d78b0a0c841ab2ffd23964c3a90))
+
+### [10.0.2](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.1...v10.0.2) (2022-01-25)
+
+### Features
+
+- add search by barcode in completed runs ([dbb2f81](https://github.com/mokkapps/changelog-generator-demo/commits/dbb2f81c098d46fb48889499fdf1225826c41d75))
+
+### Bug Fixes
+
+- deps error ([27a43c1](https://github.com/mokkapps/changelog-generator-demo/commits/27a43c117b02deeea061aae7d4e09d27e6314397))
+
+### [10.0.1](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.0...v10.0.1) (2022-01-25)
+
+### Bug Fixes
+
+- change receipt timestamp field ([d76b26e](https://github.com/mokkapps/changelog-generator-demo/commits/d76b26e18eaa61c793a75a5012aa57b7d9964295))
+- close popover save session ([e307770](https://github.com/mokkapps/changelog-generator-demo/commits/e3077705b8f3b52b3b42fac995c11c399f17a2ea))
+- rename publish button ([a87e9b4](https://github.com/mokkapps/changelog-generator-demo/commits/a87e9b4e704dfa10edda606073c7aa490a5cb96f))
+- search by company id ([8bd4682](https://github.com/mokkapps/changelog-generator-demo/commits/8bd46826843427e61b9e0628552d9d9a9d3c5e7f))
+
 ## [10.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v9.9.2...v10.0.0) (2022-01-24)
 
 ### Features

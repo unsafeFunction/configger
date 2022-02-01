@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, CheckboxChangeEvent } from 'antd';
+import { Checkbox } from 'antd';
 import { CookieStorage } from 'cookie-storage';
 import cookieStorage from 'utils/cookie';
 import styles from './styles.module.scss';

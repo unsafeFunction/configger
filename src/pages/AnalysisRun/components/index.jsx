@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/jsx-one-expression-per-line */
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Popover, Radio, Select, Tooltip, Typography } from 'antd';
@@ -13,13 +14,12 @@ import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlighting';
 import styles from './styles.module.scss';
 
-const { Option } = Select;
-
 const warningFlag = (
   <ExclamationCircleFilled style={{ color: '#f39834' }} className="ml-1" />
 );
 
 const Actions = ({ record, field, value = '' }) => {
+  const { runStatuses, tubeTypes } = constants;
   const dispatch = useDispatch();
 
   const { status: runStatus } = useSelector(
@@ -34,10 +34,12 @@ const Actions = ({ record, field, value = '' }) => {
     {
       label: 'Reflex SC',
       value: 'REFLEX_SC',
+      disabled: record.tube_type === tubeTypes.individual,
     },
     {
       label: 'Reflex SD',
       value: 'REFLEX_SD',
+      disabled: record.tube_type === tubeTypes.individual,
     },
     {
       label: 'Rerun',
@@ -109,8 +111,8 @@ const Actions = ({ record, field, value = '' }) => {
           options={options}
           disabled={
             record[`${field}IsUpdating`] ||
-            runStatus === constants.runStatuses.qpcr ||
-            runStatus === constants.runStatuses.published
+            runStatus === runStatuses.qpcr ||
+            runStatus === runStatuses.published
           }
           onChange={onModalToggle(
             record.sample_id,
@@ -169,7 +171,7 @@ const ResultSelect = ({ record, field }) => {
         modalType: 'COMPLIANCE_MODAL',
         modalProps: {
           title: 'Confirm action',
-          onOk: () => onResultUpdate(id, field, option.key),
+          onOk: () => onResultUpdate(id, field, option.value),
           bodyStyle: {
             maxHeight: '70vh',
             overflow: 'scroll',
@@ -189,7 +191,13 @@ const ResultSelect = ({ record, field }) => {
 
   return (
     <Select
-      value={<ResultTag status={record[field]} type="sample" />}
+      value={record[field]}
+      options={resultList.map((item) => {
+        return {
+          label: <ResultTag status={item.value} type="sample" />,
+          value: item.value,
+        };
+      })}
       onSelect={onModalToggle(
         record.sample_id,
         field,
@@ -204,15 +212,7 @@ const ResultSelect = ({ record, field }) => {
       }
       bordered={false}
       dropdownMatchSelectWidth={200}
-    >
-      {resultList
-        ?.filter((option) => option.value !== record[field])
-        .map((item) => (
-          <Option key={item.value} value={item.value}>
-            <ResultTag status={item.value} type="sample" />
-          </Option>
-        ))}
-    </Select>
+    />
   );
 };
 
@@ -254,25 +254,26 @@ const columns = [
   {
     title: 'Pool Name',
     dataIndex: 'pool_name',
-    // TODO: future feature
-    // render: (value, record) => {
-    //   return (
-    //     <Tooltip
-    //       placement="right"
-    //       title={`Pool size: ${record.pool_size ?? 'Unknown'}`}
-    //     >
-    //       {value}
-    //     </Tooltip>
-    //   );
-    // },
   },
   {
     title: 'Sample ID',
     dataIndex: 'display_sample_id',
+    render: (value, { tube_type }) => {
+      return (
+        <Popover
+          content={tube_type ? `${tube_type} tube` : 'Undetermined tube type'}
+          trigger="hover"
+          placement="right"
+        >
+          {value}
+        </Popover>
+      );
+    },
   },
   {
     title: 'Result',
     dataIndex: 'analysis_result',
+    width: 190,
     render: (_, record) => {
       return {
         children: record?.analysis_result ? (

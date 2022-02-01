@@ -7,10 +7,8 @@ import {
   Dropdown,
   Input,
   Menu,
-  Popconfirm,
   Row,
   Table,
-  Tag,
 } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
@@ -19,9 +17,9 @@ import moment from 'moment-timezone';
 import React, {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
-  useMemo,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -104,17 +102,6 @@ const ScanSessions = () => {
     {
       title: 'Session name',
       dataIndex: 'scan_session_title',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      render: (text) => {
-        return (
-          <Tag color="blue" className={styles.sessionStatus}>
-            {text.toLowerCase()}
-          </Tag>
-        );
-      },
     },
     {
       title: 'Total Pools Count',
@@ -299,8 +286,9 @@ const ScanSessions = () => {
       >
         Export pool
       </Menu.Item>
-      <Menu.Item key="3">
+      {/* <Menu.Item key="3">
         <Popconfirm
+      // TODO: if required uncomment
           title="Are you sure to delete this pool?"
           okText="Yes"
           cancelText="No"
@@ -313,7 +301,7 @@ const ScanSessions = () => {
         >
           Delete pool
         </Popconfirm>
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
 

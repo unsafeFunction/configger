@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import poolRackActions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
+import labConfig from 'utils/labConfig';
 import styles from './styles.module.scss';
 
 const { RangePicker } = DatePicker;
@@ -85,13 +86,13 @@ const PoolRackTable = ({ setSelectedRows, runState, limit }) => {
 
   const columns = [
     {
-      title: `${constants.names.poolRack} Name`,
+      title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Name`,
       dataIndex: 'scan_name',
       ellipsis: true,
       render: (value) => value ?? '-',
     },
     {
-      title: `${constants.names.poolRack} RackID`,
+      title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} RackID`,
       dataIndex: 'rack_id',
     },
     {

@@ -82,7 +82,7 @@ const IntakeReceiptLog = () => {
           }
         >
           <p style={{ margin: 0 }}>
-            {item.scanner_id} – model:
+            {item.scanner_id} - model:
             {item.model}{' '}
             {!item.is_online ? (
               <span style={{ color: 'red' }}>(offline)</span>

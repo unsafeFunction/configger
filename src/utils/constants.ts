@@ -493,20 +493,16 @@ export const constants = {
     },
   ],
   tubeTypes: {
-    pool: 'Pool',
+    pooling: 'Pooling',
     individual: 'Individual',
   },
-  targets: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'RP'],
+  targets: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'N1', 'RP'],
   ampStatuses: {
     inconclusive: 'inconclusive',
   },
   disabledPathsSession: {
     intake: 'intake-receipt-log',
     session: '/session/',
-  },
-  names: {
-    poolRack:
-      process.env.REACT_APP_LAB_ID === 'wynn' ? 'KingFisher Rack' : 'PoolRack',
   },
   tipsModalStatuses: {
     hide: 'hide',

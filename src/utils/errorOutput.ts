@@ -1,16 +1,16 @@
-type DataProps = {
+type DataType = {
   detail: string;
   details: string;
   field_errors: string[];
 };
-type ResponseProps = {
-  data: DataProps;
+type ResponseType = {
+  data: DataType;
 };
-type ErrorProps = {
-  response: ResponseProps;
+type ErrorType = {
+  response: ResponseType;
 };
 
-const errorOutput = (error: ErrorProps): string | ErrorProps => {
+const errorOutput = (error: ErrorType | any): string | ErrorType | any => {
   if (error?.response?.data.detail) {
     const err = error.response.data.detail;
     return err;
