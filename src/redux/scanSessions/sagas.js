@@ -422,6 +422,7 @@ export function* callDeleteTube({ payload }) {
 
     notification.error({
       message: error.message ?? 'Failure!',
+      duration: 10,
     });
   }
 }

@@ -1,4 +1,5 @@
 import axiosClient from 'utils/axiosClient';
+import errorOutput from 'utils/errorOutput';
 
 export const fetchScanById = async (scanId) => {
   try {
@@ -44,7 +45,7 @@ export const deleteTube = async ({ tubeId, scanId }) => {
     );
     return tube;
   } catch (error) {
-    throw new Error(error?.response?.data.detail);
+    throw new Error(errorOutput(error));
   }
 };
 

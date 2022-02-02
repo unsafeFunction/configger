@@ -197,9 +197,7 @@ const Rackboard = ({
                   </Popconfirm>
                   {(isRack &&
                     recordStatus !== tubes.deleted.status &&
-                    recordStatus !== tubes.missing.status &&
-                    recordStatus !== tubes.negativeControl.status &&
-                    recordStatus !== tubes.positiveControl.status) ||
+                    recordStatus !== tubes.missing.status) ||
                   (!isRack &&
                     recordStatus !== tubes.deleted.status &&
                     recordStatus !== tubes.missing.status &&
