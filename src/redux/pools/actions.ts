@@ -1,6 +1,6 @@
 import generateRequestActions from 'redux/factories/generateRequestActions';
 
-const actions = {
+const actions: ActionType = {
   FETCH_POOLS_BY_RUN_ID_REQUEST: 'pools/FETCH_POOLS_BY_RUN_ID_REQUEST',
   FETCH_POOLS_BY_RUN_ID_SUCCESS: 'pools/FETCH_POOLS_BY_RUN_ID_SUCCESS',
   FETCH_POOLS_BY_RUN_ID_FAILURE: 'pools/FETCH_POOLS_BY_RUN_ID_FAILURE',

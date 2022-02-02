@@ -10,12 +10,23 @@ import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import { getColor, getIcon, getStatusText } from 'utils/highlighting';
+import { RootState } from 'redux/reducers';
+import { OptionType } from './types';
 import styles from './styles.module.scss';
+import { PoolType } from 'models/Pool.model';
 
-const PoolTable = ({ loadMore }) => {
+const { Option } = Select;
+
+type PoolTableProps = {
+  loadMore: () => void;
+};
+
+const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { all: pools, resultList } = useSelector((state) => state.pools);
+  const { all: pools, resultList } = useSelector<RootState, any>(
+    (state) => state.pools,
+  );
 
   const useFetching = () => {
     useEffect(() => {
@@ -25,7 +36,7 @@ const PoolTable = ({ loadMore }) => {
 
   useFetching();
 
-  const handlePublish = (poolId, checked) => {
+  const handlePublish = (poolId: string, checked: boolean) => {
     dispatch({
       type: actions.PUBLISH_POOL_REQUEST,
       payload: {
@@ -49,7 +60,10 @@ const PoolTable = ({ loadMore }) => {
   );
 
   const onModalToggle = useCallback(
-    (poolUniqueId, poolId) => (_, option) => {
+    (poolUniqueId: string, poolId: string) => (
+      _: undefined,
+      option: OptionType,
+    ) => {
       dispatch({
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
@@ -78,13 +92,13 @@ const PoolTable = ({ loadMore }) => {
       title: 'Receipt Date',
       dataIndex: 'receipt_date',
       width: 140,
-      render: (value) =>
+      render: (value: string) =>
         value ? moment(value).format(constants.dateFormat) : '-',
     },
     {
       title: 'Run Title',
       dataIndex: 'run_title',
-      render: (value) => {
+      render: (value: string) => {
         return value ?? '-';
       },
     },
@@ -94,7 +108,7 @@ const PoolTable = ({ loadMore }) => {
       ellipsis: {
         showTitle: false,
       },
-      render: (value, record) => (
+      render: (value: string, record: PoolType) => (
         <Popover
           content={record.company?.name}
           trigger="hover"
@@ -113,14 +127,14 @@ const PoolTable = ({ loadMore }) => {
     {
       title: 'Pool Title',
       dataIndex: 'title',
-      render: (value) => {
+      render: (value: string) => {
         return value ?? '-';
       },
     },
     {
       title: 'Rack ID',
       dataIndex: 'rack_id',
-      render: (value) => {
+      render: (value: string) => {
         return value ?? '-';
       },
     },
@@ -128,7 +142,7 @@ const PoolTable = ({ loadMore }) => {
       title: 'Pool ID',
       dataIndex: 'pool_id',
       width: 100,
-      render: (value) => {
+      render: (value: string) => {
         return value ?? '-';
       },
     },
@@ -140,7 +154,7 @@ const PoolTable = ({ loadMore }) => {
       ),
       dataIndex: 'result',
       width: 195,
-      render: (value, record) => (
+      render: (_: null, record: PoolType) => (
         <Tooltip
           placement="bottom"
           title={
@@ -154,18 +168,18 @@ const PoolTable = ({ loadMore }) => {
           }
         >
           <Select
-            value={value}
-            options={resultList.items.map((item) => {
-              return {
-                label: (
-                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
-                    {getStatusText(item.value)}
-                  </Tag>
-                ),
-                value: item.value,
-                key: item.key,
-              };
-            })}
+            value={
+              ((
+                <Tag
+                  color={getColor(record.result)}
+                  icon={getIcon(record.result)}
+                >
+                  {record.result === 'COVID-19 Detected'
+                    ? 'DETECTED'
+                    : record.result.toUpperCase()}
+                </Tag>
+              ) as unknown) as undefined
+            }
             loading={record.resultIsUpdating}
             onSelect={onModalToggle(record.id, record.pool_id)}
             disabled={record.resultIsUpdating}
