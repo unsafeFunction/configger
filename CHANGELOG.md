@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.10...v10.2.0) (2022-02-02)
+
+### Features
+
+- add modal window with tips ([780a02d](https://github.com/mokkapps/changelog-generator-demo/commits/780a02dd77b76a488a56e4dac675084c2b4b6b88))
+- cookies modal ([5a09e1a](https://github.com/mokkapps/changelog-generator-demo/commits/5a09e1a6b9c473e8dd7ce034fa8ab19b48c4736f))
+- cookies modal template ([d8e30db](https://github.com/mokkapps/changelog-generator-demo/commits/d8e30db030f3ff87da817ebc2143db07390b325f))
+- general info modal ([5ee2c60](https://github.com/mokkapps/changelog-generator-demo/commits/5ee2c60212a7a81e8bc404c6f090d48f458e16f5))
+- internal modal, tooltip modals ([e1af7e8](https://github.com/mokkapps/changelog-generator-demo/commits/e1af7e8714c1cba74196d042022ea9ee1bbab8d9))
+- modal info template ([dc14250](https://github.com/mokkapps/changelog-generator-demo/commits/dc14250f4aba0d79471dfa7859db7ddf0f39bad3))
+- unregister service worker ([e836815](https://github.com/mokkapps/changelog-generator-demo/commits/e836815cfb4c442bae36b26a46cd4f4db7e2edf0))
+
+### Bug Fixes
+
+- add N1 target ([a74c115](https://github.com/mokkapps/changelog-generator-demo/commits/a74c1153ac163c371ccb78d5821cf7f7a4eef48c))
+- allow deletion of control tubes in rack scans ([71e1dc8](https://github.com/mokkapps/changelog-generator-demo/commits/71e1dc8c5647568bb27073287222c83268b0e90d))
+- resolve conflicts ([cf71dd7](https://github.com/mokkapps/changelog-generator-demo/commits/cf71dd79af2484b0c2b03298312d99845501291d))
+- sync options ([ca3b56b](https://github.com/mokkapps/changelog-generator-demo/commits/ca3b56b13c8c614b012c8b876e4c390a840a2881))
+- update cookie ts ([4be8217](https://github.com/mokkapps/changelog-generator-demo/commits/4be8217063ce2ad8eef09a5d68ac2196daaf7016))
+- update modal info types ([6df40d9](https://github.com/mokkapps/changelog-generator-demo/commits/6df40d95aa0082b50cf0f386242e062feab34f0d))
+
 ## [10.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.10...v10.1.0) (2022-02-02)
 
 ### Features
