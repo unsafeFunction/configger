@@ -22,10 +22,12 @@ import helperActions from 'redux/helpers/actions';
 import modalActions from 'redux/modal/actions';
 import timelineActions from 'redux/timeline/actions';
 import { constants } from 'utils/constants';
+import { getColor, getIcon } from 'utils/highlighting';
 import columns from './components';
 import styles from './styles.module.scss';
 
 const AnalysisRun = () => {
+  const { poolResults } = constants;
   const dispatch = useDispatch();
 
   const run = useSelector((state) => state.analysisRuns.singleRun);
@@ -237,6 +239,18 @@ const AnalysisRun = () => {
     </Menu>
   );
 
+  const samplesMenu = (
+    <Menu>
+      {Object.values(poolResults).map((value) => (
+        <Menu.Item key={value} icon={getIcon(value.toLowerCase())}>
+          {value.replace('_', ' ')}:{' '}
+          {run?.items?.filter?.((el) => el.analysis_result === value)?.length ||
+            '-'}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
   const getBtnName = useCallback((status) => {
     switch (status) {
       case 'analysis':
@@ -264,6 +278,12 @@ const AnalysisRun = () => {
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>{`Run (${run.title || '-'})`}</h4>
         {run.status && <ResultTag status={run.status} type="run" />}
+        <Dropdown overlay={samplesMenu}>
+          <Button>
+            Total samples: {run?.items?.length || '-'}
+            <DownOutlined />
+          </Button>
+        </Dropdown>
       </div>
       <Drawer
         title="Timeline"
