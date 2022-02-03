@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.3.1](https://github.com/mokkapps/changelog-generator-demo/compare/v10.3.0...v10.3.1) (2022-02-03)
+
+### Features
+
+- improve runs UI ([c65b403](https://github.com/mokkapps/changelog-generator-demo/commits/c65b40394241bc2c4ab48c262a93745611ed0ffd))
+- tooltip improvements: texts, icon, display of tooltip ([bea26e8](https://github.com/mokkapps/changelog-generator-demo/commits/bea26e898740d2c1e8e3570e48b96fc3c131508f))
+- total samples, inclonclusive icon ([d279b00](https://github.com/mokkapps/changelog-generator-demo/commits/d279b00803d73d21e454ca84fd3dc54429f27d86))
+
+### Bug Fixes
+
+- margin samples, y scroll ([c7ed589](https://github.com/mokkapps/changelog-generator-demo/commits/c7ed58941a0f58773b469ff2d74a2af4a27edcc9))
+
 ## [10.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.2.0...v10.3.0) (2022-02-03)
 
 ## [10.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.0.10...v10.2.0) (2022-02-02)
