@@ -18,7 +18,7 @@ const warningFlag = (
   <ExclamationCircleFilled style={{ color: '#f39834' }} className="ml-1" />
 );
 
-const Actions = ({ record, field, value = '' }) => {
+export const Actions = ({ record, field, value = '' }) => {
   const { runStatuses, tubeTypes } = constants;
   const dispatch = useDispatch();
 
@@ -221,35 +221,74 @@ ResultSelect.propTypes = {
   field: PropTypes.string.isRequired,
 };
 
-const targetColumns = constants.targets.map((target) => {
-  return {
-    title: target,
-    dataIndex: target,
-    width: 100,
-    render: (_, record) => {
-      if (record.mean) {
-        const mean = roundValue(record.mean?.[target]);
-        const standardDeviation =
-          roundValue(record.standard_deviation?.[target]) ?? 'NA';
-        return mean ? `${mean} (${standardDeviation})` : null;
-      }
-      if (record[target] && record[`${target}_warning_msg`]) {
-        return (
-          <Tooltip placement="right" title={record[`${target}_warning_msg`]}>
-            {roundValue(record[target])}
-            {warningFlag}
-          </Tooltip>
-        );
-      }
-      return roundValue(record[target]);
+export const getTargetColumns = (targets) => {
+  return targets.map((target) => {
+    return {
+      title: target,
+      dataIndex: target,
+      width: 100,
+      render: (_, record) => {
+        if (record.mean) {
+          const mean = roundValue(record.mean?.[target]);
+          const standardDeviation =
+            roundValue(record.standard_deviation?.[target]) ?? 'NA';
+          return mean ? `${mean} (${standardDeviation})` : null;
+        }
+        if (record[target] && record[`${target}_warning_msg`]) {
+          return (
+            <Tooltip placement="right" title={record[`${target}_warning_msg`]}>
+              {roundValue(record[target])}
+              {warningFlag}
+            </Tooltip>
+          );
+        }
+        return roundValue(record[target]);
+      },
+    };
+  });
+};
+
+export const WellsColumn = {
+  title: 'Wells',
+  dataIndex: 'wells',
+  ellipsis: true,
+  render: (value, record) => {
+    const wells = (
+      <Typography.Text className="text-primary">
+        {value}
+        {record.warning_flag && <sup>{warningFlag}</sup>}
+      </Typography.Text>
+    );
+
+    if (value.length > 20) {
+      return (
+        <Popover
+          content={value}
+          trigger="hover"
+          overlayClassName={styles.popover}
+          placement="right"
+        >
+          {wells}
+        </Popover>
+      );
+    }
+    return wells;
+  },
+  filters: [
+    {
+      text: <Typography.Text>With warnings {warningFlag}</Typography.Text>,
+      value: true,
     },
-  };
-});
+  ],
+  filterMultiple: false,
+  onFilter: (_, record) => record.warning_flag,
+};
 
 const columns = [
   {
     title: 'Company Short',
     dataIndex: 'company_short',
+    fixed: true,
   },
   {
     title: 'Pool Name',
@@ -273,7 +312,6 @@ const columns = [
   {
     title: 'Result',
     dataIndex: 'analysis_result',
-    width: 190,
     render: (_, record) => {
       return {
         children: record?.analysis_result ? (
@@ -298,56 +336,6 @@ const columns = [
         >
           {formattedResult}
         </Typography.Text>
-      );
-    },
-  },
-  {
-    title: 'Wells',
-    dataIndex: 'wells',
-    ellipsis: true,
-    render: (value, record) => {
-      const wells = (
-        <Typography.Text className="text-primary">
-          {value}
-          {record.warning_flag && <sup>{warningFlag}</sup>}
-        </Typography.Text>
-      );
-
-      if (value.length > 20) {
-        return (
-          <Popover
-            content={value}
-            trigger="hover"
-            overlayClassName={styles.popover}
-            placement="right"
-          >
-            {wells}
-          </Popover>
-        );
-      }
-      return wells;
-    },
-    filters: [
-      {
-        text: <Typography.Text>With warnings {warningFlag}</Typography.Text>,
-        value: true,
-      },
-    ],
-    filterMultiple: false,
-    onFilter: (_, record) => record.warning_flag,
-  },
-  ...targetColumns,
-  {
-    title: 'Actions',
-    dataIndex: 'actions',
-    width: 460,
-    render: (_, record) => {
-      return (
-        <Actions
-          record={record}
-          field="actions"
-          value={record.auto_publish ? record.rerun_action : 'DO_NOT_PUBLISH'}
-        />
       );
     },
   },

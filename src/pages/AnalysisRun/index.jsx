@@ -23,7 +23,7 @@ import modalActions from 'redux/modal/actions';
 import timelineActions from 'redux/timeline/actions';
 import { constants } from 'utils/constants';
 import { getColor, getIcon } from 'utils/highlighting';
-import columns from './components';
+import columns, { getTargetColumns, Actions, WellsColumn } from './components';
 import styles from './styles.module.scss';
 
 const AnalysisRun = () => {
@@ -36,7 +36,7 @@ const AnalysisRun = () => {
   const [searchName, setSearchName] = useState('');
   const [samples, setSamples] = useState([]);
   const [isTimelineOpen, setOpen] = useState(false);
-
+  const [targets, setTargets] = useState([]);
   const location = useLocation();
 
   const runId = location.pathname.split('/')[2];
@@ -58,6 +58,12 @@ const AnalysisRun = () => {
 
   useEffect(() => {
     setSamples(run.items);
+    const targets = run?.items[0] && Object.keys(run?.items?.[0]?.mean);
+
+    if (targets) {
+      const targetColumns = getTargetColumns(targets);
+      setTargets(targetColumns);
+    }
   }, [run.items]);
 
   const sendQuery = useCallback(
@@ -242,7 +248,13 @@ const AnalysisRun = () => {
   const samplesMenu = (
     <Menu>
       {Object.values(poolResults).map((value) => (
-        <Menu.Item key={value} icon={getIcon(value.toLowerCase())}>
+        <Menu.Item
+          key={value}
+          style={{
+            color: getColor(value.toLowerCase()),
+          }}
+          icon={getIcon(value.toLowerCase())}
+        >
           {value.replace('_', ' ')}:{' '}
           {run?.items?.filter?.((el) => el.analysis_result === value)?.length ||
             '-'}
@@ -273,6 +285,8 @@ const AnalysisRun = () => {
     }
   }, []);
 
+  const wells = run?.status === 'QPCR' ? {} : WellsColumn;
+
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
@@ -298,7 +312,28 @@ const AnalysisRun = () => {
       </Drawer>
       <Table
         dataSource={samples}
-        columns={columns}
+        fixed
+        columns={[
+          ...columns,
+          wells,
+          ...targets,
+          {
+            title: 'Actions',
+            dataIndex: 'actions',
+            width: 460,
+            render: (_, record) => {
+              return (
+                <Actions
+                  record={record}
+                  field="actions"
+                  value={
+                    record.auto_publish ? record.rerun_action : 'DO_NOT_PUBLISH'
+                  }
+                />
+              );
+            },
+          },
+        ]}
         scroll={{ x: 2000, y: '69vh' }}
         loading={run.isLoading}
         pagination={false}
@@ -315,7 +350,6 @@ const AnalysisRun = () => {
               onChange={onChangeSearch}
               allowClear
             />
-
             <div>
               {(run.status === constants.runStatuses.analysis ||
                 run.status === constants.runStatuses.review) && (
