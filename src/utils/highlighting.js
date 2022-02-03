@@ -5,6 +5,7 @@ import {
   PlusCircleFilled,
   StopOutlined,
   SyncOutlined,
+  QuestionCircleOutlined,
 } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import TwoToneComponent from 'assets/TwoTone';
@@ -44,7 +45,7 @@ export const getIcon = (status) => {
       return <MinusCircleFilled />;
     }
     case 'inconclusive': {
-      return <TwoToneComponent />;
+      return <QuestionCircleOutlined />;
     }
     case 'in progress':
     case 'in_progress': {
