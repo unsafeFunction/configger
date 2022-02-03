@@ -277,13 +277,15 @@ const AnalysisRun = () => {
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>{`Run (${run.title || '-'})`}</h4>
-        {run.status && <ResultTag status={run.status} type="run" />}
-        <Dropdown overlay={samplesMenu}>
-          <Button>
-            Total samples: {run?.items?.length || '-'}
-            <DownOutlined />
-          </Button>
-        </Dropdown>
+        <div>
+          {run.status && <ResultTag status={run.status} type="run" />}
+          <Dropdown overlay={samplesMenu} className={styles.dropdown_samples}>
+            <Button>
+              Total samples: {run?.items?.length || '-'}
+              <DownOutlined />
+            </Button>
+          </Dropdown>
+        </div>
       </div>
       <Drawer
         title="Timeline"
@@ -297,7 +299,7 @@ const AnalysisRun = () => {
       <Table
         dataSource={samples}
         columns={columns}
-        scroll={{ x: 2000, y: 684 }}
+        scroll={{ x: 2000, y: '69vh' }}
         loading={run.isLoading}
         pagination={false}
         rowKey={(record) => {
