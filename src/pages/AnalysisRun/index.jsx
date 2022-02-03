@@ -22,10 +22,12 @@ import helperActions from 'redux/helpers/actions';
 import modalActions from 'redux/modal/actions';
 import timelineActions from 'redux/timeline/actions';
 import { constants } from 'utils/constants';
-import columns from './components';
+import { getColor, getIcon } from 'utils/highlighting';
+import columns, { getTargetColumns, Actions, WellsColumn } from './components';
 import styles from './styles.module.scss';
 
 const AnalysisRun = () => {
+  const { poolResults } = constants;
   const dispatch = useDispatch();
 
   const run = useSelector((state) => state.analysisRuns.singleRun);
@@ -34,7 +36,7 @@ const AnalysisRun = () => {
   const [searchName, setSearchName] = useState('');
   const [samples, setSamples] = useState([]);
   const [isTimelineOpen, setOpen] = useState(false);
-
+  const [targets, setTargets] = useState([]);
   const location = useLocation();
 
   const runId = location.pathname.split('/')[2];
@@ -56,6 +58,12 @@ const AnalysisRun = () => {
 
   useEffect(() => {
     setSamples(run.items);
+    const targets = run?.items[0] && Object.keys(run?.items?.[0]?.mean);
+
+    if (targets) {
+      const targetColumns = getTargetColumns(targets);
+      setTargets(targetColumns);
+    }
   }, [run.items]);
 
   const sendQuery = useCallback(
@@ -237,6 +245,24 @@ const AnalysisRun = () => {
     </Menu>
   );
 
+  const samplesMenu = (
+    <Menu>
+      {Object.values(poolResults).map((value) => (
+        <Menu.Item
+          key={value}
+          style={{
+            color: getColor(value.toLowerCase()),
+          }}
+          icon={getIcon(value.toLowerCase())}
+        >
+          {value.replace('_', ' ')}:{' '}
+          {run?.items?.filter?.((el) => el.analysis_result === value)?.length ||
+            '-'}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
   const getBtnName = useCallback((status) => {
     switch (status) {
       case 'analysis':
@@ -259,11 +285,21 @@ const AnalysisRun = () => {
     }
   }, []);
 
+  const wells = run?.status === 'QPCR' ? {} : WellsColumn;
+
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>{`Run (${run.title || '-'})`}</h4>
-        {run.status && <ResultTag status={run.status} type="run" />}
+        <div>
+          {run.status && <ResultTag status={run.status} type="run" />}
+          <Dropdown overlay={samplesMenu} className={styles.dropdown_samples}>
+            <Button>
+              Total samples: {run?.items?.length || '-'}
+              <DownOutlined />
+            </Button>
+          </Dropdown>
+        </div>
       </div>
       <Drawer
         title="Timeline"
@@ -276,8 +312,29 @@ const AnalysisRun = () => {
       </Drawer>
       <Table
         dataSource={samples}
-        columns={columns}
-        scroll={{ x: 2000, y: 684 }}
+        fixed
+        columns={[
+          ...columns,
+          wells,
+          ...targets,
+          {
+            title: 'Actions',
+            dataIndex: 'actions',
+            width: 460,
+            render: (_, record) => {
+              return (
+                <Actions
+                  record={record}
+                  field="actions"
+                  value={
+                    record.auto_publish ? record.rerun_action : 'DO_NOT_PUBLISH'
+                  }
+                />
+              );
+            },
+          },
+        ]}
+        scroll={{ x: 2000, y: '69vh' }}
         loading={run.isLoading}
         pagination={false}
         rowKey={(record) => {
@@ -293,7 +350,6 @@ const AnalysisRun = () => {
               onChange={onChangeSearch}
               allowClear
             />
-
             <div>
               {(run.status === constants.runStatuses.analysis ||
                 run.status === constants.runStatuses.review) && (

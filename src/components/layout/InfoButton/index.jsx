@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Tooltip } from 'antd';
-import { InfoOutlined } from '@ant-design/icons';
+import { InfoOutlined, QuestionCircleTwoTone } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import InfoModal from 'components/widgets/InfoModal';
 import modalActions from 'redux/modal/actions';
@@ -33,12 +33,10 @@ const InfoButton = ({ type }) => {
 
   return (
     <Tooltip title="Click to view tips">
-      <Button
-        onClick={() => handleClick()}
-        shape="circle"
-        size="small"
-        icon={<InfoOutlined />}
+      <QuestionCircleTwoTone
+        twoToneColor="#248fb3"
         className={styles.infoButton}
+        onClick={handleClick}
       />
     </Tooltip>
   );
