@@ -265,18 +265,25 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
       onFinish={onSubmit}
     >
       <Row gutter={[24, 16]}>
-        <Col xs={{ span: 24 }} sm={24} md={12}>
+        <Col
+          xs={24}
+          sm={{ span: 16, offset: 4 }}
+          lg={{ span: 12, offset: 0 }}
+          xxl={{ span: 10 }}
+        >
           <Item name="method" rules={[rules.required]}>
-            <Radio.Group name="method" buttonStyle="solid">
-              <Radio.Button value={values.SalivaClear} className={styles.radio}>
+            <Radio.Group
+              name="method"
+              buttonStyle="solid"
+              className={styles.radioGroup}
+            >
+              <Radio.Button value={values.SalivaClear}>
                 SalivaClear
               </Radio.Button>
-              <Radio.Button
-                value={values.SalivaDirect}
-                className={styles.radio}
-              >
+              <Radio.Button value={values.SalivaDirect}>
                 SalivaDirect
               </Radio.Button>
+              <Radio.Button value={values.Eurofins}>Eurofins</Radio.Button>
             </Radio.Group>
           </Item>
           <Item name="kfpParam" rules={[rules.required]}>
@@ -284,11 +291,12 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
               name="kfpParam"
               onChange={handleChangeLayout}
               buttonStyle="solid"
+              className={styles.radioGroup}
             >
-              <Radio.Button value={values.oneKFP} className={styles.radio}>
+              <Radio.Button value={values.oneKFP}>
                 1 KingFisher Plate
               </Radio.Button>
-              <Radio.Button value={values.twoKFPs} className={styles.radio}>
+              <Radio.Button value={values.twoKFPs}>
                 2 KingFisher Plate
               </Radio.Button>
             </Radio.Group>
@@ -298,13 +306,11 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
               name="replicationParam"
               onChange={handleChangeLayout}
               buttonStyle="solid"
+              className={styles.radioGroup}
             >
-              <Radio.Button value={values.duplicate} className={styles.radio}>
-                Duplicate
-              </Radio.Button>
+              <Radio.Button value={values.duplicate}>Duplicate</Radio.Button>
               <Radio.Button
                 value={values.triplicate}
-                className={styles.radio}
                 disabled={runState.kfpParam === values.twoKFPs}
               >
                 Triplicate
@@ -312,7 +318,12 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
             </Radio.Group>
           </Item>
         </Col>
-        <Col xs={{ span: 24 }} sm={24} md={6}>
+        <Col
+          xs={24}
+          sm={{ span: 16, offset: 4 }}
+          lg={{ span: 6, offset: 0 }}
+          xxl={{ span: 5, offset: 4 }}
+        >
           <Item name="startColumn" rules={[rules.required]}>
             <Select
               placeholder="Start column"
@@ -327,7 +338,12 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
             <Input placeholder="Run number" className={styles.runNumber} />
           </Item>
         </Col>
-        <Col xs={{ span: 24 }} sm={24} md={6}>
+        <Col
+          xs={24}
+          sm={{ span: 16, offset: 4 }}
+          lg={{ span: 6, offset: 0 }}
+          xxl={{ span: 5 }}
+        >
           <Item name="runType" rules={[rules.required]}>
             <Select
               placeholder="Run type"

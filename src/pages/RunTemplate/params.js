@@ -1,6 +1,7 @@
 export const values = {
   SalivaClear: 'SalivaClear',
   SalivaDirect: 'SalivaDirect',
+  Eurofins: 'Eurofins',
   oneKFP: '1_KINGFISHER_PLATE',
   twoKFPs: '2_KINGFISHER_PLATE',
   duplicate: 'DUPLICATE',
