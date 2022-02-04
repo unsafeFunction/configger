@@ -496,7 +496,12 @@ export const constants = {
     pooling: 'Pooling',
     individual: 'Individual',
   },
-  targets: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'N1', 'RP'],
+  targets: {
+    all: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'N1', 'RP'],
+    salivaClear: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'RP'],
+    salivaDirect: ['N1', 'RP'],
+    eurofins: ['N1', 'ORF10', 'RP'],
+  },
   ampStatuses: {
     inconclusive: 'inconclusive',
   },

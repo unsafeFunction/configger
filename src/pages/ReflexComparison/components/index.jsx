@@ -3,7 +3,7 @@ import React from 'react';
 import { roundValue } from 'utils/analysisRules';
 import { constants } from 'utils/constants';
 
-const targetColumns = constants.targets.map((target) => {
+const targetColumns = constants.targets.all.map((target) => {
   return {
     title: target,
     dataIndex: target,
