@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.3.2...v10.4.0) (2022-02-04)
+
+### Features
+
+- Eurofins method ([4935b9f](https://github.com/mokkapps/changelog-generator-demo/commits/4935b9fea367ec5c7134d7a6e090ec65019373e5))
+
+### Bug Fixes
+
+- change order of targets ([3c3b841](https://github.com/mokkapps/changelog-generator-demo/commits/3c3b841023689d5f445d71c94c8758f901148874))
+- expand the list of targets ([2d765ba](https://github.com/mokkapps/changelog-generator-demo/commits/2d765baa25efcbe487dadf6dd50dfcece2643eaf))
+- move reserved samples to constants ([c013088](https://github.com/mokkapps/changelog-generator-demo/commits/c0130888821695777088ae98bbfdfda99ab4dadb))
+
 ### [10.3.2](https://github.com/mokkapps/changelog-generator-demo/compare/v10.3.1...v10.3.2) (2022-02-04)
 
 ### Bug Fixes
