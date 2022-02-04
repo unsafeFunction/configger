@@ -497,7 +497,7 @@ export const constants = {
     individual: 'Individual',
   },
   targets: {
-    all: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'N1', 'RP'],
+    all: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'N1', 'ORF10', 'RP'],
     salivaClear: ['MS2', 'N gene', 'S gene', 'ORF1ab', 'RP'],
     salivaDirect: ['N1', 'RP'],
     eurofins: ['N1', 'ORF10', 'RP'],

@@ -31,11 +31,11 @@ const ProfileMenu = ({ history, dispatch }) => {
 
   const menu = (
     <Menu selectable={false}>
-      <Menu.Item onClick={onRedirectToProfile}>
+      <Menu.Item key="profile" onClick={onRedirectToProfile}>
         <strong>Profile</strong>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item onClick={onLogout}>
+      <Menu.Item key="sign-out" onClick={onLogout}>
         <i className={`${styles.menuIcon} fe fe-log-out`} />
         Sign out
       </Menu.Item>
