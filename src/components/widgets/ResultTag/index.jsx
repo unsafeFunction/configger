@@ -9,6 +9,9 @@ export const getStatus = (status) => {
     case 'QPCR': {
       return 'qPCR';
     }
+    case 'PUBLISHED': {
+      return 'FINALIZED';
+    }
     default:
       return status;
   }

@@ -144,7 +144,7 @@ const AnalysisRuns = () => {
       },
       filters: map(constants.runStatuses, (value) => {
         return {
-          text: value,
+          text: value === constants.runStatuses.published ? 'FINALIZED' : value,
           value,
         };
       }),

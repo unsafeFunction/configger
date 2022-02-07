@@ -12,13 +12,13 @@ const useTimelineStatus = (timelineItem) => {
       return `Run created by ${timelineItem.email} (at ${time})`;
     }
     case 'RUN_PUBLISH': {
-      return `Run published by ${timelineItem.email} at ${time}}`;
+      return `Run finalized by ${timelineItem.email} at ${time}}`;
     }
     case 'RUN_UPDATE_ACTIVE_PHASE': {
       return `Run updated by ${timelineItem.email}  at ${time}`;
     }
     case 'RUN_ANALYSIS_CONFIRM': {
-      return `Analysis confirmed published by ${timelineItem.email} at ${time}`;
+      return `Analysis confirmed finalized by ${timelineItem.email} at ${time}`;
     }
     default:
       return null;
