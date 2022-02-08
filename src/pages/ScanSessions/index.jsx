@@ -369,6 +369,10 @@ const ScanSessions = () => {
         dataIndex: 'scan_time',
         key: 'scan_time',
         width: 190,
+        defaultSortOrder: 'ascend',
+        sorter: (a, b) =>
+          moment(a.scan_time).valueOf() - moment(b.scan_time).valueOf(),
+        sortDirections: ['ascend', 'descend', 'ascend'],
       },
       { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
       {
