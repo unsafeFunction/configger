@@ -12,6 +12,7 @@ import {
 } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
+import SearchTooltip from 'components/widgets/SearchTooltip';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 import React, {
@@ -429,14 +430,23 @@ const ScanSessions = () => {
               xl={{ span: 6, offset: 10 }}
               xxl={{ span: 7 }}
             >
-              <Input
-                size="middle"
-                prefix={<SearchOutlined />}
-                placeholder="Search..."
-                value={filtersState.search}
-                allowClear
-                onChange={onChangeSearch}
-              />
+              <SearchTooltip
+                searchFields={[
+                  'session name',
+                  'company ID',
+                  'company name',
+                  'company name short',
+                ]}
+              >
+                <Input
+                  size="middle"
+                  prefix={<SearchOutlined />}
+                  placeholder="Search..."
+                  value={filtersState.search}
+                  allowClear
+                  onChange={onChangeSearch}
+                />
+              </SearchTooltip>
             </Col>
             <Col
               xs={{ span: 24 }}
