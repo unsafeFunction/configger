@@ -83,13 +83,13 @@ const ScanSessions = () => {
     }, [filtersState.dates]);
   };
 
+  useFetching();
+
   const handleResetFilters = () => {
     return filtersDispatch({
       type: 'reset',
     });
   };
-
-  useFetching();
 
   const navigateToScan = useCallback(
     ({ sessionId, scanId }) => {
@@ -131,7 +131,7 @@ const ScanSessions = () => {
     },
   ];
 
-  const loadMore = useCallback(() => {
+  const loadMore = () => {
     const filteringParams = {
       limit: constants.scanSessions.itemsLoadingCount,
       offset,
@@ -152,7 +152,7 @@ const ScanSessions = () => {
         ...params,
       },
     });
-  }, [dispatch, filtersState, offset]);
+  };
 
   const sendQuery = useCallback(
     (query) => {
@@ -189,9 +189,7 @@ const ScanSessions = () => {
     };
   }, [delayedQuery]);
 
-  const onChangeSearch = (e) => {
-    const { target } = e;
-
+  const onChangeSearch = ({ target }) => {
     filtersDispatch({
       type: 'setValue',
       payload: {
