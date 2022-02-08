@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { SearchOutlined } from '@ant-design/icons';
-import { Input, Popover } from 'antd';
+import { Input } from 'antd';
 import classNames from 'classnames';
 import PoolTable from 'components/widgets/Pools/PoolTable';
-import useWindowSize from 'hooks/useWindowSize';
+import SearchTooltip from 'components/widgets/SearchTooltip';
 import debounce from 'lodash.debounce';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +13,6 @@ import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
 
 const Pools = () => {
-  const { isMobile } = useWindowSize();
   const dispatch = useDispatch();
 
   const initialFiltersState = {
@@ -89,28 +88,20 @@ const Pools = () => {
     [filtersDispatch, delayedQuery],
   );
 
-  const popoverContent = (
-    <div className={styles.popoverWrapper}>
-      <p>You can search information using the following fields:</p>
-      <p>
-        <b>
-          pool id, pool title, tube id, company id, company name, company name
-          short.
-        </b>
-      </p>
-    </div>
-  );
-
   return (
     <>
       <div className={classNames('air__utils__heading', styles.page__header)}>
         <h4>Pools</h4>
         <div className={styles.tableActionsWrapper}>
-          <Popover
-            content={popoverContent}
-            title="Search fields"
-            trigger="hover"
-            placement={isMobile ? 'bottom' : 'left'}
+          <SearchTooltip
+            searchFields={[
+              'pool ID',
+              'pool title',
+              'tube ID',
+              'company ID',
+              'company name',
+              'company name short',
+            ]}
           >
             <Input
               size="middle"
@@ -121,7 +112,7 @@ const Pools = () => {
               onChange={onChangeSearch}
               allowClear
             />
-          </Popover>
+          </SearchTooltip>
         </div>
       </div>
       <PoolTable loadMore={loadMore} />

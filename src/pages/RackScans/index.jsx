@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
+import SearchTooltip from 'components/widgets/SearchTooltip';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
@@ -293,14 +294,22 @@ const RackScans = () => {
               xl={{ span: 6, offset: 10 }}
               xxl={{ span: 7 }}
             >
-              <Input
-                size="middle"
-                prefix={<SearchOutlined />}
-                placeholder="Search..."
-                value={filtersState.search}
-                allowClear
-                onChange={onChangeSearch}
-              />
+              <SearchTooltip
+                searchFields={[
+                  'rack ID',
+                  `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} name`,
+                  'tube ID',
+                ]}
+              >
+                <Input
+                  size="middle"
+                  prefix={<SearchOutlined />}
+                  placeholder="Search..."
+                  value={filtersState.search}
+                  allowClear
+                  onChange={onChangeSearch}
+                />
+              </SearchTooltip>
             </Col>
             <Col
               xs={{ span: 24 }}
