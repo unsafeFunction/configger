@@ -9,13 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
-import { getColor, getIcon, getStatusText } from 'utils/highlighting';
+import { getColor, getIcon } from 'utils/highlighting';
 import { RootState } from 'redux/reducers';
-import { OptionType } from './types';
 import styles from './styles.module.scss';
-import { PoolType } from 'models/Pool.model';
-
-const { Option } = Select;
+import { PoolType } from 'models/pool.model';
 
 type PoolTableProps = {
   loadMore: () => void;
@@ -24,9 +21,7 @@ type PoolTableProps = {
 const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { all: pools, resultList } = useSelector<RootState, any>(
-    (state) => state.pools,
-  );
+  const { all: pools } = useSelector<RootState, any>((state) => state.pools);
 
   const useFetching = () => {
     useEffect(() => {
@@ -60,30 +55,29 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
   );
 
   const onModalToggle = useCallback(
-    (poolUniqueId: string, poolId: string) => (
-      _: undefined,
-      option: OptionType,
-    ) => {
-      dispatch({
-        type: modalActions.SHOW_MODAL,
-        modalType: 'COMPLIANCE_MODAL',
-        modalProps: {
-          title: 'Confirm action',
-          cancelButtonProps: { className: styles.modalButton },
-          okButtonProps: {
-            className: styles.modalButton,
+    (poolUniqueId: string, poolId: string) =>
+      // TODO: INCORRECT OPTION TYPE
+      (_: undefined, option: any) => {
+        dispatch({
+          type: modalActions.SHOW_MODAL,
+          modalType: 'COMPLIANCE_MODAL',
+          modalProps: {
+            title: 'Confirm action',
+            cancelButtonProps: { className: styles.modalButton },
+            okButtonProps: {
+              className: styles.modalButton,
+            },
+            onOk: () => resultUpdate({ poolUniqueId, value: option.key }),
+            bodyStyle: {
+              maxHeight: '70vh',
+              overflow: 'scroll',
+            },
+            okText: 'Update result',
+            message: () =>
+              `Are you sure you would like to update pool ${poolId} result to ${option.value}?`,
           },
-          onOk: () => resultUpdate({ poolUniqueId, value: option.key }),
-          bodyStyle: {
-            maxHeight: '70vh',
-            overflow: 'scroll',
-          },
-          okText: 'Update result',
-          message: () =>
-            `Are you sure you would like to update pool ${poolId} result to ${option.value}?`,
-        },
-      });
-    },
+        });
+      },
     [resultUpdate, dispatch],
   );
 
@@ -201,7 +195,7 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
       ellipsis: {
         showTitle: false,
       },
-      render: (value, record) => (
+      render: (value: string[], record: PoolType) => (
         <Popover
           content={value.join(', ')}
           title={`${record.pool_id} tubes`}
@@ -215,9 +209,9 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
     },
     {
       title: 'Action',
-      fixed: 'right',
+      fixed: 'right' as 'right',
       width: 120,
-      render: (_, record) => (
+      render: (_: any, record: PoolType) => (
         <Popconfirm
           title={`Sure to ${
             record.is_published ? 'unpublished' : 'published'

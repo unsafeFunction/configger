@@ -15,4 +15,7 @@ export interface PoolType {
   pool_size: string;
   tube_ids: string[];
   resultIsUpdating: boolean;
+  //TODO: CHECK NEXT TYPES
+  is_published: boolean;
+  isUpdating: boolean;
 }

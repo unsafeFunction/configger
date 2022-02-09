@@ -52,10 +52,18 @@
         "max": 3
       }
     ],
-    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
     "react/jsx-filename-extension": [
       1,
-      { "extensions": [".js", ".jsx", ".tsx"] }
+      {
+        "extensions": [".js", ".jsx", ".tsx"]
+      }
     ],
     "no-const-assign": "warn",
     "no-this-before-super": "warn",
@@ -71,4 +79,5 @@
     "react/forbid-prop-types": "warn",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
+  }
 }

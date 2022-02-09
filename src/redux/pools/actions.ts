@@ -1,4 +1,5 @@
 import generateRequestActions from 'redux/factories/generateRequestActions';
+import { ActionType } from './types';
 
 const actions: ActionType = {
   FETCH_POOLS_BY_RUN_ID_REQUEST: 'pools/FETCH_POOLS_BY_RUN_ID_REQUEST',

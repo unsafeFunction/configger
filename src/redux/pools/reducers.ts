@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { constants } from 'utils/constants';
-import { PoolType } from 'models/Pool.model';
-import { ResponseType } from 'models/response';
+import { PoolType } from 'models/pool.model';
 
 import actions from './actions';
 
@@ -215,14 +214,14 @@ const poolsByDaysReducer = (state = initialState, action: ActionType) => {
 
     case actions.UPDATE_POOL_RESULT_BY_DAY_REQUEST: {
       const updatedPoolData = action.payload;
-
+      // TODO: REFACTOR ANY TYPE
       return {
         ...state,
-        items: state.items.map((dateItem) => {
+        items: state.items.map((dateItem: any) => {
           const poolDate = Object.keys(dateItem)[0];
           if (poolDate === updatedPoolData.receiptDate) {
             return {
-              [poolDate]: dateItem[poolDate].map((poolItem) => {
+              [poolDate]: dateItem[poolDate].map((poolItem: PoolType) => {
                 if (poolItem.id === updatedPoolData.poolId) {
                   return {
                     ...poolItem,
@@ -239,10 +238,11 @@ const poolsByDaysReducer = (state = initialState, action: ActionType) => {
     }
     case actions.UPDATE_POOL_RESULT_BY_DAY_SUCCESS: {
       const updatedPoolData = action.payload.data;
+      // TODO: REFACTOR ANY TYPE
 
       return {
         ...state,
-        items: state.items.map((dateItem) => {
+        items: state.items.map((dateItem: any) => {
           const poolDate = Object.keys(dateItem)[0];
           if (poolDate === updatedPoolData.receipt_date) {
             return {
@@ -265,9 +265,11 @@ const poolsByDaysReducer = (state = initialState, action: ActionType) => {
     case actions.UPDATE_POOL_RESULT_BY_DAY_FAILURE: {
       const updatedPoolData = action.payload;
 
+      // TODO: REFACTOR ANY TYPE
+
       return {
         ...state,
-        items: state.items.map((dateItem) => {
+        items: state.items.map((dateItem: any) => {
           const poolDate = Object.keys(dateItem)[0];
           if (poolDate === updatedPoolData.receiptDate) {
             return {
@@ -290,13 +292,15 @@ const poolsByDaysReducer = (state = initialState, action: ActionType) => {
     case actions.PUBLISH_POOL_BY_DAY_REQUEST: {
       const updatedPoolData = action.payload;
 
+      // TODO: REFACTOR ANY TYPE
+
       return {
         ...state,
-        items: state.items.map((dateItem) => {
+        items: state.items.map((dateItem: any) => {
           const poolDate = Object.keys(dateItem)[0];
           if (poolDate === updatedPoolData.receiptDate) {
             return {
-              [poolDate]: dateItem[poolDate].map((poolItem) => {
+              [poolDate]: dateItem[poolDate].map((poolItem: PoolType) => {
                 if (poolItem.id === updatedPoolData.poolId) {
                   return {
                     ...poolItem,
@@ -314,13 +318,15 @@ const poolsByDaysReducer = (state = initialState, action: ActionType) => {
     case actions.PUBLISH_POOL_BY_DAY_SUCCESS: {
       const updatedPoolData = action.payload.data;
 
+      // TODO: REFACTOR ANY TYPE
+
       return {
         ...state,
-        items: state.items.map((dateItem) => {
+        items: state.items.map((dateItem: any) => {
           const poolDate = Object.keys(dateItem)[0];
           if (poolDate === updatedPoolData.receipt_date) {
             return {
-              [poolDate]: dateItem[poolDate].map((poolItem) => {
+              [poolDate]: dateItem[poolDate].map((poolItem: PoolType) => {
                 if (poolItem.id === updatedPoolData.id) {
                   return {
                     ...poolItem,
@@ -339,13 +345,15 @@ const poolsByDaysReducer = (state = initialState, action: ActionType) => {
     case actions.PUBLISH_POOL_BY_DAY_FAILURE: {
       const updatedPoolData = action.payload;
 
+      // TODO: REFACTOR ANY TYPE
+
       return {
         ...state,
-        items: state.items.map((dateItem) => {
+        items: state.items.map((dateItem: any) => {
           const poolDate = Object.keys(dateItem)[0];
           if (poolDate === updatedPoolData.receiptDate) {
             return {
-              [poolDate]: dateItem[poolDate].map((poolItem) => {
+              [poolDate]: dateItem[poolDate].map((poolItem: PoolType) => {
                 if (poolItem.id === updatedPoolData.poolId) {
                   return {
                     ...poolItem,
