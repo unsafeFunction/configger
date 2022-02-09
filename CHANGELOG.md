@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.4.4](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.3...v10.4.4) (2022-02-09)
+
+### Features
+
+- remove most resent scan ([2c02c9d](https://github.com/mokkapps/changelog-generator-demo/commits/2c02c9d403a4ae3d27148e681434314837b2e9ab))
+
 ### [10.4.3](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.2...v10.4.3) (2022-02-09)
 
 ### Features
