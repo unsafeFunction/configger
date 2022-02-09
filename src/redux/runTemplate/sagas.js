@@ -34,6 +34,10 @@ export function* callCreateTemplate({ payload }) {
     notification.success({
       message: 'Template generated',
     });
+
+    if (payload?.redirectCallback) {
+      return payload?.redirectCallback();
+    }
   } catch (error) {
     yield put({ type: actions.CREATE_TEMPLATE_FAILURE });
 
