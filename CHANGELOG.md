@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.4.2](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.1...v10.4.2) (2022-02-09)
+
+### Features
+
+- search tooltips ([7340780](https://github.com/mokkapps/changelog-generator-demo/commits/73407804d1fb07e55c254f4cff4faa7ace21e1cc))
+- update calculating of target for run ([04fb47a](https://github.com/mokkapps/changelog-generator-demo/commits/04fb47a6e1b34bfdcb873ecc973802925379c4e7))
+
 ### [10.4.1](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.0...v10.4.1) (2022-02-08)
 
 ### Features
