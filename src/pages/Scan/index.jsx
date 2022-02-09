@@ -752,20 +752,6 @@ const Scan = () => {
                 </span>
               </div>
             </div>
-            {/* TODO: move recent scan logic to backend */}
-            <Statistic
-              className={styles.companyDetailsStat}
-              title="Most Recent Scan:"
-              value={
-                scansInWork[1]
-                  ? `${session?.company_short?.name_short}
-                    ${scansInWork[1]?.scan_name}
-                    on ${moment(scansInWork[1].scan_timestamp)?.format(
-                      constants.dateTimeFormat,
-                    )}`
-                  : '-'
-              }
-            />
             <div className={styles.statisticReplacement}>
               <div className={styles.statisticReplacementContent}>
                 <span className={styles.statisticReplacementValue}>
