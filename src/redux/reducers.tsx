@@ -51,4 +51,5 @@ export default rootReducer;
 export type RootState = {
   user: types.UserState;
   settings: types.SettingState;
+  pools: types.PoolState;
 };
