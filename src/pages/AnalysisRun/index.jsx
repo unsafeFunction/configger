@@ -61,7 +61,7 @@ const AnalysisRun = () => {
     const targets = run?.items[0] && Object.keys(run?.items?.[0]?.mean);
 
     if (targets) {
-      const targetColumns = getTargetColumns(targets);
+      const targetColumns = getTargetColumns(run.run_method);
       setTargets(targetColumns);
     }
   }, [run.items]);
