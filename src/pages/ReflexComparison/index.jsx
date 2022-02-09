@@ -58,7 +58,7 @@ const ReflexComparison = () => {
         <h4>Reflex Comparison</h4>
       </div>
       <Table
-        columns={[...columns, ...getTargetColumns(run_method)]}
+        columns={[...columns, ...getTargetColumns(run_method.toLowerCase())]}
         dataSource={reflexList}
         scroll={{ x: 1000 }}
         loading={isLoading}

@@ -95,6 +95,7 @@ const initialSingleState = {
   isLoading: false,
   pool_size: 0,
   rejected_count: 0,
+  run_method: 'all',
 };
 
 const singleReflexReducer = (state = initialSingleState, action) => {
