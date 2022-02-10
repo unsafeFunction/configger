@@ -318,9 +318,7 @@ const ScanSessions = () => {
             {scan.pool_id}
           </Link>
         ),
-        scan_time: scan.scan_timestamp
-          ? moment(scan.scan_timestamp).format(constants.dateTimeFormat)
-          : '-',
+        scan_time: scan.scan_timestamp,
         scan_name: poolName,
         pool_size: scan.tubes_count,
         rack_id: scan.rack_id,
@@ -374,6 +372,8 @@ const ScanSessions = () => {
         sorter: (a, b) =>
           moment(a.scan_time).valueOf() - moment(b.scan_time).valueOf(),
         sortDirections: ['ascend', 'descend', 'ascend'],
+        render: (value) =>
+          value ? moment(value).format(constants.dateTimeFormat) : '-',
       },
       { title: 'Scanner', dataIndex: 'scanner', key: 'scanner' },
       {
