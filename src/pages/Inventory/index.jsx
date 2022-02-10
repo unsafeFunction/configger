@@ -2,6 +2,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Table } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
+import ActionInitiator from 'components/widgets/ActionInitiator';
 import { ControlTubeModal } from 'components/widgets/Inventory';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
@@ -68,9 +69,9 @@ const Inventory = () => {
         value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
-      title: 'User',
+      title: 'Created By',
       dataIndex: 'user',
-      render: (value) => value ?? '-',
+      render: (value) => <ActionInitiator initiator={value} />,
     },
   ];
 

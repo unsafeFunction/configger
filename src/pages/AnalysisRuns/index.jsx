@@ -2,6 +2,7 @@ import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, DatePicker, Table, Upload } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
+import ActionInitiator from 'components/widgets/ActionInitiator';
 import ResultTag from 'components/widgets/ResultTag';
 import map from 'lodash.map';
 import mapValues from 'lodash.mapvalues';
@@ -124,7 +125,6 @@ const AnalysisRuns = () => {
           {record.title}
         </Link>
       ),
-      width: 150,
     },
     {
       title: 'Creation Date',
@@ -159,6 +159,7 @@ const AnalysisRuns = () => {
     {
       title: 'Created By',
       dataIndex: 'user',
+      render: (value) => <ActionInitiator initiator={value} />,
     },
     {
       title: 'Run Type',

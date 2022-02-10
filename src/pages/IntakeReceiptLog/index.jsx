@@ -2,6 +2,7 @@ import { CommentOutlined, DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Form, Menu, Popover, Space, Table, Tag } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
+import ActionInitiator from 'components/widgets/ActionInitiator';
 import IntakeReceiptLogModal from 'components/widgets/Intake/IntakeReceiptLogModal';
 import isEmpty from 'lodash.isempty';
 import mapValues from 'lodash.mapvalues';
@@ -216,6 +217,7 @@ const IntakeReceiptLog = () => {
     {
       title: 'Logged By',
       dataIndex: 'logged_by',
+      render: (value) => <ActionInitiator initiator={value} />,
     },
     {
       title: 'Shipped On',
