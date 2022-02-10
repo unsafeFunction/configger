@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
+import ActionInitiator from 'components/widgets/ActionInitiator';
 import SearchTooltip from 'components/widgets/SearchTooltip';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
@@ -156,15 +157,16 @@ const RackScans = () => {
       render: (value) => value ?? '-',
     },
     {
-      title: `Scan Timestamp`,
+      title: 'Scanned on',
       dataIndex: 'scan_timestamp',
       width: 190,
       render: (value) =>
         value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
-      title: 'Logged By',
+      title: 'Scanned by',
       dataIndex: 'scanned_by',
+      render: (value) => <ActionInitiator initiator={value} />,
     },
     {
       title: 'Actions',

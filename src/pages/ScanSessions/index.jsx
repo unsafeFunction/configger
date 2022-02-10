@@ -12,6 +12,7 @@ import {
 } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
+import ActionInitiator from 'components/widgets/ActionInitiator';
 import SearchTooltip from 'components/widgets/SearchTooltip';
 import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
@@ -128,7 +129,7 @@ const ScanSessions = () => {
     {
       title: 'Scanned by',
       dataIndex: 'scanned_by',
-      render: (value) => value ?? '-',
+      render: (value) => <ActionInitiator initiator={value} />,
     },
   ];
 

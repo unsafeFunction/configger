@@ -1,5 +1,6 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Popconfirm, Switch } from 'antd';
+import ActionInitiator from 'components/widgets/ActionInitiator';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -116,6 +117,7 @@ const columns = [
   {
     title: 'Completed By',
     dataIndex: 'completed_by',
+    render: (value) => <ActionInitiator initiator={value} />,
   },
 ];
 
