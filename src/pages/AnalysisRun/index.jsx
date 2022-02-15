@@ -14,7 +14,7 @@ import ResultTag from 'components/widgets/ResultTag';
 import RunTimeline from 'components/widgets/Timeline';
 import WellPlate from 'components/widgets/WellPlate';
 import debounce from 'lodash.debounce';
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
@@ -23,7 +23,7 @@ import modalActions from 'redux/modal/actions';
 import timelineActions from 'redux/timeline/actions';
 import { constants } from 'utils/constants';
 import { getColor, getIcon } from 'utils/highlighting';
-import columns, { getTargetColumns, Actions, WellsColumn } from './components';
+import columns, { Actions, getTargetColumns, WellsColumn } from './components';
 import styles from './styles.module.scss';
 
 const AnalysisRun = () => {
@@ -33,6 +33,7 @@ const AnalysisRun = () => {
   const run = useSelector((state) => state.analysisRuns.singleRun);
   const timeline = useSelector((state) => state.timeline);
 
+  const [visibleActions, setVisibleActions] = useState(false);
   const [searchName, setSearchName] = useState('');
   const [samples, setSamples] = useState([]);
   const [isTimelineOpen, setOpen] = useState(false);
@@ -156,6 +157,8 @@ const AnalysisRun = () => {
         ),
       },
     });
+
+    setVisibleActions(false);
   }, [dispatch, onUploadRun, handleSubmit]);
 
   const handleStatusAction = useCallback(
@@ -189,35 +192,37 @@ const AnalysisRun = () => {
         message: () => <WellPlate runId={id} />,
       },
     });
+
+    setVisibleActions(false);
   }, [id, dispatch, handleWellplateClose]);
 
   const onTimelineOpenClose = () => {
+    setVisibleActions(false);
     setOpen(!isTimelineOpen);
     if (!isTimelineOpen) onLoadTimeline();
   };
 
-  const exportRun = useCallback(
-    ({ runId }) => {
-      dispatch({
-        type: helperActions.EXPORT_FILE_REQUEST,
-        payload: {
-          link: `/runs/${runId}/export/`,
-          instanceId: runId,
-        },
-      });
-    },
-    [dispatch],
-  );
+  const exportRun = ({ runId }) => {
+    dispatch({
+      type: helperActions.EXPORT_FILE_REQUEST,
+      payload: {
+        link: `/runs/${runId}/export/`,
+        instanceId: runId,
+      },
+    });
+
+    setVisibleActions(false);
+  };
 
   const menu = (
-    <Menu>
+    <Menu className={styles.actionMenu}>
       <Menu.Item onClick={onTimelineOpenClose} key="timeline">
         View Timeline
       </Menu.Item>
       <Menu.Item onClick={handleShowWellplate} key="96-well-plate">
         View 96-well Plate
       </Menu.Item>
-      <Menu.Item key="dataconnect">
+      <Menu.Item onClick={() => setVisibleActions(false)} key="dataconnect">
         <a
           href="https://apps.thermofisher.com/apps/spa/#/dataconnect"
           target="_blank"
@@ -227,19 +232,23 @@ const AnalysisRun = () => {
         </a>
       </Menu.Item>
       <Menu.Item
-        onClick={onUploadClick}
+        onClick={run.status === constants.runStatuses.qpcr && onUploadClick}
         key="upload-result"
         disabled={run.status === constants.runStatuses.published}
       >
-        Upload Result
+        <Popconfirm
+          title={`Are you sure you want to overwrite the results for the ${run.title} run?`}
+          onConfirm={onUploadClick}
+          placement="topRight"
+          disabled={
+            run.status !== constants.runStatuses.analysis &&
+            run.status !== constants.runStatuses.review
+          }
+        >
+          Upload Result
+        </Popconfirm>
       </Menu.Item>
-      <Menu.Item
-        disabled
-        key="print"
-        onClick={() => {
-          return exportRun({ runId });
-        }}
-      >
+      <Menu.Item disabled key="print" onClick={() => exportRun({ runId })}>
         Print Run
       </Menu.Item>
     </Menu>
@@ -251,9 +260,9 @@ const AnalysisRun = () => {
         <Menu.Item
           key={value}
           style={{
-            color: getColor(value.toLowerCase()),
+            color: getColor(value?.toLowerCase()),
           }}
-          icon={getIcon(value.toLowerCase())}
+          icon={getIcon(value?.toLowerCase())}
         >
           {value.replace('_', ' ')}:{' '}
           {run?.items?.filter?.((el) => el.analysis_result === value)?.length ||
@@ -376,7 +385,17 @@ const AnalysisRun = () => {
                   </Button>
                 </Popconfirm>
               )}
-              <Dropdown overlay={menu}>
+              <Dropdown
+                overlay={menu}
+                trigger="click"
+                onClick={() => setVisibleActions(!visibleActions)}
+                visible={visibleActions}
+                onVisibleChange={(value) => {
+                  if (!value) {
+                    setVisibleActions(false);
+                  }
+                }}
+              >
                 <Button type="primary">
                   Actions
                   <DownOutlined />
