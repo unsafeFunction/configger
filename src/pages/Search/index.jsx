@@ -35,7 +35,7 @@ const Search = () => {
     [dispatch],
   );
 
-  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 1000), [
     sendQuery,
   ]);
 
