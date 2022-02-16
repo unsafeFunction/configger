@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.4.7](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.6...v10.4.7) (2022-02-16)
+
+### Features
+
+- action initiator ([eb006aa](https://github.com/mokkapps/changelog-generator-demo/commits/eb006aa8f0b8c212d29e1fe68f19f95d40a131b3))
+- additional check when overwriting results in analysis and review statuses ([0530e99](https://github.com/mokkapps/changelog-generator-demo/commits/0530e99e7040ff53b02aa2fbb3748dbb56abd217))
+
+### Bug Fixes
+
+- pool scans time sort ([cd60441](https://github.com/mokkapps/changelog-generator-demo/commits/cd60441abdc19a32737abd240e1b81ff7a41aea5))
+- search tooltip to ts, fix scanner menu styles ([6c5c22e](https://github.com/mokkapps/changelog-generator-demo/commits/6c5c22eb6a4747e2686110fafcaa5ce1c0438184))
+
 ### [10.4.6](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.5...v10.4.6) (2022-02-16)
 
 ### [10.4.5](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.4...v10.4.5) (2022-02-10)
