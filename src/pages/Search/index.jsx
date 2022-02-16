@@ -4,8 +4,10 @@ import Loader from 'components/layout/Loader';
 import debounce from 'lodash.debounce';
 import React, { useCallback, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { constants } from 'utils/constants';
 import actions from 'redux/search/actions';
 import useCustomFilters from 'utils/useCustomFilters';
+import { roundValueToSecondNumber } from 'utils/roundRules';
 import styles from './styles.module.scss';
 
 const { Step } = Steps;
@@ -98,7 +100,9 @@ const Search = () => {
                             : 'text-primary'
                         }`}
                       >
-                        {info.value}
+                        {info.title === constants.barcodeTitles.cqValue
+                          ? roundValueToSecondNumber(info.value)
+                          : info.value}
                       </span>
                     </p>
                   ))}

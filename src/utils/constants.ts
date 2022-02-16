@@ -513,4 +513,7 @@ export const constants = {
   tipsModalStatuses: {
     hide: 'hide',
   },
+  barcodeTitles: {
+    cqValue: 'CQ Value',
+  },
 };
