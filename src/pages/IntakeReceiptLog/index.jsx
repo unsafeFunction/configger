@@ -73,15 +73,9 @@ const IntakeReceiptLog = () => {
   );
 
   const scannerMenu = (logId) => (
-    <Menu onClick={startSession(logId)}>
+    <Menu onClick={startSession(logId)} className={styles.scannerMenu}>
       {scanners.items.map((item) => (
-        <Menu.Item
-          key={item.id}
-          disabled={!item.is_active || !item.is_online}
-          className={
-            (!item.is_active || !item.is_online) && styles.disabledScanner
-          }
-        >
+        <Menu.Item key={item.id} disabled={!item.is_active || !item.is_online}>
           <p style={{ margin: 0 }}>
             {item.scanner_id} - model:
             {item.model}{' '}

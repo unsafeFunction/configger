@@ -3,7 +3,12 @@ import useWindowSize from 'hooks/useWindowSize';
 import React from 'react';
 import styles from './styles.module.scss';
 
-const SearchTooltip = ({ searchFields, children }) => {
+type TooltipProps = {
+  searchFields: string[];
+  children: JSX.Element;
+};
+
+const SearchTooltip = ({ searchFields, children }: TooltipProps) => {
   const { isMobile } = useWindowSize();
 
   const popoverContent = (
