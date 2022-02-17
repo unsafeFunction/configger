@@ -3,19 +3,21 @@ import React from 'react';
 import { roundValue } from 'utils/analysisRules';
 import { constants } from 'utils/constants';
 
-const targetColumns = constants.targets.all.map((target) => {
-  return {
-    title: target,
-    dataIndex: target,
-    width: 100,
-    render: (_, record) => {
-      const mean = roundValue(record?.mean?.[target]);
-      const standardDeviation =
-        roundValue(record?.standard_deviation?.[target]) ?? 'NA';
-      return mean ? `${mean} (${standardDeviation})` : null;
-    },
-  };
-});
+export const getTargetColumns = (method) => {
+  return constants.targets[method ?? 'all'].map((target) => {
+    return {
+      title: target,
+      dataIndex: target,
+      width: 100,
+      render: (_, record) => {
+        const mean = roundValue(record?.mean?.[target]);
+        const standardDeviation =
+          roundValue(record?.standard_deviation?.[target]) ?? 'NA';
+        return mean ? `${mean} (${standardDeviation})` : null;
+      },
+    };
+  });
+};
 
 const columns = [
   {
@@ -35,7 +37,6 @@ const columns = [
       return <ResultTag status={value} type="sample" />;
     },
   },
-  ...targetColumns,
   {
     title: 'Run',
     dataIndex: 'run',

@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   Button,
   Col,
   DatePicker,
   Dropdown,
+  Input,
   Menu,
   Popconfirm,
   Row,
@@ -12,15 +13,18 @@ import {
 } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
+import ActionInitiator from 'components/widgets/ActionInitiator';
+import SearchTooltip from 'components/widgets/SearchTooltip';
+import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
 import actions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
 import labConfig from 'utils/labConfig';
-import useCustomFilters from '../../utils/useCustomFilters';
+import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
 
 const { RangePicker } = DatePicker;
@@ -31,10 +35,13 @@ const RackScans = () => {
   const stateRef = useRef();
 
   const initialFiltersState = {
+    search: '',
     dates: [],
   };
 
-  const [filtersState, filtersDispatch] = useCustomFilters(initialFiltersState);
+  const [filtersState, filtersDispatch, isEmpty] = useCustomFilters(
+    initialFiltersState,
+  );
 
   stateRef.current = filtersState.dates;
 
@@ -44,6 +51,7 @@ const RackScans = () => {
     useEffect(() => {
       const filteringParams = {
         limit: constants.poolRacks.itemsLoadingCount,
+        search: filtersState.search,
       };
 
       const params = filtersState.dates.length
@@ -63,6 +71,14 @@ const RackScans = () => {
     }, [filtersState.dates]);
   };
 
+  useFetching();
+
+  const handleResetFilters = () => {
+    return filtersDispatch({
+      type: 'reset',
+    });
+  };
+
   const exportRack = useCallback(
     ({ poolId }) => {
       dispatch({
@@ -76,18 +92,13 @@ const RackScans = () => {
     [dispatch],
   );
 
-  useFetching();
-
   const racksItems = racks?.items;
 
-  const navigateToScan = useCallback(
-    (rackId) => {
-      history.push({
-        pathname: `/rack-scans/${rackId}/`,
-      });
-    },
-    [history],
-  );
+  const navigateToScan = (rackId) => {
+    history.push({
+      pathname: `/rack-scans/${rackId}/`,
+    });
+  };
 
   const handleDelete = useCallback(
     async ({ poolId }) => {
@@ -146,20 +157,22 @@ const RackScans = () => {
       render: (value) => value ?? '-',
     },
     {
-      title: `Scan Timestamp`,
+      title: 'Scanned on',
       dataIndex: 'scan_timestamp',
+      width: 190,
       render: (value) =>
         value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
-      title: 'Logged By',
+      title: 'Scanned by',
       dataIndex: 'scanned_by',
+      render: (value) => <ActionInitiator initiator={value} />,
     },
     {
       title: 'Actions',
       fixed: 'right',
       key: 'action',
-      width: 150,
+      width: 120,
       render: (_, record) => {
         return (
           <Dropdown overlay={menu(record)}>
@@ -173,10 +186,11 @@ const RackScans = () => {
     },
   ];
 
-  const loadMore = useCallback(() => {
+  const loadMore = () => {
     const filteringParams = {
       limit: constants.poolRacks.itemsLoadingCount,
       offset: racks.offset,
+      search: filtersState.search,
     };
 
     const params = filtersState.dates.length
@@ -193,9 +207,56 @@ const RackScans = () => {
         ...params,
       },
     });
-  }, [dispatch, racks, filtersState.dates]);
+  };
 
-  const onDatesChange = useCallback((dates, dateStrings) => {
+  const sendQuery = useCallback(
+    (query) => {
+      const filteringParams = {
+        limit: constants.poolRacks.itemsLoadingCount,
+        search: query,
+      };
+
+      const params = stateRef.current.length
+        ? {
+            scan_timestamp_after: stateRef.current[0],
+            scan_timestamp_before: stateRef.current[1],
+            ...filteringParams,
+          }
+        : filteringParams;
+
+      return dispatch({
+        type: actions.FETCH_RACKS_REQUEST,
+        payload: {
+          ...params,
+        },
+      });
+    },
+    [dispatch],
+  );
+
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
+
+  const onChangeSearch = ({ target }) => {
+    filtersDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'search',
+        value: target.value,
+      },
+    });
+
+    return delayedQuery(target.value);
+  };
+
+  const onDatesChange = (dates, dateStrings) => {
     return filtersDispatch({
       type: 'setValue',
       payload: {
@@ -203,7 +264,12 @@ const RackScans = () => {
         value: dates ? dateStrings : [],
       },
     });
-  }, []);
+  };
+
+  const rangePickerValue =
+    filtersState.dates.length > 0
+      ? [moment(filtersState.dates[0]), moment(filtersState.dates[1])]
+      : [];
 
   return (
     <>
@@ -224,15 +290,32 @@ const RackScans = () => {
           <Row gutter={16}>
             <Col
               xs={{ span: 24 }}
-              sm={{ span: 12 }}
-              md={{ span: 9, offset: 6 }}
-              lg={{ span: 7, offset: 10 }}
-              xl={{ span: 6, offset: 12 }}
-              xxl={{ span: 7, offset: 12 }}
-            />
+              sm={{ span: 10 }}
+              md={{ span: 9, offset: 2 }}
+              lg={{ span: 7, offset: 8 }}
+              xl={{ span: 6, offset: 10 }}
+              xxl={{ span: 7 }}
+            >
+              <SearchTooltip
+                searchFields={[
+                  'rack ID',
+                  `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} name`,
+                  'tube ID',
+                ]}
+              >
+                <Input
+                  size="middle"
+                  prefix={<SearchOutlined />}
+                  placeholder="Search..."
+                  value={filtersState.search}
+                  allowClear
+                  onChange={onChangeSearch}
+                />
+              </SearchTooltip>
+            </Col>
             <Col
               xs={{ span: 24 }}
-              sm={{ span: 12 }}
+              sm={{ span: 10 }}
               md={{ span: 9 }}
               lg={{ span: 7 }}
               xl={{ span: 6 }}
@@ -248,9 +331,21 @@ const RackScans = () => {
                     moment().endOf('month'),
                   ],
                 }}
+                value={rangePickerValue}
                 onChange={onDatesChange}
                 className={styles.rangePicker}
               />
+            </Col>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 4 }}
+              md={{ span: 4 }}
+              lg={{ span: 2 }}
+              className={styles.resetFilters}
+            >
+              <Button onClick={handleResetFilters} disabled={isEmpty}>
+                Reset
+              </Button>
             </Col>
           </Row>
         )}

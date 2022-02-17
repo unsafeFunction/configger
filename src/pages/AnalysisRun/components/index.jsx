@@ -221,8 +221,8 @@ ResultSelect.propTypes = {
   field: PropTypes.string.isRequired,
 };
 
-export const getTargetColumns = (targets) => {
-  return targets.map((target) => {
+export const getTargetColumns = (method) => {
+  return constants.targets?.[method.toLowerCase()].map((target) => {
     return {
       title: target,
       dataIndex: target,

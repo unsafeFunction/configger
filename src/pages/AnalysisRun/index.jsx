@@ -14,7 +14,7 @@ import ResultTag from 'components/widgets/ResultTag';
 import RunTimeline from 'components/widgets/Timeline';
 import WellPlate from 'components/widgets/WellPlate';
 import debounce from 'lodash.debounce';
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
@@ -23,7 +23,7 @@ import modalActions from 'redux/modal/actions';
 import timelineActions from 'redux/timeline/actions';
 import { constants } from 'utils/constants';
 import { getColor, getIcon } from 'utils/highlighting';
-import columns, { getTargetColumns, Actions, WellsColumn } from './components';
+import columns, { Actions, getTargetColumns, WellsColumn } from './components';
 import styles from './styles.module.scss';
 
 const AnalysisRun = () => {
@@ -61,7 +61,7 @@ const AnalysisRun = () => {
     const targets = run?.items[0] && Object.keys(run?.items?.[0]?.mean);
 
     if (targets) {
-      const targetColumns = getTargetColumns(targets);
+      const targetColumns = getTargetColumns(run.run_method);
       setTargets(targetColumns);
     }
   }, [run.items]);
@@ -196,21 +196,18 @@ const AnalysisRun = () => {
     if (!isTimelineOpen) onLoadTimeline();
   };
 
-  const exportRun = useCallback(
-    ({ runId }) => {
-      dispatch({
-        type: helperActions.EXPORT_FILE_REQUEST,
-        payload: {
-          link: `/runs/${runId}/export/`,
-          instanceId: runId,
-        },
-      });
-    },
-    [dispatch],
-  );
+  const exportRun = ({ runId }) => {
+    dispatch({
+      type: helperActions.EXPORT_FILE_REQUEST,
+      payload: {
+        link: `/runs/${runId}/export/`,
+        instanceId: runId,
+      },
+    });
+  };
 
   const menu = (
-    <Menu>
+    <Menu className={styles.actionMenu}>
       <Menu.Item onClick={onTimelineOpenClose} key="timeline">
         View Timeline
       </Menu.Item>
@@ -233,13 +230,7 @@ const AnalysisRun = () => {
       >
         Upload Result
       </Menu.Item>
-      <Menu.Item
-        disabled
-        key="print"
-        onClick={() => {
-          return exportRun({ runId });
-        }}
-      >
+      <Menu.Item disabled key="print" onClick={() => exportRun({ runId })}>
         Print Run
       </Menu.Item>
     </Menu>
@@ -251,9 +242,9 @@ const AnalysisRun = () => {
         <Menu.Item
           key={value}
           style={{
-            color: getColor(value.toLowerCase()),
+            color: getColor(value?.toLowerCase()),
           }}
-          icon={getIcon(value.toLowerCase())}
+          icon={getIcon(value?.toLowerCase())}
         >
           {value.replace('_', ' ')}:{' '}
           {run?.items?.filter?.((el) => el.analysis_result === value)?.length ||
