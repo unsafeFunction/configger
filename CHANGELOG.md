@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.7...v10.5.0) (2022-02-17)
+
+### Features
+
+- pools to ts, redux to ts ([892d448](https://github.com/mokkapps/changelog-generator-demo/commits/892d448c1496fdcfb45db362aeecdec246aed5a8))
+- refactor round values, round barcode ([1e951e7](https://github.com/mokkapps/changelog-generator-demo/commits/1e951e781603af042a9b0ffa589a31f456d98658))
+- table rows count ([31c5ea7](https://github.com/mokkapps/changelog-generator-demo/commits/31c5ea71d3c8d8f9f12871474a724bf70c248a8b))
+
+### Bug Fixes
+
+- increase time delation input barcode ([dacbfaf](https://github.com/mokkapps/changelog-generator-demo/commits/dacbfafc68645e166e53d5fe3e6bdb8f07cefe7c))
+- remove popconfirm from analysis run ([000108b](https://github.com/mokkapps/changelog-generator-demo/commits/000108b126050e4aea916aed10ada34127075b99))
+- resolve mr conficts ([6989daf](https://github.com/mokkapps/changelog-generator-demo/commits/6989dafaba06a532269bc9939f2a9ec626120fb3))
+- resolve mr conflicts ([264da2d](https://github.com/mokkapps/changelog-generator-demo/commits/264da2de083a4d70cf09b5ccb5930f84cb590962))
+- ts, analyses runs samples count ([56a682f](https://github.com/mokkapps/changelog-generator-demo/commits/56a682f2e24957aa448d7f8f21d517053e4aa1b1))
+
 ### [10.4.7](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.6...v10.4.7) (2022-02-16)
 
 ### Features
