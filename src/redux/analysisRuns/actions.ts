@@ -1,6 +1,7 @@
 import generateRequestActions from 'redux/factories/generateRequestActions';
+import { ActionType } from './types';
 
-const actions = {
+const actions: ActionType = {
   ...generateRequestActions(['fetch'], 'analysisRuns', 'runs'),
   ...generateRequestActions(['upload'], 'analysisRuns', 'run_result'),
   ...generateRequestActions(['fetch'], 'analysisRuns', 'run'),

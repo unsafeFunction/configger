@@ -32,6 +32,7 @@ const store = createStore(
   reducers(history),
   composeWithDevTools(applyMiddleware(...middlewares)),
 );
+
 sagaMiddleware.run(sagas);
 
 if (process.env.NODE_ENV !== 'development') {

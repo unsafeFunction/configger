@@ -1,6 +1,5 @@
 import omit from 'lodash.omit';
 import { combineReducers } from 'redux';
-import { isReservedSample } from 'utils/analysisRules';
 import { roundValueToSecondNumber } from 'utils/roundRules';
 import { constants } from 'utils/constants';
 import actions from './actions';
@@ -14,7 +13,96 @@ const initialRunsState = {
   error: null,
 };
 
-const runsReducer = (state = initialRunsState, action) => {
+type ActionType = {
+  type: string;
+  payload: PayloadType;
+};
+
+type SingleActionType = {
+  type: string;
+  payload: SinglePayloadType;
+};
+
+export type PayloadType = {
+  firstPage: boolean;
+  data: DataType;
+  id: string;
+  items: ItemType[];
+};
+
+export type SinglePayloadType = {
+  data: SingleDataType;
+  id: string;
+  field: string;
+  items: SingleItemType[];
+};
+
+type DataType = {
+  count: number;
+  results: ItemType[];
+};
+
+type SingleDataType = {
+  items: SingleItemType[];
+  run_method: string;
+  status: string;
+  title: string;
+  id: string;
+};
+
+export type SingleItemType = {
+  analysis_result: string;
+  auto_publish: boolean;
+  children: RunChildren[];
+  company_short: string;
+  display_sample_id: string;
+  mean: Deviation;
+  pool_name: string;
+  rerun_action: string;
+  result_interpreted: string;
+  sample_id: string;
+  sort_index: number;
+  standard_deviation: Deviation;
+  tube_id: string;
+  tube_type: string;
+  wells: string;
+};
+
+type RunChildren = {
+  N1: string;
+  N1_amp_status: string;
+  N1_cq_confidence: string;
+  ORF10: string;
+  ORF10_amp_status: string;
+  ORF10_cq_confidence: string;
+  RP: string;
+  RP_amp_status: string;
+  RP_cq_confidence: string;
+  wells: string;
+};
+
+type Deviation = {
+  N1: string;
+  ORF10: string;
+  RP: string;
+};
+
+export type ItemType = {
+  id: string;
+  method: string;
+  plate: string;
+  qs_machine: string;
+  rackscans: string[];
+  replication: string;
+  samples_count: number;
+  start_column: number;
+  status: string;
+  title: string;
+  type: string;
+  user: string;
+};
+
+const runsReducer = (state = initialRunsState, action: ActionType) => {
   switch (action.type) {
     case actions.FETCH_RUNS_REQUEST: {
       return {
@@ -44,7 +132,7 @@ const runsReducer = (state = initialRunsState, action) => {
     case actions.UPLOAD_RUN_RESULT_SUCCESS: {
       return {
         ...state,
-        items: state.items.map((item) => {
+        items: state.items.map((item: ItemType) => {
           if (item.id === action.payload.id) {
             return {
               ...item,
@@ -70,24 +158,18 @@ const initialRunState = {
   wellplates: [],
 };
 
-const excludeReservedSamples = (items) =>
-  items.map?.((item) => {
-    if (isReservedSample(item.display_sample_id)) {
-      return omit(item, ['children', 'rerun_action']);
-    }
-    return item;
-  });
-
-const formatResults = (items = []) => {
+const formatResults = (items: SingleItemType[]) => {
   const samples = excludeReservedSamples(items);
 
-  return samples.map((parentRow) => {
+  // TODO: REFACTOR ANY TYPES;
+
+  return samples.map((parentRow: any) => {
     let warning_flag = false;
 
-    const formattedWells = parentRow.children?.map((childRow) => {
+    const formattedWells = parentRow.children?.map((childRow: any) => {
       let targetProps = {};
 
-      constants.targets.all.forEach((target) => {
+      constants.targets.all.forEach((target: string) => {
         if (childRow[target] && !isNaN(childRow[target])) {
           const cqConfidence = roundValueToSecondNumber(
             childRow[`${target}_cq_confidence`],
@@ -95,8 +177,11 @@ const formatResults = (items = []) => {
           const inconclusiveAmpStatus =
             childRow[`${target}_amp_status`].toLowerCase() ===
             constants.ampStatuses.inconclusive;
+          // TODO: REFACTOR IGNORE
           if (
+            // @ts-ignore
             cqConfidence > 0 &&
+            // @ts-ignore
             cqConfidence <= 0.7 &&
             inconclusiveAmpStatus
           ) {
@@ -106,6 +191,7 @@ const formatResults = (items = []) => {
               [`${target}_warning_msg`]: `Cq confidence is low! (${cqConfidence}) Amplification is inconclusive`,
             };
           }
+          // @ts-ignore
           if (cqConfidence > 0 && cqConfidence <= 0.7) {
             warning_flag = true;
             targetProps = {
@@ -137,7 +223,10 @@ const formatResults = (items = []) => {
   });
 };
 
-const singleRunReducer = (state = initialRunState, action) => {
+const singleRunReducer = (
+  state = initialRunState,
+  action: SingleActionType,
+) => {
   switch (action.type) {
     case actions.FETCH_RUN_REQUEST: {
       return {
@@ -166,7 +255,7 @@ const singleRunReducer = (state = initialRunState, action) => {
       const { id, field } = action.payload;
       return {
         ...state,
-        items: state.items.map((sample) => {
+        items: state.items.map((sample: SingleItemType) => {
           if (sample.sample_id === id) {
             return {
               ...sample,
@@ -181,7 +270,7 @@ const singleRunReducer = (state = initialRunState, action) => {
       const { field, data } = action.payload;
       return {
         ...state,
-        items: state.items.map((sample) => {
+        items: state.items.map((sample: SingleItemType) => {
           if (sample.sample_id === data.id) {
             return {
               ...sample,
@@ -197,7 +286,7 @@ const singleRunReducer = (state = initialRunState, action) => {
       const { id, field } = action.payload;
       return {
         ...state,
-        items: state.items.map((sample) => {
+        items: state.items.map((sample: SingleItemType) => {
           if (sample.sample_id === id) {
             return {
               ...sample,

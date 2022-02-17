@@ -9,14 +9,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
-import { getColor, getIcon, getStatusText } from 'utils/highlighting';
+import { RootState } from 'redux/reducers';
+import { getColor, getIcon } from 'utils/highlighting';
 import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
+import { PoolType } from 'models/pool.model';
 
-const PoolTable = ({ loadMore }) => {
+type PoolTableProps = {
+  loadMore: () => void;
+};
+
+const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { all: pools, resultList } = useSelector((state) => state.pools);
+  const { all: pools } = useSelector<RootState, any>((state) => state.pools);
 
   const useFetching = () => {
     useEffect(() => {
@@ -26,7 +32,7 @@ const PoolTable = ({ loadMore }) => {
 
   useFetching();
 
-  const handlePublish = (poolId, checked) => {
+  const handlePublish = (poolId: string, checked: boolean) => {
     dispatch({
       type: actions.PUBLISH_POOL_REQUEST,
       payload: {
@@ -50,27 +56,29 @@ const PoolTable = ({ loadMore }) => {
   );
 
   const onModalToggle = useCallback(
-    (poolUniqueId, poolId) => (_, option) => {
-      dispatch({
-        type: modalActions.SHOW_MODAL,
-        modalType: 'COMPLIANCE_MODAL',
-        modalProps: {
-          title: 'Confirm action',
-          cancelButtonProps: { className: styles.modalButton },
-          okButtonProps: {
-            className: styles.modalButton,
+    (poolUniqueId: string, poolId: string) =>
+      // TODO: INCORRECT OPTION TYPE
+      (_: undefined, option: any) => {
+        dispatch({
+          type: modalActions.SHOW_MODAL,
+          modalType: 'COMPLIANCE_MODAL',
+          modalProps: {
+            title: 'Confirm action',
+            cancelButtonProps: { className: styles.modalButton },
+            okButtonProps: {
+              className: styles.modalButton,
+            },
+            onOk: () => resultUpdate({ poolUniqueId, value: option.key }),
+            bodyStyle: {
+              maxHeight: '70vh',
+              overflow: 'scroll',
+            },
+            okText: 'Update result',
+            message: () =>
+              `Are you sure you would like to update pool ${poolId} result to ${option.value}?`,
           },
-          onOk: () => resultUpdate({ poolUniqueId, value: option.key }),
-          bodyStyle: {
-            maxHeight: '70vh',
-            overflow: 'scroll',
-          },
-          okText: 'Update result',
-          message: () =>
-            `Are you sure you would like to update pool ${poolId} result to ${option.value}?`,
-        },
-      });
-    },
+        });
+      },
     [resultUpdate, dispatch],
   );
 
@@ -80,13 +88,13 @@ const PoolTable = ({ loadMore }) => {
       title: 'Receipt Date',
       dataIndex: 'receipt_date',
       width: 140,
-      render: (value) =>
+      render: (value: string) =>
         value ? moment(value).format(constants.dateFormat) : '-',
     },
     {
       title: 'Run Title',
       dataIndex: 'run_title',
-      render: (value) => {
+      render: (value: string) => {
         return value ?? '-';
       },
     },
@@ -96,7 +104,7 @@ const PoolTable = ({ loadMore }) => {
       ellipsis: {
         showTitle: false,
       },
-      render: (value, record) => (
+      render: (value: string, record: PoolType) => (
         <Popover
           content={record.company?.name}
           trigger="hover"
@@ -115,14 +123,14 @@ const PoolTable = ({ loadMore }) => {
     {
       title: 'Pool Title',
       dataIndex: 'title',
-      render: (value) => {
+      render: (value: string) => {
         return value ?? '-';
       },
     },
     {
       title: 'Rack ID',
       dataIndex: 'rack_id',
-      render: (value) => {
+      render: (value: string) => {
         return value ?? '-';
       },
     },
@@ -130,7 +138,7 @@ const PoolTable = ({ loadMore }) => {
       title: 'Pool ID',
       dataIndex: 'pool_id',
       width: 100,
-      render: (value) => {
+      render: (value: string) => {
         return value ?? '-';
       },
     },
@@ -142,7 +150,7 @@ const PoolTable = ({ loadMore }) => {
       ),
       dataIndex: 'result',
       width: 195,
-      render: (value, record) => (
+      render: (_: null, record: PoolType) => (
         <Tooltip
           placement="bottom"
           title={
@@ -156,18 +164,18 @@ const PoolTable = ({ loadMore }) => {
           }
         >
           <Select
-            value={value}
-            options={resultList.items.map((item) => {
-              return {
-                label: (
-                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
-                    {getStatusText(item.value)}
-                  </Tag>
-                ),
-                value: item.value,
-                key: item.key,
-              };
-            })}
+            value={
+              ((
+                <Tag
+                  color={getColor(record.result)}
+                  icon={getIcon(record.result)}
+                >
+                  {record.result === 'COVID-19 Detected'
+                    ? 'DETECTED'
+                    : record.result.toUpperCase()}
+                </Tag>
+              ) as unknown) as undefined
+            }
             loading={record.resultIsUpdating}
             onSelect={onModalToggle(record.id, record.pool_id)}
             disabled={record.resultIsUpdating}
@@ -189,7 +197,7 @@ const PoolTable = ({ loadMore }) => {
       ellipsis: {
         showTitle: false,
       },
-      render: (value, record) => (
+      render: (value: string[], record: PoolType) => (
         <Popover
           content={value.join(', ')}
           title={`${record.pool_id} tubes`}
@@ -203,9 +211,9 @@ const PoolTable = ({ loadMore }) => {
     },
     {
       title: 'Action',
-      fixed: 'right',
+      fixed: 'right' as 'right',
       width: 120,
-      render: (_, record) => (
+      render: (_: any, record: PoolType) => (
         <Popconfirm
           title={`Sure to ${
             record.is_published ? 'unpublished' : 'published'
