@@ -29,6 +29,7 @@ import helperActions from 'redux/helpers/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import useCustomFilters from 'utils/useCustomFilters';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const { RangePicker } = DatePicker;
@@ -101,6 +102,7 @@ const ScanSessions = () => {
   );
 
   const columns = [
+    rowCounter,
     {
       title: 'Session name',
       dataIndex: 'scan_session_title',
@@ -348,6 +350,7 @@ const ScanSessions = () => {
 
   const expandedRow = (record) => {
     const columns = [
+      rowCounter,
       {
         title: 'Pool ID',
         dataIndex: 'pool_id',

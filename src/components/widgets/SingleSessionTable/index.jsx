@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { constants } from 'utils/constants';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const SingleSessionTable = ({
@@ -16,6 +17,7 @@ const SingleSessionTable = ({
   const { id, isLoading } = useSelector((state) => state.scanSessions.scan);
 
   const columns = [
+    rowCounter,
     {
       title: 'PoolName',
       dataIndex: 'scan_name',

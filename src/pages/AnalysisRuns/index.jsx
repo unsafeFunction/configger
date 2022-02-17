@@ -15,6 +15,7 @@ import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import useCustomFilters from 'utils/useCustomFilters';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const { RangePicker } = DatePicker;
@@ -117,6 +118,7 @@ const AnalysisRuns = () => {
   );
 
   const columns = [
+    rowCounter,
     {
       title: 'Run Title',
       dataIndex: 'title',
