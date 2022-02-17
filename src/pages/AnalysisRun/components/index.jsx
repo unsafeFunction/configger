@@ -9,7 +9,8 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
-import { isReservedSample, roundValue } from 'utils/analysisRules';
+import { isReservedSample } from 'utils/analysisRules';
+import { roundValueToSecondNumber } from 'utils/roundRules';
 import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlighting';
 import { rowCounter } from 'utils/tableFeatures';
@@ -230,20 +231,21 @@ export const getTargetColumns = (method) => {
       width: 100,
       render: (_, record) => {
         if (record.mean) {
-          const mean = roundValue(record.mean?.[target]);
+          const mean = roundValueToSecondNumber(record.mean?.[target]);
           const standardDeviation =
-            roundValue(record.standard_deviation?.[target]) ?? 'NA';
+            roundValueToSecondNumber(record.standard_deviation?.[target]) ??
+            'NA';
           return mean ? `${mean} (${standardDeviation})` : null;
         }
         if (record[target] && record[`${target}_warning_msg`]) {
           return (
             <Tooltip placement="right" title={record[`${target}_warning_msg`]}>
-              {roundValue(record[target])}
+              {roundValueToSecondNumber(record[target])}
               {warningFlag}
             </Tooltip>
           );
         }
-        return roundValue(record[target]);
+        return roundValueToSecondNumber(record[target]);
       },
     };
   });
