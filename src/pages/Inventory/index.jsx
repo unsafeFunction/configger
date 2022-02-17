@@ -13,6 +13,7 @@ import actions from 'redux/inventory/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import useCustomFilters from 'utils/useCustomFilters';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const Inventory = () => {
@@ -45,6 +46,7 @@ const Inventory = () => {
   }, [form, dispatch, handleResetForm]);
 
   const columns = [
+    rowCounter,
     {
       title: 'Tube ID',
       dataIndex: 'tube_id',

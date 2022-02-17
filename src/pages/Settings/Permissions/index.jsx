@@ -3,9 +3,11 @@ import { Typography, Input, Checkbox, Table } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import actions from 'redux/userSettings/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const columns = [
+  rowCounter,
   {
     title: (
       <div>

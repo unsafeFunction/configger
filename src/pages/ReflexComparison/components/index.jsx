@@ -1,6 +1,7 @@
 import ResultTag from 'components/widgets/ResultTag';
 import React from 'react';
 import { roundValue } from 'utils/analysisRules';
+import { rowCounter } from 'utils/tableFeatures';
 import { constants } from 'utils/constants';
 
 export const getTargetColumns = (method) => {
@@ -20,6 +21,7 @@ export const getTargetColumns = (method) => {
 };
 
 const columns = [
+  rowCounter,
   {
     title: 'Tube Type',
     dataIndex: 'tube_type',

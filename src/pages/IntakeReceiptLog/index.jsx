@@ -17,6 +17,7 @@ import scannersActions from 'redux/scanners/actions';
 import sessionActions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import { getColorIntakeLog } from 'utils/highlighting';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const IntakeReceiptLog = () => {
@@ -181,6 +182,7 @@ const IntakeReceiptLog = () => {
   );
 
   const columns = [
+    rowCounter,
     {
       title: 'Log DateTime',
       dataIndex: 'created',
