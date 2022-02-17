@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from 'redux/analysisRuns/actions';
 import { constants } from 'utils/constants';
-import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
@@ -117,7 +116,6 @@ const WellPlate = ({ wellplate, runId }) => {
   }));
 
   const columns = [
-    rowCounter,
     {
       dataIndex: 'letter',
       align: 'center',

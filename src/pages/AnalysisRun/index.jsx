@@ -6,7 +6,9 @@ import {
   Input,
   Menu,
   Popconfirm,
+  Popover,
   Table,
+  Typography,
   Upload,
 } from 'antd';
 import classNames from 'classnames';
@@ -24,7 +26,9 @@ import timelineActions from 'redux/timeline/actions';
 import { constants } from 'utils/constants';
 import { getColor, getIcon } from 'utils/highlighting';
 import columns, { Actions, getTargetColumns, WellsColumn } from './components';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
+import moment from 'moment-timezone';
 
 const AnalysisRun = () => {
   const { poolResults } = constants;
@@ -34,6 +38,7 @@ const AnalysisRun = () => {
   const timeline = useSelector((state) => state.timeline);
 
   const [searchName, setSearchName] = useState('');
+  const [openedRows, setOpenedRows] = useState([]);
   const [samples, setSamples] = useState([]);
   const [isTimelineOpen, setOpen] = useState(false);
   const [targets, setTargets] = useState([]);
@@ -57,9 +62,15 @@ const AnalysisRun = () => {
   useFetching();
 
   useEffect(() => {
-    setSamples(run.items);
+    const modifiedSample = {};
+    setSamples(
+      run.items.map((item) => {
+        item['childrenData'] = item['children'];
+        delete item['children'];
+        return item;
+      }),
+    );
     const targets = run?.items[0] && Object.keys(run?.items?.[0]?.mean);
-
     if (targets) {
       const targetColumns = getTargetColumns(run.run_method);
       setTargets(targetColumns);
@@ -82,6 +93,42 @@ const AnalysisRun = () => {
   const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
     sendQuery,
   ]);
+
+  const handleExpand = useCallback(
+    (expanded, record) => {
+      if (expanded) {
+        setOpenedRows([...openedRows, record.sample_id]);
+      } else {
+        setOpenedRows(openedRows.filter((id) => id !== record.sample_id));
+      }
+    },
+    [dispatch, openedRows],
+  );
+
+  const expandedRow = (record) => {
+    const columns = [
+      rowCounter,
+      {
+        title: 'Wells',
+        dataIndex: 'wells',
+      },
+      ...targets,
+    ].map((item) => {
+      return {
+        ...item,
+        width: '30px',
+      };
+    });
+
+    return (
+      <Table
+        rowKey={(record) => record.wells}
+        columns={columns}
+        dataSource={record.childrenData}
+        pagination={false}
+      />
+    );
+  };
 
   useEffect(() => {
     return () => {
@@ -330,6 +377,12 @@ const AnalysisRun = () => {
         pagination={false}
         rowKey={(record) => {
           return record.sample_id ?? record.wells;
+        }}
+        expandRowByClick
+        expandedRowKeys={openedRows}
+        onExpand={handleExpand}
+        expandedRowRender={(record) => {
+          return expandedRow(record);
         }}
         title={() => (
           <div className={styles.tableHeader}>
