@@ -1,5 +1,6 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Popconfirm, Switch } from 'antd';
+import ActionInitiator from 'components/widgets/ActionInitiator';
 import ResultTag from 'components/widgets/ResultTag';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -7,6 +8,7 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import actions from 'redux/reflex/actions';
+import { rowCounter } from 'utils/tableFeatures';
 import labConfig from 'utils/labConfig';
 
 const ReflexStatus = ({ value, record }) => {
@@ -51,6 +53,7 @@ ReflexStatus.propTypes = {
 };
 
 const columns = [
+  rowCounter,
   {
     title: 'Company Short',
     dataIndex: 'name_short',
@@ -116,6 +119,7 @@ const columns = [
   {
     title: 'Completed By',
     dataIndex: 'completed_by',
+    render: (value) => <ActionInitiator initiator={value} />,
   },
 ];
 

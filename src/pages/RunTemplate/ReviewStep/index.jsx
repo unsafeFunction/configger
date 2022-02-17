@@ -10,10 +10,11 @@ import { constants } from 'utils/constants';
 import labConfig from 'utils/labConfig';
 import PoolRackDetail from '../PoolRackDetail';
 import ReviewTable from './components';
+import { useHistory } from 'react-router-dom';
 
 const ReviewStep = ({ runState, componentDispatch, form }) => {
   const { kfpParam, replicationParam, poolRacks } = runState;
-
+  const history = useHistory();
   const { Text } = Typography;
 
   const dispatch = useDispatch();
@@ -55,7 +56,11 @@ const ReviewStep = ({ runState, componentDispatch, form }) => {
   const generateRun = useCallback(() => {
     dispatch({
       type: actions.CREATE_TEMPLATE_REQUEST,
-      payload: { ...runState, ...form.getFieldsValue(true) },
+      payload: {
+        ...runState,
+        ...form.getFieldsValue(true),
+        redirectCallback: () => history.push('/analysis-runs'),
+      },
     });
   }, [dispatch, runState, form]);
 

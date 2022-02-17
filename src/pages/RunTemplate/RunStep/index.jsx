@@ -31,6 +31,7 @@ import layoutHook from '../layoutHook';
 import { qsMachines, runTypes, startColumns, values } from '../params';
 import PoolRackDetail from '../PoolRackDetail';
 import PoolRackTable from '../PoolRackTable';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const SortableItem = sortableElement((props) => <tr {...props} />);
@@ -115,6 +116,7 @@ const RunStep = ({ runState, componentDispatch, initialValues, form }) => {
   ));
 
   const columns = [
+    rowCounter,
     {
       title: 'Sort',
       dataIndex: 'sort',

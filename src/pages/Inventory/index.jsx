@@ -2,6 +2,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Table } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
+import ActionInitiator from 'components/widgets/ActionInitiator';
 import { ControlTubeModal } from 'components/widgets/Inventory';
 import useWindowSize from 'hooks/useWindowSize';
 import debounce from 'lodash.debounce';
@@ -12,6 +13,7 @@ import actions from 'redux/inventory/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import useCustomFilters from 'utils/useCustomFilters';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const Inventory = () => {
@@ -44,6 +46,7 @@ const Inventory = () => {
   }, [form, dispatch, handleResetForm]);
 
   const columns = [
+    rowCounter,
     {
       title: 'Tube ID',
       dataIndex: 'tube_id',
@@ -68,9 +71,9 @@ const Inventory = () => {
         value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
-      title: 'User',
+      title: 'Created By',
       dataIndex: 'user',
-      render: (value) => value ?? '-',
+      render: (value) => <ActionInitiator initiator={value} />,
     },
   ];
 

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import poolRackActions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
 import labConfig from 'utils/labConfig';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const { RangePicker } = DatePicker;
@@ -85,6 +86,7 @@ const PoolRackTable = ({ setSelectedRows, runState, limit }) => {
   );
 
   const columns = [
+    rowCounter,
     {
       title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Name`,
       dataIndex: 'scan_name',
