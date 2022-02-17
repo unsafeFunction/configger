@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.4.4](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.3...v10.4.4) (2022-02-09)
+
+### Features
+
+- remove most resent scan ([2c02c9d](https://github.com/mokkapps/changelog-generator-demo/commits/2c02c9d403a4ae3d27148e681434314837b2e9ab))
+
+### [10.4.3](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.2...v10.4.3) (2022-02-09)
+
+### Features
+
+- reflex comparision method fix ([fac7ba0](https://github.com/mokkapps/changelog-generator-demo/commits/fac7ba034ae8e1c1e2a3bed462fc7bac59c85f50))
+
+### [10.4.2](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.1...v10.4.2) (2022-02-09)
+
+### Features
+
+- search tooltips ([7340780](https://github.com/mokkapps/changelog-generator-demo/commits/73407804d1fb07e55c254f4cff4faa7ace21e1cc))
+- update calculating of target for run ([04fb47a](https://github.com/mokkapps/changelog-generator-demo/commits/04fb47a6e1b34bfdcb873ecc973802925379c4e7))
+
+### [10.4.1](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.0...v10.4.1) (2022-02-08)
+
+### Features
+
+- rackscan search ([14a000f](https://github.com/mokkapps/changelog-generator-demo/commits/14a000fbc6061261acb0b7ff01009a966bacc8ea))
+- scan time sorter ([72438f4](https://github.com/mokkapps/changelog-generator-demo/commits/72438f44dea02cf16e3adf14c6c0ddcc9f0ef167))
+
+### Bug Fixes
+
+- status finalized ([3b89e2b](https://github.com/mokkapps/changelog-generator-demo/commits/3b89e2b8924dfdcf55c822fae127f26ddf109547))
+
 ## [10.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.3.2...v10.4.0) (2022-02-04)
 
 ### Features

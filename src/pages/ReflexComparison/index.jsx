@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/reflex/actions';
 import { constants } from 'utils/constants';
-import columns from './components';
+import columns, { getTargetColumns } from './components';
 import styles from './styles.module.scss';
 
 const ReflexComparison = () => {
@@ -22,7 +22,9 @@ const ReflexComparison = () => {
     pool_size,
     pool_name,
     rejected_count,
+    run_method,
   } = useSelector((state) => state.reflex.singleReflex);
+
   const reflexId = location.pathname.split('/')[2];
 
   const { poolResults, tubeTypes } = constants;
@@ -56,7 +58,7 @@ const ReflexComparison = () => {
         <h4>Reflex Comparison</h4>
       </div>
       <Table
-        columns={columns}
+        columns={[...columns, ...getTargetColumns(run_method.toLowerCase())]}
         dataSource={reflexList}
         scroll={{ x: 1000 }}
         loading={isLoading}
