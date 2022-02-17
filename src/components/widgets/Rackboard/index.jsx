@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const Rackboard = ({
@@ -308,6 +309,7 @@ const Rackboard = ({
   }));
 
   const columns = [
+    rowCounter,
     {
       dataIndex: 'letter',
       align: 'center',

@@ -25,6 +25,7 @@ import actions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
 import labConfig from 'utils/labConfig';
 import useCustomFilters from 'utils/useCustomFilters';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const { RangePicker } = DatePicker;
@@ -141,6 +142,7 @@ const RackScans = () => {
   );
 
   const columns = [
+    rowCounter,
     {
       title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Name`,
       dataIndex: 'scan_name',

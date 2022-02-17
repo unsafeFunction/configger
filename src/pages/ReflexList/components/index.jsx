@@ -8,6 +8,7 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import actions from 'redux/reflex/actions';
+import { rowCounter } from 'utils/tableFeatures';
 import labConfig from 'utils/labConfig';
 
 const ReflexStatus = ({ value, record }) => {
@@ -52,6 +53,7 @@ ReflexStatus.propTypes = {
 };
 
 const columns = [
+  rowCounter,
   {
     title: 'Company Short',
     dataIndex: 'name_short',

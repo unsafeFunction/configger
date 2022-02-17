@@ -1,5 +1,5 @@
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Table, Upload } from 'antd';
+import { Button, DatePicker, Popconfirm, Table, Upload } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import ActionInitiator from 'components/widgets/ActionInitiator';
@@ -15,6 +15,7 @@ import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
 import useCustomFilters from 'utils/useCustomFilters';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const { RangePicker } = DatePicker;
@@ -117,6 +118,7 @@ const AnalysisRuns = () => {
   );
 
   const columns = [
+    rowCounter,
     {
       title: 'Run Title',
       dataIndex: 'title',
@@ -168,14 +170,26 @@ const AnalysisRuns = () => {
     {
       title: 'Actions',
       render: (_, run) => (
-        <Button
-          onClick={() => onUploadClick(run.id)}
-          icon={<UploadOutlined />}
-          type="link"
-          disabled={run.status === constants.runStatuses.published}
+        <Popconfirm
+          title={`Are you sure you want to overwrite the results for the ${run.title} run?`}
+          onConfirm={() => onUploadClick(run.id)}
+          placement="topRight"
+          disabled={
+            run.status !== constants.runStatuses.analysis &&
+            run.status !== constants.runStatuses.review
+          }
         >
-          Upload result
-        </Button>
+          <Button
+            onClick={() =>
+              run.status === constants.runStatuses.qpcr && onUploadClick(run.id)
+            }
+            icon={<UploadOutlined />}
+            type="link"
+            disabled={run.status === constants.runStatuses.published}
+          >
+            Upload result
+          </Button>
+        </Popconfirm>
       ),
     },
   ];

@@ -13,6 +13,7 @@ import { isReservedSample } from 'utils/analysisRules';
 import { roundValueToSecondNumber } from 'utils/roundRules';
 import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlighting';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const warningFlag = (
@@ -287,6 +288,7 @@ export const WellsColumn = {
 };
 
 const columns = [
+  rowCounter,
   {
     title: 'Company Short',
     dataIndex: 'company_short',

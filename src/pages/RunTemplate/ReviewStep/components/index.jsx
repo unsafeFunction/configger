@@ -2,10 +2,12 @@ import { Table } from 'antd';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React from 'react';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const ReviewTable = ({ data }) => {
   const columns = [
+    rowCounter,
     {
       title: 'Method',
       dataIndex: 'method',
