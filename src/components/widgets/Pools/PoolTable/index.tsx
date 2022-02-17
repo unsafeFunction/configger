@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
-import { getColor, getIcon } from 'utils/highlighting';
 import { RootState } from 'redux/reducers';
+import { getColor, getIcon } from 'utils/highlighting';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 import { PoolType } from 'models/pool.model';
 
@@ -82,6 +83,7 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
   );
 
   const columns = [
+    rowCounter,
     {
       title: 'Receipt Date',
       dataIndex: 'receipt_date',

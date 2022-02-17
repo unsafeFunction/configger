@@ -4,6 +4,7 @@ import Rackboard from 'components/widgets/Rackboard';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { rowCounter } from 'utils/tableFeatures';
 import poolRackActions from 'redux/racks/actions';
 
 const PoolRackDetail = ({ id }) => {
@@ -25,6 +26,7 @@ const PoolRackDetail = ({ id }) => {
   useFetching();
 
   const columns = [
+    rowCounter,
     {
       title: 'Position',
       dataIndex: 'position',

@@ -1,6 +1,7 @@
 import ResultTag from 'components/widgets/ResultTag';
 import React from 'react';
-import { roundValue } from 'utils/analysisRules';
+import { roundValueToSecondNumber } from 'utils/roundRules';
+import { rowCounter } from 'utils/tableFeatures';
 import { constants } from 'utils/constants';
 
 export const getTargetColumns = (method) => {
@@ -10,9 +11,10 @@ export const getTargetColumns = (method) => {
       dataIndex: target,
       width: 100,
       render: (_, record) => {
-        const mean = roundValue(record?.mean?.[target]);
+        const mean = roundValueToSecondNumber(record?.mean?.[target]);
         const standardDeviation =
-          roundValue(record?.standard_deviation?.[target]) ?? 'NA';
+          roundValueToSecondNumber(record?.standard_deviation?.[target]) ??
+          'NA';
         return mean ? `${mean} (${standardDeviation})` : null;
       },
     };
@@ -20,6 +22,7 @@ export const getTargetColumns = (method) => {
 };
 
 const columns = [
+  rowCounter,
   {
     title: 'Tube Type',
     dataIndex: 'tube_type',

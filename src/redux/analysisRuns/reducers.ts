@@ -1,6 +1,6 @@
 import omit from 'lodash.omit';
 import { combineReducers } from 'redux';
-import { excludeReservedSamples, roundValue } from 'utils/analysisRules';
+import { roundValueToSecondNumber } from 'utils/roundRules';
 import { constants } from 'utils/constants';
 import actions from './actions';
 
@@ -171,7 +171,9 @@ const formatResults = (items: SingleItemType[]) => {
 
       constants.targets.all.forEach((target: string) => {
         if (childRow[target] && !isNaN(childRow[target])) {
-          const cqConfidence = roundValue(childRow[`${target}_cq_confidence`]);
+          const cqConfidence = roundValueToSecondNumber(
+            childRow[`${target}_cq_confidence`],
+          );
           const inconclusiveAmpStatus =
             childRow[`${target}_amp_status`].toLowerCase() ===
             constants.ampStatuses.inconclusive;

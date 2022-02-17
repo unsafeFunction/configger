@@ -21,6 +21,7 @@ import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
 import { constants } from 'utils/constants';
 import { getColor, getIcon, getStatusText } from 'utils/highlightingResult';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const PoolTableByDays = ({
@@ -98,6 +99,7 @@ const PoolTableByDays = ({
   );
 
   const columns = [
+    rowCounter,
     {
       title: 'Results Timestamp',
       dataIndex: 'results_updated_on',

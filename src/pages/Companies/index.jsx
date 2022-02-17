@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import actions from 'redux/companies/actions';
 import { constants } from 'utils/constants';
+import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 
 const Companies = () => {
@@ -46,6 +47,7 @@ const Companies = () => {
   }, [allCompanies.error]);
 
   const columns = [
+    rowCounter,
     {
       title: 'Company Name',
       dataIndex: 'name',
