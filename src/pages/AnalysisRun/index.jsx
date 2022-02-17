@@ -33,7 +33,6 @@ const AnalysisRun = () => {
   const run = useSelector((state) => state.analysisRuns.singleRun);
   const timeline = useSelector((state) => state.timeline);
 
-  const [visibleActions, setVisibleActions] = useState(false);
   const [searchName, setSearchName] = useState('');
   const [samples, setSamples] = useState([]);
   const [isTimelineOpen, setOpen] = useState(false);
@@ -157,8 +156,6 @@ const AnalysisRun = () => {
         ),
       },
     });
-
-    setVisibleActions(false);
   }, [dispatch, onUploadRun, handleSubmit]);
 
   const handleStatusAction = useCallback(
@@ -192,12 +189,9 @@ const AnalysisRun = () => {
         message: () => <WellPlate runId={id} />,
       },
     });
-
-    setVisibleActions(false);
   }, [id, dispatch, handleWellplateClose]);
 
   const onTimelineOpenClose = () => {
-    setVisibleActions(false);
     setOpen(!isTimelineOpen);
     if (!isTimelineOpen) onLoadTimeline();
   };
@@ -210,8 +204,6 @@ const AnalysisRun = () => {
         instanceId: runId,
       },
     });
-
-    setVisibleActions(false);
   };
 
   const menu = (
@@ -222,7 +214,7 @@ const AnalysisRun = () => {
       <Menu.Item onClick={handleShowWellplate} key="96-well-plate">
         View 96-well Plate
       </Menu.Item>
-      <Menu.Item onClick={() => setVisibleActions(false)} key="dataconnect">
+      <Menu.Item key="dataconnect">
         <a
           href="https://apps.thermofisher.com/apps/spa/#/dataconnect"
           target="_blank"
@@ -232,21 +224,11 @@ const AnalysisRun = () => {
         </a>
       </Menu.Item>
       <Menu.Item
-        onClick={run.status === constants.runStatuses.qpcr && onUploadClick}
+        onClick={onUploadClick}
         key="upload-result"
         disabled={run.status === constants.runStatuses.published}
       >
-        <Popconfirm
-          title={`Are you sure you want to overwrite the results for the ${run.title} run?`}
-          onConfirm={onUploadClick}
-          placement="topRight"
-          disabled={
-            run.status !== constants.runStatuses.analysis &&
-            run.status !== constants.runStatuses.review
-          }
-        >
-          Upload Result
-        </Popconfirm>
+        Upload Result
       </Menu.Item>
       <Menu.Item disabled key="print" onClick={() => exportRun({ runId })}>
         Print Run
@@ -385,17 +367,7 @@ const AnalysisRun = () => {
                   </Button>
                 </Popconfirm>
               )}
-              <Dropdown
-                overlay={menu}
-                trigger="click"
-                onClick={() => setVisibleActions(!visibleActions)}
-                visible={visibleActions}
-                onVisibleChange={(value) => {
-                  if (!value) {
-                    setVisibleActions(false);
-                  }
-                }}
-              >
+              <Dropdown overlay={menu}>
                 <Button type="primary">
                   Actions
                   <DownOutlined />
