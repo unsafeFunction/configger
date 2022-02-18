@@ -37,7 +37,7 @@ const InvalidateModal = ({ form, tube }) => {
         className={classNames(styles.rackStat, styles.ellipsis)}
       />
       <LabeledInput
-        title="Invalidation code"
+        title="Reason"
         node={
           <Item
             className={style.formItem}
@@ -61,16 +61,11 @@ const InvalidateModal = ({ form, tube }) => {
               optionFilterProp="reason"
             >
               {constants.invalidateCodes.map((codeObj) => (
-                <Option key={codeObj.id}>{codeObj.code}</Option>
+                <Option key={codeObj.id}>{codeObj.reason}</Option>
               ))}
             </Select>
           </Item>
         }
-      />
-      <Statistic
-        title="Reason"
-        value={selectedCode.reason || '–'}
-        className={classNames(styles.rackStat, styles.ellipsis)}
       />
     </Form>
   );
