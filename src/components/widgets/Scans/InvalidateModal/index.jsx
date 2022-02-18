@@ -49,7 +49,7 @@ const InvalidateModal = ({ form, tube }) => {
             ]}
           >
             <Select
-              placeholder="Invalidation code"
+              placeholder="Reason"
               size="middle"
               dropdownStyle={{
                 maxHeight: 200,
