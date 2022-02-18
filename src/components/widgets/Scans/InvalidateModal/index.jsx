@@ -54,7 +54,6 @@ const InvalidateModal = ({ form, tube }) => {
               dropdownStyle={{
                 maxHeight: 200,
                 overflowY: 'hidden',
-                overflowX: 'scroll',
               }}
               showArrow
               onChange={handleCodeChange}
