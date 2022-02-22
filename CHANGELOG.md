@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.5.1](https://github.com/mokkapps/changelog-generator-demo/compare/v10.5.0...v10.5.1) (2022-02-22)
+
+### Bug Fixes
+
+- change reasons invalidate modal ([68cbff7](https://github.com/mokkapps/changelog-generator-demo/commits/68cbff7f9def3f1383a29be59219cf923013a24f))
+- hide x scroll modal ([26d4bd0](https://github.com/mokkapps/changelog-generator-demo/commits/26d4bd07ea059708d6d70580c0df29a66e63a641))
+- placeholder reason ([34a252a](https://github.com/mokkapps/changelog-generator-demo/commits/34a252af84693b75acb78223490e853ea3989ee8))
+- row counter rackboard ([a972862](https://github.com/mokkapps/changelog-generator-demo/commits/a9728620608836528343e649ddeeea7aa2aefadb))
+- table count rows ([f6c7fe4](https://github.com/mokkapps/changelog-generator-demo/commits/f6c7fe42f05d2c1f3ebb3f318ff4c2834e38439f))
+- ts fixes after merge ([38a245d](https://github.com/mokkapps/changelog-generator-demo/commits/38a245deca5cb9b5dc1b52df8ee4f8e90955e869))
+
 ## [10.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.4.7...v10.5.0) (2022-02-17)
 
 ### Features
