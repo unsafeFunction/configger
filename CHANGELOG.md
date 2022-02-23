@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.5.2](https://github.com/mokkapps/changelog-generator-demo/compare/v10.5.1...v10.5.2) (2022-02-23)
+
+### Bug Fixes
+
+- fix pool result select ([7c7af62](https://github.com/mokkapps/changelog-generator-demo/commits/7c7af628335f74e422af424ee1e522c5057ae129))
+
 ### [10.5.1](https://github.com/mokkapps/changelog-generator-demo/compare/v10.5.0...v10.5.1) (2022-02-22)
 
 ### Bug Fixes
