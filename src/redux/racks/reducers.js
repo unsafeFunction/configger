@@ -136,6 +136,9 @@ const singleRackReducer = (state = initialSingleRackState, action) => {
           }
           return item;
         }),
+        tubes: state.tubes.map((tubeItem) => {
+          return tubeItem.id === tube.id ? tube : tubeItem;
+        }),
       };
     }
     case actions.DELETE_TUBE_SUCCESS: {
@@ -153,6 +156,9 @@ const singleRackReducer = (state = initialSingleRackState, action) => {
             };
           }
           return item;
+        }),
+        tubes: state.tubes.map((tubeItem) => {
+          return tubeItem.id === tube.id ? tube : tubeItem;
         }),
       };
     }
