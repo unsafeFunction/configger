@@ -1,5 +1,6 @@
 import { Popconfirm, Popover, Select, Switch, Table, Tag, Tooltip } from 'antd';
 import TableFooter from 'components/layout/TableFooterLoader';
+import { PoolType } from 'models/pool.model';
 import moment from 'moment-timezone';
 /* eslint-disable react/jsx-wrap-multilines */
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -8,12 +9,12 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
-import { constants } from 'utils/constants';
 import { RootState } from 'redux/reducers';
-import { getColor, getIcon } from 'utils/highlighting';
+import { constants } from 'utils/constants';
+import { getColor, getIcon, getStatusText } from 'utils/highlighting';
 import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
-import { PoolType } from 'models/pool.model';
+import { OptionType } from './types';
 
 type PoolTableProps = {
   loadMore: () => void;
@@ -22,7 +23,7 @@ type PoolTableProps = {
 const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { all: pools } = useSelector<RootState, any>((state) => state.pools);
+  const { all: pools, resultList } = useSelector<RootState, any>((state) => state.pools);
 
   const useFetching = () => {
     useEffect(() => {
@@ -58,7 +59,7 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
   const onModalToggle = useCallback(
     (poolUniqueId: string, poolId: string) =>
       // TODO: INCORRECT OPTION TYPE
-      (_: undefined, option: any) => {
+      (_: any, option: any) => {
         dispatch({
           type: modalActions.SHOW_MODAL,
           modalType: 'COMPLIANCE_MODAL',
@@ -150,7 +151,7 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
       ),
       dataIndex: 'result',
       width: 195,
-      render: (_: null, record: PoolType) => (
+      render: (value: string, record: PoolType) => (
         <Tooltip
           placement="bottom"
           title={
@@ -164,18 +165,18 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
           }
         >
           <Select
-            value={
-              ((
-                <Tag
-                  color={getColor(record.result)}
-                  icon={getIcon(record.result)}
-                >
-                  {record.result === 'COVID-19 Detected'
-                    ? 'DETECTED'
-                    : record.result.toUpperCase()}
-                </Tag>
-              ) as unknown) as undefined
-            }
+            value={value}
+            options={resultList.items.map((item: OptionType) => {
+              return {
+                label: (
+                  <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
+                    {getStatusText(item.value)}
+                  </Tag>
+                ),
+                value: item.value,
+                key: item.key,
+              };
+            })}
             loading={record.resultIsUpdating}
             onSelect={onModalToggle(record.id, record.pool_id)}
             disabled={record.resultIsUpdating}
@@ -215,9 +216,8 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
       width: 120,
       render: (_: any, record: PoolType) => (
         <Popconfirm
-          title={`Sure to ${
-            record.is_published ? 'unpublished' : 'published'
-          }?`}
+          title={`Sure to ${record.is_published ? 'unpublished' : 'published'
+            }?`}
           onConfirm={() => handlePublish(record.id, !record.is_published)}
           placement="topRight"
         >
