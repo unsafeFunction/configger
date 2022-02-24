@@ -319,6 +319,7 @@ const columns = [
   {
     title: 'Result',
     dataIndex: 'analysis_result',
+    width: 190,
     render: (_, record) => {
       return {
         children: record?.analysis_result ? (
