@@ -288,7 +288,10 @@ export const WellsColumn = {
 };
 
 const columns = [
-  rowCounter,
+  {
+    ...rowCounter,
+    width: 70,
+  },
   {
     title: 'Company Short',
     dataIndex: 'company_short',
@@ -316,6 +319,7 @@ const columns = [
   {
     title: 'Result',
     dataIndex: 'analysis_result',
+    width: 190,
     render: (_, record) => {
       return {
         children: record?.analysis_result ? (
