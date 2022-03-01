@@ -120,6 +120,10 @@ const routes = [
     Component: loadable(() => import('pages/Runs')),
   },
   {
+    path: '/intake-dashboard',
+    Component: loadable(() => import('pages/IntakeDashboard')),
+  },
+  {
     path: '/settings/permission',
     Component: loadable(() => import('pages/Settings/Permissions')),
   },
