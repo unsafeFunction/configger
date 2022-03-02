@@ -10,11 +10,14 @@ const SwitchedChart = ({ stats, loading }) => {
 
   const handleSwitch = () => {
     return type === chartTypes.bar
-      ? setType(chartTypes.line)
+      ? setType(chartTypes.pie)
       : setType(chartTypes.bar);
   };
-
-  const switchDisabled = stats?.data?.length <= 1;
+  const initialValue = 0;
+  const isZeroSum =
+    stats?.data?.reduce((prev, next) => prev + next.value, initialValue) ===
+    initialValue;
+  const switchDisabled = stats?.data?.length <= 1 || isZeroSum;
 
   return (
     <div className={styles.switchedWrapper}>
@@ -24,7 +27,7 @@ const SwitchedChart = ({ stats, loading }) => {
         disabled={switchDisabled}
         className={styles.switch}
         checkedChildren="Bar"
-        unCheckedChildren="Line"
+        unCheckedChildren="Pie"
         defaultChecked
         onChange={handleSwitch}
       />

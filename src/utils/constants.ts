@@ -516,4 +516,15 @@ export const constants = {
   barcodeTitles: {
     cqValue: 'CQ Value',
   },
+  chartTypes: {
+    bar: 'bar',
+    pie: 'pie',
+  },
+  intakeDashboardTabs: [
+    { title: 'Tube count', value: 'tube_count' },
+    { title: 'Diagnostic count', value: 'diagnostic_count' },
+    { title: 'Pool count', value: 'pool_count' },
+    { title: 'Rejected count', value: 'rejected_count' },
+    { title: 'Total count', value: 'total_count' },
+  ],
 };

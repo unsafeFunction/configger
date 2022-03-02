@@ -5,8 +5,9 @@ import {
   BarChart,
   CartesianGrid,
   Legend,
-  Line,
-  LineChart,
+  Pie,
+  Cell,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -18,7 +19,7 @@ import styles from './styles.module.scss';
 const Chart = ({ type, stats }) => {
   const { isMobile } = useWindowSize();
 
-  const { maxValueName, valueName, data } = stats;
+  const { valueName, data } = stats;
   const { chartTypes } = constants;
 
   const renderChart = (type) => {
@@ -27,27 +28,25 @@ const Chart = ({ type, stats }) => {
       case chartTypes.bar:
         return (
           <BarChart
+            layout="vertical"
             data={data}
             margin={{
               top: 20,
               right: 30,
-              left: 20,
+              left: 50,
               bottom: 5,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
+            <XAxis type="number" />
+            <YAxis type="category" dataKey="name" />
             <Tooltip />
             <Legend layout={isMobile ? 'vertical' : 'horizontal'} />
-            <Bar name={maxValueName} dataKey="maxValue" fill="#8884d8" />
-            <Bar name={valueName} dataKey="value" fill="#82ca9d" />
+            <Bar name={valueName} dataKey="value" fill="#8884d8" />
           </BarChart>
         );
-      case chartTypes.line:
+      case chartTypes.pie:
         return (
-          <LineChart
-            data={data}
+          <PieChart
             margin={{
               top: 20,
               right: 30,
@@ -55,24 +54,19 @@ const Chart = ({ type, stats }) => {
               bottom: 5,
             }}
           >
-            <XAxis dataKey="name" />
-            <YAxis />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
-            <Legend layout={isMobile ? 'vertical' : 'horizontal'} />
-            <Line
-              name={maxValueName}
-              type="monotone"
-              dataKey="maxValue"
-              stroke="#8884d8"
-            />
-            <Line
-              name={valueName}
-              type="monotone"
+            <Pie
+              cx="50%"
+              cy="50%"
+              innerRadius={40}
+              outerRadius={80}
+              fill="#82ca9d"
+              data={data}
               dataKey="value"
-              stroke="#82ca9d"
+              label
+              isAnimationActive={false}
             />
-          </LineChart>
+            <Tooltip />
+          </PieChart>
         );
     }
   };

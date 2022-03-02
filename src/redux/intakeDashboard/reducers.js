@@ -2,7 +2,7 @@ import { constants } from 'utils/constants';
 import actions from './actions';
 
 const initialState = {
-  items: [],
+  items: {},
   isLoading: false,
   total: 0,
   offset: 0,
@@ -10,28 +10,26 @@ const initialState = {
   isCreating: false,
 };
 
-export default function intakeReceiptLogReducer(state = initialState, action) {
+export default function intakeDashboardReducer(state = initialState, action) {
   switch (action.type) {
-    case actions.FETCH_INTAKE_LOG_REQUEST: {
+    case actions.FETCH_DAILY_INTAKE_COUNTS_REQUEST: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case actions.FETCH_INTAKE_LOG_SUCCESS: {
+    case actions.FETCH_DAILY_INTAKE_COUNTS_SUCCESS: {
       return {
         ...state,
         isLoading: false,
-        items: action.payload.firstPage
-          ? action.payload.data
-          : [...state.items, ...action.payload.data],
+        items: action.payload.data,
         total: action.payload.total,
         offset: action.payload.firstPage
           ? constants?.intakeLog?.itemsLoadingCount
           : state.offset + constants?.intakeLog?.itemsLoadingCount,
       };
     }
-    case actions.FETCH_INTAKE_LOG_FAILURE: {
+    case actions.FETCH_DAILY_INTAKE_COUNTS_FAILURE: {
       return {
         ...state,
         isLoading: false,

@@ -10,9 +10,9 @@ export function* callFetchIntakeCounts({ payload }) {
     yield put({
       type: actions.FETCH_DAILY_INTAKE_COUNTS_SUCCESS,
       payload: {
-        data: response.data.results,
-        total: response.data.count,
-        firstPage: !response.data.previous,
+        data: response.data,
+        // total: response.data.count,
+        // firstPage: !response.data.previous,
       },
     });
   } catch (error) {
