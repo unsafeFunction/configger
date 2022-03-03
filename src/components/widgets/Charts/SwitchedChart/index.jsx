@@ -15,7 +15,7 @@ const SwitchedChart = ({ stats, loading }) => {
   };
   const initialValue = 0;
   const isZeroSum =
-    stats?.data?.reduce((prev, next) => prev + next.value, initialValue) ===
+    stats?.data?.reduce((prev, next) => prev + next?.value, initialValue) ===
     initialValue;
   const switchDisabled = stats?.data?.length <= 1 || isZeroSum;
 

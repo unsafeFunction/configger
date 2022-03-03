@@ -1,14 +1,14 @@
 import SwitchedChart from 'components/widgets/Charts/SwitchedChart';
 import actions from 'redux/intakeDashboard/actions';
-import { Tabs, Table, Statistic, Row, Card } from 'antd';
+import { Tabs, Table, Statistic, Row, Card, DatePicker } from 'antd';
 import { ProjectOutlined } from '@ant-design/icons';
-import TableFooter from 'components/layout/TableFooterLoader';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { constants } from 'utils/constants';
 
 const { TabPane } = Tabs;
+const { RangePicker } = DatePicker;
 
 const IntakeDashboard = () => {
   const [activeKey, setActiveKey] = useState('');
@@ -21,10 +21,7 @@ const IntakeDashboard = () => {
       dispatch({
         type: actions.FETCH_DAILY_INTAKE_COUNTS_REQUEST,
         payload: {
-          from: moment()
-            .subtract(1, 'd')
-            .format('YYYY-MM-DD'),
-          // to: moment().format('YYYY-MM-DD'),
+          from: moment().format('YYYY-MM-DD'),
         },
       });
     }, []);
@@ -79,6 +76,29 @@ const IntakeDashboard = () => {
     },
   ];
 
+  const onDateChange = (dates) => {
+    const isDiffDates = dates[0].diff(dates[1]);
+    dispatch({
+      type: actions.FETCH_DAILY_INTAKE_COUNTS_REQUEST,
+      payload: {
+        from: dates[0].format('YYYY-MM-DD'),
+        to: isDiffDates ? dates[1].format('YYYY-MM-DD') : undefined,
+      },
+    });
+  };
+
+  const extraContent = {
+    right: (
+      <RangePicker
+        className="ml-auto"
+        defaultValue={[moment(), moment()]}
+        format="YYYY-MM-DD"
+        onChange={onDateChange}
+        allowClear={false}
+      />
+    ),
+  };
+
   const tableData = Object.keys(intakeDashboard?.items)
     .map((company) => {
       if (intakeDashboard?.items?.[company].hasOwnProperty('date')) {
@@ -93,43 +113,46 @@ const IntakeDashboard = () => {
   useFetching();
 
   return (
-    <Tabs
-      defaultActiveKey={intakeDashboardTabs[0].value}
-      onChange={handleChangeTabs}
-    >
-      {intakeDashboardTabs.map((tabItem) => (
-        <TabPane key={tabItem.value} tab={tabItem.title}>
-          <SwitchedChart
-            stats={chartDataSamples}
-            loading={intakeDashboard?.isLoading}
+    <>
+      <Tabs
+        defaultActiveKey={intakeDashboardTabs[0].value}
+        onChange={handleChangeTabs}
+        tabBarExtraContent={extraContent}
+      >
+        {intakeDashboardTabs.map((tabItem) => (
+          <TabPane key={tabItem.value} tab={tabItem.title}>
+            <SwitchedChart
+              stats={chartDataSamples}
+              loading={intakeDashboard?.isLoading}
+            />
+          </TabPane>
+        ))}
+      </Tabs>
+      <Row className="mt-5">
+        <Card className="mr-3">
+          <Statistic
+            prefix={<ProjectOutlined className="mr-2" />}
+            title="Total pools count"
+            value={intakeDashboard.items.total_pools_counts}
           />
-          <Row className="mt-5">
-            <Card className="mr-3">
-              <Statistic
-                prefix={<ProjectOutlined className="mr-2" />}
-                title="Total pools count"
-                value={intakeDashboard.items.total_pools_counts}
-              />
-            </Card>
-            <Card>
-              <Statistic
-                prefix={<ProjectOutlined className="mr-2" />}
-                title="Total pools count"
-                value={intakeDashboard.items.total_sample_counts}
-              />
-            </Card>
-          </Row>
-          <Table
-            dataSource={tableData}
-            align="center"
-            scroll={{ x: 1250 }}
-            columns={columns}
-            className="mt-3"
-            pagination={false}
+        </Card>
+        <Card>
+          <Statistic
+            prefix={<ProjectOutlined className="mr-2" />}
+            title="Total pools count"
+            value={intakeDashboard.items.total_sample_counts}
           />
-        </TabPane>
-      ))}
-    </Tabs>
+        </Card>
+      </Row>
+      <Table
+        dataSource={tableData}
+        align="center"
+        scroll={{ x: 1250 }}
+        columns={columns}
+        className="mt-3"
+        pagination={false}
+      />
+    </>
   );
 };
 
