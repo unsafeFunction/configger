@@ -6,7 +6,7 @@ export const fetchIntakeCounts = async (query) => {
     return await axiosClient.get('/intake-logs/dayly-intake-counts/', {
       // params: { ...query },
       params: {
-        from: '2021-12-22',
+        from: '2020-12-22',
       },
     });
   } catch (error) {
