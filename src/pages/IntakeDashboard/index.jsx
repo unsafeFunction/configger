@@ -1,6 +1,6 @@
 import SwitchedChart from 'components/widgets/Charts/SwitchedChart';
 import actions from 'redux/intakeDashboard/actions';
-import { Tabs, Table, Statistic, Row, Card, DatePicker } from 'antd';
+import { Tabs, Table, Statistic, Row, Card, DatePicker, Empty } from 'antd';
 import { ProjectOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,6 +44,8 @@ const IntakeDashboard = () => {
       })
       .slice(0, -2),
   };
+
+  console.log(chartDataSamples, intakeDashboard.items);
 
   const handleChangeTabs = (key) => {
     setActiveKey(key);
@@ -121,10 +123,20 @@ const IntakeDashboard = () => {
       >
         {intakeDashboardTabs.map((tabItem) => (
           <TabPane key={tabItem.value} tab={tabItem.title}>
-            <SwitchedChart
-              stats={chartDataSamples}
-              loading={intakeDashboard?.isLoading}
-            />
+            {chartDataSamples?.data?.length ? (
+              <SwitchedChart
+                stats={chartDataSamples}
+                loading={intakeDashboard?.isLoading}
+              />
+            ) : (
+              <Empty
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{
+                  height: 90,
+                }}
+                description={<span>No Data</span>}
+              />
+            )}
           </TabPane>
         ))}
       </Tabs>
