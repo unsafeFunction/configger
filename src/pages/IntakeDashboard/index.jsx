@@ -35,14 +35,23 @@ const IntakeDashboard = () => {
     valueName: intakeDashboardTabs.find((item) => item.value === activeKey)
       ?.title,
     data: Object.keys(intakeDashboard?.items ?? [])
+      .filter(
+        (fieldName) =>
+          //TODO: refactor to constants
+          fieldName !== 'total_pools_counts' &&
+          fieldName !== 'total_sample_counts',
+      )
       .map((companyName) => {
         if (intakeDashboard?.items?.[companyName].hasOwnProperty('date'))
           return {
             name: companyName,
             value: intakeDashboard?.items?.[companyName]?.[activeKey],
           };
-      })
-      .slice(0, -2),
+        return {
+          name: companyName,
+          value: intakeDashboard?.items?.[companyName],
+        };
+      }),
   };
 
   console.log(chartDataSamples, intakeDashboard.items);
