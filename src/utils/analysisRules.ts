@@ -1,10 +1,10 @@
 import omit from 'lodash.omit';
-import { constants } from 'utils/constants';
 import { SingleItemType } from 'redux/analysisRuns/reducers';
+import { constants } from 'utils/constants';
 
 export const isReservedSample = (value: string): boolean => {
   if (!value) {
-    throw Error('value is required');
+    return false;
   }
 
   return constants.reservedSamples.some((sample) => value.includes(sample));
