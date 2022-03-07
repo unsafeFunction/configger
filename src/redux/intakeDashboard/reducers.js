@@ -22,11 +22,7 @@ export default function intakeDashboardReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        items: action.payload.data,
-        total: action.payload.total,
-        offset: action.payload.firstPage
-          ? constants?.intakeLog?.itemsLoadingCount
-          : state.offset + constants?.intakeLog?.itemsLoadingCount,
+        items: action.payload.data.result,
       };
     }
     case actions.FETCH_DAILY_INTAKE_COUNTS_FAILURE: {

@@ -2,8 +2,9 @@ import SwitchedChart from 'components/widgets/Charts/SwitchedChart';
 import actions from 'redux/intakeDashboard/actions';
 import { Tabs, Table, Statistic, Row, Card, DatePicker, Empty } from 'antd';
 import { ProjectOutlined } from '@ant-design/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ExtraFooter from './components/ExtraFooter';
 import moment from 'moment';
 import { constants } from 'utils/constants';
 
@@ -12,6 +13,8 @@ const { RangePicker } = DatePicker;
 
 const IntakeDashboard = () => {
   const [activeKey, setActiveKey] = useState('');
+  const [rangeDates, setRangeDates] = useState([]);
+  const [isPickerOpened, setPickerOpened] = useState(false);
   const { intakeDashboardTabs } = constants;
   const dispatch = useDispatch();
   const intakeDashboard = useSelector((state) => state.intakeDashboard);
@@ -34,30 +37,44 @@ const IntakeDashboard = () => {
   const chartDataSamples = {
     valueName: intakeDashboardTabs.find((item) => item.value === activeKey)
       ?.title,
-    data: Object.keys(intakeDashboard?.items ?? [])
-      .filter(
-        (fieldName) =>
-          //TODO: refactor to constants
-          fieldName !== 'total_pools_counts' &&
-          fieldName !== 'total_sample_counts',
-      )
-      .map((companyName) => {
-        if (intakeDashboard?.items?.[companyName].hasOwnProperty('date'))
-          return {
-            name: companyName,
-            value: intakeDashboard?.items?.[companyName]?.[activeKey],
-          };
-        return {
-          name: companyName,
-          value: intakeDashboard?.items?.[companyName],
-        };
-      }),
+    data:
+      Object.values(intakeDashboard?.items?.total_samples_by_date ?? {})
+        ?.length > 1
+        ? Object.keys(intakeDashboard?.items?.total_samples_by_date).map(
+            (date) => {
+              return {
+                name: date,
+                value:
+                  intakeDashboard?.items?.total_samples_by_date?.[date]?.[
+                    activeKey
+                  ],
+              };
+            },
+          )
+        : Object.keys(intakeDashboard?.items ?? [])
+            .filter(
+              (fieldName) => !constants.intakeDashboard.includes(fieldName),
+            )
+            .map((companyName) => {
+              return {
+                name: companyName,
+                value: intakeDashboard?.items?.[companyName]?.[activeKey],
+              };
+            }),
   };
-
-  console.log(chartDataSamples, intakeDashboard.items);
 
   const handleChangeTabs = (key) => {
     setActiveKey(key);
+  };
+
+  const handleCloseDatePicker = () => {
+    setPickerOpened(false);
+  };
+
+  const handleClickDatePicker = () => {
+    if (!isPickerOpened) {
+      setPickerOpened(true);
+    }
   };
 
   const columns = [
@@ -88,39 +105,39 @@ const IntakeDashboard = () => {
   ];
 
   const onDateChange = (dates) => {
-    const isDiffDates = dates[0].diff(dates[1]);
-    dispatch({
-      type: actions.FETCH_DAILY_INTAKE_COUNTS_REQUEST,
-      payload: {
-        from: dates[0].format('YYYY-MM-DD'),
-        to: isDiffDates ? dates[1].format('YYYY-MM-DD') : undefined,
-      },
-    });
+    setRangeDates(dates);
   };
 
   const extraContent = {
     right: (
-      <RangePicker
-        className="ml-auto"
-        defaultValue={[moment(), moment()]}
-        format="YYYY-MM-DD"
-        onChange={onDateChange}
-        allowClear={false}
-      />
+      <div onClick={handleClickDatePicker}>
+        <RangePicker
+          className="ml-auto"
+          defaultValue={[moment(), moment()]}
+          renderExtraFooter={() => (
+            <ExtraFooter
+              rangeDates={rangeDates}
+              handleCloseDatePicker={handleCloseDatePicker}
+            />
+          )}
+          open={isPickerOpened}
+          format="YYYY-MM-DD"
+          onChange={onDateChange}
+          allowClear={false}
+        />
+      </div>
     ),
   };
 
   const tableData = Object.keys(intakeDashboard?.items)
+    .filter((fieldName) => !constants.intakeDashboard.includes(fieldName))
     .map((company) => {
-      if (intakeDashboard?.items?.[company].hasOwnProperty('date')) {
-        return {
-          company_name: company,
-          ...intakeDashboard.items[company],
-        };
-      }
-      return undefined;
-    })
-    .filter((company) => company);
+      return {
+        company_name: company,
+        ...intakeDashboard.items[company],
+      };
+    });
+
   useFetching();
 
   return (
@@ -131,7 +148,11 @@ const IntakeDashboard = () => {
         tabBarExtraContent={extraContent}
       >
         {intakeDashboardTabs.map((tabItem) => (
-          <TabPane key={tabItem.value} tab={tabItem.title}>
+          <TabPane
+            key={tabItem.value}
+            tab={tabItem.title}
+            disabled={!chartDataSamples?.data?.length}
+          >
             {chartDataSamples?.data?.length ? (
               <SwitchedChart
                 stats={chartDataSamples}
@@ -149,30 +170,34 @@ const IntakeDashboard = () => {
           </TabPane>
         ))}
       </Tabs>
-      <Row className="mt-5">
-        <Card className="mr-3">
-          <Statistic
-            prefix={<ProjectOutlined className="mr-2" />}
-            title="Total pools count"
-            value={intakeDashboard.items.total_pools_counts}
-          />
-        </Card>
-        <Card>
-          <Statistic
-            prefix={<ProjectOutlined className="mr-2" />}
-            title="Total pools count"
-            value={intakeDashboard.items.total_sample_counts}
-          />
-        </Card>
-      </Row>
-      <Table
-        dataSource={tableData}
-        align="center"
-        scroll={{ x: 1250 }}
-        columns={columns}
-        className="mt-3"
-        pagination={false}
-      />
+      {chartDataSamples?.data?.length > 0 && (
+        <Row className="mt-5">
+          <Card className="mr-3">
+            <Statistic
+              prefix={<ProjectOutlined className="mr-2" />}
+              title="Total pools count"
+              value={intakeDashboard?.items?.total_counts?.total_pools_counts}
+            />
+          </Card>
+          <Card>
+            <Statistic
+              prefix={<ProjectOutlined className="mr-2" />}
+              title="Total samples count"
+              value={intakeDashboard?.items?.total_counts?.total_tube_counts}
+            />
+          </Card>
+        </Row>
+      )}
+      {chartDataSamples?.data?.length > 0 && (
+        <Table
+          dataSource={tableData}
+          align="center"
+          scroll={{ x: 1250 }}
+          columns={columns}
+          className="mt-3"
+          pagination={false}
+        />
+      )}
     </>
   );
 };

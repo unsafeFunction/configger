@@ -527,4 +527,5 @@ export const constants = {
     { title: 'Rejected count', value: 'rejected_count' },
     { title: 'Total count', value: 'total_count' },
   ],
+  intakeDashboard: ['total_counts', 'total_samples_by_date'],
 };
