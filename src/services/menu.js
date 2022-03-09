@@ -1,4 +1,5 @@
 import labConfig from 'utils/labConfig';
+import { constants } from 'utils/constants';
 
 export async function getMenuData() {
   return [
@@ -47,7 +48,7 @@ export async function getMenuData() {
         {
           title: 'Analysis Runs',
           key: 'analysisRuns',
-          url: '/analysis-runs',
+          url: `/analysis-runs?from=${constants.analysisRuns.initialDates.from}&to=${constants.analysisRuns.initialDates.to}`,
           icon: 'fe fe-bar-chart-2',
         },
         {
