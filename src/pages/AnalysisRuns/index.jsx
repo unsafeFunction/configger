@@ -1,14 +1,34 @@
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Popconfirm, Table, Upload } from 'antd';
+import {
+  InboxOutlined,
+  SearchOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Input,
+  Popconfirm,
+  Row,
+  Table,
+  Upload,
+} from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import ActionInitiator from 'components/widgets/ActionInitiator';
 import ResultTag from 'components/widgets/ResultTag';
+import SearchTooltip from 'components/widgets/SearchTooltip';
 import map from 'lodash.map';
 import mapValues from 'lodash.mapvalues';
 import moment from 'moment-timezone';
 import qs from 'qs';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
@@ -17,6 +37,7 @@ import { constants } from 'utils/constants';
 import useCustomFilters from 'utils/useCustomFilters';
 import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
+import debounce from 'lodash.debounce';
 
 const { RangePicker } = DatePicker;
 
@@ -28,7 +49,11 @@ const AnalysisRuns = () => {
   const stateRef = useRef();
 
   const initialFiltersState = {
-    dates: [],
+    search: '',
+    dates: [
+      constants.analysisRuns.initialDates.from,
+      constants.analysisRuns.initialDates.to,
+    ],
   };
 
   const [filtersState, filtersDispatch] = useCustomFilters(initialFiltersState);
@@ -41,16 +66,28 @@ const AnalysisRuns = () => {
     ignoreQueryPrefix: true,
   });
 
+  const isActualDate =
+    from === initialFiltersState.dates[0] &&
+    to === initialFiltersState.dates[1];
+
+  const isSearchEmpty = !filtersState.search.length;
+
   const useFetching = () => {
     useEffect(() => {
+      const filteringParams = {
+        limit: constants.analysisRuns.itemsLoadingCount,
+        search: filtersState.search,
+      };
+
       const params =
         from && to
           ? {
               created_after: from,
               created_before: to,
-              limit: constants?.runs?.itemsLoadingCount,
+              ...filteringParams,
             }
-          : { limit: constants?.runs?.itemsLoadingCount };
+          : filteringParams;
+
       dispatch({
         type: actions.FETCH_RUNS_REQUEST,
         payload: {
@@ -59,10 +96,19 @@ const AnalysisRuns = () => {
         },
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, from, to, history, filters]);
+    }, [filtersState.dates, filters]);
   };
 
   useFetching();
+
+  const handleResetFilters = () => {
+    history.push({
+      search: `?from=${initialFiltersState.dates[0]}&to=${initialFiltersState.dates[1]}`,
+    });
+    return filtersDispatch({
+      type: 'reset',
+    });
+  };
 
   const runsItems = runs?.items;
 
@@ -84,6 +130,59 @@ const AnalysisRuns = () => {
       type: modalActions.HIDE_MODAL,
     });
   }, [dispatch]);
+
+  const sendQuery = useCallback(
+    (query) => {
+      const filteringParams = {
+        limit: constants.analysisRuns.itemsLoadingCount,
+        search: query,
+        ...filters,
+      };
+
+      const params = stateRef.current.length
+        ? {
+            created_after: stateRef.current[0],
+            created_before: stateRef.current[1],
+            ...filteringParams,
+          }
+        : filteringParams;
+
+      return dispatch({
+        type: actions.FETCH_RUNS_REQUEST,
+        payload: {
+          ...params,
+        },
+      });
+    },
+    [dispatch, filters],
+  );
+
+  const delayedQuery = useMemo(() => debounce((q) => sendQuery(q), 500), [
+    sendQuery,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      delayedQuery.cancel();
+    };
+  }, [delayedQuery]);
+
+  const onChangeSearch = ({ target }) => {
+    filtersDispatch({
+      type: 'setValue',
+      payload: {
+        name: 'search',
+        value: target.value,
+      },
+    });
+
+    return delayedQuery(target.value);
+  };
+
+  const rangePickerValue =
+    filtersState.dates.length > 0
+      ? [moment(filtersState.dates[0]), moment(filtersState.dates[1])]
+      : [];
 
   const onUploadClick = useCallback(
     (id) => {
@@ -201,7 +300,9 @@ const AnalysisRuns = () => {
           search: `?from=${dateStrings[0]}&to=${dateStrings[1]}`,
         });
       } else {
-        history.push({ search: '' });
+        history.push({
+          search: '',
+        });
       }
       return filtersDispatch({
         type: 'setValue',
@@ -214,19 +315,23 @@ const AnalysisRuns = () => {
     [history, filtersDispatch],
   );
 
-  const loadMore = useCallback(() => {
+  const loadMore = () => {
+    const filteringParams = {
+      limit: constants.analysisRuns.itemsLoadingCount,
+      offset: runs.offset,
+      search: filtersState.search,
+      ...filters,
+    };
+
     const params =
       from && to
         ? {
             created_after: from,
             created_before: to,
-            limit: constants?.runs?.itemsLoadingCount,
-            offset: runs.offset,
+            ...filteringParams,
           }
-        : {
-            limit: constants?.runs?.itemsLoadingCount,
-            offset: runs.offset,
-          };
+        : filteringParams;
+
     dispatch({
       type: actions.FETCH_RUNS_REQUEST,
       payload: {
@@ -234,7 +339,7 @@ const AnalysisRuns = () => {
         ...filters,
       },
     });
-  }, [dispatch, from, to, runs, filters]);
+  };
 
   const handleTableChange = (pagination, filters) => {
     const formattedFilters = mapValues(filters, (value) => {
@@ -259,26 +364,64 @@ const AnalysisRuns = () => {
         rowKey={(record) => record.id}
         onChange={handleTableChange}
         title={() => (
-          <div className="d-flex">
-            <RangePicker
-              defaultValue={
-                from && to
-                  ? [moment(from), moment(to)]
-                  : [moment().subtract(7, 'days'), moment()]
-              }
-              format="YYYY-MM-DD"
-              ranges={{
-                Today: [moment(), moment()],
-                'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-                'This Month': [
-                  moment().startOf('month'),
-                  moment().endOf('month'),
-                ],
-              }}
-              className="ml-auto"
-              onChange={onDatesChange}
-            />
-          </div>
+          <Row gutter={16}>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 10 }}
+              md={{ span: 9, offset: 2 }}
+              lg={{ span: 7, offset: 7 }}
+              xl={{ span: 6, offset: 9 }}
+              xxl={{ span: 7, offset: 9 }}
+            >
+              <SearchTooltip searchFields={['Run Title']}>
+                <Input
+                  size="middle"
+                  prefix={<SearchOutlined />}
+                  placeholder="Search..."
+                  value={filtersState.search}
+                  allowClear
+                  onChange={onChangeSearch}
+                />
+              </SearchTooltip>
+            </Col>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 10 }}
+              md={{ span: 9 }}
+              lg={{ span: 7 }}
+              xl={{ span: 6 }}
+              xxl={{ span: 5 }}
+            >
+              <RangePicker
+                value={rangePickerValue}
+                format="YYYY-MM-DD"
+                ranges={{
+                  Today: [moment(), moment()],
+                  'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                  'This Month': [
+                    moment().startOf('month'),
+                    moment().endOf('month'),
+                  ],
+                }}
+                className={styles.rangePicker}
+                onChange={onDatesChange}
+              />
+            </Col>
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 4 }}
+              md={{ span: 4 }}
+              lg={{ span: 3 }}
+              className={styles.resetFilters}
+            >
+              <Button
+                onClick={handleResetFilters}
+                disabled={isActualDate && isSearchEmpty}
+              >
+                Reset
+              </Button>
+            </Col>
+          </Row>
         )}
       />
       <TableFooter

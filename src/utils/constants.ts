@@ -1,4 +1,6 @@
 // eslint-disable-next-line import/prefer-default-export
+import moment from 'moment-timezone';
+
 export const constants = {
   dateFormat: 'll z',
   dateTimeFormat: 'lll z',
@@ -22,6 +24,15 @@ export const constants = {
   },
   poolRacks: {
     itemsLoadingCount: 25,
+  },
+  analysisRuns: {
+    itemsLoadingCount: 25,
+    initialDates: {
+      from: moment()
+        .subtract(7, 'days')
+        .format('YYYY-MM-DD'),
+      to: moment().format('YYYY-MM-DD'),
+    },
   },
   inventory: {
     itemsLoadingCount: 25,
