@@ -93,6 +93,7 @@ class MenuLeft extends React.Component {
     }
     const activeSubmenuItem = menuData.find((menuItem) => menuItem.key === key);
     const firstChild = activeSubmenuItem?.children?.[0];
+    console.log(firstChild, activeSubmenuItem, activeSubmenu, key);
     this.setState({
       activeSubmenu: key,
       activeItem: activeSubmenu !== key ? firstChild.key : activeItem,
@@ -197,10 +198,10 @@ class MenuLeft extends React.Component {
         }
         return flattenedItems;
       }, []);
-    const activeItem = find(flattenItems(menuData, 'children'), [
-      'url',
-      `/${props.location.pathname.split('/')[1]}`,
-    ]);
+    const activeItem = find(flattenItems(menuData, 'children'), (obj) =>
+      obj?.url?.includes(`/${props.location.pathname.split('/')[1]}`),
+    );
+
     const activeSubmenu = menuData.reduce((key, parent) => {
       if (Array.isArray(parent.children)) {
         parent.children.map((child) => {
