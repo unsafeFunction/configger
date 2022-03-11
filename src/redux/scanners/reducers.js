@@ -4,7 +4,6 @@ import actions from './actions';
 const initialState = {
   items: [],
   isLoading: false,
-  error: null,
 };
 
 const scannersReducer = (state = initialState, action) => {
@@ -23,7 +22,7 @@ const scannersReducer = (state = initialState, action) => {
         isLoading: false,
       };
     }
-    case actions.CREATE_SCANNERS_FAILURE: {
+    case actions.FETCH_SCANNERS_FAILURE: {
       return {
         ...state,
         isLoading: false,
