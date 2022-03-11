@@ -1,5 +1,19 @@
-import { CommentOutlined, DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Form, Menu, Popover, Space, Table, Tag } from 'antd';
+import {
+  ClockCircleOutlined,
+  CommentOutlined,
+  DownOutlined,
+} from '@ant-design/icons';
+import {
+  Button,
+  Dropdown,
+  Form,
+  Menu,
+  Popover,
+  Space,
+  Table,
+  Tag,
+  Typography,
+} from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import ActionInitiator from 'components/widgets/ActionInitiator';
@@ -77,15 +91,18 @@ const IntakeReceiptLog = () => {
     <Menu onClick={startSession(logId)} className={styles.scannerMenu}>
       {scanners.items.map((item) => (
         <Menu.Item key={item.id} disabled={!item.is_active || !item.is_online}>
-          <p style={{ margin: 0 }}>
-            {item.scanner_id} - model:
-            {item.model}{' '}
+          <Typography.Text className={styles.scanner}>
+            {`${item.model} | ${item.scanner_id}`}
             {!item.is_online ? (
-              <span style={{ color: 'red' }}>(offline)</span>
+              <span className={styles.offlineScanner}>offline</span>
             ) : (
               ''
             )}
-          </p>
+          </Typography.Text>
+          <Typography.Text className={styles.sessionDuration}>
+            <ClockCircleOutlined className="mr-1" />
+            {`${item.session_timeout_in_minutes}min`}
+          </Typography.Text>
         </Menu.Item>
       ))}
     </Menu>
