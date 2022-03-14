@@ -118,11 +118,16 @@ const IntakeDashboard = () => {
     setRangeDates(dates);
   };
 
+  const disabledDate = (current) => {
+    return moment() < current;
+  };
+
   const extraContent = {
     right: (
       <div onClick={handleClickDatePicker}>
         <RangePicker
           className="ml-auto"
+          disabledDate={disabledDate}
           defaultValue={[moment(), moment()]}
           renderExtraFooter={() => (
             <ExtraFooter
