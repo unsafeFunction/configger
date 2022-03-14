@@ -169,7 +169,9 @@ const IntakeDashboard = () => {
             disabled={!chartDataSamples?.data?.length}
           >
             <div className={styles.wrapper}>
-              <div className={intakeDashboard?.isLoading ? styles.spin : null}>
+              <div
+                className={intakeDashboard?.isLoading ? styles.spin : undefined}
+              >
                 {intakeDashboard?.isLoading && <Spin />}
               </div>
 

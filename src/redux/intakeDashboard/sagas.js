@@ -11,8 +11,6 @@ export function* callFetchIntakeCounts({ payload }) {
       type: actions.FETCH_DAILY_INTAKE_COUNTS_SUCCESS,
       payload: {
         data: response.data,
-        // total: response.data.count,
-        // firstPage: !response.data.previous,
       },
     });
   } catch (error) {
