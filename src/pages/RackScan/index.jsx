@@ -12,7 +12,6 @@ import {
   Typography,
 } from 'antd';
 import classNames from 'classnames';
-import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect } from 'react';
@@ -22,6 +21,7 @@ import modalActions from 'redux/modal/actions';
 import actions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
 import labConfig from 'utils/labConfig';
+import PoolRackDetail from 'pages/RunTemplate/PoolRackDetail';
 import styles from './styles.module.scss';
 
 const RackScan = () => {
@@ -34,13 +34,14 @@ const RackScan = () => {
 
   const rack = useSelector((state) => state.racks?.singleRack);
 
-  const { orientation_sign_off } = rack;
+  const { orientation_sign_off, scan_name } = rack;
 
   useEffect(() => {
     form.setFieldsValue({
       orientation_sign_off,
+      scan_name,
     });
-  }, [orientation_sign_off, form]);
+  }, [orientation_sign_off, form, scan_name]);
 
   const onDataChange = useCallback(
     (event) => {
@@ -65,17 +66,6 @@ const RackScan = () => {
       },
     });
   }, [dispatch, rackId, history]);
-
-  const useFetching = () => {
-    useEffect(() => {
-      dispatch({
-        type: actions.GET_RACK_REQUEST,
-        payload: rackId,
-      });
-    }, []);
-  };
-
-  useFetching();
 
   const onSaveScanModalToggle = useCallback(() => {
     dispatch({
@@ -135,58 +125,55 @@ const RackScan = () => {
             </Button>
           </Dropdown>
         </div>
-        <Row gutter={[48, 40]} justify="center">
-          <Col xs={24} md={18} lg={16} xl={14}>
-            <div className="mb-4">
-              <Rackboard isRack rackboard={rack} scanId={rack.id} />
-            </div>
-            <ScanStatistic isRack scan={rack} />
-          </Col>
-          <Col xs={24} md={18} lg={8} xl={10}>
-            <Row className="mb-3">
-              <Typography.Text>
-                {`${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} name`}
-              </Typography.Text>
+        <Row justify="start" align="middle" gutter={[48, 24]}>
+          <Col span={8}>
+            <Typography.Text>
+              {`${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} name`}
+            </Typography.Text>
+            <Item name="scan_name" className={styles.formItem}>
               <Input
                 onChange={onDataChange}
                 name="scan_name"
                 placeholder={`${
                   labConfig[process.env.REACT_APP_LAB_ID].naming.rack
                 } name`}
-                value={rack.scan_name}
               />
-            </Row>
-            <Row className="mb-3">
-              <Typography.Text>Orientation sign off</Typography.Text>
-              <Item
+            </Item>
+          </Col>
+          <Col span={8}>
+            <Typography.Text>Orientation sign off</Typography.Text>
+            <Item
+              name="orientation_sign_off"
+              className={styles.formItem}
+              rules={[
+                {
+                  max: 4,
+                  message: 'This field has a maximum length of 4 characters.',
+                },
+              ]}
+            >
+              <Input
                 name="orientation_sign_off"
-                className={styles.formItem}
-                rules={[
-                  {
-                    max: 4,
-                    message: 'This field has a maximum length of 4 characters.',
-                  },
-                ]}
-              >
-                <Input
-                  name="orientation_sign_off"
-                  onChange={onDataChange}
-                  placeholder="Orientation sign off"
-                />
-              </Item>
-            </Row>
-            <Row>
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={rack?.isLoading}
-                loading={rack?.isLoading}
-              >
-                Submit
-              </Button>
-            </Row>
+                onChange={onDataChange}
+                placeholder="Orientation sign off"
+              />
+            </Item>
+          </Col>
+          <Col span={4} offset={4} align="end">
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={rack?.isLoading}
+              loading={rack?.isLoading}
+            >
+              Submit
+            </Button>
           </Col>
         </Row>
+        <div className="mb-4">
+          <PoolRackDetail id={rackId} edit={true} />
+          <ScanStatistic isRack scan={rack} />
+        </div>
       </Form>
     </>
   );
