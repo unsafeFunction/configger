@@ -31,6 +31,7 @@ const IntakeDashboard = () => {
 
   const useFetching = () => {
     useEffect(() => {
+      setRangeDates([moment(), moment()]);
       dispatch({
         type: actions.FETCH_DAILY_INTAKE_COUNTS_REQUEST,
         payload: {
