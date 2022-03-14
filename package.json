@@ -1,6 +1,6 @@
 {
   "name": "mirimus-admin",
-  "version": "10.5.4",
+  "version": "10.6.0",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
@@ -82,6 +82,7 @@
     "react-scripts": "3.0.1",
     "react-sortable-hoc": "^2.0.0",
     "react-transition-group": "^4.2.1",
+    "recharts": "^2.1.9",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-saga": "^1.0.3",

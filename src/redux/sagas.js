@@ -3,6 +3,7 @@ import analysisRuns from './analysisRuns/sagas';
 import companies from './companies/sagas';
 import helpers from './helpers/sagas';
 import intakeReceiptLog from './intakeReceiptLog/sagas';
+import intakeDashboard from './intakeDashboard/sagas';
 import inventory from './inventory/sagas';
 import menu from './menu/sagas';
 import pools from './pools/sagas';
@@ -27,6 +28,7 @@ export default function* rootSaga() {
     pools(),
     search(),
     intakeReceiptLog(),
+    intakeDashboard(),
     scan(),
     inventory(),
     racks(),

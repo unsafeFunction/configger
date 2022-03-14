@@ -13,6 +13,24 @@ All notable changes to this project will be documented in this file. See [standa
 - row counter analysis runs ([b262d37](https://github.com/mokkapps/changelog-generator-demo/commits/b262d37fad2251051be34c7e8391268b63d8c444))
 - search, reset filters ([304dedc](https://github.com/mokkapps/changelog-generator-demo/commits/304dedc4fe8bc6e0b430d86413009f66f962de38))
 
+## [10.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.5.1...v10.6.0) (2022-03-03)
+
+### Features
+
+- charts ([637dcb8](https://github.com/mokkapps/changelog-generator-demo/commits/637dcb8e7713e52bdc8c618ca06f7fd15a7e5ab4))
+- date picker ([716e044](https://github.com/mokkapps/changelog-generator-demo/commits/716e044775bad7b3d44d3f72d781ffd9547697d5))
+- intake dashboard template ([eb022a4](https://github.com/mokkapps/changelog-generator-demo/commits/eb022a4d227e89c7674161a791be13bd8323f80b))
+
+### Bug Fixes
+
+- add table ([6791891](https://github.com/mokkapps/changelog-generator-demo/commits/6791891c7623d40a3768b22a2f7c21e859449163))
+- empty charts ([76feb9d](https://github.com/mokkapps/changelog-generator-demo/commits/76feb9d4993207c36c9e8000a5984ec4779495cf))
+- fix pool result select ([7c7af62](https://github.com/mokkapps/changelog-generator-demo/commits/7c7af628335f74e422af424ee1e522c5057ae129))
+- package lock file ([30e3962](https://github.com/mokkapps/changelog-generator-demo/commits/30e3962b8239596df95103d5809d6517b8cfd48f))
+- processed dates ([0b441da](https://github.com/mokkapps/changelog-generator-demo/commits/0b441da448c763e1e3e806c72d00192e2cf10c5b))
+- result width analysis runs table ([6ed2007](https://github.com/mokkapps/changelog-generator-demo/commits/6ed200708c72cd5874539c4ea50fea4d20b47e4d))
+- row counter analysis runs ([b262d37](https://github.com/mokkapps/changelog-generator-demo/commits/b262d37fad2251051be34c7e8391268b63d8c444))
+
 ### [10.5.3](https://github.com/mokkapps/changelog-generator-demo/compare/v10.5.1...v10.5.3) (2022-02-28)
 
 ### Bug Fixes

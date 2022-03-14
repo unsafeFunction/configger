@@ -20,6 +20,7 @@ import settings from './settings/reducers';
 import timeline from './timeline/reducers';
 import user from './user/reducers';
 import userSettings from './userSettings/reducers';
+import intakeDashboard from './intakeDashboard/reducers';
 import * as types from './storeTypes';
 
 const rootReducer = (history: any) =>
@@ -36,6 +37,7 @@ const rootReducer = (history: any) =>
     pools,
     search,
     intakeReceiptLog,
+    intakeDashboard,
     scanSessions,
     inventory,
     racks,

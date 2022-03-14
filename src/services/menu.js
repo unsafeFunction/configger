@@ -26,6 +26,12 @@ export async function getMenuData() {
           url: '/rack-scans',
           icon: 'fe fe-box',
         },
+        {
+          title: 'Intake dashboard',
+          key: 'intake-dashboard',
+          url: '/intake-dashboard',
+          icon: 'fe fe-book-open',
+        },
       ],
     },
     {
@@ -119,6 +125,7 @@ export async function getRolePermissions() {
         '/analysis-runs',
         '/reflex-list',
         '/runs',
+        '/intake-dashboard',
       ],
       default: '/intake-receipt-log',
     },
@@ -137,6 +144,7 @@ export async function getRolePermissions() {
         '/analysis-runs',
         '/reflex-list',
         '/runs',
+        '/intake-dashboard',
       ],
       default: '/intake-receipt-log',
     },
