@@ -93,7 +93,6 @@ class MenuLeft extends React.Component {
     }
     const activeSubmenuItem = menuData.find((menuItem) => menuItem.key === key);
     const firstChild = activeSubmenuItem?.children?.[0];
-    console.log(firstChild, activeSubmenuItem, activeSubmenu, key);
     this.setState({
       activeSubmenu: key,
       activeItem: activeSubmenu !== key ? firstChild.key : activeItem,
