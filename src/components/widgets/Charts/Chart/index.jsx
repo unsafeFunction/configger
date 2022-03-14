@@ -12,7 +12,6 @@ import {
   YAxis,
 } from 'recharts';
 import { constants } from 'utils/constants';
-import styles from './styles.module.scss';
 
 const Chart = ({ type, stats }) => {
   const { isMobile } = useWindowSize();
@@ -69,11 +68,7 @@ const Chart = ({ type, stats }) => {
     }
   };
 
-  return (
-    <div className={styles.wrapper}>
-      <ResponsiveContainer>{renderChart(type)}</ResponsiveContainer>
-    </div>
-  );
+  return <ResponsiveContainer>{renderChart(type)}</ResponsiveContainer>;
 };
 
 export default Chart;

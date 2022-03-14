@@ -1,12 +1,22 @@
-import SwitchedChart from 'components/widgets/Charts/SwitchedChart';
 import actions from 'redux/intakeDashboard/actions';
-import { Tabs, Table, Statistic, Row, Card, DatePicker, Empty } from 'antd';
+import {
+  Tabs,
+  Table,
+  Statistic,
+  Row,
+  Card,
+  DatePicker,
+  Empty,
+  Spin,
+} from 'antd';
 import { ProjectOutlined } from '@ant-design/icons';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ExtraFooter from './components/ExtraFooter';
 import moment from 'moment';
 import { constants } from 'utils/constants';
+import Chart from '../../components/widgets/Charts/Chart';
+import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
 const { RangePicker } = DatePicker;
@@ -153,20 +163,28 @@ const IntakeDashboard = () => {
             tab={tabItem.title}
             disabled={!chartDataSamples?.data?.length}
           >
-            {chartDataSamples?.data?.length ? (
-              <SwitchedChart
-                stats={chartDataSamples}
-                loading={intakeDashboard?.isLoading}
-              />
-            ) : (
-              <Empty
-                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                imageStyle={{
-                  height: 90,
-                }}
-                description={<span>No Data</span>}
-              />
-            )}
+            <div className={styles.wrapper}>
+              <div className={intakeDashboard?.isLoading ? styles.spin : null}>
+                {intakeDashboard?.isLoading && <Spin />}
+              </div>
+
+              {chartDataSamples?.data?.length > 0 && (
+                <Chart
+                  type={constants.chartTypes.bar}
+                  stats={chartDataSamples}
+                />
+              )}
+
+              {!intakeDashboard?.isLoading && !chartDataSamples?.data?.length && (
+                <Empty
+                  image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                  imageStyle={{
+                    height: 90,
+                  }}
+                  description={<span>No Data</span>}
+                />
+              )}
+            </div>
           </TabPane>
         ))}
       </Tabs>
