@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { rowCounter } from 'utils/tableFeatures';
 import poolRackActions from 'redux/racks/actions';
 
-const PoolRackDetail = ({ id }) => {
+const PoolRackDetail = ({ id, edit }) => {
   const dispatch = useDispatch();
 
   const [highlightedTubeId, setTube] = useState(null);
@@ -61,7 +61,7 @@ const PoolRackDetail = ({ id }) => {
             isRack
             rackboard={poolRack}
             scanId={poolRack.id}
-            editMode={false}
+            editMode={edit ?? false}
             highlightedTubeId={highlightedTubeId}
           />
         </Col>

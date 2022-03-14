@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.5.4](https://github.com/mokkapps/changelog-generator-demo/compare/v10.5.1...v10.5.4) (2022-03-09)
+
+### Bug Fixes
+
+- fix pool result select ([7c7af62](https://github.com/mokkapps/changelog-generator-demo/commits/7c7af628335f74e422af424ee1e522c5057ae129))
+- fix return value ([5c1358a](https://github.com/mokkapps/changelog-generator-demo/commits/5c1358a59c9471f63b5deee6412660b5873ac2bd))
+- package lock file ([30e3962](https://github.com/mokkapps/changelog-generator-demo/commits/30e3962b8239596df95103d5809d6517b8cfd48f))
+- result width analysis runs table ([6ed2007](https://github.com/mokkapps/changelog-generator-demo/commits/6ed200708c72cd5874539c4ea50fea4d20b47e4d))
+- row counter analysis runs ([b262d37](https://github.com/mokkapps/changelog-generator-demo/commits/b262d37fad2251051be34c7e8391268b63d8c444))
+- search, reset filters ([304dedc](https://github.com/mokkapps/changelog-generator-demo/commits/304dedc4fe8bc6e0b430d86413009f66f962de38))
+
 ## [10.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.5.1...v10.6.0) (2022-03-03)
 
 ### Features

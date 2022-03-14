@@ -68,6 +68,8 @@ const ScanSessions = () => {
         search: filtersState.search,
       };
 
+      console.log('here', filtersState);
+
       const params = filtersState.dates.length
         ? {
             completed_timestamp_after: filtersState.dates[0],
@@ -430,9 +432,9 @@ const ScanSessions = () => {
               xs={{ span: 24 }}
               sm={{ span: 10 }}
               md={{ span: 9, offset: 2 }}
-              lg={{ span: 7, offset: 8 }}
-              xl={{ span: 6, offset: 10 }}
-              xxl={{ span: 7 }}
+              lg={{ span: 7, offset: 7 }}
+              xl={{ span: 6, offset: 9 }}
+              xxl={{ span: 7, offset: 9 }}
             >
               <SearchTooltip
                 searchFields={[
@@ -479,7 +481,7 @@ const ScanSessions = () => {
               xs={{ span: 24 }}
               sm={{ span: 4 }}
               md={{ span: 4 }}
-              lg={{ span: 2 }}
+              lg={{ span: 3 }}
               className={styles.resetFilters}
             >
               <Button onClick={handleResetFilters} disabled={isEmpty}>

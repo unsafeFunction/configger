@@ -1,5 +1,5 @@
-/* eslint-disable import/prefer-default-export */
 import axiosClient from 'utils/axiosClient';
+import errorOutput from 'utils/errorOutput';
 
 export const fetchScanners = async () => {
   try {
@@ -7,7 +7,7 @@ export const fetchScanners = async () => {
 
     return scanners;
   } catch (error) {
-    throw new Error(error?.response?.data.detail);
+    throw new Error(errorOutput(error));
   }
 };
 
@@ -17,6 +17,6 @@ export const fetchScannerById = async (id) => {
 
     return scanner;
   } catch (error) {
-    throw new Error(error?.response?.data.detail);
+    throw new Error(errorOutput(error));
   }
 };
