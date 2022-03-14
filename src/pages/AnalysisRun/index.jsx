@@ -310,7 +310,7 @@ const AnalysisRun = () => {
           {
             title: 'Actions',
             dataIndex: 'actions',
-            width: 460,
+            width: 300,
             render: (_, record) => {
               return (
                 <Actions
