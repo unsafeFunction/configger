@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.6.1](https://github.com/mokkapps/changelog-generator-demo/compare/v10.5.4...v10.6.1) (2022-03-14)
+
+### Features
+
+- scanner sorting, session duration ([ae446c2](https://github.com/mokkapps/changelog-generator-demo/commits/ae446c2c23477f3975147868ff4265c3bb094858))
+- single reflex button ([4565691](https://github.com/mokkapps/changelog-generator-demo/commits/4565691463d23533708dda63541e876febac9c48))
+
+### Bug Fixes
+
+- delete console log ([938f286](https://github.com/mokkapps/changelog-generator-demo/commits/938f2860bb95872f44ea41da158c2a2e55f40a56))
+- disable future dates ([f864d8c](https://github.com/mokkapps/changelog-generator-demo/commits/f864d8c024eb2b076a5ce82e5c5ec98e48640180))
+- refactor charts, disable switched chart ([7b190d9](https://github.com/mokkapps/changelog-generator-demo/commits/7b190d94e4b0ecb5553f29b43f2cb90d661ee61b))
+- refactor classname, delete comments ([b0ce62c](https://github.com/mokkapps/changelog-generator-demo/commits/b0ce62c32574bb75673ba5e28fc528a914fc78fa))
+- refactor intake dashboard ([b2f78dd](https://github.com/mokkapps/changelog-generator-demo/commits/b2f78dd865939510ca0eec954a4fe7d1b65e6baf))
+- resolve mr conflict from dev ([dfa05ec](https://github.com/mokkapps/changelog-generator-demo/commits/dfa05ec0ae6e49636355ea87d516761e174ed42b))
+- runs tab ([2b1e8fd](https://github.com/mokkapps/changelog-generator-demo/commits/2b1e8fdebb42f6bdd637772403cdd691762ffb9d))
+
+## [10.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.5.1...v10.6.0) (2022-03-03)
+
+### Features
+
+- charts ([637dcb8](https://github.com/mokkapps/changelog-generator-demo/commits/637dcb8e7713e52bdc8c618ca06f7fd15a7e5ab4))
+- date picker ([716e044](https://github.com/mokkapps/changelog-generator-demo/commits/716e044775bad7b3d44d3f72d781ffd9547697d5))
+- intake dashboard template ([eb022a4](https://github.com/mokkapps/changelog-generator-demo/commits/eb022a4d227e89c7674161a791be13bd8323f80b))
+- poolrack table ([c2ce4f2](https://github.com/mokkapps/changelog-generator-demo/commits/c2ce4f2e5c7fd5997cc2297cc415b4fc997849f9))
+
+### Bug Fixes
+
+- add table ([6791891](https://github.com/mokkapps/changelog-generator-demo/commits/6791891c7623d40a3768b22a2f7c21e859449163))
+- empty charts ([76feb9d](https://github.com/mokkapps/changelog-generator-demo/commits/76feb9d4993207c36c9e8000a5984ec4779495cf))
+- processed dates ([0b441da](https://github.com/mokkapps/changelog-generator-demo/commits/0b441da448c763e1e3e806c72d00192e2cf10c5b))
+
 ### [10.5.4](https://github.com/mokkapps/changelog-generator-demo/compare/v10.5.1...v10.5.4) (2022-03-09)
 
 ### Bug Fixes
