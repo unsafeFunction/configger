@@ -31,6 +31,10 @@ export const runTypes = [
     value: 'Reflex',
   },
   {
+    label: 'Diagnostic',
+    value: 'Diagnostic',
+  },
+  {
     label: 'Validation',
     value: 'Validation',
   },
