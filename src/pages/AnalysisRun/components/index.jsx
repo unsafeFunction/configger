@@ -34,13 +34,8 @@ export const Actions = ({ record, field, value = '' }) => {
       value: '',
     },
     {
-      label: 'Reflex SC',
+      label: 'Reflex',
       value: 'REFLEX_SC',
-      disabled: record.tube_type === tubeTypes.individual,
-    },
-    {
-      label: 'Reflex SD',
-      value: 'REFLEX_SD',
       disabled: record.tube_type === tubeTypes.individual,
     },
     {
@@ -48,7 +43,7 @@ export const Actions = ({ record, field, value = '' }) => {
       value: 'RERUN',
     },
     {
-      label: 'Do not publish',
+      label: 'Ignore',
       value: 'DO_NOT_PUBLISH',
     },
   ];

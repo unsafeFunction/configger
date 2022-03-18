@@ -197,10 +197,10 @@ class MenuLeft extends React.Component {
         }
         return flattenedItems;
       }, []);
-    const activeItem = find(flattenItems(menuData, 'children'), [
-      'url',
-      `/${props.location.pathname.split('/')[1]}`,
-    ]);
+    const activeItem = find(flattenItems(menuData, 'children'), (obj) =>
+      obj?.url?.includes(`/${props.location.pathname.split('/')[1]}`),
+    );
+
     const activeSubmenu = menuData.reduce((key, parent) => {
       if (Array.isArray(parent.children)) {
         parent.children.map((child) => {

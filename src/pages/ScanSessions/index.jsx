@@ -68,8 +68,6 @@ const ScanSessions = () => {
         search: filtersState.search,
       };
 
-      console.log('here', filtersState);
-
       const params = filtersState.dates.length
         ? {
             completed_timestamp_after: filtersState.dates[0],
