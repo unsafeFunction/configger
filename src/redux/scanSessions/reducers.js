@@ -286,11 +286,25 @@ const initialScan = {
   tubes_count: null,
   scan_tubes: [],
   items: [],
+  popoverContent: null,
   error: null,
 };
 
 const scanReducer = (state = initialScan, action) => {
   switch (action.type) {
+    case actions.UPDATE_POPOVER_STATE: {
+      console.log(action.payload);
+      const { popoverContent, currentTubeID } = action.payload;
+      return {
+        ...state,
+        popoverContent: currentTubeID
+          ? {
+              ...state.popoverContent,
+              tube_id: currentTubeID,
+            }
+          : popoverContent,
+      };
+    }
     case actions.RESET_SCAN: {
       return {
         ...state,
