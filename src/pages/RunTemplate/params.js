@@ -48,7 +48,7 @@ export const runTypes = [
   },
 ];
 
-export const qsMachines = new Array(7).fill().map((_, index) => ({
+export const qsMachines = new Array(8).fill().map((_, index) => ({
   label: `QS${index + 1}`,
   value: `QS${index + 1}`,
 }));
