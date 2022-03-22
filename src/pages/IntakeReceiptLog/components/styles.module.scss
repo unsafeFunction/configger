@@ -1,0 +1,32 @@
+@import 'assets/styles/mixins.scss';
+
+.popover {
+  width: 400px;
+}
+
+.shippingBy {
+  &:hover {
+    cursor: pointer;
+  }
+  > span {
+    margin-right: 0.25rem;
+  }
+}
+
+.success {
+  color: $success;
+}
+.warning {
+  color: $warning;
+}
+.info {
+  color: $info;
+}
+
+.trackingNumber {
+  color: transparent;
+}
+
+.condition {
+  text-transform: lowercase;
+}

@@ -3,12 +3,11 @@ import {
   ExclamationCircleFilled,
   MinusCircleFilled,
   PlusCircleFilled,
+  QuestionCircleOutlined,
   StopOutlined,
   SyncOutlined,
-  QuestionCircleOutlined,
 } from '@ant-design/icons';
 import { Tooltip } from 'antd';
-import TwoToneComponent from 'assets/TwoTone';
 import React from 'react';
 
 export const getColor = (status) => {
@@ -107,22 +106,5 @@ export const getStatusText = (status) => {
     }
     default:
       return status.toUpperCase();
-  }
-};
-
-export const getColorIntakeLog = (status) => {
-  switch (status) {
-    case 'Acceptable':
-    case 'Satisfactory': {
-      return 'success';
-    }
-    case 'Unacceptable': {
-      return 'error';
-    }
-    case 'Unsatisfactory': {
-      return 'warning';
-    }
-    default:
-      return 'default';
   }
 };

@@ -1,19 +1,5 @@
-import {
-  ClockCircleOutlined,
-  CommentOutlined,
-  DownOutlined,
-} from '@ant-design/icons';
-import {
-  Button,
-  Dropdown,
-  Form,
-  Menu,
-  Popover,
-  Space,
-  Table,
-  Tag,
-  Typography,
-} from 'antd';
+import { ClockCircleOutlined, DownOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Form, Menu, Space, Table, Typography } from 'antd';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
 import ActionInitiator from 'components/widgets/ActionInitiator';
@@ -30,8 +16,8 @@ import modalActions from 'redux/modal/actions';
 import scannersActions from 'redux/scanners/actions';
 import sessionActions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
-import { getColorIntakeLog } from 'utils/highlighting';
 import { rowCounter } from 'utils/tableFeatures';
+import ShipmentDetails from './components';
 import styles from './styles.module.scss';
 
 const IntakeReceiptLog = () => {
@@ -243,78 +229,7 @@ const IntakeReceiptLog = () => {
       dataIndex: 'shipment',
       filters: constants.shippingBy,
       filterMultiple: false,
-    },
-    {
-      title: 'Shipping Condition',
-      dataIndex: 'shipping_condition',
-      // eslint-disable-next-line camelcase
-      render: (value, { shipping_violations }) => {
-        const taggedValue = <Tag color={getColorIntakeLog(value)}>{value}</Tag>;
-        if (shipping_violations.length) {
-          return (
-            <Popover
-              content={shipping_violations
-                ?.map((item) => item.violation)
-                .join(', ')}
-              title="Violations"
-              trigger="hover"
-              placement="top"
-              overlayClassName={styles.popover}
-            >
-              <div className={styles.comments}>
-                {taggedValue}
-                <CommentOutlined />
-              </div>
-            </Popover>
-          );
-        }
-        return taggedValue;
-      },
-    },
-    {
-      title: 'Packing Slip Condition',
-      dataIndex: 'packing_slip_condition',
-      render: (value) => {
-        return <Tag color={getColorIntakeLog(value)}>{value}</Tag>;
-      },
-    },
-    {
-      title: 'Total packing slips',
-      dataIndex: 'total_packing_slips',
-    },
-    {
-      title: 'Sample Condition',
-      dataIndex: 'sample_condition',
-      render: (value, { comments }) => {
-        const taggedValue = <Tag color={getColorIntakeLog(value)}>{value}</Tag>;
-        if (comments) {
-          return (
-            <Popover
-              content={comments}
-              title="Comments"
-              trigger="hover"
-              placement="top"
-              overlayClassName={styles.popover}
-            >
-              <div className={styles.comments}>
-                {taggedValue}
-                <CommentOutlined />
-              </div>
-            </Popover>
-          );
-        }
-        return taggedValue;
-      },
-    },
-    {
-      title: 'Tracking Number',
-      dataIndex: 'tracking_numbers',
-      wordWrap: 'break-word',
-      wordBreak: 'break-word',
-      width: '150px',
-      render: (_, record) => {
-        return record.tracking_numbers?.join(', ') ?? '-';
-      },
+      render: (_, record) => <ShipmentDetails record={record} />,
     },
     {
       title: 'Actions',
