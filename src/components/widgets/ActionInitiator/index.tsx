@@ -16,7 +16,6 @@ const ActionInitiator = ({ initiator }: InitiatorProps) => {
     return (
       <Popover
         content={formattedInitiator[2]}
-        trigger="hover"
         placement={isMobile ? 'top' : 'right'}
       >
         {formattedInitiator[1]}
