@@ -4,46 +4,48 @@ import styles from './styles.module.scss';
 
 const useTip = (type) => {
   switch (type) {
-    case 'sessionActions': {
+    case 'saveSession': {
       return (
-        <>
-          <div>
-            <b className={styles.modalTitle}>Save session</b>
-            <p className={styles.tipDescription}>
-              <p>
-                1.Saves all scans that have the status “Completed” in the
-                history table then ends the session.
-              </p>
-              <p>
-                2.Save the session once you are done scanning all samples for
-                one company, including rejected samples if there are any.
-              </p>
+        <div>
+          <b className={styles.modalTitle}>Save session</b>
+          <p className={styles.tipDescription}>
+            <p>
+              1.Saves all scans that have the status “Completed” in the history
+              table then ends the session.
             </p>
-            <img
-              className={styles.image}
-              src="https://qa.media.lims.mirimus.com/save-session.gif"
-              alt="save-session"
-            />
-          </div>
-          <div>
-            <b className={styles.modalTitle}>Cancel session</b>
-            <p className={styles.tipDescription}>
-              <p>
-                1. Permanently deletes all scans in the session then ends the
-                session.
-              </p>
-              <p>
-                2.Cancel the session if you don’t plan to scan samples or if you
-                want to start over.
-              </p>
+            <p>
+              2.Save the session once you are done scanning all samples for one
+              company, including rejected samples if there are any.
             </p>
-            <img
-              className={styles.image}
-              src="https://qa.media.lims.mirimus.com/close-session.gif"
-              alt="cancel-session"
-            />
-          </div>
-        </>
+          </p>
+          <img
+            className={styles.image}
+            src="https://qa.media.lims.mirimus.com/save-session.gif"
+            alt="save-session"
+          />
+        </div>
+      );
+    }
+    case 'cancelSession': {
+      return (
+        <div>
+          <b className={styles.modalTitle}>Cancel session</b>
+          <p className={styles.tipDescription}>
+            <p>
+              1. Permanently deletes all scans in the session then ends the
+              session.
+            </p>
+            <p>
+              2.Cancel the session if you don’t plan to scan samples or if you
+              want to start over.
+            </p>
+          </p>
+          <img
+            className={styles.image}
+            src="https://qa.media.lims.mirimus.com/close-session.gif"
+            alt="cancel-session"
+          />
+        </div>
       );
     }
     case 'scanActions': {

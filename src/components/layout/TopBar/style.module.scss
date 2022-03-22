@@ -81,6 +81,7 @@
 .info {
   display: flex;
   align-items: flex-end;
+  align-items: center;
   .brand {
     width: 130px;
     height: auto;
@@ -116,4 +117,19 @@
   &:hover {
     cursor: pointer;
   }
+}
+
+.topMenuLink {
+  margin-right: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: black;
+  font-weight: 500;
+  border-bottom-width: 1px;
+}
+
+.logo {
+  width: 100%;
+  max-width: 42px;
+  margin-right: 1rem;
 }
