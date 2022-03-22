@@ -83,11 +83,11 @@ const SingleSessionTable = ({
 
   return (
     <Table
+      className="mt-4"
       loading={session?.isLoading}
       columns={columns}
       pagination={false}
       dataSource={dataForTable}
-      scroll={{ y: 200, x: 600 }}
       rowClassName={(record) => record.key === id && styles.highlightedRow}
     />
   );

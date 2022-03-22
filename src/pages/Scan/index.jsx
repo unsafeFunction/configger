@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable indent */
 import {
-  CheckOutlined,
   CloseOutlined,
   DownOutlined,
   EditOutlined,
@@ -20,6 +19,7 @@ import {
   Row,
   Statistic,
   Typography,
+  Card,
 } from 'antd';
 import classNames from 'classnames';
 import PulseCircle from 'components/widgets/Pools/PulseCircle';
@@ -301,23 +301,7 @@ const Scan = () => {
 
   const sessionMenu = (
     <Menu>
-      <Menu.Item
-        className="mb-4"
-        onClick={() => {
-          onSaveSessionModalToggle(
-            refPoolsCount,
-            refSamplesCount,
-            actualPoolsCount,
-            actualSamplesCount,
-          );
-          return handleSessionActionVisible();
-        }}
-        key="1"
-        icon={<CheckOutlined />}
-      >
-        Save session
-      </Menu.Item>
-      <Menu.Item key="2" icon={<CloseOutlined />}>
+      <Menu.Item key="1" icon={<CloseOutlined />}>
         <Popconfirm
           title="Are you sure to cancel session?"
           okText="Yes"
@@ -565,7 +549,25 @@ const Scan = () => {
               )}`
             : ''}
         </Typography.Title>
-        <Row className={styles.actionsWrapper}>
+        <Row>
+          <div>
+            <Button
+              onClick={() => {
+                onSaveSessionModalToggle(
+                  refPoolsCount,
+                  refSamplesCount,
+                  actualPoolsCount,
+                  actualSamplesCount,
+                );
+              }}
+              type="primary"
+              htmlType="submit"
+              className={styles.saveScanBtn}
+            >
+              Save Session
+            </Button>
+            <InfoButton type="saveSession" />
+          </div>
           <Row style={{ marginRight: 30 }} />
           <Dropdown
             overlay={sessionMenu}
@@ -586,7 +588,7 @@ const Scan = () => {
               <DownOutlined />
             </Button>
           </Dropdown>
-          <InfoButton type="sessionActions" />
+          <InfoButton type="cancelSession" />
         </Row>
       </div>
       <Row gutter={[48, 40]} justify="center">
@@ -685,90 +687,105 @@ const Scan = () => {
           <div className="mb-4">
             <ScanStatistic scan={scan} />
           </div>
-          <SingleSessionTable
-            session={session}
-            scansInWork={scansInWork}
-            handleCancelScan={handleCancelScan}
-            loadScan={loadScan}
-          />
         </Col>
         <Col xs={24} md={18} lg={8} xl={10}>
           <div className={styles.companyDetails}>
-            <Statistic
-              className={styles.companyDetailsStat}
-              title="Scanner status:"
-              formatter={() =>
-                scan?.scannerObj?.id ? (
-                  <PulseCircle scanner={scan?.scannerObj} />
-                ) : (
-                  '-'
-                )
-              }
-            />
-            <Statistic
-              className={styles.companyDetailsStat}
-              title="Company name:"
-              value={companyInfo?.name ?? '–'}
-            />
-            <Statistic
-              className={styles.companyDetailsStat}
-              title="Company short:"
-              value={companyInfo?.name_short ?? '–'}
-            />
-            <Statistic
-              className={styles.companyDetailsStat}
-              title="Company ID:"
-              groupSeparator=""
-              value={companyInfo?.company_id ?? '–'}
-            />
-            <div className={styles.statisticReplacement}>
-              <div className={styles.statisticReplacementTitle}>
-                <p>Pool name: </p>
-                {!session?.isLoading &&
-                  !scan?.isLoading &&
-                  scans.length > 0 && (
-                    <EditOutlined
-                      onClick={handleOpenEdit}
-                      className={styles.editPoolName}
-                    />
-                  )}
-              </div>
-              <div className={styles.statisticReplacementContent}>
-                <span className={styles.statisticReplacementValue}>
-                  {isEditOpen ? (
-                    <div className={styles.editPoolNameInputWrapper}>
-                      <Input
-                        onChange={handleChangePoolName}
-                        value={changedPoolName}
-                        placeholder="Enter new pool name"
-                      />
-                      <Button type="primary" onClick={handleSavePoolName}>
-                        Save
-                      </Button>
+            <Card>
+              <Row>
+                <Col className="mr-4">
+                  <Statistic
+                    className={styles.companyDetailsStat}
+                    title="Company name"
+                    value={companyInfo?.name ?? '–'}
+                  />
+                </Col>
+                <Col className="mr-4">
+                  <Statistic
+                    className={styles.companyDetailsStat}
+                    title="Company short"
+                    value={companyInfo?.name_short ?? '–'}
+                  />
+                </Col>
+                <Col className="mr-4">
+                  <Statistic
+                    className={styles.companyDetailsStat}
+                    title="Company ID"
+                    groupSeparator=""
+                    value={companyInfo?.company_id ?? '–'}
+                  />
+                </Col>
+                <Col>
+                  <div className={styles.statisticReplacement}>
+                    <div className={styles.statisticReplacementTitle}>
+                      <p>Pool name </p>
+                      {!session?.isLoading &&
+                        !scan?.isLoading &&
+                        scans.length > 0 && (
+                          <EditOutlined
+                            onClick={handleOpenEdit}
+                            className={styles.editPoolName}
+                          />
+                        )}
                     </div>
-                  ) : (
-                    poolName
-                  )}
-                </span>
-              </div>
-            </div>
-            <div className={styles.statisticReplacement}>
-              <div className={styles.statisticReplacementContent}>
-                <span className={styles.statisticReplacementValue}>
-                  <Checkbox
-                    className="mb-1"
-                    disabled={
-                      scan?.pool_id?.split?.('-')?.[0] ===
-                      constants.scan.emptyPoolId
+                    <div className={styles.statisticReplacementContent}>
+                      <span className={styles.statisticReplacementValue}>
+                        {isEditOpen ? (
+                          <div className={styles.editPoolNameInputWrapper}>
+                            <Input
+                              onChange={handleChangePoolName}
+                              value={changedPoolName}
+                              placeholder="Enter new pool name"
+                            />
+                            <Button type="primary" onClick={handleSavePoolName}>
+                              Save
+                            </Button>
+                          </div>
+                        ) : (
+                          poolName
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col className="mr-4">
+                  <div className={styles.statisticReplacement}>
+                    <div className={styles.statisticReplacementTitle}>
+                      <p>Diagnostic status </p>
+                    </div>
+                    <div className={styles.statisticReplacementContent}>
+                      <span className={styles.statisticReplacementValue}>
+                        <Checkbox
+                          className="mb-1"
+                          disabled={
+                            scan?.pool_id?.split?.('-')?.[0] ===
+                            constants.scan.emptyPoolId
+                          }
+                          checked={isDiagnostic}
+                          onChange={() => setDiagnostic(!isDiagnostic)}
+                        >
+                          This scan is diagnostic
+                        </Checkbox>
+                      </span>
+                    </div>
+                  </div>
+                </Col>
+                <Col>
+                  <Statistic
+                    className={styles.companyDetailsStat}
+                    title="Scanner status"
+                    formatter={() =>
+                      scan?.scannerObj?.id ? (
+                        <PulseCircle scanner={scan?.scannerObj} />
+                      ) : (
+                        '-'
+                      )
                     }
-                    checked={isDiagnostic}
-                    onChange={() => setDiagnostic(!isDiagnostic)}
-                  >
-                    This scan is diagnostic
-                  </Checkbox>
-                </span>
-              </div>
-            </div>
+                  />
+                </Col>
+              </Row>
+            </Card>
           </div>
           <SessionStatistic
             refPools={refPoolsCount}
@@ -778,6 +795,12 @@ const Scan = () => {
           />
         </Col>
       </Row>
+      <SingleSessionTable
+        session={session}
+        scansInWork={scansInWork}
+        handleCancelScan={handleCancelScan}
+        loadScan={loadScan}
+      />
     </div>
   );
 };

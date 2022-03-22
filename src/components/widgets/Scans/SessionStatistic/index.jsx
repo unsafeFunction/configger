@@ -14,7 +14,7 @@ const SessionStatistic = ({
   return (
     <Row gutter={[24, 16]}>
       <Col
-        xs={{ span: 12, order: 1 }}
+        xs={{ span: 3, order: 1 }}
         lg={{ span: 24, order: 1 }}
         xl={{ span: 12, order: 1 }}
         xxl={{ span: 9, order: 1 }}
