@@ -20,6 +20,7 @@ const actions = {
   CHANGE_SESSION_DATA: 'session/CHANGE_SESSION_DATA',
   FETCH_SESSION_ID_REQUEST: 'session/FETCH_SESSION_ID_REQUEST',
   RESET_SCAN: 'scan/RESET_SCAN',
+  UPDATE_POPOVER_STATE: 'rackboard/POPOVER_STATE',
 };
 
 export default actions;

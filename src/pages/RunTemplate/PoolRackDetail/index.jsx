@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { rowCounter } from 'utils/tableFeatures';
+import scanSessionsActions from 'redux/scanSessions/actions';
 import poolRackActions from 'redux/racks/actions';
 
 const PoolRackDetail = ({ id, edit }) => {
@@ -80,6 +81,16 @@ const PoolRackDetail = ({ id, edit }) => {
                 },
                 onMouseLeave: () => {
                   setTube(null);
+                },
+                onClick: () => {
+                  if (edit) {
+                    dispatch({
+                      type: scanSessionsActions.UPDATE_POPOVER_STATE,
+                      payload: {
+                        popoverContent: record,
+                      },
+                    });
+                  }
                 },
               };
             }}
