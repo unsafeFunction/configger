@@ -4,6 +4,18 @@ import { constants } from 'utils/constants';
 export async function getMenuData() {
   return [
     {
+      title: 'Companies',
+      key: 'companies',
+      icon: 'fe fe-briefcase',
+      url: '/companies',
+    },
+    {
+      title: 'Pools',
+      key: 'pools',
+      url: '/pools',
+      icon: 'fe fe-folder',
+    },
+    {
       title: 'Intake',
       key: 'intakeSection',
       icon: 'fe fe-monitor',
@@ -33,18 +45,6 @@ export async function getMenuData() {
           icon: 'fe fe-book-open',
         },
       ],
-    },
-    {
-      title: 'Companies',
-      key: 'companies',
-      icon: 'fe fe-briefcase',
-      url: '/companies',
-    },
-    {
-      title: 'Pools',
-      key: 'pools',
-      url: '/pools',
-      icon: 'fe fe-folder',
     },
     {
       title: 'Runs',
