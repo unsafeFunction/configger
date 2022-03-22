@@ -293,16 +293,11 @@ const initialScan = {
 const scanReducer = (state = initialScan, action) => {
   switch (action.type) {
     case actions.UPDATE_POPOVER_STATE: {
-      console.log(action.payload);
-      const { popoverContent, currentTubeID } = action.payload;
+      const { popoverContent } = action.payload;
+
       return {
         ...state,
-        popoverContent: currentTubeID
-          ? {
-              ...state.popoverContent,
-              tube_id: currentTubeID,
-            }
-          : popoverContent,
+        popoverContent,
       };
     }
     case actions.RESET_SCAN: {

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { Button, Form, Input, Popconfirm, Tag, Popover } from 'antd';
 import styles from '../../styles.module.scss';
 import InvalidateModal from 'components/widgets/Scans/InvalidateModal';
@@ -20,8 +20,14 @@ const PopoverRackboard = ({
 
   const dispatch = useDispatch();
 
+  const [currentTubeID, setCurrentTubeID] = useState('');
+
   const { tubes } = constants;
   const { popoverContent } = useSelector((state) => state.scanSessions.scan);
+
+  useEffect(() => {
+    setCurrentTubeID(record.tube_id);
+  }, [popoverContent]);
 
   const isCanValidate =
     recordStatus === tubes.empty.status ||
@@ -36,7 +42,7 @@ const PopoverRackboard = ({
         type: actions.UPDATE_TUBE_REQUEST,
         payload: {
           id: record.id,
-          data: { tube_id: popoverContent?.tube_id },
+          data: { tube_id: currentTubeID },
           scanId,
           isRack,
         },
@@ -48,7 +54,7 @@ const PopoverRackboard = ({
         },
       });
     },
-    [dispatch, popoverContent],
+    [dispatch, currentTubeID],
   );
 
   const validate = useCallback(
@@ -88,15 +94,10 @@ const PopoverRackboard = ({
     [dispatch, scanId],
   );
 
-  const handleChangeTubeID = useCallback((e) => {
+  const handleChangeTubeID = (e) => {
     const { target } = e;
-    dispatch({
-      type: actions.UPDATE_POPOVER_STATE,
-      payload: {
-        currentTubeID: target.value,
-      },
-    });
-  }, []);
+    setCurrentTubeID(target.value);
+  };
 
   const handleClosePopover = useCallback(() => {
     dispatch({
@@ -165,13 +166,11 @@ const PopoverRackboard = ({
           <Input
             size="large"
             placeholder="Tube barcode"
-            value={popoverContent?.tube_id}
-            defaultValue={record?.tube_id}
+            value={currentTubeID}
             className={classNames(styles.tubeInput, 'mb-4')}
             onChange={handleChangeTubeID}
             allowClear
           />
-
           <Popconfirm
             disabled={!popoverContent?.tube_id}
             title="Are you sure to update this tube?"
@@ -180,7 +179,7 @@ const PopoverRackboard = ({
             onConfirm={() => handleSave(record)}
           >
             <Button
-              disabled={!popoverContent?.tube_id}
+              disabled={!currentTubeID}
               className={styles.popoverBtn}
               type="primary"
             >
@@ -244,22 +243,23 @@ const PopoverRackboard = ({
       }
       trigger="click"
       onVisibleChange={(value) => {
-        if (value) {
-          dispatch({
-            type: actions.UPDATE_POPOVER_STATE,
-            payload: {
-              popoverContent: record,
-            },
-          });
-        } else {
-          dispatch({
-            type: actions.UPDATE_POPOVER_STATE,
-            payload: {
-              popoverContent: null,
-            },
-          });
+        if (editMode) {
+          if (value) {
+            dispatch({
+              type: actions.UPDATE_POPOVER_STATE,
+              payload: {
+                popoverContent: record,
+              },
+            });
+          } else {
+            dispatch({
+              type: actions.UPDATE_POPOVER_STATE,
+              payload: {
+                popoverContent: null,
+              },
+            });
+          }
         }
-        // setCurrentTubeID(record?.tube_id);
       }}
     >
       {children}
