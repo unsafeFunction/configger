@@ -33,7 +33,7 @@ const STORED_SETTINGS = (storedSettings: any) => {
 
 const initialState = {
   ...STORED_SETTINGS({
-    isSidebarOpen: false,
+    isSidebarOpen: true,
     isSupportChatOpen: false,
     isMobileView: false,
     isMobileMenuOpen: false,
@@ -41,10 +41,10 @@ const initialState = {
     isMenuShadow: false,
     isMenuUnfixed: false,
     menuLayoutType: 'left', // left, top, nomenu
-    menuType: 'default', // default, flyout, compact
-    menuColor: 'gray', // dark, blue, gray, white
+    menuType: 'compact', // default, flyout, compact
+    menuColor: 'dark', // dark, blue, gray, white
     flyoutMenuColor: 'dark', // dark, blue, gray, white
-    systemLayoutColor: 'gray', // white, dark, blue, gray, image
+    systemLayoutColor: 'dark', // white, dark, blue, gray, image
     isTopbarFixed: false,
     isContentNoMaxWidth: false,
     isAppMaxWidth: false,
