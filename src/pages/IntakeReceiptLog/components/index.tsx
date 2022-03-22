@@ -10,24 +10,26 @@ import useWindowSize from 'hooks/useWindowSize';
 import React from 'react';
 import styles from './styles.module.scss';
 
-type ViolationProps = {
+type ViolationType = {
   violation: string;
 };
 
-type RecordProps = {
-  record: {
-    shipment: string;
-    shipping_condition: string;
-    shipping_violations: ViolationProps[];
-    packing_slip_condition: string;
-    total_packing_slips: number;
-    sample_condition: string;
-    comments: null | string;
-    tracking_numbers: null | string[];
-  };
+type RecordType = {
+  shipment: string;
+  shipping_condition: string;
+  shipping_violations: ViolationType[];
+  packing_slip_condition: string;
+  total_packing_slips: number;
+  sample_condition: string;
+  comments: null | string;
+  tracking_numbers: null | string[];
 };
 
-const ShipmentDetails = ({ record }: RecordProps) => {
+type RecordProps = {
+  record: RecordType;
+};
+
+const ShipmentDetails = ({ record }: RecordProps): JSX.Element => {
   const {
     shipment,
     shipping_condition,
@@ -41,7 +43,7 @@ const ShipmentDetails = ({ record }: RecordProps) => {
 
   const { isMobile } = useWindowSize();
 
-  const getIcon = (array: string[]) => {
+  const getIcon = (array: string[]): JSX.Element => {
     if (array.includes('Unsatisfactory') || array.includes('Unacceptable')) {
       return <ExclamationCircleOutlined className={styles.warning} />;
     }
