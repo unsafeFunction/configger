@@ -10,6 +10,7 @@ import {
 import {
   Alert,
   Button,
+  Card,
   Checkbox,
   Col,
   Dropdown,
@@ -19,16 +20,15 @@ import {
   Row,
   Statistic,
   Typography,
-  Card,
 } from 'antd';
 import classNames from 'classnames';
+import InfoButton from 'components/layout/InfoButton';
 import PulseCircle from 'components/widgets/Pools/PulseCircle';
 import Rackboard from 'components/widgets/Rackboard';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
-import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import SessionEntryModal from 'components/widgets/SessionEntryModal';
-import InfoButton from 'components/layout/InfoButton';
+import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import useKeyPress from 'hooks/useKeyPress';
 import moment from 'moment-timezone';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -583,7 +583,7 @@ const Scan = () => {
             disabled={session?.isLoading}
             className={styles.actions}
           >
-            <Button type="primary">
+            <Button type="primary" ghost>
               Session Actions
               <DownOutlined />
             </Button>

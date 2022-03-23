@@ -1,13 +1,14 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import classNames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
-import moment from 'moment-timezone';
 import { Statistic } from 'antd';
+import classNames from 'classnames';
+import moment from 'moment-timezone';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import sessionActions from 'redux/scanSessions/actions';
-import UserMenu from './UserMenu';
 import styles from './style.module.scss';
+import UserMenu from './UserMenu';
 
 const TopBar = React.memo(() => {
   const { Countdown } = Statistic;
@@ -59,7 +60,7 @@ const TopBar = React.memo(() => {
             className={styles.timer}
             title={
               <span>
-                Active session for
+                {`Active session for `}
                 <b>{session.company_name}</b>
               </span>
             }
