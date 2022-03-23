@@ -1,5 +1,5 @@
-import labConfig from 'utils/labConfig';
 import { constants } from 'utils/constants';
+import labConfig from 'utils/labConfig';
 
 export async function getMenuData() {
   return [
@@ -100,9 +100,8 @@ export async function getMenuData() {
       icon: 'fa fa-question-circle-o',
     },
     {
-      title: `v ${process.env.REACT_APP_VERSION}`,
+      title: process.env.REACT_APP_VERSION,
       key: 'version',
-      icon: 'fe fe-git-merge',
     },
   ];
 }

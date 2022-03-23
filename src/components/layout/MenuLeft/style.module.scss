@@ -53,6 +53,8 @@
 
   // menu container
   &__container {
+    height: 100%;
+    padding-top: 0.5rem;
     & > ul {
       & > li {
         // &:last-child {
@@ -271,7 +273,8 @@
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 65px);
+    // height: calc(100vh - 65px);
+    height: inherit;
   }
 
   &__list {
