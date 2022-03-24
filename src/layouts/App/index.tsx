@@ -5,6 +5,7 @@ import SubBar from 'components/layout/SubBar';
 import TopBar from 'components/layout/TopBar';
 import Drawer from 'components/widgets/Drawers';
 import Modal from 'components/widgets/Modals';
+import BackTop from 'components/layout/BackTop';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -81,6 +82,7 @@ const AppLayout = ({ children }: AppProps) => {
           <SubBar location={location} />
         </Layout.Header>
         <Layout.Content style={{ height: '100%', position: 'relative' }}>
+          <BackTop />
           <div className="air__utils__content">{children}</div>
         </Layout.Content>
         <Modal />
