@@ -1,9 +1,5 @@
 @import 'assets/styles/mixins.scss';
 
-.sessionStatus {
-  text-transform: capitalize;
-}
-
 .actions {
   display: flex;
 
@@ -14,4 +10,8 @@
 
 .highlightedRow {
   background: fade-out($primary, 0.95);
+}
+
+.success {
+  color: $success;
 }

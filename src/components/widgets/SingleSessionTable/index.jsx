@@ -1,4 +1,4 @@
-import { Button, Table, Tag } from 'antd';
+import { Button, Table } from 'antd';
 import moment from 'moment';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -6,6 +6,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { constants } from 'utils/constants';
 import { rowCounter } from 'utils/tableFeatures';
+import ScanStatus from './components';
 import styles from './styles.module.scss';
 
 const SingleSessionTable = ({
@@ -21,32 +22,29 @@ const SingleSessionTable = ({
     {
       title: 'PoolName',
       dataIndex: 'scan_name',
-      key: 'scan_name',
-      width: 100,
       ellipsis: true,
     },
-    { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id', width: 100 },
-    { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
+    {
+      title: 'Pool ID',
+      dataIndex: 'pool_id',
+    },
+    {
+      title: 'Rack ID',
+      dataIndex: 'rack_id',
+    },
     {
       title: 'Scan time',
       dataIndex: 'scan_time',
-      key: 'scan_time',
-      width: 100,
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      key: 'status',
-      width: 100,
-      render: (text) => {
-        return (
-          <Tag color="blue" className={styles.sessionStatus}>
-            {text.toLowerCase()}
-          </Tag>
-        );
-      },
+      render: (value) => <ScanStatus status={value} />,
     },
-    { title: 'Actions', dataIndex: 'action', key: 'action', width: 200 },
+    {
+      title: 'Actions',
+      dataIndex: 'action',
+    },
   ];
 
   const dataForTable = scansInWork.map((scan) => {
@@ -73,7 +71,7 @@ const SingleSessionTable = ({
               onClick={() => handleCancelScan(scan)}
               type="primary"
             >
-              Cancel
+              Undo save
             </Button>
           )}
         </div>
