@@ -8,14 +8,17 @@ type TooltipProps = {
   children: JSX.Element;
 };
 
-const SearchTooltip = ({ searchFields, children }: TooltipProps) => {
+const SearchTooltip = ({
+  searchFields,
+  children,
+}: TooltipProps): JSX.Element => {
   const { isMobile } = useWindowSize();
 
   const popoverContent = (
     <div className={styles.popoverWrapper}>
       <p>You can search information using the following fields:</p>
       <p>
-        <b> {searchFields.join(', ')}</b>
+        <b>{searchFields.join(', ')}</b>
       </p>
     </div>
   );
