@@ -97,7 +97,7 @@ export async function getMenuData() {
     {
       title: 'Help Center',
       key: 'helpCenter',
-      icon: 'fa fa-question-circle-o',
+      icon: 'fe fe-help-circle',
     },
     {
       title: process.env.REACT_APP_VERSION,

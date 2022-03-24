@@ -39,6 +39,7 @@ import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import cookieStorage from 'utils/cookie';
+import SaveSessionModal from './SaveSessionModal';
 import styles from './styles.module.scss';
 
 const { Paragraph } = Typography;
@@ -260,39 +261,16 @@ const Scan = () => {
             maxHeight: '70vh',
             overflow: 'scroll',
           },
-          okText: 'Save',
-          message: () => {
-            if (
-              refPoolsCount === actualPoolsCount &&
-              refSamplesCount === actualSamplesCount
-            ) {
-              return <span>Are you sure to save session?</span>;
-            }
-            return (
-              <Alert
-                showIcon
-                type="warning"
-                message="Warning"
-                description={
-                  <>
-                    <Paragraph>Are you sure to save session?</Paragraph>
-                    {refPoolsCount !== actualPoolsCount && (
-                      <Paragraph>
-                        Reference pools ({refPoolsCount}) don't match actual
-                        pools ({actualPoolsCount})
-                      </Paragraph>
-                    )}
-                    {refSamplesCount !== actualSamplesCount && (
-                      <Paragraph>
-                        Reference samples ({refSamplesCount}) don't match actual
-                        samples ({actualSamplesCount})
-                      </Paragraph>
-                    )}
-                  </>
-                }
-              />
-            );
-          },
+          width: 650,
+          okText: 'Save session',
+          message: () => (
+            <SaveSessionModal
+              actualPoolsCount={actualPoolsCount}
+              actualSamplesCount={actualSamplesCount}
+              refPoolsCount={refPoolsCount}
+              refSamplesCount={refSamplesCount}
+            />
+          ),
         },
       });
     },
