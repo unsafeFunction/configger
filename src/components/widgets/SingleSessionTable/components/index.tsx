@@ -12,7 +12,6 @@ type StatusProps = {
 const ScanStatus = ({ status }: StatusProps): JSX.Element => {
   switch (status) {
     case 'STARTED': {
-      // TODO: think about it
       return (
         <Typography.Text className={styles.status}>
           <EditOutlined />

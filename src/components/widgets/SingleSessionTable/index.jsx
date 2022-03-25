@@ -1,4 +1,4 @@
-import { Button, Table } from 'antd';
+import { Button, Space, Table } from 'antd';
 import moment from 'moment';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -15,6 +15,7 @@ const SingleSessionTable = ({
   handleCancelScan,
   loadScan,
 }) => {
+  const { completed } = constants.scanStatuses;
   const { id, isLoading } = useSelector((state) => state.scanSessions.scan);
 
   const columns = [
@@ -34,7 +35,9 @@ const SingleSessionTable = ({
     },
     {
       title: 'Scan time',
-      dataIndex: 'scan_time',
+      dataIndex: 'scan_timestamp',
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Status',
@@ -43,41 +46,29 @@ const SingleSessionTable = ({
     },
     {
       title: 'Actions',
-      dataIndex: 'action',
-    },
-  ];
-
-  const dataForTable = scansInWork.map((scan) => {
-    return {
-      key: scan.id,
-      scan_name: scan.scan_name,
-      pool_id: scan.pool_id,
-      status: scan.status,
-      scan_time: moment(scan.scan_timestamp).format(constants.dateTimeFormat),
-      rack_id: scan.rack_id,
-      scanner: scan.scanner ?? '-',
-      action: (
-        <div className={styles.actions}>
+      dataIndex: 'actions',
+      render: (_, record) => (
+        <Space>
           <Button
             disabled={isLoading}
-            onClick={() => loadScan(scan.id)}
+            onClick={() => loadScan(record.id)}
             type="primary"
           >
             View scan
           </Button>
-          {scan.status === 'COMPLETED' && (
+          {record.status === completed && (
             <Button
               disabled={isLoading}
-              onClick={() => handleCancelScan(scan)}
+              onClick={() => handleCancelScan(record)}
               type="primary"
             >
               Undo save
             </Button>
           )}
-        </div>
+        </Space>
       ),
-    };
-  });
+    },
+  ];
 
   return (
     <Table
@@ -85,8 +76,10 @@ const SingleSessionTable = ({
       loading={session?.isLoading}
       columns={columns}
       pagination={false}
-      dataSource={dataForTable}
-      rowClassName={(record) => record.key === id && styles.highlightedRow}
+      dataSource={scansInWork}
+      rowClassName={(record) => record.id === id && styles.highlightedRow}
+      scroll={{ x: 'max-content' }}
+      rowKey={(record) => record.id}
     />
   );
 };
