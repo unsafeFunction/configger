@@ -40,6 +40,7 @@ import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import cookieStorage from 'utils/cookie';
+import SaveScanModal from './SaveScanModal';
 import SaveSessionModal from './SaveSessionModal';
 import styles from './styles.module.scss';
 
@@ -162,8 +163,8 @@ const Scan = () => {
 
   const incorrectPositions = scan?.incorrect_positions?.join(', ');
   const isIncorrectTubes = incorrectPositions?.length > 0;
-  const emptyPosition = scan?.empty_positions?.join(', ');
-  const isEmptyTubes = emptyPosition?.length > 0;
+  const emptyPositions = scan?.empty_positions?.join(', ');
+  const isEmptyTubes = emptyPositions?.length > 0;
 
   const companyInfo = session?.company_short;
 
@@ -340,43 +341,6 @@ const Scan = () => {
     [dispatch, reverseScanDrawer],
   );
 
-  const modalContent = () => {
-    const isIncorrect = isIncorrectTubes || isEmptyTubes;
-    return (
-      <div>
-        {isIncorrect && (
-          <Alert
-            showIcon
-            type="warning"
-            message="Warning"
-            description={
-              isIncorrectTubes ? (
-                <Paragraph>
-                  {`IT IS IMPOSSIBLE TO SAVE SCAN
-                     BECAUSE (${incorrectPositions}) POSITIONS ARE INCORRECT!`}
-                </Paragraph>
-              ) : (
-                <Paragraph>
-                  {`ARE YOU SURE THE RED
-                     (${emptyPosition}) POSITIONS ARE EMPTY?`}
-                </Paragraph>
-              )
-            }
-          />
-        )}
-        {isDiagnostic && !isIncorrectTubes && (
-          <Paragraph>
-            Continuing will categorize all tubes as diagnostic. Are you sure to
-            save the scan as diagnostic?
-          </Paragraph>
-        )}
-        {!isDiagnostic && !isIncorrect && (
-          <Paragraph>Are you sure to save scan?</Paragraph>
-        )}
-      </div>
-    );
-  };
-
   useEffect(() => {
     if (scansInWork[0]?.id) {
       loadScan(scansInWork[0]?.id);
@@ -483,11 +447,20 @@ const Scan = () => {
           maxHeight: '70vh',
           overflow: 'scroll',
         },
+        width: 650,
         okButtonProps: {
           disabled: isIncorrectTubes,
         },
         okText: 'Save scan',
-        message: modalContent,
+        message: () => (
+          <SaveScanModal
+            isIncorrectTubes={isIncorrectTubes}
+            isEmptyTubes={isEmptyTubes}
+            incorrectPositions={incorrectPositions}
+            emptyPositions={emptyPositions}
+            isDiagnostic={isDiagnostic}
+          />
+        ),
       },
     });
   }, [dispatch, updateScan, incorrectPositions, completed, isDiagnostic]);
