@@ -26,7 +26,7 @@ const SaveSessionModal = ({
           <>
             {`You have saved ${actualPoolsCount} scan(s)!`}
             <br />
-            Are you sure you would like to save session?
+            Are you sure you would like to save the session?
           </>
         }
         subTitle="The number of pools and samples are coinciding with declared in the intake log item."
@@ -40,7 +40,7 @@ const SaveSessionModal = ({
         <>
           {`You have saved ${actualPoolsCount} scan(s) containing ${actualSamplesCount} samples!`}
           <br />
-          Are you sure you would like to save session?
+          Are you sure you would like to save the session?
         </>
       }
       subTitle={`${refPoolsCount} pool(s) and ${refSamplesCount} samples are declared in the intake log item.`}
