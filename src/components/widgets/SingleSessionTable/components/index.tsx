@@ -13,7 +13,7 @@ const ScanStatus = ({ status }: StatusProps): JSX.Element => {
   switch (status) {
     case 'STARTED': {
       return (
-        <Typography.Text className={styles.status}>
+        <Typography.Text className={classNames(styles.status, styles.progress)}>
           <EditOutlined />
           Edit mode
         </Typography.Text>

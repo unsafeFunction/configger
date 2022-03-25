@@ -1,5 +1,10 @@
 @import 'assets/styles/mixins.scss';
 
-.highlightedRow {
-  background: fade-out($primary, 0.95);
+tr.accentRow td {
+  background: $gray-6;
+  color: $gray-1;
+}
+
+tr.accentRow:hover > td {
+  color: rgba(0, 0, 0, 0.85);
 }

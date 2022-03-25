@@ -1,1 +1,1 @@
-export const highlightedRow: string;
+export const accentRow: string;
