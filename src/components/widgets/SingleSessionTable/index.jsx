@@ -50,7 +50,7 @@ const SingleSessionTable = ({
       render: (_, record) => (
         <Space>
           <Button
-            disabled={isLoading}
+            disabled={isLoading || record.id === id}
             onClick={() => loadScan(record.id)}
             type="primary"
           >
@@ -77,7 +77,7 @@ const SingleSessionTable = ({
       columns={columns}
       pagination={false}
       dataSource={scansInWork}
-      rowClassName={(record) => record.id === id && styles.highlightedRow}
+      rowClassName={(record) => record.id === id && styles.accentRow}
       scroll={{ x: 'max-content' }}
       rowKey={(record) => record.id}
     />
