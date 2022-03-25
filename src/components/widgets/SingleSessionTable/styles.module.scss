@@ -1,17 +1,5 @@
 @import 'assets/styles/mixins.scss';
 
-.actions {
-  display: flex;
-
-  button:first-child {
-    margin-right: 10px;
-  }
-}
-
 .highlightedRow {
   background: fade-out($primary, 0.95);
-}
-
-.success {
-  color: $success;
 }

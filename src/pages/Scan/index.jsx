@@ -19,6 +19,7 @@ import {
   Popconfirm,
   Row,
   Statistic,
+  Tooltip,
   Typography,
 } from 'antd';
 import classNames from 'classnames';
@@ -485,7 +486,7 @@ const Scan = () => {
         okButtonProps: {
           disabled: isIncorrectTubes,
         },
-        okText: 'Save',
+        okText: 'Save scan',
         message: modalContent,
       },
     });
@@ -574,20 +575,23 @@ const Scan = () => {
           <div className="mb-4">
             <div className={styles.navigationWrapper}>
               <div>
-                <Button
-                  onClick={onSaveScanModalToggle}
-                  type="primary"
-                  htmlType="submit"
-                  className={styles.saveScanBtn}
-                  disabled={
-                    session?.isLoading ||
-                    scans.length === 0 ||
-                    scan?.isLoading ||
-                    scan?.status === completed
-                  }
-                >
-                  Save Scan
-                </Button>
+                <Tooltip title="Press Enter to save scan">
+                  <Button
+                    onClick={onSaveScanModalToggle}
+                    type="primary"
+                    htmlType="submit"
+                    className={styles.saveScanBtn}
+                    disabled={
+                      session?.isLoading ||
+                      scans.length === 0 ||
+                      scan?.isLoading ||
+                      scan?.status === completed
+                    }
+                  >
+                    Save Scan
+                  </Button>
+                </Tooltip>
+
                 <InfoButton type="saveScan" />
               </div>
               <div>
@@ -646,8 +650,8 @@ const Scan = () => {
                     session?.isLoading || scan?.isLoading || scans.length === 0
                   }
                 >
-                  <Button type="primary">
-                    Actions
+                  <Button type="primary" ghost>
+                    Scan Actions
                     <DownOutlined />
                   </Button>
                 </Dropdown>
