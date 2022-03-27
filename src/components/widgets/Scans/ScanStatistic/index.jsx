@@ -48,7 +48,8 @@ const ScanStatistic = ({ scan, isRack = false }) => {
           <Col xs={6}>
             <Card className={styles.card}>
               <Statistic
-                title="Status"
+                title={<b>Status</b>}
+                valueStyle={{ fontWeight: '500' }}
                 value={scan?.status?.toLowerCase() ?? '-'}
                 formatter={(value) => <Tag color="purple">{value}</Tag>}
                 className={classNames(styles.statistic, styles.ellipsis)}

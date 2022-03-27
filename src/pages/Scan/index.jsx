@@ -520,7 +520,6 @@ const Scan = () => {
             </Button>
             <InfoButton type="saveSession" />
           </div>
-          <Row style={{ marginRight: 30 }} />
           <Dropdown
             overlay={sessionMenu}
             overlayClassName={styles.actionsOverlay}
@@ -535,7 +534,7 @@ const Scan = () => {
             disabled={session?.isLoading}
             className={styles.actions}
           >
-            <Button type="primary" ghost>
+            <Button className="ml-3" type="primary" ghost>
               Session Actions
               <DownOutlined />
             </Button>
@@ -547,26 +546,6 @@ const Scan = () => {
         <Col xs={24} md={18} lg={16} xl={14}>
           <div className="mb-4">
             <div className={styles.navigationWrapper}>
-              <div>
-                <Tooltip title="Press Enter to save scan">
-                  <Button
-                    onClick={onSaveScanModalToggle}
-                    type="primary"
-                    htmlType="submit"
-                    className={styles.saveScanBtn}
-                    disabled={
-                      session?.isLoading ||
-                      scans.length === 0 ||
-                      scan?.isLoading ||
-                      scan?.status === completed
-                    }
-                  >
-                    Save Scan
-                  </Button>
-                </Tooltip>
-
-                <InfoButton type="saveScan" />
-              </div>
               <div>
                 {scansInWork.length > 1 && (
                   <>
@@ -629,6 +608,26 @@ const Scan = () => {
                   </Button>
                 </Dropdown>
                 <InfoButton type="scanActions" />
+              </div>
+              <div>
+                <Tooltip title="Press Enter to save scan">
+                  <Button
+                    onClick={onSaveScanModalToggle}
+                    type="primary"
+                    htmlType="submit"
+                    className={styles.saveScanBtn}
+                    disabled={
+                      session?.isLoading ||
+                      scans.length === 0 ||
+                      scan?.isLoading ||
+                      scan?.status === completed
+                    }
+                  >
+                    Save Scan
+                  </Button>
+                </Tooltip>
+
+                <InfoButton type="saveScan" />
               </div>
             </div>
             {/* TODO: why is using separately scanId */}
