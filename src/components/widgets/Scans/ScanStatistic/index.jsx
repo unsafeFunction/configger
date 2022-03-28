@@ -15,7 +15,7 @@ const ScanStatistic = ({ scan, isRack = false }) => {
 
   return (
     <Row gutter={[24, 16]}>
-      <Col xs={6}>
+      <Col xs={8}>
         <Card className={styles.card}>
           <Tooltip placement="bottom" title={scan?.rack_id}>
             <Statistic
@@ -34,7 +34,7 @@ const ScanStatistic = ({ scan, isRack = false }) => {
       </Col>
       {!isRack && (
         <>
-          <Col xs={6}>
+          <Col xs={8}>
             <Card className={styles.card}>
               <Statistic
                 title="Pool ID"
@@ -45,18 +45,7 @@ const ScanStatistic = ({ scan, isRack = false }) => {
               />
             </Card>
           </Col>
-          <Col xs={6}>
-            <Card className={styles.card}>
-              <Statistic
-                title={<b>Status</b>}
-                valueStyle={{ fontWeight: '500' }}
-                value={scan?.status?.toLowerCase() ?? '-'}
-                formatter={(value) => <Tag color="purple">{value}</Tag>}
-                className={classNames(styles.statistic, styles.ellipsis)}
-              />
-            </Card>
-          </Col>
-          <Col xs={6}>
+          <Col xs={8}>
             <Card className={styles.card}>
               <Statistic
                 title="Total Tubes"
