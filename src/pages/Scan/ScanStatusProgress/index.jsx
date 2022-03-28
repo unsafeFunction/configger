@@ -5,16 +5,30 @@ import { getScanStatusText } from 'utils/highlighting';
 import styles from './styles.module.scss';
 
 const ScanStatusProgress = ({ status }) => {
-  const { started } = constants.scanStatuses;
+  const { started, completed } = constants.scanStatuses;
   const progressWidth = 100;
-  const percent = status === started ? 50 : 100;
+
+  const getPercent = () => {
+    switch (status) {
+      case started: {
+        return 50;
+      }
+      case completed: {
+        return 100;
+      }
+      default: {
+        return 0;
+      }
+    }
+  };
 
   return (
     <Progress
       type="circle"
-      percent={percent}
+      percent={getPercent()}
       width={progressWidth}
-      format={(_) => (
+      strokeColor="#0679a6"
+      format={() => (
         <p className={styles.progressTitle}>
           {getScanStatusText(status)?.toUpperCase()}
         </p>
