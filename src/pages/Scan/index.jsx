@@ -21,7 +21,7 @@ import {
   Statistic,
   Tooltip,
   Typography,
-  Progress,
+  Divider,
 } from 'antd';
 import classNames from 'classnames';
 import InfoButton from 'components/layout/InfoButton';
@@ -43,6 +43,7 @@ import { constants } from 'utils/constants';
 import cookieStorage from 'utils/cookie';
 import SaveScanModal from './SaveScanModal';
 import SaveSessionModal from './SaveSessionModal';
+import ScanStatusProgress from './ScanStatusProgress';
 import styles from './styles.module.scss';
 
 const { Paragraph } = Typography;
@@ -652,54 +653,49 @@ const Scan = () => {
         <Col xs={24} md={18} lg={8} xl={10}>
           <div className={styles.companyDetails}>
             <Card>
-              <Row className={styles.scanStatusRow}>
-                <Col className="mr-4">
-                  <Statistic
-                    className={styles.companyDetailsStat}
-                    title={
-                      <p style={{ fontWeight: 'bold', color: '#000' }}>
-                        Scan status
-                      </p>
-                    }
-                    formatter={() => (
-                      <Progress
-                        type="circle"
-                        percent={100}
-                        width={100}
-                        format={(_) => (
-                          <p style={{ fontSize: 16, marginBottom: 0 }}>
-                            Completed
-                          </p>
-                        )}
-                      />
-                    )}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col className="mr-4">
-                  <Statistic
-                    className={styles.companyDetailsStat}
-                    title="Company name"
-                    value={companyInfo?.name ?? '–'}
-                  />
-                </Col>
-                <Col className="mr-4">
-                  <Statistic
-                    className={styles.companyDetailsStat}
-                    title="Company short"
-                    value={companyInfo?.name_short ?? '–'}
-                  />
-                </Col>
-                <Col className="mr-4">
-                  <Statistic
-                    className={styles.companyDetailsStat}
-                    title="Company ID"
-                    groupSeparator=""
-                    value={companyInfo?.company_id ?? '–'}
-                  />
-                </Col>
-              </Row>
+              {scan?.id && (
+                <Row className={styles.scanStatusRow}>
+                  <Col>
+                    <Statistic
+                      className={styles.companyDetailsStat}
+                      title={
+                        <p className={styles.scanStatusTitle}>Scan status</p>
+                      }
+                      formatter={() => (
+                        <ScanStatusProgress status={scan?.status} />
+                      )}
+                    />
+                  </Col>
+                </Row>
+              )}
+              <div className={styles.companyContainer}>
+                <Row>
+                  <Col className="mr-4">
+                    <Statistic
+                      className={styles.companyDetailsStat}
+                      title="Company name"
+                      value={companyInfo?.name ?? '–'}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="mr-4">
+                    <Statistic
+                      className={styles.companyDetailsStat}
+                      title="Company short"
+                      value={companyInfo?.name_short ?? '–'}
+                    />
+                  </Col>
+                  <Col className="mr-4">
+                    <Statistic
+                      className={styles.companyDetailsStat}
+                      title="Company ID"
+                      groupSeparator=""
+                      value={companyInfo?.company_id ?? '–'}
+                    />
+                  </Col>
+                </Row>
+              </div>
               <Row>
                 <Col className="mr-4">
                   <div className={styles.statisticReplacement}>

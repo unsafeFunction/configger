@@ -53,6 +53,11 @@
   }
 }
 
+.companyContainer {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  margin-bottom: 10px;
+}
+
 .navigationWrapper {
   display: flex;
   justify-content: space-between;
@@ -61,11 +66,13 @@
 
 .scanStatusRow {
   justify-content: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.45);
-  margin-bottom: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  margin-bottom: 10px;
 
-  .ant-statistic-title {
-    text-align: center !important;
+  .scanStatusTitle {
+    font-weight: bold;
+    color: black;
+    text-align: center;
   }
 }
 
