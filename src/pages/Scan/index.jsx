@@ -21,7 +21,6 @@ import {
   Statistic,
   Tooltip,
   Typography,
-  Divider,
 } from 'antd';
 import classNames from 'classnames';
 import InfoButton from 'components/layout/InfoButton';
@@ -724,8 +723,8 @@ const Scan = () => {
                     className={styles.companyDetailsStat}
                     title="Scanner status"
                     formatter={() =>
-                      scan?.scannerObj?.id ? (
-                        <PulseCircle scanner={scan?.scannerObj} />
+                      session?.scannerObj?.id ? (
+                        <PulseCircle scanner={session?.scannerObj} />
                       ) : (
                         '-'
                       )
