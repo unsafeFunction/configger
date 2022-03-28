@@ -108,3 +108,17 @@ export const getStatusText = (status) => {
       return status.toUpperCase();
   }
 };
+
+export const getScanStatusText = (status) => {
+  switch (status) {
+    case 'STARTED': {
+      return 'Editing';
+    }
+    case 'COMPLETED': {
+      return 'Saved';
+    }
+    default: {
+      return status;
+    }
+  }
+};

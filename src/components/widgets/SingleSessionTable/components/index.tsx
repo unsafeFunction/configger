@@ -3,6 +3,7 @@ import { CheckOutlined, EditOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
+import { getScanStatusText } from 'utils/highlighting';
 import styles from './styles.module.scss';
 
 type StatusProps = {
@@ -15,7 +16,7 @@ const ScanStatus = ({ status }: StatusProps): JSX.Element => {
       return (
         <Typography.Text className={classNames(styles.status, styles.progress)}>
           <EditOutlined />
-          Editing
+          {getScanStatusText(status)}
         </Typography.Text>
       );
     }
@@ -23,7 +24,7 @@ const ScanStatus = ({ status }: StatusProps): JSX.Element => {
       return (
         <Typography.Text className={classNames(styles.status, styles.success)}>
           <CheckOutlined />
-          Saved
+          {getScanStatusText(status)}
         </Typography.Text>
       );
     }
