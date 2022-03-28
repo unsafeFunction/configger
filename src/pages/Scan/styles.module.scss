@@ -59,6 +59,16 @@
   margin-bottom: 13px;
 }
 
+.scanStatusRow {
+  justify-content: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+  margin-bottom: 5px;
+
+  .ant-statistic-title {
+    text-align: center !important;
+  }
+}
+
 .submitBtns {
   display: flex;
   justify-content: flex-end;
