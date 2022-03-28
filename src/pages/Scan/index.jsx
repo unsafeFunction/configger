@@ -24,6 +24,7 @@ import {
   Statistic,
   Tooltip,
   Typography,
+  Tag,
 } from 'antd';
 import PulseCircle from 'components/widgets/Pools/PulseCircle';
 import Rackboard from 'components/widgets/Rackboard';
@@ -525,7 +526,7 @@ const Scan = () => {
             <Statistic
               className={styles.companyDetailsStat}
               title="Company ID"
-              // groupSeparator=""
+              groupSeparator=""
               value={companyInfo?.company_id ?? '-'}
             />
           </Col>
@@ -542,24 +543,6 @@ const Scan = () => {
               }
             />
           </Col>
-
-          {/* TODO: нужное!!!! */}
-          {/* <Col className="mr-4">
-            <Statistic
-              className={styles.companyDetailsStat}
-              title="Saved / Reference pools"
-              value={`${actualPoolsCount} / ${refPoolsCount}`}
-              formatter={(value) => <Tag color="gold">{value}</Tag>}
-            />
-          </Col> */}
-          {/* <Col className="mr-4">
-            <Statistic
-              className={styles.companyDetailsStat}
-              title="Saved / Reference samples"
-              value={`${actualSamplesCount} / ${refSamplesCount}`}
-              formatter={(value) => <Tag color="gold">{value}</Tag>}
-            />
-          </Col> */}
         </Row>
         <div className={styles.sessionBtns}>
           {/* <div> */}
@@ -617,6 +600,92 @@ const Scan = () => {
             />
           </Col>
           <Col xs={12}>
+            <Space size="large">
+              <div>
+                {scansInWork.length > 1 && (
+                  <>
+                    <Tooltip title="Previous scan">
+                      <Button
+                        className="mr-2"
+                        ref={leftArrowRef}
+                        icon={<LeftOutlined />}
+                        onClick={() => {
+                          leftArrowRef.current.blur();
+                          setEditOpen(false);
+                          return (
+                            scansInWork[scanIndex - 1]?.id &&
+                            loadScan(scansInWork[scanIndex - 1].id)
+                          );
+                        }}
+                        disabled={
+                          session?.isLoading ||
+                          scan?.isLoading ||
+                          !scansInWork[scanIndex - 1]
+                        }
+                      />
+                    </Tooltip>
+                    <Tooltip title="Next scan">
+                      <Button
+                        className="mr-2"
+                        ref={rightArrowRef}
+                        icon={<RightOutlined />}
+                        onClick={() => {
+                          rightArrowRef.current.blur();
+                          setEditOpen(false);
+                          return (
+                            scansInWork[scanIndex + 1]?.id &&
+                            loadScan(scansInWork[scanIndex + 1].id)
+                          );
+                        }}
+                        disabled={
+                          session?.isLoading ||
+                          scan?.isLoading ||
+                          !scansInWork[scanIndex + 1]
+                        }
+                      />
+                    </Tooltip>
+                  </>
+                )}
+              </div>
+              <Dropdown
+                overlay={scanMenu}
+                overlayClassName={styles.actionsOverlay}
+                trigger="click"
+                onClick={handleSwitchVisibleActions}
+                visible={visibleActions}
+                onVisibleChange={(value) => {
+                  if (!value) {
+                    setVisibleActions(false);
+                  }
+                }}
+                disabled={
+                  session?.isLoading || scan?.isLoading || scans.length === 0
+                }
+              >
+                <Button type="primary" ghost>
+                  Scan Actions
+                  <DownOutlined />
+                </Button>
+              </Dropdown>
+              {/* </InfoButton type="scanActions" /> */}
+              <Tooltip title="Press Enter to save scan">
+                <Button
+                  onClick={onSaveScanModalToggle}
+                  type="primary"
+                  htmlType="submit"
+                  disabled={
+                    session?.isLoading ||
+                    scans.length === 0 ||
+                    scan?.isLoading ||
+                    scan?.status === completed
+                  }
+                >
+                  Save Scan
+                </Button>
+                {/* <InfoButton type="saveScan" /> */}
+              </Tooltip>
+            </Space>
+            <Divider />
             <Card.Meta
               className={styles.cardMeta}
               avatar={<ScanStatusProgress status={scan?.status} />}
@@ -627,9 +696,11 @@ const Scan = () => {
               }`}
               description={
                 <Typography.Text type="secondary">
-                  {`Rack ID ${scan?.rack_id ?? '-'}`}
+                  <b>Rack ID</b>
+                  {scan?.rack_id ?? '-'}
                   <br />
-                  {`Pool ID ${scan?.pool_id ?? '-'}`}
+                  <b>Pool ID</b>
+                  {scan?.pool_id ?? '-'}
                 </Typography.Text>
               }
             />
@@ -660,6 +731,22 @@ const Scan = () => {
                     className={styles.companyDetailsStat}
                     title="Total Tubes"
                     value={tubesTotal?.length}
+                  />
+                </Col>
+                <Col className="mr-4">
+                  <Statistic
+                    className={styles.companyDetailsStat}
+                    title="Saved / Reference pools"
+                    value={`${actualPoolsCount} / ${refPoolsCount}`}
+                    formatter={(value) => <Tag color="gold">{value}</Tag>}
+                  />
+                </Col>
+                <Col className="mr-4">
+                  <Statistic
+                    className={styles.companyDetailsStat}
+                    title="Saved / Reference samples"
+                    value={`${actualSamplesCount} / ${refSamplesCount}`}
+                    formatter={(value) => <Tag color="gold">{value}</Tag>}
                   />
                 </Col>
                 <Col>
@@ -693,95 +780,8 @@ const Scan = () => {
                     </span>
                   </div>
                 </Col>
+                <Divider />
               </Row>
-              <Divider />
-              <Space size="large">
-                <Tooltip title="Press Enter to save scan">
-                  <Button
-                    onClick={onSaveScanModalToggle}
-                    type="primary"
-                    htmlType="submit"
-                    disabled={
-                      session?.isLoading ||
-                      scans.length === 0 ||
-                      scan?.isLoading ||
-                      scan?.status === completed
-                    }
-                  >
-                    Save Scan
-                  </Button>
-                </Tooltip>
-                {/* <InfoButton type="saveScan" /> */}
-                <Dropdown
-                  overlay={scanMenu}
-                  overlayClassName={styles.actionsOverlay}
-                  trigger="click"
-                  onClick={handleSwitchVisibleActions}
-                  visible={visibleActions}
-                  onVisibleChange={(value) => {
-                    if (!value) {
-                      setVisibleActions(false);
-                    }
-                  }}
-                  disabled={
-                    session?.isLoading || scan?.isLoading || scans.length === 0
-                  }
-                >
-                  <Button type="primary" ghost>
-                    Scan Actions
-                    <DownOutlined />
-                  </Button>
-                </Dropdown>
-                {/* <InfoButton type="scanActions" /> */}
-
-                <div>
-                  {scansInWork.length > 1 && (
-                    <>
-                      <Tooltip title="Previous scan">
-                        <Button
-                          className="mr-2"
-                          ref={leftArrowRef}
-                          icon={<LeftOutlined />}
-                          onClick={() => {
-                            leftArrowRef.current.blur();
-                            setEditOpen(false);
-                            return (
-                              scansInWork[scanIndex - 1]?.id &&
-                              loadScan(scansInWork[scanIndex - 1].id)
-                            );
-                          }}
-                          disabled={
-                            session?.isLoading ||
-                            scan?.isLoading ||
-                            !scansInWork[scanIndex - 1]
-                          }
-                        />
-                      </Tooltip>
-
-                      <Tooltip title="Next scan">
-                        <Button
-                          className="mr-2"
-                          ref={rightArrowRef}
-                          icon={<RightOutlined />}
-                          onClick={() => {
-                            rightArrowRef.current.blur();
-                            setEditOpen(false);
-                            return (
-                              scansInWork[scanIndex + 1]?.id &&
-                              loadScan(scansInWork[scanIndex + 1].id)
-                            );
-                          }}
-                          disabled={
-                            session?.isLoading ||
-                            scan?.isLoading ||
-                            !scansInWork[scanIndex + 1]
-                          }
-                        />
-                      </Tooltip>
-                    </>
-                  )}
-                </div>
-              </Space>
             </div>
           </Col>
         </Row>
