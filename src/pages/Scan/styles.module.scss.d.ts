@@ -5,7 +5,6 @@ export const editPoolName: string;
 export const editPoolNameInputWrapper: string;
 export const navigationWrapper: string;
 export const pageHeader: string;
-export const saveScanBtn: string;
 export const statisticReplacement: string;
 export const statisticReplacementContent: string;
 export const statisticReplacementTitle: string;

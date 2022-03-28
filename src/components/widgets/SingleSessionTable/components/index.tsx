@@ -15,7 +15,7 @@ const ScanStatus = ({ status }: StatusProps): JSX.Element => {
       return (
         <Typography.Text className={classNames(styles.status, styles.progress)}>
           <EditOutlined />
-          Edit mode
+          Editing
         </Typography.Text>
       );
     }

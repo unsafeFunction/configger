@@ -514,7 +514,6 @@ const Scan = () => {
               }}
               type="primary"
               htmlType="submit"
-              className={styles.saveScanBtn}
             >
               Save Session
             </Button>
@@ -615,7 +614,6 @@ const Scan = () => {
                     onClick={onSaveScanModalToggle}
                     type="primary"
                     htmlType="submit"
-                    className={styles.saveScanBtn}
                     disabled={
                       session?.isLoading ||
                       scans.length === 0 ||
