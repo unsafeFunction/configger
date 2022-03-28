@@ -609,14 +609,6 @@ const Scan = () => {
                 </Dropdown>
                 <InfoButton type="scanActions" />
               </div>
-              {/*<div>*/}
-              {/*  <Progress*/}
-              {/*    type="circle"*/}
-              {/*    percent={100}*/}
-              {/*    width={100}*/}
-              {/*    format={_ => <p style={{fontSize: 16, marginBottom: 0}}>Completed</p>}*/}
-              {/*  />*/}
-              {/*</div>*/}
               <div>
                 <Tooltip title="Press Enter to save scan">
                   <Button

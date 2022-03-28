@@ -16,7 +16,7 @@ const ScanStatusProgress = ({ status }) => {
       width={progressWidth}
       format={(_) => (
         <p className={styles.progressTitle}>
-          {getScanStatusText(status).toUpperCase()}
+          {getScanStatusText(status)?.toUpperCase()}
         </p>
       )}
     />
