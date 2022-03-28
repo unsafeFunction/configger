@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable prettier/prettier */
 /* eslint-disable indent */
 import {
@@ -13,21 +14,20 @@ import {
   Card,
   Checkbox,
   Col,
+  Divider,
   Dropdown,
   Input,
   Menu,
   Popconfirm,
   Row,
+  Space,
   Statistic,
   Tooltip,
   Typography,
+  Tag,
 } from 'antd';
-import classNames from 'classnames';
-import InfoButton from 'components/layout/InfoButton';
 import PulseCircle from 'components/widgets/Pools/PulseCircle';
 import Rackboard from 'components/widgets/Rackboard';
-import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
-import SessionStatistic from 'components/widgets/Scans/SessionStatistic';
 import SessionEntryModal from 'components/widgets/SessionEntryModal';
 import SingleSessionTable from 'components/widgets/SingleSessionTable';
 import useKeyPress from 'hooks/useKeyPress';
@@ -40,6 +40,7 @@ import modalActions from 'redux/modal/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
 import cookieStorage from 'utils/cookie';
+import { countedPoolTubes } from 'utils/tubesRules';
 import SaveScanModal from './SaveScanModal';
 import SaveSessionModal from './SaveSessionModal';
 import ScanStatusProgress from './ScanStatusProgress';
@@ -47,6 +48,13 @@ import styles from './styles.module.scss';
 
 const { Paragraph } = Typography;
 const cookie = cookieStorage();
+
+const IconText = ({ icon, text }) => (
+  <Space>
+    {React.createElement(icon)}
+    {text}
+  </Space>
+);
 
 const Scan = () => {
   const dispatch = useDispatch();
@@ -68,6 +76,10 @@ const Scan = () => {
   const session = useSelector((state) => state.scanSessions.singleSession);
   const scans = session?.scans;
   const scan = useSelector((state) => state.scanSessions.scan);
+
+  const tubesTotal = scan?.scan_tubes?.filter((tube) => {
+    return countedPoolTubes.find((t) => t.status === tube.status);
+  });
 
   const [isDiagnostic, setDiagnostic] = useState(true);
 
@@ -494,32 +506,64 @@ const Scan = () => {
 
   return (
     <div>
-      <div className={classNames('air__utils__heading', styles.page__header)}>
-        <Typography.Title level={4} className="font-weight-normal">
-          {scan?.scan_timestamp
-            ? `Scan on ${moment(scan.scan_timestamp).format(
-                constants.dateTimeFormat,
-              )}`
-            : ''}
-        </Typography.Title>
-        <Row>
-          <div>
-            <Button
-              onClick={() => {
-                onSaveSessionModalToggle(
-                  refPoolsCount,
-                  refSamplesCount,
-                  actualPoolsCount,
-                  actualSamplesCount,
-                );
-              }}
-              type="primary"
-              htmlType="submit"
-            >
-              Save Session
-            </Button>
-            <InfoButton type="saveSession" />
-          </div>
+      <div className={styles.headline}>
+        <Row gutter={[32, 16]}>
+          <Col>
+            <Statistic
+              className={styles.companyDetailsStat}
+              title="Company name"
+              value={companyInfo?.name ?? '-'}
+            />
+          </Col>
+          <Col>
+            <Statistic
+              className={styles.companyDetailsStat}
+              title="Company short"
+              value={companyInfo?.name_short ?? '-'}
+            />
+          </Col>
+          <Col>
+            <Statistic
+              className={styles.companyDetailsStat}
+              title="Company ID"
+              groupSeparator=""
+              value={companyInfo?.company_id ?? '-'}
+            />
+          </Col>
+          <Col>
+            <Statistic
+              className={styles.companyDetailsStat}
+              title="Scanner status"
+              formatter={() =>
+                session?.scannerObj?.id ? (
+                  <PulseCircle scanner={session?.scannerObj} />
+                ) : (
+                  '-'
+                )
+              }
+            />
+          </Col>
+        </Row>
+        <div className={styles.sessionBtns}>
+          {/* <div> */}
+          <Button
+            onClick={() => {
+              onSaveSessionModalToggle(
+                refPoolsCount,
+                refSamplesCount,
+                actualPoolsCount,
+                actualSamplesCount,
+              );
+            }}
+            type="primary"
+            htmlType="submit"
+            size="large"
+          >
+            Save Session
+          </Button>
+          {/* <InfoButton type="saveSession" /> */}
+          {/* </div> */}
+          {/* <div> */}
           <Dropdown
             overlay={sessionMenu}
             overlayClassName={styles.actionsOverlay}
@@ -534,101 +578,19 @@ const Scan = () => {
             disabled={session?.isLoading}
             className={styles.actions}
           >
-            <Button className="ml-3" type="primary" ghost>
+            <Button className="ml-3" type="primary" ghost size="large">
               Session Actions
               <DownOutlined />
             </Button>
           </Dropdown>
-          <InfoButton type="cancelSession" />
-        </Row>
+          {/* <InfoButton type="cancelSession" /> */}
+          {/* </div> */}
+        </div>
       </div>
-      <Row gutter={[48, 40]} justify="center">
-        <Col xs={24} md={18} lg={16} xl={14}>
-          <div className="mb-4">
-            <div className={styles.navigationWrapper}>
-              <div>
-                {scansInWork.length > 1 && (
-                  <>
-                    <Button
-                      className="mr-2"
-                      ref={leftArrowRef}
-                      icon={<LeftOutlined />}
-                      onClick={() => {
-                        leftArrowRef.current.blur();
-                        setEditOpen(false);
-                        return (
-                          scansInWork[scanIndex - 1]?.id &&
-                          loadScan(scansInWork[scanIndex - 1].id)
-                        );
-                      }}
-                      disabled={
-                        session?.isLoading ||
-                        scan?.isLoading ||
-                        !scansInWork[scanIndex - 1]
-                      }
-                    />
-                    <Button
-                      className="mr-2"
-                      ref={rightArrowRef}
-                      icon={<RightOutlined />}
-                      onClick={() => {
-                        rightArrowRef.current.blur();
-                        setEditOpen(false);
-                        return (
-                          scansInWork[scanIndex + 1]?.id &&
-                          loadScan(scansInWork[scanIndex + 1].id)
-                        );
-                      }}
-                      disabled={
-                        session?.isLoading ||
-                        scan?.isLoading ||
-                        !scansInWork[scanIndex + 1]
-                      }
-                    />
-                  </>
-                )}
-                <Dropdown
-                  overlay={scanMenu}
-                  overlayClassName={styles.actionsOverlay}
-                  trigger="click"
-                  onClick={handleSwitchVisibleActions}
-                  visible={visibleActions}
-                  onVisibleChange={(value) => {
-                    if (!value) {
-                      setVisibleActions(false);
-                    }
-                  }}
-                  disabled={
-                    session?.isLoading || scan?.isLoading || scans.length === 0
-                  }
-                >
-                  <Button type="primary" ghost>
-                    Scan Actions
-                    <DownOutlined />
-                  </Button>
-                </Dropdown>
-                <InfoButton type="scanActions" />
-              </div>
-              <div>
-                <Tooltip title="Press Enter to save scan">
-                  <Button
-                    onClick={onSaveScanModalToggle}
-                    type="primary"
-                    htmlType="submit"
-                    disabled={
-                      session?.isLoading ||
-                      scans.length === 0 ||
-                      scan?.isLoading ||
-                      scan?.status === completed
-                    }
-                  >
-                    Save Scan
-                  </Button>
-                </Tooltip>
 
-                <InfoButton type="saveScan" />
-              </div>
-            </div>
+      <Card>
+        <Row gutter={64}>
+          <Col xs={12}>
             {/* TODO: why is using separately scanId */}
             <Rackboard
               rackboard={scan}
@@ -636,137 +598,195 @@ const Scan = () => {
               session={session}
               editMode={scan?.status !== completed}
             />
-          </div>
-          <div className="mb-4">
-            <ScanStatistic scan={scan} />
-          </div>
-        </Col>
-        <Col xs={24} md={18} lg={8} xl={10}>
-          <div className={styles.companyDetails}>
-            <Card>
-              {scan?.id && (
-                <Row className={styles.scanStatusRow}>
-                  <Col>
-                    <Statistic
-                      className={styles.companyDetailsStat}
-                      title={
-                        <p className={styles.scanStatusTitle}>Scan status</p>
-                      }
-                      formatter={() => (
-                        <ScanStatusProgress status={scan?.status} />
-                      )}
-                    />
-                  </Col>
-                </Row>
-              )}
-              <div className={styles.companyContainer}>
-                <Row>
-                  <Col className="mr-4">
-                    <Statistic
-                      className={styles.companyDetailsStat}
-                      title="Company name"
-                      value={companyInfo?.name ?? '–'}
-                    />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col className="mr-4">
-                    <Statistic
-                      className={styles.companyDetailsStat}
-                      title="Company short"
-                      value={companyInfo?.name_short ?? '–'}
-                    />
-                  </Col>
-                  <Col className="mr-4">
-                    <Statistic
-                      className={styles.companyDetailsStat}
-                      title="Company ID"
-                      groupSeparator=""
-                      value={companyInfo?.company_id ?? '–'}
-                    />
-                  </Col>
-                </Row>
+          </Col>
+          <Col xs={12}>
+            <Space size="large">
+              <div>
+                {scansInWork.length > 1 && (
+                  <>
+                    <Tooltip title="Previous scan">
+                      <Button
+                        className="mr-2"
+                        ref={leftArrowRef}
+                        icon={<LeftOutlined />}
+                        onClick={() => {
+                          leftArrowRef.current.blur();
+                          setEditOpen(false);
+                          return (
+                            scansInWork[scanIndex - 1]?.id &&
+                            loadScan(scansInWork[scanIndex - 1].id)
+                          );
+                        }}
+                        disabled={
+                          session?.isLoading ||
+                          scan?.isLoading ||
+                          !scansInWork[scanIndex - 1]
+                        }
+                      />
+                    </Tooltip>
+                    <Tooltip title="Next scan">
+                      <Button
+                        className="mr-2"
+                        ref={rightArrowRef}
+                        icon={<RightOutlined />}
+                        onClick={() => {
+                          rightArrowRef.current.blur();
+                          setEditOpen(false);
+                          return (
+                            scansInWork[scanIndex + 1]?.id &&
+                            loadScan(scansInWork[scanIndex + 1].id)
+                          );
+                        }}
+                        disabled={
+                          session?.isLoading ||
+                          scan?.isLoading ||
+                          !scansInWork[scanIndex + 1]
+                        }
+                      />
+                    </Tooltip>
+                  </>
+                )}
               </div>
+              <Dropdown
+                overlay={scanMenu}
+                overlayClassName={styles.actionsOverlay}
+                trigger="click"
+                onClick={handleSwitchVisibleActions}
+                visible={visibleActions}
+                onVisibleChange={(value) => {
+                  if (!value) {
+                    setVisibleActions(false);
+                  }
+                }}
+                disabled={
+                  session?.isLoading || scan?.isLoading || scans.length === 0
+                }
+              >
+                <Button type="primary" ghost>
+                  Scan Actions
+                  <DownOutlined />
+                </Button>
+              </Dropdown>
+              {/* </InfoButton type="scanActions" /> */}
+              <Tooltip title="Press Enter to save scan">
+                <Button
+                  onClick={onSaveScanModalToggle}
+                  type="primary"
+                  htmlType="submit"
+                  disabled={
+                    session?.isLoading ||
+                    scans.length === 0 ||
+                    scan?.isLoading ||
+                    scan?.status === completed
+                  }
+                >
+                  Save Scan
+                </Button>
+                {/* <InfoButton type="saveScan" /> */}
+              </Tooltip>
+            </Space>
+            <Divider />
+            <Card.Meta
+              className={styles.cardMeta}
+              avatar={<ScanStatusProgress status={scan?.status} />}
+              title={`Scan on ${
+                scan?.scan_timestamp
+                  ? moment(scan.scan_timestamp).format(constants.dateTimeFormat)
+                  : ''
+              }`}
+              description={
+                <Typography.Text type="secondary">
+                  <b>Rack ID</b>
+                  {scan?.rack_id ?? '-'}
+                  <br />
+                  <b>Pool ID</b>
+                  {scan?.pool_id ?? '-'}
+                </Typography.Text>
+              }
+            />
+            <div className="mb-3">
               <Row>
                 <Col className="mr-4">
-                  <div className={styles.statisticReplacement}>
-                    <div className={styles.statisticReplacementTitle}>
-                      <p>Diagnostic status </p>
-                    </div>
-                    <div className={styles.statisticReplacementContent}>
-                      <span className={styles.statisticReplacementValue}>
-                        <Checkbox
-                          className="mb-1"
-                          disabled={
-                            scan?.pool_id?.split?.('-')?.[0] ===
-                            constants.scan.emptyPoolId
-                          }
-                          checked={isDiagnostic}
-                          onChange={() => setDiagnostic(!isDiagnostic)}
-                        >
-                          This scan is diagnostic
-                        </Checkbox>
-                      </span>
-                    </div>
+                  <div className={styles.statisticReplacementTitle}>
+                    <p>Diagnostic status </p>
+                  </div>
+                  <div className={styles.statisticReplacementContent}>
+                    <span className={styles.statisticReplacementValue}>
+                      <Checkbox
+                        className="mb-1"
+                        disabled={
+                          scan?.pool_id?.split?.('-')?.[0] ===
+                          constants.scan.emptyPoolId
+                        }
+                        checked={isDiagnostic}
+                        onChange={() => setDiagnostic(!isDiagnostic)}
+                      >
+                        This scan is diagnostic
+                      </Checkbox>
+                    </span>
                   </div>
                 </Col>
                 <Col className="mr-4">
                   <Statistic
                     className={styles.companyDetailsStat}
-                    title="Scanner status"
-                    formatter={() =>
-                      session?.scannerObj?.id ? (
-                        <PulseCircle scanner={session?.scannerObj} />
-                      ) : (
-                        '-'
-                      )
-                    }
+                    title="Total Tubes"
+                    value={tubesTotal?.length}
                   />
                 </Col>
                 <Col className="mr-4">
-                  <div className={styles.statisticReplacement}>
-                    <div className={styles.statisticReplacementTitle}>
-                      <p>Pool name </p>
-                      {!session?.isLoading &&
-                        !scan?.isLoading &&
-                        scans.length > 0 && (
-                          <EditOutlined
-                            onClick={handleOpenEdit}
-                            className={styles.editPoolName}
+                  <Statistic
+                    className={styles.companyDetailsStat}
+                    title="Saved / Reference pools"
+                    value={`${actualPoolsCount} / ${refPoolsCount}`}
+                    formatter={(value) => <Tag color="gold">{value}</Tag>}
+                  />
+                </Col>
+                <Col className="mr-4">
+                  <Statistic
+                    className={styles.companyDetailsStat}
+                    title="Saved / Reference samples"
+                    value={`${actualSamplesCount} / ${refSamplesCount}`}
+                    formatter={(value) => <Tag color="gold">{value}</Tag>}
+                  />
+                </Col>
+                <Col>
+                  <div className={styles.statisticReplacementTitle}>
+                    <p>Pool name </p>
+                    {!session?.isLoading &&
+                      !scan?.isLoading &&
+                      scans.length > 0 && (
+                        <EditOutlined
+                          onClick={handleOpenEdit}
+                          className={styles.editPoolName}
+                        />
+                      )}
+                  </div>
+                  <div className={styles.statisticReplacementContent}>
+                    <span className={styles.statisticReplacementValue}>
+                      {isEditOpen ? (
+                        <div className={styles.editPoolNameInputWrapper}>
+                          <Input
+                            onChange={handleChangePoolName}
+                            value={changedPoolName}
+                            placeholder="Enter new pool name"
                           />
-                        )}
-                    </div>
-                    <div className={styles.statisticReplacementContent}>
-                      <span className={styles.statisticReplacementValue}>
-                        {isEditOpen ? (
-                          <div className={styles.editPoolNameInputWrapper}>
-                            <Input
-                              onChange={handleChangePoolName}
-                              value={changedPoolName}
-                              placeholder="Enter new pool name"
-                            />
-                            <Button type="primary" onClick={handleSavePoolName}>
-                              Save
-                            </Button>
-                          </div>
-                        ) : (
-                          poolName
-                        )}
-                      </span>
-                    </div>
+                          <Button type="primary" onClick={handleSavePoolName}>
+                            Save
+                          </Button>
+                        </div>
+                      ) : (
+                        poolName
+                      )}
+                    </span>
                   </div>
                 </Col>
+                <Divider />
               </Row>
-            </Card>
-          </div>
-          <SessionStatistic
-            refPools={refPoolsCount}
-            refSamples={refSamplesCount}
-            actualPools={actualPoolsCount}
-            actualSamples={actualSamplesCount}
-          />
-        </Col>
-      </Row>
+            </div>
+          </Col>
+        </Row>
+      </Card>
+
       <SingleSessionTable
         session={session}
         scansInWork={scansInWork}

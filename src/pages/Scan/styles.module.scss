@@ -33,6 +33,7 @@
     font-size: 18px;
     span:last-child {
       font-size: 18px;
+      width: 100%;
     }
   }
 }
@@ -127,4 +128,25 @@
 
 .hiddenButton {
   display: none;
+}
+
+// New
+.scanCard {
+  display: flex;
+  > div {
+    flex-grow: 1;
+  }
+}
+
+.cardMeta {
+  margin: 0 0 3rem;
+}
+
+.headline {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sessionBtns {
+  display: flex;
 }
