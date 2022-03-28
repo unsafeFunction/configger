@@ -21,6 +21,7 @@ import {
   Statistic,
   Tooltip,
   Typography,
+  Progress,
 } from 'antd';
 import classNames from 'classnames';
 import InfoButton from 'components/layout/InfoButton';
@@ -609,6 +610,14 @@ const Scan = () => {
                 </Dropdown>
                 <InfoButton type="scanActions" />
               </div>
+              {/*<div>*/}
+              {/*  <Progress*/}
+              {/*    type="circle"*/}
+              {/*    percent={100}*/}
+              {/*    width={100}*/}
+              {/*    format={_ => <p style={{fontSize: 16, marginBottom: 0}}>Completed</p>}*/}
+              {/*  />*/}
+              {/*</div>*/}
               <div>
                 <Tooltip title="Press Enter to save scan">
                   <Button
@@ -645,6 +654,30 @@ const Scan = () => {
         <Col xs={24} md={18} lg={8} xl={10}>
           <div className={styles.companyDetails}>
             <Card>
+              <Row className={styles.scanStatusRow}>
+                <Col className="mr-4">
+                  <Statistic
+                    className={styles.companyDetailsStat}
+                    title={
+                      <p style={{ fontWeight: 'bold', color: '#000' }}>
+                        Scan status
+                      </p>
+                    }
+                    formatter={() => (
+                      <Progress
+                        type="circle"
+                        percent={100}
+                        width={100}
+                        format={(_) => (
+                          <p style={{ fontSize: 16, marginBottom: 0 }}>
+                            Completed
+                          </p>
+                        )}
+                      />
+                    )}
+                  />
+                </Col>
+              </Row>
               <Row>
                 <Col className="mr-4">
                   <Statistic
@@ -668,7 +701,44 @@ const Scan = () => {
                     value={companyInfo?.company_id ?? '–'}
                   />
                 </Col>
-                <Col>
+              </Row>
+              <Row>
+                <Col className="mr-4">
+                  <div className={styles.statisticReplacement}>
+                    <div className={styles.statisticReplacementTitle}>
+                      <p>Diagnostic status </p>
+                    </div>
+                    <div className={styles.statisticReplacementContent}>
+                      <span className={styles.statisticReplacementValue}>
+                        <Checkbox
+                          className="mb-1"
+                          disabled={
+                            scan?.pool_id?.split?.('-')?.[0] ===
+                            constants.scan.emptyPoolId
+                          }
+                          checked={isDiagnostic}
+                          onChange={() => setDiagnostic(!isDiagnostic)}
+                        >
+                          This scan is diagnostic
+                        </Checkbox>
+                      </span>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="mr-4">
+                  <Statistic
+                    className={styles.companyDetailsStat}
+                    title="Scanner status"
+                    formatter={() =>
+                      scan?.scannerObj?.id ? (
+                        <PulseCircle scanner={scan?.scannerObj} />
+                      ) : (
+                        '-'
+                      )
+                    }
+                  />
+                </Col>
+                <Col className="mr-4">
                   <div className={styles.statisticReplacement}>
                     <div className={styles.statisticReplacementTitle}>
                       <p>Pool name </p>
@@ -700,43 +770,6 @@ const Scan = () => {
                       </span>
                     </div>
                   </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col className="mr-4">
-                  <div className={styles.statisticReplacement}>
-                    <div className={styles.statisticReplacementTitle}>
-                      <p>Diagnostic status </p>
-                    </div>
-                    <div className={styles.statisticReplacementContent}>
-                      <span className={styles.statisticReplacementValue}>
-                        <Checkbox
-                          className="mb-1"
-                          disabled={
-                            scan?.pool_id?.split?.('-')?.[0] ===
-                            constants.scan.emptyPoolId
-                          }
-                          checked={isDiagnostic}
-                          onChange={() => setDiagnostic(!isDiagnostic)}
-                        >
-                          This scan is diagnostic
-                        </Checkbox>
-                      </span>
-                    </div>
-                  </div>
-                </Col>
-                <Col>
-                  <Statistic
-                    className={styles.companyDetailsStat}
-                    title="Scanner status"
-                    formatter={() =>
-                      scan?.scannerObj?.id ? (
-                        <PulseCircle scanner={scan?.scannerObj} />
-                      ) : (
-                        '-'
-                      )
-                    }
-                  />
                 </Col>
               </Row>
             </Card>
