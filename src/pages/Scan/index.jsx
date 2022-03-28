@@ -733,22 +733,6 @@ const Scan = () => {
                     value={tubesTotal?.length}
                   />
                 </Col>
-                <Col className="mr-4">
-                  <Statistic
-                    className={styles.companyDetailsStat}
-                    title="Saved / Reference pools"
-                    value={`${actualPoolsCount} / ${refPoolsCount}`}
-                    formatter={(value) => <Tag color="gold">{value}</Tag>}
-                  />
-                </Col>
-                <Col className="mr-4">
-                  <Statistic
-                    className={styles.companyDetailsStat}
-                    title="Saved / Reference samples"
-                    value={`${actualSamplesCount} / ${refSamplesCount}`}
-                    formatter={(value) => <Tag color="gold">{value}</Tag>}
-                  />
-                </Col>
                 <Col>
                   <div className={styles.statisticReplacementTitle}>
                     <p>Pool name </p>
@@ -781,6 +765,24 @@ const Scan = () => {
                   </div>
                 </Col>
                 <Divider />
+                <Row>
+                  <Col className="mr-4">
+                    <Statistic
+                      className={styles.companyDetailsStat}
+                      title="Saved / Reference pools"
+                      value={`${actualPoolsCount} / ${refPoolsCount}`}
+                      formatter={(value) => <Tag color="gold">{value}</Tag>}
+                    />
+                  </Col>
+                  <Col className="mr-4">
+                    <Statistic
+                      className={styles.companyDetailsStat}
+                      title="Saved / Reference samples"
+                      value={`${actualSamplesCount} / ${refSamplesCount}`}
+                      formatter={(value) => <Tag color="gold">{value}</Tag>}
+                    />
+                  </Col>
+                </Row>
               </Row>
             </div>
           </Col>
