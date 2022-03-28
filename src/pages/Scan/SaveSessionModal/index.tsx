@@ -29,7 +29,7 @@ const SaveSessionModal = ({
             Are you sure you would like to save the session?
           </>
         }
-        subTitle="The number of pools and samples are coinciding with declared in the intake log item."
+        subTitle="The number of pools and samples coincides with the declared in the intake log item."
       />
     );
   }

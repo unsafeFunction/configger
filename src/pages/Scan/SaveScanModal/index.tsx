@@ -30,12 +30,12 @@ const SaveScanModal = ({
       <>
         {isEmptyTubes && (
           <Typography.Paragraph>
-            {`Are you sure the red (${emptyPositions}) positions are empty?`}
+            {`Are you sure the ${emptyPositions} positions are empty?`}
           </Typography.Paragraph>
         )}
         {isDiagnostic && (
           <Typography.Paragraph>
-            Continuing will categorize all tubes as diagnostic.
+            Continuing all the tubes will categorize as diagnostic
             <br />
             Are you sure to save the scan as diagnostic?
           </Typography.Paragraph>
