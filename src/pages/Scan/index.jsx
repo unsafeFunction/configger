@@ -152,6 +152,12 @@ const Scan = () => {
     }
   }, [session.scanner_id, dispatch]);
 
+  useEffect(() => {
+    if (session.status && session.status !== 'STARTED') {
+      history.push('/intake-receipt-log');
+    }
+  }, [session.status, history]);
+
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
   const getPoolName = useCallback(

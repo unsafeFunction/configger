@@ -310,7 +310,6 @@ const ScanSessions = () => {
   useEffect(() => {
     const formattedScans = scans.map((scan) => {
       const poolName = getPoolName(scan);
-
       return {
         key: scan.id,
         pool_id: (
