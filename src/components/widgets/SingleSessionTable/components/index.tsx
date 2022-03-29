@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { CheckOutlined, EditOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
@@ -25,6 +25,14 @@ const ScanStatus = ({ status }: StatusProps): JSX.Element => {
         <Typography.Text className={classNames(styles.status, styles.success)}>
           <CheckOutlined />
           {getScanStatusText(status)}
+        </Typography.Text>
+      );
+    }
+    case 'ERROR': {
+      return (
+        <Typography.Text className={classNames(styles.status, styles.error)}>
+          <CloseOutlined />
+          {status}
         </Typography.Text>
       );
     }

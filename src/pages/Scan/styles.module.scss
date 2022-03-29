@@ -1,30 +1,11 @@
 @import 'assets/styles/mixins.scss';
 
-.page__header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  @media (max-width: $sm-max-width) {
-    flex-direction: column;
-    align-items: baseline;
-  }
-}
-
 .actionsOverlay {
   ul {
     li:last-child {
       color: red;
     }
   }
-}
-
-.companyDetails {
-  display: flex;
-  flex-flow: column;
-
-  margin-bottom: 5px;
 }
 
 .companyDetailsStat {
@@ -52,34 +33,6 @@
       font-size: 20px;
     }
   }
-}
-
-.companyContainer {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  margin-bottom: 10px;
-}
-
-.navigationWrapper {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 13px;
-}
-
-.scanStatusRow {
-  justify-content: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  margin-bottom: 10px;
-
-  .scanStatusTitle {
-    font-weight: bold;
-    color: black;
-    text-align: center;
-  }
-}
-
-.submitBtns {
-  display: flex;
-  justify-content: flex-end;
 }
 
 .editPoolName:hover {
@@ -113,29 +66,13 @@
   color: rgba(0, 0, 0, 0.85);
   font-family: Source Sans Pro, sans-serif;
 }
+
 .statisticReplacementValue {
   font-size: 18px;
 }
 
-.timer {
-  display: flex;
-  align-items: center;
-
-  > div:first-child {
-    margin: 0 10px 0 0;
-  }
-}
-
 .hiddenButton {
   display: none;
-}
-
-// New
-.scanCard {
-  display: flex;
-  > div {
-    flex-grow: 1;
-  }
 }
 
 .cardMeta {
@@ -145,8 +82,4 @@
 .headline {
   display: flex;
   justify-content: space-between;
-}
-
-.sessionBtns {
-  display: flex;
 }

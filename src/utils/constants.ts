@@ -45,6 +45,7 @@ export const constants = {
     started: 'STARTED',
     completed: 'COMPLETED',
     invalid: 'INVALID',
+    error: 'ERROR',
   },
   sessionStatuses: {
     started: 'STARTED',

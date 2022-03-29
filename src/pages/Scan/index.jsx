@@ -22,9 +22,9 @@ import {
   Row,
   Space,
   Statistic,
+  Tag,
   Tooltip,
   Typography,
-  Tag,
 } from 'antd';
 import PulseCircle from 'components/widgets/Pools/PulseCircle';
 import Rackboard from 'components/widgets/Rackboard';
@@ -507,7 +507,7 @@ const Scan = () => {
   return (
     <div>
       <div className={styles.headline}>
-        <Row gutter={[32, 16]}>
+        <Row gutter={32}>
           <Col>
             <Statistic
               className={styles.companyDetailsStat}
@@ -544,25 +544,7 @@ const Scan = () => {
             />
           </Col>
         </Row>
-        <div className={styles.sessionBtns}>
-          {/* <div> */}
-          <Button
-            onClick={() => {
-              onSaveSessionModalToggle(
-                refPoolsCount,
-                refSamplesCount,
-                actualPoolsCount,
-                actualSamplesCount,
-              );
-            }}
-            type="primary"
-            htmlType="submit"
-            size="large"
-          >
-            Save Session
-          </Button>
-          {/* <InfoButton type="saveSession" /> */}
-          {/* </div> */}
+        <Space align="start" size="large">
           {/* <div> */}
           <Dropdown
             overlay={sessionMenu}
@@ -585,7 +567,25 @@ const Scan = () => {
           </Dropdown>
           {/* <InfoButton type="cancelSession" /> */}
           {/* </div> */}
-        </div>
+          {/* <div> */}
+          <Button
+            onClick={() => {
+              onSaveSessionModalToggle(
+                refPoolsCount,
+                refSamplesCount,
+                actualPoolsCount,
+                actualSamplesCount,
+              );
+            }}
+            type="primary"
+            htmlType="submit"
+            size="large"
+          >
+            Save Session
+          </Button>
+          {/* <InfoButton type="saveSession" /> */}
+          {/* </div> */}
+        </Space>
       </div>
 
       <Card>
@@ -602,50 +602,45 @@ const Scan = () => {
           <Col xs={12}>
             <Space size="large">
               <div>
-                {scansInWork.length > 1 && (
-                  <>
-                    <Tooltip title="Previous scan">
-                      <Button
-                        className="mr-2"
-                        ref={leftArrowRef}
-                        icon={<LeftOutlined />}
-                        onClick={() => {
-                          leftArrowRef.current.blur();
-                          setEditOpen(false);
-                          return (
-                            scansInWork[scanIndex - 1]?.id &&
-                            loadScan(scansInWork[scanIndex - 1].id)
-                          );
-                        }}
-                        disabled={
-                          session?.isLoading ||
-                          scan?.isLoading ||
-                          !scansInWork[scanIndex - 1]
-                        }
-                      />
-                    </Tooltip>
-                    <Tooltip title="Next scan">
-                      <Button
-                        className="mr-2"
-                        ref={rightArrowRef}
-                        icon={<RightOutlined />}
-                        onClick={() => {
-                          rightArrowRef.current.blur();
-                          setEditOpen(false);
-                          return (
-                            scansInWork[scanIndex + 1]?.id &&
-                            loadScan(scansInWork[scanIndex + 1].id)
-                          );
-                        }}
-                        disabled={
-                          session?.isLoading ||
-                          scan?.isLoading ||
-                          !scansInWork[scanIndex + 1]
-                        }
-                      />
-                    </Tooltip>
-                  </>
-                )}
+                <Tooltip title="Previous scan">
+                  <Button
+                    className="mr-2"
+                    ref={leftArrowRef}
+                    icon={<LeftOutlined />}
+                    onClick={() => {
+                      leftArrowRef.current.blur();
+                      setEditOpen(false);
+                      return (
+                        scansInWork[scanIndex - 1]?.id &&
+                        loadScan(scansInWork[scanIndex - 1].id)
+                      );
+                    }}
+                    disabled={
+                      session?.isLoading ||
+                      scan?.isLoading ||
+                      !scansInWork[scanIndex - 1]
+                    }
+                  />
+                </Tooltip>
+                <Tooltip title="Next scan">
+                  <Button
+                    ref={rightArrowRef}
+                    icon={<RightOutlined />}
+                    onClick={() => {
+                      rightArrowRef.current.blur();
+                      setEditOpen(false);
+                      return (
+                        scansInWork[scanIndex + 1]?.id &&
+                        loadScan(scansInWork[scanIndex + 1].id)
+                      );
+                    }}
+                    disabled={
+                      session?.isLoading ||
+                      scan?.isLoading ||
+                      !scansInWork[scanIndex + 1]
+                    }
+                  />
+                </Tooltip>
               </div>
               <Dropdown
                 overlay={scanMenu}
@@ -689,26 +684,26 @@ const Scan = () => {
             <Card.Meta
               className={styles.cardMeta}
               avatar={<ScanStatusProgress status={scan?.status} />}
-              title={`Scan on ${
+              title={`Scanned ${
                 scan?.scan_timestamp
                   ? moment(scan.scan_timestamp).format(constants.dateTimeFormat)
                   : ''
               }`}
               description={
                 <Typography.Text type="secondary">
-                  <b>Rack ID</b>
+                  <b>Rack ID </b>
                   {scan?.rack_id ?? '-'}
                   <br />
-                  <b>Pool ID</b>
+                  <b>Pool ID </b>
                   {scan?.pool_id ?? '-'}
                 </Typography.Text>
               }
             />
             <div className="mb-3">
-              <Row>
-                <Col className="mr-4">
+              <Row gutter={32}>
+                <Col>
                   <div className={styles.statisticReplacementTitle}>
-                    <p>Diagnostic status </p>
+                    <p>Diagnostic status</p>
                   </div>
                   <div className={styles.statisticReplacementContent}>
                     <span className={styles.statisticReplacementValue}>
@@ -726,10 +721,10 @@ const Scan = () => {
                     </span>
                   </div>
                 </Col>
-                <Col className="mr-4">
+                <Col>
                   <Statistic
                     className={styles.companyDetailsStat}
-                    title="Total Tubes"
+                    title="Total tubes"
                     value={tubesTotal?.length}
                   />
                 </Col>
@@ -765,8 +760,8 @@ const Scan = () => {
                   </div>
                 </Col>
                 <Divider />
-                <Row>
-                  <Col className="mr-4">
+                <Row gutter={32}>
+                  <Col>
                     <Statistic
                       className={styles.companyDetailsStat}
                       title="Saved / Reference pools"
@@ -774,7 +769,7 @@ const Scan = () => {
                       formatter={(value) => <Tag color="gold">{value}</Tag>}
                     />
                   </Col>
-                  <Col className="mr-4">
+                  <Col>
                     <Statistic
                       className={styles.companyDetailsStat}
                       title="Saved / Reference samples"
