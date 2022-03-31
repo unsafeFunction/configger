@@ -282,7 +282,6 @@ const initialScan = {
   last_modified_by: null,
   last_modified_on: null,
   modifications: [],
-  scan_order: null,
   tubes_count: null,
   scan_tubes: [],
   items: [],
