@@ -715,10 +715,7 @@ const Scan = () => {
                     <span className={styles.statisticReplacementValue}>
                       <Checkbox
                         className="mb-1"
-                        disabled={
-                          scan?.pool_id?.split?.('-')?.[0] ===
-                          constants.scan.emptyPoolId
-                        }
+                        disabled
                         checked={isDiagnostic}
                         onChange={() => setDiagnostic(!isDiagnostic)}
                       >
