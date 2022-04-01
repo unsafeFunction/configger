@@ -4,8 +4,10 @@ import { roundValueToSecondNumber } from 'utils/roundRules';
 import { rowCounter } from 'utils/tableFeatures';
 import { constants } from 'utils/constants';
 
+const { targets, tubeTypes } = constants;
+
 export const getTargetColumns = (method) => {
-  return constants.targets[method ?? 'all'].map((target) => {
+  return targets[method ?? 'all'].map((target) => {
     return {
       title: target,
       dataIndex: target,
@@ -26,7 +28,9 @@ const columns = [
   {
     title: 'Tube Type',
     dataIndex: 'tube_type',
-    width: 100,
+    filters: Object.values(tubeTypes).map((value) => ({ text: value, value })),
+    onFilter: (value, record) => record.tube_type.indexOf(value) === 0,
+    width: 110,
   },
   {
     title: 'Tube ID',
