@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.7.2](https://github.com/mokkapps/changelog-generator-demo/compare/v10.7.1...v10.7.2) (2022-04-01)
+
+### Features
+
+- back top component ([1a19b24](https://github.com/mokkapps/changelog-generator-demo/commits/1a19b24f300fb2af5ab777a421bd53739ac510b4))
+- diagnostic run type ([a5356d4](https://github.com/mokkapps/changelog-generator-demo/commits/a5356d4f1e165e091daf7ee5921448a48b834ed0))
+- refactor rackboard table ([778e8b5](https://github.com/mokkapps/changelog-generator-demo/commits/778e8b5072df4ddfc53be692b64d681caeee09d6))
+- shipment details UI ([3d12f6f](https://github.com/mokkapps/changelog-generator-demo/commits/3d12f6f46c1cfde739d8a7a94b4181023dc1fb67))
+
+### Bug Fixes
+
+- current tube id ([cdab651](https://github.com/mokkapps/changelog-generator-demo/commits/cdab6514e664015137e78bd573a8ae76f4d6ef97))
+- rid of scan_order ([631ba90](https://github.com/mokkapps/changelog-generator-demo/commits/631ba90e9ab9ae944964ea0b16a997f9bd312c45))
+- sort by scan_timestamp ([40a476b](https://github.com/mokkapps/changelog-generator-demo/commits/40a476b7f21d6c4e537cb3428e899d9e6a4920df))
+- split types ([cdf331e](https://github.com/mokkapps/changelog-generator-demo/commits/cdf331e555fb4ac989d1e59ec0add4bb03fc2674))
+
 ### [10.7.1](https://github.com/mokkapps/changelog-generator-demo/compare/v10.7.0...v10.7.1) (2022-03-14)
 
 ### Bug Fixes
