@@ -49,13 +49,6 @@ import styles from './styles.module.scss';
 const { Paragraph } = Typography;
 const cookie = cookieStorage();
 
-const IconText = ({ icon, text }) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
-
 const Scan = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -83,25 +76,25 @@ const Scan = () => {
 
   const [isDiagnostic, setDiagnostic] = useState(true);
 
-  const { started, invalid, completed } = constants.scanStatuses;
+  const { started, invalid, completed, error } = constants.scanStatuses;
 
   useEffect(() => {
     const scanInWork = scans?.find(
-      (s) => s.status === started || s.status === invalid,
+      (s) => s.status === started || s.status === invalid || s.status === error,
     );
 
     setScansInWork([
       ...(scanInWork ? [scanInWork] : []),
       ...scans
         ?.filter((scan) => scan.status === completed)
-        .sort((a, b) => {
+        ?.sort((a, b) => {
           const reA = /[^a-zA-Z]/g;
           const reN = /[^0-9]/g;
-          const nameA = a.scan_name.replace(reA, '').toLowerCase();
-          const nameB = b.scan_name.replace(reA, '').toLowerCase();
+          const nameA = a?.scan_name?.replace(reA, '').toLowerCase();
+          const nameB = b?.scan_name?.replace(reA, '').toLowerCase();
           if (nameA === nameB) {
-            const nameANumber = parseInt(a.scan_name.replace(reN, ''), 10);
-            const nameBNumber = parseInt(b.scan_name.replace(reN, ''), 10);
+            const nameANumber = parseInt(a?.scan_name?.replace(reN, ''), 10);
+            const nameBNumber = parseInt(b?.scan_name?.replace(reN, ''), 10);
             return nameANumber === nameBNumber
               ? 0
               : nameANumber > nameBNumber
@@ -111,7 +104,7 @@ const Scan = () => {
           return nameA > nameB ? 1 : -1;
         }),
     ]);
-  }, [scans, started, invalid, completed]);
+  }, [scans, started, invalid, completed, error]);
 
   const handleCloseModal = () => {
     dispatch({
@@ -152,11 +145,11 @@ const Scan = () => {
     }
   }, [session.scanner_id, dispatch]);
 
-  useEffect(() => {
-    if (session.status && session.status !== 'STARTED') {
-      history.push('/intake-receipt-log');
-    }
-  }, [session.status, history]);
+  // useEffect(() => {
+  //   if (session.status && session.status !== 'STARTED') {
+  //     history.push('/intake-receipt-log');
+  //   }
+  // }, [session.status, history]);
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
@@ -175,8 +168,8 @@ const Scan = () => {
   const refPoolsCount = session?.reference_pools_count;
   const refSamplesCount = session?.reference_samples_count;
   const actualPools = scans?.filter((scan) => scan.status === completed);
-  const actualPoolsCount = actualPools.length;
-  const actualSamplesCount = actualPools.reduce((acc, curr) => {
+  const actualPoolsCount = actualPools?.length;
+  const actualSamplesCount = actualPools?.reduce((acc, curr) => {
     return acc + curr.tubes_count;
   }, 0);
 
@@ -378,12 +371,6 @@ const Scan = () => {
   useFetching();
 
   useEffect(() => {
-    if (session?.activeSessionId === undefined) {
-      history.push('/intake-receipt-log');
-    }
-  }, [session.activeSessionId]);
-
-  useEffect(() => {
     setChangedPoolName(scan?.scan_name);
     setDiagnostic(scan?.is_diagnostic);
   }, [scan]);
@@ -395,7 +382,7 @@ const Scan = () => {
           type: actions.FETCH_ACTIVE_SCANS_REQUEST,
           payload: {
             sessionId,
-            existingScans: scans.map((scan) => {
+            existingScans: scans?.map((scan) => {
               return scan.pool_id;
             }),
           },
@@ -489,7 +476,7 @@ const Scan = () => {
       enterPress &&
       !session?.isLoading &&
       !scan.isLoading &&
-      scans.length > 0 &&
+      scans?.length > 0 &&
       !isModalOpen
     ) {
       if (isEditOpen) {
@@ -505,9 +492,9 @@ const Scan = () => {
     handleSavePoolName,
     isEditOpen,
     isModalOpen,
-    scan.isLoading,
+    scan?.isLoading,
     session?.isLoading,
-    scans.length,
+    scans?.length,
   ]);
 
   return (
@@ -547,6 +534,22 @@ const Scan = () => {
                   '-'
                 )
               }
+            />
+          </Col>
+          <Col>
+            <Statistic
+              className={styles.companyDetailsStat}
+              title="Scanned"
+              value={`${scans?.length} scans`}
+            />
+          </Col>
+          <Col>
+            <Statistic
+              className={styles.companyDetailsStat}
+              title="Saved"
+              value={`${
+                scans?.filter((scan) => scan.status === completed).length
+              } scans`}
             />
           </Col>
         </Row>
@@ -660,7 +663,7 @@ const Scan = () => {
                   }
                 }}
                 disabled={
-                  session?.isLoading || scan?.isLoading || scans.length === 0
+                  session?.isLoading || scan?.isLoading || scans?.length === 0
                 }
               >
                 <Button type="primary" ghost>
@@ -676,7 +679,7 @@ const Scan = () => {
                   htmlType="submit"
                   disabled={
                     session?.isLoading ||
-                    scans.length === 0 ||
+                    scans?.length === 0 ||
                     scan?.isLoading ||
                     scan?.status === completed
                   }
@@ -690,7 +693,7 @@ const Scan = () => {
             <Card.Meta
               className={styles.cardMeta}
               avatar={<ScanStatusProgress status={scan?.status} />}
-              title={`Scanned ${
+              title={`Scanned on ${
                 scan?.scan_timestamp
                   ? moment(scan.scan_timestamp).format(constants.dateTimeFormat)
                   : ''
@@ -739,7 +742,7 @@ const Scan = () => {
                     <p>Pool name </p>
                     {!session?.isLoading &&
                       !scan?.isLoading &&
-                      scans.length > 0 && (
+                      scans?.length > 0 && (
                         <EditOutlined
                           onClick={handleOpenEdit}
                           className={styles.editPoolName}

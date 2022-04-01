@@ -79,7 +79,7 @@ export function* callFetchScanSessionById({ payload }) {
   try {
     const response = yield call(fetchSessionById, sessionId);
 
-    const sortedScans = response?.data?.scans.sort((a, b) => {
+    const sortedScans = response?.data?.scans?.sort((a, b) => {
       return moment(new Date(a.scan_timestamp)).diff(
         moment(new Date(b.scan_timestamp)),
       );
