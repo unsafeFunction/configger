@@ -77,20 +77,11 @@ export function* callFetchScanSessions({ payload }) {
 export function* callFetchScanSessionById({ payload }) {
   const { sessionId } = payload;
   try {
-    const response = yield call(fetchSessionById, sessionId);
-
-    const sortedScans = response?.data?.scans?.sort((a, b) => {
-      return moment(new Date(a.scan_timestamp)).diff(
-        moment(new Date(b.scan_timestamp)),
-      );
-    });
+    const { data } = yield call(fetchSessionById, sessionId);
     yield put({
       type: actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS,
       payload: {
-        data: {
-          ...response?.data,
-          scans: sortedScans,
-        },
+        data,
       },
     });
   } catch (error) {
