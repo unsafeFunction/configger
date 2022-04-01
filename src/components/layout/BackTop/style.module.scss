@@ -1,0 +1,12 @@
+@import 'assets/styles/mixins.scss';
+
+.backTop {
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+  background-color: rgba(64, 64, 64, 0.9);
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
+}
