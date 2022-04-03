@@ -315,7 +315,10 @@ const ScanSessions = () => {
         pool_id: (
           <Link
             className="table-link"
-            to={`/pool-scans/${sessionId}/${scan.id}`}
+            to={{
+              pathname: `/pool-scans/${sessionId}/${scan.id}`,
+              state: { extraInfo: scan.pool_id },
+            }}
           >
             {scan.pool_id}
           </Link>

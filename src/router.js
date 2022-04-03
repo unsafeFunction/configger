@@ -2,10 +2,11 @@ import Layout from 'layouts';
 import NotFoundPage from 'pages/system/404';
 import React from 'react';
 import Loadable from 'react-loadable';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import Switch from 'react-router-transition-switch';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import PageTitle from 'components/layout/PageTitle';
 import Loader from 'components/layout/Loader';
 
 const loadable = (loader) =>
@@ -53,6 +54,7 @@ const routes = [
   {
     path: '/pools',
     Component: loadable(() => import('pages/Pools')),
+    title: 'Pools',
   },
   {
     path: '/session/:id',
@@ -129,54 +131,51 @@ const routes = [
   },
 ];
 
-const mapStateToProps = ({ settings }) => ({ settings });
+const Router = () => {
+  const settings = useSelector((state) => state.settings);
+  const { routerAnimation } = settings;
 
-@connect(mapStateToProps)
-class Router extends React.Component {
-  render() {
-    const {
-      settings: { routerAnimation },
-    } = this.props;
-    return (
-      <BrowserRouter>
-        <Layout>
-          <Switch
-            render={(props) => {
-              const {
-                children,
-                location: { pathname },
-              } = props;
-              return (
-                <SwitchTransition>
-                  <CSSTransition
-                    key={pathname}
-                    classNames={routerAnimation}
-                    timeout={routerAnimation === 'none' ? 0 : 300}
-                  >
-                    {children}
-                  </CSSTransition>
-                </SwitchTransition>
-              );
+  return (
+    <BrowserRouter>
+      <Layout>
+        <Switch
+          render={(props) => {
+            const {
+              children,
+              location: { pathname },
+            } = props;
+            return (
+              <SwitchTransition>
+                <CSSTransition
+                  key={pathname}
+                  classNames={routerAnimation}
+                  timeout={routerAnimation === 'none' ? 0 : 300}
+                >
+                  {children}
+                </CSSTransition>
+              </SwitchTransition>
+            );
+          }}
+        >
+          <Route
+            exact
+            path="/"
+            render={() => {
+              return <Redirect to="/intake-receipt-log" />;
             }}
-          >
-            <Route
-              exact
-              path="/"
-              render={() => {
-                return <Redirect to="/intake-receipt-log" />;
-              }}
-            />
-            {routes.map(({ path, Component, exact = false }) => (
-              <Route path={path} key={path} exact={exact}>
+          />
+          {routes.map(({ path, Component, exact = false, title }) => (
+            <Route path={path} key={path} exact={exact}>
+              <PageTitle title={title}>
                 <Component />
-              </Route>
-            ))}
-            <Route component={NotFoundPage} />
-          </Switch>
-        </Layout>
-      </BrowserRouter>
-    );
-  }
-}
+              </PageTitle>
+            </Route>
+          ))}
+          <Route component={NotFoundPage} />
+        </Switch>
+      </Layout>
+    </BrowserRouter>
+  );
+};
 
 export default Router;
