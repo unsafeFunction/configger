@@ -3,9 +3,10 @@ import { useLocation } from 'react-router-dom';
 
 const PageTitle = ({ children, title }) => {
   const { pathname, state } = useLocation();
+  const checkedTitle = title === null ? '' : title;
 
   useEffect(() => {
-    const regexPathname = pathname
+    const formattedPathname = pathname
       // Find first part of string e.g. "/pool-scans/12345" -> "/pool-scans"
       .match('^(\\/[\\w-]+)')[0]
       // Replace "/" and "-" to spaces and change case
@@ -15,13 +16,9 @@ const PageTitle = ({ children, title }) => {
           : ` ${match[1].toUpperCase()}`;
       });
 
-    // Check "extraInfo" if need info about
-    const formattedPathname = state?.extraInfo
-      ? `${regexPathname} ${state.extraInfo}`
-      : regexPathname;
-
-    document.title = `LIMS | ${title || formattedPathname}`;
-  }, []);
+    document.title = `LIMS | ${checkedTitle ??
+      formattedPathname} ${state?.extraInfo || ''}`;
+  }, [state]);
 
   return children;
 };
