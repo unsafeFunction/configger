@@ -47,6 +47,13 @@ const CompanyProfile = () => {
     }, []);
 
     useEffect(() => {
+      const location = {
+        state: { extraInfo: singleCompany.name_short },
+      };
+      history.replace(location);
+    }, [singleCompany]);
+
+    useEffect(() => {
       dispatch({
         type: poolsActions.FETCH_POOLS_BY_COMPANY_ID_REQUEST,
         payload: {

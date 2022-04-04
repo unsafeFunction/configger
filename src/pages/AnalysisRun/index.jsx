@@ -16,7 +16,7 @@ import WellPlate from 'components/widgets/WellPlate';
 import debounce from 'lodash.debounce';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import helperActions from 'redux/helpers/actions';
 import modalActions from 'redux/modal/actions';
@@ -38,6 +38,7 @@ const AnalysisRun = () => {
   const [isTimelineOpen, setOpen] = useState(false);
   const [targets, setTargets] = useState([]);
   const location = useLocation();
+  const history = useHistory();
 
   const runId = location.pathname.split('/')[2];
 
@@ -52,6 +53,13 @@ const AnalysisRun = () => {
         },
       });
     }, []);
+
+    useEffect(() => {
+      const location = {
+        state: { extraInfo: run.title },
+      };
+      history.replace(location);
+    }, [run]);
   };
 
   useFetching();

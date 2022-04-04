@@ -4,6 +4,7 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+import labConfig from 'utils/labConfig';
 import Switch from 'react-router-transition-switch';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import PageTitle from 'components/layout/PageTitle';
@@ -21,26 +22,31 @@ const routes = [
     path: '/system/login',
     Component: loadable(() => import('pages/system/login')),
     exact: true,
+    title: 'Login',
   },
   {
     path: '/system/forgot-password',
     Component: loadable(() => import('pages/system/forgot-password')),
     exact: false,
+    title: 'Forgot Password',
   },
   {
     path: '/system/restore-password',
     Component: loadable(() => import('pages/system/restore-password')),
     exact: false,
+    title: 'Restore Password',
   },
   {
     path: '/system/account-confirm-email',
     Component: loadable(() => import('pages/system/reg-by-email')),
     exact: false,
+    title: 'Account Confirm Email',
   },
   {
     path: '/system/404',
     Component: loadable(() => import('pages/system/404')),
     exact: true,
+    title: 'Not Found',
   },
   {
     path: '/profile',
@@ -54,15 +60,16 @@ const routes = [
   {
     path: '/pools',
     Component: loadable(() => import('pages/Pools')),
-    title: 'Pools',
   },
   {
     path: '/session/:id',
     Component: loadable(() => import('pages/Scan')),
+    title: null,
   },
   {
     path: '/pool-scans/:sessionId/:scanId',
     Component: loadable(() => import('pages/PoolScan')),
+    title: 'Pool Scan',
   },
   {
     path: '/pool-scans',
@@ -71,10 +78,12 @@ const routes = [
   {
     path: '/rack-scans/:id',
     Component: loadable(() => import('pages/RackScan')),
+    title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Scan`,
   },
   {
     path: '/rack-scans',
     Component: loadable(() => import('pages/RackScans')),
+    title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Scans`,
   },
   {
     path: '/intake-receipt-log',
@@ -83,6 +92,7 @@ const routes = [
   {
     path: '/analysis-runs/:id/:type?',
     Component: loadable(() => import('pages/AnalysisRun')),
+    title: 'Run',
   },
   {
     path: '/analysis-runs',
@@ -104,6 +114,7 @@ const routes = [
   {
     path: '/companies/:id',
     Component: loadable(() => import('pages/Companies/Company')),
+    title: 'Company',
   },
   {
     path: '/inventory',

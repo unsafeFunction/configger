@@ -366,6 +366,13 @@ const Scan = () => {
     useEffect(() => {
       loadSession();
     }, []);
+
+    useEffect(() => {
+      const location = {
+        state: { extraInfo: session.scan_session_title },
+      };
+      history.replace(location);
+    }, [session]);
   };
 
   useFetching();

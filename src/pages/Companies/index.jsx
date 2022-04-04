@@ -57,10 +57,7 @@ const Companies = () => {
             onClick={() => {
               setCompanyId(company?.company_id);
             }}
-            to={{
-              pathname: `/companies/${company?.company_id}`,
-              state: { extraInfo: company.name_short },
-            }}
+            to={`/companies/${company?.company_id}`}
             className="text-blue"
           >
             {`${name || '-'}`}

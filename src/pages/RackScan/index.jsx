@@ -43,6 +43,13 @@ const RackScan = () => {
     });
   }, [orientation_sign_off, form, scan_name]);
 
+  useEffect(() => {
+    const location = {
+      state: { extraInfo: rack.rack_id },
+    };
+    history.replace(location);
+  }, [rack]);
+
   const onDataChange = useCallback(
     (event) => {
       const { name, value } = event.target;
