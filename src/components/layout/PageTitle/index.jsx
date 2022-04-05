@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 
 const PageTitle = ({ children, title }) => {
   const { pathname, state } = useLocation();
-  console.log(pathname);
 
   useEffect(() => {
     const regexPathname = pathname
@@ -21,7 +20,7 @@ const PageTitle = ({ children, title }) => {
       ? `${regexPathname} ${state.extraInfo}`
       : regexPathname;
 
-    document.title = `LIMS | ${title ? title : formattedPathname}`;
+    document.title = `LIMS | ${title || formattedPathname}`;
   }, []);
 
   return children;
