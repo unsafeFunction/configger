@@ -1,8 +1,20 @@
-import labConfig from 'utils/labConfig';
 import { constants } from 'utils/constants';
+import labConfig from 'utils/labConfig';
 
 export async function getMenuData() {
   return [
+    {
+      title: 'Companies',
+      key: 'companies',
+      icon: 'fe fe-briefcase',
+      url: '/companies',
+    },
+    {
+      title: 'Pools',
+      key: 'pools',
+      url: '/pools',
+      icon: 'fe fe-folder',
+    },
     {
       title: 'Intake',
       key: 'intakeSection',
@@ -33,18 +45,6 @@ export async function getMenuData() {
           icon: 'fe fe-book-open',
         },
       ],
-    },
-    {
-      title: 'Companies',
-      key: 'companies',
-      icon: 'fe fe-briefcase',
-      url: '/companies',
-    },
-    {
-      title: 'Pools',
-      key: 'pools',
-      url: '/pools',
-      icon: 'fe fe-folder',
     },
     {
       title: 'Runs',
@@ -97,12 +97,11 @@ export async function getMenuData() {
     {
       title: 'Help Center',
       key: 'helpCenter',
-      icon: 'fa fa-question-circle-o',
+      icon: 'fe fe-help-circle',
     },
     {
-      title: `v ${process.env.REACT_APP_VERSION}`,
+      title: process.env.REACT_APP_VERSION,
       key: 'version',
-      icon: 'fe fe-git-merge',
     },
   ];
 }

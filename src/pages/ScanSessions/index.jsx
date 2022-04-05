@@ -310,13 +310,14 @@ const ScanSessions = () => {
   useEffect(() => {
     const formattedScans = scans.map((scan) => {
       const poolName = getPoolName(scan);
-
       return {
         key: scan.id,
         pool_id: (
           <Link
             className="table-link"
-            to={`/pool-scans/${sessionId}/${scan.id}`}
+            to={{
+              pathname: `/pool-scans/${sessionId}/${scan.id}`,
+            }}
           >
             {scan.pool_id}
           </Link>

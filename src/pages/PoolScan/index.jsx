@@ -113,6 +113,13 @@ const PoolScan = () => {
         payload: { scanId },
       });
     }, []);
+
+    useEffect(() => {
+      const location = {
+        state: { extraInfo: scan.pool_id },
+      };
+      history.replace(location);
+    }, [scan]);
   };
 
   useFetching();

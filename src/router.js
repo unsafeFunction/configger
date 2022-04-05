@@ -2,10 +2,12 @@ import Layout from 'layouts';
 import NotFoundPage from 'pages/system/404';
 import React from 'react';
 import Loadable from 'react-loadable';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+import labConfig from 'utils/labConfig';
 import Switch from 'react-router-transition-switch';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import PageTitle from 'components/layout/PageTitle';
 import Loader from 'components/layout/Loader';
 
 const loadable = (loader) =>
@@ -20,26 +22,31 @@ const routes = [
     path: '/system/login',
     Component: loadable(() => import('pages/system/login')),
     exact: true,
+    title: 'Login',
   },
   {
     path: '/system/forgot-password',
     Component: loadable(() => import('pages/system/forgot-password')),
     exact: false,
+    title: 'Forgot Password',
   },
   {
     path: '/system/restore-password',
     Component: loadable(() => import('pages/system/restore-password')),
     exact: false,
+    title: 'Restore Password',
   },
   {
     path: '/system/account-confirm-email',
     Component: loadable(() => import('pages/system/reg-by-email')),
     exact: false,
+    title: 'Account Confirm Email',
   },
   {
     path: '/system/404',
     Component: loadable(() => import('pages/system/404')),
     exact: true,
+    title: 'Not Found',
   },
   {
     path: '/profile',
@@ -57,10 +64,12 @@ const routes = [
   {
     path: '/session/:id',
     Component: loadable(() => import('pages/Scan')),
+    title: null,
   },
   {
     path: '/pool-scans/:sessionId/:scanId',
     Component: loadable(() => import('pages/PoolScan')),
+    title: 'Pool Scan',
   },
   {
     path: '/pool-scans',
@@ -69,10 +78,12 @@ const routes = [
   {
     path: '/rack-scans/:id',
     Component: loadable(() => import('pages/RackScan')),
+    title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Scan`,
   },
   {
     path: '/rack-scans',
     Component: loadable(() => import('pages/RackScans')),
+    title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Scans`,
   },
   {
     path: '/intake-receipt-log',
@@ -81,6 +92,7 @@ const routes = [
   {
     path: '/analysis-runs/:id/:type?',
     Component: loadable(() => import('pages/AnalysisRun')),
+    title: 'Run',
   },
   {
     path: '/analysis-runs',
@@ -102,6 +114,7 @@ const routes = [
   {
     path: '/companies/:id',
     Component: loadable(() => import('pages/Companies/Company')),
+    title: 'Company',
   },
   {
     path: '/inventory',
@@ -129,54 +142,51 @@ const routes = [
   },
 ];
 
-const mapStateToProps = ({ settings }) => ({ settings });
+const Router = () => {
+  const settings = useSelector((state) => state.settings);
+  const { routerAnimation } = settings;
 
-@connect(mapStateToProps)
-class Router extends React.Component {
-  render() {
-    const {
-      settings: { routerAnimation },
-    } = this.props;
-    return (
-      <BrowserRouter>
-        <Layout>
-          <Switch
-            render={(props) => {
-              const {
-                children,
-                location: { pathname },
-              } = props;
-              return (
-                <SwitchTransition>
-                  <CSSTransition
-                    key={pathname}
-                    classNames={routerAnimation}
-                    timeout={routerAnimation === 'none' ? 0 : 300}
-                  >
-                    {children}
-                  </CSSTransition>
-                </SwitchTransition>
-              );
+  return (
+    <BrowserRouter>
+      <Layout>
+        <Switch
+          render={(props) => {
+            const {
+              children,
+              location: { pathname },
+            } = props;
+            return (
+              <SwitchTransition>
+                <CSSTransition
+                  key={pathname}
+                  classNames={routerAnimation}
+                  timeout={routerAnimation === 'none' ? 0 : 300}
+                >
+                  {children}
+                </CSSTransition>
+              </SwitchTransition>
+            );
+          }}
+        >
+          <Route
+            exact
+            path="/"
+            render={() => {
+              return <Redirect to="/intake-receipt-log" />;
             }}
-          >
-            <Route
-              exact
-              path="/"
-              render={() => {
-                return <Redirect to="/intake-receipt-log" />;
-              }}
-            />
-            {routes.map(({ path, Component, exact = false }) => (
-              <Route path={path} key={path} exact={exact}>
+          />
+          {routes.map(({ path, Component, exact = false, title }) => (
+            <Route path={path} key={path} exact={exact}>
+              <PageTitle title={title}>
                 <Component />
-              </Route>
-            ))}
-            <Route component={NotFoundPage} />
-          </Switch>
-        </Layout>
-      </BrowserRouter>
-    );
-  }
-}
+              </PageTitle>
+            </Route>
+          ))}
+          <Route component={NotFoundPage} />
+        </Switch>
+      </Layout>
+    </BrowserRouter>
+  );
+};
 
 export default Router;

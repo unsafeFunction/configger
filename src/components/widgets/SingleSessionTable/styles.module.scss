@@ -1,17 +1,10 @@
 @import 'assets/styles/mixins.scss';
 
-.sessionStatus {
-  text-transform: capitalize;
+tr.accentRow td {
+  background: $gray-6;
+  color: $gray-1;
 }
 
-.actions {
-  display: flex;
-
-  button:first-child {
-    margin-right: 10px;
-  }
-}
-
-.highlightedRow {
-  background: fade-out($primary, 0.95);
+tr.accentRow:hover > td {
+  color: rgba(0, 0, 0, 0.85);
 }

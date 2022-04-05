@@ -1,4 +1,4 @@
-import { Button, Table, Tag } from 'antd';
+import { Button, Space, Table } from 'antd';
 import moment from 'moment';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
@@ -6,6 +6,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { constants } from 'utils/constants';
 import { rowCounter } from 'utils/tableFeatures';
+import ScanStatus from './components';
 import styles from './styles.module.scss';
 
 const SingleSessionTable = ({
@@ -14,6 +15,7 @@ const SingleSessionTable = ({
   handleCancelScan,
   loadScan,
 }) => {
+  const { completed } = constants.scanStatuses;
   const { id, isLoading } = useSelector((state) => state.scanSessions.scan);
 
   const columns = [
@@ -21,74 +23,66 @@ const SingleSessionTable = ({
     {
       title: 'PoolName',
       dataIndex: 'scan_name',
-      key: 'scan_name',
-      width: 100,
       ellipsis: true,
     },
-    { title: 'Pool ID', dataIndex: 'pool_id', key: 'pool_id', width: 100 },
-    { title: 'Rack ID', dataIndex: 'rack_id', key: 'rack_id', width: 100 },
+    {
+      title: 'Pool ID',
+      dataIndex: 'pool_id',
+    },
+    {
+      title: 'Rack ID',
+      dataIndex: 'rack_id',
+    },
     {
       title: 'Scan time',
-      dataIndex: 'scan_time',
-      key: 'scan_time',
-      width: 100,
+      dataIndex: 'scan_timestamp',
+      sorter: (a, b) =>
+        moment(a.scan_timestamp).valueOf() - moment(b.scan_timestamp).valueOf(),
+      sortDirections: [],
+      render: (value) =>
+        value ? moment(value).format(constants.dateTimeFormat) : '-',
     },
     {
       title: 'Status',
       dataIndex: 'status',
-      key: 'status',
-      width: 100,
-      render: (text) => {
-        return (
-          <Tag color="blue" className={styles.sessionStatus}>
-            {text.toLowerCase()}
-          </Tag>
-        );
-      },
+      render: (value) => <ScanStatus status={value} />,
     },
-    { title: 'Actions', dataIndex: 'action', key: 'action', width: 200 },
-  ];
-
-  const dataForTable = scansInWork.map((scan) => {
-    return {
-      key: scan.id,
-      scan_name: scan.scan_name,
-      pool_id: scan.pool_id,
-      status: scan.status,
-      scan_time: moment(scan.scan_timestamp).format(constants.dateTimeFormat),
-      rack_id: scan.rack_id,
-      scanner: scan.scanner ?? '-',
-      action: (
-        <div className={styles.actions}>
+    {
+      title: 'Actions',
+      dataIndex: 'actions',
+      render: (_, record) => (
+        <Space>
           <Button
-            disabled={isLoading}
-            onClick={() => loadScan(scan.id)}
+            disabled={isLoading || record.id === id}
+            onClick={() => loadScan(record.id)}
             type="primary"
           >
             View scan
           </Button>
-          {scan.status === 'COMPLETED' && (
+          {record.status === completed && (
             <Button
               disabled={isLoading}
-              onClick={() => handleCancelScan(scan)}
+              onClick={() => handleCancelScan(record)}
               type="primary"
             >
-              Cancel
+              Undo save
             </Button>
           )}
-        </div>
+        </Space>
       ),
-    };
-  });
+    },
+  ];
 
   return (
     <Table
+      className="mt-4"
       loading={session?.isLoading}
       columns={columns}
       pagination={false}
-      dataSource={dataForTable}
-      scroll={{ y: 200, x: 600 }}
-      rowClassName={(record) => record.key === id && styles.highlightedRow}
+      dataSource={scansInWork}
+      rowClassName={(record) => record.id === id && styles.accentRow}
+      scroll={{ x: 'max-content' }}
+      rowKey={(record) => record.id}
     />
   );
 };

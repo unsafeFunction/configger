@@ -1,13 +1,14 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import classNames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
-import moment from 'moment-timezone';
 import { Statistic } from 'antd';
+import classNames from 'classnames';
+import moment from 'moment-timezone';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import sessionActions from 'redux/scanSessions/actions';
-import UserMenu from './UserMenu';
 import styles from './style.module.scss';
+import UserMenu from './UserMenu';
 
 const TopBar = React.memo(() => {
   const { Countdown } = Statistic;
@@ -32,17 +33,22 @@ const TopBar = React.memo(() => {
   return (
     <div className={styles.topbar}>
       <div className={styles.info}>
-        <Link to="/" className="mr-3">
-          <img
-            src="/resources/images/salivaclear.svg"
-            alt="Saliva Clear"
-            className={styles.brand}
-          />
+        <img
+          src={`/resources/images/${process.env.REACT_APP_LAB_ID}.svg`}
+          alt="Lab logo"
+          className={styles.logo}
+        />
+        <Link className={styles.topMenuLink} to="/generate-run">
+          Generate Run
         </Link>
-        <span description="description" className="d-none d-sm-inline">
-          Surveillance Pool Test Results
-        </span>
+        <Link className={styles.topMenuLink} to="/intake-receipt-log">
+          Intake Receipt Log
+        </Link>
+        <Link className={styles.topMenuLink} to="/pool-scans">
+          Pool Scans
+        </Link>
       </div>
+
       {isActiveSession && (
         <div
           role="presentation"
@@ -54,7 +60,8 @@ const TopBar = React.memo(() => {
             className={styles.timer}
             title={
               <span>
-                Active session for <b>{session.company_name}</b>
+                {`Active session for `}
+                <b>{session.company_name}</b>
               </span>
             }
             valueStyle={{ fontSize: '1.2rem' }}

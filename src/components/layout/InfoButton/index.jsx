@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Tooltip } from 'antd';
-import { InfoOutlined, QuestionCircleTwoTone } from '@ant-design/icons';
+import { Tooltip } from 'antd';
+import { QuestionCircleTwoTone } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import InfoModal from 'components/widgets/InfoModal';
 import modalActions from 'redux/modal/actions';

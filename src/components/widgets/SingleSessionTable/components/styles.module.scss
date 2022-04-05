@@ -1,0 +1,17 @@
+@import 'assets/styles/mixins.scss';
+
+.status > span {
+  margin-right: 0.25rem;
+}
+
+.success {
+  color: $success;
+}
+
+.progress {
+  color: inherit;
+}
+
+.error {
+  color: $danger;
+}
