@@ -539,5 +539,37 @@ export const constants = {
     { title: 'Rejected count', value: 'rejected_count' },
     { title: 'Total count', value: 'total_count' },
   ],
+  reflexResults: [
+    {
+      title: 'Detected',
+      tagValue: 'detected',
+      value: 'DETECTED',
+      color: 'red',
+    },
+    {
+      title: 'Inconclusive',
+      tagValue: 'inconclusive',
+      value: 'INCONCLUSIVE',
+      color: 'orange',
+    },
+    {
+      title: 'Invalid',
+      tagValue: 'invalid',
+      value: 'INVALID',
+      color: 'default',
+    },
+    {
+      title: 'Not detected',
+      tagValue: 'notDetected',
+      value: 'NOT_DETECTED',
+      color: 'green',
+    },
+    {
+      title: 'Rejected',
+      tagValue: 'rejected',
+      value: 'REJECTED',
+      color: 'default',
+    },
+  ],
   intakeDashboard: ['total_counts', 'total_samples_by_date'],
 };

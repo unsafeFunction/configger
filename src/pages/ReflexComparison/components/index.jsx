@@ -4,7 +4,7 @@ import { roundValueToSecondNumber } from 'utils/roundRules';
 import { rowCounter } from 'utils/tableFeatures';
 import { constants } from 'utils/constants';
 
-const { targets, tubeTypes } = constants;
+const { targets, tubeTypes, reflexResults } = constants;
 
 export const getTargetColumns = (method) => {
   return targets[method ?? 'all'].map((target) => {
@@ -40,6 +40,14 @@ const columns = [
     title: 'Result',
     dataIndex: 'result',
     width: 150,
+    filters: Object.values(reflexResults).map(({ title, value }) => ({
+      text: title,
+      value,
+    })),
+    onFilter: (value, record) => {
+      return record.result.indexOf(value) === 0;
+    },
+    sorter: (a, b) => a.result.length - b.result.length,
     render: (value) => {
       return <ResultTag status={value} type="sample" />;
     },
