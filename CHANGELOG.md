@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.0.1](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.0...v11.0.1) (2022-04-07)
+
+### Bug Fixes
+
+- change count of qs machines ([a91eb7c](https://github.com/mokkapps/changelog-generator-demo/commits/a91eb7cc19b97a1d1272ebe09302f057b87f8933))
+- correct count ([6c72b2e](https://github.com/mokkapps/changelog-generator-demo/commits/6c72b2eb95d4a315cc48d84d84083a731b43154e))
+- render session page title ([bdaaedd](https://github.com/mokkapps/changelog-generator-demo/commits/bdaaedd56aa09c8cde9658c6a1981951b4900a66))
+- resolve conflict develop ([72ece61](https://github.com/mokkapps/changelog-generator-demo/commits/72ece61466ff9033d99945534ffda31b4a27422f))
+- single page names ([8e2fc23](https://github.com/mokkapps/changelog-generator-demo/commits/8e2fc23d7dab41527fbc86e16af367b11272cfe7))
+
 ## [11.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v10.7.3...v11.0.0) (2022-04-05)
 
 ### Features
