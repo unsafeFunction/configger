@@ -26,8 +26,9 @@ const ReflexComparison = () => {
   } = useSelector((state) => state.reflex.singleReflex);
 
   const reflexId = location.pathname.split('/')[2];
+  const rejectedValue = 'rejected';
 
-  const { poolResults, tubeTypes } = constants;
+  const { poolResults, tubeTypes, reflexResults } = constants;
 
   const numberOfSamples = (result) => {
     const samples = reflexList?.filter?.((sample) =>
@@ -90,15 +91,14 @@ const ReflexComparison = () => {
               </Descriptions.Item>
             </Descriptions>
             <Divider orientation="left">Results</Divider>
-            <Tag color="red">Detected: {numberOfSamples('detected')}</Tag>
-            <Tag color="orange">
-              Inconclusive: {numberOfSamples('inconclusive')}
-            </Tag>
-            <Tag color="default">Invalid: {numberOfSamples('invalid')}</Tag>
-            <Tag color="green">
-              Not detected: {numberOfSamples('notDetected')}
-            </Tag>
-            <Tag color="default">Rejected: {rejected_count}</Tag>
+            {reflexResults.map((result) => (
+              <Tag color={result.color}>
+                {result.title}:{' '}
+                {result.tagValue === rejectedValue
+                  ? rejected_count
+                  : numberOfSamples(result.tagValue)}
+              </Tag>
+            ))}
           </div>
         )}
       />
