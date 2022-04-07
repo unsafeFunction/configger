@@ -372,7 +372,7 @@ const Scan = () => {
         state: { extraInfo: session.scan_session_title },
       };
       history.replace(location);
-    }, [session]);
+    }, [session.scan_session_title]);
   };
 
   useFetching();
