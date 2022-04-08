@@ -1,5 +1,4 @@
 import { notification } from 'antd';
-import moment from 'moment';
 import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import drawerActions from 'redux/drawer/actions';
 import modalActions from 'redux/modal/actions';
@@ -78,6 +77,7 @@ export function* callFetchScanSessionById({ payload }) {
   const { sessionId } = payload;
   try {
     const { data } = yield call(fetchSessionById, sessionId);
+
     yield put({
       type: actions.FETCH_SCAN_SESSION_BY_ID_SUCCESS,
       payload: {
@@ -222,7 +222,7 @@ export function* callUpdateTube({ payload }) {
       response.data,
     );
 
-    const isInvalidScan = incorrect_positions?.length > 0;
+    // const isInvalidScan = incorrect_positions?.length > 0;
 
     const scanData = {
       empty_positions,
@@ -232,9 +232,9 @@ export function* callUpdateTube({ payload }) {
       ...(response?.data?.status === pooling.status
         ? { pool_id: response?.data?.tube_id }
         : {}),
-      status: isInvalidScan
-        ? constants.scanStatuses.invalid
-        : constants.scanStatuses.started,
+      // status: isInvalidScan
+      //   ? constants.scanStatuses.invalid
+      //   : constants.scanStatuses.started,
     };
 
     yield put({
@@ -363,16 +363,16 @@ export function* callDeleteTube({ payload }) {
       response.data,
     );
 
-    const isInvalidScan = incorrect_positions?.length > 0;
+    // const isInvalidScan = incorrect_positions?.length > 0;
 
     const scanData = {
       empty_positions,
       incorrect_positions,
       last_modified_on: response.data.last_modified_on,
       last_modified_by: response.data.last_modified_by,
-      status: isInvalidScan
-        ? constants.scanStatuses.invalid
-        : constants.scanStatuses.started,
+      // status: isInvalidScan
+      //   ? constants.scanStatuses.invalid
+      //   : constants.scanStatuses.started,
     };
 
     yield put({

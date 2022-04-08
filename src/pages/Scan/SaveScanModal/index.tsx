@@ -22,7 +22,7 @@ const SaveScanModal = ({
     if (isIncorrectTubes) {
       return (
         <Typography.Paragraph>
-          {`It is impossible to save scan because (${incorrectPositions}) positions are incorrect!`}
+          {`It is impossible to save scan because ${incorrectPositions} positions are incorrect!`}
         </Typography.Paragraph>
       );
     }
