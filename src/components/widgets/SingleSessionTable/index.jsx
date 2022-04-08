@@ -36,9 +36,6 @@ const SingleSessionTable = ({
     {
       title: 'Scan time',
       dataIndex: 'scan_timestamp',
-      sorter: (a, b) =>
-        moment(a.scan_timestamp).valueOf() - moment(b.scan_timestamp).valueOf(),
-      sortDirections: [],
       render: (value) =>
         value ? moment(value).format(constants.dateTimeFormat) : '-',
     },

@@ -145,11 +145,14 @@ const Scan = () => {
     }
   }, [session.scanner_id, dispatch]);
 
-  // useEffect(() => {
-  //   if (session.status && session.status !== 'STARTED') {
-  //     history.push('/intake-receipt-log');
-  //   }
-  // }, [session.status, history]);
+  useEffect(() => {
+    if (
+      session.status &&
+      session.status !== constants.sessionStatuses.started
+    ) {
+      history.push('/intake-receipt-log');
+    }
+  }, [session.status, history]);
 
   const scanIndex = scansInWork.findIndex((s) => s.id === scan?.id);
 
@@ -454,7 +457,11 @@ const Scan = () => {
         title: 'Save scan',
         modalId: 'saveScan',
         onOk: () => {
-          updateScan({ status: completed, is_diagnostic: isDiagnostic });
+          if (!isIncorrectTubes)
+            return updateScan({
+              status: completed,
+              is_diagnostic: isDiagnostic,
+            });
         },
         bodyStyle: {
           maxHeight: '70vh',
