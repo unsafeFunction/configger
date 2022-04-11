@@ -102,14 +102,14 @@ const Runs = () => {
     },
     {
       title: 'Run Title',
-      dataIndex: 'import_filename',
+      dataIndex: 'run_title',
       ellipsis: {
         showTitle: false,
       },
       width: 250,
       render: (_, record) => (
-        <Tooltip title={record.import_filename} placement="topLeft">
-          {record.import_filename}
+        <Tooltip title={record.run_title} placement="topLeft">
+          {record.run_title}
         </Tooltip>
       ),
     },
