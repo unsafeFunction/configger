@@ -102,16 +102,16 @@ const IntakeDashboard = () => {
       dataIndex: 'pool_count',
     },
     {
+      title: 'Tube Count',
+      dataIndex: 'tube_count',
+    },
+    {
       title: 'Rejected Count',
       dataIndex: 'rejected_count',
     },
     {
       title: 'Total Count',
       dataIndex: 'total_count',
-    },
-    {
-      title: 'Tube Count',
-      dataIndex: 'tube_count',
     },
   ];
 
