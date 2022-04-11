@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.3...v11.0.4) (2022-04-11)
+
+### Bug Fixes
+
+- order of columns intake dashboard ([be1e867](https://github.com/mokkapps/changelog-generator-demo/commits/be1e86719f9979c64b60ac20049953493dcceae8))
+- run title table fixes ([f5835d3](https://github.com/mokkapps/changelog-generator-demo/commits/f5835d387194a342ffd077a53cec54030cd00a05))
+
 ### [11.0.3](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.2...v11.0.3) (2022-04-08)
 
 ### Bug Fixes
