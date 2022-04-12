@@ -15,7 +15,6 @@ import { constants } from 'utils/constants';
 import { getColor } from 'utils/highlighting';
 import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
-import moment from 'moment-timezone';
 
 const warningFlag = (
   <ExclamationCircleFilled style={{ color: '#f39834' }} className="ml-1" />
