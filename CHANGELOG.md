@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.0.5](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.4...v11.0.5) (2022-04-13)
+
+### Features
+
+- pool size column ([b070798](https://github.com/mokkapps/changelog-generator-demo/commits/b07079867b1821e0f032b978d578040d4055e59d))
+
+### Bug Fixes
+
+- allow intake log items to have one tube per rack ([85870ed](https://github.com/mokkapps/changelog-generator-demo/commits/85870edf81e17369854c26b68fc415278cdb9e3d))
+- delete extra moment import ([e6d22a1](https://github.com/mokkapps/changelog-generator-demo/commits/e6d22a1fd41e0f3fda4f4257917f592d226b07bd))
+- update run titles ([b6ebfc7](https://github.com/mokkapps/changelog-generator-demo/commits/b6ebfc784bfbc0acc1cc2f0eee0f1b82275ec2ab))
+
 ### [11.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.3...v11.0.4) (2022-04-11)
 
 ### Bug Fixes
