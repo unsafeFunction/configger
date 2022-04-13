@@ -69,7 +69,7 @@ const ReflexList = () => {
         pagination={false}
         columns={columns}
         dataSource={reflexList.items}
-        scroll={{ x: 2000 }}
+        scroll={{ x: 'max-content' }}
         rowKey={(record) => record.id}
         title={() => {
           return (

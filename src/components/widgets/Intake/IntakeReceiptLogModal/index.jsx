@@ -213,11 +213,11 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const pools = getFieldValue('reference_pools_count');
-                      if (value >= pools * 2 && value <= pools * 24) {
+                      if (value >= pools && value <= pools * 24) {
                         return Promise.resolve();
                       }
                       // eslint-disable-next-line prefer-promise-reject-errors
-                      return Promise.reject('2 - 24 tubes per rack');
+                      return Promise.reject('1 - 24 tubes per rack');
                     },
                   }),
                 ]}
@@ -227,7 +227,7 @@ const IntakeReceiptLogModal = ({ form, edit }) => {
                   type="number"
                   placeholder="Reference samples count"
                   className="w-100"
-                  min={2}
+                  min={1}
                 />
               </Item>
             </Col>
