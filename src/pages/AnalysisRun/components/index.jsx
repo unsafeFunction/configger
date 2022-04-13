@@ -297,6 +297,11 @@ const columns = [
     dataIndex: 'pool_name',
   },
   {
+    title: 'Pool Size',
+    dataIndex: 'pool_size',
+    render: (value) => value || '-',
+  },
+  {
     title: 'Sample ID',
     dataIndex: 'display_sample_id',
     render: (value, { tube_type }) => {
