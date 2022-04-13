@@ -1,22 +1,22 @@
+import { SearchOutlined } from '@ant-design/icons';
 import {
+  Col,
   DatePicker,
+  Input,
   Popconfirm,
+  Row,
   Space,
   Switch,
   Table,
   Tooltip,
   Typography,
-  Row,
-  Col,
-  Input,
 } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import debounce from 'lodash.debounce';
 import classNames from 'classnames';
 import TableFooter from 'components/layout/TableFooterLoader';
+import debounce from 'lodash.debounce';
 import moment from 'moment-timezone';
 import qs from 'qs';
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/runs/actions';
@@ -107,9 +107,9 @@ const Runs = () => {
         showTitle: false,
       },
       width: 250,
-      render: (_, record) => (
-        <Tooltip title={record.run_title} placement="topLeft">
-          {record.run_title}
+      render: (value) => (
+        <Tooltip title={value} placement="topLeft">
+          {value}
         </Tooltip>
       ),
     },
