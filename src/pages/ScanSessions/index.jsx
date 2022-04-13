@@ -28,8 +28,8 @@ import { Link, useHistory } from 'react-router-dom';
 import helperActions from 'redux/helpers/actions';
 import actions from 'redux/scanSessions/actions';
 import { constants } from 'utils/constants';
-import useCustomFilters from 'utils/useCustomFilters';
 import { rowCounter } from 'utils/tableFeatures';
+import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
 
 const { RangePicker } = DatePicker;
@@ -254,7 +254,7 @@ const ScanSessions = () => {
     [dispatch],
   );
 
-  const getPoolName = useCallback((scan) => {
+  const getPoolName = (scan) => {
     if (scan?.isLoading) {
       return '-';
     }
@@ -265,7 +265,7 @@ const ScanSessions = () => {
       return scan?.ordinal_name;
     }
     return '-';
-  }, []);
+  };
 
   const menu = (sessionId, scan) => (
     <Menu>

@@ -2,9 +2,6 @@ import { Popconfirm, Popover, Select, Switch, Table, Tag, Tooltip } from 'antd';
 import TableFooter from 'components/layout/TableFooterLoader';
 import { PoolType } from 'models/pool.model';
 import moment from 'moment-timezone';
-/* eslint-disable react/jsx-wrap-multilines */
-// eslint-disable-next-line import/no-extraneous-dependencies
-import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import modalActions from 'redux/modal/actions';
@@ -23,7 +20,9 @@ type PoolTableProps = {
 const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { all: pools, resultList } = useSelector<RootState, any>((state) => state.pools);
+  const { all: pools, resultList } = useSelector<RootState, any>(
+    (state) => state.pools,
+  );
 
   const useFetching = () => {
     useEffect(() => {
@@ -93,13 +92,6 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
         value ? moment(value).format(constants.dateFormat) : '-',
     },
     {
-      title: 'Run Title',
-      dataIndex: 'run_title',
-      render: (value: string) => {
-        return value ?? '-';
-      },
-    },
-    {
       title: 'Company',
       dataIndex: ['company', 'name_short'],
       ellipsis: {
@@ -110,7 +102,7 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
           content={record.company?.name}
           trigger="hover"
           overlayClassName={styles.popover}
-          placement="topLeft"
+          placement="right"
         >
           {value ?? '-'}
         </Popover>
@@ -124,13 +116,6 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
     {
       title: 'Pool Title',
       dataIndex: 'title',
-      render: (value: string) => {
-        return value ?? '-';
-      },
-    },
-    {
-      title: 'Rack ID',
-      dataIndex: 'rack_id',
       render: (value: string) => {
         return value ?? '-';
       },
@@ -216,8 +201,9 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
       width: 120,
       render: (_: any, record: PoolType) => (
         <Popconfirm
-          title={`Sure to ${record.is_published ? 'unpublished' : 'published'
-            }?`}
+          title={`Sure to ${
+            record.is_published ? 'unpublished' : 'published'
+          }?`}
           onConfirm={() => handlePublish(record.id, !record.is_published)}
           placement="topRight"
         >
@@ -239,7 +225,7 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
         dataSource={pools.items}
         loading={pools.isLoading}
         pagination={false}
-        scroll={{ x: 1400 }}
+        scroll={{ x: 1200 }}
         rowKey={(record) => record.id}
       />
       <TableFooter
@@ -249,10 +235,6 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
       />
     </>
   );
-};
-
-PoolTable.propTypes = {
-  loadMore: PropTypes.func.isRequired,
 };
 
 export default PoolTable;

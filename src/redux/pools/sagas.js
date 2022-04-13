@@ -19,7 +19,7 @@ export function* callLoadPoolsByRunId({ payload }) {
     yield put({
       type: actions.FETCH_POOLS_BY_RUN_ID_SUCCESS,
       payload: {
-        filename: response.data.import_filename,
+        filename: response.data.run_title,
         data: response.data,
         firstPage: !response.data.previous,
       },

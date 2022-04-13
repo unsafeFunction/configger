@@ -8,8 +8,8 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import actions from 'redux/reflex/actions';
-import { rowCounter } from 'utils/tableFeatures';
 import labConfig from 'utils/labConfig';
+import { rowCounter } from 'utils/tableFeatures';
 
 const ReflexStatus = ({ value, record }) => {
   const dispatch = useDispatch();
@@ -61,7 +61,6 @@ const columns = [
   {
     title: 'Pool Name',
     dataIndex: 'pool_name',
-    width: 100,
   },
   {
     title: 'PoolScan Rack ID',
@@ -74,9 +73,8 @@ const columns = [
   {
     title: 'Sample ID',
     dataIndex: 'sample_id',
-    // TODO: uncomment when API endpoint will be ready
     render: (value, record) => (
-      <Link to={`/reflex-list/${record.id}`} className="text-blue">
+      <Link to={`/reflex-list/${record.id}`} className="table-link">
         {value}
       </Link>
     ),
@@ -84,7 +82,6 @@ const columns = [
   {
     title: 'Result',
     dataIndex: 'analysis_result',
-    width: 150,
     render: (value) => {
       return <ResultTag status={value} type="sample" />;
     },
@@ -98,10 +95,6 @@ const columns = [
     dataIndex: 'action',
   },
   {
-    title: 'Tube Type',
-    dataIndex: 'tube_type',
-  },
-  {
     title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Position`,
     dataIndex: 'rack_position',
   },
@@ -113,7 +106,6 @@ const columns = [
     title: 'Completed',
     dataIndex: 'completed',
     align: 'center',
-    width: 100,
     render: (value, record) => <ReflexStatus value={value} record={record} />,
   },
   {
