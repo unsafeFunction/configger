@@ -204,8 +204,7 @@ const ResultSelect = ({ record, field }) => {
       disabled={
         record[`${field}IsUpdating`] ||
         runStatus === runStatuses.qpcr ||
-        runStatus === runStatuses.published ||
-        isReservedSample(record.display_sample_id)
+        runStatus === runStatuses.published
       }
       bordered={false}
       dropdownMatchSelectWidth={200}
