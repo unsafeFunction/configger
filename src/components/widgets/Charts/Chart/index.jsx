@@ -68,7 +68,9 @@ const Chart = ({ type, stats }) => {
     }
   };
 
-  return <ResponsiveContainer>{renderChart(type)}</ResponsiveContainer>;
+  return (
+    <ResponsiveContainer aspect={1}>{renderChart(type)}</ResponsiveContainer>
+  );
 };
 
 export default Chart;
