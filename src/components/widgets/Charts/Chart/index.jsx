@@ -10,7 +10,9 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  Text,
 } from 'recharts';
+import { Tooltip as ANTooltip } from 'antd';
 import { constants } from 'utils/constants';
 
 const Chart = ({ type, stats }) => {
@@ -18,6 +20,17 @@ const Chart = ({ type, stats }) => {
 
   const { valueName, data } = stats;
   const { chartTypes } = constants;
+
+  const CustomTick = (props) => {
+    const {
+      payload: { value },
+    } = props;
+    return (
+      <ANTooltip title={value}>
+        <Text {...props}>{value.split(' ')[0]}</Text>
+      </ANTooltip>
+    );
+  };
 
   const renderChart = (type) => {
     // eslint-disable-next-line default-case
@@ -35,7 +48,12 @@ const Chart = ({ type, stats }) => {
             }}
           >
             <XAxis type="number" />
-            <YAxis type="category" dataKey="name" />
+            <YAxis
+              tick={<CustomTick />}
+              interval={0}
+              type="category"
+              dataKey="name"
+            />
             <Tooltip />
             <Legend layout={isMobile ? 'vertical' : 'horizontal'} />
             <Bar name={valueName} dataKey="value" fill="#8884d8" />
@@ -69,7 +87,7 @@ const Chart = ({ type, stats }) => {
   };
 
   return (
-    <ResponsiveContainer aspect={1}>{renderChart(type)}</ResponsiveContainer>
+    <ResponsiveContainer aspect={0.5}>{renderChart(type)}</ResponsiveContainer>
   );
 };
 
