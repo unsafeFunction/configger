@@ -1,0 +1,18 @@
+.customTooltip {
+  margin: 0;
+  padding: 10px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(204, 204, 204);
+  white-space: nowrap;
+
+  p {
+    margin: 0;
+  }
+}
+
+.desc {
+  display: block;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  color: rgb(136, 132, 216);
+}

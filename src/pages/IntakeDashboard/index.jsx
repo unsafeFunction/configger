@@ -68,10 +68,16 @@ const IntakeDashboard = () => {
             )
             .map((companyName) => {
               return {
-                name: companyName,
+                name:
+                  intakeDashboard?.items?.[companyName]?.short_name ||
+                  companyName,
                 value: intakeDashboard?.items?.[companyName]?.[activeKey],
+                fullName: companyName,
               };
             }),
+    dates:
+      Object.values(intakeDashboard?.items?.total_samples_by_date ?? {})
+        ?.length > 1,
   };
 
   const handleChangeTabs = (key) => {
