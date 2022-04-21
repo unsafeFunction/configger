@@ -1,3 +1,4 @@
+import { Tooltip as ANTooltip } from 'antd';
 import useWindowSize from 'hooks/useWindowSize';
 import React from 'react';
 import {
@@ -7,12 +8,11 @@ import {
   Pie,
   PieChart,
   ResponsiveContainer,
+  Text,
   Tooltip,
   XAxis,
   YAxis,
-  Text,
 } from 'recharts';
-import { Tooltip as ANTooltip } from 'antd';
 import { constants } from 'utils/constants';
 import styles from './styles.module.scss';
 
@@ -111,7 +111,7 @@ const Chart = ({ type, stats }) => {
   };
 
   return (
-    <ResponsiveContainer aspect={dates ? 2 : 0.5}>
+    <ResponsiveContainer width="100%" height="100%">
       {renderChart(type)}
     </ResponsiveContainer>
   );

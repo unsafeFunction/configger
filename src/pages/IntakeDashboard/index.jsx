@@ -1,21 +1,21 @@
-import actions from 'redux/intakeDashboard/actions';
+import { ProjectOutlined } from '@ant-design/icons';
 import {
-  Tabs,
-  Table,
-  Statistic,
-  Row,
   Card,
   DatePicker,
   Empty,
+  Row,
   Spin,
+  Statistic,
+  Table,
+  Tabs,
 } from 'antd';
-import { ProjectOutlined } from '@ant-design/icons';
+import Chart from 'components/widgets/Charts/Chart';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ExtraFooter from './components/ExtraFooter';
-import moment from 'moment';
+import actions from 'redux/intakeDashboard/actions';
 import { constants } from 'utils/constants';
-import Chart from '../../components/widgets/Charts/Chart';
+import ExtraFooter from './components/ExtraFooter';
 import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
@@ -175,7 +175,12 @@ const IntakeDashboard = () => {
             tab={tabItem.title}
             disabled={!chartDataSamples?.data?.length}
           >
-            <div className={styles.wrapper}>
+            <div
+              className={styles.wrapper}
+              style={{
+                height: `${chartDataSamples?.data?.length * 40 + 100}px`,
+              }}
+            >
               <div
                 className={intakeDashboard?.isLoading ? styles.spin : undefined}
               >
