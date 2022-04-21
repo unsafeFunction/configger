@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.0.6](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.5...v11.0.6) (2022-04-21)
+
+### Bug Fixes
+
+- allow to change reserved result ([d3ac21a](https://github.com/mokkapps/changelog-generator-demo/commits/d3ac21a2e946d9818173012e9b8f410cbd77d013))
+
 ### [11.0.5](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.4...v11.0.5) (2022-04-13)
 
 ### Features
