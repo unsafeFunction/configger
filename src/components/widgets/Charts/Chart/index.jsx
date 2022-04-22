@@ -1,3 +1,4 @@
+import { Tooltip as ANTooltip } from 'antd';
 import useWindowSize from 'hooks/useWindowSize';
 import React from 'react';
 import {
@@ -7,17 +8,52 @@ import {
   Pie,
   PieChart,
   ResponsiveContainer,
+  Text,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 import { constants } from 'utils/constants';
+import styles from './styles.module.scss';
 
 const Chart = ({ type, stats }) => {
   const { isMobile } = useWindowSize();
 
-  const { valueName, data } = stats;
+  const { valueName, data, dates } = stats;
   const { chartTypes } = constants;
+
+  const CustomTick = (props) => {
+    const {
+      payload: { value },
+    } = props;
+
+    const fullCompanyName = data.find(
+      (item) => item.name === value || item.fullName === value,
+    )?.fullName;
+
+    return (
+      <ANTooltip title={fullCompanyName}>
+        <Text {...props}>{value.split(' ')[0]}</Text>
+      </ANTooltip>
+    );
+  };
+
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload?.length) {
+      const { payload: data } = payload[0];
+
+      return (
+        <div className={styles.customTooltip}>
+          {data?.fullName && <p>{data.fullName}</p>}
+          <p
+            className={styles.desc}
+          >{`${payload[0].name} : ${payload[0].value}`}</p>
+        </div>
+      );
+    }
+
+    return null;
+  };
 
   const renderChart = (type) => {
     // eslint-disable-next-line default-case
@@ -35,10 +71,16 @@ const Chart = ({ type, stats }) => {
             }}
           >
             <XAxis type="number" />
-            <YAxis type="category" dataKey="name" />
-            <Tooltip />
+            <YAxis
+              tick={<CustomTick />}
+              width={dates ? 60 : 75}
+              interval={0}
+              type="category"
+              dataKey="name"
+            />
+            <Tooltip content={<CustomTooltip />} />
             <Legend layout={isMobile ? 'vertical' : 'horizontal'} />
-            <Bar name={valueName} dataKey="value" fill="#8884d8" />
+            <Bar barSize={30} name={valueName} dataKey="value" fill="#8884d8" />
           </BarChart>
         );
       case chartTypes.pie:
@@ -68,7 +110,11 @@ const Chart = ({ type, stats }) => {
     }
   };
 
-  return <ResponsiveContainer>{renderChart(type)}</ResponsiveContainer>;
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      {renderChart(type)}
+    </ResponsiveContainer>
+  );
 };
 
 export default Chart;

@@ -1,21 +1,21 @@
-import actions from 'redux/intakeDashboard/actions';
+import { ProjectOutlined } from '@ant-design/icons';
 import {
-  Tabs,
-  Table,
-  Statistic,
-  Row,
   Card,
   DatePicker,
   Empty,
+  Row,
   Spin,
+  Statistic,
+  Table,
+  Tabs,
 } from 'antd';
-import { ProjectOutlined } from '@ant-design/icons';
+import Chart from 'components/widgets/Charts/Chart';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ExtraFooter from './components/ExtraFooter';
-import moment from 'moment';
+import actions from 'redux/intakeDashboard/actions';
 import { constants } from 'utils/constants';
-import Chart from '../../components/widgets/Charts/Chart';
+import ExtraFooter from './components/ExtraFooter';
 import styles from './styles.module.scss';
 
 const { TabPane } = Tabs;
@@ -42,8 +42,8 @@ const IntakeDashboard = () => {
   };
 
   useEffect(() => {
-    setActiveKey(intakeDashboardTabs[0].value);
-  }, [intakeDashboard, intakeDashboardTabs]);
+    setActiveKey(activeKey || intakeDashboardTabs[0].value);
+  }, [intakeDashboard]);
 
   const chartDataSamples = {
     valueName: intakeDashboardTabs.find((item) => item.value === activeKey)
@@ -68,10 +68,16 @@ const IntakeDashboard = () => {
             )
             .map((companyName) => {
               return {
-                name: companyName,
+                name:
+                  intakeDashboard?.items?.[companyName]?.short_name ||
+                  companyName,
                 value: intakeDashboard?.items?.[companyName]?.[activeKey],
+                fullName: companyName,
               };
             }),
+    dates:
+      Object.values(intakeDashboard?.items?.total_samples_by_date ?? {})
+        ?.length > 1,
   };
 
   const handleChangeTabs = (key) => {
@@ -159,9 +165,10 @@ const IntakeDashboard = () => {
   return (
     <>
       <Tabs
-        defaultActiveKey={intakeDashboardTabs[0].value}
+        activeKey={activeKey}
         onChange={handleChangeTabs}
         tabBarExtraContent={extraContent}
+        destroyInactiveTabPane
       >
         {intakeDashboardTabs.map((tabItem) => (
           <TabPane
@@ -169,7 +176,12 @@ const IntakeDashboard = () => {
             tab={tabItem.title}
             disabled={!chartDataSamples?.data?.length}
           >
-            <div className={styles.wrapper}>
+            <div
+              className={styles.wrapper}
+              style={{
+                height: `${chartDataSamples?.data?.length * 40 + 100}px`,
+              }}
+            >
               <div
                 className={intakeDashboard?.isLoading ? styles.spin : undefined}
               >
@@ -203,6 +215,7 @@ const IntakeDashboard = () => {
               prefix={<ProjectOutlined className="mr-2" />}
               title="Total pools count"
               value={intakeDashboard?.items?.total_counts?.total_pools_counts}
+              loading={intakeDashboard.isLoading}
             />
           </Card>
           <Card>
@@ -210,6 +223,7 @@ const IntakeDashboard = () => {
               prefix={<ProjectOutlined className="mr-2" />}
               title="Total samples count"
               value={intakeDashboard?.items?.total_counts?.total_tube_counts}
+              loading={intakeDashboard.isLoading}
             />
           </Card>
         </Row>
@@ -222,6 +236,8 @@ const IntakeDashboard = () => {
           columns={columns}
           className="mt-3"
           pagination={false}
+          rowKey={(record) => record.company_name}
+          loading={intakeDashboard.isLoading}
         />
       )}
     </>
