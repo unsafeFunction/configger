@@ -42,8 +42,8 @@ const IntakeDashboard = () => {
   };
 
   useEffect(() => {
-    setActiveKey(intakeDashboardTabs[0].value);
-  }, [intakeDashboard, intakeDashboardTabs]);
+    setActiveKey(activeKey || intakeDashboardTabs[0].value);
+  }, [intakeDashboard]);
 
   const chartDataSamples = {
     valueName: intakeDashboardTabs.find((item) => item.value === activeKey)
@@ -165,7 +165,7 @@ const IntakeDashboard = () => {
   return (
     <>
       <Tabs
-        defaultActiveKey={intakeDashboardTabs[0].value}
+        activeKey={activeKey}
         onChange={handleChangeTabs}
         tabBarExtraContent={extraContent}
         destroyInactiveTabPane
