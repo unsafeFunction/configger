@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import axiosClient from 'utils/axiosClient';
 import errorOutput from 'utils/errorOutput';
 

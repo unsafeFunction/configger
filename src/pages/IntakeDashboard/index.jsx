@@ -168,6 +168,7 @@ const IntakeDashboard = () => {
         defaultActiveKey={intakeDashboardTabs[0].value}
         onChange={handleChangeTabs}
         tabBarExtraContent={extraContent}
+        destroyInactiveTabPane
       >
         {intakeDashboardTabs.map((tabItem) => (
           <TabPane
@@ -214,6 +215,7 @@ const IntakeDashboard = () => {
               prefix={<ProjectOutlined className="mr-2" />}
               title="Total pools count"
               value={intakeDashboard?.items?.total_counts?.total_pools_counts}
+              loading={intakeDashboard.isLoading}
             />
           </Card>
           <Card>
@@ -221,6 +223,7 @@ const IntakeDashboard = () => {
               prefix={<ProjectOutlined className="mr-2" />}
               title="Total samples count"
               value={intakeDashboard?.items?.total_counts?.total_tube_counts}
+              loading={intakeDashboard.isLoading}
             />
           </Card>
         </Row>
@@ -233,6 +236,8 @@ const IntakeDashboard = () => {
           columns={columns}
           className="mt-3"
           pagination={false}
+          rowKey={(record) => record.company_name}
+          loading={intakeDashboard.isLoading}
         />
       )}
     </>

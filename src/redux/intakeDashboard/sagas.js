@@ -14,7 +14,11 @@ export function* callFetchIntakeCounts({ payload }) {
       },
     });
   } catch (error) {
-    notification.error(error);
+    yield put({ type: actions.FETCH_DAILY_INTAKE_COUNTS_FAILURE });
+
+    notification.error({
+      message: error.message,
+    });
   }
 }
 

@@ -1,13 +1,8 @@
-import { constants } from 'utils/constants';
 import actions from './actions';
 
 const initialState = {
   items: {},
   isLoading: false,
-  total: 0,
-  offset: 0,
-  error: null,
-  isCreating: false,
 };
 
 export default function intakeDashboardReducer(state = initialState, action) {
@@ -29,7 +24,6 @@ export default function intakeDashboardReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        error: action.payload.data,
       };
     }
     default:
