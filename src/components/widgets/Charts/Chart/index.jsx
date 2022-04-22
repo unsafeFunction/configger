@@ -39,7 +39,7 @@ const Chart = ({ type, stats }) => {
   };
 
   const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
+    if (active && payload?.length) {
       const { payload: data } = payload[0];
 
       return (
