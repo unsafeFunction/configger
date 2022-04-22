@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.0.7](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.6...v11.0.7) (2022-04-22)
+
+### Bug Fixes
+
+- active tab ([4775ad9](https://github.com/mokkapps/changelog-generator-demo/commits/4775ad9df242dc8bb9b3de41148ac5e7130d883b))
+- allow to change reserved result ([5028d0e](https://github.com/mokkapps/changelog-generator-demo/commits/5028d0e4d9602a1f3d3c18cba25db0c1e3969c85))
+- aspect, tooltips ([d548ab8](https://github.com/mokkapps/changelog-generator-demo/commits/d548ab8956e99a6e2e72fec0ed5c91b80e476edf))
+- auto height charts ([bca2b6b](https://github.com/mokkapps/changelog-generator-demo/commits/bca2b6bfd683c28f3c1b90ef0dbdbd3184a9a978))
+- chart height ([4156743](https://github.com/mokkapps/changelog-generator-demo/commits/41567433453c2c03c7733c682dacf0555a0f295d))
+- fix chart warnings ([32d3967](https://github.com/mokkapps/changelog-generator-demo/commits/32d396793f6a8ca069d9d8aa9febbd0628c3c44b))
+- refactor payload check ([0cd6a33](https://github.com/mokkapps/changelog-generator-demo/commits/0cd6a33dd2b6679817da05c3964a807387692dfe))
+- tooltips full company ([3cb1f79](https://github.com/mokkapps/changelog-generator-demo/commits/3cb1f79ac8de0a92220a47b90e3b6e413389d872))
+
 ### [11.0.6](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.5...v11.0.6) (2022-04-21)
 
 ### Bug Fixes
