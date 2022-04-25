@@ -57,7 +57,7 @@ const ScanSessions = () => {
     (state) => state.scanSessions.sessions,
   );
 
-  const { scans, isLoading: scansIsLoading, id: sessionId } = useSelector(
+  const { scans = [], isLoading: scansIsLoading, id: sessionId } = useSelector(
     (state) => state.scanSessions.singleSession,
   );
 
@@ -70,10 +70,10 @@ const ScanSessions = () => {
 
       const params = filtersState.dates.length
         ? {
-            completed_timestamp_after: filtersState.dates[0],
-            completed_timestamp_before: filtersState.dates[1],
-            ...filteringParams,
-          }
+          completed_timestamp_after: filtersState.dates[0],
+          completed_timestamp_before: filtersState.dates[1],
+          ...filteringParams,
+        }
         : filteringParams;
 
       dispatch({
@@ -93,13 +93,6 @@ const ScanSessions = () => {
       type: 'reset',
     });
   };
-
-  const navigateToScan = useCallback(
-    ({ sessionId, scanId }) => {
-      history.push({ pathname: `/pool-scans/${sessionId}/${scanId}` });
-    },
-    [history],
-  );
 
   const columns = [
     rowCounter,
@@ -144,10 +137,10 @@ const ScanSessions = () => {
 
     const params = filtersState.dates.length
       ? {
-          completed_timestamp_after: filtersState.dates[0],
-          completed_timestamp_before: filtersState.dates[1],
-          ...filteringParams,
-        }
+        completed_timestamp_after: filtersState.dates[0],
+        completed_timestamp_before: filtersState.dates[1],
+        ...filteringParams,
+      }
       : filteringParams;
 
     return dispatch({
@@ -167,10 +160,10 @@ const ScanSessions = () => {
 
       const params = stateRef.current.length
         ? {
-            completed_timestamp_after: stateRef.current[0],
-            completed_timestamp_before: stateRef.current[1],
-            ...filteringParams,
-          }
+          completed_timestamp_after: stateRef.current[0],
+          completed_timestamp_before: stateRef.current[1],
+          ...filteringParams,
+        }
         : filteringParams;
 
       return dispatch({
@@ -244,15 +237,15 @@ const ScanSessions = () => {
     [dispatch],
   );
 
-  const handleDelete = useCallback(
-    async ({ poolId, sessionId }) => {
-      await dispatch({
-        type: actions.DELETE_SCAN_BY_ID_REQUEST,
-        payload: { id: poolId, sessionId },
-      });
-    },
-    [dispatch],
-  );
+  // const handleDelete = useCallback(
+  //   async ({ poolId, sessionId }) => {
+  //     await dispatch({
+  //       type: actions.DELETE_SCAN_BY_ID_REQUEST,
+  //       payload: { id: poolId, sessionId },
+  //     });
+  //   },
+  //   [dispatch],
+  // );
 
   const getPoolName = (scan) => {
     if (scan?.isLoading) {
@@ -269,17 +262,6 @@ const ScanSessions = () => {
 
   const menu = (sessionId, scan) => (
     <Menu>
-      <Menu.Item
-        onClick={() =>
-          navigateToScan({
-            sessionId,
-            scanId: scan.id,
-          })
-        }
-        key="1"
-      >
-        View pool
-      </Menu.Item>
       <Menu.Item
         onClick={() => {
           return exportPool({ poolId: scan.id });
@@ -308,7 +290,7 @@ const ScanSessions = () => {
   );
 
   useEffect(() => {
-    const formattedScans = scans.map((scan) => {
+    const formattedScans = scans?.map((scan) => {
       const poolName = getPoolName(scan);
       return {
         key: scan.id,

@@ -37,7 +37,7 @@ sagaMiddleware.run(sagas);
 
 if (process.env.NODE_ENV !== 'development') {
   Sentry.init({
-    dsn: 'https://4d4e0fc3fb8541b3876df6a995c083e1@sentry.eloquentbits.com/4',
+    dsn: 'https://5fe6afa6c0b34747ae480c508935c33b@sentry.mirimus.com/14',
     environment: process.env.NODE_ENV,
   });
 }
