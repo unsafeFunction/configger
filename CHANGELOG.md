@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.0.9](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.8...v11.0.9) (2022-04-25)
+
+### Bug Fixes
+
+- update sentry, fix expand pool scans ([9f50b59](https://github.com/mokkapps/changelog-generator-demo/commits/9f50b592b9a1b544d0b53c443799ed147487c84b))
+
 ### [11.0.8](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.7...v11.0.8) (2022-04-25)
 
 ### [11.0.7](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.6...v11.0.7) (2022-04-22)
