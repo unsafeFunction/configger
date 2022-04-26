@@ -514,7 +514,7 @@ export const constants = {
     salivadirect: ['N1', 'RP'],
     eurofins: ['N1', 'ORF10', 'RP'],
   },
-  reservedSamples: ['H20', 'H2O', 'HBSS', 'PC', 'BLANKS', 'EMPTY'],
+  reservedSamples: ['H20', 'H2O', 'HBSS', 'PC', 'BLANKS', 'EMPTY', 'KNOWN POS'],
   ampStatuses: {
     inconclusive: 'inconclusive',
   },
