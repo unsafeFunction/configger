@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.0.10](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.9...v11.0.10) (2022-04-26)
+
+### Bug Fixes
+
+- add sentry dsn to env ([1b290f9](https://github.com/mokkapps/changelog-generator-demo/commits/1b290f92ccb27158267f5048205b98d588c33443))
+
 ### [11.0.9](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.8...v11.0.9) (2022-04-25)
 
 ### Bug Fixes
