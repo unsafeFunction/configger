@@ -35,9 +35,10 @@ const store = createStore(
 
 sagaMiddleware.run(sagas);
 
+console.log(process.env.REACT_APP_SENTRY_DSN);
 if (process.env.NODE_ENV !== 'development') {
   Sentry.init({
-    dsn: 'https://5fe6afa6c0b34747ae480c508935c33b@sentry.mirimus.com/14',
+    dsn: process.env.REACT_APP_SENTRY_DSN,
     environment: process.env.NODE_ENV,
   });
 }
