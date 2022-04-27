@@ -92,6 +92,10 @@ export function* callFetchScanSessionById({ payload }) {
     notification.error({
       message: error.message,
     });
+
+    if (payload?.redirectCallback) {
+      return payload.redirectCallback();
+    }
   }
 }
 
