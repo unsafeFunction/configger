@@ -38,7 +38,10 @@ const initialState = {
 export default function userReducer(state = initialState, action: ActionProps) {
   switch (action.type) {
     case actions.LOGIN_REQUEST:
-      return { ...state, isLoggingIn: true };
+      return {
+        ...state,
+        isLoggingIn: true,
+      };
     case actions.LOGIN_SUCCESS:
       return {
         ...state,
@@ -46,7 +49,10 @@ export default function userReducer(state = initialState, action: ActionProps) {
         authorized: true,
       };
     case actions.LOGIN_FAILURE:
-      return { ...state, isLoggingIn: false, error: action.payload.data };
+      return {
+        ...state,
+        isLoggingIn: false,
+      };
     case actions.FORGOT_REQUEST:
       return { ...state, isRestoring: true };
     case actions.FORGOT_SUCCESS:

@@ -10,7 +10,7 @@ import style from '../style.module.scss';
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const user = useSelector((state) => state.user);
+  const { isLoggingIn } = useSelector((state) => state.user);
 
   const onSubmit = useCallback(
     (values) => {
@@ -24,8 +24,6 @@ const Login = () => {
     },
     [dispatch, history],
   );
-
-  const { isLoggingIn } = user;
 
   return (
     <div className={style.auth}>
