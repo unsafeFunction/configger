@@ -1,6 +1,6 @@
 {
   "name": "mirimus-admin",
-  "version": "11.0.10",
+  "version": "11.1.0",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
@@ -11,6 +11,9 @@
     "eslint": "eslint --fix --ext .js,jsx src",
     "stylelint": "stylelint \"src/**/*.{scss,less}\"",
     "build:mirimus-qa": "./node_modules/.bin/env-cmd -e mirimus-qa npm run build",
+    "build:mirimus-prod": "./node_modules/.bin/env-cmd -e mirimus-prod npm run build",
+    "build:wynn": "./node_modules/.bin/env-cmd -e wynn-prod npm run build",
+    "build:aclv": "./node_modules/.bin/env-cmd -e accelevir-prod npm run build",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
