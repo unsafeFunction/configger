@@ -1,12 +1,16 @@
 import axiosClient from 'utils/axiosClient';
+import errorOutput from 'utils/errorOutput';
 
 export const login = async (username, password) => {
-  const login = await axiosClient.post('/rest-auth/login/', {
-    username,
-    password,
-  });
-
-  return login;
+  try {
+    const login = await axiosClient.post('/rest-auth/login/', {
+      username,
+      password,
+    });
+    return login;
+  } catch (error) {
+    throw new Error(errorOutput(error));
+  }
 };
 
 export const forgotPassword = async (email) => {

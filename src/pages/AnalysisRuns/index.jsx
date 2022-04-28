@@ -18,6 +18,7 @@ import TableFooter from 'components/layout/TableFooterLoader';
 import ActionInitiator from 'components/widgets/ActionInitiator';
 import ResultTag from 'components/widgets/ResultTag';
 import SearchTooltip from 'components/widgets/SearchTooltip';
+import debounce from 'lodash.debounce';
 import map from 'lodash.map';
 import mapValues from 'lodash.mapvalues';
 import moment from 'moment-timezone';
@@ -34,10 +35,9 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import actions from 'redux/analysisRuns/actions';
 import modalActions from 'redux/modal/actions';
 import { constants } from 'utils/constants';
-import useCustomFilters from 'utils/useCustomFilters';
 import { rowCounter } from 'utils/tableFeatures';
+import useCustomFilters from 'utils/useCustomFilters';
 import styles from './styles.module.scss';
-import debounce from 'lodash.debounce';
 
 const { RangePicker } = DatePicker;
 
@@ -267,6 +267,10 @@ const AnalysisRuns = () => {
       dataIndex: 'type',
     },
     {
+      title: 'QS Machine',
+      dataIndex: 'qs_machine',
+    },
+    {
       title: 'Actions',
       render: (_, run) => (
         <Popconfirm
@@ -357,7 +361,7 @@ const AnalysisRuns = () => {
       <Table
         dataSource={runsItems}
         columns={columns}
-        scroll={{ x: 1250 }}
+        scroll={{ x: 'max-content' }}
         loading={runs?.isLoading}
         align="center"
         pagination={false}

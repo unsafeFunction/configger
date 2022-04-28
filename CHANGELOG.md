@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.10...v11.1.0) (2022-04-27)
+
+### Bug Fixes
+
+- add KNOWN POS to reserved samples list ([f1debec](https://github.com/mokkapps/changelog-generator-demo/commits/f1debecdb19bd7c94e3df6b4c15912326e7fff4e))
+- env vars ([094b84e](https://github.com/mokkapps/changelog-generator-demo/commits/094b84e6dc8f5c429a17bd5df091ca140e43594f))
+- login error handling ([ce00c1d](https://github.com/mokkapps/changelog-generator-demo/commits/ce00c1dbfdcc1cd3e6a3e79def43990bf3699a52))
+
 ### [11.0.10](https://github.com/mokkapps/changelog-generator-demo/compare/v11.0.9...v11.0.10) (2022-04-26)
 
 ### Bug Fixes

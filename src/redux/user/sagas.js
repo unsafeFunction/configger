@@ -31,18 +31,11 @@ export function* callLogin({ payload }) {
 
     return yield call(callback);
   } catch (error) {
-    const errorData = error?.response?.data?.non_field_errors;
+    yield put({ type: actions.LOGIN_FAILURE });
 
-    yield put({
-      type: actions.LOGIN_FAILURE,
-      payload: {
-        data: errorData || error,
-      },
-    });
-
-    notification.error({
-      message: 'Something went wrong',
-      description: errorData,
+    return notification.error({
+      message: error.message ?? 'Failure!',
+      duration: 10,
     });
   }
 }
