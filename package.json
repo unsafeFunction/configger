@@ -14,6 +14,7 @@
     "build:mirimus-prod": "./node_modules/.bin/env-cmd -e mirimus-prod npm run build",
     "build:wynn": "./node_modules/.bin/env-cmd -e wynn-prod npm run build",
     "build:aclv": "./node_modules/.bin/env-cmd -e accelevir-prod npm run build",
+    "build:local": "./node_modules/.bin/env-cmd -e local npm run build",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
