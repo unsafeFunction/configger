@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.2.1](https://github.com/mokkapps/changelog-generator-demo/compare/v11.2.0...v11.2.1) (2022-04-28)
+
+### Features
+
+- validate sentry for local env ([b870372](https://github.com/mokkapps/changelog-generator-demo/commits/b870372351d1793fbfdd88a2fa2eeca473f0bb14))
+
 ## [11.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v11.1.0...v11.2.0) (2022-04-28)
 
 ### Features
