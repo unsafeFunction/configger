@@ -31,12 +31,12 @@ export function* callLogin({ payload }) {
 
     return yield call(callback);
   } catch (error) {
-    const errorData = error.response.data.non_field_errors;
+    const errorData = error?.response?.data?.non_field_errors;
 
     yield put({
       type: actions.LOGIN_FAILURE,
       payload: {
-        data: errorData,
+        data: errorData || error,
       },
     });
 
