@@ -35,10 +35,13 @@ const store = createStore(
 
 sagaMiddleware.run(sagas);
 
-if (process.env.NODE_ENV !== 'local') {
+if (
+  process.env.NODE_ENV !== 'local' &&
+  process.env.NODE_ENV !== 'development'
+) {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
-    environment: process.env.REACT_SENTRY_LOCAL,
+    environment: process.env.REACT_APP_SENTRY_ENV,
   });
 }
 
