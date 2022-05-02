@@ -13,8 +13,7 @@ import React from 'react';
 export const getColor = (status) => {
   switch (status?.toLowerCase()) {
     case 'covid-19 detected':
-    case 'detected':
-    case 'rejected': {
+    case 'detected': {
       return 'red';
     }
     case 'not detected':
@@ -88,24 +87,24 @@ export const getStatusText = (status) => {
     case 'COVID-19 Detected': {
       return 'DETECTED';
     }
+    default:
+      return status.toUpperCase();
+  }
+};
+
+export const getResultTooltip = (status) => {
+  switch (status) {
     case 'Rejected': {
       return (
-        <Tooltip
-          placement="bottom"
-          title={
-            <span>
-              <b>REJECTED</b> - Your samples were <b>not tested</b> due to poor
-              sample quality. The samples may be contaminated, empty, improperly
-              collected, or have insufficient volume.
-            </span>
-          }
-        >
-          Rejected
-        </Tooltip>
+        <span>
+          <b>REJECTED</b> - Your samples were <b>not tested</b> due to poor
+          sample quality. The samples may be contaminated, empty, improperly
+          collected, or have insufficient volume.
+        </span>
       );
     }
     default:
-      return status.toUpperCase();
+      return null;
   }
 };
 
