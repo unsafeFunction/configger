@@ -171,21 +171,15 @@ const PopoverRackboard = ({
             onChange={handleChangeTubeID}
             allowClear
           />
-          <Popconfirm
-            disabled={!popoverContent?.tube_id}
-            title="Are you sure to update this tube?"
-            okText="Yes"
-            cancelText="No"
-            onConfirm={() => handleSave(record)}
+
+          <Button
+            disabled={!currentTubeID}
+            className={styles.popoverBtn}
+            type="primary"
+            onClick={() => handleSave(record)}
           >
-            <Button
-              disabled={!currentTubeID}
-              className={styles.popoverBtn}
-              type="primary"
-            >
-              Save
-            </Button>
-          </Popconfirm>
+            Save
+          </Button>
           {(isRack &&
             recordStatus !== tubes.deleted.status &&
             recordStatus !== tubes.missing.status) ||
@@ -193,35 +187,25 @@ const PopoverRackboard = ({
             recordStatus !== tubes.deleted.status &&
             recordStatus !== tubes.missing.status &&
             recordStatus !== tubes.pooling.status) ? (
-            <Popconfirm
-              title="Are you sure to delete this tube?"
-              okText="Yes"
-              cancelText="No"
-              onConfirm={() => handleDelete(record)}
+            <Button
+              className={styles.popoverBtn}
+              danger
+              onClick={() => handleDelete(record)}
             >
-              <Button className={styles.popoverBtn} danger>
-                Delete
-              </Button>
-            </Popconfirm>
+              Delete
+            </Button>
           ) : null}
           {!isRack && (
             <>
               {isCanValidate ? (
-                <Popconfirm
+                <Button
                   disabled={!popoverContent?.tube_id}
-                  title="Are you sure to validate this tube?"
-                  okText="Yes"
-                  cancelText="No"
-                  onConfirm={() => validate(record)}
+                  type="primary"
+                  className={styles.popoverBtn}
+                  onClick={() => validate(record)}
                 >
-                  <Button
-                    disabled={!popoverContent?.tube_id}
-                    type="primary"
-                    className={styles.popoverBtn}
-                  >
-                    Validate
-                  </Button>
-                </Popconfirm>
+                  Validate
+                </Button>
               ) : (
                 recordStatus !== tubes.missing.status &&
                 recordStatus !== tubes.pooling.status &&
