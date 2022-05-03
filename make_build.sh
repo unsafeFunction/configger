@@ -1,18 +1,18 @@
 #!/bin/bash
 #  Test build
 
-if [[ $1 == "local" ][
+if [[ $1 == "local" ]]
 then
         rclone_conf="bunny_rm:"
-elif [[ $1 == "mirimus-qa:" ]]
+elif [[ $1 == "mirimus-qa" ]]
 then
-        rclone_conf="bunny_qa"
-elif [[ $1 == "mirimus-prod:" ]]
+        rclone_conf="bunny_qa:"
+elif [[ $1 == "mirimus-prod" ]]
 then
-        rclone_conf="bunny_prod"
-elif [[ $1 == "accelevir-prod:" ]]
+        rclone_conf="bunny_prod:"
+elif [[ $1 == "accelevir-prod" ]]
 then
-        rclone_conf="bunny_aclv:"
+        rclone_conf="bunny__aclv:"
 elif [[ $1 == "wynn-prod" ]]
 then
         rclone_conf="bunny_wynn:"
