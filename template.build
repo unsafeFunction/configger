@@ -12,7 +12,8 @@
     "REACT_APP_LAB_ID": "mirimus",
     "NODE_ENV": "local",
     "REACT_APP_VERSION": "$npm_package_version",
-    "REACT_APP_SENTRY_DSN": ""
+    "REACT_APP_SENTRY_ENV": "local",
+    "REACT_APP_SENTRY_DSN": "https://5fe6afa6c0b34747ae480c508935c33b@sentry.mirimus.com/14"
   },
   "mirimus-prod": {
     "REACT_APP_API_URL": "https://api.lims.mirimus.com/v1",
