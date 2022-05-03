@@ -1,7 +1,7 @@
 # .woodpecker.yml
 pipeline:
   commands:
-      - echo deploying
+    - echo deploying
   when:
     event: push
     branch: develop
