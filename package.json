@@ -1,8 +1,10 @@
 {
   "name": "mirimus-admin",
-  "version": "11.1.0",
+  "version": "11.2.1",
   "private": true,
   "scripts": {
+    "preinstall": "node checkNodeVersion",
+    "prestart": "node checkNodeVersion",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
@@ -14,6 +16,7 @@
     "build:mirimus-prod": "./node_modules/.bin/env-cmd -e mirimus-prod npm run build",
     "build:wynn": "./node_modules/.bin/env-cmd -e wynn-prod npm run build",
     "build:aclv": "./node_modules/.bin/env-cmd -e accelevir-prod npm run build",
+    "build:local": "./node_modules/.bin/env-cmd -e local npm run build",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",

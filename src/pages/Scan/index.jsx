@@ -405,7 +405,7 @@ const Scan = () => {
           },
         });
       }
-    }, 7000);
+    }, 1000);
 
     return () => {
       clearInterval(refreshInterval);

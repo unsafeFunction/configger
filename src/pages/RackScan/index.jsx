@@ -14,14 +14,15 @@ import {
 import classNames from 'classnames';
 import ScanStatistic from 'components/widgets/Scans/ScanStatistic';
 import moment from 'moment-timezone';
+import PoolRackDetail from 'pages/RunTemplate/PoolRackDetail';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import modalActions from 'redux/modal/actions';
 import actions from 'redux/racks/actions';
 import { constants } from 'utils/constants';
+import rules from 'utils/formRules';
 import labConfig from 'utils/labConfig';
-import PoolRackDetail from 'pages/RunTemplate/PoolRackDetail';
 import styles from './styles.module.scss';
 
 const RackScan = () => {
@@ -137,7 +138,11 @@ const RackScan = () => {
             <Typography.Text>
               {`${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} name`}
             </Typography.Text>
-            <Item name="scan_name" className={styles.formItem}>
+            <Item
+              name="scan_name"
+              className={styles.formItem}
+              rules={[rules.required]}
+            >
               <Input
                 onChange={onDataChange}
                 name="scan_name"
@@ -157,6 +162,7 @@ const RackScan = () => {
                   max: 4,
                   message: 'This field has a maximum length of 4 characters.',
                 },
+                rules.required,
               ]}
             >
               <Input
