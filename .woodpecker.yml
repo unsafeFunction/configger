@@ -4,4 +4,5 @@ pipeline:
     commands:
       - echo deploying
   when:
-	branch: develop
+    event: push
+    branch: develop
