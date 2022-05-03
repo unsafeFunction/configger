@@ -1,7 +1,8 @@
 # .woodpecker.yml
 pipeline:
-  commands:
-    - echo deploying
+  build:
+    commands:
+      - echo "test content"
   when:
     event: push
     branch: develop
