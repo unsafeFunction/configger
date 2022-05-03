@@ -1,23 +1,23 @@
 #!/bin/bash
 #  Test build
 
-if [[ $1 == "local" ]]
+if [ $1 == "local" ];
 then
         rclone_conf="bunny_rm:"
 		build_script=$1
-elif [[ $1 == "mirimus-qa" ]]
+elif [ $1 == "mirimus-qa" ];
 then
         rclone_conf="bunny_qa:"
 		build_script=$1
-elif [[ $1 == "mirimus-prod" ]]
+elif [ $1 == "mirimus-prod" ];
 then
         rclone_conf="bunny_prod:"
 		build_script=$1
-elif [[ $1 == "accelevir-prod" ]]
+elif [ $1 == "accelevir-prod" ];
 then
         rclone_conf="bunny_aclv:"
 		build_script="aclv"
-elif [[ $1 == "wynn-prod" ]]
+elif [ $1 == "wynn-prod" ];
 then
         rclone_conf="bunny_wynn:"
 		build_script="wynn"
