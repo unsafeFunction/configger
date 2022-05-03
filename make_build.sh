@@ -1,4 +1,4 @@
-  GNU nano 6.2                                           make_build.sh                                                    #!/bin/bash
+#!/bin/bash
 #  Test build
 
 if [[ $1 == "local" ]]
