@@ -117,7 +117,10 @@ const Scan = () => {
   };
 
   useEffect(() => {
-    if (modalStatus !== constants.tipsModalStatuses.hide && session.status) {
+    if (
+      modalStatus !== constants.tipsModalStatuses.hide &&
+      session.isSessionLoaded
+    ) {
       dispatch({
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
@@ -138,7 +141,7 @@ const Scan = () => {
         },
       });
     }
-  }, [session]);
+  }, [session.isSessionLoaded]);
 
   useEffect(() => {
     if (session.scanner_id) {

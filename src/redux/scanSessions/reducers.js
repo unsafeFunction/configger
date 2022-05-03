@@ -101,6 +101,7 @@ const initialSingleSession = {
   reference_pools_count: 0,
   reference_samples_count: 0,
   requestStatus: 200,
+  isSessionLoaded: false,
 };
 
 const getScanName = (scan) => {
@@ -137,6 +138,7 @@ const singleSessionReducer = (state = initialSingleSession, action) => {
       return {
         ...state,
         isLoading: false,
+        isSessionLoaded: true,
         ...action.payload.data,
         session_id: action.payload.data.id,
         scans: action.payload.data.scans?.map((scan) => ({
