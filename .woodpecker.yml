@@ -1,0 +1,7 @@
+# .woodpecker.yml
+pipeline:
+  build:
+    commands:
+      - echo deploying
+  when:
+	branch: develop
