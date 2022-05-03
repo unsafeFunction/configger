@@ -1,6 +1,6 @@
 # .woodpecker.yml
 pipeline:
-  build:
+  exec:
     commands:
       - echo deploying
   when:
