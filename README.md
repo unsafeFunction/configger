@@ -1,2 +1,2 @@
-# lims-admin
+# lims-rfontend
 
