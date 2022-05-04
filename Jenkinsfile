@@ -4,9 +4,8 @@ pipeline {
         stage('Example') {
             steps {
                 sh '''#!/bin/bash
-                    mkdir srv && cd srv
-                    mkdir Projects && cd Projects
-                    mkdir lims-frontend && cd lims-frontend
+                    cd /srv/Projects/lims-frontend
+                    ls -la
                 '''
                 
             }
