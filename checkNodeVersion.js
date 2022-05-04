@@ -1,7 +1,7 @@
 const result = process.versions;
 
 if (result && result.node) {
-  if (parseInt(result.node, 10) >= 8 && parseInt(result.node, 10) < 15) {
+  if (parseInt(result.node, 10) >= 12 && parseInt(result.node, 10) < 15) {
     console.log(
       `-------******* Good to Go with your Node Version: ${result.node} *******-------`,
     );
