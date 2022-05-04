@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.3.2](https://github.com/mokkapps/changelog-generator-demo/compare/v11.3.1...v11.3.2) (2022-05-04)
+
+### Bug Fixes
+
+- empty session error handling ([0b252c6](https://github.com/mokkapps/changelog-generator-demo/commits/0b252c6a6dd219616a24f4fdeabb78dc31afa08a))
+- login error optional chaining ([00f03f9](https://github.com/mokkapps/changelog-generator-demo/commits/00f03f936ee8ffc6b13c8583146214231d6b3a6f))
+- refactor tips modal conditions ([4989939](https://github.com/mokkapps/changelog-generator-demo/commits/498993915e342777118b23a94670ec0233084482))
+- resolve mr conflict from dev ([f492414](https://github.com/mokkapps/changelog-generator-demo/commits/f492414350da88eedc637493186022ddc22f6861))
+- session modal tips ([2c1a49a](https://github.com/mokkapps/changelog-generator-demo/commits/2c1a49a0f92961e314133ececd9b7edb62da3990))
+
 ### [11.3.1](https://github.com/mokkapps/changelog-generator-demo/compare/v11.3.0...v11.3.1) (2022-05-04)
 
 ### Bug Fixes
