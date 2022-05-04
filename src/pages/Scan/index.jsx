@@ -83,6 +83,10 @@ const Scan = () => {
       (s) => s.status === started || s.status === invalid || s.status === error,
     );
 
+    if (!scans && !scanInWork) {
+      return history.push('/intake-receipt-log');
+    }
+
     setScansInWork([
       ...(scanInWork ? [scanInWork] : []),
       ...scans
@@ -113,7 +117,10 @@ const Scan = () => {
   };
 
   useEffect(() => {
-    if (modalStatus !== constants.tipsModalStatuses.hide) {
+    if (
+      modalStatus !== constants.tipsModalStatuses.hide &&
+      session.isSessionLoaded
+    ) {
       dispatch({
         type: modalActions.SHOW_MODAL,
         modalType: 'COMPLIANCE_MODAL',
@@ -134,7 +141,7 @@ const Scan = () => {
         },
       });
     }
-  }, [modalStatus]);
+  }, [session.isSessionLoaded]);
 
   useEffect(() => {
     if (session.scanner_id) {
@@ -186,7 +193,10 @@ const Scan = () => {
   const loadSession = useCallback(() => {
     dispatch({
       type: actions.FETCH_SCAN_SESSION_BY_ID_REQUEST,
-      payload: { sessionId },
+      payload: {
+        sessionId,
+        redirectCallback: () => history.push('/intake-receipt-log'),
+      },
     });
   }, [dispatch, sessionId]);
 
