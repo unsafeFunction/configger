@@ -1,7 +1,7 @@
 # .woodpecker.yml
 pipeline:
   build:
-    image: bash
+    image: /usr/bin/bash
     commands:
       - echo "test content"
   when:
