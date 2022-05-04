@@ -4,7 +4,7 @@ pipeline {
         stage('Example') {
             steps {
                 sh '''
-                 ls -la
+                 ./make_build.sh
                 '''
                 
             }
