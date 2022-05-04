@@ -3,7 +3,10 @@ pipeline {
     stages {
         stage('Example') {
             steps {
-                ls -la
+                sh '''#!/bin/bash
+                 echo "hello world" 
+                '''
+                
             }
         }
     }
