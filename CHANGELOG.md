@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.3.1](https://github.com/mokkapps/changelog-generator-demo/compare/v11.3.0...v11.3.1) (2022-05-04)
+
+### Bug Fixes
+
+- duplicate tooltip ([1294340](https://github.com/mokkapps/changelog-generator-demo/commits/129434085c39057e9f782ddd231866f1372e9de7))
+- remove confirmation popovers ([8136589](https://github.com/mokkapps/changelog-generator-demo/commits/81365895f7611595a2f130c698bc4476cf1d28fb))
+- remove rejected result analysis run ([363bf4b](https://github.com/mokkapps/changelog-generator-demo/commits/363bf4b37883f692a53f4cadfd9a389078b84a50))
+- update message ([406d47e](https://github.com/mokkapps/changelog-generator-demo/commits/406d47e01ae80df84f0f483dd8262a18ac8a1ee5))
+
 ## [11.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v11.2.1...v11.3.0) (2022-05-04)
 
 ### Features
