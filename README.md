@@ -1,2 +1,2 @@
-# lims-rfontend
+# lims-frontend
 
