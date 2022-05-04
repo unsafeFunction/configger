@@ -3,7 +3,10 @@ pipeline {
     stages {
         stage('Example') {
             steps {
-                sh '''
+                sh '''#!/bin/bash
+                mkdir srv && cd srv
+                mkdir Projects && cd Projects
+                mkdir lims-frontend && cd lims-frontend
                  ./make_build.sh local
                 '''
                 
