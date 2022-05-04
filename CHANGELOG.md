@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v11.2.1...v11.3.0) (2022-05-04)
+
+### Features
+
+- script for check node version and prevent running if not compatible ([415da40](https://github.com/mokkapps/changelog-generator-demo/commits/415da403e7ec14b00b8ae191ea783db0c91ad733))
+- validate rack scan fields ([227ce6f](https://github.com/mokkapps/changelog-generator-demo/commits/227ce6f64253c0de57695edd66536db8b663cd8f))
+
+### Bug Fixes
+
+- major node update ([0cd00ce](https://github.com/mokkapps/changelog-generator-demo/commits/0cd00ce4bbfd5c8b6bed69f68427499658b31ea9))
+- package json build command ([14bbe55](https://github.com/mokkapps/changelog-generator-demo/commits/14bbe550aebf74a664bb1736d478d754bd1b9181))
+- up node version ([9816122](https://github.com/mokkapps/changelog-generator-demo/commits/98161225b9ba3caab26b28b07c0f9957233ec55f))
+- update sentry environment ([3693ac6](https://github.com/mokkapps/changelog-generator-demo/commits/3693ac698761b8f7a43e853e72c0d3e1fb8086a0))
+
 ### [11.2.1](https://github.com/mokkapps/changelog-generator-demo/compare/v11.2.0...v11.2.1) (2022-04-28)
 
 ### Features
