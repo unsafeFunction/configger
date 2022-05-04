@@ -8,7 +8,12 @@ import modalActions from 'redux/modal/actions';
 import actions from 'redux/pools/actions';
 import { RootState } from 'redux/reducers';
 import { constants } from 'utils/constants';
-import { getColor, getIcon, getStatusText } from 'utils/highlighting';
+import {
+  getColor,
+  getIcon,
+  getResultTooltip,
+  getStatusText,
+} from 'utils/highlighting';
 import { rowCounter } from 'utils/tableFeatures';
 import styles from './styles.module.scss';
 import { OptionType } from './types';
@@ -137,38 +142,30 @@ const PoolTable = ({ loadMore }: PoolTableProps): JSX.Element => {
       dataIndex: 'result',
       width: 195,
       render: (value: string, record: PoolType) => (
-        <Tooltip
-          placement="bottom"
-          title={
-            record.result === 'Rejected' && (
-              <span>
-                <b>REJECTED</b> - Your samples were<b>not tested</b> due to poor
-                sample quality. The samples may be contaminated, empty,
-                improperly collected, or have insufficient volume.
-              </span>
-            )
-          }
-        >
-          <Select
-            value={value}
-            options={resultList.items.map((item: OptionType) => {
-              return {
-                label: (
+        <Select
+          value={value}
+          options={resultList.items.map((item: OptionType) => {
+            return {
+              label: (
+                <Tooltip
+                  placement="bottom"
+                  title={getResultTooltip(item.value)}
+                >
                   <Tag color={getColor(item.value)} icon={getIcon(item.value)}>
                     {getStatusText(item.value)}
                   </Tag>
-                ),
-                value: item.value,
-                key: item.key,
-              };
-            })}
-            loading={record.resultIsUpdating}
-            onSelect={onModalToggle(record.id, record.pool_id)}
-            disabled={record.resultIsUpdating}
-            bordered={false}
-            dropdownMatchSelectWidth={200}
-          />
-        </Tooltip>
+                </Tooltip>
+              ),
+              value: item.value,
+              key: item.key,
+            };
+          })}
+          loading={record.resultIsUpdating}
+          onSelect={onModalToggle(record.id, record.pool_id)}
+          disabled={record.resultIsUpdating}
+          bordered={false}
+          dropdownMatchSelectWidth={200}
+        />
       ),
     },
     {

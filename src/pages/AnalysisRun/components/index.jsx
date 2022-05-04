@@ -129,12 +129,16 @@ Actions.propTypes = {
   value: PropTypes.string,
 };
 
-const resultList = Object.values(constants.poolResults).map((item) => {
-  return {
-    text: item.replaceAll('_', ' '),
-    value: item,
-  };
-});
+const excludedStatuses = [constants.poolResults.rejected];
+
+const resultList = Object.values(constants.poolResults)
+  .filter((item) => !excludedStatuses.includes(item))
+  .map((item) => {
+    return {
+      text: item.replaceAll('_', ' '),
+      value: item,
+    };
+  });
 
 const ResultSelect = ({ record, field }) => {
   const { runStatuses } = constants;
