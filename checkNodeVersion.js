@@ -7,7 +7,7 @@ if (result && result.node) {
     );
   } else {
     console.log(
-      '-------******* Package installation(npm install) or Project startup command(npm start) failed due to Node Version, Please install and use Node Version >=8 *******-------',
+      '-------******* Package installation(npm install) or Project startup command(npm start) failed due to Node Version, Please install and use Node Version >=12 *******-------',
     );
     console.log(
       `-------******* Your current Node Version is: ${result.node} *******-------`,
