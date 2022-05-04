@@ -1,9 +1,11 @@
 # .woodpecker.yml
 pipeline:
   build:
-    image: /usr/bin/bash
+    image: node:12
     commands:
-      - echo "test content"
+      - npm install --legacy-peer-deps
+      - yarn build:local
+      - echo "test bild"
   when:
     event: push
     branch: develop
