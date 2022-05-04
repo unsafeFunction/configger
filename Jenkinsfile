@@ -4,7 +4,7 @@ pipeline {
         stage('Example') {
             steps {
                 sh '''#!/bin/bash
-                    cd /srv/Projects/lims-frontend
+                    cd /srv
                     ls -la
                 '''
                 
