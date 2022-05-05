@@ -36,3 +36,9 @@ pipeline:
     chmod: false
     verify: false
     secure: false
+    when:
+       branch: develop
+       event: push
+       path:
+         include: [ '.local' ]
+         exclude: [ '*.*' ]
