@@ -14,4 +14,5 @@ pipeline:
       - cp template.build build/.env-cmdrc
       - cd build
       - ls -la
+  deploy:
     image: cschlosser/drone-ftps
