@@ -18,8 +18,9 @@ pipeline:
        branch: develop
   deploy:
      image: cschlosser/drone-ftps
-     hostname: storage.bunnycdn.com
-     secrets: [ ftp_username, ftp_password ]
+     settings:
+       hostname: storage.bunnycdn.com:21
+       secrets: [ ftp_username, ftp_password ]
 #     src_dir: build
      clean_dir: true
      chmod: false
