@@ -20,7 +20,7 @@ pipeline:
        ftp_password:
          from_secret: rm_bunny_password
      hostname: storage.bunnycdn.com
-     secrets: [ ftp_username, ftp_password ]
+     secrets: [ rm_bunny_username, rm_bunny_password ]
      src_dir: /build
      clean_dir: true
      chmod: false
