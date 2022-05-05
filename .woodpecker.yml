@@ -13,13 +13,15 @@ pipeline:
       - mkdir build
       - cp template.build build/.env-cmdrc
       - cd build
-      - ls -la
   deploy:
     image: cschlosser/drone-ftps
     hostname: storage.bunnycdn.com:21
     source: rm_bunny_username
     target: ftp_username
-    secrets: [ ftp_username, ftp_password ]  
+    source: rm_bunny_username
+    target: rm_bunny_password
+    secrets: [ ftp_username, ftp_password ] 
+    src_dir:  ./build
     dest_dir: /rm-lims-mirimus-com   
     clean_dir: true
     chmod: false
