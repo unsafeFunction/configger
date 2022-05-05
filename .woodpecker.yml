@@ -1,12 +1,12 @@
 # .woodpecker.yml
 pipeline:
-  deps:
+  build:
     image: node:12
     commands:
-      - mkdir app
-      - cp -r * /app
-      - cp template.build /app/.env-cmdrc
-      - WORKDIR /app
+      - mkdir apps
+      - cp -r * apps/
+      - cp template.build apps/.env-cmdrc
+      - WORKDIR /apps
       - cd app
       - ls -la
       - npm install
