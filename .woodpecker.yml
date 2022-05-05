@@ -4,9 +4,32 @@ pipeline:
     image: node:12
     commands:
       - BUILD_CONF="local"
+      
       - if [ $BUILD_CONF == "local" ];
-      - then BUNNY_DIR="/rm-lims-mirimus-com"
-      - fi; 
+      - then BUNNY_DIR="/rm-lims-mirimus-com:"
+      - build_script=$BUILD_CONF
+      
+      - elif [ $BUILD_CONF == "mirimus-qa" ];
+      - then BUNNY_DIR="/rm-lims-mirimus-com:"
+      - build_script="mirimus-qa"
+      
+      - elif [ $BUILD_CONF == "mirimus-prod" ];
+      - then BUNNY_DIR="/rm-lims-mirimus-com:"
+      - build_script="mirimus-prod"
+      
+      - elif [ $1 == "accelevir-prod" ];
+      - then BUNNY_DIR="/rm-lims-mirimus-com:"
+      - build_script="aclv"
+      
+      - elif [ $BUILD_CONF == "wynn-prod" ];
+      - then BUNNY_DIR="/rm-lims-mirimus-com:"
+      - build_script="wynn"
+      
+      - else
+      - echo "Wrong build conf"
+      - exit 1
+      - fi;
+      
       - node -v
       - cp template.build .env-cmdrc
       - npm install
