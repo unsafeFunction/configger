@@ -3,7 +3,6 @@ pipeline:
   build:
     image: node:12
     commands:
-      - USER root
       - tree
       - cp template.build .env-cmdrc
       - ls -la
