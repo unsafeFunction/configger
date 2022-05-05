@@ -17,8 +17,8 @@ pipeline:
     image: cschlosser/drone-ftps
     hostname: storage.bunnycdn.com:21
     secrets:
-      source: rm_bunny_username
-      target: ftp_username
+      - source: rm_bunny_username
+        target: ftp_username
     #secrets: [ ftp_username, ftp_password ] 
     src_dir:  ./build
     dest_dir: /rm-lims-mirimus-com   
