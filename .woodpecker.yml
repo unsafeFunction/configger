@@ -3,8 +3,8 @@ pipeline:
   build:
     image: debian
     commands:
-      - echo "This is the build step"
+      - touch myfile
   a-test-step:
     image: debian
     commands:
-      - echo "Testing..
+      - cat myfile
