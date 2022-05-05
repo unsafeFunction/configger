@@ -1,6 +1,5 @@
 # .woodpecker.yml
 pipeline:
-pipeline:
   build:
     image: node:12
     commands:
@@ -12,4 +11,4 @@ pipeline:
       - cd build
       - ls -la
     when:
-      branch: develop
+       branch: develo
