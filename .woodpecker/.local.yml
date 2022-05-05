@@ -1,1 +1,39 @@
-#
+# .woodpecker.yml
+pipeline:
+  build:
+    image: node:12
+    commands:
+      - node -v
+      - cp template.build .env-cmdrc
+      - npm install
+      - npm rebuild node-sass
+      - CI=false yarn build:local
+      - cd build
+      - ls -la
+      #- mkdir build
+      #- cp template.build build/.env-cmdrc
+      #- ls -la
+    when:
+       branch: develop
+       event: push
+       path:
+         include: '.local'
+  deploy:
+    image: cschlosser/drone-ftps
+    hostname: storage.bunnycdn.com:21
+    secrets:
+      - source: rm_bunny_username
+        target: ftp_username
+      - source: rm_bunny_password
+        target: ftp_password
+    src_dir:  /build
+    dest_dir: /rm-lims-mirimus-com 
+    clean_dir: true
+    chmod: false
+    verify: false
+    secure: false
+    when:
+       branch: develop
+       event: push
+       path:
+         include: '.local'
