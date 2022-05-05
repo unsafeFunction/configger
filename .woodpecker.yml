@@ -19,7 +19,7 @@ pipeline:
   deploy:
      image: cschlosser/drone-ftps
      hostname: storage.bunnycdn.com
-     secrets: [ from_secret:rm_bunny_username, from_secret:ftp_password ]
+     secrets: [ "rm-lims-mirimus-com", "bd69c52f-b2ba-443d-91edf1ce5029-531b-4986" ]
      src_dir: /build
      clean_dir: true
      chmod: false
