@@ -37,4 +37,4 @@ cp template.build .env-cmdrc
 echo "npm run build:"$build_script
 npm run build:$build_script
 echo "push to bunny"
-# rclone sync $frontend_build_dir $rclone_conf 
+rclone sync $frontend_build_dir $rclone_conf 
