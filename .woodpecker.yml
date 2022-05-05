@@ -1,4 +1,3 @@
-# .woodpecker.yml
 pipeline:
   build:
     image: node:12
