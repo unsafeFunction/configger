@@ -3,7 +3,6 @@ pipeline:
   build:
     image: node:12
     commands:
-      - BUNNY_DIR="rm-lims-mirimus-com"
       - node -v
       - cp template.build .env-cmdrc
       - npm install
@@ -31,7 +30,7 @@ pipeline:
       - source: rm_bunny_password
         target: ftp_password
     src_dir:  /build
-    dest_dir: $BUNNY_DIR 
+    dest_dir: /rm-lims-mirimus-com 
     clean_dir: true
     chmod: false
     verify: false
