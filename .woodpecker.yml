@@ -14,17 +14,12 @@ pipeline:
       - cp template.build build/.env-cmdrc
       - cd build
       - ls -la
-    when:
-       branch: develop
-  deploy:
-     image: cschlosser/drone-ftps
-     settings:
+    image: cschlosser/drone-ftps
+    settings:
        hostname: storage.bunnycdn.com:21
        secrets: [ ftp_username, ftp_password ]
-#     src_dir: build
+     src_dir: build
      clean_dir: true
      chmod: false
      verify: false
      secure: false
-     when:
-        branch: develop
