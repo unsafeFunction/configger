@@ -3,7 +3,7 @@ pipeline:
   deps:
     image: node:12
     commands:
-      - WORKDIR /srv/Projects/lims-frontend/tmp
+      - ls -la
       - npm install --legacy-peer-deps
       - yarn build:local
     when:
