@@ -10,7 +10,6 @@ pipeline:
       - CI=false yarn build:local
       - cd build
       - ls -la
-      #- echo $USER
       #- mkdir build
       #- cp template.build build/.env-cmdrc
       #- ls -la
@@ -18,9 +17,7 @@ pipeline:
        branch: develop
        event: push
        path:
-         include: [ '.local' ]
-         exclude: [ '*.*' ]
-         ignore_message: "[ALL]"
+         include: '.local'
   deploy:
     image: cschlosser/drone-ftps
     hostname: storage.bunnycdn.com:21
@@ -39,6 +36,4 @@ pipeline:
        branch: develop
        event: push
        path:
-         include: [ '.local' ]
-         exclude: [ '*.*' ]
-         ignore_message: "[ALL]"
+         include: '.local'
