@@ -3,7 +3,7 @@ pipeline:
   build:
     image: node:12
     commands:
-      - BUILD_CONF="accelevir-prod"
+      - BUILD_CONF="accelevuuuuir-prod"
       
       - if [ $BUILD_CONF == "local" ];
       - then BUNNY_DIR="/rm-lims-mirimus-com:"
