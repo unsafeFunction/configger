@@ -12,7 +12,7 @@ pipeline:
 #      - ls -la
       - mkdir build
       - cp template.build build/.env-cmdrc
-      - cd /build
+      - cd build
       - ls -la
     when:
        branch: develop
