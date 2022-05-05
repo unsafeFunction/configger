@@ -10,5 +10,5 @@ pipeline:
       - CI=false yarn build:local
       - cd build
       - ls -la
-  when:
-    branch: develop
+     when:
+       branch: develop
