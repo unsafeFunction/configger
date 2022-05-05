@@ -14,12 +14,14 @@ pipeline:
       - cp template.build /build/.env-cmdrc
       - cd /build
       - ls -la
+      - echo $FTP_USERNAME
+      - echo $FTP_PASSWORD
     when:
        branch: develop
   deploy:
      image: cschlosser/drone-ftps
      hostname: storage.bunnycdn.com
-     secrets: [ "rm-lims-mirimus-com", "bd69c52f-b2ba-443d-91edf1ce5029-531b-4986" ]
+     secrets: [ ftp_username, ftp_password ]
      src_dir: /build
      clean_dir: true
      chmod: false
