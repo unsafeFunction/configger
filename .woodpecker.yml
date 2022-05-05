@@ -3,10 +3,10 @@ pipeline:
   build:
     image: node:12
     commands:
-      - mkdir apps
-      - cp -r * apps/
-      - cp template.build apps/.env-cmdrc
-      - WORKDIR /apps
+      - mkdir tmp
+      - cp -r * tmp/
+      - cp template.build tmp/.env-cmdrc
+      - WORKDIR /tmp
       - cd app
       - ls -la
       - npm install
