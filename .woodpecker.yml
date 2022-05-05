@@ -6,4 +6,4 @@ pipeline:
       - cd web/
       - yarn install --frozen-lockfile
     when:
-      path: "web/**"
+      branch: develop
