@@ -11,4 +11,4 @@ pipeline:
       - cd build
       - ls -la
     when:
-       branch: develo
+       branch: develop
