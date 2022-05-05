@@ -11,6 +11,7 @@ pipeline:
       #- cd build
       #- ls -la
       - USER="rm_bunny_username"
+      - echo $USER
       - mkdir build
       - cp template.build build/.env-cmdrc
       - ls -la
@@ -20,7 +21,7 @@ pipeline:
     image: cschlosser/drone-ftps
     hostname: storage.bunnycdn.com:21
     secrets:
-      - source: $${USER}
+      - source: $USER
         target: ftp_username
       - source: rm_bunny_password
         target: ftp_password
