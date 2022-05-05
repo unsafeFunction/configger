@@ -21,6 +21,7 @@ pipeline:
        path:
          include: [ '.local' ]
          exclude: [ '*.*' ]
+         ignore_message: "[ALL]"
   deploy:
     image: cschlosser/drone-ftps
     hostname: storage.bunnycdn.com:21
