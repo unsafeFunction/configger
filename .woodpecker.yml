@@ -3,10 +3,11 @@ pipeline:
   build:
     image: node:12
     commands:
-      - tree
+      - node -v
       - cp template.build .env-cmdrc
       - ls -la
-      - npm install --legacy-peer-deps
-      - yarn build:local
+      - npm install
+      - npm rebuild node-sass
+      - npm run build:local
     when:
       branch: develop
