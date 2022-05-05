@@ -1,7 +1,7 @@
 # .woodpecker.yml
 pipeline:
   build:
-    image: cschlosser/drone-ftps
+    image: node:12
     commands:
       - node -v
 # #     - cp template.build .env-cmdrc
