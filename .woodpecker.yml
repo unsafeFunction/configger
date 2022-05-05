@@ -11,7 +11,7 @@ pipeline:
 #      - cd build
 #      - ls -la
       - mkdir build
-      - cp template.build /build/.env-cmdrc
+      - cp template.build build/.env-cmdrc
       - cd /build
       - ls -la
     when:
