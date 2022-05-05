@@ -4,7 +4,8 @@ pipeline:
     image: node:12
     commands:
       - BUILD_CONF="local"
-      - if [ BUILD_CONF == "local" ]; then BUNNY_DIR="/rm-lims-mirimus-com"
+      - if [ BUILD_CONF == "local" ]; 
+      - then BUNNY_DIR="/rm-lims-mirimus-com"
       - node -v
       - cp template.build .env-cmdrc
       - npm install
