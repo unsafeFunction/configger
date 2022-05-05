@@ -1,9 +1,12 @@
 # .woodpecker.yml
 pipeline:
   build:
-    image: node:12
+    image: cschlosser/drone-ftps
+    settings:
+       hostname: storage.bunnycdn.com:21
+       secrets: [ ftp_username, ftp_password ]
     commands:
-# #     - node -v
+      - node -v
 # #     - cp template.build .env-cmdrc
 # #     - npm install
 # #     - npm rebuild node-sass
@@ -14,11 +17,7 @@ pipeline:
       - cp template.build build/.env-cmdrc
       - cd build
       - ls -la
-    image: cschlosser/drone-ftps
-    settings:
-       hostname: storage.bunnycdn.com:21
-       secrets: [ ftp_username, ftp_password ]
-     src_dir: build
+    src_dir: build
      clean_dir: true
      chmod: false
      verify: false
