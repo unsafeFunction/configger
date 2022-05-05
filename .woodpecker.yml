@@ -34,8 +34,8 @@ pipeline:
       - cp template.build .env-cmdrc
       - npm install
       - npm rebuild node-sass
-      - echo "Config:" $build_script
-      - CI=false yarn build:$BUILD_CONF
+      - echo $build_script
+      - CI=false yarn build:$build_script
       - cd build
       - ls -la
       #- echo $USER
