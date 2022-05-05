@@ -4,7 +4,7 @@ pipeline:
     image: node:12
     commands:
       - mkdir app
-      - cp * app
+      - cp *.* app/
       - cp template.build app/.env-cmdrc
       - cd app
       - ls -la
