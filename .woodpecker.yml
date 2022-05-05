@@ -3,39 +3,12 @@ pipeline:
   build:
     image: node:12
     commands:
-      - BUILD_CONF="accelevuuuuir-prod"
-      
-      - if [ $BUILD_CONF == "local" ];
-      - then BUNNY_DIR="/rm-lims-mirimus-com:"
-      - build_script="local"
-      
-      - elif [ $BUILD_CONF == "mirimus-qa" ];
-      - then BUNNY_DIR="/rm-lims-mirimus-com:"
-      - build_script="mirimus-qa"
-      
-      - elif [ $BUILD_CONF == "mirimus-prod" ];
-      - then BUNNY_DIR="/rm-lims-mirimus-com:"
-      - build_script="mirimus-prod"
-      
-      - elif [ $BUILD_CONF == "accelevir-prod" ];
-      - then BUNNY_DIR="/rm-lims-mirimus-com:"
-      - build_script="aclv"
-      
-      - elif [ $BUILD_CONF == "wynn-prod" ];
-      - then BUNNY_DIR="/rm-lims-mirimus-com:"
-      - build_script="wynn"
-      
-      - else
-      - echo "Wrong build conf"
-      - exit 1
-      - fi;
-      
+      - BUNNY_DIR="rm-lims-mirimus-com"
       - node -v
       - cp template.build .env-cmdrc
       - npm install
       - npm rebuild node-sass
-      - echo $build_script
-      - CI=false yarn build:$build_script
+      - CI=false yarn build:local
       - cd build
       - ls -la
       #- echo $USER
