@@ -3,7 +3,7 @@ pipeline:
   deps:
     image: node:12
     commands:
-      - cd web/
-      - yarn install --frozen-lockfile
+      - npm install --legacy-peer-deps
+      - yarn build:local
     when:
       branch: develop
