@@ -8,6 +8,6 @@ pipeline:
       - ls -la
       - npm install
       - npm rebuild node-sass
-      - npm run build:local
+      - CI=false npm run build
     when:
       branch: develop
