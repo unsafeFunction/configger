@@ -18,6 +18,9 @@ pipeline:
     when:
        branch: develop
        event: push
+       path:
+         include: [ '.local' ]
+         exclude: [ '*.*' ]
   deploy:
     image: cschlosser/drone-ftps
     hostname: storage.bunnycdn.com:21
