@@ -3,7 +3,7 @@ pipeline:
   build:
     image: node:12
     commands:
-      - BUILD_CONF="local"
+      - BUILD_CONF="accelevir-prod"
       
       - if [ $BUILD_CONF == "local" ];
       - then BUNNY_DIR="/rm-lims-mirimus-com:"
@@ -17,7 +17,7 @@ pipeline:
       - then BUNNY_DIR="/rm-lims-mirimus-com:"
       - build_script="mirimus-prod"
       
-      - elif [ $1 == "accelevir-prod" ];
+      - elif [ $BUILD_CONF == "accelevir-prod" ];
       - then BUNNY_DIR="/rm-lims-mirimus-com:"
       - build_script="aclv"
       
@@ -43,6 +43,7 @@ pipeline:
       #- ls -la
     when:
        branch: develop
+       event: push
   deploy:
     image: cschlosser/drone-ftps
     hostname: storage.bunnycdn.com:21
