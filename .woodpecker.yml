@@ -17,7 +17,7 @@ pipeline:
       - cp template.build build/.env-cmdrc
       - cd build
       - ls -la
-    src_dir: build
+     src_dir: build
      clean_dir: true
      chmod: false
      verify: false
