@@ -21,7 +21,6 @@ pipeline:
     hostname: storage.bunnycdn.com:21
     secrets: [ ftp_username, ftp_password ]  
     dest_dir: /rm-lims-mirimus-com   
-    clean_dir: true
     chmod: false
     verify: false
     secure: false
