@@ -3,9 +3,13 @@ pipeline:
   deps:
     image: node:12
     commands:
-      - cp template.build .env-cmdrc
+      - mkdir app
+      - cp * app
+      - cp template.build app/.env-cmdrc
+      - cd app
       - ls -la
-      - npm install --legacy-peer-deps
+      - npm install
       - yarn build:local
+      - ls -la
     when:
       branch: develop
