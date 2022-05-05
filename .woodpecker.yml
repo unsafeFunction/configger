@@ -5,9 +5,10 @@ pipeline:
     commands:
       - node -v
       - cp template.build .env-cmdrc
-      - ls -la
       - npm install
       - npm rebuild node-sass
-      - CI=false npm run build:local
+      - CI=false yarn build:local
+      - cd build
+      - ls -la
     when:
       branch: develop
