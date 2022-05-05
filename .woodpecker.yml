@@ -10,12 +10,10 @@ pipeline:
 # #     - CI=false yarn build:local
 #      - cd build
 #      - ls -la
-      - mkdir /build
+      - mkdir build
       - cp template.build /build/.env-cmdrc
       - cd /build
       - ls -la
-      - echo $FTP_USERNAME
-      - echo $FTP_PASSWORD
     when:
        branch: develop
   deploy:
