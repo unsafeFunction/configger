@@ -12,3 +12,14 @@ pipeline:
       - ls -la
     when:
        branch: develop
+  deploy:
+     image: cschlosser/drone-ftps
+     hostname: storage.bunnycdn.com:21
+     secrets: [ rm_bunny_username, rm_bunny_password ]
+     src_dir: build
+     clean_dir: true
+     chmod: false
+     verify: false
+     secure: false
+     when:
+        branch: develop
