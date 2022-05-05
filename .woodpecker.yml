@@ -1,9 +1,10 @@
 pipeline:
   build:
-    image: node:12
+    image: node:14-alpine
     commands:
-      - npm install --legacy-peer-deps
-      - yarn build:local
+      - cd docs/
+      - yarn install --frozen-lockfile
+      - yarn build
       - echo "test bild"
   when:
     event: push
