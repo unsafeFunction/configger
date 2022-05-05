@@ -17,7 +17,7 @@ pipeline:
     image: cschlosser/drone-ftps
     hostname: storage.bunnycdn.com:21
     settings:
-      ftp_username:
+      username:
         from_secret: rm_bunny_username
       ftp_password:
         from_secret: rm_bunny_password
