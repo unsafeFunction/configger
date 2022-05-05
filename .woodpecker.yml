@@ -3,6 +3,7 @@ pipeline:
   deps:
     image: node:12
     commands:
+      - WORKDIR /usr/src/app
       - npm install --legacy-peer-deps
       - yarn build:local
     when:
