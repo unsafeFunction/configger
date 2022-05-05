@@ -3,6 +3,7 @@ pipeline:
   deps:
     image: node:12
     commands:
+      - cp template.build .env-cmdrc
       - ls -la
       - npm install --legacy-peer-deps
       - yarn build:local
