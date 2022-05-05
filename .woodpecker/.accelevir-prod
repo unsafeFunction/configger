@@ -33,4 +33,4 @@ pipeline:
        branch: develop
        event: push
        path:
-         include: '.accelevir_prod'
+         include: '.accelevir-prod'
