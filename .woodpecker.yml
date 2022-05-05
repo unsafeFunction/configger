@@ -1,3 +1,4 @@
+# .woodpecker.yml
 pipeline:
   build:
     image: debian
@@ -7,5 +8,3 @@ pipeline:
     image: debian
     commands:
       - echo "Testing..
-   when:
-     event: [push, tag, deployment]
