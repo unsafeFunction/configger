@@ -3,14 +3,11 @@ pipeline:
   build:
     image: node:12
     commands:
-      - mkdir tmp
-      - cp -r * tmp/
-      - cp template.build tmp/.env-cmdrc
-      - WORKDIR /tmp
-      - cd app
+      - USER root
+      - tree
+      - cp template.build .env-cmdrc
       - ls -la
-      - npm install
+      - npm install --legacy-peer-deps
       - yarn build:local
-      - ls -la
     when:
       branch: develop
