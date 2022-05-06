@@ -85,6 +85,41 @@ const reflexReducer = (state = initialState, action) => {
       };
     }
 
+    case actions.DELETE_REFLEX_ITEM_REQUEST: {
+      return {
+        ...state,
+        items: state.items.map((item) => {
+          if (item.id === action.payload.id) {
+            return {
+              ...item,
+              isUpdating: true,
+            };
+          }
+          return item;
+        }),
+      };
+    }
+    case actions.DELETE_REFLEX_ITEM_SUCCESS: {
+      return {
+        ...state,
+        items: state.items.filter((item) => item.id !== action.payload.id),
+      };
+    }
+    case actions.DELETE_REFLEX_ITEM_FAILURE: {
+      return {
+        ...state,
+        items: state.items.map((item) => {
+          if (item.id === action.payload.id) {
+            return {
+              ...item,
+              isUpdating: false,
+            };
+          }
+          return item;
+        }),
+      };
+    }
+
     default:
       return state;
   }
