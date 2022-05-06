@@ -1,0 +1,42 @@
+{
+  "mirimus-qa": {
+    "REACT_APP_API_URL": "",
+    "REACT_APP_LAB_ID": "",
+    "NODE_ENV": "",
+    "REACT_APP_VERSION": "",
+    "REACT_APP_SENTRY_ENV": "",
+    "REACT_APP_SENTRY_DSN": ""
+  },
+  "local": {
+    "REACT_APP_API_URL": "",
+    "REACT_APP_LAB_ID": "",
+    "NODE_ENV": "",
+    "REACT_APP_VERSION": "",
+    "REACT_APP_SENTRY_ENV": "",
+    "REACT_APP_SENTRY_DSN": ""
+  },
+  "mirimus-prod": {
+    "REACT_APP_API_URL": "",
+    "REACT_APP_LAB_ID": "",
+    "NODE_ENV": "",
+    "REACT_APP_VERSION": "",
+    "REACT_APP_SENTRY_ENV": "",
+    "REACT_APP_SENTRY_DSN": ""
+  },
+  "accelevir-prod": {
+    "REACT_APP_API_URL": "",
+    "REACT_APP_LAB_ID": "",
+    "NODE_ENV": "",
+    "REACT_APP_VERSION": "",
+    "REACT_APP_SENTRY_ENV": "",
+    "REACT_APP_SENTRY_DSN": ""
+  },
+  "wynn-prod": {
+    "REACT_APP_API_URL": "",
+    "REACT_APP_LAB_ID": "",
+    "NODE_ENV": "",
+    "REACT_APP_VERSION": "",
+    "REACT_APP_SENTRY_ENV": "",
+    "REACT_APP_SENTRY_DSN": ""
+  }
+}
