@@ -1,0 +1,42 @@
+{
+  "mirimus-qa": {
+    "REACT_APP_API_URL": "https://qa.api.lims.mirimus.com/v1",
+    "REACT_APP_LAB_ID": "mirimus",
+    "NODE_ENV": "qa",
+    "REACT_APP_VERSION": "$npm_package_version",
+    "REACT_APP_SENTRY_ENV": "qa",
+    "REACT_APP_SENTRY_DSN": "https://5fe6afa6c0b34747ae480c508935c33b@sentry.mirimus.com/14"
+  },
+  "local": {
+    "REACT_APP_API_URL": "https://lims.pagekite.me/v1",
+    "REACT_APP_LAB_ID": "mirimus",
+    "NODE_ENV": "local",
+    "REACT_APP_VERSION": "$npm_package_version",
+    "REACT_APP_SENTRY_ENV": "local",
+    "REACT_APP_SENTRY_DSN": "https://5fe6afa6c0b34747ae480c508935c33b@sentry.mirimus.com/14"
+  },
+  "mirimus-prod": {
+    "REACT_APP_API_URL": "https://api.lims.mirimus.com/v1",
+    "REACT_APP_LAB_ID": "mirimus",
+    "NODE_ENV": "production",
+    "REACT_APP_VERSION": "$npm_package_version",
+    "REACT_APP_SENTRY_ENV": "production",
+    "REACT_APP_SENTRY_DSN": "https://5fe6afa6c0b34747ae480c508935c33b@sentry.mirimus.com/14"
+  },
+  "accelevir-prod": {
+    "REACT_APP_API_URL": "https://accelevir.api.lims.mirimus.com/v1",
+    "REACT_APP_LAB_ID": "aclv",
+    "NODE_ENV": "production",
+    "REACT_APP_VERSION": "$npm_package_version",
+    "REACT_APP_SENTRY_ENV": "accelevir",
+    "REACT_APP_SENTRY_DSN": "https://5fe6afa6c0b34747ae480c508935c33b@sentry.mirimus.com/14"
+  },
+  "wynn-prod": {
+    "REACT_APP_API_URL": "https://wynn.api.lims.mirimus.com/v1",
+    "REACT_APP_LAB_ID": "wynn",
+    "NODE_ENV": "production",
+    "REACT_APP_VERSION": "$npm_package_version",
+    "REACT_APP_SENTRY_ENV": "wynn",
+    "REACT_APP_SENTRY_DSN": "https://5fe6afa6c0b34747ae480c508935c33b@sentry.mirimus.com/14"
+  }
+}

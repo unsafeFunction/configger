@@ -1,4 +1,4 @@
-# lims-admin
+## ## lims-frontend
 
 ### Run build and local development
 1. Rename .env-cmdrc.template to .env-cmdrc
