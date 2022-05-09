@@ -82,11 +82,11 @@ type ValuesType = {
   analysis_result: string;
   rerun_action: string;
   auto_publish: boolean;
-}
+};
 
 type SampleTypes = {
   id: string;
-  values: ValuesType
+  values: ValuesType;
 };
 
 export const updateSample = async ({ id, values }: SampleTypes) => {
@@ -112,6 +112,14 @@ export const updateRun = async ({ id, field, value }: RunType) => {
       [field]: value,
     });
     return run;
+  } catch (error) {
+    throw new Error(errorOutput(error));
+  }
+};
+
+export const removeRun = async ({ id }: { id: string }) => {
+  try {
+    return await axiosClient.delete(`/run/${id}/delete/`);
   } catch (error) {
     throw new Error(errorOutput(error));
   }

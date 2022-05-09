@@ -5,6 +5,7 @@ import {
   fetchRun,
   fetchRuns,
   fetchWellplate,
+  removeRun,
   updateRun,
   updateSample,
   uploadRunResult,
@@ -170,13 +171,36 @@ export function* callUpdateRun({ payload }) {
   }
 }
 
+export function* callRemoveRun({ payload }) {
+  try {
+    yield call(removeRun, payload);
+
+    yield put({
+      type: actions.DELETE_RUN_SUCCESS,
+      payload: { id: payload.id },
+    });
+
+    notification.success({ message: 'Run removed' });
+  } catch (error) {
+    yield put({
+      type: actions.DELETE_RUN_FAILURE,
+      payload: { id: payload.id },
+    });
+
+    notification.error({
+      message: error.message,
+    });
+  }
+}
+
 export default function* rootSaga() {
-  yield all([takeEvery(actions.FETCH_RUNS_REQUEST, callLoadRuns)]);
   yield all([
+    takeEvery(actions.FETCH_RUNS_REQUEST, callLoadRuns),
     takeEvery(actions.UPLOAD_RUN_RESULT_REQUEST, callUploadRunResult),
+    takeEvery(actions.FETCH_RUN_REQUEST, callLoadRun),
+    takeEvery(actions.UPDATE_SAMPLE_REQUEST, callUpdateSample),
+    takeEvery(actions.UPDATE_RUN_REQUEST, callUpdateRun),
+    takeEvery(actions.FETCH_WELLPLATE_REQUEST, callFetchWellplate),
+    takeEvery(actions.DELETE_RUN_REQUEST, callRemoveRun),
   ]);
-  yield all([takeEvery(actions.FETCH_RUN_REQUEST, callLoadRun)]);
-  yield all([takeEvery(actions.UPDATE_SAMPLE_REQUEST, callUpdateSample)]);
-  yield all([takeEvery(actions.UPDATE_RUN_REQUEST, callUpdateRun)]);
-  yield all([takeEvery(actions.FETCH_WELLPLATE_REQUEST, callFetchWellplate)]);
 }

@@ -17,4 +17,7 @@ export type ActionType = {
   FETCH_WELLPLATE_REQUEST?: string;
   FETCH_WELLPLATE_SUCCESS?: string;
   FETCH_WELLPLATE_FAILURE?: string;
+  DELETE_RUN_REQUEST?: string;
+  DELETE_RUN_SUCCESS?: string;
+  DELETE_RUN_FAILURE?: string;
 };

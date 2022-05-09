@@ -3,6 +3,7 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
   fetchReflexComparison,
   fetchReflexList,
+  removeReflexItem,
   updateSample,
 } from 'services/reflex';
 import actions from './actions';
@@ -74,6 +75,28 @@ export function* callLoadReflexComparison({ payload }) {
   }
 }
 
+export function* callRemoveReflexItem({ payload }) {
+  try {
+    yield call(removeReflexItem, payload);
+
+    yield put({
+      type: actions.DELETE_REFLEX_ITEM_SUCCESS,
+      payload: { id: payload.id },
+    });
+
+    notification.success({ message: 'Reflex item removed' });
+  } catch (error) {
+    yield put({
+      type: actions.DELETE_REFLEX_ITEM_FAILURE,
+      payload: { id: payload.id },
+    });
+
+    notification.error({
+      message: error.message,
+    });
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.FETCH_REFLEX_LIST_REQUEST, callLoadReflexList),
@@ -82,5 +105,6 @@ export default function* rootSaga() {
       actions.FETCH_REFLEX_COMPARISON_REQUEST,
       callLoadReflexComparison,
     ),
+    takeEvery(actions.DELETE_REFLEX_ITEM_REQUEST, callRemoveReflexItem),
   ]);
 }
