@@ -119,7 +119,7 @@ export const updateRun = async ({ id, field, value }: RunType) => {
 
 export const removeRun = async ({ id }: { id: string }) => {
   try {
-    return await axiosClient.delete(`/run/${id}/delete/`);
+    return await axiosClient.delete(`/runs/${id}/delete/`);
   } catch (error) {
     throw new Error(errorOutput(error));
   }
