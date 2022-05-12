@@ -31,3 +31,11 @@ export const fetchReflexComparison = async ({ id }) => {
     throw new Error(errorOutput(error));
   }
 };
+
+export const removeReflexItem = async ({ id }) => {
+  try {
+    return await axiosClient.delete(`/runs/results/rerun/${id}/delete/`);
+  } catch (error) {
+    throw new Error(errorOutput(error));
+  }
+};

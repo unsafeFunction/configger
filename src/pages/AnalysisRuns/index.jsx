@@ -1,4 +1,5 @@
 import {
+  DeleteOutlined,
   InboxOutlined,
   SearchOutlined,
   UploadOutlined,
@@ -10,6 +11,7 @@ import {
   Input,
   Popconfirm,
   Row,
+  Space,
   Table,
   Upload,
 } from 'antd';
@@ -216,6 +218,13 @@ const AnalysisRuns = () => {
     [dispatch, onUploadRun, handleSubmit],
   );
 
+  const handleRunDelete = (id) => {
+    dispatch({
+      type: actions.DELETE_RUN_REQUEST,
+      payload: { id },
+    });
+  };
+
   const columns = [
     rowCounter,
     {
@@ -273,26 +282,45 @@ const AnalysisRuns = () => {
     {
       title: 'Actions',
       render: (_, run) => (
-        <Popconfirm
-          title={`Are you sure you want to overwrite the results for the ${run.title} run?`}
-          onConfirm={() => onUploadClick(run.id)}
-          placement="topRight"
-          disabled={
-            run.status !== constants.runStatuses.analysis &&
-            run.status !== constants.runStatuses.review
-          }
-        >
-          <Button
-            onClick={() =>
-              run.status === constants.runStatuses.qpcr && onUploadClick(run.id)
+        <Space>
+          <Popconfirm
+            title={`Are you sure you want to overwrite the results for the ${run.title} run?`}
+            onConfirm={() => onUploadClick(run.id)}
+            placement="topRight"
+            disabled={
+              run.status !== constants.runStatuses.analysis &&
+              run.status !== constants.runStatuses.review
             }
-            icon={<UploadOutlined />}
-            type="link"
-            disabled={run.status === constants.runStatuses.published}
           >
-            Upload result
-          </Button>
-        </Popconfirm>
+            <Button
+              onClick={() =>
+                run.status === constants.runStatuses.qpcr &&
+                onUploadClick(run.id)
+              }
+              icon={<UploadOutlined />}
+              type="link"
+              disabled={run.status === constants.runStatuses.published}
+              loading={run.isUpdating}
+            >
+              Upload result
+            </Button>
+          </Popconfirm>
+          <Popconfirm
+            title={`Are you sure you want to remove the ${run.title} run?`}
+            onConfirm={() => handleRunDelete(run.id)}
+            placement="topRight"
+            disabled={run.status !== constants.runStatuses.qpcr}
+          >
+            <Button
+              icon={<DeleteOutlined />}
+              type="link"
+              disabled={run.status !== constants.runStatuses.qpcr}
+              loading={run.isUpdating}
+            >
+              Delete
+            </Button>
+          </Popconfirm>
+        </Space>
       ),
     },
   ];

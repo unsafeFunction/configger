@@ -8,6 +8,7 @@ const actions: ActionType = {
   ...generateRequestActions(['update'], 'analysisRuns', 'sample'),
   ...generateRequestActions(['update'], 'analysisRuns', 'run'),
   ...generateRequestActions(['fetch'], 'analysisRuns', 'wellplate'),
+  ...generateRequestActions(['delete'], 'analysisRuns', 'run'),
 };
 
 export default actions;

@@ -1,8 +1,8 @@
 import omit from 'lodash.omit';
 import { combineReducers } from 'redux';
 import { excludeReservedSamples } from 'utils/analysisRules';
-import { roundValueToSecondNumber } from 'utils/roundRules';
 import { constants } from 'utils/constants';
+import { roundValueToSecondNumber } from 'utils/roundRules';
 import actions from './actions';
 
 const initialRunsState = {
@@ -139,6 +139,43 @@ const runsReducer = (state = initialRunsState, action: ActionType) => {
               ...item,
               ...omit(action.payload, ['items']),
               samples_count: action.payload.items.length,
+            };
+          }
+          return item;
+        }),
+      };
+    }
+
+    case actions.DELETE_RUN_REQUEST: {
+      return {
+        ...state,
+        items: state.items.map((item: ItemType) => {
+          if (item.id === action.payload.id) {
+            return {
+              ...item,
+              isUpdating: true,
+            };
+          }
+          return item;
+        }),
+      };
+    }
+    case actions.DELETE_RUN_SUCCESS: {
+      return {
+        ...state,
+        items: state.items.filter(
+          (item: ItemType) => item.id !== action.payload.id,
+        ),
+      };
+    }
+    case actions.DELETE_RUN_FAILURE: {
+      return {
+        ...state,
+        items: state.items.map((item: ItemType) => {
+          if (item.id === action.payload.id) {
+            return {
+              ...item,
+              isUpdating: false,
             };
           }
           return item;
