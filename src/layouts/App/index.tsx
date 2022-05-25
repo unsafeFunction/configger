@@ -10,7 +10,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import actions from 'redux/user/actions';
-import sessionActions from 'redux/scanSessions/actions';
 import { RootState } from 'redux/reducers';
 import { UserState, SettingState } from 'redux/storeTypes';
 
@@ -43,12 +42,6 @@ const AppLayout = ({ children }: AppProps) => {
   useEffect(() => {
     dispatch({ type: actions.PROFILE_REQUEST });
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch({
-      type: sessionActions.FETCH_SESSION_ID_REQUEST,
-    });
-  }, [location.pathname, dispatch]);
 
   return (
     <Layout

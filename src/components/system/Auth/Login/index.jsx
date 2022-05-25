@@ -1,10 +1,9 @@
 import { Button, Form, Input } from 'antd';
-import moment from 'moment';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import actions from 'redux/user/actions';
-import labConfig from 'utils/labConfig';
+import { ReactComponent as Config } from 'assets/config.svg';
 import style from '../style.module.scss';
 
 const Login = () => {
@@ -18,7 +17,7 @@ const Login = () => {
         type: actions.LOGIN_REQUEST,
         payload: {
           ...values,
-          callback: () => history.push('/intake-receipt-log'),
+          redirect: () => history.push('/environments'),
         },
       });
     },
@@ -27,12 +26,11 @@ const Login = () => {
 
   return (
     <div className={style.auth}>
+      <div className={style.info}>
+        <h2 className={style.title}>Configger</h2>
+        <Config width="250px" height="200px" fill="white" />
+      </div>
       <div className={`${style.container}`}>
-        <img
-          src={`/resources/images/${process.env.REACT_APP_LAB_ID}.svg`}
-          alt="Logo"
-          className={style.logo}
-        />
         <Form layout="vertical" onFinish={onSubmit}>
           <Form.Item
             label="Email Address"
@@ -45,7 +43,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input size="large" placeholder="Email" />
+            <Input aria-label="email" size="large" placeholder="Email" />
           </Form.Item>
           <Form.Item
             label="Password"
@@ -73,28 +71,13 @@ const Login = () => {
           </Form.Item>
         </Form>
         <div className={style.navigationWrap}>
-          {/* <Button
+          <Button
             type="link"
             className={style.linkButton}
-            onClick={() => history.push('/system/forgot-password')}
+            onClick={() => history.push('/system/registration')}
           >
-            Forgot password?
-          </Button> */}
-          <a
-            className={style.linkButton}
-            href={`mailto:${
-              labConfig[process.env.REACT_APP_LAB_ID].contacts.email
-            }`}
-          >
-            Email Support
-          </a>
-        </div>
-        <div className={style.copyright}>
-          <div className={style.copyright}>
-            {`Copyright © ${moment().year()} ${
-              labConfig[process.env.REACT_APP_LAB_ID].name
-            } Inc.`}
-          </div>
+            Sign up
+          </Button>
         </div>
       </div>
     </div>

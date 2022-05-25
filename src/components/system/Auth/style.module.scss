@@ -4,12 +4,27 @@
   width: 100%;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+.info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  background-color: #3A54AA;
+  height: 100vh;
+}
+
+.title {
+  font-size: 36px;
+  line-height: 30px;
+  color: white;
 }
 
 .container {
@@ -19,14 +34,6 @@
   padding: 3em;
   border-radius: 5px;
   background-color: white;
-}
-
-.logo {
-  width: 40%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 2.2rem;
 }
 
 .header {
@@ -39,6 +46,7 @@
 .formInput {
   width: 100%;
   padding-bottom: 0.75em;
+  border-radius: 6px;
 }
 
 .linkButton {
@@ -63,8 +71,14 @@
 .submitButton {
   width: 100%;
   text-transform: uppercase;
+  border-radius: 6px;
 }
 
 .formButton {
   margin-bottom: 1rem;
+}
+
+.nameContainer {
+  display: flex;
+  flex-flow: row;
 }

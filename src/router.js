@@ -25,6 +25,12 @@ const routes = [
     title: 'Login',
   },
   {
+    path: '/system/registration',
+    Component: loadable(() => import('pages/system/reg-by-email')),
+    exact: true,
+    title: 'Registration',
+  },
+  {
     path: '/system/forgot-password',
     Component: loadable(() => import('pages/system/forgot-password')),
     exact: false,
@@ -54,92 +60,17 @@ const routes = [
     exact: true,
   },
   {
-    path: '/barcode-lookup',
-    Component: loadable(() => import('pages/Search')),
+    path: '/environments',
+    Component: loadable(() => import('pages/Environments')),
   },
-  {
-    path: '/pools',
-    Component: loadable(() => import('pages/Pools')),
-  },
-  {
-    path: '/session/:id',
-    Component: loadable(() => import('pages/Scan')),
-    title: null,
-  },
-  {
-    path: '/pool-scans/:sessionId/:scanId',
-    Component: loadable(() => import('pages/PoolScan')),
-    title: 'Pool Scan',
-  },
-  {
-    path: '/pool-scans',
-    Component: loadable(() => import('pages/ScanSessions')),
-  },
-  {
-    path: '/rack-scans/:id',
-    Component: loadable(() => import('pages/RackScan')),
-    title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Scan`,
-  },
-  {
-    path: '/rack-scans',
-    Component: loadable(() => import('pages/RackScans')),
-    title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Scans`,
-  },
-  {
-    path: '/intake-receipt-log',
-    Component: loadable(() => import('pages/IntakeReceiptLog')),
-  },
-  {
-    path: '/analysis-runs/:id/:type?',
-    Component: loadable(() => import('pages/AnalysisRun')),
-    title: 'Run',
-  },
-  {
-    path: '/analysis-runs',
-    Component: loadable(() => import('pages/AnalysisRuns')),
-  },
-  {
-    path: '/reflex-list/:sampleId',
-    Component: loadable(() => import('pages/ReflexComparison')),
-  },
-  {
-    path: '/reflex-list',
-    Component: loadable(() => import('pages/ReflexList')),
-  },
-  {
-    path: '/companies',
-    Component: loadable(() => import('pages/Companies')),
-    exact: true,
-  },
-  {
-    path: '/companies/:id',
-    Component: loadable(() => import('pages/Companies/Company')),
-    title: 'Company',
-  },
-  {
-    path: '/inventory',
-    Component: loadable(() => import('pages/Inventory')),
-  },
-  {
-    path: '/generate-run',
-    Component: loadable(() => import('pages/RunTemplate')),
-  },
-  {
-    path: '/runs/:id',
-    Component: loadable(() => import('pages/Runs/Run')),
-  },
-  {
-    path: '/runs',
-    Component: loadable(() => import('pages/Runs')),
-  },
-  {
-    path: '/intake-dashboard',
-    Component: loadable(() => import('pages/IntakeDashboard')),
-  },
-  {
-    path: '/settings/permission',
-    Component: loadable(() => import('pages/Settings/Permissions')),
-  },
+  // {
+  //   path: '/projects',
+  //   Component: loadable(() => import('pages/Environments')),
+  // },
+  // {
+  //   path: '/projects/:id',
+  //   Component: loadable(() => import('pages/Environments')),
+  // },
 ];
 
 const Router = () => {

@@ -41,8 +41,8 @@ const initialState = {
     isMenuShadow: false,
     isMenuUnfixed: false,
     menuLayoutType: 'left', // left, top, nomenu
-    menuType: 'compact', // default, flyout, compact
-    menuColor: 'dark', // dark, blue, gray, white
+    menuType: 'deafult', // default, flyout, compact
+    menuColor: 'gray', // dark, blue, gray, white
     flyoutMenuColor: 'dark', // dark, blue, gray, white
     systemLayoutColor: 'dark', // white, dark, blue, gray, image
     isTopbarFixed: false,

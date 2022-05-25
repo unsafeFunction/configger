@@ -1,0 +1,73 @@
+.enviroment {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  min-height: 400px;
+  max-height: 300px;
+  min-height: 300px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 14px 35px -30px rgba(136, 136, 136, 0.32);
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.envTitle {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.projectList  {
+  li {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    cursor: pointer;
+    color:black;
+    transition: color 0.1s ease-in-out;
+    text-decoration: underline ;
+
+    &:hover {
+      color: #00bcd4;
+    }
+  }
+}
+
+.actions {
+  width: 100%;
+  max-width: 230px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: auto;
+}
+
+.viewButton {
+  display: block;
+  border: none;
+  background-color: transparent;
+  color: #248fb3;
+}
+
+.sectionTitle {
+  margin-bottom: 5px !important;
+  font-size: 18px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  margin-top: -5px;
+}
+
+.drawerWrite {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

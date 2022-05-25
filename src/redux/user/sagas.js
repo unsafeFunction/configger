@@ -16,7 +16,7 @@ import actions from './actions';
 const cookie = cookieStorage();
 
 export function* callLogin({ payload }) {
-  const { email, password, callback } = payload;
+  const { email, password, redirect } = payload;
   try {
     const response = yield call(login, email, password);
 
@@ -29,7 +29,7 @@ export function* callLogin({ payload }) {
       description: 'You have successfully logged in!',
     });
 
-    return yield call(callback);
+    return yield call(redirect);
   } catch (error) {
     yield put({ type: actions.LOGIN_FAILURE });
 
@@ -247,9 +247,8 @@ export function* callVerifyEmail({ payload }) {
 }
 
 export function* callRegByEmail({ payload }) {
-  const { password1, password2, inviteKey, redirect } = payload;
   try {
-    const response = yield call(regByEmail, password1, password2, inviteKey);
+    const response = yield call(regByEmail, payload);
 
     yield put({ type: actions.REG_BY_EMAIL_SUCCESS });
 
@@ -258,7 +257,7 @@ export function* callRegByEmail({ payload }) {
       description: response.data?.detail,
     });
 
-    return yield call(redirect);
+    return yield call(payload.redirect);
   } catch (error) {
     const errorData = error.response?.data?.detail;
 
@@ -267,7 +266,7 @@ export function* callRegByEmail({ payload }) {
       payload: { data: errorData },
     });
 
-    notification.error({
+    return notification.error({
       message: 'Something went wrong',
       description: 'Previous password is invalid',
     });

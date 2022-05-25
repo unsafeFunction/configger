@@ -21,6 +21,7 @@ import timeline from './timeline/reducers';
 import user from './user/reducers';
 import userSettings from './userSettings/reducers';
 import intakeDashboard from './intakeDashboard/reducers';
+import enviroments from './enviroments/reducers';
 import * as types from './storeTypes';
 
 const rootReducer = (history: any) =>
@@ -46,6 +47,7 @@ const rootReducer = (history: any) =>
     scanners,
     helpersReducer,
     timeline,
+    enviroments,
     reflex,
   });
 

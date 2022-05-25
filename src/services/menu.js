@@ -4,105 +4,27 @@ import labConfig from 'utils/labConfig';
 export async function getMenuData() {
   return [
     {
-      title: 'Companies',
-      key: 'companies',
-      icon: 'fe fe-briefcase',
-      url: '/companies',
-    },
-    {
-      title: 'Pools',
-      key: 'pools',
-      url: '/pools',
-      icon: 'fe fe-folder',
-    },
-    {
-      title: 'Intake',
-      key: 'intakeSection',
-      icon: 'fe fe-monitor',
-      children: [
-        {
-          title: 'Intake Receipt Log',
-          key: 'intake-receipt-log',
-          url: '/intake-receipt-log',
-          icon: 'fe fe-list',
-        },
-        {
-          title: 'Pool Scans',
-          key: 'pool-scans',
-          url: '/pool-scans',
-          icon: 'fe fe-maximize',
-        },
-        {
-          title: `${labConfig[process.env.REACT_APP_LAB_ID].naming.rack} Scans`,
-          key: 'rack-scans',
-          url: '/rack-scans',
-          icon: 'fe fe-box',
-        },
-        {
-          title: 'Intake dashboard',
-          key: 'intake-dashboard',
-          url: '/intake-dashboard',
-          icon: 'fe fe-book-open',
-        },
-      ],
-    },
-    {
-      title: 'Runs',
-      key: 'runsSection',
-      icon: 'fe fe-box',
-      children: [
-        {
-          title: 'Analysis Runs',
-          key: 'analysisRuns',
-          url: `/analysis-runs?from=${constants.analysisRuns.initialDates.from}&to=${constants.analysisRuns.initialDates.to}`,
-          icon: 'fe fe-bar-chart-2',
-        },
-        {
-          title: 'Generate Run',
-          key: 'runTemplate',
-          url: '/generate-run',
-          icon: 'fe fe-layers',
-        },
-        {
-          title: 'Reflex List',
-          key: 'reflexList',
-          url: '/reflex-list',
-          icon: 'fe fe-check-square',
-        },
-      ],
-    },
-    {
-      title: 'Completed Runs',
-      key: 'runs',
-      url: '/runs',
+      title: 'Environments',
+      key: 'environments',
+      url: '/environments',
       icon: 'fe fe-box',
     },
     {
-      title: 'Barcode Lookup',
-      key: 'search',
-      icon: 'fe fe-search',
-      url: '/barcode-lookup',
+      title: 'Projects',
+      key: 'projects',
+      url: '/projects',
+      icon: 'fe fe-box',
     },
     {
-      title: 'Inventory',
-      key: 'inventory',
-      url: '/inventory',
-      icon: 'fe fe-bar-chart',
+      title: 'Vassals',
+      key: 'vassals',
+      url: '/vassals',
+      icon: 'fe fe-box',
     },
-    {
-      title: 'Email Support',
-      key: 'contactUs',
-      icon: 'fe fe-mail',
-    },
-    {
-      title: 'Help Center',
-      key: 'helpCenter',
-      icon: 'fe fe-help-circle',
-    },
-    {
-      title: process.env.REACT_APP_VERSION,
-      key: 'version',
-    },
+    // {
+    //   title: process.env.REACT_APP_VERSION,
+    //   key: 'version',
+    // },
   ];
 }
 
@@ -125,6 +47,9 @@ export async function getRolePermissions() {
         '/reflex-list',
         '/runs',
         '/intake-dashboard',
+        '/environments',
+        '/projects',
+        '/vassals',
       ],
       default: '/intake-receipt-log',
     },

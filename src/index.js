@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/react';
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
-import moment from 'moment-timezone';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -10,15 +9,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { logger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import labConfig from 'utils/labConfig';
 // app styles
 import './global.scss';
 import reducers from './redux/reducers';
 import sagas from './redux/sagas';
 import Router from './router';
-import * as serviceWorker from './serviceWorker';
-
-moment.tz.setDefault(labConfig[process.env.REACT_APP_LAB_ID].timezone);
 
 // middlewared
 const history = createBrowserHistory();
