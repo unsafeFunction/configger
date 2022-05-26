@@ -97,7 +97,7 @@ class Layout extends React.PureComponent {
 
     return (
       <Fragment>
-        <Helmet titleTemplate="LIMS" />
+        <Helmet titleTemplate="CTW" />
         {BootstrappedLayout()}
       </Fragment>
     );

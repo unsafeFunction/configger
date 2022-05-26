@@ -235,7 +235,6 @@ class MenuLeft extends React.Component {
         <li
           className={classNames(style.air__menuLeft__item, {
             [style.air__menuLeft__item__active]: activeItem === key,
-            [style.firstHelpItem]: item.key === 'contactUs',
           })}
           key={key}
         >
@@ -257,28 +256,6 @@ class MenuLeft extends React.Component {
                 </span>
               )}
             </Link>
-          )}
-          {!item.url && item.key === 'helpCenter' && (
-            <a
-              href="https://mirimus.freshdesk.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={style.air__menuLeft__link}
-            >
-              {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
-              <span>{title}</span>
-            </a>
-          )}
-          {!item.url && item.key === 'contactUs' && (
-            <a
-              href={`mailto:${
-                labConfig[process.env.REACT_APP_LAB_ID].contacts.email
-              }`}
-              className={style.air__menuLeft__link}
-            >
-              {icon && <i className={`${icon} ${style.air__menuLeft__icon}`} />}
-              <span>{title}</span>
-            </a>
           )}
           {item.key === 'version' && (
             // TODO: add link to changelog
@@ -338,15 +315,15 @@ class MenuLeft extends React.Component {
     };
 
     return menuData.map((item) => {
-      if (!role || !rolePermissions) {
-        return;
-      }
-      if (item.url && !rolePermissions[role].permitted.includes(item.url)) {
-        return;
-      }
-      if (item.children) {
-        return submenuItem(item);
-      }
+      // if (!role || !rolePermissions) {
+      //   return;
+      // }
+      // if (item.url && !rolePermissions[role].permitted.includes(item.url)) {
+      //   return;
+      // }
+      // if (item.children) {
+      //   return submenuItem(item);
+      // }
       return menuItem(item);
     });
   };
@@ -365,6 +342,7 @@ class MenuLeft extends React.Component {
     const { settings } = this.props;
     const { renderedFlyoutItems } = this.state;
     const items = this.generateMenuItems();
+    console.log(items)
     return (
       <Sider width="auto">
         <TransitionGroup>

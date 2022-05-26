@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const PageTitle = ({ children, title }) => {
@@ -16,7 +16,7 @@ const PageTitle = ({ children, title }) => {
           : ` ${match[1].toUpperCase()}`;
       });
 
-    document.title = `LIMS | ${checkedTitle ??
+    document.title = `CTW | ${checkedTitle ??
       formattedPathname} ${state?.extraInfo || ''}`;
   }, [state]);
 

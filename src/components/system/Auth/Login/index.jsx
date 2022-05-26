@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import actions from 'redux/user/actions';
 import { ReactComponent as Config } from 'assets/config.svg';
+import ConfigImage from 'assets/config.png';
 import style from '../style.module.scss';
 
 const Login = () => {
@@ -27,8 +28,8 @@ const Login = () => {
   return (
     <div className={style.auth}>
       <div className={style.info}>
-        <h2 className={style.title}>Configger</h2>
-        <Config width="250px" height="200px" fill="white" />
+        {/* <h2 className={style.title}>CTW</h2> */}
+        <img src={ConfigImage} alt="ctw" width="140px" height="140px" />
       </div>
       <div className={`${style.container}`}>
         <Form layout="vertical" onFinish={onSubmit}>
