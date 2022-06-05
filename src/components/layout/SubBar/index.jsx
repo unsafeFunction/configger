@@ -1,24 +1,23 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, Route } from 'react-router-dom';
 import Switch from 'react-router-transition-switch';
 import styles from './style.module.scss';
 
 const SubBar = ({ location }) => {
   const pathArray = location.pathname.slice(1).split('/');
-  const company = useSelector((state) => state.companies.singleCompany);
+  // const company = useSelector((state) => state.companies.singleCompany);
 
   return (
     <div className={styles.subbar}>
       <ul className={`${styles.breadcrumbs} mr-4`}>
         {pathArray[0] === 'runs' ||
-        pathArray[0] === 'users' ||
-        pathArray[0] === 'session' ||
-        pathArray[0] === 'pool-scans' ||
-        pathArray[0] === 'rack-scans' ||
-        pathArray[0] === 'analysis-runs' ||
-        pathArray[0] === 'reflex-list' ? (
+          pathArray[0] === 'users' ||
+          pathArray[0] === 'session' ||
+          pathArray[0] === 'pool-scans' ||
+          pathArray[0] === 'rack-scans' ||
+          pathArray[0] === 'analysis-runs' ||
+          pathArray[0] === 'reflex-list' ? (
           <li className={styles.breadcrumb}>
             <Link to={`/${pathArray[0]}`} className={styles.breadcrumbLink}>
               {pathArray[0].replace('-', ' ')}
@@ -31,9 +30,9 @@ const SubBar = ({ location }) => {
                 return (
                   <span key={path} className={styles.breadcrumb__last}>
                     <Switch>
-                      <Route exact path="/companies/:id">
+                      {/* <Route exact path="/companies/:id">
                         {company.name}
-                      </Route>
+                      </Route> */}
                       <Route path="*">{path}</Route>
                     </Switch>
                   </span>

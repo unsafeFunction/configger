@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Drawer,
   Button,
@@ -11,6 +11,7 @@ import {
   Select,
   Col,
 } from 'antd';
+import ProjectCreate from 'components/widgets/Projects/ProjectCreate';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -18,8 +19,12 @@ type Props = {
 };
 
 const Environment = ({ enviroment }: Props): JSX.Element => {
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
+  const [isModalOpen, setModalState] = useState(false);
 
+  const onOpenModal = () => {
+    setModalState(!isModalOpen);
+  };
   const showDrawer = () => {
     setVisible(true);
   };
@@ -58,7 +63,11 @@ const Environment = ({ enviroment }: Props): JSX.Element => {
         <Button className={styles.viewButton} type="primary">
           View project
         </Button>
-        <Button className={styles.viewButton} type="primary">
+        <Button
+          onClick={onOpenModal}
+          className={styles.viewButton}
+          type="primary"
+        >
           Add projects
         </Button>
       </div>
@@ -98,6 +107,11 @@ const Environment = ({ enviroment }: Props): JSX.Element => {
         <p className={styles.sectionTitle}>Spoolers</p>
         <Table columns={columns} />
       </Drawer>
+      <ProjectCreate
+        envId={enviroment.name}
+        onOpenModal={onOpenModal}
+        isModalOpen={isModalOpen}
+      />
     </Card>
   );
 };

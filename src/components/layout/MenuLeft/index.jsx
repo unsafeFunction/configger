@@ -315,15 +315,6 @@ class MenuLeft extends React.Component {
     };
 
     return menuData.map((item) => {
-      // if (!role || !rolePermissions) {
-      //   return;
-      // }
-      // if (item.url && !rolePermissions[role].permitted.includes(item.url)) {
-      //   return;
-      // }
-      // if (item.children) {
-      //   return submenuItem(item);
-      // }
       return menuItem(item);
     });
   };
@@ -342,7 +333,7 @@ class MenuLeft extends React.Component {
     const { settings } = this.props;
     const { renderedFlyoutItems } = this.state;
     const items = this.generateMenuItems();
-    console.log(items)
+
     return (
       <Sider width="auto">
         <TransitionGroup>
@@ -381,21 +372,21 @@ class MenuLeft extends React.Component {
           })}
         >
           <div className={style.air__menuLeft__outer}>
-            <div
+            {/* <div
               role="presentation"
               className={style.air__menuLeft__mobileToggleButton}
               onClick={this.toggleMobileMenu}
             >
               <span />
-            </div>
-            <div
+            </div> */}
+            {/* <div
               role="presentation"
               className={style.air__menuLeft__toggleButton}
               onClick={this.toggleMenu}
             >
               <span />
               <span />
-            </div>
+            </div> */}
             <Scrollbars
               autoHide
               renderThumbVertical={({ ...props }) => (

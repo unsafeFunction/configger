@@ -9,7 +9,7 @@ export function* callFetchEnviroments() {
     yield put({
       type: actions.FETCH_ENVIROMENT_SUCCESS,
       payload: {
-        data: response,
+        data: response.data.results ?? [],
       },
     });
   } catch (error) {
@@ -27,7 +27,7 @@ export function* callCreateEnviroment({ payload }) {
     yield put({
       type: actions.CREATE_ENVIROMENT_SUCCESS,
       payload: {
-        data: response,
+        data: response.data,
       },
     });
   } catch (error) {
